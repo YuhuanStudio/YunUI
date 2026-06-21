@@ -45,6 +45,7 @@ const SECTIONS: SidebarSection[] = [
 
 export function Shell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState("#overview");
 
   const handleNavigate = (href: string) => {
@@ -63,11 +64,13 @@ export function Shell({ children }: { children: ReactNode }) {
         currentPath={active}
         isOpen={open}
         onClose={() => setOpen(false)}
+        collapsed={collapsed}
+        onToggleCollapse={() => setCollapsed(true)}
         onNavigate={handleNavigate}
       />
 
-      {/* Content column, offset by the fixed sidebar on desktop */}
-      <div className="lg:pl-64 flex flex-col min-h-dvh">
+      {/* Content column, offset by the fixed sidebar on desktop (unless collapsed) */}
+      <div className={`${collapsed ? "lg:pl-0" : "lg:pl-64"} flex flex-col min-h-dvh transition-[padding] duration-200`}>
         {/* Header */}
         <header className="sticky top-0 z-30 h-14 flex items-center justify-between gap-3 px-4 sm:px-6 border-b border-(--border-hairline) bg-background/80 backdrop-blur-xl">
           <button
@@ -78,6 +81,17 @@ export function Shell({ children }: { children: ReactNode }) {
           >
             <Menu className="w-5 h-5" />
           </button>
+          {/* Re-open the sidebar after it's collapsed (desktop) */}
+          {collapsed && (
+            <button
+              type="button"
+              onClick={() => setCollapsed(false)}
+              className="hidden lg:flex w-9 h-9 rounded-lg items-center justify-center hover:bg-foreground/5"
+              aria-label="Expand sidebar"
+            >
+              <PanelLeft className="w-5 h-5" />
+            </button>
+          )}
           <div className="flex-1" />
           <div className="flex items-center gap-1.5">
             <LanguageSwitcher
