@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 import { useYunUI } from "../adapters/context";
 
 /**
@@ -16,6 +16,12 @@ export interface AccountLockedCardProps {
   appeal: string;
   backLabel: string;
   onBack: () => void;
+  /**
+   * Run once on mount. Yunxin uses this to drop the (now-useless) session via
+   * api.logout() so background auth probes can't bounce the user back into a
+   * loop on these terminal screens.
+   */
+  onMount?: () => void;
   loading?: boolean;
   children?: ReactNode;
 }
@@ -29,10 +35,15 @@ export function AccountLockedCard({
   appeal,
   backLabel,
   onBack,
+  onMount,
   loading = false,
   children,
 }: AccountLockedCardProps) {
   const { Image } = useYunUI();
+  useEffect(() => {
+    onMount?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="min-h-dvh bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-sm">

@@ -151,7 +151,8 @@ export function Navbar({
                             href={signupHref}
                             className="px-3 sm:px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center"
                         >
-                            {signUp}
+                            <span className="hidden sm:inline">{signUp}</span>
+                            <span className="sm:hidden">Sign Up</span>
                         </Link>
                     </>
                 )}
