@@ -31,6 +31,7 @@ export { PageLoadingState, PageErrorState, PageEmptyState } from "./page-state";
 export { StatCard } from "./stat-card";
 export { FellowsBanner, type FellowsBannerProps } from "./fellows-banner";
 export { ErrorBoundary, type ErrorBoundaryLabels } from "./error-boundary";
+export { AccountLockedCard, type AccountLockedCardProps } from "./account-locked-card";
 
 // Badges
 export {

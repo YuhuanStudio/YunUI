@@ -10,6 +10,7 @@
 
 export { ThinkingBlock } from "./thinking-block";
 export { ModelCard, type ModelCardProps } from "./model-card";
+export { CapabilitySelector } from "./capability-selector";
 export { LanguageSwitcher, type LanguageOption } from "./language-switcher";
 export { Navbar, type NavLink } from "./navbar";
 export {

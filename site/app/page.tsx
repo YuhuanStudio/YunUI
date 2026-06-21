@@ -63,7 +63,7 @@ import {
   NavTabs,
   AnimatedNumber,
 } from "yunui";
-import { ThinkingBlock, LanguageSwitcher, Navbar, Footer, ModelCard } from "yunui/ai";
+import { ThinkingBlock, LanguageSwitcher, Navbar, Footer, ModelCard, CapabilitySelector } from "yunui/ai";
 import {
   CodeBlock,
   FAQ,
@@ -263,6 +263,7 @@ export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [tab, setTab] = useState("inbox");
+  const [caps, setCaps] = useState<string[]>(["vision", "thinking"]);
 
   return (
     <>
@@ -558,6 +559,12 @@ export default function Home() {
           <div className="w-72">
             <Slider value={slider} onValueChange={setSlider} max={100} step={1} />
             <p className="text-caption mt-2">Value: {slider[0]}</p>
+          </div>
+        </Demo>
+        <Demo title="Capability selector (AI)" description="Multi-select capability chips for AI models.">
+          <div className="w-full max-w-md">
+            <CapabilitySelector selected={caps} onChange={setCaps} columns={3} />
+            <p className="text-caption mt-2">Selected: {caps.join(", ") || "none"}</p>
           </div>
         </Demo>
       </Section>
