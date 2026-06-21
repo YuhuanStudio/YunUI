@@ -1,0 +1,27 @@
+{
+  "name": "yunui-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "yunui": "workspace:*",
+    "next": "16.2.9",
+    "next-themes": "^0.4.6",
+    "lucide-react": "^1.18.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.1",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3"
+  }
+}
