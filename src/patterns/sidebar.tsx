@@ -1,6 +1,6 @@
 "use client";
 
-import { type ElementType, type ReactNode } from "react";
+import { type ElementType, type ReactNode, useEffect, useRef } from "react";
 import { X, PanelLeftClose } from "lucide-react";
 import { IconButton } from "../index";
 import { useYunUI } from "../adapters/context";
@@ -40,6 +40,10 @@ export interface SidebarProps {
     /** Bottom-pinned slot (balance card, user card, etc.). */
     footer?: ReactNode;
     closeLabel?: string;
+    /** While true, the nav (and footer slot) render shimmer skeletons. */
+    loading?: boolean;
+    /** sessionStorage key for persisting nav scroll position across navigations. */
+    scrollStorageKey?: string;
 }
 
 function isItemActive(item: SidebarNavItem, currentPath: string, homeHref: string): boolean {
@@ -61,8 +65,22 @@ export function Sidebar({
     onNavigate,
     footer,
     closeLabel = "Close",
+    loading = false,
+    scrollStorageKey = "yunui-sidebar-scroll",
 }: SidebarProps) {
     const { Link, Image } = useYunUI();
+    const navRef = useRef<HTMLElement>(null);
+
+    // Persist + restore the nav scroll position across navigations (Yunxin parity).
+    useEffect(() => {
+        const nav = navRef.current;
+        if (!nav) return;
+        const saved = sessionStorage.getItem(scrollStorageKey);
+        if (saved) nav.scrollTop = parseInt(saved, 10);
+        const onScroll = () => sessionStorage.setItem(scrollStorageKey, String(nav.scrollTop));
+        nav.addEventListener("scroll", onScroll);
+        return () => nav.removeEventListener("scroll", onScroll);
+    }, [scrollStorageKey]);
 
     return (
         <>
@@ -112,8 +130,15 @@ export function Sidebar({
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex-1 overflow-y-auto py-3 px-3">
-                    {sections.map((section, i) => (
+                <nav ref={navRef} className="flex-1 overflow-y-auto py-3 px-3">
+                    {loading ? (
+                        <div className="space-y-2 animate-pulse">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <div key={i} className="h-9 rounded-lg bg-foreground/5" />
+                            ))}
+                        </div>
+                    ) : (
+                    sections.map((section, i) => (
                         <div key={i} className={i > 0 ? "mt-4" : ""}>
                             {section.title && <div className="nav-section">{section.title}</div>}
                             {section.items.map((item) => {
@@ -146,7 +171,7 @@ export function Sidebar({
                                 );
                             })}
                         </div>
-                    ))}
+                    )))}
                 </nav>
 
                 {/* Footer slot */}

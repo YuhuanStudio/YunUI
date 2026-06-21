@@ -17,6 +17,7 @@ import {
   Palette,
   Sparkles,
   PanelLeft,
+  PanelLeftOpen,
 } from "lucide-react";
 
 const SECTIONS: SidebarSection[] = [
@@ -55,7 +56,7 @@ export function Shell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh flex overflow-x-hidden">
       <Sidebar
         appName="YunUI"
         logoSrc="/favicon.ico"
@@ -69,29 +70,28 @@ export function Shell({ children }: { children: ReactNode }) {
         onNavigate={handleNavigate}
       />
 
-      {/* Content column, offset by the fixed sidebar on desktop (unless collapsed) */}
-      <div className={`${collapsed ? "lg:pl-0" : "lg:pl-64"} flex flex-col min-h-dvh transition-[padding] duration-200`}>
+      {/* Content column, offset by the fixed sidebar on desktop. Matches Yunxin:
+          animate the margin so the content slides as the sidebar collapses. */}
+      <div className={`flex-1 min-w-0 flex flex-col min-h-dvh transition-[margin] duration-200 ease-in-out ${collapsed ? "lg:ml-0" : "lg:ml-64"}`}>
         {/* Header */}
-        <header className="sticky top-0 z-30 h-14 flex items-center justify-between gap-3 px-4 sm:px-6 border-b border-(--border-hairline) bg-background/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-30 h-14 flex items-center gap-3 px-4 sm:px-6 border-b border-(--border-hairline) bg-background/80 backdrop-blur-xl">
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="lg:hidden w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5"
+            className="lg:hidden w-9 h-9 -ml-2 rounded-lg flex items-center justify-center hover:bg-foreground/5"
             aria-label="Menu"
           >
             <Menu className="w-5 h-5" />
           </button>
-          {/* Re-open the sidebar after it's collapsed (desktop) */}
-          {collapsed && (
-            <button
-              type="button"
-              onClick={() => setCollapsed(false)}
-              className="hidden lg:flex w-9 h-9 rounded-lg items-center justify-center hover:bg-foreground/5"
-              aria-label="Expand sidebar"
-            >
-              <PanelLeft className="w-5 h-5" />
-            </button>
-          )}
+          {/* Re-open button — always present, slides in via max-w (Yunxin parity) */}
+          <button
+            type="button"
+            onClick={() => setCollapsed(false)}
+            className={`hidden lg:flex items-center justify-center shrink-0 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 ease-in-out ${collapsed ? "max-w-12 opacity-100 p-2 -ml-2" : "max-w-0 opacity-0 overflow-hidden p-0 -ml-4 pointer-events-none"}`}
+            aria-label="Expand sidebar"
+          >
+            <PanelLeftOpen size={18} className="shrink-0" />
+          </button>
           <div className="flex-1" />
           <div className="flex items-center gap-1.5">
             <LanguageSwitcher
