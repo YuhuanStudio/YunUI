@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { ThemeToggle } from "yunui";
-import { LanguageSwitcher } from "yunui/ai";
+import { LanguageSwitcher, Footer, GithubIcon } from "yunui/ai";
 import { Sidebar, type SidebarSection } from "yunui/patterns";
 import {
   Menu,
@@ -16,7 +16,7 @@ import {
   Component,
   Palette,
   Sparkles,
-  Star,
+  PanelLeft,
 } from "lucide-react";
 
 const SECTIONS: SidebarSection[] = [
@@ -31,6 +31,7 @@ const SECTIONS: SidebarSection[] = [
   {
     title: "Components",
     items: [
+      { label: "Layout & Chrome", href: "#layout", icon: PanelLeft },
       { label: "Buttons & Actions", href: "#buttons", icon: MousePointerClick },
       { label: "Form Controls", href: "#forms", icon: TextCursorInput },
       { label: "Overlays", href: "#overlays", icon: Component },
@@ -56,33 +57,13 @@ export function Shell({ children }: { children: ReactNode }) {
     <div className="min-h-dvh">
       <Sidebar
         appName="YunUI"
-        logoSrc="/favicon.ico"
+        logoSrc="/logo.svg"
         homeHref="#overview"
         sections={SECTIONS}
         currentPath={active}
         isOpen={open}
         onClose={() => setOpen(false)}
         onNavigate={handleNavigate}
-        footer={
-          <>
-            <div className="mb-3 card px-3 py-2.5">
-              <div className="flex items-center gap-2 mb-1">
-                <Star size={14} className="text-yellow-400 fill-yellow-400" />
-                <span className="text-xs text-(--text-secondary)">Balance</span>
-              </div>
-              <div className="text-base font-semibold">1.25K Credits</div>
-            </div>
-            <div className="w-full card px-3 py-2.5 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-linear-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold text-sm shrink-0">
-                Y
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium truncate">yuhuan</div>
-                <div className="text-xs text-(--text-tertiary) truncate">demo@yunui.dev</div>
-              </div>
-            </div>
-          </>
-        }
       />
 
       {/* Content column, offset by the fixed sidebar on desktop */}
@@ -113,6 +94,20 @@ export function Shell({ children }: { children: ReactNode }) {
         </header>
 
         <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">{children}</main>
+
+        {/* Dogfood: the site's real footer is YunUI's Footer component */}
+        <Footer
+          appName="YunUI"
+          logoSrc="/logo.svg"
+          homeHref="#overview"
+          tagline="One design system, every project in sync."
+          sections={[
+            { title: "Docs", links: [{ label: "Overview", href: "#overview" }, { label: "Foundations", href: "#foundations" }, { label: "Components", href: "#layout" }] },
+            { title: "Resources", links: [{ label: "Patterns", href: "#patterns" }, { label: "Utility Classes", href: "#design" }] },
+          ]}
+          social={[{ icon: <GithubIcon />, href: "https://github.com/yuhuanowo", label: "GitHub" }]}
+          copyright="© 2026 YunUI · edit once, sync everywhere"
+        />
       </div>
     </div>
   );

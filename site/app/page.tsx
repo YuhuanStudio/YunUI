@@ -61,8 +61,9 @@ import {
   Spinner,
   EmptyState,
   NavTabs,
+  AnimatedNumber,
 } from "yunui";
-import { ThinkingBlock, LanguageSwitcher } from "yunui/ai";
+import { ThinkingBlock, LanguageSwitcher, Navbar, Footer, ModelCard } from "yunui/ai";
 import {
   CodeBlock,
   FAQ,
@@ -75,6 +76,8 @@ import {
   CapabilityBadge,
   FellowsBanner,
   ErrorBoundary,
+  Sidebar,
+  type SidebarSection,
 } from "yunui/patterns";
 import {
   Heart,
@@ -94,6 +97,9 @@ import {
   Layers,
   LayoutGrid,
   Sparkles,
+  PanelLeft,
+  Compass,
+  Database,
 } from "lucide-react";
 
 // ---- layout helpers -------------------------------------------------------
@@ -172,6 +178,64 @@ function ErrorBoundaryDemo() {
     <ErrorBoundary labels={{ title: "Caught by ErrorBoundary", message: "The child threw during render — this is the fallback UI." }}>
       <Bomb />
     </ErrorBoundary>
+  );
+}
+
+// A framed stage that contains `position: fixed` children (Navbar/Sidebar/
+// Footer). A `transform` on the wrapper makes fixed descendants resolve against
+// it instead of the viewport — the standard trick for previewing app chrome.
+function Stage({ height = 180, children }: { height?: number; children: ReactNode }) {
+  return (
+    <div
+      className="relative w-full rounded-2xl border border-border overflow-hidden bg-(--bg-elevated)"
+      style={{ height, transform: "translateZ(0)" }}
+    >
+      {children}
+    </div>
+  );
+}
+
+const DEMO_SIDEBAR_SECTIONS: SidebarSection[] = [
+  {
+    items: [
+      { label: "Overview", href: "#", icon: LayoutGrid },
+      { label: "Playground", href: "#", icon: MessageSquare },
+      { label: "Models", href: "#", icon: Layers },
+    ],
+  },
+  {
+    title: "Account",
+    items: [
+      { label: "API Keys", href: "#", icon: KeyRound },
+      { label: "Analytics", href: "#", icon: Activity },
+      { label: "Logs", href: "#", icon: Database },
+    ],
+  },
+];
+
+function SidebarCollapseDemo() {
+  const [collapsed, setCollapsed] = useState(false);
+  return (
+    <Stage height={360}>
+      <Sidebar
+        appName="YunUI"
+        logoSrc="/logo.svg"
+        homeHref="#"
+        sections={DEMO_SIDEBAR_SECTIONS}
+        currentPath="#overview"
+        collapsed={collapsed}
+        onToggleCollapse={() => setCollapsed((c) => !c)}
+        onNavigate={() => {}}
+      />
+      {/* Re-open affordance when collapsed (lives in the app header normally) */}
+      <button
+        onClick={() => setCollapsed((c) => !c)}
+        className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${collapsed ? "left-3" : "left-[17rem]"}`}
+        aria-label="Toggle sidebar"
+      >
+        <PanelLeft size={16} />
+      </button>
+    </Stage>
   );
 }
 
@@ -338,6 +402,44 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* Layout & chrome — the real app shell pieces */}
+      <Section id="layout" title="Layout & Chrome" description="Navbar, Sidebar and Footer — framed previews of the fixed app chrome.">
+        <Demo title="Navbar" description="Floating top nav; switcher/toggle are slots, links are props.">
+          <Stage height={120}>
+            <Navbar
+              appName="YunUI"
+              logoSrc="/logo.svg"
+              variant="public"
+              links={[
+                { href: "#", label: "Models" },
+                { href: "#", label: "Docs" },
+                { href: "#", label: "Pricing" },
+              ]}
+              labels={{ signIn: "Sign in", signUp: "Sign up" }}
+            />
+          </Stage>
+        </Demo>
+        <Demo title="Sidebar — with collapse" description="Click the toggle to collapse / re-open. nav-item active states included.">
+          <SidebarCollapseDemo />
+        </Demo>
+        <Demo title="Footer" description="Sections + social are props; layout and styling are the design system.">
+          <Stage height={300}>
+            <div className="absolute inset-x-0 bottom-0">
+              <Footer
+                appName="YunUI"
+                logoSrc="/logo.svg"
+                tagline="One design system, every project in sync."
+                sections={[
+                  { title: "Product", links: [{ label: "Models", href: "#" }, { label: "Docs", href: "#" }, { label: "Pricing", href: "#" }] },
+                  { title: "Company", links: [{ label: "About", href: "#" }, { label: "Blog", href: "#" }] },
+                  { title: "Legal", links: [{ label: "Privacy", href: "#" }, { label: "Terms", href: "#" }] },
+                ]}
+              />
+            </div>
+          </Stage>
+        </Demo>
+      </Section>
+
       {/* Buttons */}
       <Section id="buttons" title="Buttons & Actions">
         <Demo
@@ -420,8 +522,9 @@ export default function Home() {
               value={combo}
               onChange={setCombo}
               options={[
-                { value: "openai", label: "OpenAI" },
-                { value: "anthropic", label: "Anthropic" },
+                { value: "openai", label: "OpenAI", iconUrl: "https://cdn.simpleicons.org/openai" },
+                { value: "anthropic", label: "Anthropic", iconUrl: "https://cdn.simpleicons.org/anthropic" },
+                { value: "google", label: "Google", iconUrl: "https://cdn.simpleicons.org/google" },
               ]}
             />
           </div>
@@ -576,6 +679,22 @@ export default function Home() {
           </Avatar>
           <div className="w-60"><Progress value={66} /></div>
         </Demo>
+        <Demo title="Animated number" description="Springs from 0 on mount — re-enter the section to replay.">
+          <div className="flex flex-wrap gap-8">
+            <div className="stat-card p-4 w-40">
+              <div className="text-label mb-1">Requests</div>
+              <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={48213} /></div>
+            </div>
+            <div className="stat-card p-4 w-40">
+              <div className="text-label mb-1">Uptime</div>
+              <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={99.98} suffix="%" decimals={2} /></div>
+            </div>
+            <div className="stat-card p-4 w-40">
+              <div className="text-label mb-1">Latency</div>
+              <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={142} suffix="ms" /></div>
+            </div>
+          </div>
+        </Demo>
         <Demo title="Tabs">
           <Tabs value={tab} onValueChange={setTab} className="w-full max-w-md">
             <TabsList>
@@ -664,6 +783,32 @@ export default function Home() {
 
       {/* Patterns */}
       <Section id="patterns" title="Patterns">
+        <Demo title="Model card" description="AI model card — icon is a slot, all fields are props (no API/schema coupling).">
+          <div className="grid sm:grid-cols-2 gap-4 w-full max-w-2xl">
+            <ModelCard
+              name="Claude Opus 4.8"
+              icon={<div className="w-10 h-10 rounded-xl bg-orange-500/15 text-orange-600 flex items-center justify-center font-semibold">A</div>}
+              ids={["claude-opus-4-8", "opus-latest"]}
+              description="Most capable model for complex reasoning and agentic work."
+              capabilities={["vision", "thinking", "function_calling", "streaming"]}
+              developer={{ label: "Anthropic" }}
+              context="200K"
+              tier="pro"
+              price="$15/M"
+            />
+            <ModelCard
+              name="DeepSeek R1"
+              icon={<div className="w-10 h-10 rounded-xl bg-blue-500/15 text-blue-600 flex items-center justify-center font-semibold">D</div>}
+              ids={["deepseek-r1"]}
+              description="Open reasoning model with strong math and code."
+              capabilities={["thinking", "streaming"]}
+              developer={{ label: "DeepSeek" }}
+              context="64K"
+              price="$0.55/M"
+              nonofficial
+            />
+          </div>
+        </Demo>
         <Demo title="Code block">
           <div className="w-full max-w-2xl">
             <CodeBlock

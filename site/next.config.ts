@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: resolve(import.meta.dirname, ".."),
   },
+  // Provider logos used in the icon-combobox demo.
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "cdn.simpleicons.org" }],
+  },
 };
 
 export default nextConfig;

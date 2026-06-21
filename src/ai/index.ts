@@ -9,6 +9,7 @@
 // for a future release; not exported yet.
 
 export { ThinkingBlock } from "./thinking-block";
+export { ModelCard, type ModelCardProps } from "./model-card";
 export { LanguageSwitcher, type LanguageOption } from "./language-switcher";
 export { Navbar, type NavLink } from "./navbar";
 export {
