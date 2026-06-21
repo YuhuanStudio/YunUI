@@ -1,14 +1,14 @@
-/* JetBrains Mono powers `.font-mono` / code blocks (Yunxin parity). Must sit
-   above all other @import rules. */
+/* Replicates Yunxin's exact styling pipeline so the showcase matches Yunxin
+   pixel-for-pixel: JetBrains Mono, Tailwind v4, fumadocs base (body bg/color +
+   resets), then the YunUI design system. Order matters and mirrors Yunxin's
+   globals.css. NOTE: Yunxin does NOT set a body font-family, so the body uses
+   the system sans stack — do not force Geist here. */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
 @import "yunui/css";
 
 /* Let Tailwind v4 scan YunUI's compiled components so their inline utility
-   classes get generated. Without this, components render unstyled. */
+   classes get generated. */
 @source "../node_modules/yunui/dist";
-
-/* Geist (loaded via next/font in layout.tsx) is the body face, matching Yunxin. */
-body {
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
-}
