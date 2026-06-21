@@ -18,7 +18,23 @@ export default defineConfig({
   // inlines its own copy of the context, so YunUIProvider and consumers end up on
   // different React contexts and injected adapters never reach components.
   splitting: true,
-  external: ["react", "react-dom", "tailwindcss", "next", "next-themes"],
+  // Never bundle these — they ship as deps so the consumer resolves a single
+  // copy (no duplicate Radix/framer instances, and the SAME versions Yunxin
+  // uses, so interactions/animations are byte-identical, not version-drifted).
+  external: [
+    "react",
+    "react-dom",
+    "tailwindcss",
+    "next",
+    "next-themes",
+    "framer-motion",
+    "lucide-react",
+    "sonner",
+    "clsx",
+    "tailwind-merge",
+    "class-variance-authority",
+    /^@radix-ui\//,
+  ],
   // esbuild's bundler strips module-level "use client" directives. YunUI is an
   // all-client library, so re-add the directive to the top of every emitted .js
   // (entries AND shared chunks) so Next.js App Router treats them as client.
