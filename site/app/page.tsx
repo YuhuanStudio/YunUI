@@ -62,6 +62,7 @@ import {
   EmptyState,
   NavTabs,
   AnimatedNumber,
+  toast,
 } from "yunui";
 import {
   ThinkingBlock,
@@ -88,6 +89,7 @@ import {
   ErrorBoundary,
   Sidebar,
   type SidebarSection,
+  MediaPageHeader,
 } from "yunui/patterns";
 import {
   Heart,
@@ -793,6 +795,12 @@ export default function Home() {
             <ThinkingBlock content={"Let me reason about this step by step…\n1. Parse the request\n2. Plan the answer"} isStreaming defaultOpen />
           </div>
         </Demo>
+        <Demo title="Toast (sonner)" description="Themed toast helpers — success / error / info / warning.">
+          <Button variant="primary" size="sm" onClick={() => toast.success("Saved!", "Your changes are live.")}>Success</Button>
+          <Button variant="red" size="sm" onClick={() => toast.error("Failed", "Something went wrong.")}>Error</Button>
+          <Button variant="outline" size="sm" onClick={() => toast.info("Heads up", "A new model is available.")}>Info</Button>
+          <Button variant="amber" size="sm" onClick={() => toast.warning("Careful", "This action is irreversible.")}>Warning</Button>
+        </Demo>
       </Section>
 
       {/* Navigation */}
@@ -824,6 +832,21 @@ export default function Home() {
 
       {/* Patterns */}
       <Section id="patterns" title="Patterns">
+        <Demo title="Media page header" description="Title + sync button + error/stats — used across the media generation pages.">
+          <div className="w-full max-w-2xl">
+            <MediaPageHeader
+              title="Images"
+              description="Generate and manage your images."
+              isSyncing={false}
+              syncError={null}
+              onSync={() => toast.info("Syncing…")}
+              stats={[
+                { label: "images", value: 128 },
+                { label: "this month", value: 42 },
+              ]}
+            />
+          </div>
+        </Demo>
         <Demo title="Model card" description="AI model card — icon is a slot, all fields are props (no API/schema coupling).">
           <div className="grid sm:grid-cols-2 gap-4 w-full max-w-2xl">
             <ModelCard

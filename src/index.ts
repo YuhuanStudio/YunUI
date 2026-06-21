@@ -32,6 +32,7 @@ export {
 export { ThemeToggle } from "./primitives/theme-toggle";
 export { Switch, type SwitchProps } from "./primitives/switch";
 export { AnimatedNumber, type AnimatedNumberProps } from "./primitives/animated-number";
+export { Toaster, toast } from "./primitives/toast";
 
 // Utilities
 export { cn } from "./lib/cn";

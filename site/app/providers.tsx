@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "yunui";
 import { YunUIProvider } from "yunui/adapters";
 import NextLink from "next/link";
 import NextImage from "next/image";
@@ -76,6 +77,7 @@ export function Providers({ children }: { children: ReactNode }) {
         }}
       >
         {children}
+        <Toaster />
       </YunUIProvider>
     </ThemeProvider>
   );
