@@ -57,7 +57,7 @@ export function Shell({ children }: { children: ReactNode }) {
     <div className="min-h-dvh">
       <Sidebar
         appName="YunUI"
-        logoSrc="/logo.svg"
+        logoSrc="/favicon.ico"
         homeHref="#overview"
         sections={SECTIONS}
         currentPath={active}
@@ -98,7 +98,7 @@ export function Shell({ children }: { children: ReactNode }) {
         {/* Dogfood: the site's real footer is YunUI's Footer component */}
         <Footer
           appName="YunUI"
-          logoSrc="/logo.svg"
+          logoSrc="/favicon.ico"
           homeHref="#overview"
           tagline="One design system, every project in sync."
           sections={[

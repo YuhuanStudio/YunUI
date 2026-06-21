@@ -198,17 +198,17 @@ function Stage({ height = 180, children }: { height?: number; children: ReactNod
 const DEMO_SIDEBAR_SECTIONS: SidebarSection[] = [
   {
     items: [
-      { label: "Overview", href: "#", icon: LayoutGrid },
-      { label: "Playground", href: "#", icon: MessageSquare },
-      { label: "Models", href: "#", icon: Layers },
+      { label: "Overview", href: "#overview", icon: LayoutGrid },
+      { label: "Playground", href: "#playground", icon: MessageSquare },
+      { label: "Models", href: "#models", icon: Layers },
     ],
   },
   {
     title: "Account",
     items: [
-      { label: "API Keys", href: "#", icon: KeyRound },
-      { label: "Analytics", href: "#", icon: Activity },
-      { label: "Logs", href: "#", icon: Database },
+      { label: "API Keys", href: "#api-keys", icon: KeyRound },
+      { label: "Analytics", href: "#analytics", icon: Activity },
+      { label: "Logs", href: "#logs", icon: Database },
     ],
   },
 ];
@@ -219,7 +219,7 @@ function SidebarCollapseDemo() {
     <Stage height={360}>
       <Sidebar
         appName="YunUI"
-        logoSrc="/logo.svg"
+        logoSrc="/favicon.ico"
         homeHref="#"
         sections={DEMO_SIDEBAR_SECTIONS}
         currentPath="#overview"
@@ -408,12 +408,12 @@ export default function Home() {
           <Stage height={120}>
             <Navbar
               appName="YunUI"
-              logoSrc="/logo.svg"
+              logoSrc="/favicon.ico"
               variant="public"
               links={[
-                { href: "#", label: "Models" },
-                { href: "#", label: "Docs" },
-                { href: "#", label: "Pricing" },
+                { href: "#nav-models", label: "Models" },
+                { href: "#nav-docs", label: "Docs" },
+                { href: "#nav-pricing", label: "Pricing" },
               ]}
               labels={{ signIn: "Sign in", signUp: "Sign up" }}
             />
@@ -427,12 +427,12 @@ export default function Home() {
             <div className="absolute inset-x-0 bottom-0">
               <Footer
                 appName="YunUI"
-                logoSrc="/logo.svg"
+                logoSrc="/favicon.ico"
                 tagline="One design system, every project in sync."
                 sections={[
-                  { title: "Product", links: [{ label: "Models", href: "#" }, { label: "Docs", href: "#" }, { label: "Pricing", href: "#" }] },
-                  { title: "Company", links: [{ label: "About", href: "#" }, { label: "Blog", href: "#" }] },
-                  { title: "Legal", links: [{ label: "Privacy", href: "#" }, { label: "Terms", href: "#" }] },
+                  { title: "Product", links: [{ label: "Models", href: "#f-models" }, { label: "Docs", href: "#f-docs" }, { label: "Pricing", href: "#f-pricing" }] },
+                  { title: "Company", links: [{ label: "About", href: "#f-about" }, { label: "Blog", href: "#f-blog" }] },
+                  { title: "Legal", links: [{ label: "Privacy", href: "#f-privacy" }, { label: "Terms", href: "#f-terms" }] },
                 ]}
               />
             </div>
