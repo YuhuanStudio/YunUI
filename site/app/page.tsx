@@ -63,7 +63,17 @@ import {
   NavTabs,
   AnimatedNumber,
 } from "yunui";
-import { ThinkingBlock, LanguageSwitcher, Navbar, Footer, ModelCard, CapabilitySelector } from "yunui/ai";
+import {
+  ThinkingBlock,
+  LanguageSwitcher,
+  Navbar,
+  Footer,
+  ModelCard,
+  CapabilitySelector,
+  ProviderIcon,
+  ModelIcon,
+  getIconPath,
+} from "yunui/ai";
 import {
   CodeBlock,
   FAQ,
@@ -264,6 +274,7 @@ export default function Home() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [tab, setTab] = useState("inbox");
   const [caps, setCaps] = useState<string[]>(["vision", "thinking"]);
+  const [prov, setProv] = useState("openai");
 
   return (
     <>
@@ -523,9 +534,10 @@ export default function Home() {
               value={combo}
               onChange={setCombo}
               options={[
-                { value: "openai", label: "OpenAI", iconUrl: "https://cdn.simpleicons.org/openai" },
-                { value: "anthropic", label: "Anthropic", iconUrl: "https://cdn.simpleicons.org/anthropic" },
-                { value: "google", label: "Google", iconUrl: "https://cdn.simpleicons.org/google" },
+                { value: "openai", label: "OpenAI", iconUrl: getIconPath("openai") },
+                { value: "anthropic", label: "Anthropic", iconUrl: getIconPath("anthropic") },
+                { value: "deepseek", label: "DeepSeek", iconUrl: getIconPath("deepseek") },
+                { value: "mistral", label: "Mistral", iconUrl: getIconPath("mistral") },
               ]}
             />
           </div>
@@ -565,6 +577,28 @@ export default function Home() {
           <div className="w-full max-w-md">
             <CapabilitySelector selected={caps} onChange={setCaps} columns={3} />
             <p className="text-caption mt-2">Selected: {caps.join(", ") || "none"}</p>
+          </div>
+        </Demo>
+        <Demo title="Provider select — real provider icons (AI)" description="CustomSelect with the bundled Yunxin provider-icon system; Combobox above also uses it.">
+          <div className="w-64">
+            <CustomSelect
+              value={prov}
+              onChange={setProv}
+              searchable
+              options={[
+                { value: "openai", label: "OpenAI", icon: <ProviderIcon provider="openai" size={18} rounded /> },
+                { value: "anthropic", label: "Anthropic", icon: <ProviderIcon provider="anthropic" size={18} rounded /> },
+                { value: "deepseek", label: "DeepSeek", icon: <ProviderIcon provider="deepseek" size={18} rounded /> },
+                { value: "google", label: "Google", icon: <ProviderIcon provider="google" size={18} rounded /> },
+                { value: "mistral", label: "Mistral", icon: <ProviderIcon provider="mistral" size={18} rounded /> },
+                { value: "qwen", label: "Qwen", icon: <ProviderIcon provider="qwen" size={18} rounded /> },
+              ]}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            {["openai", "anthropic", "deepseek", "google", "mistral", "qwen", "groq", "cohere"].map((p) => (
+              <ProviderIcon key={p} provider={p} size={28} rounded />
+            ))}
           </div>
         </Demo>
       </Section>
@@ -794,22 +828,22 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 gap-4 w-full max-w-2xl">
             <ModelCard
               name="Claude Opus 4.8"
-              icon={<div className="w-10 h-10 rounded-xl bg-orange-500/15 text-orange-600 flex items-center justify-center font-semibold">A</div>}
+              icon={<ModelIcon provider="anthropic" developer="claude" size={40} rounded />}
               ids={["claude-opus-4-8", "opus-latest"]}
               description="Most capable model for complex reasoning and agentic work."
               capabilities={["vision", "thinking", "function_calling", "streaming"]}
-              developer={{ label: "Anthropic" }}
+              developer={{ label: "Anthropic", iconUrl: getIconPath("anthropic") ?? undefined }}
               context="200K"
               tier="pro"
               price="$15/M"
             />
             <ModelCard
               name="DeepSeek R1"
-              icon={<div className="w-10 h-10 rounded-xl bg-blue-500/15 text-blue-600 flex items-center justify-center font-semibold">D</div>}
+              icon={<ModelIcon provider="deepseek" developer="deepseek" size={40} rounded />}
               ids={["deepseek-r1"]}
               description="Open reasoning model with strong math and code."
               capabilities={["thinking", "streaming"]}
-              developer={{ label: "DeepSeek" }}
+              developer={{ label: "DeepSeek", iconUrl: getIconPath("deepseek") ?? undefined }}
               context="64K"
               price="$0.55/M"
               nonofficial

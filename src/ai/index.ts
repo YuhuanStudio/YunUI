@@ -11,6 +11,18 @@
 export { ThinkingBlock } from "./thinking-block";
 export { ModelCard, type ModelCardProps } from "./model-card";
 export { CapabilitySelector } from "./capability-selector";
+export {
+  ProviderIcon,
+  ProviderAvatar,
+  ModelIcon,
+  ModelAvatar,
+  getProviderName,
+  getIconPath,
+  getDeveloperIconPath,
+  getProviderIconOptions,
+  normalizeProviderId,
+  ProviderNames,
+} from "./provider-icons";
 export { LanguageSwitcher, type LanguageOption } from "./language-switcher";
 export { Navbar, type NavLink } from "./navbar";
 export {

@@ -23,6 +23,8 @@ export interface YunUIImageProps {
   style?: React.CSSProperties;
   /** Honored by next/image; ignored by the default <img>. */
   unoptimized?: boolean;
+  /** Fired when the image fails to load (used for icon fallbacks). */
+  onError?: () => void;
 }
 
 export interface YunUIRouter {
@@ -56,6 +58,7 @@ const DefaultImage: React.FC<YunUIImageProps> = ({
   height,
   className,
   style,
+  onError,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   unoptimized: _unoptimized,
 }) => (
@@ -67,6 +70,7 @@ const DefaultImage: React.FC<YunUIImageProps> = ({
     height={height}
     className={className}
     style={style}
+    onError={onError}
   />
 );
 

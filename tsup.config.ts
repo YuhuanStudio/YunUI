@@ -1,12 +1,5 @@
 import { defineConfig } from "tsup";
-import { readFile, writeFile } from "node:fs/promises";
-
-const ENTRY_OUTPUTS = [
-  "dist/index.js",
-  "dist/adapters.js",
-  "dist/patterns.js",
-  "dist/ai.js",
-];
+import { readFile, writeFile, readdir } from "node:fs/promises";
 
 export default defineConfig({
   entry: {
@@ -20,22 +13,23 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   treeshake: true,
-  // Self-contained entries: no shared chunks that would lose the directive.
-  splitting: false,
+  // Code-split so shared modules (notably the adapter React context) are emitted
+  // ONCE as a shared chunk and imported by every entry. Without this each entry
+  // inlines its own copy of the context, so YunUIProvider and consumers end up on
+  // different React contexts and injected adapters never reach components.
+  splitting: true,
   external: ["react", "react-dom", "tailwindcss", "next", "next-themes"],
-  // esbuild's bundler strips module-level "use client" directives. Re-add the
-  // directive to the top of every entry so Next.js App Router treats these as
-  // client components (they all are).
+  // esbuild's bundler strips module-level "use client" directives. YunUI is an
+  // all-client library, so re-add the directive to the top of every emitted .js
+  // (entries AND shared chunks) so Next.js App Router treats them as client.
   async onSuccess() {
     const directive = '"use client";\n';
-    for (const file of ENTRY_OUTPUTS) {
-      try {
-        const code = await readFile(file, "utf8");
-        if (!code.startsWith(directive.trim())) {
-          await writeFile(file, directive + code);
-        }
-      } catch {
-        // entry may be empty/absent (e.g. stub patterns/ai); ignore.
+    const files = (await readdir("dist")).filter((f) => f.endsWith(".js"));
+    for (const name of files) {
+      const file = `dist/${name}`;
+      const code = await readFile(file, "utf8");
+      if (!code.startsWith(directive.trim())) {
+        await writeFile(file, directive + code);
       }
     }
   },
