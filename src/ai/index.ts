@@ -10,6 +10,7 @@
 
 export { ThinkingBlock } from "./thinking-block";
 export { ModelCard, type ModelCardProps } from "./model-card";
+export { IDBadge } from "./id-badge";
 export { CapabilitySelector } from "./capability-selector";
 export {
   ProviderIcon,

@@ -387,10 +387,10 @@ export default function Home() {
           actions={<Button variant="primary" size="sm"><Plus className="w-4 h-4 mr-1.5" />New key</Button>}
         />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard icon={Coins} label="Balance" value="1.25K" trend={{ value: "+4.2%", direction: "up" }} />
-          <StatCard icon={Activity} label="Requests" value="48.2K" trend={{ value: "+12%", direction: "up" }} />
-          <StatCard icon={KeyRound} label="API keys" value="3" />
-          <StatCard icon={TrendingUp} label="Spend" value="$72.40" trend={{ value: "-3%", direction: "down" }} />
+          <StatCard icon={Coins} label="Balance" value={<AnimatedNumber value={1250} />} trend={{ value: "+4.2%", direction: "up" }} />
+          <StatCard icon={Activity} label="Requests" value={<AnimatedNumber value={48213} />} trend={{ value: "+12%", direction: "up" }} />
+          <StatCard icon={KeyRound} label="API keys" value={<AnimatedNumber value={3} />} />
+          <StatCard icon={TrendingUp} label="Spend" value={<AnimatedNumber value={72.4} decimals={2} />} trend={{ value: "-3%", direction: "down" }} />
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[

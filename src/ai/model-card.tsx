@@ -14,6 +14,7 @@ import {
   PauseCircle,
 } from "lucide-react";
 import { useYunUI } from "../adapters/context";
+import { IDBadge } from "./id-badge";
 
 const CAPABILITY_ICONS: Record<string, { icon: React.ComponentType<{ size?: number; className?: string }>; color: string }> = {
   streaming: { icon: Waves, color: "text-cyan-500" },
@@ -28,14 +29,6 @@ const CAPABILITY_ICONS: Record<string, { icon: React.ComponentType<{ size?: numb
   strength: { icon: SlidersHorizontal, color: "text-orange-500" },
   batch: { icon: Waves, color: "text-cyan-500" },
 };
-
-function IdBadge({ text }: { text: string }) {
-  return (
-    <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground max-w-40 truncate inline-block">
-      {text}
-    </span>
-  );
-}
 
 export interface ModelCardProps {
   name: string;
@@ -129,7 +122,7 @@ export function ModelCard({
       {ids.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5 mb-3">
           {ids.map((id, idx) => (
-            <IdBadge key={idx} text={id} />
+            <IDBadge key={idx} text={id} />
           ))}
         </div>
       )}
