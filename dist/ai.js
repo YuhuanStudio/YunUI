@@ -1,7 +1,7 @@
 "use client";
 import { copyToClipboard } from './chunk-WASCOOVD.js';
-import { cn, ThemeToggle } from './chunk-DRZ7UCRU.js';
-import { useYunUI } from './chunk-XZGNL5A6.js';
+import { cn, ThemeToggle } from './chunk-ORS36OUN.js';
+import { useYunUI } from './chunk-T37N6OZA.js';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Brain, ChevronUp, ChevronDown, Check, Copy, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Code, Eye, PauseCircle, Bot, Globe, X, Menu, Radio, Box, Shield, Shuffle, Music, Video, Mic, Volume2, Headphones, Palette, Hash, FileText, MessageSquare, Pencil } from 'lucide-react';
@@ -469,6 +469,10 @@ function getIconPath(providerId) {
   }
   return null;
 }
+function applyIconBase(path, base) {
+  if (!path || base === "/icons") return path;
+  return path.startsWith("/icons/") ? base + path.slice(6) : path;
+}
 function ProviderIcon({
   provider,
   className = "",
@@ -476,7 +480,7 @@ function ProviderIcon({
   rounded = false,
   iconUrl
 }) {
-  const { Image } = useYunUI();
+  const { Image, iconBasePath } = useYunUI();
   const [customError, setCustomError] = useState(false);
   const effectiveIconUrl = iconUrl;
   if (effectiveIconUrl && !customError) {
@@ -493,7 +497,7 @@ function ProviderIcon({
     }
     return /* @__PURE__ */ jsx("img", { src: effectiveIconUrl, alt: provider, width: size, height: size, className: `object-contain ${className}`, onError: () => setCustomError(true) });
   }
-  const iconPath = getIconPath(provider);
+  const iconPath = applyIconBase(getIconPath(provider), iconBasePath);
   const getRadiusClass = () => {
     if (size <= 14) return "rounded-sm";
     if (size <= 20) return "rounded-md";
@@ -668,7 +672,7 @@ function ModelIcon({
   size = 20,
   rounded = false
 }) {
-  const { Image } = useYunUI();
+  const { Image, iconBasePath } = useYunUI();
   const [failedPriority, setFailedPriority] = useState(0);
   const getRadiusClass = () => {
     if (size <= 14) return "rounded-sm";
@@ -676,7 +680,7 @@ function ModelIcon({
     return "rounded-lg";
   };
   if (failedPriority < 1 && iconUrl && iconUrl.trim()) {
-    const src = iconUrl.startsWith("http") ? getProxiedImageUrl(iconUrl) : iconUrl.startsWith("/") ? iconUrl : `/icons/models/${iconUrl}`;
+    const src = iconUrl.startsWith("http") ? getProxiedImageUrl(iconUrl) : iconUrl.startsWith("/") ? iconUrl : `${iconBasePath}/models/${iconUrl}`;
     const handleError = () => setFailedPriority(1);
     if (rounded) {
       return /* @__PURE__ */ jsx(
@@ -715,7 +719,7 @@ function ModelIcon({
   if (failedPriority < 2 && developer) {
     const developerIconFile = getDeveloperIconFile(developer);
     if (developerIconFile) {
-      const src = `/icons/models/${developerIconFile}`;
+      const src = `${iconBasePath}/models/${developerIconFile}`;
       const handleError = () => setFailedPriority(2);
       if (rounded) {
         return /* @__PURE__ */ jsx(

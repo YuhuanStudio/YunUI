@@ -1,6 +1,6 @@
 {
   "name": "@yuhuanowo/yunui",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "YunUI — Yunxin design system extracted into a standalone, versioned UI library (tokens, animations, primitives, patterns).",
   "type": "module",
   "license": "MIT",
@@ -83,6 +83,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.2",
     "jsdom": "^29.1.1",
+    "publint": "^0.3.21",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "tailwindcss": "^4.3.1",

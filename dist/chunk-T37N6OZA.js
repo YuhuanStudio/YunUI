@@ -47,7 +47,8 @@ var DEFAULT_ADAPTERS = {
   Link: DefaultLink,
   Image: DefaultImage,
   useRouter: defaultUseRouter,
-  useT: defaultUseT
+  useT: defaultUseT,
+  iconBasePath: "/icons"
 };
 var YunUIContext = React.createContext(DEFAULT_ADAPTERS);
 function YunUIProvider({ adapters, children }) {
@@ -62,5 +63,5 @@ function useYunUI() {
 }
 
 export { YunUIContext, YunUIProvider, useYunUI };
-//# sourceMappingURL=chunk-XZGNL5A6.js.map
-//# sourceMappingURL=chunk-XZGNL5A6.js.map
+//# sourceMappingURL=chunk-T37N6OZA.js.map
+//# sourceMappingURL=chunk-T37N6OZA.js.map

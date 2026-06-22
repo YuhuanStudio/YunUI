@@ -258,6 +258,16 @@ export function getIconPath(providerId: string): string | null {
     return null;
 }
 
+/**
+ * Rewrites a built-in `/icons/...` path to the consumer-configured icon base
+ * (from `useYunUI().iconBasePath`). Custom/absolute URLs (http…, data:…, or any
+ * path not under `/icons`) pass through unchanged.
+ */
+function applyIconBase(path: string | null, base: string): string | null {
+    if (!path || base === "/icons") return path;
+    return path.startsWith("/icons/") ? base + path.slice(6) : path;
+}
+
 interface ProviderIconProps {
     provider: string;
     className?: string;
@@ -276,7 +286,7 @@ export function ProviderIcon({
 }: ProviderIconProps) {
     // Custom icon URL takes priority when provided as a prop. (Yunxin's app-wide
     // admin-set icon registry is consumer-specific and not bundled here.)
-    const { Image } = useYunUI();
+    const { Image, iconBasePath } = useYunUI();
     const [customError, setCustomError] = useState(false);
     const effectiveIconUrl = iconUrl;
     // If the custom icon fails to load, fall through to the built-in name-based icon.
@@ -297,7 +307,7 @@ export function ProviderIcon({
         return <img src={effectiveIconUrl} alt={provider} width={size} height={size} className={`object-contain ${className}`} onError={() => setCustomError(true)} />;
     }
 
-    const iconPath = getIconPath(provider);
+    const iconPath = applyIconBase(getIconPath(provider), iconBasePath);
 
     // Dynamic border radius based on size for consistent square look
     const getRadiusClass = () => {
@@ -527,7 +537,7 @@ export function ModelIcon({
     size = 20,
     rounded = false,
 }: ModelIconProps) {
-    const { Image } = useYunUI();
+    const { Image, iconBasePath } = useYunUI();
     const [failedPriority, setFailedPriority] = useState(0);
 
     // Dynamic border radius based on size
@@ -541,7 +551,7 @@ export function ModelIcon({
     if (failedPriority < 1 && iconUrl && iconUrl.trim()) {
         const src = iconUrl.startsWith("http")
             ? getProxiedImageUrl(iconUrl)
-            : (iconUrl.startsWith("/") ? iconUrl : `/icons/models/${iconUrl}`);
+            : (iconUrl.startsWith("/") ? iconUrl : `${iconBasePath}/models/${iconUrl}`);
 
         const handleError = () => setFailedPriority(1);
 
@@ -581,7 +591,7 @@ export function ModelIcon({
     if (failedPriority < 2 && developer) {
         const developerIconFile = getDeveloperIconFile(developer);
         if (developerIconFile) {
-            const src = `/icons/models/${developerIconFile}`;
+            const src = `${iconBasePath}/models/${developerIconFile}`;
 
             const handleError = () => setFailedPriority(2);
 

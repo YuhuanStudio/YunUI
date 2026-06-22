@@ -92,7 +92,7 @@ import { useTranslations } from "next-intl";
 
 **工具 / hooks**(从 `@yuhuanowo/yunui` 导出):`cn`、`toast` / `Toaster`(基于 sonner)、`MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`、`useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`。
 
-> ⚠️ **`yunui/ai` 的图标素材需要你自备。** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` 会从 `/icons/providers/*.png`、`/icons/models/*.png` 加载图标 —— 这些素材**不随 npm 包发布**(包里只有 `dist` / `styles`)。消费方需把对应图标放到自己 `public/icons/...` 下(可从本仓库 `site/public/icons/` 取),否则图标会显示为裂图。自定义图标 URL 可通过组件 `iconUrl` prop 传入。(让 base path 可配置 = roadmap 待办。)
+> ⚠️ **`yunui/ai` 的图标素材需要你自备。** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` 会从 `/icons/providers/*.png`、`/icons/models/*.png` 加载图标 —— 这些素材**不随 npm 包发布**(包里只有 `dist` / `styles`)。消费方需把对应图标托管到 `iconBasePath` 指向的位置(默认 `/icons`,可从本仓库 `site/public/icons/` 取),否则图标会显示为裂图。base path 可通过适配器配置:`<YunUIProvider adapters={{ iconBasePath: "/assets/icons" }}>`(也可指向 CDN)。单个自定义图标 URL 通过组件 `iconUrl` prop 传入,原样使用。
 >
 > 同样,`./_deferred/ai-search`(文档 AI 搜索)**未导出** —— 它绑定 `@ai-sdk/react` + 聊天栈,是产品功能而非通用组件,导出会给库强加 ai-sdk peer 依赖。
 

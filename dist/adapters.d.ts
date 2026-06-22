@@ -33,6 +33,14 @@ interface YunUIAdapters {
     Image: React.ComponentType<YunUIImageProps>;
     useRouter: () => YunUIRouter;
     useT: TranslateFactory;
+    /**
+     * Base URL/path under which the AI provider/model icon assets are served.
+     * The library resolves icons to `<iconBasePath>/providers/*.png` and
+     * `<iconBasePath>/models/*.png`. These assets are NOT bundled — host them
+     * yourself (e.g. copy this repo's `site/public/icons`) and point this at
+     * them (`/icons`, `/assets/icons`, a CDN origin, …). Defaults to `/icons`.
+     */
+    iconBasePath: string;
 }
 declare const YunUIContext: React.Context<YunUIAdapters>;
 interface YunUIProviderProps {

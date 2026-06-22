@@ -7,6 +7,19 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.1.7]
+
+### Added
+- `iconBasePath` adapter option — configure where `yunui/ai` icon assets are
+  served (default `/icons`; point it at `/assets/icons`, a CDN origin, …).
+  Resolves the out-of-box broken-image issue for non-default hosting. Custom
+  `iconUrl` props still pass through untouched.
+- `publint` packaging lint in CI + release.
+- 3 tests for `ProviderIcon` icon-base resolution (21 tests total).
+
+### Changed
+- README icon caveat now documents the configurable `iconBasePath`.
+
 ## [0.1.6]
 
 ### Added
@@ -62,7 +75,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.6...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.7...HEAD
+[0.1.7]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/YuhuanStudio/YunUI/releases/tag/v0.1.4
