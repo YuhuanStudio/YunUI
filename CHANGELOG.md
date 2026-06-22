@@ -7,11 +7,25 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.1.6]
+
 ### Added
 - `CHANGELOG.md` and a fuller README (install, Tailwind `@source`, adapters,
-  exports, the AI icon-asset requirement, sync workflow).
-- CI: `.github/workflows/ci.yml` (typecheck + build + pack) and
-  `release.yml` (tag `v*` → `npm publish --provenance`, no manual OTP).
+  exports, the AI icon-asset requirement, hooks, sync workflow).
+- Test suite: vitest + Testing Library; 18 tests covering core primitives,
+  `StatCard` variants, and `CustomSelect` keyboard/a11y.
+- CI: `ci.yml` (typecheck + test + build + pack) and `release.yml`
+  (tag `v*` → tokenless **OIDC trusted publishing** + provenance; no NPM_TOKEN).
+
+### Changed
+- `CustomSelect` is now an accessible combobox: ARIA roles
+  (`combobox`/`listbox`/`option` + `aria-expanded`/`selected`/`activedescendant`)
+  and full keyboard nav (↑/↓, Home/End, Enter, Escape, Tab) with
+  highlight-into-view. Previously mouse-only.
+
+### Fixed
+- `site/` workspace dependency aliased to `@yuhuanowo/yunui` (broke after the
+  package was scoped).
 
 ## [0.1.5]
 
@@ -48,7 +62,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/YuhuanStudio/YunUI/releases/tag/v0.1.4
 [0.1.0]: https://github.com/YuhuanStudio/YunUI/releases/tag/v0.1.0
