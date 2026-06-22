@@ -4,8 +4,9 @@ import { cn, ThemeToggle } from './chunk-DRZ7UCRU.js';
 import { useYunUI } from './chunk-XZGNL5A6.js';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Brain, ChevronUp, ChevronDown, Check, Copy, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Code, Eye, PauseCircle, Globe, X, Menu, MessageSquare, Radio, Box, Music, Video, Mic, Pencil } from 'lucide-react';
+import { Brain, ChevronUp, ChevronDown, Check, Copy, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Code, Eye, PauseCircle, Bot, Globe, X, Menu, Radio, Box, Shield, Shuffle, Music, Video, Mic, Volume2, Headphones, Palette, Hash, FileText, MessageSquare, Pencil } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
+import { cva } from 'class-variance-authority';
 
 function ThinkingBlock({ content, isStreaming, defaultOpen = false, renderContent }) {
   const t = useYunUI().useT("common.thinking");
@@ -762,6 +763,54 @@ function ModelAvatar({
 }) {
   return /* @__PURE__ */ jsx(ModelIcon, { iconUrl, developer, provider, size, rounded: true, className });
 }
+function ProviderIconImg({ provider, size = 16 }) {
+  return /* @__PURE__ */ jsx(ProviderIcon, { provider, size, rounded: true });
+}
+var MODEL_TYPE_ICONS = {
+  chat: /* @__PURE__ */ jsx(MessageSquare, { size: 16, className: "text-blue-500" }),
+  completion: /* @__PURE__ */ jsx(FileText, { size: 16, className: "text-gray-500" }),
+  embedding: /* @__PURE__ */ jsx(Hash, { size: 16, className: "text-purple-500" }),
+  image_generation: /* @__PURE__ */ jsx(Palette, { size: 16, className: "text-pink-500" }),
+  audio: /* @__PURE__ */ jsx(Headphones, { size: 16, className: "text-orange-500" }),
+  tts: /* @__PURE__ */ jsx(Volume2, { size: 16, className: "text-green-500" }),
+  stt: /* @__PURE__ */ jsx(Mic, { size: 16, className: "text-red-500" }),
+  video: /* @__PURE__ */ jsx(Video, { size: 16, className: "text-cyan-500" }),
+  video_generation: /* @__PURE__ */ jsx(Video, { size: 16, className: "text-cyan-400" }),
+  music_generation: /* @__PURE__ */ jsx(Music, { size: 16, className: "text-orange-400" }),
+  rerank: /* @__PURE__ */ jsx(Shuffle, { size: 16, className: "text-indigo-500" }),
+  moderation: /* @__PURE__ */ jsx(Shield, { size: 16, className: "text-yellow-500" }),
+  "3d": /* @__PURE__ */ jsx(Box, { size: 16, className: "text-amber-500" }),
+  realtime: /* @__PURE__ */ jsx(Radio, { size: 16, className: "text-yellow-400" })
+};
+function ModelTypeIcon({ type, size = 16 }) {
+  const icon = MODEL_TYPE_ICONS[type.toLowerCase()];
+  if (icon) {
+    return /* @__PURE__ */ jsx("span", { className: "inline-flex", style: { transform: size !== 16 ? `scale(${size / 16})` : void 0 }, children: icon });
+  }
+  return /* @__PURE__ */ jsx(Bot, { size, className: "text-muted-foreground" });
+}
+var variants = {
+  primary: "bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/80 disabled:bg-fd-secondary disabled:text-fd-secondary-foreground",
+  outline: "border hover:bg-fd-accent hover:text-fd-accent-foreground",
+  ghost: "hover:bg-fd-accent hover:text-fd-accent-foreground",
+  secondary: "border bg-fd-secondary text-fd-secondary-foreground hover:bg-fd-accent hover:text-fd-accent-foreground"
+};
+var buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md p-2 text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring",
+  {
+    variants: {
+      variant: variants,
+      // fumadocs use `color` instead of `variant`
+      color: variants,
+      size: {
+        sm: "gap-1 px-2 py-1.5 text-xs",
+        icon: "p-1.5 [&_svg]:size-5",
+        "icon-sm": "p-1.5 [&_svg]:size-4.5",
+        "icon-xs": "p-1 [&_svg]:size-4"
+      }
+    }
+  }
+);
 function LanguageSwitcher({
   locales,
   currentLocale,
@@ -1008,6 +1057,6 @@ function Footer({
   ] }) }) });
 }
 
-export { CapabilitySelector, DiscordIcon, Footer, GithubIcon, IDBadge, InstagramIcon, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, Navbar, ProviderAvatar, ProviderIcon, ProviderNames, ThinkingBlock, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { CapabilitySelector, DiscordIcon, Footer, GithubIcon, IDBadge, InstagramIcon, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelTypeIcon, Navbar, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

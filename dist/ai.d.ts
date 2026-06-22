@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
+import * as class_variance_authority_types from 'class-variance-authority/types';
+import { VariantProps } from 'class-variance-authority';
 
 interface ThinkingBlockProps {
     content: string;
@@ -59,6 +61,27 @@ interface CapabilitySelectorProps {
     modelType?: string;
 }
 declare function CapabilitySelector({ selected, onChange, disabled, size, columns, modelType }: CapabilitySelectorProps): React.JSX.Element;
+
+/**
+ * Rounded provider icon — a thin alias over the canonical {@link ProviderIcon}
+ * (rounded avatar style). Kept for call sites that prefer the short name.
+ */
+declare function ProviderIconImg({ provider, size }: {
+    provider: string;
+    size?: number;
+}): React.JSX.Element;
+/** Capability/type icon for a model (chat, embedding, tts, …). */
+declare function ModelTypeIcon({ type, size }: {
+    type: string;
+    size?: number;
+}): React.JSX.Element;
+
+declare const buttonVariants: (props?: ({
+    variant?: "outline" | "primary" | "ghost" | "secondary" | null | undefined;
+    color?: "outline" | "primary" | "ghost" | "secondary" | null | undefined;
+    size?: "icon" | "sm" | "icon-sm" | "icon-xs" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+type ButtonProps = VariantProps<typeof buttonVariants>;
 
 declare function getDeveloperIconPath(developer: string | null | undefined): string | null;
 declare function getProviderIconOptions(): {
@@ -189,4 +212,4 @@ interface FooterProps {
 }
 declare function Footer({ appName, logoSrc, homeHref, tagline, sections, social, copyright, }: FooterProps): React.JSX.Element;
 
-export { CapabilitySelector, DiscordIcon, Footer, type FooterLink, type FooterProps, type FooterSection, type FooterSocial, GithubIcon, IDBadge, InstagramIcon, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, type NavLink, Navbar, ProviderAvatar, ProviderIcon, ProviderNames, ThinkingBlock, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { type ButtonProps, CapabilitySelector, DiscordIcon, Footer, type FooterLink, type FooterProps, type FooterSection, type FooterSocial, GithubIcon, IDBadge, InstagramIcon, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelTypeIcon, type NavLink, Navbar, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };

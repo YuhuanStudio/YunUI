@@ -2,16 +2,17 @@
 // All are prop-driven with framework deps injected via yunui/adapters; none
 // import app contexts, the API client, or localStorage directly.
 //
-// NOTE: a further set of components is staged under ./_deferred/ (provider-icons,
-// model-icons, model-selector, model-form, OAuthButtons, ai-search). They depend
-// on bundled icon assets, the Yunxin model schema, or the chat/ai-sdk stack and
-// need asset-bundling / deeper domain decoupling before they can ship. Tracked
-// for a future release; not exported yet.
+// NOTE: only `./_deferred/ai-search` stays un-exported — it is a full docs
+// AI-search FEATURE bound to @ai-sdk/react + the chat stack (not a reusable UI
+// primitive), so shipping it would force ai-sdk peer deps onto the library.
+// Intentionally kept out of the package.
 
 export { ThinkingBlock } from "./thinking-block";
 export { ModelCard, type ModelCardProps } from "./model-card";
 export { IDBadge } from "./id-badge";
 export { CapabilitySelector } from "./capability-selector";
+export { ModelTypeIcon, ProviderIconImg } from "./model-icons";
+export { buttonVariants, type ButtonProps } from "./fumadocs-button";
 export {
   ProviderIcon,
   ProviderAvatar,
