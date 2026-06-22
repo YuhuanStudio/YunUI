@@ -198,7 +198,9 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
             <div
                 ref={ref}
                 className={cn(
-                    "bg-card rounded-2xl border border-border",
+                    // Renders the canonical `.card` class so <Card> matches the
+                    // ~226 raw `className="card"` usages across the app (single look).
+                    "card",
                     hover && "hover:border-ring hover:shadow-lg hover:shadow-foreground/5 transition-all duration-200",
                     className
                 )}

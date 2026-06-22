@@ -1,6 +1,6 @@
 {
   "name": "yunui",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "YunUI — Yunxin design system extracted into a standalone, versioned UI library (tokens, animations, primitives, patterns).",
   "type": "module",
   "license": "MIT",
