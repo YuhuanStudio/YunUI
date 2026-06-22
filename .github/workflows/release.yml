@@ -1,7 +1,9 @@
 name: Release
 
-# Push a version tag (e.g. v0.1.6) → build + publish to npm automatically.
-# Requires repo secret NPM_TOKEN (an npm "Automation" token, which bypasses 2FA).
+# Push a version tag (e.g. v0.1.6) → GitHub Actions builds + publishes to npm.
+# Auth is tokenless via npm OIDC "Trusted Publishing": configure the package
+# on npmjs.com (Settings → Trusted Publisher → GitHub Actions, repo
+# YuhuanStudio/YunUI, workflow release.yml). No NPM_TOKEN secret needed.
 on:
   push:
     tags:
@@ -24,7 +26,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: "https://registry.npmjs.org"
           cache: pnpm
 
       - name: Install dependencies
@@ -48,7 +49,9 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Publish to npm (public, with provenance)
+      # Trusted Publishing (OIDC) requires npm >= 11.5.1; node 22 ships an older npm.
+      - name: Update npm (for OIDC trusted publishing)
+        run: npm install -g npm@latest
+
+      - name: Publish to npm (tokenless OIDC + provenance)
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

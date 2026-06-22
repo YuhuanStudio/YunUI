@@ -105,15 +105,18 @@ import { useTranslations } from "next-intl";
 ## 同步流程(改一处,各项目同步)
 
 ```bash
-# 在 YunUI:
-pnpm build
-# 升版本号(package.json),然后:
-npm publish --access public        # 需 2FA OTP
-git tag vX.Y.Z && git push --tags
+# 在 YunUI:改代码 → 升 package.json 版本号 → 提交
+git tag v0.1.6 && git push origin v0.1.6
+# ↑ 推 tag 触发 GitHub Actions:typecheck → test → build → npm publish
+#   (tokenless OIDC trusted publishing + provenance,无需本地发布/OTP)
 
 # 在消费项目:
 pnpm up @yuhuanowo/yunui
 ```
+
+> 发布走 GitHub Actions(`.github/workflows/release.yml`)。一次性设置:在
+> npmjs.com 的包 Settings → Trusted Publisher 里添加 GitHub Actions
+> (repo `YuhuanStudio/YunUI`,workflow `release.yml`)。**不需要任何 npm token。**
 
 ## 开发
 
