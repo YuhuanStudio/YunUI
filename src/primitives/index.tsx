@@ -51,13 +51,29 @@ export { cn };
 // =====================================================
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: "default" | "primary" | "secondary" | "ghost" | "accent" | "outline" | "amber" | "red" | "destructive";
+    /**
+     * Visual style. Options: `primary`, `secondary`, `ghost`, `accent`, `outline`, `amber`, `red`/`destructive`.
+     * @defaultValue "default"
+     */
+    variant?:
+        | /** @deprecated alias of `primary` */ "default"
+        | "primary"
+        | "secondary"
+        | "ghost"
+        | "accent"
+        | "outline"
+        | "amber"
+        | /** @deprecated alias of `destructive` */ "red"
+        | "destructive";
+    /** Size: `sm`, `md` (default), `lg`, or `icon` (square 40×40). */
     size?: "sm" | "md" | "lg" | "icon";
+    /** Show a spinner before the children and disable the button while busy. */
     loading?: boolean;
     /** Render the single child element with the button styling instead of a <button> (e.g. wrap a <Link>). */
     asChild?: boolean;
 }
 
+/** Primary action button with style variants, sizes, a loading spinner, and `asChild` slotting. */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant = "default", size = "md", loading, disabled, asChild, children, ...props }, ref) => {
         // Map variant names to CSS classes
@@ -112,10 +128,13 @@ Button.displayName = "Button";
 // =====================================================
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    /** Leading icon rendered inside the field on the left. */
     icon?: React.ReactNode;
+    /** Error message shown below the field; also switches the border to a red error style. */
     error?: string;
 }
 
+/** Single-line text input with an optional leading icon and inline error message. */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ({ className, icon, error, ...props }, ref) => {
         return (
@@ -154,9 +173,11 @@ Input.displayName = "Input";
 // =====================================================
 
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+    /** Error message shown below the field; also switches the border to a red error style. */
     error?: string;
 }
 
+/** Multi-line text input with an inline error message. */
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     ({ className, error, ...props }, ref) => {
         return (
@@ -189,9 +210,11 @@ Textarea.displayName = "Textarea";
 // =====================================================
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Add a hover lift (border + shadow transition). */
     hover?: boolean;
 }
 
+/** Surface container rendering the canonical `.card` style. */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     ({ className, hover, ...props }, ref) => {
         return (
@@ -216,9 +239,11 @@ Card.displayName = "Card";
 // =====================================================
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+    /** Semantic color: `default` (neutral), `success`, `warning`, `error`, or `info`. */
     variant?: "default" | "success" | "warning" | "error" | "info";
 }
 
+/** Small inline pill for status/labels, with semantic color variants. */
 export function Badge({ className, variant = "default", ...props }: BadgeProps) {
     const variants = {
         default: "bg-muted text-foreground/80",
@@ -244,11 +269,16 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
 // DIALOG
 // =====================================================
 
+/** Radix Dialog root — controls open state for a modal dialog. Compose with Dialog* parts. */
 export const Dialog = DialogPrimitive.Root;
+/** Element that opens the dialog when activated. */
 export const DialogTrigger = DialogPrimitive.Trigger;
+/** Portals dialog content into the document body. */
 export const DialogPortal = DialogPrimitive.Portal;
+/** Element that closes the dialog when activated. */
 export const DialogClose = DialogPrimitive.Close;
 
+/** Dimmed, blurred backdrop behind the dialog content. */
 export const DialogOverlay = React.forwardRef<
     React.ComponentRef<typeof DialogPrimitive.Overlay>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -266,6 +296,7 @@ export const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+/** Centered, animated dialog panel (includes the overlay and a built-in close button). */
 export const DialogContent = React.forwardRef<
     React.ComponentRef<typeof DialogPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
@@ -295,10 +326,12 @@ export const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
+/** Header layout block for the dialog title/description. */
 export function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
     return <div className={cn("mb-4", className)} {...props} />;
 }
 
+/** Accessible dialog title (labels the dialog for screen readers). */
 export const DialogTitle = React.forwardRef<
     React.ComponentRef<typeof DialogPrimitive.Title>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -311,6 +344,7 @@ export const DialogTitle = React.forwardRef<
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
+/** Accessible dialog description (supplementary text under the title). */
 export const DialogDescription = React.forwardRef<
     React.ComponentRef<typeof DialogPrimitive.Description>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
@@ -323,6 +357,7 @@ export const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
+/** Footer layout block (right-aligned action buttons) for the dialog. */
 export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
     return <div className={cn("flex items-center justify-end gap-3 mt-6", className)} {...props} />;
 }
@@ -331,10 +366,14 @@ export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLD
 // SELECT
 // =====================================================
 
+/** Radix Select root — a styled native-feeling single-select. Compose with Select* parts. */
 export const Select = SelectPrimitive.Root;
+/** Renders the selected value (or placeholder) inside the trigger. */
 export const SelectValue = SelectPrimitive.Value;
+/** Groups related SelectItems together. */
 export const SelectGroup = SelectPrimitive.Group;
 
+/** Button that opens the select dropdown and shows the current value. */
 export const SelectTrigger = React.forwardRef<
     React.ComponentRef<typeof SelectPrimitive.Trigger>,
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
@@ -358,6 +397,7 @@ export const SelectTrigger = React.forwardRef<
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
+/** Portalled, animated dropdown panel holding the SelectItems. */
 export const SelectContent = React.forwardRef<
     React.ComponentRef<typeof SelectPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
@@ -389,6 +429,7 @@ export const SelectContent = React.forwardRef<
 ));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
+/** A selectable option in the dropdown (shows a check when selected). */
 export const SelectItem = React.forwardRef<
     React.ComponentRef<typeof SelectPrimitive.Item>,
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
@@ -416,6 +457,7 @@ SelectItem.displayName = SelectPrimitive.Item.displayName;
 // SLIDER
 // =====================================================
 
+/** Range slider with a track, filled range, and draggable thumb. */
 export const Slider = React.forwardRef<
     React.ComponentRef<typeof SliderPrimitive.Root>,
     React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
@@ -439,9 +481,13 @@ Slider.displayName = SliderPrimitive.Root.displayName;
 // PROGRESS
 // =====================================================
 
+/** Horizontal progress bar; `value` is the percent complete (0–100). */
 export const Progress = React.forwardRef<
     React.ComponentRef<typeof ProgressPrimitive.Root>,
-    React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & { value?: number }
+    React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
+        /** Percent complete, 0–100. */
+        value?: number;
+    }
 >(({ className, value, ...props }, ref) => (
     <ProgressPrimitive.Root
         ref={ref}
@@ -460,8 +506,10 @@ Progress.displayName = ProgressPrimitive.Root.displayName;
 // TABS
 // =====================================================
 
+/** Radix Tabs root — manages the active tab. Compose with TabsList/TabsTrigger/TabsContent. */
 export const Tabs = TabsPrimitive.Root;
 
+/** Horizontal container holding the TabsTriggers. */
 export const TabsList = React.forwardRef<
     React.ComponentRef<typeof TabsPrimitive.List>,
     React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
@@ -477,6 +525,7 @@ export const TabsList = React.forwardRef<
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
 
+/** Clickable tab that activates its matching TabsContent. */
 export const TabsTrigger = React.forwardRef<
     React.ComponentRef<typeof TabsPrimitive.Trigger>,
     React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
@@ -496,6 +545,7 @@ export const TabsTrigger = React.forwardRef<
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
+/** Panel shown when its matching TabsTrigger is active. */
 export const TabsContent = React.forwardRef<
     React.ComponentRef<typeof TabsPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
@@ -512,6 +562,7 @@ TabsContent.displayName = TabsPrimitive.Content.displayName;
 // AVATAR
 // =====================================================
 
+/** Circular avatar container. Compose with AvatarImage + AvatarFallback. */
 export const Avatar = React.forwardRef<
     React.ComponentRef<typeof AvatarPrimitive.Root>,
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
@@ -527,6 +578,7 @@ export const Avatar = React.forwardRef<
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
+/** The avatar's image; falls back to AvatarFallback if it fails to load. */
 export const AvatarImage = React.forwardRef<
     React.ComponentRef<typeof AvatarPrimitive.Image>,
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
@@ -539,6 +591,7 @@ export const AvatarImage = React.forwardRef<
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
+/** Placeholder (e.g. initials) shown when the avatar image is missing or loading. */
 export const AvatarFallback = React.forwardRef<
     React.ComponentRef<typeof AvatarPrimitive.Fallback>,
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
@@ -558,10 +611,14 @@ AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 // TOOLTIP
 // =====================================================
 
+/** Wraps tooltips to share open/close timing; place once near the app root. */
 export const TooltipProvider = TooltipPrimitive.Provider;
+/** Radix Tooltip root — pairs a trigger with its content. */
 export const Tooltip = TooltipPrimitive.Root;
+/** Element that shows the tooltip on hover/focus. */
 export const TooltipTrigger = TooltipPrimitive.Trigger;
 
+/** The floating tooltip bubble. */
 export const TooltipContent = React.forwardRef<
     React.ComponentRef<typeof TooltipPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
@@ -583,6 +640,7 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 // SKELETON
 // =====================================================
 
+/** Pulsing placeholder block for loading states; size it via `className`. */
 export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
     return (
         <div
@@ -597,6 +655,7 @@ export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 // =====================================================
 
 interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Size: `sm` (16px), `md` (24px, default), or `lg` (32px). */
     size?: "sm" | "md" | "lg";
 }
 
@@ -606,6 +665,7 @@ const spinnerSizes = {
     lg: "w-8 h-8",
 };
 
+/** Animated loading spinner with an accessible "Loading…" label. */
 export function Spinner({ size = "md", className, ...props }: SpinnerProps) {
     return (
         <div role="status" className={cn("inline-flex", className)} {...props}>
@@ -620,10 +680,13 @@ export function Spinner({ size = "md", className, ...props }: SpinnerProps) {
 // =====================================================
 
 interface PageLoaderProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Primary loading message shown under the spinner. */
     title?: string;
+    /** Secondary, lighter message under the title. */
     subtitle?: string;
 }
 
+/** Full-viewport centered loading screen with a spinner and optional title/subtitle. */
 export function PageLoader({ title, subtitle, className, ...props }: PageLoaderProps) {
     return (
         <div
@@ -652,12 +715,17 @@ export function PageLoader({ title, subtitle, className, ...props }: PageLoaderP
 // =====================================================
 
 interface EmptyStateProps {
+    /** Icon/illustration shown above the title. */
     icon?: React.ReactNode;
+    /** Heading text. */
     title: string;
+    /** Supporting text below the title. */
     description?: string;
+    /** Action slot (e.g. a primary button) below the text. */
     action?: React.ReactNode;
 }
 
+/** Centered "nothing here" placeholder with an icon, title, description, and action. */
 export function EmptyState({ icon, title, description, action }: EmptyStateProps) {
     return (
         <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -699,10 +767,13 @@ export const staggerItem = {
 // =====================================================
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /** The icon to render inside the button. */
     icon: React.ReactNode;
+    /** Accessible label, also shown as the hover tooltip. */
     label: string;
 }
 
+/** Icon-only button with a built-in tooltip (uses `label` for both a11y and the tooltip text). */
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     ({ className, icon, label, ...props }, ref) => {
         return (
@@ -733,6 +804,7 @@ IconButton.displayName = "IconButton";
 // LABEL
 // =====================================================
 
+/** Uppercase, muted form-field label. */
 export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
     return (
         <label
@@ -749,13 +821,20 @@ export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLab
 // DROPDOWN MENU
 // =====================================================
 
+/** Radix DropdownMenu root — a contextual actions menu. Compose with DropdownMenu* parts. */
 export const DropdownMenu = DropdownMenuPrimitive.Root;
+/** Element that opens the dropdown menu. */
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
+/** Groups related menu items. */
 export const DropdownMenuGroup = DropdownMenuPrimitive.Group;
+/** Portals menu content into the document body. */
 export const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
+/** Wraps a nested submenu (use with DropdownMenuSubTrigger/SubContent). */
 export const DropdownMenuSub = DropdownMenuPrimitive.Sub;
+/** Groups DropdownMenuRadioItems into a single-choice set. */
 export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
+/** Item that opens a nested submenu. `inset` adds left padding to align with checkable items. */
 export const DropdownMenuSubTrigger = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.SubTrigger>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
@@ -777,6 +856,7 @@ export const DropdownMenuSubTrigger = React.forwardRef<
 ));
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
 
+/** The panel for a nested submenu. */
 export const DropdownMenuSubContent = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
@@ -792,6 +872,7 @@ export const DropdownMenuSubContent = React.forwardRef<
 ));
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
 
+/** Portalled, animated dropdown menu panel holding the items. */
 export const DropdownMenuContent = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
@@ -811,9 +892,11 @@ export const DropdownMenuContent = React.forwardRef<
 ));
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
+/** A clickable menu action. `inset` adds left padding to align with checkable items. */
 export const DropdownMenuItem = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.Item>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+        /** Indent to align with checkbox/radio items. */
         inset?: boolean;
     }
 >(({ className, inset, ...props }, ref) => (
@@ -831,6 +914,7 @@ DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 const DropdownMenuItemInternal = DropdownMenuPrimitive.Item;
 
+/** A toggleable menu item showing a check when `checked`. */
 export const DropdownMenuCheckboxItem = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.CheckboxItem>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
@@ -854,6 +938,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
 ));
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
 
+/** A single-choice menu item; use inside a DropdownMenuRadioGroup. */
 export const DropdownMenuRadioItem = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
@@ -876,9 +961,11 @@ export const DropdownMenuRadioItem = React.forwardRef<
 ));
 DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
 
+/** Non-interactive section heading inside the menu. `inset` indents it to align with items. */
 export const DropdownMenuLabel = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.Label>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
+        /** Indent to align with checkbox/radio items. */
         inset?: boolean;
     }
 >(({ className, inset, ...props }, ref) => (
@@ -894,6 +981,7 @@ export const DropdownMenuLabel = React.forwardRef<
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
+/** Thin divider between groups of menu items. */
 export const DropdownMenuSeparator = React.forwardRef<
     React.ComponentRef<typeof DropdownMenuPrimitive.Separator>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
@@ -906,6 +994,7 @@ export const DropdownMenuSeparator = React.forwardRef<
 ));
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
+/** Right-aligned keyboard-shortcut hint shown inside a menu item. */
 export const DropdownMenuShortcut = ({
     className,
     ...props

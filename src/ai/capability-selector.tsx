@@ -4,12 +4,18 @@ import { MessageSquare, Waves, Code, Eye, Brain, Ban, Fingerprint, Layers, Slide
 import { useYunUI } from "../adapters/context";
 
 interface CapabilitySelectorProps {
+    /** Currently selected capability keys (controlled). */
     selected: string[];
+    /** Called with the next selection when a capability is toggled. */
     onChange: (capabilities: string[]) => void;
+    /** Disable interaction and dim the control. */
     disabled?: boolean;
+    /** Button size: `sm` or `md` (default). */
     size?: "sm" | "md";
+    /** Grid column count. @defaultValue 4 */
     columns?: 2 | 3 | 4;
-    modelType?: string; // Filter capabilities based on model type
+    /** Filters which capability set is shown (e.g. "image_generation", "audio", "video"). Defaults to the LLM set. */
+    modelType?: string;
 }
 
 // Icon and color configurations (static)
@@ -53,6 +59,7 @@ const realtimeCapabilityConfig = [
     { value: "realtime_voice", icon: Radio, iconColor: "text-yellow-500", color: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20 hover:bg-yellow-500/20" },
 ];
 
+/** Multi-select grid of toggleable model capabilities; the option set adapts to `modelType`. */
 export function CapabilitySelector({ selected, onChange, disabled = false, size = "md", columns = 4, modelType }: CapabilitySelectorProps) {
     const t = useYunUI().useT("capabilities");
 

@@ -6,14 +6,21 @@ import { Button } from "../index";
 import { useYunUI } from "../adapters/context";
 
 interface MediaPageHeaderProps {
+    /** Page title. */
     title: string;
+    /** Page subtitle/description. */
     description: string;
+    /** While true, the sync button spins and is disabled. */
     isSyncing: boolean;
+    /** Sync error message; shown in a red banner when non-null. */
     syncError: string | null;
+    /** Called when the sync button is clicked. */
     onSync: () => void;
+    /** Optional inline stat chips (`label` + `value`) below the header. */
     stats?: { label: string; value: string | number }[];
 }
 
+/** Media library page header with a title, description, sync button, error banner, and optional stats. */
 export function MediaPageHeader({ title, description, isSyncing, syncError, onSync, stats }: MediaPageHeaderProps) {
     const t = useYunUI().useT("components.mediaPageHeader");
 
@@ -52,12 +59,17 @@ export function MediaPageHeader({ title, description, isSyncing, syncError, onSy
 }
 
 interface MediaEmptyStateProps {
+    /** Icon component shown above the title. */
     icon: ElementType;
+    /** Heading text. */
     title: string;
+    /** Supporting text below the title. */
     description: string;
+    /** Action slot (e.g. a button) below the text. */
     action?: ReactNode;
 }
 
+/** Empty state for media pages (icon, title, description, optional action). */
 export function MediaEmptyState({ icon: Icon, title, description, action }: MediaEmptyStateProps) {
     return (
         <div className="empty-state py-16">
@@ -69,6 +81,7 @@ export function MediaEmptyState({ icon: Icon, title, description, action }: Medi
     );
 }
 
+/** Loading state for media pages (spinning sync icon + message, falls back to i18n default). */
 export function MediaLoadingState({ message }: { message?: string }) {
     const t = useYunUI().useT("components.mediaPageHeader");
     const displayMessage = message ?? t("loading");
@@ -80,6 +93,7 @@ export function MediaLoadingState({ message }: { message?: string }) {
     );
 }
 
+/** Error state for media pages with an optional retry button. */
 export function MediaErrorState({ message, onRetry }: { message: string; onRetry?: () => void }) {
     const t = useYunUI().useT("components.mediaPageHeader");
     return (

@@ -4,18 +4,23 @@ import type { ReactNode } from "react";
 import { useYunUI } from "../adapters/context";
 
 export interface NavTab {
+    /** Unique key; matched against `activeKey` to mark the active tab. */
     key: string;
+    /** Tab label content. */
     label: ReactNode;
     /** When set, the tab renders as a route Link instead of a button. */
     href?: string;
 }
 
 interface NavTabsProps {
+    /** The tabs to render. */
     tabs: NavTab[];
+    /** Key of the currently active tab. */
     activeKey: string;
     /** Called for button-mode (in-page) tabs. Ignored when tabs use `href`. */
     onChange?: (key: string) => void;
     className?: string;
+    /** Accessible label for the tab `<nav>`. */
     ariaLabel?: string;
 }
 

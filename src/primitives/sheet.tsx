@@ -7,12 +7,16 @@ import { X } from "lucide-react";
 import { useModalBehavior } from "../lib/hooks";
 
 interface SheetProps {
+    /** Whether the sheet is open (controlled). */
     open: boolean;
+    /** Called when the sheet should close (backdrop click, escape, close button). */
     onClose: () => void;
     children: React.ReactNode;
+    /** Optional header title. */
     title?: string;
 }
 
+/** Mobile-only slide-in panel from the right, with a backdrop (hidden on `lg` and up). */
 export function Sheet({ open, onClose, children, title }: SheetProps) {
     const [mounted, setMounted] = useState(false);
 

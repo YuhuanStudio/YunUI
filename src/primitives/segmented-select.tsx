@@ -4,20 +4,29 @@ import { LucideIcon } from "lucide-react";
 import { cn } from "../lib/cn";
 
 export interface SegmentedOption<T = string> {
+    /** The value reported to `onChange` when selected. */
     value: T;
+    /** Display text for the segment. */
     label: string;
+    /** Optional native tooltip (`title`) for the segment. */
     desc?: string;
+    /** Optional Lucide icon shown before the label. */
     icon?: LucideIcon;
 }
 
 interface SegmentedSelectProps<T = string> {
+    /** The selectable segments. */
     options: SegmentedOption<T>[];
+    /** Currently selected value (controlled). */
     value: T;
+    /** Called with the chosen segment's value. */
     onChange: (value: T) => void;
     className?: string;
+    /** Disable interaction and dim the control. */
     disabled?: boolean;
 }
 
+/** Inline segmented control — a row of buttons where one option is active at a time. */
 export function SegmentedSelect<T = string>({
     options,
     value,

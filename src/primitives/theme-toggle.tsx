@@ -6,14 +6,15 @@ import { useTheme } from "next-themes"
 import { useYunUI } from "../adapters/context"
 
 interface ThemeToggleProps {
-    /** Visual variant */
+    /** Visual variant: `icon` (default, icon-only) or `pill`. */
     variant?: "icon" | "pill";
-    /** Dropdown alignment */
+    /** Dropdown alignment: `left` or `right` (default). */
     align?: "left" | "right";
     /** Additional className */
     className?: string;
 }
 
+/** Theme switcher dropdown (light / dark / true-black / system) backed by next-themes. */
 export function ThemeToggle({ variant = "icon", align = "right", className = "" }: ThemeToggleProps) {
     const { theme, setTheme } = useTheme()
     const t = useYunUI().useT("common.theme")

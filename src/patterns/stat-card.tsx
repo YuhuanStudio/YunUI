@@ -19,10 +19,15 @@ const TONES: Record<string, { card: string; value: string }> = {
 };
 
 export interface StatCardProps {
+    /** Optional leading icon component (e.g. a Lucide icon). */
     icon?: ElementType;
+    /** Metric name. */
     label: string;
+    /** The metric value (string, number, or node). */
     value: ReactNode;
+    /** Optional supporting line under the value. */
     subtext?: ReactNode;
+    /** Optional trend indicator: percent `value` plus whether it's `positive` (up/green) or down/red. */
     trend?: { value: number; positive: boolean };
     /** Semantic color tint for the card + value (amber/emerald/blue/red/purple). */
     tone?: keyof typeof TONES | string;

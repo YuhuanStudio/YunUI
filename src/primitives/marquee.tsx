@@ -1,5 +1,6 @@
 import { cn } from "../lib/cn";
 
+/** Infinitely scrolling row (or column) that repeats its children; supports reverse direction and pause-on-hover. */
 export function Marquee({
     className,
     reverse,
@@ -10,10 +11,14 @@ export function Marquee({
     ...props
 }: {
     className?: string;
+    /** Scroll in the opposite direction. */
     reverse?: boolean;
+    /** Pause the animation while hovered. */
     pauseOnHover?: boolean;
     children?: React.ReactNode;
+    /** Scroll vertically instead of horizontally. */
     vertical?: boolean;
+    /** How many times to repeat the children to fill the loop. @defaultValue 4 */
     repeat?: number;
     [key: string]: unknown;
 }) {

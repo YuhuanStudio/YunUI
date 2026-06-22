@@ -4,13 +4,18 @@ import { forwardRef } from "react";
 import { Check } from "lucide-react";
 
 export interface CheckboxProps {
+    /** Whether the box is checked (controlled). */
     checked: boolean;
+    /** Called with the next checked state when toggled. */
     onCheckedChange: (checked: boolean) => void;
+    /** Disable interaction and dim the control. */
     disabled?: boolean;
     className?: string;
+    /** Element id (e.g. to pair with a `<label htmlFor>`). */
     id?: string;
 }
 
+/** Controlled checkbox rendered as an accessible toggle button with a check icon. */
 export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
     ({ checked, onCheckedChange, disabled = false, className = "", id }, ref) => {
         return (

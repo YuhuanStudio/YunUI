@@ -6,7 +6,9 @@ import { ThemeToggle } from "../primitives/theme-toggle";
 import { useYunUI } from "../adapters/context";
 
 export interface NavLink {
+    /** Destination href (supports `/#section` anchors for scroll-spy on the home page). */
     href: string;
+    /** Link text. */
     label: string;
 }
 
@@ -17,7 +19,9 @@ interface NavbarProps {
     logoSrc?: string;
     /** Center navigation links. The host builds these from branding/flags/i18n. */
     links?: NavLink[];
+    /** Current route, used for active-link + scroll-spy. @defaultValue "/" */
     currentPath?: string;
+    /** `public` (full nav + auth) or `minimal` (no links/auth). @defaultValue "public" */
     variant?: "public" | "minimal";
     /** Localized auth labels. */
     labels?: { signIn?: string; signUp?: string; menu?: string };
@@ -25,11 +29,15 @@ interface NavbarProps {
     languageSwitcher?: ReactNode;
     /** Defaults to YunUI's ThemeToggle. */
     themeToggle?: ReactNode;
+    /** Where the logo links to. @defaultValue "/" */
     homeHref?: string;
+    /** Sign-in link destination. @defaultValue "/login" */
     loginHref?: string;
+    /** Sign-up link destination. @defaultValue "/signup" */
     signupHref?: string;
 }
 
+/** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 export function Navbar({
     appName,
     logoSrc = "/favicon.ico",

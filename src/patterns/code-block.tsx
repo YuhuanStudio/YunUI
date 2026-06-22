@@ -7,19 +7,29 @@ import { useYunUI } from "../adapters/context";
 import { copyToClipboard } from "../lib/clipboard";
 
 interface Tab {
+    /** Unique tab id. */
     id: string;
+    /** Tab label shown in the header. */
     label: string;
+    /** Code shown when this tab is active. */
     code: string;
+    /** Language for this tab's code. */
     language?: string;
 }
 
 interface CodeBlockProps {
+    /** The code to display (ignored when `tabs` are provided). */
     code: string;
+    /** Language label, also used by the lightweight highlighter. @defaultValue "text" */
     language?: string;
+    /** Filename shown in the header instead of the language badge. */
     filename?: string;
+    /** Show line numbers in the gutter. @defaultValue true */
     showLineNumbers?: boolean;
+    /** Show the copy-to-clipboard button. @defaultValue true */
     copyable?: boolean;
     className?: string;
+    /** Render multiple switchable code tabs instead of a single `code` block. */
     tabs?: Tab[];
 }
 
@@ -149,6 +159,7 @@ function highlightCode(code: string): string {
     }).join('');
 }
 
+/** Styled code block with a window-chrome header, optional tabs, line numbers, basic syntax highlighting, and copy. */
 export function CodeBlock({
     code,
     language = "text",

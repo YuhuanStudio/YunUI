@@ -3,12 +3,18 @@
 import { forwardRef } from "react";
 
 export interface SwitchProps {
+    /** Whether the switch is on (controlled). */
     checked: boolean;
+    /** Called with the next checked state when toggled. */
     onCheckedChange: (checked: boolean) => void;
+    /** Disable interaction and dim the control. */
     disabled?: boolean;
+    /** Size: `sm` (default) or `md`. */
     size?: "sm" | "md";
+    /** Checked-state color: `default`, `success`, `warning`, or `danger`. */
     variant?: "default" | "success" | "warning" | "danger";
     className?: string;
+    /** Element id (e.g. to pair with a `<label htmlFor>`). */
     id?: string;
 }
 
@@ -52,6 +58,7 @@ const variantClasses = {
     },
 };
 
+/** Controlled on/off toggle rendered as an accessible switch button. */
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
     ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id }, ref) => {
         const sizeClass = sizeClasses[size];

@@ -4,9 +4,11 @@ import { type ElementType, type ReactNode } from "react";
 import { Spinner } from "../index";
 
 interface PageLoadingStateProps {
+    /** Optional text shown beside the spinner. */
     message?: string;
 }
 
+/** Centered in-page loading state (spinner + optional message). */
 export function PageLoadingState({ message }: PageLoadingStateProps) {
     return (
         <div className="flex items-center justify-center py-16">
@@ -17,11 +19,15 @@ export function PageLoadingState({ message }: PageLoadingStateProps) {
 }
 
 interface PageErrorStateProps {
+    /** Error message to display. */
     message: string;
+    /** When provided, shows a retry link that calls this. */
     onRetry?: () => void;
+    /** Label for the retry link. @defaultValue "Retry" */
     retryLabel?: string;
 }
 
+/** Centered in-page error state with an optional retry link. */
 export function PageErrorState({ message, onRetry, retryLabel = "Retry" }: PageErrorStateProps) {
     return (
         <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -39,12 +45,17 @@ export function PageErrorState({ message, onRetry, retryLabel = "Retry" }: PageE
 }
 
 interface PageEmptyStateProps {
+    /** Optional icon component shown above the title. */
     icon?: ElementType;
+    /** Heading text. */
     title: string;
+    /** Supporting text below the title. */
     description?: string;
+    /** Action slot (e.g. a button) below the text. */
     action?: ReactNode;
 }
 
+/** Centered in-page empty state with an icon, title, description, and optional action. */
 export function PageEmptyState({ icon: Icon, title, description, action }: PageEmptyStateProps) {
     return (
         <div className="flex flex-col items-center justify-center py-16 text-center">

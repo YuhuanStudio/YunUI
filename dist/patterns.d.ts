@@ -6,7 +6,9 @@ declare function BackgroundEffects(): React$1.JSX.Element;
 declare function CodeDemo(): React$1.JSX.Element;
 
 interface FAQItem {
+    /** The question heading. */
     question: string;
+    /** The answer content (revealed when expanded). */
     answer: React.ReactNode;
 }
 interface FAQProps {
@@ -15,23 +17,35 @@ interface FAQProps {
     /** Which item starts expanded (default: first). Pass null for all collapsed. */
     defaultOpenIndex?: number | null;
 }
+/** Accordion list of questions where one item expands at a time. */
 declare function FAQ({ items, defaultOpenIndex }: FAQProps): React$1.JSX.Element;
 
 interface Tab {
+    /** Unique tab id. */
     id: string;
+    /** Tab label shown in the header. */
     label: string;
+    /** Code shown when this tab is active. */
     code: string;
+    /** Language for this tab's code. */
     language?: string;
 }
 interface CodeBlockProps {
+    /** The code to display (ignored when `tabs` are provided). */
     code: string;
+    /** Language label, also used by the lightweight highlighter. @defaultValue "text" */
     language?: string;
+    /** Filename shown in the header instead of the language badge. */
     filename?: string;
+    /** Show line numbers in the gutter. @defaultValue true */
     showLineNumbers?: boolean;
+    /** Show the copy-to-clipboard button. @defaultValue true */
     copyable?: boolean;
     className?: string;
+    /** Render multiple switchable code tabs instead of a single `code` block. */
     tabs?: Tab[];
 }
+/** Styled code block with a window-chrome header, optional tabs, line numbers, basic syntax highlighting, and copy. */
 declare function CodeBlock({ code, language, filename, showLineNumbers, copyable, className, tabs, }: CodeBlockProps): React$1.JSX.Element;
 
 declare function LLMCopyButton({ markdownUrl }: {
@@ -43,23 +57,34 @@ declare function ViewOptions({ markdownUrl, githubUrl, }: {
 }): React$1.JSX.Element;
 
 interface BlogCardProps {
+    /** Post title. */
     title: string;
+    /** Short excerpt/summary. */
     description?: string;
+    /** Publish date (ISO string); formatted via `locale`. */
     date?: string;
+    /** Post author (name shown in the meta row). */
     author?: {
         name?: string;
         avatar?: string;
         url?: string;
     };
+    /** Category label shown as an info badge. */
     category?: string;
+    /** Tag list (first 3 rendered as clickable chips). */
     tags?: string[];
+    /** Estimated reading time in minutes. */
     readingTime?: number;
+    /** Cover image URL; a placeholder icon is shown when absent. */
     coverImage?: string;
+    /** Destination the card links to. */
     url: string;
+    /** Layout: `default` or `featured` (spans 2 columns on `md`+). */
     variant?: "default" | "featured";
     /** Locale for the date; defaults to a stable "en-US" (SSR-safe). */
     locale?: string;
 }
+/** Blog post preview card with cover image, category, meta (date/reading time/author), and tags. */
 declare function BlogCard({ title, description, date, author, category, tags, readingTime, coverImage, url, variant, locale, }: BlogCardProps): React$1.JSX.Element;
 
 interface BlogPostHeaderProps {
@@ -102,28 +127,39 @@ interface CategoryFilterProps {
 declare function CategoryFilter({ categories, selectedCategory, onSelect, allLabel, }: CategoryFilterProps): React$1.JSX.Element;
 
 interface SidebarNavItem {
+    /** Link text. */
     label: string;
+    /** Destination href; also the basis for active-state matching. */
     href: string;
+    /** Optional leading icon component. */
     icon?: ElementType;
     /** Extra path prefixes that should also mark this item active. */
     match?: string[];
 }
 interface SidebarSection {
+    /** Optional section heading. */
     title?: string;
+    /** Nav items in this section. */
     items: SidebarNavItem[];
 }
 interface SidebarProps {
+    /** Brand name shown next to the logo. */
     appName: string;
+    /** Logo image src. @defaultValue "/favicon.ico" */
     logoSrc?: string;
+    /** Where the logo links to. @defaultValue "/" */
     homeHref?: string;
+    /** Grouped navigation sections. */
     sections: SidebarSection[];
     /** Used to compute the active item. */
     currentPath?: string;
     /** Mobile drawer open state. */
     isOpen?: boolean;
+    /** Called to close the mobile drawer. */
     onClose?: () => void;
     /** Desktop collapse state (hides the sidebar off-canvas). */
     collapsed?: boolean;
+    /** Called to toggle the desktop collapse state (also renders the collapse button when set). */
     onToggleCollapse?: () => void;
     /**
      * Called when a nav item is clicked. When provided, default link navigation
@@ -133,12 +169,14 @@ interface SidebarProps {
     onNavigate?: (href: string) => void;
     /** Bottom-pinned slot (balance card, user card, etc.). */
     footer?: ReactNode;
+    /** Accessible label for the close/collapse buttons. @defaultValue "Close" */
     closeLabel?: string;
     /** While true, the nav (and footer slot) render shimmer skeletons. */
     loading?: boolean;
     /** sessionStorage key for persisting nav scroll position across navigations. */
     scrollStorageKey?: string;
 }
+/** App navigation sidebar: logo, grouped nav sections with active-state matching, a mobile drawer, desktop collapse, and a footer slot. */
 declare function Sidebar({ appName, logoSrc, homeHref, sections, currentPath, isOpen, onClose, collapsed, onToggleCollapse, onNavigate, footer, closeLabel, loading, scrollStorageKey, }: SidebarProps): React$1.JSX.Element;
 
 interface PageHeaderProps {
@@ -150,21 +188,32 @@ interface PageHeaderProps {
 declare function PageHeader({ title, description, actions, className }: PageHeaderProps): React$1.JSX.Element;
 
 interface PageLoadingStateProps {
+    /** Optional text shown beside the spinner. */
     message?: string;
 }
+/** Centered in-page loading state (spinner + optional message). */
 declare function PageLoadingState({ message }: PageLoadingStateProps): React$1.JSX.Element;
 interface PageErrorStateProps {
+    /** Error message to display. */
     message: string;
+    /** When provided, shows a retry link that calls this. */
     onRetry?: () => void;
+    /** Label for the retry link. @defaultValue "Retry" */
     retryLabel?: string;
 }
+/** Centered in-page error state with an optional retry link. */
 declare function PageErrorState({ message, onRetry, retryLabel }: PageErrorStateProps): React$1.JSX.Element;
 interface PageEmptyStateProps {
+    /** Optional icon component shown above the title. */
     icon?: ElementType;
+    /** Heading text. */
     title: string;
+    /** Supporting text below the title. */
     description?: string;
+    /** Action slot (e.g. a button) below the text. */
     action?: ReactNode;
 }
+/** Centered in-page empty state with an icon, title, description, and optional action. */
 declare function PageEmptyState({ icon: Icon, title, description, action }: PageEmptyStateProps): React$1.JSX.Element;
 
 /**
@@ -178,10 +227,15 @@ declare const TONES: Record<string, {
     value: string;
 }>;
 interface StatCardProps {
+    /** Optional leading icon component (e.g. a Lucide icon). */
     icon?: ElementType;
+    /** Metric name. */
     label: string;
+    /** The metric value (string, number, or node). */
     value: ReactNode;
+    /** Optional supporting line under the value. */
     subtext?: ReactNode;
+    /** Optional trend indicator: percent `value` plus whether it's `positive` (up/green) or down/red. */
     trend?: {
         value: number;
         positive: boolean;
@@ -259,27 +313,41 @@ interface AccountLockedCardProps {
 declare function AccountLockedCard({ appName, logoSrc, icon, title, subtitle, appeal, backLabel, onBack, onMount, loading, children, }: AccountLockedCardProps): React$1.JSX.Element;
 
 interface MediaPageHeaderProps {
+    /** Page title. */
     title: string;
+    /** Page subtitle/description. */
     description: string;
+    /** While true, the sync button spins and is disabled. */
     isSyncing: boolean;
+    /** Sync error message; shown in a red banner when non-null. */
     syncError: string | null;
+    /** Called when the sync button is clicked. */
     onSync: () => void;
+    /** Optional inline stat chips (`label` + `value`) below the header. */
     stats?: {
         label: string;
         value: string | number;
     }[];
 }
+/** Media library page header with a title, description, sync button, error banner, and optional stats. */
 declare function MediaPageHeader({ title, description, isSyncing, syncError, onSync, stats }: MediaPageHeaderProps): React$1.JSX.Element;
 interface MediaEmptyStateProps {
+    /** Icon component shown above the title. */
     icon: ElementType;
+    /** Heading text. */
     title: string;
+    /** Supporting text below the title. */
     description: string;
+    /** Action slot (e.g. a button) below the text. */
     action?: ReactNode;
 }
+/** Empty state for media pages (icon, title, description, optional action). */
 declare function MediaEmptyState({ icon: Icon, title, description, action }: MediaEmptyStateProps): React$1.JSX.Element;
+/** Loading state for media pages (spinning sync icon + message, falls back to i18n default). */
 declare function MediaLoadingState({ message }: {
     message?: string;
 }): React$1.JSX.Element;
+/** Error state for media pages with an optional retry button. */
 declare function MediaErrorState({ message, onRetry }: {
     message: string;
     onRetry?: () => void;

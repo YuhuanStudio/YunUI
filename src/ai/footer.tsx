@@ -23,32 +23,46 @@ export const DiscordIcon = () => (
 );
 
 export interface FooterLink {
+    /** Link text. */
     label: string;
+    /** Destination href. */
     href: string;
 }
 
 export interface FooterSection {
+    /** Column heading. */
     title: string;
+    /** Links in this column. */
     links: FooterLink[];
 }
 
 export interface FooterSocial {
+    /** Icon to render (e.g. {@link GithubIcon}). */
     icon: ReactNode;
+    /** Destination href (external links open in a new tab). */
     href: string;
+    /** Accessible label for the link. */
     label: string;
 }
 
 export interface FooterProps {
+    /** Brand name shown next to the logo. */
     appName: string;
+    /** Logo image src. @defaultValue "/favicon.ico" */
     logoSrc?: string;
+    /** Where the logo links to. @defaultValue "/" */
     homeHref?: string;
+    /** Short brand tagline under the logo. */
     tagline?: string;
+    /** Link columns. */
     sections?: FooterSection[];
+    /** Social/icon links shown in the bottom bar. */
     social?: FooterSocial[];
     /** Defaults to `© <year> <appName>. All rights reserved.` */
     copyright?: string;
 }
 
+/** Site footer: brand block, link columns, copyright line, and social icons. */
 export function Footer({
     appName,
     logoSrc = "/favicon.ico",

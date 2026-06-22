@@ -4,7 +4,9 @@ import { Globe } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export interface LanguageOption {
+    /** Locale code (e.g. "en", "zh-TW"). */
     value: string;
+    /** Display name for the locale. */
     label: string;
 }
 
@@ -27,6 +29,7 @@ interface LanguageSwitcherProps {
     className?: string;
 }
 
+/** Locale picker dropdown; the host owns the actual locale change (cookie/reload). */
 export function LanguageSwitcher({
     locales,
     currentLocale,

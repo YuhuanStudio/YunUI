@@ -31,28 +31,36 @@ const CAPABILITY_ICONS: Record<string, { icon: React.ComponentType<{ size?: numb
 };
 
 export interface ModelCardProps {
+  /** Model display name. */
   name: string;
   /** Avatar slot — host renders the provider/model icon. */
   icon?: ReactNode;
   /** Primary id + aliases, shown as mono badges. */
   ids?: string[];
+  /** Short description (falls back to a "No description" label). */
   description?: ReactNode;
-  /** Capability keys (e.g. "vision", "thinking") → coloured icons. */
+  /** Capability keys (e.g. "vision", "thinking") → coloured icons (first 4 shown). */
   capabilities?: string[];
+  /** Developer/maker shown in the footer, with an optional icon. */
   developer?: { label: string; iconUrl?: string };
   /** e.g. "128K" or "1024×1024". */
   context?: string;
-  /** Optional tier chip (e.g. "pro"). */
+  /** Optional tier chip (e.g. "pro"); a `"free"` tier is hidden. */
   tier?: string;
   /** Formatted price node, e.g. "$0.50/M". */
   price?: ReactNode;
+  /** Mark the model as unofficial (shows a warning badge). */
   nonofficial?: boolean;
+  /** Mark the model as suspended (shows a paused badge). */
   suspended?: boolean;
+  /** Localized strings for the unofficial/suspended badges and the empty-description fallback. */
   labels?: { nonofficial?: string; suspended?: string; noDescription?: string };
+  /** Makes the whole card a clickable button (keyboard-activatable). */
   onClick?: () => void;
   className?: string;
 }
 
+/** Card summarizing an AI model: icon, name, capability chips, id badges, description, and a developer/context/tier/price footer. */
 export function ModelCard({
   name,
   icon,

@@ -6,30 +6,41 @@ import { IconButton } from "../index";
 import { useYunUI } from "../adapters/context";
 
 export interface SidebarNavItem {
+    /** Link text. */
     label: string;
+    /** Destination href; also the basis for active-state matching. */
     href: string;
+    /** Optional leading icon component. */
     icon?: ElementType;
     /** Extra path prefixes that should also mark this item active. */
     match?: string[];
 }
 
 export interface SidebarSection {
+    /** Optional section heading. */
     title?: string;
+    /** Nav items in this section. */
     items: SidebarNavItem[];
 }
 
 export interface SidebarProps {
+    /** Brand name shown next to the logo. */
     appName: string;
+    /** Logo image src. @defaultValue "/favicon.ico" */
     logoSrc?: string;
+    /** Where the logo links to. @defaultValue "/" */
     homeHref?: string;
+    /** Grouped navigation sections. */
     sections: SidebarSection[];
     /** Used to compute the active item. */
     currentPath?: string;
     /** Mobile drawer open state. */
     isOpen?: boolean;
+    /** Called to close the mobile drawer. */
     onClose?: () => void;
     /** Desktop collapse state (hides the sidebar off-canvas). */
     collapsed?: boolean;
+    /** Called to toggle the desktop collapse state (also renders the collapse button when set). */
     onToggleCollapse?: () => void;
     /**
      * Called when a nav item is clicked. When provided, default link navigation
@@ -39,6 +50,7 @@ export interface SidebarProps {
     onNavigate?: (href: string) => void;
     /** Bottom-pinned slot (balance card, user card, etc.). */
     footer?: ReactNode;
+    /** Accessible label for the close/collapse buttons. @defaultValue "Close" */
     closeLabel?: string;
     /** While true, the nav (and footer slot) render shimmer skeletons. */
     loading?: boolean;
@@ -52,6 +64,7 @@ function isItemActive(item: SidebarNavItem, currentPath: string, homeHref: strin
     return item.match?.some((m) => currentPath.startsWith(m)) ?? false;
 }
 
+/** App navigation sidebar: logo, grouped nav sections with active-state matching, a mobile drawer, desktop collapse, and a footer slot. */
 export function Sidebar({
     appName,
     logoSrc = "/favicon.ico",

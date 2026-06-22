@@ -4,7 +4,9 @@ import { Plus as PlusIcon } from "lucide-react";
 import { cn } from "../lib/cn";
 
 export interface FAQItem {
+    /** The question heading. */
     question: string;
+    /** The answer content (revealed when expanded). */
     answer: React.ReactNode;
 }
 
@@ -15,6 +17,7 @@ export interface FAQProps {
     defaultOpenIndex?: number | null;
 }
 
+/** Accordion list of questions where one item expands at a time. */
 export function FAQ({ items, defaultOpenIndex = 0 }: FAQProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(defaultOpenIndex);
     const faqs = items;

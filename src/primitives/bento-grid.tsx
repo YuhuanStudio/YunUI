@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { cn } from "../lib/cn";
 
+/** Responsive bento-style grid container for BentoCard children. */
 export const BentoGrid = ({
     className,
     children,
@@ -20,6 +21,7 @@ export const BentoGrid = ({
     );
 };
 
+/** A glass card tile for use inside a BentoGrid, with a header slot, icon, title, and description. */
 export const BentoCard = ({
     className,
     title,
@@ -28,9 +30,13 @@ export const BentoCard = ({
     icon,
 }: {
     className?: string;
+    /** Card title. */
     title?: string | ReactNode;
+    /** Card body text. */
     description?: string | ReactNode;
+    /** Top media/visual slot above the icon and text. */
     header?: ReactNode;
+    /** Icon shown above the title. */
     icon?: ReactNode;
 }) => {
     return (

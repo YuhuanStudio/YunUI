@@ -269,14 +269,18 @@ function applyIconBase(path: string | null, base: string): string | null {
 }
 
 interface ProviderIconProps {
+    /** Provider id; resolved to a built-in icon by name (e.g. "openai", "anthropic"). */
     provider: string;
     className?: string;
+    /** Icon size in pixels. @defaultValue 20 */
     size?: number;
-    rounded?: boolean;  // Use rounded avatar style
-    iconUrl?: string | null;  // Custom icon URL (overrides built-in lookup) for runtime providers
+    /** Render as a rounded avatar tile with a subtle background. */
+    rounded?: boolean;
+    /** Custom icon URL that overrides the built-in lookup (falls back on load error). */
+    iconUrl?: string | null;
 }
 
-// Provider Icon component - with optional rounded avatar style
+/** Provider logo resolved by id (or a custom `iconUrl`), with a letter/SVG fallback for unknown providers. */
 export function ProviderIcon({
     provider,
     className = "",
@@ -375,13 +379,15 @@ export function ProviderIcon({
     );
 }
 
-// Provider Avatar - always rounded with background
+/** {@link ProviderIcon} preset that is always rounded with a background (avatar style). */
 export function ProviderAvatar({
     provider,
     size = 32,
     className = "",
 }: {
+    /** Provider id (resolved by name). */
     provider: string;
+    /** Icon size in pixels. @defaultValue 32 */
     size?: number;
     className?: string;
 }) {
@@ -501,11 +507,16 @@ export function getProviderIcon(providerId: string) {
 // =============================================================================
 
 interface ModelIconProps {
+    /** Model's own icon URL or `/icons/models/` filename (highest priority). */
     iconUrl?: string | null;
+    /** Developer/maker id, used to resolve a developer icon (second priority). */
     developer?: string | null;
+    /** Provider id, used as the final fallback icon. */
     provider: string;
     className?: string;
+    /** Icon size in pixels. @defaultValue 20 */
     size?: number;
+    /** Render as a rounded avatar tile with a subtle background. */
     rounded?: boolean;
 }
 
@@ -632,7 +643,7 @@ export function ModelIcon({
     return <ProviderIcon provider={provider} size={size} rounded={rounded} className={className} />;
 }
 
-// Model Avatar - always rounded with background
+/** {@link ModelIcon} preset that is always rounded with a background (avatar style). */
 export function ModelAvatar({
     iconUrl,
     developer,
@@ -640,9 +651,13 @@ export function ModelAvatar({
     size = 32,
     className = "",
 }: {
+    /** Model's own icon URL or filename (highest priority). */
     iconUrl?: string | null;
+    /** Developer id (second priority). */
     developer?: string | null;
+    /** Provider id (fallback). */
     provider: string;
+    /** Icon size in pixels. @defaultValue 32 */
     size?: number;
     className?: string;
 }) {

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { cn } from "../lib/cn";
 import { useYunUI } from "../adapters/context";
 
+/** CTA button with an animated shimmer sweep and a trailing arrow; renders a Link when `href` is set. */
 export function ShinyButton({
     children,
     className,
@@ -11,6 +12,7 @@ export function ShinyButton({
 }: {
     children: ReactNode;
     className?: string;
+    /** When set, renders as a routing Link to this destination instead of a button. */
     href?: string;
     onClick?: () => void;
 }) {

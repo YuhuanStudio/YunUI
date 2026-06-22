@@ -5,22 +5,33 @@ import { ChevronDown, Check, Search, X } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 
 export interface SelectOption {
+    /** The value reported to `onChange` when selected. */
     value: string;
+    /** Display text for the option. */
     label: string;
+    /** Optional leading icon shown next to the label. */
     icon?: React.ReactNode;
+    /** Optional secondary line shown under the label. */
     description?: string;
 }
 
 interface CustomSelectProps {
+    /** The selectable options. */
     options: SelectOption[];
+    /** Currently selected value (controlled). */
     value: string;
+    /** Called with the chosen option's value. */
     onChange: (value: string) => void;
+    /** Placeholder shown when nothing is selected (falls back to i18n default). */
     placeholder?: string;
+    /** Show an in-dropdown search box that filters options by label/value. */
     searchable?: boolean;
     className?: string;
+    /** Disable interaction and dim the control. */
     disabled?: boolean;
 }
 
+/** Custom dropdown select with optional search, icons, descriptions, and full keyboard support. */
 export function CustomSelect({
     options,
     value,

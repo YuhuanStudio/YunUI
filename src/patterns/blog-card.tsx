@@ -6,24 +6,35 @@ import { formatDate } from "../lib/format-date";
 import { useYunUI } from "../adapters/context";
 
 interface BlogCardProps {
+  /** Post title. */
   title: string;
+  /** Short excerpt/summary. */
   description?: string;
+  /** Publish date (ISO string); formatted via `locale`. */
   date?: string;
+  /** Post author (name shown in the meta row). */
   author?: {
     name?: string;
     avatar?: string;
     url?: string;
   };
+  /** Category label shown as an info badge. */
   category?: string;
+  /** Tag list (first 3 rendered as clickable chips). */
   tags?: string[];
+  /** Estimated reading time in minutes. */
   readingTime?: number;
+  /** Cover image URL; a placeholder icon is shown when absent. */
   coverImage?: string;
+  /** Destination the card links to. */
   url: string;
+  /** Layout: `default` or `featured` (spans 2 columns on `md`+). */
   variant?: "default" | "featured";
   /** Locale for the date; defaults to a stable "en-US" (SSR-safe). */
   locale?: string;
 }
 
+/** Blog post preview card with cover image, category, meta (date/reading time/author), and tags. */
 export function BlogCard({
   title,
   description,

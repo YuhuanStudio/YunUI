@@ -26,4 +26,5 @@ export const buttonVariants = cva(
   },
 );
 
+/** Variant props for {@link buttonVariants}: `variant`/`color` (primary, outline, ghost, secondary) and `size` (sm, icon, icon-sm, icon-xs). */
 export type ButtonProps = VariantProps<typeof buttonVariants>;

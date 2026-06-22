@@ -5,8 +5,11 @@ import { Check, X, ChevronDown } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 
 export interface ComboboxOption {
+    /** The value reported to `onChange` when selected. */
     value: string;
+    /** Display text for the option. */
     label: string;
+    /** Optional secondary text for the option. */
     description?: string;
     /**
      * Optional resolved icon URL for the option. The host app resolves this
@@ -17,16 +20,24 @@ export interface ComboboxOption {
 }
 
 interface ComboboxProps {
+    /** The selectable options. */
     options: ComboboxOption[];
+    /** Currently selected value (controlled). */
     value: string;
+    /** Called with the chosen (or newly created) value. */
     onChange: (value: string) => void;
+    /** Placeholder for the input (falls back to i18n default). */
     placeholder?: string;
     className?: string;
+    /** Disable interaction and dim the control. */
     disabled?: boolean;
+    /** Allow entering a value not in `options` (creatable). @defaultValue true */
     allowCustom?: boolean;
+    /** Label template for the "create new" row; `{value}` is replaced with the typed text. */
     creatableText?: string;
 }
 
+/** Searchable, optionally creatable combobox — type to filter, Enter to pick or create. */
 export function Combobox({
     options,
     value,

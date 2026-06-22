@@ -7,12 +7,19 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.1.8]
+
 ### Added
+- JSDoc on ~150 public props + component descriptions across primitives,
+  patterns, and ai entries — surfaces in editor IntelliSense (ships in `.d.ts`).
 - Test suite expanded to 101 tests (from 21): interactive primitives (Switch,
   Checkbox, Slider, Tabs, Label), overlays/patterns (Modal, FAQ, Badge
   variants), and AI components (ModelCard, CapabilitySelector, IDBadge,
-  ModelTypeIcon, Navbar, Footer). vitest setup stubs `ResizeObserver` for Radix
-  primitives. (Tests are dev-only — no change to the published package.)
+  ModelTypeIcon, Navbar, Footer). vitest setup stubs `ResizeObserver`.
+
+### Changed
+- `Button` variant aliases `default`/`red` documented as `@deprecated` (prefer
+  `primary`/`destructive`); kept for backward compatibility.
 
 ## [0.1.7]
 
@@ -82,7 +89,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.7...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.8...HEAD
+[0.1.8]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.4...v0.1.5
