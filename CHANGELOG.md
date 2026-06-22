@@ -7,6 +7,13 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- Test suite expanded to 101 tests (from 21): interactive primitives (Switch,
+  Checkbox, Slider, Tabs, Label), overlays/patterns (Modal, FAQ, Badge
+  variants), and AI components (ModelCard, CapabilitySelector, IDBadge,
+  ModelTypeIcon, Navbar, Footer). vitest setup stubs `ResizeObserver` for Radix
+  primitives. (Tests are dev-only — no change to the published package.)
+
 ## [0.1.7]
 
 ### Added
