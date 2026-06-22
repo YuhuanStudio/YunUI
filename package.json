@@ -5,6 +5,15 @@
   "type": "module",
   "license": "MIT",
   "author": "yuhuanowo",
+  "packageManager": "pnpm@11.8.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuhuanStudio/YunUI.git"
+  },
   "sideEffects": [
     "**/*.css"
   ],
