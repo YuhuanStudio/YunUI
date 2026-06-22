@@ -57,11 +57,18 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuLabel,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   Skeleton,
   Spinner,
   EmptyState,
+  PageLoader,
   NavTabs,
   AnimatedNumber,
+  ConfirmModal,
+  DeleteConfirmModal,
+  RegenerateConfirmModal,
   toast,
 } from "yunui";
 import {
@@ -72,24 +79,46 @@ import {
   ModelCard,
   CapabilitySelector,
   ProviderIcon,
+  ProviderAvatar,
   ModelIcon,
+  ModelAvatar,
+  ModelTypeIcon,
+  ProviderIconImg,
+  IDBadge,
   getIconPath,
+  buttonVariants,
 } from "yunui/ai";
 import {
   CodeBlock,
+  CodeDemo,
   FAQ,
   BlogCard,
+  BlogPostHeader,
+  BlogPagination,
+  CategoryFilter,
   BackgroundEffects,
   PageHeader,
+  PageLoadingState,
+  PageErrorState,
+  PageEmptyState,
   StatCard,
   FellowBadge,
   StatusBadge,
   CapabilityBadge,
+  SourceBadge,
+  ActiveBadge,
+  DeprecatedBadge,
   FellowsBanner,
   ErrorBoundary,
+  AccountLockedCard,
   Sidebar,
   type SidebarSection,
   MediaPageHeader,
+  MediaEmptyState,
+  MediaLoadingState,
+  MediaErrorState,
+  LLMCopyButton,
+  ViewOptions,
 } from "yunui/patterns";
 import {
   Heart,
@@ -112,6 +141,9 @@ import {
   PanelLeft,
   Compass,
   Database,
+  Image as ImageIcon,
+  Lock,
+  FileText,
 } from "lucide-react";
 
 // ---- layout helpers -------------------------------------------------------
@@ -251,6 +283,120 @@ function SidebarCollapseDemo() {
   );
 }
 
+// Confirm-modal family — each opens a portal-rendered dialog.
+function ConfirmModalsDemo() {
+  const [confirm, setConfirm] = useState(false);
+  const [del, setDel] = useState(false);
+  const [regen, setRegen] = useState(false);
+  return (
+    <>
+      <Button variant="primary" onClick={() => setConfirm(true)}>Confirm action</Button>
+      <Button variant="red" onClick={() => setDel(true)}>Delete…</Button>
+      <Button variant="amber" onClick={() => setRegen(true)}>Regenerate…</Button>
+      <ConfirmModal
+        isOpen={confirm}
+        onClose={() => setConfirm(false)}
+        onConfirm={() => {
+          setConfirm(false);
+          toast.success("Confirmed");
+        }}
+        title="Publish changes?"
+        subtitle="This goes live immediately"
+        message="Your draft will be visible to everyone on the next deploy."
+        variant="info"
+        confirmText="Publish"
+        cancelText="Cancel"
+      />
+      <DeleteConfirmModal
+        isOpen={del}
+        onClose={() => setDel(false)}
+        onConfirm={() => {
+          setDel(false);
+          toast.error("Deleted");
+        }}
+        itemName="Production API key"
+      />
+      <RegenerateConfirmModal
+        isOpen={regen}
+        onClose={() => setRegen(false)}
+        onConfirm={() => {
+          setRegen(false);
+          toast.warning("Regenerated");
+        }}
+        itemName="Webhook secret"
+      />
+    </>
+  );
+}
+
+// Dropdown with checkbox + radio items (controlled state).
+function DropdownChoicesDemo() {
+  const [showGrid, setShowGrid] = useState(true);
+  const [showLabels, setShowLabels] = useState(false);
+  const [density, setDensity] = useState("comfortable");
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">View options</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-52">
+        <DropdownMenuLabel>Display</DropdownMenuLabel>
+        <DropdownMenuCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
+          Show grid
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={showLabels} onCheckedChange={setShowLabels}>
+          Show labels
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel>Density</DropdownMenuLabel>
+        <DropdownMenuRadioGroup value={density} onValueChange={setDensity}>
+          <DropdownMenuRadioItem value="compact">Compact</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="comfortable">Comfortable</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="spacious">Spacious</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+// Blog pagination + category filter are controlled — keep their state local.
+function BlogControlsDemo() {
+  const [page, setPage] = useState(3);
+  const [category, setCategory] = useState<string | null>("Engineering");
+  return (
+    <div className="w-full max-w-2xl space-y-6">
+      <CategoryFilter
+        categories={["Engineering", "Design", "Product", "Research"]}
+        selectedCategory={category ?? undefined}
+        onSelect={setCategory}
+      />
+      <BlogPagination currentPage={page} totalPages={12} onPageChange={setPage} />
+      <p className="text-caption text-center">Page {page} · category: {category ?? "all"}</p>
+    </div>
+  );
+}
+
+// AccountLockedCard renders a full-screen (min-h-dvh) auth screen — frame it in a
+// scaled-down stage so it previews like the others without taking over the page.
+function AccountLockedDemo() {
+  return (
+    <div className="w-full rounded-2xl border border-border overflow-hidden bg-(--bg-elevated)" style={{ height: 380 }}>
+      <div className="origin-top-left" style={{ transform: "scale(0.85)", width: "117.6%", height: "117.6%" }}>
+        <AccountLockedCard
+          appName="YunUI"
+          logoSrc="/favicon.ico"
+          icon={<Lock className="w-6 h-6 text-error" />}
+          title="Account suspended"
+          subtitle="Your account has been temporarily locked for review."
+          appeal="If you think this is a mistake, you can appeal the decision."
+          backLabel="Back to sign in"
+          onBack={() => toast.info("Back to sign in")}
+        />
+      </div>
+    </div>
+  );
+}
+
 // ---- page -----------------------------------------------------------------
 
 const COLOR_TOKENS: { name: string; varName: string }[] = [
@@ -364,6 +510,12 @@ export default function Home() {
           <StatusBadge status="pending" />
           <CapabilityBadge capability="vision" />
           <CapabilityBadge capability="thinking" />
+          <SourceBadge source="yaml" />
+          <SourceBadge source="api" />
+          <ActiveBadge isActive />
+          <ActiveBadge isActive={false} />
+          <DeprecatedBadge isDeprecated />
+          <IDBadge text="claude-opus-4-8" />
         </Demo>
         <Demo title="Buttons via raw .btn classes">
           <button className="btn btn-primary">.btn-primary</button>
@@ -389,10 +541,10 @@ export default function Home() {
           actions={<Button variant="primary" size="sm"><Plus className="w-4 h-4 mr-1.5" />New key</Button>}
         />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard icon={Coins} label="Balance" value={<AnimatedNumber value={1250} />} trend={{ value: "+4.2%", direction: "up" }} />
-          <StatCard icon={Activity} label="Requests" value={<AnimatedNumber value={48213} />} trend={{ value: "+12%", direction: "up" }} />
+          <StatCard icon={Coins} label="Balance" value={<AnimatedNumber value={1250} />} trend={{ value: 4.2, positive: true }} />
+          <StatCard icon={Activity} label="Requests" value={<AnimatedNumber value={48213} />} trend={{ value: 12, positive: true }} />
           <StatCard icon={KeyRound} label="API keys" value={<AnimatedNumber value={3} />} />
-          <StatCard icon={TrendingUp} label="Spend" value={<AnimatedNumber value={72.4} decimals={2} />} trend={{ value: "-3%", direction: "down" }} />
+          <StatCard icon={TrendingUp} label="Spend" value={<AnimatedNumber value={72.4} decimals={2} />} trend={{ value: 3, positive: false }} />
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
@@ -685,6 +837,12 @@ export default function Home() {
             </DropdownMenuContent>
           </DropdownMenu>
         </Demo>
+        <Demo title="Dropdown — checkbox & radio items" description="DropdownMenuCheckboxItem (toggles) and DropdownMenuRadioGroup / DropdownMenuRadioItem (single choice).">
+          <DropdownChoicesDemo />
+        </Demo>
+        <Demo title="Confirm modals" description="ConfirmModal plus the DeleteConfirmModal / RegenerateConfirmModal presets — portal-rendered with scroll lock and escape-to-close.">
+          <ConfirmModalsDemo />
+        </Demo>
       </Section>
 
       {/* Data display */}
@@ -790,6 +948,25 @@ export default function Home() {
         <Demo title="Empty state">
           <EmptyState icon={<Inbox className="w-8 h-8" />} title="No messages" description="When you get messages they'll show up here." action={<Button variant="primary" size="sm">Refresh</Button>} />
         </Demo>
+        <Demo title="Page loader" description="Full-screen centered loader for route transitions — framed here in a fixed-height stage.">
+          <div className="w-full h-40 rounded-2xl border border-border overflow-hidden">
+            <PageLoader title="Loading workspace" subtitle="Fetching your models and keys…" />
+          </div>
+        </Demo>
+        <Demo title="Page states" description="PageLoadingState · PageErrorState · PageEmptyState — the in-content (not full-screen) variants.">
+          <div className="grid sm:grid-cols-3 gap-3 w-full">
+            <div className="rounded-xl border border-border"><PageLoadingState message="Loading…" /></div>
+            <div className="rounded-xl border border-border"><PageErrorState message="Couldn't load models." onRetry={() => toast.info("Retrying…")} /></div>
+            <div className="rounded-xl border border-border"><PageEmptyState icon={Inbox} title="No models yet" description="Add a provider to get started." action={<Button size="sm" variant="primary">Add</Button>} /></div>
+          </div>
+        </Demo>
+        <Demo title="Media states" description="MediaLoadingState · MediaErrorState · MediaEmptyState — used across the media generation pages.">
+          <div className="grid sm:grid-cols-3 gap-3 w-full">
+            <div className="rounded-xl border border-border"><MediaLoadingState message="Generating…" /></div>
+            <div className="rounded-xl border border-border"><MediaErrorState message="Generation failed — try again." onRetry={() => toast.info("Retrying…")} /></div>
+            <div className="rounded-xl border border-border"><MediaEmptyState icon={ImageIcon} title="No images yet" description="Your generated images will appear here." action={<Button size="sm" variant="primary">Generate</Button>} /></div>
+          </div>
+        </Demo>
         <Demo title="Thinking block (AI)">
           <div className="w-full max-w-lg">
             <ThinkingBlock content={"Let me reason about this step by step…\n1. Parse the request\n2. Plan the answer"} isStreaming defaultOpen />
@@ -873,6 +1050,55 @@ export default function Home() {
             />
           </div>
         </Demo>
+        <Demo title="AI avatars & type icons" description="ProviderAvatar / ModelAvatar (rounded, image-backed), ProviderIconImg (short alias) and ModelTypeIcon (capability glyphs).">
+          <div className="space-y-5 w-full max-w-2xl">
+            <div>
+              <p className="text-label mb-2">ProviderAvatar</p>
+              <div className="flex items-center gap-2">
+                {["openai", "anthropic", "google", "deepseek", "mistral", "groq", "cohere"].map((p) => (
+                  <ProviderAvatar key={p} provider={p} size={36} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-label mb-2">ModelAvatar (developer-resolved, with iconUrl fallback)</p>
+              <div className="flex items-center gap-2">
+                <ModelAvatar provider="anthropic" developer="claude" size={36} />
+                <ModelAvatar provider="openai" developer="openai" iconUrl="/icons/models/gpt-5.png" size={36} />
+                <ModelAvatar provider="deepseek" developer="deepseek" size={36} />
+                <ModelAvatar provider="meta" developer="llama" size={36} />
+                <ModelAvatar provider="qwen" developer="qwen" size={36} />
+              </div>
+            </div>
+            <div>
+              <p className="text-label mb-2">ProviderIconImg (rounded alias)</p>
+              <div className="flex items-center gap-2">
+                {["openai", "anthropic", "google", "mistral", "perplexity"].map((p) => (
+                  <ProviderIconImg key={p} provider={p} size={28} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-label mb-2">ModelTypeIcon</p>
+              <div className="flex flex-wrap items-center gap-3">
+                {["chat", "embedding", "image_generation", "tts", "stt", "video", "rerank", "moderation"].map((tp) => (
+                  <span key={tp} className="inline-flex items-center gap-1.5 text-caption">
+                    <ModelTypeIcon type={tp} />
+                    {tp}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Demo>
+        <Demo title="Fumadocs button variants" description="buttonVariants — a class-variance-authority recipe for fumadocs-themed buttons; applied to plain elements via className.">
+          <button className={buttonVariants({ variant: "primary" })}>Primary</button>
+          <button className={buttonVariants({ variant: "secondary" })}>Secondary</button>
+          <button className={buttonVariants({ variant: "outline" })}>Outline</button>
+          <button className={buttonVariants({ variant: "ghost" })}>Ghost</button>
+          <button className={buttonVariants({ color: "primary", size: "sm" })}>Small</button>
+          <button className={buttonVariants({ variant: "outline", size: "icon" })} aria-label="Docs"><FileText className="size-5" /></button>
+        </Demo>
         <Demo title="Code block">
           <div className="w-full max-w-2xl">
             <CodeBlock
@@ -904,6 +1130,36 @@ export default function Home() {
               url="#"
             />
           </div>
+        </Demo>
+        <Demo title="Blog post header" description="Full article header — category, title, author, date and reading time.">
+          <div className="w-full max-w-2xl">
+            <BlogPostHeader
+              title="Building a shared design system"
+              description="How we extracted Yunxin's UI into a versioned package every project can sync to."
+              category="Engineering"
+              date="2026-06-21"
+              readingTime={6}
+              author={{ name: "yuhuan", url: "#" }}
+              tags={["design-system", "react", "monorepo"]}
+            />
+          </div>
+        </Demo>
+        <Demo title="Category filter & pagination" description="CategoryFilter + BlogPagination — both controlled; the host owns routing.">
+          <BlogControlsDemo />
+        </Demo>
+        <Demo title="Code demo (tabbed)" description="CodeDemo — a tabbed CodeBlock preset with Python / Node.js / cURL quick-start snippets.">
+          <div className="w-full">
+            <CodeDemo />
+          </div>
+        </Demo>
+        <Demo title="Docs page actions" description="LLMCopyButton (copy page as Markdown for an LLM) and ViewOptions (raw Markdown / GitHub links) — the fumadocs-styled doc header actions.">
+          <div className="flex items-center gap-1 rounded-lg border border-border bg-card px-1 py-1">
+            <LLMCopyButton markdownUrl="/docs/overview.md" />
+            <ViewOptions markdownUrl="/docs/overview.md" githubUrl="https://github.com/yuhuanowo/YunUI" />
+          </div>
+        </Demo>
+        <Demo title="Account locked card" description="Terminal auth screen (banned / suspended) — presentational; the host owns logout/redirect via onBack.">
+          <AccountLockedDemo />
         </Demo>
         <Demo title="Fellows banner">
           <div className="w-full max-w-xl">
