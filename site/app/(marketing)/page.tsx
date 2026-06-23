@@ -30,7 +30,6 @@ import {
   Sparkles,
   Terminal,
   Package,
-  Layers,
   TestTube2,
   Plug,
   Code2,
@@ -398,55 +397,6 @@ export default function Home() {
             </Card>
           </div>
         </motion.div>
-      </section>
-
-      {/* ----------------------------------------------------------------- */}
-      {/* A taste of the kit                                                */}
-      {/* ----------------------------------------------------------------- */}
-      <section id="highlights" className="scroll-mt-20 py-16">
-        <SectionHeading
-          badge={t("highlights.badge")}
-          icon={<Layers className="w-4 h-4" />}
-          title={t("highlights.title")}
-          subtitle={t("highlights.subtitle")}
-        />
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div
-            className="rounded-2xl border border-border p-8 flex flex-wrap items-center justify-center gap-3 min-h-[140px]"
-            style={{ backgroundImage: "radial-gradient(var(--border-subtle) 1px, transparent 1px)", backgroundSize: "16px 16px" }}
-          >
-            <Button variant="primary">Primary</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="accent">Accent</Button>
-          </div>
-          <div
-            className="rounded-2xl border border-border p-8 flex flex-wrap items-center justify-center gap-2 min-h-[140px]"
-            style={{ backgroundImage: "radial-gradient(var(--border-subtle) 1px, transparent 1px)", backgroundSize: "16px 16px" }}
-          >
-            <Badge>Default</Badge>
-            <Badge variant="success">Success</Badge>
-            <Badge variant="info">Info</Badge>
-            <Badge variant="warning">Warning</Badge>
-            <Badge variant="error">Error</Badge>
-          </div>
-          <Card className="p-5">
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-medium">{t("highlights.proPlan")}</span>
-              <Badge variant="success">{t("highlights.active")}</Badge>
-            </div>
-            <p className="text-caption">{t("highlights.cardDesc")}</p>
-          </Card>
-          <div
-            className="rounded-2xl border border-border p-8 flex items-center justify-center min-h-[140px]"
-            style={{ backgroundImage: "radial-gradient(var(--border-subtle) 1px, transparent 1px)", backgroundSize: "16px 16px" }}
-          >
-            <div className="w-full max-w-xs">
-              <Label>{t("highlights.email")}</Label>
-              <Input placeholder="you@example.com" icon={<Search className="w-4 h-4" />} />
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ----------------------------------------------------------------- */}

@@ -109,15 +109,6 @@
       "subscribe": "订阅",
       "continue": "继续"
     },
-    "highlights": {
-      "badge": "亮点",
-      "title": "组件库一瞥",
-      "subtitle": "少数几件旗舰组件——完整集合请见组件展示。",
-      "proPlan": "专业版",
-      "active": "已启用",
-      "cardDesc": "一个 Card 基础组件——包含基础版的全部功能，外加更高的额度。",
-      "email": "邮箱"
-    },
     "faq": {
       "badge": "常见问题",
       "title": "你的疑问，已解答",

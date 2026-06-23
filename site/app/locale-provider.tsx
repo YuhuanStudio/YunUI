@@ -9,7 +9,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useState,
   type ReactNode,
 } from "react";
@@ -48,16 +47,14 @@ function readCookieLocale(): Locale {
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  // Start from the default so SSR/SSG markup is deterministic, then hydrate to
-  // the cookie value on mount (avoids a hydration mismatch on static export).
-  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
-
-  useEffect(() => {
-    const cookieLocale = readCookieLocale();
-    if (cookieLocale !== locale) setLocaleState(cookieLocale);
-    // run once on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Lazy initializer: on the server `readCookieLocale()` returns the default
+  // (no `document`), so SSG markup is the default locale; on the client it runs
+  // during the *first* render (hydration) and returns the cookie value. This
+  // makes the initial client render already correct — no post-paint locale jump
+  // like a `useEffect` correction would cause. The expected SSG↔client text
+  // mismatch for non-default locales is silenced via `suppressHydrationWarning`
+  // on <html> in the root layout.
+  const [locale, setLocaleState] = useState<Locale>(readCookieLocale);
 
   const setLocale = useCallback((next: Locale) => {
     const secure = typeof window !== "undefined" && window.location.protocol === "https:" ? ";Secure" : "";

@@ -15,35 +15,6 @@ import { LocalizedDoc, type LocaleDocContent } from "./localized-doc";
 
 export const dynamicParams = false;
 
-// rehype-toc exports its items with a hast `title` element; the DocsPage TOC
-// wants a renderable title, so flatten the hast node to plain text.
-interface HastNode {
-  type?: string;
-  value?: string;
-  children?: HastNode[];
-}
-function hastText(node: HastNode | string | undefined): string {
-  if (!node) return "";
-  if (typeof node === "string") return node;
-  if (node.type === "text") return node.value ?? "";
-  return (node.children ?? []).map(hastText).join("");
-}
-
-interface RawTocItem {
-  title: HastNode;
-  url: string;
-  depth: number;
-}
-
-function normalizeToc(raw: unknown): TableOfContents {
-  if (!Array.isArray(raw)) return [];
-  return (raw as RawTocItem[]).map((item) => ({
-    title: hastText(item.title),
-    url: item.url,
-    depth: item.depth,
-  }));
-}
-
 /**
  * Resolve the per-locale loader map for an entry. `load` is either a single
  * shared loader or a `{ en, "zh-CN"?, "zh-TW"? }` map. Returns one loader per
@@ -80,7 +51,9 @@ export default async function Page(props: {
     content[locale] = {
       title: resolveLocalized(entry.title, locale),
       description: resolveLocalized(entry.description, locale),
-      toc: normalizeToc(mod.toc),
+      // fumadocs' rehypeToc already exports items in TableOfContents shape
+      // (title is a renderable React node) — pass them straight through.
+      toc: (mod.toc as TableOfContents | undefined) ?? [],
       body: <Body components={components} />,
     };
   }

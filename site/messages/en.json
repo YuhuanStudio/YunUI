@@ -109,15 +109,6 @@
       "subscribe": "Subscribe",
       "continue": "Continue"
     },
-    "highlights": {
-      "badge": "Highlights",
-      "title": "A taste of the kit",
-      "subtitle": "A handful of flagship pieces — see the full set in the showcase.",
-      "proPlan": "Pro plan",
-      "active": "Active",
-      "cardDesc": "A Card primitive — everything in Basic, plus higher limits.",
-      "email": "Email"
-    },
     "faq": {
       "badge": "FAQ",
       "title": "Questions, answered",

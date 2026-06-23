@@ -109,15 +109,6 @@
       "subscribe": "訂閱",
       "continue": "繼續"
     },
-    "highlights": {
-      "badge": "亮點",
-      "title": "元件庫一瞥",
-      "subtitle": "少數幾件旗艦元件——完整集合請見元件展示。",
-      "proPlan": "專業版",
-      "active": "已啟用",
-      "cardDesc": "一個 Card 基礎元件——包含基礎版的全部功能，外加更高的額度。",
-      "email": "電子郵件"
-    },
     "faq": {
       "badge": "常見問題",
       "title": "你的疑問，已解答",
