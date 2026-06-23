@@ -1,0 +1,75 @@
+import { Button, IconButton } from "yunui";
+import { Heart, Settings } from "lucide-react";
+
+The primary action button. It renders YunUI's `.btn` classes, supports style variants and sizes, shows a loading spinner, and can slot its styling onto a child element (e.g. a routing `<Link>`) via `asChild`.
+
+## Import
+
+```tsx
+import { Button } from "@yuhuanowo/yunui";
+```
+
+## Variants
+
+<ComponentPreview
+  title="Variants"
+  code={`<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="accent">Accent</Button>
+<Button variant="amber">Amber</Button>
+<Button variant="red">Red</Button>`}
+>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="accent">Accent</Button>
+  <Button variant="amber">Amber</Button>
+  <Button variant="red">Red</Button>
+</ComponentPreview>
+
+## Sizes
+
+<ComponentPreview
+  title="Sizes"
+  code={`<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`}
+>
+  <Button size="sm">Small</Button>
+  <Button size="md">Medium</Button>
+  <Button size="lg">Large</Button>
+</ComponentPreview>
+
+## States
+
+<ComponentPreview
+  title="Loading & disabled"
+  code={`<Button loading>Loading</Button>
+<Button disabled>Disabled</Button>`}
+>
+  <Button loading>Loading</Button>
+  <Button disabled>Disabled</Button>
+</ComponentPreview>
+
+## Icon button
+
+For icon-only actions use `IconButton`, which adds an accessible label and a built-in tooltip.
+
+<ComponentPreview
+  title="IconButton"
+  code={`import { IconButton } from "@yuhuanowo/yunui";
+import { Heart, Settings } from "lucide-react";
+
+<IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+<IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />`}
+>
+  <IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+  <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Button" />

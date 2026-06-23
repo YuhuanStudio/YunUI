@@ -1,0 +1,78 @@
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "yunui";
+
+A Radix-backed, vertically stacked set of collapsible sections. Set `type="single"` for one-at-a-time panels (add `collapsible` so the open one can close) or `type="multiple"` to allow several open at once. Full keyboard a11y (arrow keys, Home/End, Enter/Space) comes from Radix.
+
+## Import
+
+```tsx
+import {
+  Accordion, AccordionItem, AccordionTrigger, AccordionContent,
+} from "@yuhuanowo/yunui";
+```
+
+## Single (collapsible)
+
+<ComponentPreview
+  title="One open at a time"
+  code={`<Accordion type="single" collapsible>
+  <AccordionItem value="a">
+    <AccordionTrigger>What is YunUI?</AccordionTrigger>
+    <AccordionContent>A shared design system extracted from Yunxin.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="b">
+    <AccordionTrigger>How do projects sync?</AccordionTrigger>
+    <AccordionContent>Bump the yunui version; the design follows.</AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+  <Accordion type="single" collapsible className="w-full max-w-md space-y-2">
+    <AccordionItem value="a">
+      <AccordionTrigger>What is YunUI?</AccordionTrigger>
+      <AccordionContent>A shared design system extracted from Yunxin.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="b">
+      <AccordionTrigger>How do projects sync?</AccordionTrigger>
+      <AccordionContent>Bump the yunui version; the design follows on the next release.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="c">
+      <AccordionTrigger>Does it support theming?</AccordionTrigger>
+      <AccordionContent>Yes — light, zinc-dark and true-black.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</ComponentPreview>
+
+## Multiple
+
+<ComponentPreview
+  title="Several open at once"
+  code={`<Accordion type="multiple">
+  <AccordionItem value="a">…</AccordionItem>
+  <AccordionItem value="b">…</AccordionItem>
+</Accordion>`}
+>
+  <Accordion type="multiple" className="w-full max-w-md space-y-2" defaultValue={["a"]}>
+    <AccordionItem value="a">
+      <AccordionTrigger>Streaming</AccordionTrigger>
+      <AccordionContent>Server-sent token streaming is supported across providers.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="b">
+      <AccordionTrigger>Function calling</AccordionTrigger>
+      <AccordionContent>Tools are normalized into a single schema regardless of vendor.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</ComponentPreview>
+
+## Props
+
+`Accordion`, `AccordionItem`, `AccordionTrigger` and `AccordionContent` are thin wrappers over Radix's Accordion primitives, so they accept all of their props. The most common ones:
+
+<PropsTable
+  rows={[
+    { name: "type", type: '"single" | "multiple"', required: true, description: "Whether one or several panels can be open at once." },
+    { name: "collapsible", type: "boolean", defaultValue: "false", description: "(type=single) Allow the open panel to be closed." },
+    { name: "value / defaultValue", type: "string | string[]", description: "Controlled / uncontrolled open item(s)." },
+    { name: "onValueChange", type: "(value) => void", description: "Fires when the open item(s) change." },
+    { name: "AccordionItem.value", type: "string", required: true, description: "Unique identifier for the section." },
+    { name: "disabled", type: "boolean", description: "Disable an item or the whole group." },
+  ]}
+/>

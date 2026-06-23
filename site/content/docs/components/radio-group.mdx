@@ -1,0 +1,66 @@
+import { RadioGroup, RadioGroupItem } from "yunui";
+
+A Radix-backed single-choice set. Controlled via `value`/`onValueChange` (or uncontrolled via `defaultValue`). Arrow keys move and select within the group, and the whole group is a single tab stop. Each item renders a ring that fills with the primary accent and a center dot when selected — matching YunUI's Checkbox/Switch visual language.
+
+## Import
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Single choice"
+  code={`<RadioGroup defaultValue="comfortable">
+  <label className="flex items-center gap-2 text-sm">
+    <RadioGroupItem value="compact" id="r1" /> Compact
+  </label>
+  <label className="flex items-center gap-2 text-sm">
+    <RadioGroupItem value="comfortable" id="r2" /> Comfortable
+  </label>
+  <label className="flex items-center gap-2 text-sm">
+    <RadioGroupItem value="spacious" id="r3" /> Spacious
+  </label>
+</RadioGroup>`}
+>
+  <RadioGroup defaultValue="comfortable" className="text-left">
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="compact" id="r1" /> Compact
+    </label>
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="comfortable" id="r2" /> Comfortable
+    </label>
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="spacious" id="r3" /> Spacious
+    </label>
+  </RadioGroup>
+</ComponentPreview>
+
+## Disabled
+
+<ComponentPreview title="Disabled option">
+  <RadioGroup defaultValue="a" className="text-left">
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="a" id="d1" /> Available
+    </label>
+    <label className="flex items-center gap-2 text-sm opacity-60">
+      <RadioGroupItem value="b" id="d2" disabled /> Unavailable
+    </label>
+  </RadioGroup>
+</ComponentPreview>
+
+## Props
+
+`RadioGroup` and `RadioGroupItem` wrap Radix's RadioGroup primitives and accept all of their props. The most common ones:
+
+<PropsTable
+  rows={[
+    { name: "value / defaultValue", type: "string", description: "Controlled / uncontrolled selected value." },
+    { name: "onValueChange", type: "(value: string) => void", description: "Fires when the selection changes." },
+    { name: "disabled", type: "boolean", description: "Disable the whole group (or a single item)." },
+    { name: "name", type: "string", description: "Form field name submitted with the value." },
+    { name: "RadioGroupItem.value", type: "string", required: true, description: "The value this item selects." },
+    { name: "RadioGroupItem.id", type: "string", description: "Pair with a <label htmlFor> for an accessible label." },
+  ]}
+/>

@@ -1,0 +1,73 @@
+YunUI is the Yunxin design system shipped as a versioned package — tokens, animations, and ~30 primitives plus higher-level patterns in one place. Edit a component once and every project on `@yuhuanowo/yunui` picks it up on the next version bump.
+
+## Install
+
+```bash
+pnpm add @yuhuanowo/yunui
+# peer deps (most apps already have these)
+pnpm add react react-dom lucide-react
+```
+
+YunUI ships ESM with `"use client"` boundaries baked in, so it works in the Next.js App Router out of the box.
+
+## Tailwind setup
+
+YunUI's components render canonical utility classes (`.card`, `.btn-primary`, `.badge`, …) defined in its stylesheet. Import the CSS and let Tailwind v4 scan the compiled package so those classes are generated:
+
+```css
+/* globals.css */
+@import "tailwindcss";
+@import "@yuhuanowo/yunui/css";
+
+/* Tailwind v4: scan YunUI's compiled output for the utility classes it uses. */
+@source "../node_modules/@yuhuanowo/yunui/dist";
+```
+
+If you also use fumadocs, import its preset before YunUI so the design-system tokens win:
+
+```css
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@import "@yuhuanowo/yunui/css";
+```
+
+## Adapters
+
+The mid-coupling components (`yunui/patterns`, `yunui/ai`) need framework primitives — routing, `<Image>`, and i18n — which differ per app. Inject them once at the root via `YunUIProvider`:
+
+```tsx
+import { YunUIProvider } from "@yuhuanowo/yunui/adapters";
+import NextLink from "next/link";
+import NextImage from "next/image";
+import { useRouter } from "next/navigation";
+
+<YunUIProvider
+  adapters={{
+    Link: NextLink,
+    Image: NextImage,
+    useRouter: () => {
+      const r = useRouter();
+      return { push: r.push, replace: r.replace, back: r.back };
+    },
+    useT: (ns) => (key) => key, // wire up next-intl / your i18n here
+  }}
+>
+  {children}
+</YunUIProvider>
+```
+
+## Entry points
+
+YunUI is split into focused entry points so apps only pull in what they use:
+
+<ComponentPreview>
+  <div className="text-sm text-left space-y-2 w-full max-w-md">
+    <p><code className="code-inline">@yuhuanowo/yunui</code> — atomic primitives (Button, Card, Dialog, Tabs, layout, table…)</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/patterns</code> — page-level compositions (Sidebar, Footer, StatCard, FAQ…)</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/ai</code> — AI product components (ModelCard, ThinkingBlock, provider icons…)</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/adapters</code> — the framework adapter provider</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/css</code> — the design-system stylesheet</p>
+  </div>
+</ComponentPreview>
+
+Head to [Components](/docs/components) for the full catalog with live previews and prop tables.

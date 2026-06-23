@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import { ThemeToggle } from "yunui";
 import { LanguageSwitcher, Footer, GithubIcon } from "yunui/ai";
 import { Sidebar, type SidebarSection } from "yunui/patterns";
@@ -94,6 +95,12 @@ export function Shell({ children }: { children: ReactNode }) {
           </button>
           <div className="flex-1" />
           <div className="flex items-center gap-1.5">
+            <Link
+              href="/docs"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+            >
+              Docs
+            </Link>
             <LanguageSwitcher
               variant="pill"
               currentLocale="en"

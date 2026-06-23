@@ -1,0 +1,63 @@
+import { Grid, Card } from "yunui";
+
+A CSS-grid layout primitive. `columns`, `rows`, `gap`, `align` and `padding` map to literal Tailwind classes via static maps (so the compiler always emits them). Purely presentational; `as` changes the rendered tag.
+
+## Import
+
+```tsx
+import { Grid } from "@yuhuanowo/yunui";
+```
+
+## Columns
+
+<ComponentPreview
+  title="3 columns"
+  code={`<Grid columns={3} gap={3}>
+  <Box>1</Box><Box>2</Box><Box>3</Box>
+  <Box>4</Box><Box>5</Box><Box>6</Box>
+</Grid>`}
+>
+  <Grid columns={3} gap={3} className="w-full max-w-md">
+    {[1, 2, 3, 4, 5, 6].map((n) => (
+      <Card key={n} className="py-4 grid place-items-center font-mono">{n}</Card>
+    ))}
+  </Grid>
+</ComponentPreview>
+
+## Gap
+
+<ComponentPreview
+  title="2 columns, wider gap"
+  code={`<Grid columns={2} gap={6}>
+  <Box>A</Box><Box>B</Box>
+</Grid>`}
+>
+  <Grid columns={2} gap={6} className="w-full max-w-sm">
+    <Card className="py-6 grid place-items-center font-mono">A</Card>
+    <Card className="py-6 grid place-items-center font-mono">B</Card>
+  </Grid>
+</ComponentPreview>
+
+## Responsive
+
+`Grid` sets a fixed column count; for responsive layouts combine it with Tailwind responsive utilities through `className`, or swap to raw `grid-cols-*` classes.
+
+<ComponentPreview
+  title="Stat tiles"
+  code={`<Grid columns={4} gap={4}>
+  {stats.map((s) => <StatTile key={s} />)}
+</Grid>`}
+>
+  <Grid columns={4} gap={4} className="w-full max-w-2xl">
+    {["1.2k", "48k", "3", "72.4"].map((v, i) => (
+      <Card key={i} className="p-4">
+        <div className="text-label mb-1">metric</div>
+        <div className="text-2xl font-semibold">{v}</div>
+      </Card>
+    ))}
+  </Grid>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Grid" />

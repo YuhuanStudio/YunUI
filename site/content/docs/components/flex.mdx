@@ -1,0 +1,62 @@
+import { Flex, Card } from "yunui";
+
+A flexbox layout primitive. `direction`, `align`, `justify`, `gap`, `wrap` and the padding props map to literal Tailwind classes via static lookup maps, so the compiler always emits them. Purely presentational — extra props spread onto the element, and `as` changes the tag.
+
+## Import
+
+```tsx
+import { Flex, Row, Column, Stack } from "@yuhuanowo/yunui";
+```
+
+`Row`, `Column`, and `Stack` are thin presets: `Row` fixes `direction="row"`, `Column`/`Stack` fix `direction="col"` (Stack adds a default `gap`).
+
+## Direction & gap
+
+<ComponentPreview
+  title="Row with gap"
+  code={`<Flex direction="row" gap={4}>
+  <Box>1</Box><Box>2</Box><Box>3</Box>
+</Flex>`}
+>
+  <Flex direction="row" gap={4}>
+    <Card className="size-14 grid place-items-center font-mono">1</Card>
+    <Card className="size-14 grid place-items-center font-mono">2</Card>
+    <Card className="size-14 grid place-items-center font-mono">3</Card>
+  </Flex>
+</ComponentPreview>
+
+## Align & justify
+
+<ComponentPreview
+  title="Justify between, centered"
+  code={`<Flex justify="between" align="center" gap={4} className="w-full">
+  <Box>start</Box>
+  <Box>end</Box>
+</Flex>`}
+>
+  <Flex justify="between" align="center" gap={4} className="w-full max-w-md">
+    <Card className="px-4 py-3 font-mono">start</Card>
+    <Card className="px-4 py-3 font-mono">end</Card>
+  </Flex>
+</ComponentPreview>
+
+## Direction = column
+
+<ComponentPreview
+  title="Stacked"
+  code={`<Flex direction="col" gap={3}>
+  <Box>top</Box>
+  <Box>middle</Box>
+  <Box>bottom</Box>
+</Flex>`}
+>
+  <Flex direction="col" gap={3} className="w-40">
+    <Card className="px-4 py-2 font-mono text-center">top</Card>
+    <Card className="px-4 py-2 font-mono text-center">middle</Card>
+    <Card className="px-4 py-2 font-mono text-center">bottom</Card>
+  </Flex>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Flex" />

@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 import { resolve } from "node:path";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
+  // Treat .mdx as an importable page extension so the docs content tree
+  // (content/docs/**/*.mdx) compiles via @next/mdx.
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   // The library is a workspace package shipping ESM + "use client"; let Next
   // transpile it so HMR works when you edit YunUI and rebuild its dist.
   transpilePackages: ["yunui"],
@@ -15,4 +19,20 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Turbopack requires serializable loader options, so MDX plugins are referenced
+// by ABSOLUTE module path (not imported function references). The @next/mdx
+// loader resolves these from its own package dir, so a relative path won't
+// work — use absolute paths into our wrapper modules. Each wrapper
+// default-exports a fumadocs plugin:
+//   - remarkHeading adds heading ids (anchor links)
+//   - rehypeToc exports a `toc` constant from each MDX module (on-page TOC)
+const plugin = (p: string) => resolve(import.meta.dirname, "lib/mdx-plugins", p);
+
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [plugin("remark-gfm.mjs"), plugin("remark-heading.mjs")],
+    rehypePlugins: [[plugin("rehype-toc.mjs"), { exportToc: true }]],
+  },
+});
+
+export default withMDX(nextConfig);

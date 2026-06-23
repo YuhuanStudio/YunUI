@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import {
   Button,
   IconButton,
@@ -439,8 +440,12 @@ export default function Home() {
           light / zinc-dark / true-black.
         </p>
         <div className="mt-7 flex flex-wrap gap-3">
-          <Button variant="primary">Get started</Button>
-          <Button variant="outline">Browse components</Button>
+          <Button variant="primary" asChild>
+            <Link href="/docs">Get started</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href="/docs/components">Browse components</Link>
+          </Button>
           <ShinyButton>Star on GitHub</ShinyButton>
         </div>
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3">

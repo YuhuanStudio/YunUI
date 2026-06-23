@@ -1,0 +1,40 @@
+import { FellowsBanner } from "yunui/patterns";
+
+Patterns are higher-level, prop-driven compositions built on the primitives — the recurring page pieces from Yunxin (app chrome, dashboards, blog, AI product UI). They live under `@yuhuanowo/yunui/patterns` and `@yuhuanowo/yunui/ai`, and take their framework dependencies (routing, images, i18n) via the [adapters](/docs).
+
+## Import
+
+```tsx
+import { StatCard, Sidebar, Footer, PageHeader, FAQ } from "@yuhuanowo/yunui/patterns";
+import { ModelCard, ThinkingBlock, ProviderIcon } from "@yuhuanowo/yunui/ai";
+```
+
+## Example: StatCard
+
+<ComponentPreview
+  title="StatCard"
+  code={`import { StatCard } from "@yuhuanowo/yunui/patterns";
+import { Coins } from "lucide-react";
+
+<StatCard icon={Coins} label="Balance" value="$1,250" trend={{ value: 4.2, positive: true }} />`}
+>
+  <StatCardDemo />
+</ComponentPreview>
+
+## Example: FellowsBanner
+
+<ComponentPreview title="FellowsBanner">
+  <div className="w-full max-w-xl">
+    <FellowsBanner
+      title="Join the Fellows program"
+      description="Selective access for builders and researchers."
+      ctaText="Apply"
+      features={["Pro-level limits", "Priority support", "Early features"]}
+      href="#"
+    />
+  </div>
+</ComponentPreview>
+
+## The full catalog
+
+The marketing [showcase](/) renders every pattern live, grouped by category — Layout & Chrome, Data Display, Feedback, Navigation, and the AI product components. Browse it for the complete set, then import the ones you need.

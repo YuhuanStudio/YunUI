@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import { Toaster } from "yunui";
 import { YunUIProvider } from "yunui/adapters";
 import NextLink from "next/link";
@@ -65,7 +66,11 @@ export function Providers({ children }: { children: ReactNode }) {
       themes={["light", "dark", "true-black"]}
       value={{ light: "light", dark: "dark", "true-black": "true-black" }}
     >
-      <YunUIProvider
+      {/* fumadocs context for the docs' search dialog. We own theming via the
+          next-themes ThemeProvider above (custom light/dark/true-black), so
+          disable fumadocs' own theme integration to avoid double-mounting. */}
+      <RootProvider theme={{ enabled: false }} search={{ enabled: true }}>
+        <YunUIProvider
         adapters={{
           Link: NextLink as never,
           Image: NextImage as never,
@@ -78,7 +83,8 @@ export function Providers({ children }: { children: ReactNode }) {
       >
         {children}
         <Toaster />
-      </YunUIProvider>
+        </YunUIProvider>
+      </RootProvider>
     </ThemeProvider>
   );
 }

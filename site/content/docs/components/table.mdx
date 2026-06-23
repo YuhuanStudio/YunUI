@@ -1,0 +1,113 @@
+import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, Badge } from "yunui";
+
+A semantic, presentational table family built on design-system tokens. `Table` wraps a `<table>` in an overflow container so wide tables scroll instead of breaking layout. Compose it from `TableHeader`, `TableBody`, `TableRow`, `TableHead` and `TableCell` (short aliases `Thead`, `Tbody`, `Tr`, `Th`, `Td` are also exported).
+
+## Import
+
+```tsx
+import {
+  Table, TableHeader, TableBody, TableFooter,
+  TableRow, TableHead, TableCell, TableCaption,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Data table"
+  code={`<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Model</TableHead>
+      <TableHead>Context</TableHead>
+      <TableHead>Status</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Claude Opus 4.8</TableCell>
+      <TableCell>200K</TableCell>
+      <TableCell><Badge variant="success">Active</Badge></TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`}
+>
+  <div className="w-full max-w-xl">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Model</TableHead>
+          <TableHead>Context</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>Claude Opus 4.8</TableCell>
+          <TableCell>200K</TableCell>
+          <TableCell><Badge variant="success">Active</Badge></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>DeepSeek R1</TableCell>
+          <TableCell>64K</TableCell>
+          <TableCell><Badge variant="info">Beta</Badge></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>GPT-4o mini</TableCell>
+          <TableCell>128K</TableCell>
+          <TableCell><Badge variant="warning">Limited</Badge></TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  </div>
+</ComponentPreview>
+
+## With footer & caption
+
+<ComponentPreview title="Summary row">
+  <div className="w-full max-w-md">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Item</TableHead>
+          <TableHead>Cost</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>Requests</TableCell>
+          <TableCell>$42.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Storage</TableCell>
+          <TableCell>$8.40</TableCell>
+        </TableRow>
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell>Total</TableCell>
+          <TableCell>$50.40</TableCell>
+        </TableRow>
+      </TableFooter>
+      <TableCaption>Billing for the current period.</TableCaption>
+    </Table>
+  </div>
+</ComponentPreview>
+
+## Props — Table
+
+<PropsTable name="Table" />
+
+The sub-components forward the props of their underlying table elements (`<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`) plus `className`:
+
+<PropsTable
+  rows={[
+    { name: "TableHeader", type: "HTMLAttributes<HTMLTableSectionElement>", description: "Renders <thead>; column-header rows are divided by a subtle border." },
+    { name: "TableBody", type: "HTMLAttributes<HTMLTableSectionElement>", description: "Renders <tbody>; rows are divided by subtle borders." },
+    { name: "TableFooter", type: "HTMLAttributes<HTMLTableSectionElement>", description: "Renders <tfoot>; a muted summary-row band." },
+    { name: "TableRow", type: "HTMLAttributes<HTMLTableRowElement>", description: "Renders <tr> with a divider and hover highlight." },
+    { name: "TableHead", type: "ThHTMLAttributes<HTMLTableCellElement>", description: "Column header cell <th>: left-aligned, uppercase, muted, small." },
+    { name: "TableCell", type: "TdHTMLAttributes<HTMLTableCellElement>", description: "Standard data cell <td>." },
+    { name: "TableCaption", type: "HTMLAttributes<HTMLTableCaptionElement>", description: "Caption rendered below the table; muted helper text." },
+  ]}
+/>
