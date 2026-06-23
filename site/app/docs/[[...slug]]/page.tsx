@@ -1,14 +1,17 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import {
-  DocsPage,
-  DocsBody,
-  DocsTitle,
-  DocsDescription,
-} from "fumadocs-ui/page";
 import type { TableOfContents } from "fumadocs-core/toc";
+import {
+  docs,
+  getDoc,
+  resolveLocalized,
+  type Localized,
+  type MDXLoader,
+  type MDXModule,
+} from "@/lib/docs";
+import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/i18n/config";
 import { getMDXComponents } from "@/mdx-components";
-import { docs, getDoc } from "@/lib/docs";
+import { LocalizedDoc, type LocaleDocContent } from "./localized-doc";
 
 export const dynamicParams = false;
 
@@ -41,6 +44,19 @@ function normalizeToc(raw: unknown): TableOfContents {
   }));
 }
 
+/**
+ * Resolve the per-locale loader map for an entry. `load` is either a single
+ * shared loader or a `{ en, "zh-CN"?, "zh-TW"? }` map. Returns one loader per
+ * defined locale (locales without their own variant are omitted and fall back
+ * to `en` at render time).
+ */
+function loaderMap(load: Localized<MDXLoader>): Partial<Record<Locale, MDXLoader>> {
+  if (typeof load === "function") {
+    return { [DEFAULT_LOCALE]: load } as Partial<Record<Locale, MDXLoader>>;
+  }
+  return load as Partial<Record<Locale, MDXLoader>>;
+}
+
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
@@ -48,19 +64,28 @@ export default async function Page(props: {
   const entry = getDoc(slug);
   if (!entry) notFound();
 
-  const mod = await entry.load();
-  const MDX = mod.default;
-  const toc = normalizeToc(mod.toc);
+  // Statically load + render every available locale variant at build time.
+  // We render the MDX body to React elements *here* (server side) because a
+  // compiled MDX component is a function and functions can't cross the RSC →
+  // Client boundary. The client wrapper just picks the pre-rendered node for
+  // the active locale, falling back to `en`.
+  const loaders = loaderMap(entry.load);
+  const components = getMDXComponents();
+  const content: Partial<Record<Locale, LocaleDocContent>> = {};
+  for (const locale of LOCALES) {
+    const load = loaders[locale];
+    if (!load) continue;
+    const mod: MDXModule = await load();
+    const Body = mod.default;
+    content[locale] = {
+      title: resolveLocalized(entry.title, locale),
+      description: resolveLocalized(entry.description, locale),
+      toc: normalizeToc(mod.toc),
+      body: <Body components={components} />,
+    };
+  }
 
-  return (
-    <DocsPage toc={toc}>
-      <DocsTitle>{entry.title}</DocsTitle>
-      <DocsDescription>{entry.description}</DocsDescription>
-      <DocsBody>
-        <MDX components={getMDXComponents()} />
-      </DocsBody>
-    </DocsPage>
-  );
+  return <LocalizedDoc content={content} />;
 }
 
 export function generateStaticParams() {
@@ -73,8 +98,11 @@ export async function generateMetadata(props: {
   const { slug } = await props.params;
   const entry = getDoc(slug);
   if (!entry) return {};
+  // Metadata is static (no client locale at build); use the default locale.
+  const title = resolveLocalized(entry.title, DEFAULT_LOCALE);
+  const description = resolveLocalized(entry.description, DEFAULT_LOCALE);
   return {
-    title: `${entry.title} — YunUI`,
-    description: entry.description,
+    title: `${title} — YunUI`,
+    description,
   };
 }

@@ -1,0 +1,75 @@
+import { Button, IconButton } from "yunui";
+import { Heart, Settings } from "lucide-react";
+
+主操作按鈕。它渲染 YunUI 的 `.btn` 類別，支援樣式變體和尺寸，可顯示載入指示器，並能透過 `asChild` 把自身樣式套用到子元素上（例如路由用的 `<Link>`）。
+
+## 匯入
+
+```tsx
+import { Button } from "@yuhuanowo/yunui";
+```
+
+## 變體
+
+<ComponentPreview
+  title="Variants"
+  code={`<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="accent">Accent</Button>
+<Button variant="amber">Amber</Button>
+<Button variant="red">Red</Button>`}
+>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="accent">Accent</Button>
+  <Button variant="amber">Amber</Button>
+  <Button variant="red">Red</Button>
+</ComponentPreview>
+
+## 尺寸
+
+<ComponentPreview
+  title="Sizes"
+  code={`<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`}
+>
+  <Button size="sm">Small</Button>
+  <Button size="md">Medium</Button>
+  <Button size="lg">Large</Button>
+</ComponentPreview>
+
+## 狀態
+
+<ComponentPreview
+  title="Loading & disabled"
+  code={`<Button loading>Loading</Button>
+<Button disabled>Disabled</Button>`}
+>
+  <Button loading>Loading</Button>
+  <Button disabled>Disabled</Button>
+</ComponentPreview>
+
+## 圖示按鈕
+
+對於僅含圖示的操作，請使用 `IconButton`，它會附帶一個無障礙標籤和內建提示框。
+
+<ComponentPreview
+  title="IconButton"
+  code={`import { IconButton } from "@yuhuanowo/yunui";
+import { Heart, Settings } from "lucide-react";
+
+<IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+<IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />`}
+>
+  <IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+  <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="Button" />

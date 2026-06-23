@@ -1,0 +1,40 @@
+import { FellowsBanner } from "yunui/patterns";
+
+模式是基於基礎元件構建的、由屬性驅動的高層組合——來自 Yunxin 的那些反覆出現的頁面片段（應用框架、儀表板、部落格、AI 產品 UI）。它們位於 `@yuhuanowo/yunui/patterns` 和 `@yuhuanowo/yunui/ai` 之下，並透過[轉接器](/docs)接收其框架相依（路由、圖片、i18n）。
+
+## 匯入
+
+```tsx
+import { StatCard, Sidebar, Footer, PageHeader, FAQ } from "@yuhuanowo/yunui/patterns";
+import { ModelCard, ThinkingBlock, ProviderIcon } from "@yuhuanowo/yunui/ai";
+```
+
+## 範例：StatCard
+
+<ComponentPreview
+  title="StatCard"
+  code={`import { StatCard } from "@yuhuanowo/yunui/patterns";
+import { Coins } from "lucide-react";
+
+<StatCard icon={Coins} label="Balance" value="$1,250" trend={{ value: 4.2, positive: true }} />`}
+>
+  <StatCardDemo />
+</ComponentPreview>
+
+## 範例：FellowsBanner
+
+<ComponentPreview title="FellowsBanner">
+  <div className="w-full max-w-xl">
+    <FellowsBanner
+      title="Join the Fellows program"
+      description="Selective access for builders and researchers."
+      ctaText="Apply"
+      features={["Pro-level limits", "Priority support", "Early features"]}
+      href="#"
+    />
+  </div>
+</ComponentPreview>
+
+## 完整目錄
+
+行銷[展示頁](/)以即時形式渲染了每一個模式，並按類別分組——佈局與框架（Layout & Chrome）、資料展示（Data Display）、回饋（Feedback）、導覽（Navigation），以及 AI 產品元件。瀏覽它即可看到完整集合，然後匯入你需要的部分。

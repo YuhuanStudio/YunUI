@@ -1,0 +1,78 @@
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "yunui";
+
+一个基于 Radix、垂直堆叠的可折叠区块集合。设置 `type="single"` 可一次只展开一个面板（再加 `collapsible` 让已展开的面板可以收起），或设置 `type="multiple"` 允许同时展开多个。完整的键盘无障碍支持（方向键、Home/End、Enter/Space）来自 Radix。
+
+## 导入
+
+```tsx
+import {
+  Accordion, AccordionItem, AccordionTrigger, AccordionContent,
+} from "@yuhuanowo/yunui";
+```
+
+## 单个（可折叠）
+
+<ComponentPreview
+  title="One open at a time"
+  code={`<Accordion type="single" collapsible>
+  <AccordionItem value="a">
+    <AccordionTrigger>What is YunUI?</AccordionTrigger>
+    <AccordionContent>A shared design system extracted from Yunxin.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="b">
+    <AccordionTrigger>How do projects sync?</AccordionTrigger>
+    <AccordionContent>Bump the yunui version; the design follows.</AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+  <Accordion type="single" collapsible className="w-full max-w-md space-y-2">
+    <AccordionItem value="a">
+      <AccordionTrigger>What is YunUI?</AccordionTrigger>
+      <AccordionContent>A shared design system extracted from Yunxin.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="b">
+      <AccordionTrigger>How do projects sync?</AccordionTrigger>
+      <AccordionContent>Bump the yunui version; the design follows on the next release.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="c">
+      <AccordionTrigger>Does it support theming?</AccordionTrigger>
+      <AccordionContent>Yes — light, zinc-dark and true-black.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</ComponentPreview>
+
+## 多个
+
+<ComponentPreview
+  title="Several open at once"
+  code={`<Accordion type="multiple">
+  <AccordionItem value="a">…</AccordionItem>
+  <AccordionItem value="b">…</AccordionItem>
+</Accordion>`}
+>
+  <Accordion type="multiple" className="w-full max-w-md space-y-2" defaultValue={["a"]}>
+    <AccordionItem value="a">
+      <AccordionTrigger>Streaming</AccordionTrigger>
+      <AccordionContent>Server-sent token streaming is supported across providers.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="b">
+      <AccordionTrigger>Function calling</AccordionTrigger>
+      <AccordionContent>Tools are normalized into a single schema regardless of vendor.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</ComponentPreview>
+
+## 属性
+
+`Accordion`、`AccordionItem`、`AccordionTrigger` 和 `AccordionContent` 都是对 Radix Accordion 原语的轻量包装，因此接受它们的全部属性。最常用的几个：
+
+<PropsTable
+  rows={[
+    { name: "type", type: '"single" | "multiple"', required: true, description: "一次可展开一个还是多个面板。" },
+    { name: "collapsible", type: "boolean", defaultValue: "false", description: "（type=single）允许关闭已展开的面板。" },
+    { name: "value / defaultValue", type: "string | string[]", description: "受控 / 非受控的展开项。" },
+    { name: "onValueChange", type: "(value) => void", description: "展开项变化时触发。" },
+    { name: "AccordionItem.value", type: "string", required: true, description: "该区块的唯一标识符。" },
+    { name: "disabled", type: "boolean", description: "禁用单个项或整个组。" },
+  ]}
+/>

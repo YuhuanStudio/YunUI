@@ -1,0 +1,87 @@
+YunUI 是以版本化的包形式发布的 Yunxin 设计系统——设计令牌、动画，以及约 30 个基础组件和更高层的模式，全都集中在一处。组件只需修改一次，所有使用 `@yuhuanowo/yunui` 的项目都会在下一次版本升级时获得更新。
+
+## 安装
+
+```bash
+pnpm add @yuhuanowo/yunui
+# peer deps (most apps already have these)
+pnpm add react react-dom lucide-react
+```
+
+YunUI 以 ESM 形式发布，并已内置 `"use client"` 边界，因此可在 Next.js App Router 中开箱即用。
+
+## Tailwind 配置
+
+YunUI 的组件会渲染其样式表中定义的标准工具类（`.card`、`.btn-primary`、`.badge` 等）。导入该 CSS，并让 Tailwind v4 扫描已编译的包，以便生成这些类：
+
+```css
+/* globals.css */
+@import "tailwindcss";
+@import "@yuhuanowo/yunui/css";
+
+/* Tailwind v4: scan YunUI's compiled output for the utility classes it uses. */
+@source "../node_modules/@yuhuanowo/yunui/dist";
+```
+
+<Callout type="warn" title="不要漏掉 @source 这一行">
+  Tailwind v4 只会生成它在被扫描文件中看到的工具类。YunUI 的组件位于 `node_modules` 中，而 Tailwind 默认会忽略该目录——所以你**必须**加上这一行，否则这些类永远不会被生成，组件就会渲染为无样式：
+
+  ```css
+  @source "../node_modules/@yuhuanowo/yunui/dist";
+  ```
+
+  请调整相对路径，使其从你的 `globals.css` 指向 `@yuhuanowo/yunui/dist`。
+</Callout>
+
+<Callout type="info" title="组件渲染为无样式？">
+  你几乎可以肯定是漏掉了上面的 `@source` 这一行（或者它的路径没有解析到 `node_modules/@yuhuanowo/yunui/dist`）。加上它，重启开发服务器让 Tailwind 重新扫描，`.card` / `.btn-*` / `.badge` 等样式就会出现。
+</Callout>
+
+如果你同时使用 fumadocs，请在 YunUI 之前导入它的预设，让设计系统的令牌优先生效：
+
+```css
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@import "@yuhuanowo/yunui/css";
+```
+
+## 适配器
+
+中等耦合的组件（`yunui/patterns`、`yunui/ai`）需要框架原语——路由、`<Image>` 和 i18n——而这些在各个应用中各不相同。通过 `YunUIProvider` 在根部注入一次即可：
+
+```tsx
+import { YunUIProvider } from "@yuhuanowo/yunui/adapters";
+import NextLink from "next/link";
+import NextImage from "next/image";
+import { useRouter } from "next/navigation";
+
+<YunUIProvider
+  adapters={{
+    Link: NextLink,
+    Image: NextImage,
+    useRouter: () => {
+      const r = useRouter();
+      return { push: r.push, replace: r.replace, back: r.back };
+    },
+    useT: (ns) => (key) => key, // wire up next-intl / your i18n here
+  }}
+>
+  {children}
+</YunUIProvider>
+```
+
+## 入口点
+
+YunUI 被拆分为多个聚焦的入口点，使应用只引入它们用到的部分：
+
+<ComponentPreview>
+  <div className="text-sm text-left space-y-2 w-full max-w-md">
+    <p><code className="code-inline">@yuhuanowo/yunui</code> — 原子级基础组件（Button、Card、Dialog、Tabs、布局、table 等）</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/patterns</code> — 页面级组合（Sidebar、Footer、StatCard、FAQ 等）</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/ai</code> — AI 产品组件（ModelCard、ThinkingBlock、provider icons 等）</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/adapters</code> — 框架适配器 provider</p>
+    <p><code className="code-inline">@yuhuanowo/yunui/css</code> — 设计系统样式表</p>
+  </div>
+</ComponentPreview>
+
+前往[组件](/docs/components)查看完整目录，含实时预览和属性表。

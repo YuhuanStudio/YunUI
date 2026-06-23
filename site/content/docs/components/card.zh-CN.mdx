@@ -1,0 +1,65 @@
+import { Card, Badge, Button } from "yunui";
+
+渲染标准 `.card` 样式的表面容器——与 Yunxin 中约 200 处原始 `className="card"` 用法外观一致，但收敛为一个组件。传入 `hover` 可获得交互式抬升效果。
+
+## 导入
+
+```tsx
+import { Card } from "@yuhuanowo/yunui";
+```
+
+## 基本用法
+
+<ComponentPreview
+  title="Card"
+  code={`<Card className="p-5 w-60">
+  <p className="font-medium mb-1">Pro plan</p>
+  <p className="text-caption">Everything in Basic, plus higher limits.</p>
+</Card>`}
+>
+  <Card className="p-5 w-60">
+    <p className="font-medium mb-1">Pro plan</p>
+    <p className="text-caption">Everything in Basic, plus higher limits.</p>
+  </Card>
+</ComponentPreview>
+
+## 悬停
+
+`hover` 为可点击的卡片添加边框 + 阴影过渡效果。
+
+<ComponentPreview
+  title="Hover lift"
+  code={`<Card hover className="p-5 w-60">
+  <div className="flex items-center justify-between mb-2">
+    <span className="font-medium">Pro plan</span>
+    <Badge variant="success">Active</Badge>
+  </div>
+  <p className="text-caption">Hover me — the border and shadow animate.</p>
+</Card>`}
+>
+  <Card hover className="p-5 w-60">
+    <div className="flex items-center justify-between mb-2">
+      <span className="font-medium">Pro plan</span>
+      <Badge variant="success">Active</Badge>
+    </div>
+    <p className="text-caption">Hover me — the border and shadow animate.</p>
+  </Card>
+</ComponentPreview>
+
+## 组合
+
+`Card` 是一个不带预设的容器——可以在其中组合任意内容，包括其他基础组件。
+
+<ComponentPreview title="With action">
+  <Card className="p-5 w-72">
+    <p className="font-medium mb-1">Upgrade your plan</p>
+    <p className="text-caption mb-4">Unlock higher rate limits and priority support.</p>
+    <Button variant="primary" size="sm">Upgrade</Button>
+  </Card>
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="Card" />
+
+`Card` 还会转发每一个标准 `<div>` 属性（`className`、`onClick`、`style` 等）。

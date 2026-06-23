@@ -1,0 +1,75 @@
+import { Button, IconButton } from "yunui";
+import { Heart, Settings } from "lucide-react";
+
+主操作按钮。它渲染 YunUI 的 `.btn` 类，支持样式变体和尺寸，可显示加载指示器，并能通过 `asChild` 把自身样式套用到子元素上（例如路由用的 `<Link>`）。
+
+## 导入
+
+```tsx
+import { Button } from "@yuhuanowo/yunui";
+```
+
+## 变体
+
+<ComponentPreview
+  title="Variants"
+  code={`<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="accent">Accent</Button>
+<Button variant="amber">Amber</Button>
+<Button variant="red">Red</Button>`}
+>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="accent">Accent</Button>
+  <Button variant="amber">Amber</Button>
+  <Button variant="red">Red</Button>
+</ComponentPreview>
+
+## 尺寸
+
+<ComponentPreview
+  title="Sizes"
+  code={`<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`}
+>
+  <Button size="sm">Small</Button>
+  <Button size="md">Medium</Button>
+  <Button size="lg">Large</Button>
+</ComponentPreview>
+
+## 状态
+
+<ComponentPreview
+  title="Loading & disabled"
+  code={`<Button loading>Loading</Button>
+<Button disabled>Disabled</Button>`}
+>
+  <Button loading>Loading</Button>
+  <Button disabled>Disabled</Button>
+</ComponentPreview>
+
+## 图标按钮
+
+对于仅含图标的操作，请使用 `IconButton`，它会附带一个无障碍标签和内置提示框。
+
+<ComponentPreview
+  title="IconButton"
+  code={`import { IconButton } from "@yuhuanowo/yunui";
+import { Heart, Settings } from "lucide-react";
+
+<IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+<IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />`}
+>
+  <IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+  <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="Button" />

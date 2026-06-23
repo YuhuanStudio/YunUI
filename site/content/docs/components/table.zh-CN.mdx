@@ -1,0 +1,113 @@
+import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, Badge } from "yunui";
+
+一个语义化、纯展示型、基于设计系统令牌构建的表格组件族。`Table` 会把 `<table>` 包裹在一个溢出容器中，使宽表格滚动而不破坏布局。用 `TableHeader`、`TableBody`、`TableRow`、`TableHead` 和 `TableCell` 来组合它（短别名 `Thead`、`Tbody`、`Tr`、`Th`、`Td` 也都有导出）。
+
+## 导入
+
+```tsx
+import {
+  Table, TableHeader, TableBody, TableFooter,
+  TableRow, TableHead, TableCell, TableCaption,
+} from "@yuhuanowo/yunui";
+```
+
+## 基本用法
+
+<ComponentPreview
+  title="Data table"
+  code={`<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Model</TableHead>
+      <TableHead>Context</TableHead>
+      <TableHead>Status</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Claude Opus 4.8</TableCell>
+      <TableCell>200K</TableCell>
+      <TableCell><Badge variant="success">Active</Badge></TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`}
+>
+  <div className="w-full max-w-xl">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Model</TableHead>
+          <TableHead>Context</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>Claude Opus 4.8</TableCell>
+          <TableCell>200K</TableCell>
+          <TableCell><Badge variant="success">Active</Badge></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>DeepSeek R1</TableCell>
+          <TableCell>64K</TableCell>
+          <TableCell><Badge variant="info">Beta</Badge></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>GPT-4o mini</TableCell>
+          <TableCell>128K</TableCell>
+          <TableCell><Badge variant="warning">Limited</Badge></TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  </div>
+</ComponentPreview>
+
+## 带表尾与标题
+
+<ComponentPreview title="Summary row">
+  <div className="w-full max-w-md">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Item</TableHead>
+          <TableHead>Cost</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>Requests</TableCell>
+          <TableCell>$42.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Storage</TableCell>
+          <TableCell>$8.40</TableCell>
+        </TableRow>
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell>Total</TableCell>
+          <TableCell>$50.40</TableCell>
+        </TableRow>
+      </TableFooter>
+      <TableCaption>Billing for the current period.</TableCaption>
+    </Table>
+  </div>
+</ComponentPreview>
+
+## 属性 — Table
+
+<PropsTable name="Table" />
+
+各子组件会转发其底层表格元素（`<thead>`、`<tbody>`、`<tr>`、`<th>`、`<td>`）的属性，外加 `className`：
+
+<PropsTable
+  rows={[
+    { name: "TableHeader", type: "HTMLAttributes<HTMLTableSectionElement>", description: "渲染 <thead>；列标题行之间以一条细微的边框分隔。" },
+    { name: "TableBody", type: "HTMLAttributes<HTMLTableSectionElement>", description: "渲染 <tbody>；各行之间以细微的边框分隔。" },
+    { name: "TableFooter", type: "HTMLAttributes<HTMLTableSectionElement>", description: "渲染 <tfoot>；一条柔和的汇总行带状区域。" },
+    { name: "TableRow", type: "HTMLAttributes<HTMLTableRowElement>", description: "渲染 <tr>，带分隔线和悬停高亮。" },
+    { name: "TableHead", type: "ThHTMLAttributes<HTMLTableCellElement>", description: "列标题单元格 <th>：左对齐、大写、柔和、小号。" },
+    { name: "TableCell", type: "TdHTMLAttributes<HTMLTableCellElement>", description: "标准数据单元格 <td>。" },
+    { name: "TableCaption", type: "HTMLAttributes<HTMLTableCaptionElement>", description: "渲染在表格下方的标题；柔和的辅助文本。" },
+  ]}
+/>

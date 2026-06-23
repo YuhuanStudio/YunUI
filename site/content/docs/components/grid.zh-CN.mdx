@@ -1,0 +1,63 @@
+import { Grid, Card } from "yunui";
+
+一个 CSS grid 布局基础组件。`columns`、`rows`、`gap`、`align` 和 `padding` 会通过静态映射表映射到字面的 Tailwind 类（因此编译器总会生成它们）。纯展示型；`as` 可改变渲染的标签。
+
+## 导入
+
+```tsx
+import { Grid } from "@yuhuanowo/yunui";
+```
+
+## 列
+
+<ComponentPreview
+  title="3 columns"
+  code={`<Grid columns={3} gap={3}>
+  <Box>1</Box><Box>2</Box><Box>3</Box>
+  <Box>4</Box><Box>5</Box><Box>6</Box>
+</Grid>`}
+>
+  <Grid columns={3} gap={3} className="w-full max-w-md">
+    {[1, 2, 3, 4, 5, 6].map((n) => (
+      <Card key={n} className="py-4 grid place-items-center font-mono">{n}</Card>
+    ))}
+  </Grid>
+</ComponentPreview>
+
+## 间距
+
+<ComponentPreview
+  title="2 columns, wider gap"
+  code={`<Grid columns={2} gap={6}>
+  <Box>A</Box><Box>B</Box>
+</Grid>`}
+>
+  <Grid columns={2} gap={6} className="w-full max-w-sm">
+    <Card className="py-6 grid place-items-center font-mono">A</Card>
+    <Card className="py-6 grid place-items-center font-mono">B</Card>
+  </Grid>
+</ComponentPreview>
+
+## 响应式
+
+`Grid` 设置固定的列数；如需响应式布局，可通过 `className` 结合 Tailwind 的响应式工具类，或改用原始的 `grid-cols-*` 类。
+
+<ComponentPreview
+  title="Stat tiles"
+  code={`<Grid columns={4} gap={4}>
+  {stats.map((s) => <StatTile key={s} />)}
+</Grid>`}
+>
+  <Grid columns={4} gap={4} className="w-full max-w-2xl">
+    {["1.2k", "48k", "3", "72.4"].map((v, i) => (
+      <Card key={i} className="p-4">
+        <div className="text-label mb-1">metric</div>
+        <div className="text-2xl font-semibold">{v}</div>
+      </Card>
+    ))}
+  </Grid>
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="Grid" />

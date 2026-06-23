@@ -1,0 +1,66 @@
+import { RadioGroup, RadioGroupItem } from "yunui";
+
+一個基於 Radix 的單選項集合。透過 `value`/`onValueChange` 受控（或透過 `defaultValue` 非受控）。方向鍵可在組內移動並選擇，整個組是單個 tab 停靠點。每一項渲染一個圓環，選中時填充主強調色並顯示一個中心圓點——與 YunUI 的 Checkbox/Switch 視覺語言一致。
+
+## 匯入
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@yuhuanowo/yunui";
+```
+
+## 基本用法
+
+<ComponentPreview
+  title="Single choice"
+  code={`<RadioGroup defaultValue="comfortable">
+  <label className="flex items-center gap-2 text-sm">
+    <RadioGroupItem value="compact" id="r1" /> Compact
+  </label>
+  <label className="flex items-center gap-2 text-sm">
+    <RadioGroupItem value="comfortable" id="r2" /> Comfortable
+  </label>
+  <label className="flex items-center gap-2 text-sm">
+    <RadioGroupItem value="spacious" id="r3" /> Spacious
+  </label>
+</RadioGroup>`}
+>
+  <RadioGroup defaultValue="comfortable" className="text-left">
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="compact" id="r1" /> Compact
+    </label>
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="comfortable" id="r2" /> Comfortable
+    </label>
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="spacious" id="r3" /> Spacious
+    </label>
+  </RadioGroup>
+</ComponentPreview>
+
+## 停用
+
+<ComponentPreview title="Disabled option">
+  <RadioGroup defaultValue="a" className="text-left">
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <RadioGroupItem value="a" id="d1" /> Available
+    </label>
+    <label className="flex items-center gap-2 text-sm opacity-60">
+      <RadioGroupItem value="b" id="d2" disabled /> Unavailable
+    </label>
+  </RadioGroup>
+</ComponentPreview>
+
+## 屬性
+
+`RadioGroup` 和 `RadioGroupItem` 包裝了 Radix 的 RadioGroup 原語，接受它們的全部屬性。最常用的幾個：
+
+<PropsTable
+  rows={[
+    { name: "value / defaultValue", type: "string", description: "受控 / 非受控的選中值。" },
+    { name: "onValueChange", type: "(value: string) => void", description: "選擇變化時觸發。" },
+    { name: "disabled", type: "boolean", description: "停用整個組（或單個項）。" },
+    { name: "name", type: "string", description: "隨值一起提交的表單欄位名。" },
+    { name: "RadioGroupItem.value", type: "string", required: true, description: "該項所選中的值。" },
+    { name: "RadioGroupItem.id", type: "string", description: "與 <label htmlFor> 配對，提供無障礙標籤。" },
+  ]}
+/>

@@ -1,0 +1,62 @@
+import { Flex, Card } from "yunui";
+
+一個 flexbox 佈局基礎元件。`direction`、`align`、`justify`、`gap`、`wrap` 以及內邊距屬性會透過靜態查找表對應到字面的 Tailwind 類別，因此編譯器總會產生它們。純展示型——額外的屬性會展開到元素上，`as` 可改變標籤。
+
+## 匯入
+
+```tsx
+import { Flex, Row, Column, Stack } from "@yuhuanowo/yunui";
+```
+
+`Row`、`Column` 和 `Stack` 是幾個輕量預設：`Row` 固定 `direction="row"`，`Column`/`Stack` 固定 `direction="col"`（`Stack` 額外帶一個預設 `gap`）。
+
+## 方向與間距
+
+<ComponentPreview
+  title="Row with gap"
+  code={`<Flex direction="row" gap={4}>
+  <Box>1</Box><Box>2</Box><Box>3</Box>
+</Flex>`}
+>
+  <Flex direction="row" gap={4}>
+    <Card className="size-14 grid place-items-center font-mono">1</Card>
+    <Card className="size-14 grid place-items-center font-mono">2</Card>
+    <Card className="size-14 grid place-items-center font-mono">3</Card>
+  </Flex>
+</ComponentPreview>
+
+## 對齊與分佈
+
+<ComponentPreview
+  title="Justify between, centered"
+  code={`<Flex justify="between" align="center" gap={4} className="w-full">
+  <Box>start</Box>
+  <Box>end</Box>
+</Flex>`}
+>
+  <Flex justify="between" align="center" gap={4} className="w-full max-w-md">
+    <Card className="px-4 py-3 font-mono">start</Card>
+    <Card className="px-4 py-3 font-mono">end</Card>
+  </Flex>
+</ComponentPreview>
+
+## 方向 = 欄（column）
+
+<ComponentPreview
+  title="Stacked"
+  code={`<Flex direction="col" gap={3}>
+  <Box>top</Box>
+  <Box>middle</Box>
+  <Box>bottom</Box>
+</Flex>`}
+>
+  <Flex direction="col" gap={3} className="w-40">
+    <Card className="px-4 py-2 font-mono text-center">top</Card>
+    <Card className="px-4 py-2 font-mono text-center">middle</Card>
+    <Card className="px-4 py-2 font-mono text-center">bottom</Card>
+  </Flex>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="Flex" />
