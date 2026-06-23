@@ -44,7 +44,7 @@
   },
   "footer": {
     "tagline": "一套設計系統，所有專案保持同步。",
-    "copyright": "© 2026 YunUI · 一次編輯，處處同步",
+    "copyright": "© 2026 YuhuanStudio",
     "product": "產品",
     "resources": "資源",
     "overview": "概覽",
@@ -64,7 +64,7 @@
     "bullets": {
       "react": "React 19",
       "tailwind": "Tailwind v4",
-      "license": "MIT 授權",
+      "license": "Apache-2.0",
       "agnostic": "與框架無關"
     },
     "stats": {

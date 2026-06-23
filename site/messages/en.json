@@ -44,7 +44,7 @@
   },
   "footer": {
     "tagline": "One design system, every project in sync.",
-    "copyright": "© 2026 YunUI · edit once, sync everywhere",
+    "copyright": "© 2026 YuhuanStudio",
     "product": "Product",
     "resources": "Resources",
     "overview": "Overview",
@@ -64,7 +64,7 @@
     "bullets": {
       "react": "React 19",
       "tailwind": "Tailwind v4",
-      "license": "MIT licensed",
+      "license": "Apache-2.0",
       "agnostic": "Framework-agnostic"
     },
     "stats": {
@@ -163,7 +163,7 @@
     },
     "design": {
       "title": "Utility Classes",
-      "description": "Yunxin pages often use these classes directly — the design lives in CSS, components are thin wrappers."
+      "description": "Apps built on YunUI use these classes directly — the design lives in CSS; components are thin wrappers."
     },
     "dashboard": {
       "title": "Dashboard Demo"

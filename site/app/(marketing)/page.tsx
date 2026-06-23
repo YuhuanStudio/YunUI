@@ -246,7 +246,7 @@ export default function Home() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://img.shields.io/npm/l/@yuhuanowo/yunui?color=18181b&labelColor=18181b&label=license"
-            alt="MIT license"
+            alt="License"
             height={20}
           />
         </div>

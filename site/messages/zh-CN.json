@@ -44,7 +44,7 @@
   },
   "footer": {
     "tagline": "一套设计系统，所有项目保持同步。",
-    "copyright": "© 2026 YunUI · 一次编辑，处处同步",
+    "copyright": "© 2026 YuhuanStudio",
     "product": "产品",
     "resources": "资源",
     "overview": "概览",
@@ -64,7 +64,7 @@
     "bullets": {
       "react": "React 19",
       "tailwind": "Tailwind v4",
-      "license": "MIT 许可",
+      "license": "Apache-2.0",
       "agnostic": "与框架无关"
     },
     "stats": {
@@ -163,7 +163,7 @@
     },
     "design": {
       "title": "工具类",
-      "description": "Yunxin 的页面常常直接使用这些类——设计存在于 CSS 中，组件只是薄薄的封装。"
+      "description": "用 YunUI 的应用常直接使用这些类——设计存在于 CSS 中，组件只是薄薄的封装。"
     },
     "dashboard": {
       "title": "仪表盘演示"

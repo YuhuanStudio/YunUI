@@ -148,4 +148,4 @@ export function Thing() {
 
 ## License
 
-MIT © yuhuanowo
+Apache-2.0 © yuhuanowo

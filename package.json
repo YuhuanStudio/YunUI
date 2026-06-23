@@ -3,7 +3,7 @@
   "version": "0.1.8",
   "description": "YunUI — Yunxin design system extracted into a standalone, versioned UI library (tokens, animations, primitives, patterns).",
   "type": "module",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "yuhuanowo",
   "packageManager": "pnpm@11.8.0",
   "publishConfig": {

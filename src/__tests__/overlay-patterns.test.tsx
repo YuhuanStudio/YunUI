@@ -133,7 +133,7 @@ describe("Modal", () => {
 describe("FAQ", () => {
   const items = [
     { question: "What is YunUI?", answer: "A component library." },
-    { question: "Is it free?", answer: "Yes, MIT licensed." },
+    { question: "Is it free?", answer: "Yes, Apache-2.0." },
   ];
 
   it("renders every question as a toggle button", () => {
@@ -145,7 +145,7 @@ describe("FAQ", () => {
   it("renders answers (always in the DOM; visibility is CSS-driven)", () => {
     render(<FAQ items={items} />);
     expect(screen.getByText("A component library.")).toBeInTheDocument();
-    expect(screen.getByText("Yes, MIT licensed.")).toBeInTheDocument();
+    expect(screen.getByText("Yes, Apache-2.0.")).toBeInTheDocument();
   });
 
   it("opens the first item by default (expanded panel)", () => {
@@ -159,7 +159,7 @@ describe("FAQ", () => {
     const user = userEvent.setup();
     render(<FAQ items={items} defaultOpenIndex={null} />);
 
-    const secondAnswerPanel = screen.getByText("Yes, MIT licensed.");
+    const secondAnswerPanel = screen.getByText("Yes, Apache-2.0.");
     expect(secondAnswerPanel.className).toContain("max-h-0");
     expect(secondAnswerPanel.className).toContain("opacity-0");
 
