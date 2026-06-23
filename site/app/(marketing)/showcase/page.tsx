@@ -380,19 +380,17 @@ function BlogControlsDemo() {
 // scaled-down stage so it previews like the others without taking over the page.
 function AccountLockedDemo() {
   return (
-    <div className="w-full rounded-2xl border border-border overflow-hidden bg-(--bg-elevated)" style={{ height: 380 }}>
-      <div className="origin-top-left" style={{ transform: "scale(0.85)", width: "117.6%", height: "117.6%" }}>
-        <AccountLockedCard
-          appName="YunUI"
-          logoSrc="/favicon.ico"
-          icon={<Lock className="w-6 h-6 text-error" />}
-          title="Account suspended"
-          subtitle="Your account has been temporarily locked for review."
-          appeal="If you think this is a mistake, you can appeal the decision."
-          backLabel="Back to sign in"
-          onBack={() => toast.info("Back to sign in")}
-        />
-      </div>
+    <div className="w-full overflow-hidden rounded-2xl border border-border [&>*]:min-h-full!" style={{ height: 440 }}>
+      <AccountLockedCard
+        appName="YunUI"
+        logoSrc="/favicon.ico"
+        icon={<Lock className="w-6 h-6 text-error" />}
+        title="Account suspended"
+        subtitle="Your account has been temporarily locked for review."
+        appeal="If you think this is a mistake, you can appeal the decision."
+        backLabel="Back to sign in"
+        onBack={() => toast.info("Back to sign in")}
+      />
     </div>
   );
 }
@@ -955,8 +953,8 @@ export default function Showcase() {
         <Demo title="Empty state">
           <EmptyState icon={<Inbox className="w-8 h-8" />} title="No messages" description="When you get messages they'll show up here." action={<Button variant="primary" size="sm">Refresh</Button>} />
         </Demo>
-        <Demo title="Page loader" description="Full-screen centered loader for route transitions — framed here in a fixed-height stage.">
-          <div className="w-full h-40 rounded-2xl border border-border overflow-hidden">
+        <Demo title="Page loader" description="Full-screen centered loader for route transitions — framed here in a fixed-height stage (its min-h-dvh is capped to the frame).">
+          <div className="w-full h-44 rounded-2xl border border-border overflow-hidden [&>*]:min-h-full!">
             <PageLoader title="Loading workspace" subtitle="Fetching your models and keys…" />
           </div>
         </Demo>
@@ -1184,10 +1182,13 @@ export default function Showcase() {
             <ErrorBoundaryDemo />
           </div>
         </Demo>
-        <Demo title="Background effects (decorative)">
-          <div className="relative w-full h-40 rounded-2xl border border-border overflow-hidden">
+        <Demo title="Background effects (decorative)" description="A subtle dotted radial backdrop — it sits behind your page content (intentionally faint).">
+          <div className="relative isolate w-full h-48 rounded-2xl border border-border overflow-hidden flex items-center justify-center">
             <BackgroundEffects />
-            <div className="relative z-10 h-full flex items-center justify-center text-muted-foreground">Animated backdrop</div>
+            <div className="text-center">
+              <p className="font-semibold">Your content here</p>
+              <p className="text-caption mt-1">BackgroundEffects renders behind it</p>
+            </div>
           </div>
         </Demo>
       </Section>
