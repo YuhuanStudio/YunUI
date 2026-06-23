@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import {
   Button,
   IconButton,
@@ -410,21 +411,21 @@ const COLOR_TOKENS: { name: string; varName: string }[] = [
   { name: "error", varName: "--error" },
 ];
 
-const CATEGORY_NAV: { label: string; href: string }[] = [
-  { label: "Foundations", href: "#foundations" },
-  { label: "Utility classes", href: "#design" },
-  { label: "Dashboard demo", href: "#dashboard" },
-  { label: "Layout & chrome", href: "#layout" },
-  { label: "Buttons & actions", href: "#buttons" },
-  { label: "Form controls", href: "#forms" },
-  { label: "Overlays", href: "#overlays" },
-  { label: "Data display", href: "#data-display" },
-  { label: "Feedback", href: "#feedback" },
-  { label: "Navigation", href: "#navigation" },
-  { label: "Patterns", href: "#patterns" },
-];
-
 export default function Showcase() {
+  const t = useTranslations("showcase");
+  const CATEGORY_NAV: { label: string; href: string }[] = [
+    { label: t("nav.foundations"), href: "#foundations" },
+    { label: t("nav.design"), href: "#design" },
+    { label: t("nav.dashboard"), href: "#dashboard" },
+    { label: t("nav.layout"), href: "#layout" },
+    { label: t("nav.buttons"), href: "#buttons" },
+    { label: t("nav.forms"), href: "#forms" },
+    { label: t("nav.overlays"), href: "#overlays" },
+    { label: t("nav.dataDisplay"), href: "#data-display" },
+    { label: t("nav.feedback"), href: "#feedback" },
+    { label: t("nav.navigation"), href: "#navigation" },
+    { label: t("nav.patterns"), href: "#patterns" },
+  ];
   const [checked, setChecked] = useState(true);
   const [sw, setSw] = useState(true);
   const [seg, setSeg] = useState("week");
@@ -443,14 +444,12 @@ export default function Showcase() {
     <div className="max-w-6xl mx-auto px-6 pb-8">
       {/* Header / intro */}
       <section id="overview" className="scroll-mt-20 mb-12">
-        <span className="badge badge-info mb-4 inline-block">Component showcase</span>
+        <span className="badge badge-info mb-4 inline-block">{t("badge")}</span>
         <h1 className="heading-xl text-3xl sm:text-4xl leading-[1.1] max-w-3xl">
-          Every YunUI component, on one page.
+          {t("title")}
         </h1>
         <p className="text-body mt-4 max-w-2xl">
-          The full gallery — every exported primitive, form control, overlay, data-display piece,
-          layout chrome, pattern and AI component, each in a live Preview / Code frame. Jump to a
-          category below or scroll the whole thing.
+          {t("intro")}
         </p>
         {/* In-page category nav (anchor links) */}
         <nav className="mt-6 flex flex-wrap gap-2">
@@ -467,7 +466,7 @@ export default function Showcase() {
       </section>
 
       {/* Foundations — the design tokens everything is built on */}
-      <Section id="foundations" title="Foundations" description="The tokens, type scale, surfaces and motion that define the YunUI look.">
+      <Section id="foundations" title={t("foundations.title")} description={t("foundations.description")}>
         <Demo title="Color tokens" description="CSS variables, theme-aware — they re-map under .dark and .true-black.">
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 w-full">
             {COLOR_TOKENS.map((t) => (
@@ -507,7 +506,7 @@ export default function Showcase() {
       </Section>
 
       {/* Utility classes — the raw Yunxin classes components are built on */}
-      <Section id="design" title="Utility Classes" description="Yunxin pages often use these classes directly — the design lives in CSS, components are thin wrappers.">
+      <Section id="design" title={t("design.title")} description={t("design.description")}>
         <Demo title="Badges (.badge-* + variants)">
           <span className="badge badge-success">success</span>
           <span className="badge badge-warning">warning</span>
@@ -542,7 +541,7 @@ export default function Showcase() {
       </Section>
 
       {/* Dashboard demo — what a real Yunxin page looks like */}
-      <Section id="dashboard" title="Dashboard Demo">
+      <Section id="dashboard" title={t("dashboard.title")}>
         <PageHeader
           title="Overview"
           description="A page composed from YunUI layout pieces, exactly like Yunxin."
@@ -577,7 +576,7 @@ export default function Showcase() {
       </Section>
 
       {/* Layout & chrome — the real app shell pieces */}
-      <Section id="layout" title="Layout & Chrome" description="Navbar, Sidebar and Footer — framed previews of the fixed app chrome.">
+      <Section id="layout" title={t("layout.title")} description={t("layout.description")}>
         <Demo title="Navbar" description="Floating top nav; switcher/toggle are slots, links are props.">
           <Stage height={120}>
             <Navbar
@@ -615,7 +614,7 @@ export default function Showcase() {
       </Section>
 
       {/* Buttons */}
-      <Section id="buttons" title="Buttons & Actions">
+      <Section id="buttons" title={t("buttons.title")}>
         <Demo
           title="Variants"
           code={`import { Button } from "yunui";
@@ -649,7 +648,7 @@ export default function Showcase() {
       </Section>
 
       {/* Forms */}
-      <Section id="forms" title="Form Controls">
+      <Section id="forms" title={t("forms.title")}>
         <Demo title="Input & textarea">
           <div className="w-full max-w-sm space-y-3">
             <div>
@@ -766,7 +765,7 @@ export default function Showcase() {
       </Section>
 
       {/* Overlays */}
-      <Section id="overlays" title="Overlays">
+      <Section id="overlays" title={t("overlays.title")}>
         <Demo
           title="Dialog (Radix)"
           code={`import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from "yunui";
@@ -854,7 +853,7 @@ export default function Showcase() {
       </Section>
 
       {/* Data display */}
-      <Section id="data-display" title="Data Display">
+      <Section id="data-display" title={t("dataDisplay.title")}>
         <Demo
           title="Cards & badges"
           code={`import { Card, Badge } from "yunui";
@@ -943,7 +942,7 @@ export default function Showcase() {
       </Section>
 
       {/* Feedback */}
-      <Section id="feedback" title="Feedback">
+      <Section id="feedback" title={t("feedback.title")}>
         <Demo title="Skeleton & spinner">
           <div className="space-y-2 w-60">
             <Skeleton className="h-4 w-full" />
@@ -989,7 +988,7 @@ export default function Showcase() {
       </Section>
 
       {/* Navigation */}
-      <Section id="navigation" title="Navigation">
+      <Section id="navigation" title={t("navigation.title")}>
         <Demo title="Nav tabs">
           <NavTabs
             activeKey={tab}
@@ -1016,7 +1015,7 @@ export default function Showcase() {
       </Section>
 
       {/* Patterns */}
-      <Section id="patterns" title="Patterns">
+      <Section id="patterns" title={t("patterns.title")}>
         <Demo title="Media page header" description="Title + sync button + error/stats — used across the media generation pages.">
           <div className="w-full max-w-2xl">
             <MediaPageHeader

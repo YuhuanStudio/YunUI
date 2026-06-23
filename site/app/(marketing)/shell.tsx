@@ -3,22 +3,28 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "yunui";
-import { Footer, GithubIcon } from "yunui/ai";
+import { Footer, GithubIcon, LanguageSwitcher } from "yunui/ai";
 import { Logo } from "@/components/logo";
-
-// Center nav links — mirrors Yunxin's public navbar (Showcase + Docs).
-const NAV_LINKS: { href: string; label: string }[] = [
-  { label: "Showcase", href: "/showcase" },
-  { label: "Docs", href: "/docs" },
-];
+import { LOCALES, LOCALE_NAMES } from "@/i18n/config";
+import { useLocale, useSetLocale } from "@/app/locale-provider";
 
 // Floating pill Navbar — styled exactly like Yunxin's public Navbar
-// (yunui/ai Navbar), but the right side carries a GitHub link + ThemeToggle
-// instead of auth buttons (this is a marketing site, not an app).
+// (yunui/ai Navbar), but the right side carries a GitHub link + language
+// switcher + ThemeToggle instead of auth buttons (this is a marketing site).
 function Navbar({ pathname }: { pathname: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  const setLocale = useSetLocale();
+
+  // Center nav links — mirrors Yunxin's public navbar (Showcase + Docs).
+  const NAV_LINKS = [
+    { label: t("showcase"), href: "/showcase" },
+    { label: t("docs"), href: "/docs" },
+  ];
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -28,7 +34,7 @@ function Navbar({ pathname }: { pathname: string }) {
       {/* Logo — mark + wordmark, links home */}
       <Link
         href="/"
-        aria-label="YunUI home"
+        aria-label={t("home")}
         className="flex items-center rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200"
       >
         <Logo size={24} />
@@ -64,11 +70,19 @@ function Navbar({ pathname }: { pathname: string }) {
           href="https://github.com/YuhuanStudio/YunUI"
           target="_blank"
           rel="noreferrer noopener"
-          aria-label="GitHub"
+          aria-label={t("github")}
           className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
         >
           <GithubIcon />
         </a>
+        {/* Dogfood yunui's LanguageSwitcher; the host owns the locale state +
+            cookie side-effect, fed in via props. Sits left of the ThemeToggle. */}
+        <LanguageSwitcher
+          variant="pill"
+          locales={LOCALES.map((loc) => ({ value: loc, label: LOCALE_NAMES[loc] }))}
+          currentLocale={locale}
+          onChange={(l) => setLocale(l as (typeof LOCALES)[number])}
+        />
         <ThemeToggle variant="pill" />
 
         {/* Mobile menu toggle */}
@@ -76,7 +90,7 @@ function Navbar({ pathname }: { pathname: string }) {
           type="button"
           onClick={() => setMenuOpen((o) => !o)}
           className="md:hidden w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors"
-          aria-label="Menu"
+          aria-label={t("menu")}
           aria-expanded={menuOpen}
         >
           {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -109,6 +123,7 @@ function Navbar({ pathname }: { pathname: string }) {
 
 export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const tf = useTranslations("footer");
 
   return (
     <div className="min-h-dvh flex flex-col relative overflow-x-hidden bg-background">
@@ -123,13 +138,13 @@ export function Shell({ children }: { children: ReactNode }) {
         appName="YunUI"
         logoSrc="/favicon.ico"
         homeHref="/#overview"
-        tagline="One design system, every project in sync."
+        tagline={tf("tagline")}
         sections={[
-          { title: "Product", links: [{ label: "Overview", href: "/#overview" }, { label: "Why YunUI", href: "/#why" }, { label: "Showcase", href: "/showcase" }] },
-          { title: "Resources", links: [{ label: "Docs", href: "/docs" }, { label: "Patterns", href: "/showcase#patterns" }, { label: "Utility Classes", href: "/showcase#design" }] },
+          { title: tf("product"), links: [{ label: tf("overview"), href: "/#overview" }, { label: tf("whyYunUI"), href: "/#why" }, { label: tf("showcase"), href: "/showcase" }] },
+          { title: tf("resources"), links: [{ label: tf("docs"), href: "/docs" }, { label: tf("patterns"), href: "/showcase#patterns" }, { label: tf("utilityClasses"), href: "/showcase#design" }] },
         ]}
         social={[{ icon: <GithubIcon />, href: "https://github.com/YuhuanStudio/YunUI", label: "GitHub" }]}
-        copyright="© 2026 YunUI · edit once, sync everywhere"
+        copyright={tf("copyright")}
       />
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import {
   Button,
@@ -72,23 +73,12 @@ function SectionHeading({
 }
 
 // ---------------------------------------------------------------------------
-// Stats strip — AnimatedNumber tiles (dogfoods the primitive). Real counts:
-// 23 primitives + 18 patterns, 141 test cases, 3 themes.
-// ---------------------------------------------------------------------------
-const STATS: { value: number; suffix?: string; label: string; icon: ReactNode }[] = [
-  { value: 41, suffix: "+", label: "Components + patterns", icon: <Boxes className="w-6 h-6" /> },
-  { value: 141, label: "Tests, all green", icon: <TestTube2 className="w-6 h-6" /> },
-  { value: 3, label: "Built-in themes", icon: <Palette className="w-6 h-6" /> },
-  { value: 0, label: "Forced runtime deps", icon: <Package className="w-6 h-6" /> },
-];
-
-// ---------------------------------------------------------------------------
-// Code tabs — install / usage / theming, fed to the CodeBlock pattern.
+// Code tabs — install / usage / theming, fed to the CodeBlock pattern. The
+// tab labels are localized at render; the code samples stay language-neutral.
 // ---------------------------------------------------------------------------
 const CODE_TABS = [
   {
     id: "install",
-    label: "Install",
     language: "Bash",
     code: `# 1. Add the package
 npm i @yuhuanowo/yunui
@@ -101,7 +91,6 @@ npm i @yuhuanowo/yunui
   },
   {
     id: "usage",
-    label: "Usage",
     language: "TypeScript",
     code: `import { Button, Card, Badge } from "yunui";
 
@@ -119,7 +108,6 @@ export function Plan() {
   },
   {
     id: "theming",
-    label: "Theming",
     language: "TypeScript",
     code: `// Tokens drive everything — flip a class, the whole UI follows.
 import { ThemeProvider } from "next-themes";
@@ -138,37 +126,37 @@ import { ThemeProvider } from "next-themes";
 ];
 
 // ---------------------------------------------------------------------------
-// FAQ content (fed to the FAQ pattern component).
-// ---------------------------------------------------------------------------
-const FAQ_ITEMS = [
-  {
-    question: "How do I theme it?",
-    answer:
-      "Everything is driven by CSS custom-property tokens. Import the stylesheet, then toggle a theme class (light / dark / true-black) on <html>. Override any token in your own CSS and every component follows — no prop drilling, no theme objects to thread through the tree.",
-  },
-  {
-    question: "Does it need a specific framework?",
-    answer:
-      "No. The core primitives are framework-agnostic. Routing, image, and i18n concerns are injected through a thin adapter layer (YunUIProvider) — wire in Next's Link/Image or your own, and the library stays portable across apps.",
-  },
-  {
-    question: "How are updates shipped?",
-    answer:
-      "Edit once in the library, version it, and sync every consuming project via npm. Releases are published with provenance through tokenless OIDC trusted publishing — no long-lived secrets in CI.",
-  },
-  {
-    question: "Is it accessible?",
-    answer:
-      "Interactive primitives build on Radix-style behaviors with keyboard navigation, focus management, and ARIA wired in. Components ship typed and JSDoc'd, and a 141-case test suite guards the public surface.",
-  },
-];
-
-// ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 export default function Home() {
   const [checked, setChecked] = useState(true);
   const [sw, setSw] = useState(true);
+  const t = useTranslations("landing");
+
+  // Stats strip — AnimatedNumber tiles. Real counts: 41+ components + patterns,
+  // 141 test cases, 3 themes, 0 forced runtime deps. Labels are localized.
+  const STATS: { value: number; suffix?: string; label: string; icon: ReactNode }[] = [
+    { value: 41, suffix: "+", label: t("stats.components"), icon: <Boxes className="w-6 h-6" /> },
+    { value: 141, label: t("stats.tests"), icon: <TestTube2 className="w-6 h-6" /> },
+    { value: 3, label: t("stats.themes"), icon: <Palette className="w-6 h-6" /> },
+    { value: 0, label: t("stats.deps"), icon: <Package className="w-6 h-6" /> },
+  ];
+
+  const CODE_TAB_LABELS: Record<string, string> = {
+    install: t("quickStart.installLabel"),
+    usage: t("quickStart.usageLabel"),
+    theming: t("quickStart.themingLabel"),
+  };
+  const codeTabs = CODE_TABS.map((tab) => ({ ...tab, label: CODE_TAB_LABELS[tab.id] }));
+
+  const FAQ_ITEMS = [
+    { question: t("faq.q1"), answer: t("faq.a1") },
+    { question: t("faq.q2"), answer: t("faq.a2") },
+    { question: t("faq.q3"), answer: t("faq.a3") },
+    { question: t("faq.q4"), answer: t("faq.a4") },
+  ];
+
+  const BULLETS = [t("bullets.react"), t("bullets.tailwind"), t("bullets.license"), t("bullets.agnostic")];
 
   return (
     <div className="relative">
@@ -189,7 +177,7 @@ export default function Home() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-(--accent-subtle)/80 backdrop-blur-sm border border-(--accent-muted) mb-8 animate-enter hover:bg-(--accent-subtle) transition-colors"
         >
           <span className="text-foreground"><LogoMark size={16} /></span>
-          <span className="text-sm font-medium">New: Flex · Grid · Table · v0.1.8 on npm</span>
+          <span className="text-sm font-medium">{t("heroBadge")}</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
 
@@ -198,9 +186,9 @@ export default function Home() {
           className="text-5xl md:text-7xl font-bold tracking-tight mb-6 animate-enter max-w-4xl"
           style={{ animationDelay: "100ms" }}
         >
-          Build once.{" "}
+          {t("heroTitleLead")}{" "}
           <span className="bg-linear-to-r from-foreground via-foreground to-muted-foreground/70 bg-clip-text text-transparent">
-            Ship everywhere.
+            {t("heroTitleAccent")}
           </span>
         </h1>
 
@@ -209,8 +197,7 @@ export default function Home() {
           className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed animate-enter"
           style={{ animationDelay: "300ms" }}
         >
-          A React 19 + Tailwind v4 design system: token-driven, three themes, a framework-agnostic
-          adapter layer. Edit once, version it, and sync every project you ship.
+          {t("heroSubtitle")}
         </p>
 
         {/* CTAs */}
@@ -220,14 +207,14 @@ export default function Home() {
         >
           <Button variant="primary" size="lg" asChild>
             <Link href="/showcase" className="group whitespace-nowrap">
-              Browse components
+              {t("browseComponents")}
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>
           <Button variant="secondary" size="lg" asChild>
             <Link href="/docs" className="group whitespace-nowrap">
               <BookOpen className="w-4 h-4 mr-2" />
-              Read the docs
+              {t("readDocs")}
             </Link>
           </Button>
         </div>
@@ -237,7 +224,7 @@ export default function Home() {
           className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground animate-enter"
           style={{ animationDelay: "500ms" }}
         >
-          {["React 19", "Tailwind v4", "MIT licensed", "Framework-agnostic"].map((label) => (
+          {BULLETS.map((label) => (
             <div key={label} className="flex items-center gap-2">
               <Check className="w-4 h-4 text-success" />
               <span>{label}</span>
@@ -302,12 +289,12 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
       <section id="install" className="scroll-mt-20 py-16">
         <SectionHeading
-          badge="Quick start"
+          badge={t("quickStart.badge")}
           icon={<Terminal className="w-4 h-4" />}
-          title="See it in code"
-          subtitle="Install the package, import a component, theme it with tokens. The same CodeBlock you see here is a YunUI pattern."
+          title={t("quickStart.title")}
+          subtitle={t("quickStart.subtitle")}
         />
-        <CodeBlock tabs={CODE_TABS} code="" showLineNumbers className="shadow-2xl max-w-3xl mx-auto" />
+        <CodeBlock tabs={codeTabs} code="" showLineNumbers className="shadow-2xl max-w-3xl mx-auto" />
       </section>
 
       {/* ----------------------------------------------------------------- */}
@@ -315,41 +302,41 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
       <section id="why" className="scroll-mt-20 py-16">
         <SectionHeading
-          badge="Why YunUI"
+          badge={t("why.badge")}
           icon={<Sparkles className="w-4 h-4" />}
-          title="One source of truth"
-          subtitle="A component library built to be the single source of truth across every project you ship."
+          title={t("why.title")}
+          subtitle={t("why.subtitle")}
         />
         <BentoGrid className="w-full">
           <BentoCard
             icon={<Boxes className="w-5 h-5" />}
-            title="41+ components + patterns"
-            description="Primitives, page-level patterns, and AI product components — composed, typed, and ready to ship."
+            title={t("why.componentsTitle")}
+            description={t("why.componentsDesc")}
           />
           <BentoCard
             icon={<Palette className="w-5 h-5" />}
-            title="3 themes (light / dark / OLED)"
-            description="Token-driven theming. Light, zinc-dark, and a true-black OLED theme — swap with one class."
+            title={t("why.themesTitle")}
+            description={t("why.themesDesc")}
           />
           <BentoCard
             icon={<Puzzle className="w-5 h-5" />}
-            title="Framework-agnostic adapters"
-            description="Bring your own Link, Image, and i18n. Inject them once; the library stays portable across apps."
+            title={t("why.adaptersTitle")}
+            description={t("why.adaptersDesc")}
           />
           <BentoCard
             icon={<ShieldCheck className="w-5 h-5" />}
-            title="Tokenless OIDC releases"
-            description="Published to npm via trusted publishing with provenance — no long-lived tokens in CI."
+            title={t("why.releasesTitle")}
+            description={t("why.releasesDesc")}
           />
           <BentoCard
             icon={<FlaskConical className="w-5 h-5" />}
-            title="141 tests, typed, JSDoc'd"
-            description="Strict TypeScript, JSDoc on the public surface, and a test suite that guards every primitive."
+            title={t("why.testsTitle")}
+            description={t("why.testsDesc")}
           />
           <BentoCard
             icon={<Rocket className="w-5 h-5" />}
-            title="In production at Yunxin"
-            description="Battle-tested in production — already powering a real, shipping app end to end."
+            title={t("why.productionTitle")}
+            description={t("why.productionDesc")}
           />
         </BentoGrid>
       </section>
@@ -359,10 +346,10 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
       <section id="live-preview" className="scroll-mt-20 py-16">
         <SectionHeading
-          badge="Theming, live"
+          badge={t("livePreview.badge")}
           icon={<Palette className="w-4 h-4" />}
-          title="Theming, live"
-          subtitle="Real YunUI components — flip the theme switch (top-right) to see light, zinc-dark, and true-black update in place."
+          title={t("livePreview.title")}
+          subtitle={t("livePreview.subtitle")}
         />
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -381,10 +368,10 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 gap-4">
             <Card className="p-5">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-medium">Pro plan</span>
-                <Badge variant="success">Active</Badge>
+                <span className="font-medium">{t("livePreview.proPlan")}</span>
+                <Badge variant="success">{t("livePreview.active")}</Badge>
               </div>
-              <p className="text-caption mb-4">Everything in Basic, plus higher limits and priority support.</p>
+              <p className="text-caption mb-4">{t("livePreview.proPlanDesc")}</p>
               <div className="flex flex-wrap gap-2">
                 <Badge>Default</Badge>
                 <Badge variant="info">Info</Badge>
@@ -394,18 +381,18 @@ export default function Home() {
             </Card>
             <Card className="p-5 space-y-3">
               <div>
-                <Label>Email</Label>
+                <Label>{t("livePreview.email")}</Label>
                 <Input placeholder="you@example.com" icon={<Search className="w-4 h-4" />} />
               </div>
               <div className="flex items-center gap-4 pt-1">
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <Checkbox checked={checked} onCheckedChange={setChecked} />
-                  Subscribe
+                  {t("livePreview.subscribe")}
                 </label>
                 <Switch checked={sw} onCheckedChange={setSw} />
               </div>
               <Button variant="primary" size="sm" className="mt-1">
-                Continue
+                {t("livePreview.continue")}
                 <ArrowRight className="w-4 h-4 ml-1.5" />
               </Button>
             </Card>
@@ -418,10 +405,10 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
       <section id="highlights" className="scroll-mt-20 py-16">
         <SectionHeading
-          badge="Highlights"
+          badge={t("highlights.badge")}
           icon={<Layers className="w-4 h-4" />}
-          title="A taste of the kit"
-          subtitle="A handful of flagship pieces — see the full set in the showcase."
+          title={t("highlights.title")}
+          subtitle={t("highlights.subtitle")}
         />
         <div className="grid sm:grid-cols-2 gap-4">
           <div
@@ -445,17 +432,17 @@ export default function Home() {
           </div>
           <Card className="p-5">
             <div className="flex items-center justify-between mb-2">
-              <span className="font-medium">Pro plan</span>
-              <Badge variant="success">Active</Badge>
+              <span className="font-medium">{t("highlights.proPlan")}</span>
+              <Badge variant="success">{t("highlights.active")}</Badge>
             </div>
-            <p className="text-caption">A Card primitive — everything in Basic, plus higher limits.</p>
+            <p className="text-caption">{t("highlights.cardDesc")}</p>
           </Card>
           <div
             className="rounded-2xl border border-border p-8 flex items-center justify-center min-h-[140px]"
             style={{ backgroundImage: "radial-gradient(var(--border-subtle) 1px, transparent 1px)", backgroundSize: "16px 16px" }}
           >
             <div className="w-full max-w-xs">
-              <Label>Email</Label>
+              <Label>{t("highlights.email")}</Label>
               <Input placeholder="you@example.com" icon={<Search className="w-4 h-4" />} />
             </div>
           </div>
@@ -467,10 +454,10 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
       <section id="faq" className="scroll-mt-20 py-16">
         <SectionHeading
-          badge="FAQ"
+          badge={t("faq.badge")}
           icon={<Plug className="w-4 h-4" />}
-          title="Questions, answered"
-          subtitle="The things people ask before adopting YunUI in a real project."
+          title={t("faq.title")}
+          subtitle={t("faq.subtitle")}
         />
         <FAQ items={FAQ_ITEMS} />
       </section>
@@ -485,16 +472,16 @@ export default function Home() {
             style={{ animationDelay: "100ms" }}
           >
             <Rocket className="w-4 h-4" />
-            <span className="text-xs font-medium">Get started</span>
+            <span className="text-xs font-medium">{t("cta.badge")}</span>
           </div>
           <h2 className="heading-xl mb-4 animate-enter" style={{ animationDelay: "200ms" }}>
-            One design system, every project in sync.
+            {t("cta.title")}
           </h2>
           <p
             className="text-body text-lg mb-8 max-w-xl mx-auto animate-enter"
             style={{ animationDelay: "300ms" }}
           >
-            Browse the gallery, read the docs, or jump straight into the source on GitHub.
+            {t("cta.subtitle")}
           </p>
           <div
             className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-enter"
@@ -502,14 +489,14 @@ export default function Home() {
           >
             <Button variant="primary" size="lg" asChild>
               <Link href="/showcase" className="group whitespace-nowrap">
-                Browse components
+                {t("cta.browseComponents")}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
             <Button variant="secondary" size="lg" asChild>
               <Link href="/docs" className="group whitespace-nowrap">
                 <Code2 className="w-4 h-4 mr-2" />
-                Read the docs
+                {t("cta.readDocs")}
               </Link>
             </Button>
             <Button variant="ghost" size="lg" asChild>
@@ -520,7 +507,7 @@ export default function Home() {
                 className="inline-flex items-center gap-2 whitespace-nowrap"
               >
                 <GithubIcon />
-                GitHub
+                {t("cta.github")}
               </a>
             </Button>
           </div>

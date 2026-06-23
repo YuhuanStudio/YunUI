@@ -1,0 +1,263 @@
+{
+  "common": {
+    "copy": "Copy",
+    "copied": "Copied!",
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "zincDark": "Zinc Dark",
+      "trueBlack": "True Black",
+      "system": "System"
+    },
+    "combobox": {
+      "placeholder": "Select or type…",
+      "creatableText": "Create \"{value}\"",
+      "noResults": "No results"
+    },
+    "select": {
+      "placeholder": "Select…",
+      "search": "Search…",
+      "clearSearch": "Clear",
+      "noOptions": "No options"
+    },
+    "thinking": {
+      "label": "Thinking",
+      "active": "Live",
+      "inProgress": "Thinking…"
+    },
+    "badge": {
+      "clickToCopy": "Click to copy {text}",
+      "copied": "Copied!",
+      "yaml": "YAML",
+      "api": "API"
+    }
+  },
+  "languageSwitcher": {
+    "label": "Language"
+  },
+  "nav": {
+    "showcase": "Showcase",
+    "docs": "Docs",
+    "home": "YunUI home",
+    "github": "GitHub",
+    "menu": "Menu"
+  },
+  "footer": {
+    "tagline": "One design system, every project in sync.",
+    "copyright": "© 2026 YunUI · edit once, sync everywhere",
+    "product": "Product",
+    "resources": "Resources",
+    "overview": "Overview",
+    "whyYunUI": "Why YunUI",
+    "showcase": "Showcase",
+    "docs": "Docs",
+    "patterns": "Patterns",
+    "utilityClasses": "Utility Classes"
+  },
+  "landing": {
+    "heroBadge": "New: Flex · Grid · Table · v0.1.8 on npm",
+    "heroTitleLead": "Build once.",
+    "heroTitleAccent": "Ship everywhere.",
+    "heroSubtitle": "A React 19 + Tailwind v4 design system: token-driven, three themes, a framework-agnostic adapter layer. Edit once, version it, and sync every project you ship.",
+    "browseComponents": "Browse components",
+    "readDocs": "Read the docs",
+    "bullets": {
+      "react": "React 19",
+      "tailwind": "Tailwind v4",
+      "license": "MIT licensed",
+      "agnostic": "Framework-agnostic"
+    },
+    "stats": {
+      "components": "Components + patterns",
+      "tests": "Tests, all green",
+      "themes": "Built-in themes",
+      "deps": "Forced runtime deps"
+    },
+    "quickStart": {
+      "badge": "Quick start",
+      "title": "See it in code",
+      "subtitle": "Install the package, import a component, theme it with tokens. The same CodeBlock you see here is a YunUI pattern.",
+      "installLabel": "Install",
+      "usageLabel": "Usage",
+      "themingLabel": "Theming"
+    },
+    "why": {
+      "badge": "Why YunUI",
+      "title": "One source of truth",
+      "subtitle": "A component library built to be the single source of truth across every project you ship.",
+      "componentsTitle": "41+ components + patterns",
+      "componentsDesc": "Primitives, page-level patterns, and AI product components — composed, typed, and ready to ship.",
+      "themesTitle": "3 themes (light / dark / OLED)",
+      "themesDesc": "Token-driven theming. Light, zinc-dark, and a true-black OLED theme — swap with one class.",
+      "adaptersTitle": "Framework-agnostic adapters",
+      "adaptersDesc": "Bring your own Link, Image, and i18n. Inject them once; the library stays portable across apps.",
+      "releasesTitle": "Tokenless OIDC releases",
+      "releasesDesc": "Published to npm via trusted publishing with provenance — no long-lived tokens in CI.",
+      "testsTitle": "141 tests, typed, JSDoc'd",
+      "testsDesc": "Strict TypeScript, JSDoc on the public surface, and a test suite that guards every primitive.",
+      "productionTitle": "In production at Yunxin",
+      "productionDesc": "Battle-tested in production — already powering a real, shipping app end to end."
+    },
+    "livePreview": {
+      "badge": "Theming, live",
+      "title": "Theming, live",
+      "subtitle": "Real YunUI components — flip the theme switch (top-right) to see light, zinc-dark, and true-black update in place.",
+      "proPlan": "Pro plan",
+      "active": "Active",
+      "proPlanDesc": "Everything in Basic, plus higher limits and priority support.",
+      "email": "Email",
+      "subscribe": "Subscribe",
+      "continue": "Continue"
+    },
+    "highlights": {
+      "badge": "Highlights",
+      "title": "A taste of the kit",
+      "subtitle": "A handful of flagship pieces — see the full set in the showcase.",
+      "proPlan": "Pro plan",
+      "active": "Active",
+      "cardDesc": "A Card primitive — everything in Basic, plus higher limits.",
+      "email": "Email"
+    },
+    "faq": {
+      "badge": "FAQ",
+      "title": "Questions, answered",
+      "subtitle": "The things people ask before adopting YunUI in a real project.",
+      "q1": "How do I theme it?",
+      "a1": "Everything is driven by CSS custom-property tokens. Import the stylesheet, then toggle a theme class (light / dark / true-black) on the root html element. Override any token in your own CSS and every component follows — no prop drilling, no theme objects to thread through the tree.",
+      "q2": "Does it need a specific framework?",
+      "a2": "No. The core primitives are framework-agnostic. Routing, image, and i18n concerns are injected through a thin adapter layer (YunUIProvider) — wire in Next's Link/Image or your own, and the library stays portable across apps.",
+      "q3": "How are updates shipped?",
+      "a3": "Edit once in the library, version it, and sync every consuming project via npm. Releases are published with provenance through tokenless OIDC trusted publishing — no long-lived secrets in CI.",
+      "q4": "Is it accessible?",
+      "a4": "Interactive primitives build on Radix-style behaviors with keyboard navigation, focus management, and ARIA wired in. Components ship typed and JSDoc'd, and a 141-case test suite guards the public surface."
+    },
+    "cta": {
+      "badge": "Get started",
+      "title": "One design system, every project in sync.",
+      "subtitle": "Browse the gallery, read the docs, or jump straight into the source on GitHub.",
+      "browseComponents": "Browse components",
+      "readDocs": "Read the docs",
+      "github": "GitHub"
+    }
+  },
+  "showcase": {
+    "badge": "Component showcase",
+    "title": "Every YunUI component, on one page.",
+    "intro": "The full gallery — every exported primitive, form control, overlay, data-display piece, layout chrome, pattern and AI component, each in a live Preview / Code frame. Jump to a category below or scroll the whole thing.",
+    "nav": {
+      "foundations": "Foundations",
+      "design": "Utility classes",
+      "dashboard": "Dashboard demo",
+      "layout": "Layout & chrome",
+      "buttons": "Buttons & actions",
+      "forms": "Form controls",
+      "overlays": "Overlays",
+      "dataDisplay": "Data display",
+      "feedback": "Feedback",
+      "navigation": "Navigation",
+      "patterns": "Patterns"
+    },
+    "foundations": {
+      "title": "Foundations",
+      "description": "The tokens, type scale, surfaces and motion that define the YunUI look."
+    },
+    "design": {
+      "title": "Utility Classes",
+      "description": "Yunxin pages often use these classes directly — the design lives in CSS, components are thin wrappers."
+    },
+    "dashboard": {
+      "title": "Dashboard Demo"
+    },
+    "layout": {
+      "title": "Layout & Chrome",
+      "description": "Navbar, Sidebar and Footer — framed previews of the fixed app chrome."
+    },
+    "buttons": {
+      "title": "Buttons & Actions"
+    },
+    "forms": {
+      "title": "Form Controls"
+    },
+    "overlays": {
+      "title": "Overlays"
+    },
+    "dataDisplay": {
+      "title": "Data Display"
+    },
+    "feedback": {
+      "title": "Feedback"
+    },
+    "navigation": {
+      "title": "Navigation"
+    },
+    "patterns": {
+      "title": "Patterns"
+    }
+  },
+  "capabilities": {
+    "chat": "Chat",
+    "streaming": "Streaming",
+    "function_calling": "Function Calling",
+    "vision": "Vision",
+    "thinking": "Thinking",
+    "image_edit": "Image Edit",
+    "negative_prompt": "Negative Prompt",
+    "seed_control": "Seed Control",
+    "lora": "LoRA Support",
+    "guidance_scale": "Guidance Scale",
+    "strength": "Strength",
+    "batch": "Batch Generation",
+    "tts": "Text-to-Speech",
+    "stt": "Speech-to-Text",
+    "audio_translation": "Audio Translation",
+    "video_generation": "Video Generation",
+    "music_generation": "Music Generation",
+    "threed_generation": "3D Generation",
+    "realtime_voice": "Realtime Voice"
+  },
+  "components": {
+    "badges": {
+      "chat": "Chat",
+      "streaming": "Streaming",
+      "functionCalling": "Function Calling",
+      "vision": "Vision",
+      "thinking": "Thinking",
+      "imageEdit": "Image Edit",
+      "negativePrompt": "Negative Prompt",
+      "seedControl": "Seed Control",
+      "loraSupport": "LoRA Support",
+      "guidanceScale": "Guidance Scale",
+      "strength": "Strength",
+      "batchGeneration": "Batch Generation",
+      "pending": "Pending",
+      "approved": "Approved",
+      "autoApproved": "Auto Approved",
+      "rejected": "Rejected",
+      "active": "Active",
+      "inactive": "Inactive",
+      "deprecated": "Deprecated",
+      "api": "API",
+      "yaml": "YAML",
+      "fellow": "Fellow"
+    },
+    "confirmModal": {
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "processing": "Processing...",
+      "delete": "Delete",
+      "deleteQuestion": "Delete?",
+      "deleteMessage": "Are you sure you want to delete \"{item}\"? This action cannot be undone.",
+      "regenerate": "Regenerate",
+      "regenerateQuestion": "Regenerate?",
+      "regenerateMessage": "Are you sure you want to regenerate \"{item}\"? The old value will be immediately invalidated.",
+      "actionCannotBeUndone": "This action cannot be undone"
+    },
+    "mediaPageHeader": {
+      "sync": "Sync",
+      "syncing": "Syncing...",
+      "loading": "Loading...",
+      "error": "Error",
+      "retry": "Retry"
+    }
+  }
+}

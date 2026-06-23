@@ -1,0 +1,263 @@
+{
+  "common": {
+    "copy": "复制",
+    "copied": "已复制！",
+    "theme": {
+      "toggle": "切换主题",
+      "light": "浅色",
+      "zincDark": "Zinc 深色",
+      "trueBlack": "纯黑",
+      "system": "系统"
+    },
+    "combobox": {
+      "placeholder": "选择或输入…",
+      "creatableText": "创建“{value}”",
+      "noResults": "没有结果"
+    },
+    "select": {
+      "placeholder": "请选择…",
+      "search": "搜索…",
+      "clearSearch": "清除",
+      "noOptions": "没有选项"
+    },
+    "thinking": {
+      "label": "思考中",
+      "active": "实时",
+      "inProgress": "思考中…"
+    },
+    "badge": {
+      "clickToCopy": "点击复制 {text}",
+      "copied": "已复制！",
+      "yaml": "YAML",
+      "api": "API"
+    }
+  },
+  "languageSwitcher": {
+    "label": "语言"
+  },
+  "nav": {
+    "showcase": "组件展示",
+    "docs": "文档",
+    "home": "YunUI 首页",
+    "github": "GitHub",
+    "menu": "菜单"
+  },
+  "footer": {
+    "tagline": "一套设计系统，所有项目保持同步。",
+    "copyright": "© 2026 YunUI · 一次编辑，处处同步",
+    "product": "产品",
+    "resources": "资源",
+    "overview": "概览",
+    "whyYunUI": "为什么选择 YunUI",
+    "showcase": "组件展示",
+    "docs": "文档",
+    "patterns": "模式",
+    "utilityClasses": "工具类"
+  },
+  "landing": {
+    "heroBadge": "新增：Flex · Grid · Table · npm 上 v0.1.8",
+    "heroTitleLead": "一次构建。",
+    "heroTitleAccent": "随处发布。",
+    "heroSubtitle": "基于 React 19 + Tailwind v4 的设计系统：令牌驱动、三套主题、与框架无关的适配层。一次编辑，版本化管理，并同步到你交付的每一个项目。",
+    "browseComponents": "浏览组件",
+    "readDocs": "阅读文档",
+    "bullets": {
+      "react": "React 19",
+      "tailwind": "Tailwind v4",
+      "license": "MIT 许可",
+      "agnostic": "与框架无关"
+    },
+    "stats": {
+      "components": "组件 + 模式",
+      "tests": "测试，全部通过",
+      "themes": "内置主题",
+      "deps": "强制运行时依赖"
+    },
+    "quickStart": {
+      "badge": "快速开始",
+      "title": "看看代码",
+      "subtitle": "安装包、导入组件、用令牌设置主题。你在这里看到的这个 CodeBlock 本身就是一个 YunUI 模式组件。",
+      "installLabel": "安装",
+      "usageLabel": "用法",
+      "themingLabel": "主题"
+    },
+    "why": {
+      "badge": "为什么选择 YunUI",
+      "title": "唯一可信源",
+      "subtitle": "一个组件库，旨在成为你交付的每一个项目的唯一可信源。",
+      "componentsTitle": "41+ 组件 + 模式",
+      "componentsDesc": "基础组件、页面级模式以及 AI 产品组件——已组合、已类型化，开箱即用。",
+      "themesTitle": "3 套主题（浅色 / 深色 / OLED）",
+      "themesDesc": "令牌驱动的主题。浅色、zinc 深色，以及纯黑 OLED 主题——切换一个类即可。",
+      "adaptersTitle": "与框架无关的适配器",
+      "adaptersDesc": "自带 Link、Image 与 i18n。注入一次，组件库便能在各个应用间保持可移植。",
+      "releasesTitle": "无令牌 OIDC 发布",
+      "releasesDesc": "通过受信任发布并带溯源信息发布到 npm——CI 中没有长期有效的令牌。",
+      "testsTitle": "141 个测试，类型化，附 JSDoc",
+      "testsDesc": "严格的 TypeScript、公共接口上的 JSDoc，以及守护每个基础组件的测试套件。",
+      "productionTitle": "已在 Yunxin 生产环境运行",
+      "productionDesc": "经过生产环境的实战检验——已端到端支撑一个真实上线的应用。"
+    },
+    "livePreview": {
+      "badge": "实时主题",
+      "title": "实时主题",
+      "subtitle": "真实的 YunUI 组件——拨动主题开关（右上角）即可看到浅色、zinc 深色和纯黑就地更新。",
+      "proPlan": "专业版",
+      "active": "已启用",
+      "proPlanDesc": "包含基础版的全部功能，外加更高的额度和优先支持。",
+      "email": "邮箱",
+      "subscribe": "订阅",
+      "continue": "继续"
+    },
+    "highlights": {
+      "badge": "亮点",
+      "title": "组件库一瞥",
+      "subtitle": "少数几件旗舰组件——完整集合请见组件展示。",
+      "proPlan": "专业版",
+      "active": "已启用",
+      "cardDesc": "一个 Card 基础组件——包含基础版的全部功能，外加更高的额度。",
+      "email": "邮箱"
+    },
+    "faq": {
+      "badge": "常见问题",
+      "title": "你的疑问，已解答",
+      "subtitle": "在真实项目中采用 YunUI 之前，人们常问的那些问题。",
+      "q1": "我该如何设置主题？",
+      "a1": "一切都由 CSS 自定义属性令牌驱动。导入样式表，然后在 html 根元素上切换主题类（light / dark / true-black）。在你自己的 CSS 中覆盖任意令牌，每个组件都会随之变化——无需逐层传递属性，也无需在组件树中层层穿透主题对象。",
+      "q2": "它需要特定的框架吗？",
+      "a2": "不需要。核心基础组件与框架无关。路由、图片和 i18n 等事项通过一个轻量的适配层（YunUIProvider）注入——接入 Next 的 Link/Image 或你自己的实现，组件库便能在各个应用间保持可移植。",
+      "q3": "更新是如何交付的？",
+      "a3": "在组件库中编辑一次、版本化，然后通过 npm 同步到每一个使用方项目。版本发布通过无令牌的 OIDC 受信任发布带溯源信息进行——CI 中没有长期有效的密钥。",
+      "q4": "它无障碍吗？",
+      "a4": "交互式基础组件构建在 Radix 风格的行为之上，已接入键盘导航、焦点管理和 ARIA。组件均已类型化并附带 JSDoc，141 个用例的测试套件守护着公共接口。"
+    },
+    "cta": {
+      "badge": "立即开始",
+      "title": "一套设计系统，所有项目保持同步。",
+      "subtitle": "浏览组件库、阅读文档，或直接前往 GitHub 查看源码。",
+      "browseComponents": "浏览组件",
+      "readDocs": "阅读文档",
+      "github": "GitHub"
+    }
+  },
+  "showcase": {
+    "badge": "组件展示",
+    "title": "所有 YunUI 组件，尽在一页。",
+    "intro": "完整画廊——每一个导出的基础组件、表单控件、浮层、数据展示组件、布局外壳、模式以及 AI 组件，都以实时的 预览 / 代码 框架呈现。可跳转到下方某个类别，或直接滚动浏览全部内容。",
+    "nav": {
+      "foundations": "基础",
+      "design": "工具类",
+      "dashboard": "仪表盘演示",
+      "layout": "布局与外壳",
+      "buttons": "按钮与操作",
+      "forms": "表单控件",
+      "overlays": "浮层",
+      "dataDisplay": "数据展示",
+      "feedback": "反馈",
+      "navigation": "导航",
+      "patterns": "模式"
+    },
+    "foundations": {
+      "title": "基础",
+      "description": "定义 YunUI 外观的令牌、字号梯度、表面与动效。"
+    },
+    "design": {
+      "title": "工具类",
+      "description": "Yunxin 的页面常常直接使用这些类——设计存在于 CSS 中，组件只是薄薄的封装。"
+    },
+    "dashboard": {
+      "title": "仪表盘演示"
+    },
+    "layout": {
+      "title": "布局与外壳",
+      "description": "Navbar、Sidebar 与 Footer——固定式应用外壳的框架化预览。"
+    },
+    "buttons": {
+      "title": "按钮与操作"
+    },
+    "forms": {
+      "title": "表单控件"
+    },
+    "overlays": {
+      "title": "浮层"
+    },
+    "dataDisplay": {
+      "title": "数据展示"
+    },
+    "feedback": {
+      "title": "反馈"
+    },
+    "navigation": {
+      "title": "导航"
+    },
+    "patterns": {
+      "title": "模式"
+    }
+  },
+  "capabilities": {
+    "chat": "对话",
+    "streaming": "串流",
+    "function_calling": "函数调用",
+    "vision": "视觉",
+    "thinking": "思考",
+    "image_edit": "图像编辑",
+    "negative_prompt": "负面提示词",
+    "seed_control": "种子控制",
+    "lora": "LoRA 支持",
+    "guidance_scale": "引导比例",
+    "strength": "强度",
+    "batch": "批量生成",
+    "tts": "语音合成",
+    "stt": "语音转文字",
+    "audio_translation": "音频翻译",
+    "video_generation": "视频生成",
+    "music_generation": "音乐生成",
+    "threed_generation": "3D 生成",
+    "realtime_voice": "实时语音"
+  },
+  "components": {
+    "badges": {
+      "chat": "对话",
+      "streaming": "流式",
+      "functionCalling": "函数调用",
+      "vision": "视觉",
+      "thinking": "思考",
+      "imageEdit": "图像编辑",
+      "negativePrompt": "负面提示词",
+      "seedControl": "种子控制",
+      "loraSupport": "LoRA 支持",
+      "guidanceScale": "引导比例",
+      "strength": "强度",
+      "batchGeneration": "批量生成",
+      "pending": "待审核",
+      "approved": "已批准",
+      "autoApproved": "自动批准",
+      "rejected": "已拒绝",
+      "active": "启用",
+      "inactive": "停用",
+      "deprecated": "已弃用",
+      "api": "API",
+      "yaml": "YAML",
+      "fellow": "Fellow"
+    },
+    "confirmModal": {
+      "confirm": "确认",
+      "cancel": "取消",
+      "processing": "处理中...",
+      "delete": "删除",
+      "deleteQuestion": "删除？",
+      "deleteMessage": "确定要删除 \"{item}\" 吗？此操作无法撤销。",
+      "regenerate": "重新生成",
+      "regenerateQuestion": "重新生成？",
+      "regenerateMessage": "确定要重新生成 \"{item}\" 吗？旧值将立即失效。",
+      "actionCannotBeUndone": "此操作无法撤销"
+    },
+    "mediaPageHeader": {
+      "sync": "同步",
+      "syncing": "同步中...",
+      "loading": "加载中...",
+      "error": "错误",
+      "retry": "重试"
+    }
+  }
+}
