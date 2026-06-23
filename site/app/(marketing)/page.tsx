@@ -172,15 +172,16 @@ export default function Home() {
 
   return (
     <div className="relative">
-      {/* Animated dotted background behind everything (dogfoods the pattern) */}
+      {/* Animated dotted background behind everything (dogfoods the pattern).
+          Full-bleed — it spans the whole viewport like Yunxin's landing. */}
       <BackgroundEffects />
 
       {/* ----------------------------------------------------------------- */}
-      {/* Hero                                                              */}
+      {/* Hero — full-bleed; inner content is self-centering                */}
       {/* ----------------------------------------------------------------- */}
       <section
         id="overview"
-        className="relative scroll-mt-20 min-h-[88vh] flex flex-col items-center justify-center text-center py-16"
+        className="relative scroll-mt-20 min-h-[88vh] flex flex-col items-center justify-center text-center py-16 px-6"
       >
         {/* Pill badge */}
         <Link
@@ -268,6 +269,12 @@ export default function Home() {
           <ChevronDown className="w-5 h-5 text-muted-foreground/50" />
         </div>
       </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Everything below the hero sits in a centered, readable column     */}
+      {/* (the old Shell used to constrain width; now pages own it).        */}
+      {/* ----------------------------------------------------------------- */}
+      <div className="max-w-6xl mx-auto px-6">
 
       {/* ----------------------------------------------------------------- */}
       {/* Stats strip — AnimatedNumber primitives                           */}
@@ -519,6 +526,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }
