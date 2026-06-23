@@ -294,7 +294,7 @@ export default function Home() {
           title={t("quickStart.title")}
           subtitle={t("quickStart.subtitle")}
         />
-        <CodeBlock tabs={codeTabs} code="" showLineNumbers className="shadow-2xl max-w-3xl mx-auto" />
+        <CodeBlock tabs={codeTabs} code="" showLineNumbers className="shadow-2xl" />
       </section>
 
       {/* ----------------------------------------------------------------- */}
@@ -478,7 +478,7 @@ export default function Home() {
             {t("cta.title")}
           </h2>
           <p
-            className="text-body text-lg mb-8 max-w-xl mx-auto animate-enter"
+            className="text-body text-lg mb-8 max-w-2xl mx-auto animate-enter"
             style={{ animationDelay: "300ms" }}
           >
             {t("cta.subtitle")}
