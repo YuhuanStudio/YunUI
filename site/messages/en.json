@@ -192,6 +192,406 @@
     },
     "patterns": {
       "title": "Patterns"
+    },
+    "toggle": {
+      "preview": "Preview",
+      "code": "Code"
+    },
+    "demos": {
+      "colorTokens": {
+        "title": "Color tokens",
+        "description": "CSS variables, theme-aware — they re-map under .dark and .true-black."
+      },
+      "typeScale": {
+        "title": "Type scale",
+        "body": "Body — the default paragraph rhythm and color.",
+        "caption": "Caption — secondary supporting text."
+      },
+      "surfaces": {
+        "title": "Surfaces",
+        "baseSurface": "Base surface",
+        "frosted": "Frosted",
+        "elevatedGlass": "Elevated glass"
+      },
+      "radiiShadows": {
+        "title": "Radii & shadows"
+      },
+      "badges": {
+        "title": "Badges (.badge-* + variants)"
+      },
+      "rawButtons": {
+        "title": "Buttons via raw .btn classes"
+      },
+      "navItems": {
+        "title": "Nav items (.nav-item — sidebar building block)",
+        "section": "Section",
+        "active": "Active item",
+        "inactive": "Inactive item",
+        "another": "Another item"
+      },
+      "dashboard": {
+        "pageTitle": "Overview",
+        "pageDescription": "A page composed from YunUI layout pieces — just like a real product page.",
+        "newKey": "New key",
+        "statBalance": "Balance",
+        "statRequests": "Requests",
+        "statApiKeys": "API keys",
+        "statSpend": "Spend",
+        "quickPlayground": "Playground",
+        "quickModels": "Models",
+        "quickApiKeys": "API Keys",
+        "quickAnalytics": "Analytics",
+        "gettingStarted": "Getting started"
+      },
+      "navbar": {
+        "title": "Navbar",
+        "description": "Floating top nav; switcher/toggle are slots, links are props.",
+        "linkModels": "Models",
+        "linkDocs": "Docs",
+        "linkPricing": "Pricing",
+        "signIn": "Sign in",
+        "signUp": "Sign up"
+      },
+      "sidebar": {
+        "title": "Sidebar — with collapse",
+        "description": "Click the toggle to collapse / re-open. nav-item active states included.",
+        "navOverview": "Overview",
+        "navPlayground": "Playground",
+        "navModels": "Models",
+        "navAccount": "Account",
+        "navApiKeys": "API Keys",
+        "navAnalytics": "Analytics",
+        "navLogs": "Logs",
+        "toggleSidebar": "Toggle sidebar"
+      },
+      "footer": {
+        "title": "Footer",
+        "description": "Sections + social are props; layout and styling are the design system.",
+        "tagline": "One design system, every project in sync.",
+        "secProduct": "Product",
+        "secCompany": "Company",
+        "secLegal": "Legal",
+        "linkModels": "Models",
+        "linkDocs": "Docs",
+        "linkPricing": "Pricing",
+        "linkAbout": "About",
+        "linkBlog": "Blog",
+        "linkPrivacy": "Privacy",
+        "linkTerms": "Terms"
+      },
+      "buttonVariants": {
+        "title": "Variants"
+      },
+      "buttonSizes": {
+        "title": "Sizes & states",
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large",
+        "loading": "Loading",
+        "disabled": "Disabled"
+      },
+      "iconButton": {
+        "title": "Icon button & shiny",
+        "like": "Like",
+        "settings": "Settings",
+        "shiny": "Shiny"
+      },
+      "inputTextarea": {
+        "title": "Input & textarea",
+        "email": "Email",
+        "writePlaceholder": "Write something…"
+      },
+      "checkboxSwitch": {
+        "title": "Checkbox & switch",
+        "subscribe": "Subscribe"
+      },
+      "segmentedSelect": {
+        "title": "Segmented select",
+        "day": "Day",
+        "week": "Week",
+        "month": "Month"
+      },
+      "customSelect": {
+        "title": "Custom select & combobox"
+      },
+      "radixSelect": {
+        "title": "Radix select",
+        "placeholder": "Pick a provider"
+      },
+      "slider": {
+        "title": "Slider",
+        "value": "Value"
+      },
+      "capabilitySelector": {
+        "title": "Capability selector (AI)",
+        "description": "Multi-select capability chips for AI models.",
+        "selected": "Selected",
+        "none": "none"
+      },
+      "providerSelect": {
+        "title": "Provider select — real provider icons (AI)",
+        "description": "CustomSelect with the bundled provider-icon system; Combobox above also uses it."
+      },
+      "dialog": {
+        "title": "Dialog (Radix)",
+        "open": "Open dialog",
+        "confirmTitle": "Confirm change",
+        "confirmDescription": "This is a Radix-backed dialog styled by YunUI.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "modalSheet": {
+        "title": "Modal & Sheet (custom)",
+        "openModal": "Open modal",
+        "openSheet": "Open sheet",
+        "modalTitle": "A YunUI modal",
+        "modalSubtitle": "Portal + scroll lock + escape",
+        "modalBody": "Body content goes here.",
+        "sheetTitle": "Side sheet",
+        "sheetBody": "Slide-in drawer content."
+      },
+      "popoverTooltipDropdown": {
+        "title": "Popover, tooltip, dropdown",
+        "popover": "Popover",
+        "popoverContent": "Floating popover content.",
+        "hoverMe": "Hover me",
+        "hint": "Helpful hint",
+        "menu": "Menu",
+        "actions": "Actions",
+        "new": "New",
+        "settings": "Settings",
+        "delete": "Delete"
+      },
+      "dropdownChoices": {
+        "title": "Dropdown — checkbox & radio items",
+        "description": "DropdownMenuCheckboxItem (toggles) and DropdownMenuRadioGroup / DropdownMenuRadioItem (single choice).",
+        "viewOptions": "View options",
+        "display": "Display",
+        "showGrid": "Show grid",
+        "showLabels": "Show labels",
+        "density": "Density",
+        "compact": "Compact",
+        "comfortable": "Comfortable",
+        "spacious": "Spacious"
+      },
+      "confirmModals": {
+        "title": "Confirm modals",
+        "description": "ConfirmModal plus the DeleteConfirmModal / RegenerateConfirmModal presets — portal-rendered with scroll lock and escape-to-close.",
+        "confirmAction": "Confirm action",
+        "delete": "Delete…",
+        "regenerate": "Regenerate…",
+        "confirmedToast": "Confirmed",
+        "deletedToast": "Deleted",
+        "regeneratedToast": "Regenerated",
+        "publishTitle": "Publish changes?",
+        "publishSubtitle": "This goes live immediately",
+        "publishMessage": "Your draft will be visible to everyone on the next deploy.",
+        "publishConfirm": "Publish",
+        "cancel": "Cancel",
+        "deleteItem": "Production API key",
+        "regenItem": "Webhook secret"
+      },
+      "cardsBadges": {
+        "title": "Cards & badges",
+        "proPlan": "Pro plan",
+        "active": "Active",
+        "proDesc": "Everything in Basic, plus higher limits.",
+        "default": "Default",
+        "info": "Info",
+        "warning": "Warning",
+        "error": "Error"
+      },
+      "avatarProgress": {
+        "title": "Avatar & progress"
+      },
+      "animatedNumber": {
+        "title": "Animated number",
+        "description": "Springs from 0 on mount — re-enter the section to replay.",
+        "requests": "Requests",
+        "uptime": "Uptime",
+        "latency": "Latency"
+      },
+      "tabs": {
+        "title": "Tabs",
+        "inbox": "Inbox",
+        "archive": "Archive",
+        "spam": "Spam",
+        "inboxContent": "Inbox content.",
+        "archiveContent": "Archived items.",
+        "spamContent": "No spam 🎉"
+      },
+      "collapsible": {
+        "title": "Collapsible",
+        "toggle": "Toggle details",
+        "hidden": "Hidden details revealed."
+      },
+      "bento": {
+        "title": "Bento grid",
+        "fastTitle": "Fast",
+        "fastDesc": "Sub-second interactions.",
+        "scalableTitle": "Scalable",
+        "scalableDesc": "From prototype to prod.",
+        "polishedTitle": "Polished",
+        "polishedDesc": "Designed down to the detail."
+      },
+      "marquee": {
+        "title": "Marquee"
+      },
+      "skeletonSpinner": {
+        "title": "Skeleton & spinner"
+      },
+      "emptyState": {
+        "title": "Empty state",
+        "noMessages": "No messages",
+        "noMessagesDesc": "When you get messages they'll show up here.",
+        "refresh": "Refresh"
+      },
+      "pageLoader": {
+        "title": "Page loader",
+        "description": "Full-screen centered loader for route transitions — framed here in a fixed-height stage (its min-h-dvh is capped to the frame).",
+        "loadingTitle": "Loading workspace",
+        "loadingSubtitle": "Fetching your models and keys…"
+      },
+      "pageStates": {
+        "title": "Page states",
+        "description": "PageLoadingState · PageErrorState · PageEmptyState — the in-content (not full-screen) variants.",
+        "loading": "Loading…",
+        "errorMsg": "Couldn't load models.",
+        "retrying": "Retrying…",
+        "emptyTitle": "No models yet",
+        "emptyDesc": "Add a provider to get started.",
+        "add": "Add"
+      },
+      "mediaStates": {
+        "title": "Media states",
+        "description": "MediaLoadingState · MediaErrorState · MediaEmptyState — used across the media generation pages.",
+        "generating": "Generating…",
+        "errorMsg": "Generation failed — try again.",
+        "retrying": "Retrying…",
+        "emptyTitle": "No images yet",
+        "emptyDesc": "Your generated images will appear here.",
+        "generate": "Generate"
+      },
+      "thinkingBlock": {
+        "title": "Thinking block (AI)"
+      },
+      "toast": {
+        "title": "Toast (sonner)",
+        "description": "Themed toast helpers — success / error / info / warning.",
+        "success": "Success",
+        "error": "Error",
+        "info": "Info",
+        "warning": "Warning",
+        "successTitle": "Saved!",
+        "successBody": "Your changes are live.",
+        "errorTitle": "Failed",
+        "errorBody": "Something went wrong.",
+        "infoTitle": "Heads up",
+        "infoBody": "A new model is available.",
+        "warningTitle": "Careful",
+        "warningBody": "This action is irreversible."
+      },
+      "navTabs": {
+        "title": "Nav tabs",
+        "inbox": "Inbox",
+        "archive": "Archive",
+        "spam": "Spam"
+      },
+      "languageSwitcher": {
+        "title": "Language switcher (AI)"
+      },
+      "mediaPageHeader": {
+        "title": "Media page header",
+        "description": "Title + sync button + error/stats — used across the media generation pages.",
+        "headerTitle": "Images",
+        "headerDescription": "Generate and manage your images.",
+        "syncing": "Syncing…",
+        "statImages": "images",
+        "statThisMonth": "this month"
+      },
+      "modelCard": {
+        "title": "Model card",
+        "description": "AI model card — icon is a slot, all fields are props (no API/schema coupling).",
+        "opusDesc": "Most capable model for complex reasoning and agentic work.",
+        "deepseekDesc": "Open reasoning model with strong math and code."
+      },
+      "aiAvatars": {
+        "title": "AI avatars & type icons",
+        "description": "ProviderAvatar / ModelAvatar (rounded, image-backed), ProviderIconImg (short alias) and ModelTypeIcon (capability glyphs)."
+      },
+      "fumadocsButtons": {
+        "title": "Fumadocs button variants",
+        "description": "buttonVariants — a class-variance-authority recipe for fumadocs-themed buttons; applied to plain elements via className."
+      },
+      "codeBlock": {
+        "title": "Code block"
+      },
+      "faq": {
+        "title": "FAQ",
+        "q1": "What is YunUI?",
+        "a1": "A versioned React 19 + Tailwind v4 design system you sync across every project.",
+        "q2": "How do projects sync?",
+        "a2": "Bump the yunui version; the design follows.",
+        "q3": "Does it support theming?",
+        "a3": "Yes — light, zinc-dark and true-black."
+      },
+      "blogCard": {
+        "title": "Blog card",
+        "postTitle": "Introducing YunUI",
+        "postDescription": "One design system, every project in sync."
+      },
+      "blogPostHeader": {
+        "title": "Blog post header",
+        "description": "Full article header — category, title, author, date and reading time.",
+        "postTitle": "Building a shared design system",
+        "postDescription": "How the design system is versioned and synced across every project."
+      },
+      "blogControls": {
+        "title": "Category filter & pagination",
+        "description": "CategoryFilter + BlogPagination — both controlled; the host owns routing.",
+        "page": "Page",
+        "category": "category",
+        "all": "all"
+      },
+      "codeDemo": {
+        "title": "Code demo (tabbed)",
+        "description": "CodeDemo — a tabbed CodeBlock preset with Python / Node.js / cURL quick-start snippets."
+      },
+      "docsActions": {
+        "title": "Docs page actions",
+        "description": "LLMCopyButton (copy page as Markdown for an LLM) and ViewOptions (raw Markdown / GitHub links) — the fumadocs-styled doc header actions."
+      },
+      "accountLocked": {
+        "title": "Account locked card",
+        "description": "Terminal auth screen (banned / suspended) — presentational; the host owns logout/redirect via onBack.",
+        "lockedTitle": "Account suspended",
+        "lockedSubtitle": "Your account has been temporarily locked for review.",
+        "lockedAppeal": "If you think this is a mistake, you can appeal the decision.",
+        "backLabel": "Back to sign in",
+        "backToast": "Back to sign in"
+      },
+      "fellowsBanner": {
+        "title": "Fellows banner",
+        "bannerTitle": "Join the Fellows program",
+        "bannerDescription": "Selective access for builders and researchers.",
+        "cta": "Apply",
+        "feature1": "Pro-level limits",
+        "feature2": "Priority support",
+        "feature3": "Early features"
+      },
+      "errorBoundary": {
+        "title": "Error boundary (catches a crashing child)",
+        "childFine": "Child renders fine — click to crash it.",
+        "throw": "Throw error",
+        "caughtTitle": "Caught by ErrorBoundary",
+        "caughtMessage": "The child threw during render — this is the fallback UI."
+      },
+      "backgroundEffects": {
+        "title": "Background effects (decorative)",
+        "description": "A subtle dotted radial backdrop — it sits behind your page content (intentionally faint).",
+        "yourContent": "Your content here",
+        "behindIt": "BackgroundEffects renders behind it"
+      }
     }
   },
   "capabilities": {

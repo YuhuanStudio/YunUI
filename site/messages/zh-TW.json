@@ -192,6 +192,406 @@
     },
     "patterns": {
       "title": "模式"
+    },
+    "toggle": {
+      "preview": "預覽",
+      "code": "程式碼"
+    },
+    "demos": {
+      "colorTokens": {
+        "title": "顏色權杖",
+        "description": "CSS 變數，主題感知——在 .dark 與 .true-black 下會重新映射。"
+      },
+      "typeScale": {
+        "title": "字級體系",
+        "body": "內文——預設的段落節奏與顏色。",
+        "caption": "說明文字——次要的輔助文字。"
+      },
+      "surfaces": {
+        "title": "表面樣式",
+        "baseSurface": "基礎表面",
+        "frosted": "霧面",
+        "elevatedGlass": "懸浮玻璃"
+      },
+      "radiiShadows": {
+        "title": "圓角與陰影"
+      },
+      "badges": {
+        "title": "徽章（.badge-* 及變體）"
+      },
+      "rawButtons": {
+        "title": "基於原始 .btn 類別的按鈕"
+      },
+      "navItems": {
+        "title": "導覽項目（.nav-item——側邊欄構建區塊）",
+        "section": "分組",
+        "active": "選取項目",
+        "inactive": "未選取項目",
+        "another": "另一項目"
+      },
+      "dashboard": {
+        "pageTitle": "總覽",
+        "pageDescription": "一個由 YunUI 版面元件拼裝而成的頁面——就像真實的產品頁面一樣。",
+        "newKey": "新增金鑰",
+        "statBalance": "餘額",
+        "statRequests": "請求數",
+        "statApiKeys": "API 金鑰",
+        "statSpend": "花費",
+        "quickPlayground": "試驗場",
+        "quickModels": "模型",
+        "quickApiKeys": "API 金鑰",
+        "quickAnalytics": "分析",
+        "gettingStarted": "快速開始"
+      },
+      "navbar": {
+        "title": "導覽列",
+        "description": "懸浮頂部導覽；切換器/開關為插槽，連結為屬性。",
+        "linkModels": "模型",
+        "linkDocs": "文件",
+        "linkPricing": "定價",
+        "signIn": "登入",
+        "signUp": "註冊"
+      },
+      "sidebar": {
+        "title": "側邊欄——可摺疊",
+        "description": "點擊開關以摺疊/重新展開。包含 nav-item 選取狀態。",
+        "navOverview": "總覽",
+        "navPlayground": "試驗場",
+        "navModels": "模型",
+        "navAccount": "帳戶",
+        "navApiKeys": "API 金鑰",
+        "navAnalytics": "分析",
+        "navLogs": "記錄",
+        "toggleSidebar": "切換側邊欄"
+      },
+      "footer": {
+        "title": "頁尾",
+        "description": "分組與社群連結為屬性；版面與樣式由設計系統提供。",
+        "tagline": "一套設計系統，每個專案保持同步。",
+        "secProduct": "產品",
+        "secCompany": "公司",
+        "secLegal": "法律",
+        "linkModels": "模型",
+        "linkDocs": "文件",
+        "linkPricing": "定價",
+        "linkAbout": "關於",
+        "linkBlog": "部落格",
+        "linkPrivacy": "隱私",
+        "linkTerms": "條款"
+      },
+      "buttonVariants": {
+        "title": "變體"
+      },
+      "buttonSizes": {
+        "title": "尺寸與狀態",
+        "small": "小",
+        "medium": "中",
+        "large": "大",
+        "loading": "載入中",
+        "disabled": "停用"
+      },
+      "iconButton": {
+        "title": "圖示按鈕與閃亮按鈕",
+        "like": "喜歡",
+        "settings": "設定",
+        "shiny": "閃亮"
+      },
+      "inputTextarea": {
+        "title": "輸入框與文字區域",
+        "email": "電子郵件",
+        "writePlaceholder": "寫點什麼……"
+      },
+      "checkboxSwitch": {
+        "title": "核取方塊與開關",
+        "subscribe": "訂閱"
+      },
+      "segmentedSelect": {
+        "title": "分段選擇器",
+        "day": "日",
+        "week": "週",
+        "month": "月"
+      },
+      "customSelect": {
+        "title": "自訂選擇器與組合框"
+      },
+      "radixSelect": {
+        "title": "Radix 選擇器",
+        "placeholder": "選擇一個供應商"
+      },
+      "slider": {
+        "title": "滑桿",
+        "value": "數值"
+      },
+      "capabilitySelector": {
+        "title": "能力選擇器（AI）",
+        "description": "用於 AI 模型的多選能力標籤。",
+        "selected": "已選",
+        "none": "無"
+      },
+      "providerSelect": {
+        "title": "供應商選擇器——真實供應商圖示（AI）",
+        "description": "搭配內建供應商圖示系統的 CustomSelect；上方的 Combobox 也使用它。"
+      },
+      "dialog": {
+        "title": "對話框（Radix）",
+        "open": "開啟對話框",
+        "confirmTitle": "確認變更",
+        "confirmDescription": "這是一個基於 Radix、由 YunUI 設計的對話框。",
+        "cancel": "取消",
+        "confirm": "確認"
+      },
+      "modalSheet": {
+        "title": "強制回應視窗與抽屜（自訂）",
+        "openModal": "開啟強制回應視窗",
+        "openSheet": "開啟抽屜",
+        "modalTitle": "一個 YunUI 強制回應視窗",
+        "modalSubtitle": "傳送門 + 捲動鎖定 + 按 Esc 關閉",
+        "modalBody": "內文內容放在這裡。",
+        "sheetTitle": "側邊抽屜",
+        "sheetBody": "滑入式抽屜內容。"
+      },
+      "popoverTooltipDropdown": {
+        "title": "彈出卡片、提示框、下拉選單",
+        "popover": "彈出卡片",
+        "popoverContent": "浮動彈出卡片內容。",
+        "hoverMe": "懸停查看",
+        "hint": "有用的提示",
+        "menu": "選單",
+        "actions": "操作",
+        "new": "新增",
+        "settings": "設定",
+        "delete": "刪除"
+      },
+      "dropdownChoices": {
+        "title": "下拉選單——核取項目與單選項目",
+        "description": "DropdownMenuCheckboxItem（多個開關）以及 DropdownMenuRadioGroup / DropdownMenuRadioItem（單一選擇）。",
+        "viewOptions": "檢視選項",
+        "display": "顯示",
+        "showGrid": "顯示網格",
+        "showLabels": "顯示標籤",
+        "density": "密度",
+        "compact": "緊湊",
+        "comfortable": "舒適",
+        "spacious": "寬鬆"
+      },
+      "confirmModals": {
+        "title": "確認視窗",
+        "description": "ConfirmModal 以及 DeleteConfirmModal / RegenerateConfirmModal 預設——透過傳送門渲染，帶捲動鎖定與按 Esc 關閉。",
+        "confirmAction": "確認操作",
+        "delete": "刪除……",
+        "regenerate": "重新產生……",
+        "confirmedToast": "已確認",
+        "deletedToast": "已刪除",
+        "regeneratedToast": "已重新產生",
+        "publishTitle": "發布變更？",
+        "publishSubtitle": "將立即生效",
+        "publishMessage": "下次部署後，你的草稿將對所有人可見。",
+        "publishConfirm": "發布",
+        "cancel": "取消",
+        "deleteItem": "正式環境 API 金鑰",
+        "regenItem": "Webhook 密鑰"
+      },
+      "cardsBadges": {
+        "title": "卡片與徽章",
+        "proPlan": "專業版",
+        "active": "已啟用",
+        "proDesc": "包含基礎版的全部功能，並提供更高的額度。",
+        "default": "預設",
+        "info": "資訊",
+        "warning": "警告",
+        "error": "錯誤"
+      },
+      "avatarProgress": {
+        "title": "頭像與進度條"
+      },
+      "animatedNumber": {
+        "title": "數字動畫",
+        "description": "掛載時從 0 彈性增長——重新進入該區塊即可重播。",
+        "requests": "請求數",
+        "uptime": "正常運作時間",
+        "latency": "延遲"
+      },
+      "tabs": {
+        "title": "分頁",
+        "inbox": "收件匣",
+        "archive": "封存",
+        "spam": "垃圾郵件",
+        "inboxContent": "收件匣內容。",
+        "archiveContent": "已封存項目。",
+        "spamContent": "沒有垃圾郵件 🎉"
+      },
+      "collapsible": {
+        "title": "可摺疊面板",
+        "toggle": "展開/收合詳情",
+        "hidden": "隱藏的詳情已展開。"
+      },
+      "bento": {
+        "title": "便當網格",
+        "fastTitle": "快速",
+        "fastDesc": "亞秒級互動。",
+        "scalableTitle": "可擴充",
+        "scalableDesc": "從原型到正式環境。",
+        "polishedTitle": "精緻",
+        "polishedDesc": "細節之處皆經打磨。"
+      },
+      "marquee": {
+        "title": "跑馬燈"
+      },
+      "skeletonSpinner": {
+        "title": "骨架屏與載入指示器"
+      },
+      "emptyState": {
+        "title": "空狀態",
+        "noMessages": "尚無訊息",
+        "noMessagesDesc": "收到訊息後會顯示在這裡。",
+        "refresh": "重新整理"
+      },
+      "pageLoader": {
+        "title": "頁面載入器",
+        "description": "用於路由切換的全螢幕置中載入器——這裡框在固定高度的舞台中（其 min-h-dvh 被限制在框內）。",
+        "loadingTitle": "正在載入工作區",
+        "loadingSubtitle": "正在取得你的模型與金鑰……"
+      },
+      "pageStates": {
+        "title": "頁面狀態",
+        "description": "PageLoadingState · PageErrorState · PageEmptyState——內容內（非全螢幕）變體。",
+        "loading": "載入中……",
+        "errorMsg": "無法載入模型。",
+        "retrying": "正在重試……",
+        "emptyTitle": "尚無模型",
+        "emptyDesc": "新增一個供應商即可開始。",
+        "add": "新增"
+      },
+      "mediaStates": {
+        "title": "媒體狀態",
+        "description": "MediaLoadingState · MediaErrorState · MediaEmptyState——用於各媒體產生頁面。",
+        "generating": "產生中……",
+        "errorMsg": "產生失敗——請重試。",
+        "retrying": "正在重試……",
+        "emptyTitle": "尚無圖片",
+        "emptyDesc": "你產生的圖片將顯示在這裡。",
+        "generate": "產生"
+      },
+      "thinkingBlock": {
+        "title": "思考區塊（AI）"
+      },
+      "toast": {
+        "title": "輕提示（sonner）",
+        "description": "主題化的輕提示輔助函式——成功 / 錯誤 / 資訊 / 警告。",
+        "success": "成功",
+        "error": "錯誤",
+        "info": "資訊",
+        "warning": "警告",
+        "successTitle": "已儲存！",
+        "successBody": "你的變更已生效。",
+        "errorTitle": "失敗",
+        "errorBody": "出了點問題。",
+        "infoTitle": "提醒",
+        "infoBody": "有新模型可用。",
+        "warningTitle": "請注意",
+        "warningBody": "此操作無法復原。"
+      },
+      "navTabs": {
+        "title": "導覽分頁",
+        "inbox": "收件匣",
+        "archive": "封存",
+        "spam": "垃圾郵件"
+      },
+      "languageSwitcher": {
+        "title": "語言切換器（AI）"
+      },
+      "mediaPageHeader": {
+        "title": "媒體頁面標頭",
+        "description": "標題 + 同步按鈕 + 錯誤/統計——用於各媒體產生頁面。",
+        "headerTitle": "圖片",
+        "headerDescription": "產生並管理你的圖片。",
+        "syncing": "同步中……",
+        "statImages": "張圖片",
+        "statThisMonth": "本月"
+      },
+      "modelCard": {
+        "title": "模型卡片",
+        "description": "AI 模型卡片——圖示為插槽，所有欄位皆為屬性（不與 API/Schema 耦合）。",
+        "opusDesc": "面向複雜推理與代理工作的最強模型。",
+        "deepseekDesc": "數學與程式碼能力出色的開放推理模型。"
+      },
+      "aiAvatars": {
+        "title": "AI 頭像與類型圖示",
+        "description": "ProviderAvatar / ModelAvatar（圓形、以圖片為底）、ProviderIconImg（簡短別名）以及 ModelTypeIcon（能力字形）。"
+      },
+      "fumadocsButtons": {
+        "title": "Fumadocs 按鈕變體",
+        "description": "buttonVariants——一套用於 fumadocs 主題按鈕的 class-variance-authority 配方；透過 className 套用到一般元素上。"
+      },
+      "codeBlock": {
+        "title": "程式碼區塊"
+      },
+      "faq": {
+        "title": "常見問題",
+        "q1": "什麼是 YunUI？",
+        "a1": "一套帶版本管理的 React 19 + Tailwind v4 設計系統，可在每個專案間同步。",
+        "q2": "專案之間如何同步？",
+        "a2": "升級 yunui 版本號，設計隨之更新。",
+        "q3": "支援主題嗎？",
+        "a3": "支援——亮色、暗灰與純黑。"
+      },
+      "blogCard": {
+        "title": "部落格卡片",
+        "postTitle": "YunUI 正式發布",
+        "postDescription": "一套設計系統，每個專案保持同步。"
+      },
+      "blogPostHeader": {
+        "title": "部落格文章標頭",
+        "description": "完整的文章標頭——分類、標題、作者、日期與閱讀時長。",
+        "postTitle": "建構一套共享的設計系統",
+        "postDescription": "該設計系統如何在每個專案間進行版本管理與同步。"
+      },
+      "blogControls": {
+        "title": "分類篩選與分頁",
+        "description": "CategoryFilter + BlogPagination——皆為受控元件；路由由宿主負責。",
+        "page": "第",
+        "category": "分類",
+        "all": "全部"
+      },
+      "codeDemo": {
+        "title": "程式碼示範（多分頁）",
+        "description": "CodeDemo——帶 Python / Node.js / cURL 快速上手片段的多分頁 CodeBlock 預設。"
+      },
+      "docsActions": {
+        "title": "文件頁面操作",
+        "description": "LLMCopyButton（將頁面複製為 Markdown 供 LLM 使用）與 ViewOptions（原始 Markdown / GitHub 連結）——fumadocs 風格的文件標頭操作。"
+      },
+      "accountLocked": {
+        "title": "帳戶鎖定卡片",
+        "description": "終端狀態認證畫面（封禁 / 暫停）——純展示；登出/跳轉由宿主透過 onBack 負責。",
+        "lockedTitle": "帳戶已暫停",
+        "lockedSubtitle": "你的帳戶已被暫時鎖定以待審核。",
+        "lockedAppeal": "如果你認為這是誤判，可以提出申訴。",
+        "backLabel": "返回登入",
+        "backToast": "返回登入"
+      },
+      "fellowsBanner": {
+        "title": "Fellows 橫幅",
+        "bannerTitle": "加入 Fellows 計畫",
+        "bannerDescription": "面向開發者與研究者的甄選席位。",
+        "cta": "申請",
+        "feature1": "專業級額度",
+        "feature2": "優先支援",
+        "feature3": "搶先體驗功能"
+      },
+      "errorBoundary": {
+        "title": "錯誤邊界（捕捉崩潰的子元件）",
+        "childFine": "子元件正常渲染——點擊讓它崩潰。",
+        "throw": "拋出錯誤",
+        "caughtTitle": "已被 ErrorBoundary 捕捉",
+        "caughtMessage": "子元件在渲染時拋出例外——這就是回退介面。"
+      },
+      "backgroundEffects": {
+        "title": "背景效果（裝飾性）",
+        "description": "一層淡淡的點狀徑向背景——它位於頁面內容之後（刻意做得很輕）。",
+        "yourContent": "你的內容放這裡",
+        "behindIt": "BackgroundEffects 在其後方渲染"
+      }
     }
   },
   "capabilities": {

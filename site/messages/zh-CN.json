@@ -192,6 +192,406 @@
     },
     "patterns": {
       "title": "模式"
+    },
+    "toggle": {
+      "preview": "预览",
+      "code": "代码"
+    },
+    "demos": {
+      "colorTokens": {
+        "title": "颜色令牌",
+        "description": "CSS 变量，主题感知——在 .dark 和 .true-black 下会重新映射。"
+      },
+      "typeScale": {
+        "title": "字号体系",
+        "body": "正文——默认的段落节奏与颜色。",
+        "caption": "说明文字——次要的辅助文本。"
+      },
+      "surfaces": {
+        "title": "表面样式",
+        "baseSurface": "基础表面",
+        "frosted": "磨砂",
+        "elevatedGlass": "悬浮玻璃"
+      },
+      "radiiShadows": {
+        "title": "圆角与阴影"
+      },
+      "badges": {
+        "title": "徽章（.badge-* 及变体）"
+      },
+      "rawButtons": {
+        "title": "基于原始 .btn 类的按钮"
+      },
+      "navItems": {
+        "title": "导航项（.nav-item——侧边栏构建块）",
+        "section": "分组",
+        "active": "选中项",
+        "inactive": "未选中项",
+        "another": "另一项"
+      },
+      "dashboard": {
+        "pageTitle": "概览",
+        "pageDescription": "一个由 YunUI 布局组件拼装而成的页面——就像真实的产品页面一样。",
+        "newKey": "新建密钥",
+        "statBalance": "余额",
+        "statRequests": "请求数",
+        "statApiKeys": "API 密钥",
+        "statSpend": "消费",
+        "quickPlayground": "演练场",
+        "quickModels": "模型",
+        "quickApiKeys": "API 密钥",
+        "quickAnalytics": "分析",
+        "gettingStarted": "快速开始"
+      },
+      "navbar": {
+        "title": "导航栏",
+        "description": "悬浮顶部导航；切换器/开关为插槽，链接为属性。",
+        "linkModels": "模型",
+        "linkDocs": "文档",
+        "linkPricing": "定价",
+        "signIn": "登录",
+        "signUp": "注册"
+      },
+      "sidebar": {
+        "title": "侧边栏——可折叠",
+        "description": "点击开关以折叠/重新展开。包含 nav-item 选中态。",
+        "navOverview": "概览",
+        "navPlayground": "演练场",
+        "navModels": "模型",
+        "navAccount": "账户",
+        "navApiKeys": "API 密钥",
+        "navAnalytics": "分析",
+        "navLogs": "日志",
+        "toggleSidebar": "切换侧边栏"
+      },
+      "footer": {
+        "title": "页脚",
+        "description": "分组与社交链接为属性；布局与样式由设计系统提供。",
+        "tagline": "一套设计系统，每个项目保持同步。",
+        "secProduct": "产品",
+        "secCompany": "公司",
+        "secLegal": "法律",
+        "linkModels": "模型",
+        "linkDocs": "文档",
+        "linkPricing": "定价",
+        "linkAbout": "关于",
+        "linkBlog": "博客",
+        "linkPrivacy": "隐私",
+        "linkTerms": "条款"
+      },
+      "buttonVariants": {
+        "title": "变体"
+      },
+      "buttonSizes": {
+        "title": "尺寸与状态",
+        "small": "小",
+        "medium": "中",
+        "large": "大",
+        "loading": "加载中",
+        "disabled": "禁用"
+      },
+      "iconButton": {
+        "title": "图标按钮与闪亮按钮",
+        "like": "喜欢",
+        "settings": "设置",
+        "shiny": "闪亮"
+      },
+      "inputTextarea": {
+        "title": "输入框与文本域",
+        "email": "邮箱",
+        "writePlaceholder": "写点什么……"
+      },
+      "checkboxSwitch": {
+        "title": "复选框与开关",
+        "subscribe": "订阅"
+      },
+      "segmentedSelect": {
+        "title": "分段选择器",
+        "day": "日",
+        "week": "周",
+        "month": "月"
+      },
+      "customSelect": {
+        "title": "自定义选择器与组合框"
+      },
+      "radixSelect": {
+        "title": "Radix 选择器",
+        "placeholder": "选择一个提供商"
+      },
+      "slider": {
+        "title": "滑块",
+        "value": "数值"
+      },
+      "capabilitySelector": {
+        "title": "能力选择器（AI）",
+        "description": "用于 AI 模型的多选能力标签。",
+        "selected": "已选",
+        "none": "无"
+      },
+      "providerSelect": {
+        "title": "提供商选择器——真实提供商图标（AI）",
+        "description": "搭配内置提供商图标系统的 CustomSelect；上方的 Combobox 也使用它。"
+      },
+      "dialog": {
+        "title": "对话框（Radix）",
+        "open": "打开对话框",
+        "confirmTitle": "确认更改",
+        "confirmDescription": "这是一个基于 Radix、由 YunUI 设计的对话框。",
+        "cancel": "取消",
+        "confirm": "确认"
+      },
+      "modalSheet": {
+        "title": "模态框与抽屉（自定义）",
+        "openModal": "打开模态框",
+        "openSheet": "打开抽屉",
+        "modalTitle": "一个 YunUI 模态框",
+        "modalSubtitle": "传送门 + 滚动锁定 + 按 Esc 关闭",
+        "modalBody": "正文内容放在这里。",
+        "sheetTitle": "侧边抽屉",
+        "sheetBody": "滑入式抽屉内容。"
+      },
+      "popoverTooltipDropdown": {
+        "title": "气泡卡片、提示框、下拉菜单",
+        "popover": "气泡卡片",
+        "popoverContent": "浮动气泡卡片内容。",
+        "hoverMe": "悬停查看",
+        "hint": "有用的提示",
+        "menu": "菜单",
+        "actions": "操作",
+        "new": "新建",
+        "settings": "设置",
+        "delete": "删除"
+      },
+      "dropdownChoices": {
+        "title": "下拉菜单——复选项与单选项",
+        "description": "DropdownMenuCheckboxItem（多个开关）以及 DropdownMenuRadioGroup / DropdownMenuRadioItem（单项选择）。",
+        "viewOptions": "视图选项",
+        "display": "显示",
+        "showGrid": "显示网格",
+        "showLabels": "显示标签",
+        "density": "密度",
+        "compact": "紧凑",
+        "comfortable": "舒适",
+        "spacious": "宽松"
+      },
+      "confirmModals": {
+        "title": "确认弹窗",
+        "description": "ConfirmModal 以及 DeleteConfirmModal / RegenerateConfirmModal 预设——通过传送门渲染，带滚动锁定与按 Esc 关闭。",
+        "confirmAction": "确认操作",
+        "delete": "删除……",
+        "regenerate": "重新生成……",
+        "confirmedToast": "已确认",
+        "deletedToast": "已删除",
+        "regeneratedToast": "已重新生成",
+        "publishTitle": "发布更改？",
+        "publishSubtitle": "将立即生效",
+        "publishMessage": "下次部署后，你的草稿将对所有人可见。",
+        "publishConfirm": "发布",
+        "cancel": "取消",
+        "deleteItem": "生产环境 API 密钥",
+        "regenItem": "Webhook 密钥"
+      },
+      "cardsBadges": {
+        "title": "卡片与徽章",
+        "proPlan": "专业版",
+        "active": "已启用",
+        "proDesc": "包含基础版的全部功能，并提供更高的额度。",
+        "default": "默认",
+        "info": "信息",
+        "warning": "警告",
+        "error": "错误"
+      },
+      "avatarProgress": {
+        "title": "头像与进度条"
+      },
+      "animatedNumber": {
+        "title": "数字动画",
+        "description": "挂载时从 0 弹性增长——重新进入该区块即可重放。",
+        "requests": "请求数",
+        "uptime": "正常运行时间",
+        "latency": "延迟"
+      },
+      "tabs": {
+        "title": "标签页",
+        "inbox": "收件箱",
+        "archive": "归档",
+        "spam": "垃圾邮件",
+        "inboxContent": "收件箱内容。",
+        "archiveContent": "已归档项目。",
+        "spamContent": "没有垃圾邮件 🎉"
+      },
+      "collapsible": {
+        "title": "可折叠面板",
+        "toggle": "展开/收起详情",
+        "hidden": "隐藏的详情已展开。"
+      },
+      "bento": {
+        "title": "便当网格",
+        "fastTitle": "快速",
+        "fastDesc": "亚秒级交互。",
+        "scalableTitle": "可扩展",
+        "scalableDesc": "从原型到生产。",
+        "polishedTitle": "精致",
+        "polishedDesc": "细节之处皆经打磨。"
+      },
+      "marquee": {
+        "title": "跑马灯"
+      },
+      "skeletonSpinner": {
+        "title": "骨架屏与加载指示器"
+      },
+      "emptyState": {
+        "title": "空状态",
+        "noMessages": "暂无消息",
+        "noMessagesDesc": "收到消息后会显示在这里。",
+        "refresh": "刷新"
+      },
+      "pageLoader": {
+        "title": "页面加载器",
+        "description": "用于路由切换的全屏居中加载器——这里框在固定高度的舞台中（其 min-h-dvh 被限制在框内）。",
+        "loadingTitle": "正在加载工作区",
+        "loadingSubtitle": "正在获取你的模型与密钥……"
+      },
+      "pageStates": {
+        "title": "页面状态",
+        "description": "PageLoadingState · PageErrorState · PageEmptyState——内容内（非全屏）变体。",
+        "loading": "加载中……",
+        "errorMsg": "无法加载模型。",
+        "retrying": "正在重试……",
+        "emptyTitle": "暂无模型",
+        "emptyDesc": "添加一个提供商即可开始。",
+        "add": "添加"
+      },
+      "mediaStates": {
+        "title": "媒体状态",
+        "description": "MediaLoadingState · MediaErrorState · MediaEmptyState——用于各媒体生成页面。",
+        "generating": "生成中……",
+        "errorMsg": "生成失败——请重试。",
+        "retrying": "正在重试……",
+        "emptyTitle": "暂无图片",
+        "emptyDesc": "你生成的图片将显示在这里。",
+        "generate": "生成"
+      },
+      "thinkingBlock": {
+        "title": "思考块（AI）"
+      },
+      "toast": {
+        "title": "轻提示（sonner）",
+        "description": "主题化的轻提示助手——成功 / 错误 / 信息 / 警告。",
+        "success": "成功",
+        "error": "错误",
+        "info": "信息",
+        "warning": "警告",
+        "successTitle": "已保存！",
+        "successBody": "你的更改已生效。",
+        "errorTitle": "失败",
+        "errorBody": "出了点问题。",
+        "infoTitle": "提醒",
+        "infoBody": "有新模型可用。",
+        "warningTitle": "请注意",
+        "warningBody": "此操作不可撤销。"
+      },
+      "navTabs": {
+        "title": "导航标签",
+        "inbox": "收件箱",
+        "archive": "归档",
+        "spam": "垃圾邮件"
+      },
+      "languageSwitcher": {
+        "title": "语言切换器（AI）"
+      },
+      "mediaPageHeader": {
+        "title": "媒体页面头部",
+        "description": "标题 + 同步按钮 + 错误/统计——用于各媒体生成页面。",
+        "headerTitle": "图片",
+        "headerDescription": "生成并管理你的图片。",
+        "syncing": "同步中……",
+        "statImages": "张图片",
+        "statThisMonth": "本月"
+      },
+      "modelCard": {
+        "title": "模型卡片",
+        "description": "AI 模型卡片——图标为插槽，所有字段皆为属性（不与 API/Schema 耦合）。",
+        "opusDesc": "面向复杂推理与智能体工作的最强模型。",
+        "deepseekDesc": "数学与代码能力出色的开放推理模型。"
+      },
+      "aiAvatars": {
+        "title": "AI 头像与类型图标",
+        "description": "ProviderAvatar / ModelAvatar（圆形、基于图片）、ProviderIconImg（简短别名）以及 ModelTypeIcon（能力字形）。"
+      },
+      "fumadocsButtons": {
+        "title": "Fumadocs 按钮变体",
+        "description": "buttonVariants——一套用于 fumadocs 主题按钮的 class-variance-authority 配方；通过 className 应用到普通元素上。"
+      },
+      "codeBlock": {
+        "title": "代码块"
+      },
+      "faq": {
+        "title": "常见问题",
+        "q1": "什么是 YunUI？",
+        "a1": "一套带版本管理的 React 19 + Tailwind v4 设计系统，可在每个项目间同步。",
+        "q2": "项目之间如何同步？",
+        "a2": "升级 yunui 版本号，设计随之更新。",
+        "q3": "支持主题吗？",
+        "a3": "支持——亮色、暗灰与纯黑。"
+      },
+      "blogCard": {
+        "title": "博客卡片",
+        "postTitle": "YunUI 正式发布",
+        "postDescription": "一套设计系统，每个项目保持同步。"
+      },
+      "blogPostHeader": {
+        "title": "博客文章头部",
+        "description": "完整的文章头部——分类、标题、作者、日期与阅读时长。",
+        "postTitle": "构建一套共享的设计系统",
+        "postDescription": "该设计系统如何在每个项目间进行版本管理与同步。"
+      },
+      "blogControls": {
+        "title": "分类筛选与分页",
+        "description": "CategoryFilter + BlogPagination——均为受控组件；路由由宿主负责。",
+        "page": "第",
+        "category": "分类",
+        "all": "全部"
+      },
+      "codeDemo": {
+        "title": "代码演示（多标签）",
+        "description": "CodeDemo——带 Python / Node.js / cURL 快速上手片段的多标签 CodeBlock 预设。"
+      },
+      "docsActions": {
+        "title": "文档页面操作",
+        "description": "LLMCopyButton（将页面复制为 Markdown 供 LLM 使用）与 ViewOptions（原始 Markdown / GitHub 链接）——fumadocs 风格的文档头部操作。"
+      },
+      "accountLocked": {
+        "title": "账户锁定卡片",
+        "description": "终端态认证界面（封禁 / 暂停）——纯展示；登出/跳转由宿主通过 onBack 负责。",
+        "lockedTitle": "账户已暂停",
+        "lockedSubtitle": "你的账户已被临时锁定以待审核。",
+        "lockedAppeal": "如果你认为这是误判，可以提出申诉。",
+        "backLabel": "返回登录",
+        "backToast": "返回登录"
+      },
+      "fellowsBanner": {
+        "title": "Fellows 横幅",
+        "bannerTitle": "加入 Fellows 计划",
+        "bannerDescription": "面向开发者与研究者的甄选席位。",
+        "cta": "申请",
+        "feature1": "专业级额度",
+        "feature2": "优先支持",
+        "feature3": "抢先体验功能"
+      },
+      "errorBoundary": {
+        "title": "错误边界（捕获崩溃的子组件）",
+        "childFine": "子组件正常渲染——点击让它崩溃。",
+        "throw": "抛出错误",
+        "caughtTitle": "已被 ErrorBoundary 捕获",
+        "caughtMessage": "子组件在渲染时抛出异常——这就是回退界面。"
+      },
+      "backgroundEffects": {
+        "title": "背景效果（装饰性）",
+        "description": "一层淡淡的点状径向背景——它位于页面内容之后（刻意做得很轻）。",
+        "yourContent": "你的内容放这里",
+        "behindIt": "BackgroundEffects 在其后方渲染"
+      }
     }
   },
   "capabilities": {

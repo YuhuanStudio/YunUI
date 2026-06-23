@@ -161,6 +161,7 @@ function Section({ id, title, description, children }: { id: string; title: stri
 // once-ui-style documented example: framed live preview (dotted backdrop) with
 // an optional Preview / Code tab toggle.
 function Demo({ title, description, code, children }: { title: string; description?: string; code?: string; children: ReactNode }) {
+  const t = useTranslations("showcase");
   const [view, setView] = useState<"preview" | "code">("preview");
   const showCode = view === "code" && !!code;
   return (
@@ -176,13 +177,13 @@ function Demo({ title, description, code, children }: { title: string; descripti
               onClick={() => setView("preview")}
               className={`px-2.5 py-1 rounded-md transition-colors ${view === "preview" ? "bg-card shadow-sm font-medium" : "text-muted-foreground hover:text-foreground"}`}
             >
-              Preview
+              {t("toggle.preview")}
             </button>
             <button
               onClick={() => setView("code")}
               className={`px-2.5 py-1 rounded-md transition-colors ${view === "code" ? "bg-card shadow-sm font-medium" : "text-muted-foreground hover:text-foreground"}`}
             >
-              Code
+              {t("toggle.code")}
             </button>
           </div>
         )}
@@ -207,19 +208,20 @@ function Bomb(): never {
 }
 
 function ErrorBoundaryDemo() {
+  const t = useTranslations("showcase.demos.errorBoundary");
   const [boom, setBoom] = useState(false);
   if (!boom) {
     return (
       <div className="text-center">
-        <p className="text-caption mb-3">Child renders fine — click to crash it.</p>
+        <p className="text-caption mb-3">{t("childFine")}</p>
         <Button variant="red" size="sm" onClick={() => setBoom(true)}>
-          Throw error
+          {t("throw")}
         </Button>
       </div>
     );
   }
   return (
-    <ErrorBoundary labels={{ title: "Caught by ErrorBoundary", message: "The child threw during render — this is the fallback UI." }}>
+    <ErrorBoundary labels={{ title: t("caughtTitle"), message: t("caughtMessage") }}>
       <Bomb />
     </ErrorBoundary>
   );
@@ -239,25 +241,25 @@ function Stage({ height = 180, children }: { height?: number; children: ReactNod
   );
 }
 
-const DEMO_SIDEBAR_SECTIONS: SidebarSection[] = [
-  {
-    items: [
-      { label: "Overview", href: "#overview", icon: LayoutGrid },
-      { label: "Playground", href: "#playground", icon: MessageSquare },
-      { label: "Models", href: "#models", icon: Layers },
-    ],
-  },
-  {
-    title: "Account",
-    items: [
-      { label: "API Keys", href: "#api-keys", icon: KeyRound },
-      { label: "Analytics", href: "#analytics", icon: Activity },
-      { label: "Logs", href: "#logs", icon: Database },
-    ],
-  },
-];
-
 function SidebarCollapseDemo() {
+  const t = useTranslations("showcase.demos.sidebar");
+  const sections: SidebarSection[] = [
+    {
+      items: [
+        { label: t("navOverview"), href: "#overview", icon: LayoutGrid },
+        { label: t("navPlayground"), href: "#playground", icon: MessageSquare },
+        { label: t("navModels"), href: "#models", icon: Layers },
+      ],
+    },
+    {
+      title: t("navAccount"),
+      items: [
+        { label: t("navApiKeys"), href: "#api-keys", icon: KeyRound },
+        { label: t("navAnalytics"), href: "#analytics", icon: Activity },
+        { label: t("navLogs"), href: "#logs", icon: Database },
+      ],
+    },
+  ];
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Stage height={360}>
@@ -265,7 +267,7 @@ function SidebarCollapseDemo() {
         appName="YunUI"
         logoSrc="/favicon.ico"
         homeHref="#"
-        sections={DEMO_SIDEBAR_SECTIONS}
+        sections={sections}
         currentPath="#overview"
         collapsed={collapsed}
         onToggleCollapse={() => setCollapsed((c) => !c)}
@@ -275,7 +277,7 @@ function SidebarCollapseDemo() {
       <button
         onClick={() => setCollapsed((c) => !c)}
         className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${collapsed ? "left-3" : "left-[17rem]"}`}
-        aria-label="Toggle sidebar"
+        aria-label={t("toggleSidebar")}
       >
         <PanelLeft size={16} />
       </button>
@@ -285,45 +287,46 @@ function SidebarCollapseDemo() {
 
 // Confirm-modal family — each opens a portal-rendered dialog.
 function ConfirmModalsDemo() {
+  const t = useTranslations("showcase.demos.confirmModals");
   const [confirm, setConfirm] = useState(false);
   const [del, setDel] = useState(false);
   const [regen, setRegen] = useState(false);
   return (
     <>
-      <Button variant="primary" onClick={() => setConfirm(true)}>Confirm action</Button>
-      <Button variant="red" onClick={() => setDel(true)}>Delete…</Button>
-      <Button variant="amber" onClick={() => setRegen(true)}>Regenerate…</Button>
+      <Button variant="primary" onClick={() => setConfirm(true)}>{t("confirmAction")}</Button>
+      <Button variant="red" onClick={() => setDel(true)}>{t("delete")}</Button>
+      <Button variant="amber" onClick={() => setRegen(true)}>{t("regenerate")}</Button>
       <ConfirmModal
         isOpen={confirm}
         onClose={() => setConfirm(false)}
         onConfirm={() => {
           setConfirm(false);
-          toast.success("Confirmed");
+          toast.success(t("confirmedToast"));
         }}
-        title="Publish changes?"
-        subtitle="This goes live immediately"
-        message="Your draft will be visible to everyone on the next deploy."
+        title={t("publishTitle")}
+        subtitle={t("publishSubtitle")}
+        message={t("publishMessage")}
         variant="info"
-        confirmText="Publish"
-        cancelText="Cancel"
+        confirmText={t("publishConfirm")}
+        cancelText={t("cancel")}
       />
       <DeleteConfirmModal
         isOpen={del}
         onClose={() => setDel(false)}
         onConfirm={() => {
           setDel(false);
-          toast.error("Deleted");
+          toast.error(t("deletedToast"));
         }}
-        itemName="Production API key"
+        itemName={t("deleteItem")}
       />
       <RegenerateConfirmModal
         isOpen={regen}
         onClose={() => setRegen(false)}
         onConfirm={() => {
           setRegen(false);
-          toast.warning("Regenerated");
+          toast.warning(t("regeneratedToast"));
         }}
-        itemName="Webhook secret"
+        itemName={t("regenItem")}
       />
     </>
   );
@@ -331,28 +334,29 @@ function ConfirmModalsDemo() {
 
 // Dropdown with checkbox + radio items (controlled state).
 function DropdownChoicesDemo() {
+  const t = useTranslations("showcase.demos.dropdownChoices");
   const [showGrid, setShowGrid] = useState(true);
   const [showLabels, setShowLabels] = useState(false);
   const [density, setDensity] = useState("comfortable");
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">View options</Button>
+        <Button variant="outline">{t("viewOptions")}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-52">
-        <DropdownMenuLabel>Display</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("display")}</DropdownMenuLabel>
         <DropdownMenuCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
-          Show grid
+          {t("showGrid")}
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem checked={showLabels} onCheckedChange={setShowLabels}>
-          Show labels
+          {t("showLabels")}
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>Density</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("density")}</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={density} onValueChange={setDensity}>
-          <DropdownMenuRadioItem value="compact">Compact</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="comfortable">Comfortable</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="spacious">Spacious</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="compact">{t("compact")}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="comfortable">{t("comfortable")}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="spacious">{t("spacious")}</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -361,6 +365,7 @@ function DropdownChoicesDemo() {
 
 // Blog pagination + category filter are controlled — keep their state local.
 function BlogControlsDemo() {
+  const t = useTranslations("showcase.demos.blogControls");
   const [page, setPage] = useState(3);
   const [category, setCategory] = useState<string | null>("Engineering");
   return (
@@ -371,7 +376,7 @@ function BlogControlsDemo() {
         onSelect={setCategory}
       />
       <BlogPagination currentPage={page} totalPages={12} onPageChange={setPage} />
-      <p className="text-caption text-center">Page {page} · category: {category ?? "all"}</p>
+      <p className="text-caption text-center">{t("page")} {page} · {t("category")}: {category ?? t("all")}</p>
     </div>
   );
 }
@@ -379,17 +384,18 @@ function BlogControlsDemo() {
 // AccountLockedCard renders a full-screen (min-h-dvh) auth screen — frame it in a
 // scaled-down stage so it previews like the others without taking over the page.
 function AccountLockedDemo() {
+  const t = useTranslations("showcase.demos.accountLocked");
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-border [&>*]:min-h-full!" style={{ height: 440 }}>
       <AccountLockedCard
         appName="YunUI"
         logoSrc="/favicon.ico"
         icon={<Lock className="w-6 h-6 text-error" />}
-        title="Account suspended"
-        subtitle="Your account has been temporarily locked for review."
-        appeal="If you think this is a mistake, you can appeal the decision."
-        backLabel="Back to sign in"
-        onBack={() => toast.info("Back to sign in")}
+        title={t("lockedTitle")}
+        subtitle={t("lockedSubtitle")}
+        appeal={t("lockedAppeal")}
+        backLabel={t("backLabel")}
+        onBack={() => toast.info(t("backToast"))}
       />
     </div>
   );
@@ -465,34 +471,34 @@ export default function Showcase() {
 
       {/* Foundations — the design tokens everything is built on */}
       <Section id="foundations" title={t("foundations.title")} description={t("foundations.description")}>
-        <Demo title="Color tokens" description="CSS variables, theme-aware — they re-map under .dark and .true-black.">
+        <Demo title={t("demos.colorTokens.title")} description={t("demos.colorTokens.description")}>
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 w-full">
-            {COLOR_TOKENS.map((t) => (
-              <div key={t.varName} className="text-center">
-                <div className="h-14 rounded-xl border border-border" style={{ background: `var(${t.varName})` }} />
-                <div className="text-caption mt-1.5 font-mono">{t.name}</div>
+            {COLOR_TOKENS.map((tk) => (
+              <div key={tk.varName} className="text-center">
+                <div className="h-14 rounded-xl border border-border" style={{ background: `var(${tk.varName})` }} />
+                <div className="text-caption mt-1.5 font-mono">{tk.name}</div>
               </div>
             ))}
           </div>
         </Demo>
-        <Demo title="Type scale">
+        <Demo title={t("demos.typeScale.title")}>
           <div className="space-y-2 w-full">
             <p className="heading-xl">Heading XL</p>
             <p className="heading-lg">Heading LG</p>
             <p className="heading-md">Heading MD</p>
-            <p className="text-body">Body — the default paragraph rhythm and color.</p>
-            <p className="text-caption">Caption — secondary supporting text.</p>
+            <p className="text-body">{t("demos.typeScale.body")}</p>
+            <p className="text-caption">{t("demos.typeScale.caption")}</p>
             <p className="text-label">LABEL · UPPERCASE</p>
             <p className="font-mono text-sm">font-mono · JetBrains Mono 0123456789</p>
           </div>
         </Demo>
-        <Demo title="Surfaces" description=".card · .glass-card · .glass-panel · .stat-card">
-          <div className="card p-5 w-44"><p className="font-medium mb-1">.card</p><p className="text-caption">Base surface</p></div>
-          <div className="glass-card p-5 w-44"><p className="font-medium mb-1">.glass-card</p><p className="text-caption">Frosted</p></div>
-          <div className="glass-panel p-5 w-44"><p className="font-medium mb-1">.glass-panel</p><p className="text-caption">Elevated glass</p></div>
+        <Demo title={t("demos.surfaces.title")} description=".card · .glass-card · .glass-panel · .stat-card">
+          <div className="card p-5 w-44"><p className="font-medium mb-1">.card</p><p className="text-caption">{t("demos.surfaces.baseSurface")}</p></div>
+          <div className="glass-card p-5 w-44"><p className="font-medium mb-1">.glass-card</p><p className="text-caption">{t("demos.surfaces.frosted")}</p></div>
+          <div className="glass-panel p-5 w-44"><p className="font-medium mb-1">.glass-panel</p><p className="text-caption">{t("demos.surfaces.elevatedGlass")}</p></div>
           <div className="stat-card p-5 w-44"><p className="text-label">.stat-card</p><p className="stat-number text-xl font-semibold">128K</p></div>
         </Demo>
-        <Demo title="Radii & shadows">
+        <Demo title={t("demos.radiiShadows.title")}>
           <div className="flex flex-wrap gap-4">
             {([["xs", "--shadow-xs"], ["sm", "--shadow-sm"], ["md", "--shadow-md"], ["lg", "--shadow-lg"]] as const).map(([n, v]) => (
               <div key={n} className="h-16 w-28 rounded-2xl bg-card border border-border flex items-center justify-center text-caption" style={{ boxShadow: `var(${v})` }}>
@@ -505,7 +511,7 @@ export default function Showcase() {
 
       {/* Utility classes — the raw Yunxin classes components are built on */}
       <Section id="design" title={t("design.title")} description={t("design.description")}>
-        <Demo title="Badges (.badge-* + variants)">
+        <Demo title={t("demos.badges.title")}>
           <span className="badge badge-success">success</span>
           <span className="badge badge-warning">warning</span>
           <span className="badge badge-error">error</span>
@@ -522,18 +528,18 @@ export default function Showcase() {
           <DeprecatedBadge isDeprecated />
           <IDBadge text="claude-opus-4-8" />
         </Demo>
-        <Demo title="Buttons via raw .btn classes">
+        <Demo title={t("demos.rawButtons.title")}>
           <button className="btn btn-primary">.btn-primary</button>
           <button className="btn btn-secondary">.btn-secondary</button>
           <button className="btn btn-ghost">.btn-ghost</button>
           <button className="btn btn-outline">.btn-outline</button>
         </Demo>
-        <Demo title="Nav items (.nav-item — sidebar building block)">
+        <Demo title={t("demos.navItems.title")}>
           <div className="w-56">
-            <div className="nav-section">Section</div>
-            <a className="nav-item active"><LayoutGrid size={18} strokeWidth={1.75} /><span>Active item</span></a>
-            <a className="nav-item"><Activity size={18} strokeWidth={1.75} /><span>Inactive item</span></a>
-            <a className="nav-item"><KeyRound size={18} strokeWidth={1.75} /><span>Another item</span></a>
+            <div className="nav-section">{t("demos.navItems.section")}</div>
+            <a className="nav-item active"><LayoutGrid size={18} strokeWidth={1.75} /><span>{t("demos.navItems.active")}</span></a>
+            <a className="nav-item"><Activity size={18} strokeWidth={1.75} /><span>{t("demos.navItems.inactive")}</span></a>
+            <a className="nav-item"><KeyRound size={18} strokeWidth={1.75} /><span>{t("demos.navItems.another")}</span></a>
           </div>
         </Demo>
       </Section>
@@ -541,22 +547,22 @@ export default function Showcase() {
       {/* Dashboard demo — what a real Yunxin page looks like */}
       <Section id="dashboard" title={t("dashboard.title")}>
         <PageHeader
-          title="Overview"
-          description="A page composed from YunUI layout pieces — just like a real product page."
-          actions={<Button variant="primary" size="sm"><Plus className="w-4 h-4 mr-1.5" />New key</Button>}
+          title={t("demos.dashboard.pageTitle")}
+          description={t("demos.dashboard.pageDescription")}
+          actions={<Button variant="primary" size="sm"><Plus className="w-4 h-4 mr-1.5" />{t("demos.dashboard.newKey")}</Button>}
         />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard icon={Coins} label="Balance" value={<AnimatedNumber value={1250} />} trend={{ value: 4.2, positive: true }} />
-          <StatCard icon={Activity} label="Requests" value={<AnimatedNumber value={48213} />} trend={{ value: 12, positive: true }} />
-          <StatCard icon={KeyRound} label="API keys" value={<AnimatedNumber value={3} />} />
-          <StatCard icon={TrendingUp} label="Spend" value={<AnimatedNumber value={72.4} decimals={2} />} trend={{ value: 3, positive: false }} />
+          <StatCard icon={Coins} label={t("demos.dashboard.statBalance")} value={<AnimatedNumber value={1250} />} trend={{ value: 4.2, positive: true }} />
+          <StatCard icon={Activity} label={t("demos.dashboard.statRequests")} value={<AnimatedNumber value={48213} />} trend={{ value: 12, positive: true }} />
+          <StatCard icon={KeyRound} label={t("demos.dashboard.statApiKeys")} value={<AnimatedNumber value={3} />} />
+          <StatCard icon={TrendingUp} label={t("demos.dashboard.statSpend")} value={<AnimatedNumber value={72.4} decimals={2} />} trend={{ value: 3, positive: false }} />
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
-            { icon: MessageSquare, title: "Playground" },
-            { icon: Layers, title: "Models" },
-            { icon: KeyRound, title: "API Keys" },
-            { icon: Activity, title: "Analytics" },
+            { icon: MessageSquare, title: t("demos.dashboard.quickPlayground") },
+            { icon: Layers, title: t("demos.dashboard.quickModels") },
+            { icon: KeyRound, title: t("demos.dashboard.quickApiKeys") },
+            { icon: Activity, title: t("demos.dashboard.quickAnalytics") },
           ].map((q) => (
             <button key={q.title} className="card-interactive card p-4 flex items-center gap-3 text-left">
               <q.icon className="w-5 h-5 text-muted-foreground" />
@@ -567,7 +573,7 @@ export default function Showcase() {
         <div className="card p-6">
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-muted-foreground" />
-            <h3 className="heading-md">Getting started</h3>
+            <h3 className="heading-md">{t("demos.dashboard.gettingStarted")}</h3>
           </div>
           <CodeBlock language="bash" code={'curl https://api.example.com/v1/models \\\n  -H "Authorization: Bearer $KEY"'} />
         </div>
@@ -575,35 +581,35 @@ export default function Showcase() {
 
       {/* Layout & chrome — the real app shell pieces */}
       <Section id="layout" title={t("layout.title")} description={t("layout.description")}>
-        <Demo title="Navbar" description="Floating top nav; switcher/toggle are slots, links are props.">
+        <Demo title={t("demos.navbar.title")} description={t("demos.navbar.description")}>
           <Stage height={120}>
             <Navbar
               appName="YunUI"
               logoSrc="/favicon.ico"
               variant="public"
               links={[
-                { href: "#nav-models", label: "Models" },
-                { href: "#nav-docs", label: "Docs" },
-                { href: "#nav-pricing", label: "Pricing" },
+                { href: "#nav-models", label: t("demos.navbar.linkModels") },
+                { href: "#nav-docs", label: t("demos.navbar.linkDocs") },
+                { href: "#nav-pricing", label: t("demos.navbar.linkPricing") },
               ]}
-              labels={{ signIn: "Sign in", signUp: "Sign up" }}
+              labels={{ signIn: t("demos.navbar.signIn"), signUp: t("demos.navbar.signUp") }}
             />
           </Stage>
         </Demo>
-        <Demo title="Sidebar — with collapse" description="Click the toggle to collapse / re-open. nav-item active states included.">
+        <Demo title={t("demos.sidebar.title")} description={t("demos.sidebar.description")}>
           <SidebarCollapseDemo />
         </Demo>
-        <Demo title="Footer" description="Sections + social are props; layout and styling are the design system.">
+        <Demo title={t("demos.footer.title")} description={t("demos.footer.description")}>
           <Stage height={300}>
             <div className="absolute inset-x-0 bottom-0">
               <Footer
                 appName="YunUI"
                 logoSrc="/favicon.ico"
-                tagline="One design system, every project in sync."
+                tagline={t("demos.footer.tagline")}
                 sections={[
-                  { title: "Product", links: [{ label: "Models", href: "#f-models" }, { label: "Docs", href: "#f-docs" }, { label: "Pricing", href: "#f-pricing" }] },
-                  { title: "Company", links: [{ label: "About", href: "#f-about" }, { label: "Blog", href: "#f-blog" }] },
-                  { title: "Legal", links: [{ label: "Privacy", href: "#f-privacy" }, { label: "Terms", href: "#f-terms" }] },
+                  { title: t("demos.footer.secProduct"), links: [{ label: t("demos.footer.linkModels"), href: "#f-models" }, { label: t("demos.footer.linkDocs"), href: "#f-docs" }, { label: t("demos.footer.linkPricing"), href: "#f-pricing" }] },
+                  { title: t("demos.footer.secCompany"), links: [{ label: t("demos.footer.linkAbout"), href: "#f-about" }, { label: t("demos.footer.linkBlog"), href: "#f-blog" }] },
+                  { title: t("demos.footer.secLegal"), links: [{ label: t("demos.footer.linkPrivacy"), href: "#f-privacy" }, { label: t("demos.footer.linkTerms"), href: "#f-terms" }] },
                 ]}
               />
             </div>
@@ -614,7 +620,7 @@ export default function Showcase() {
       {/* Buttons */}
       <Section id="buttons" title={t("buttons.title")}>
         <Demo
-          title="Variants"
+          title={t("demos.buttonVariants.title")}
           code={`import { Button } from "yunui";
 
 <Button variant="primary">Primary</Button>
@@ -631,51 +637,51 @@ export default function Showcase() {
           <Button variant="amber">Amber</Button>
           <Button variant="red">Red</Button>
         </Demo>
-        <Demo title="Sizes & states">
-          <Button size="sm">Small</Button>
-          <Button size="md">Medium</Button>
-          <Button size="lg">Large</Button>
-          <Button loading>Loading</Button>
-          <Button disabled>Disabled</Button>
+        <Demo title={t("demos.buttonSizes.title")}>
+          <Button size="sm">{t("demos.buttonSizes.small")}</Button>
+          <Button size="md">{t("demos.buttonSizes.medium")}</Button>
+          <Button size="lg">{t("demos.buttonSizes.large")}</Button>
+          <Button loading>{t("demos.buttonSizes.loading")}</Button>
+          <Button disabled>{t("demos.buttonSizes.disabled")}</Button>
         </Demo>
-        <Demo title="Icon button & shiny">
-          <IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
-          <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
-          <ShinyButton>Shiny</ShinyButton>
+        <Demo title={t("demos.iconButton.title")}>
+          <IconButton icon={<Heart className="w-4 h-4" />} label={t("demos.iconButton.like")} />
+          <IconButton icon={<Settings className="w-4 h-4" />} label={t("demos.iconButton.settings")} />
+          <ShinyButton>{t("demos.iconButton.shiny")}</ShinyButton>
         </Demo>
       </Section>
 
       {/* Forms */}
       <Section id="forms" title={t("forms.title")}>
-        <Demo title="Input & textarea">
+        <Demo title={t("demos.inputTextarea.title")}>
           <div className="w-full max-w-sm space-y-3">
             <div>
-              <Label>Email</Label>
+              <Label>{t("demos.inputTextarea.email")}</Label>
               <Input placeholder="you@example.com" icon={<Search className="w-4 h-4" />} />
             </div>
-            <Textarea placeholder="Write something…" rows={3} />
+            <Textarea placeholder={t("demos.inputTextarea.writePlaceholder")} rows={3} />
           </div>
         </Demo>
-        <Demo title="Checkbox & switch">
+        <Demo title={t("demos.checkboxSwitch.title")}>
           <label className="flex items-center gap-2 text-sm cursor-pointer">
             <Checkbox checked={checked} onCheckedChange={setChecked} />
-            Subscribe
+            {t("demos.checkboxSwitch.subscribe")}
           </label>
           <Switch checked={sw} onCheckedChange={setSw} />
           <Switch checked={!sw} onCheckedChange={(v) => setSw(!v)} variant="success" />
         </Demo>
-        <Demo title="Segmented select">
+        <Demo title={t("demos.segmentedSelect.title")}>
           <SegmentedSelect
             value={seg}
             onChange={setSeg}
             options={[
-              { value: "day", label: "Day" },
-              { value: "week", label: "Week" },
-              { value: "month", label: "Month" },
+              { value: "day", label: t("demos.segmentedSelect.day") },
+              { value: "week", label: t("demos.segmentedSelect.week") },
+              { value: "month", label: t("demos.segmentedSelect.month") },
             ]}
           />
         </Demo>
-        <Demo title="Custom select & combobox">
+        <Demo title={t("demos.customSelect.title")}>
           <div className="w-56">
             <CustomSelect
               value={sel}
@@ -702,7 +708,7 @@ export default function Showcase() {
           </div>
         </Demo>
         <Demo
-          title="Radix select"
+          title={t("demos.radixSelect.title")}
           code={`import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "yunui";
 
 <Select>
@@ -717,7 +723,7 @@ export default function Showcase() {
         >
           <Select>
             <SelectTrigger className="w-56">
-              <SelectValue placeholder="Pick a provider" />
+              <SelectValue placeholder={t("demos.radixSelect.placeholder")} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="a">Provider A</SelectItem>
@@ -726,19 +732,19 @@ export default function Showcase() {
             </SelectContent>
           </Select>
         </Demo>
-        <Demo title="Slider">
+        <Demo title={t("demos.slider.title")}>
           <div className="w-72">
             <Slider value={slider} onValueChange={setSlider} max={100} step={1} />
-            <p className="text-caption mt-2">Value: {slider[0]}</p>
+            <p className="text-caption mt-2">{t("demos.slider.value")}: {slider[0]}</p>
           </div>
         </Demo>
-        <Demo title="Capability selector (AI)" description="Multi-select capability chips for AI models.">
+        <Demo title={t("demos.capabilitySelector.title")} description={t("demos.capabilitySelector.description")}>
           <div className="w-full max-w-md">
             <CapabilitySelector selected={caps} onChange={setCaps} columns={3} />
-            <p className="text-caption mt-2">Selected: {caps.join(", ") || "none"}</p>
+            <p className="text-caption mt-2">{t("demos.capabilitySelector.selected")}: {caps.join(", ") || t("demos.capabilitySelector.none")}</p>
           </div>
         </Demo>
-        <Demo title="Provider select — real provider icons (AI)" description="CustomSelect with the bundled provider-icon system; Combobox above also uses it.">
+        <Demo title={t("demos.providerSelect.title")} description={t("demos.providerSelect.description")}>
           <div className="w-64">
             <CustomSelect
               value={prov}
@@ -765,7 +771,7 @@ export default function Showcase() {
       {/* Overlays */}
       <Section id="overlays" title={t("overlays.title")}>
         <Demo
-          title="Dialog (Radix)"
+          title={t("demos.dialog.title")}
           code={`import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from "yunui";
 
 <Dialog>
@@ -786,66 +792,66 @@ export default function Showcase() {
         >
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="primary">Open dialog</Button>
+              <Button variant="primary">{t("demos.dialog.open")}</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Confirm change</DialogTitle>
-                <DialogDescription>This is a Radix-backed dialog styled by YunUI.</DialogDescription>
+                <DialogTitle>{t("demos.dialog.confirmTitle")}</DialogTitle>
+                <DialogDescription>{t("demos.dialog.confirmDescription")}</DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Button variant="ghost">Cancel</Button>
-                <Button variant="primary">Confirm</Button>
+                <Button variant="ghost">{t("demos.dialog.cancel")}</Button>
+                <Button variant="primary">{t("demos.dialog.confirm")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </Demo>
-        <Demo title="Modal & Sheet (custom)">
-          <Button variant="secondary" onClick={() => setModalOpen(true)}>Open modal</Button>
-          <Button variant="secondary" onClick={() => setSheetOpen(true)}>Open sheet</Button>
-          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="A YunUI modal" subtitle="Portal + scroll lock + escape">
-            <p className="text-body">Body content goes here.</p>
+        <Demo title={t("demos.modalSheet.title")}>
+          <Button variant="secondary" onClick={() => setModalOpen(true)}>{t("demos.modalSheet.openModal")}</Button>
+          <Button variant="secondary" onClick={() => setSheetOpen(true)}>{t("demos.modalSheet.openSheet")}</Button>
+          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={t("demos.modalSheet.modalTitle")} subtitle={t("demos.modalSheet.modalSubtitle")}>
+            <p className="text-body">{t("demos.modalSheet.modalBody")}</p>
           </Modal>
-          <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} title="Side sheet">
-            <p className="text-body p-1">Slide-in drawer content.</p>
+          <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} title={t("demos.modalSheet.sheetTitle")}>
+            <p className="text-body p-1">{t("demos.modalSheet.sheetBody")}</p>
           </Sheet>
         </Demo>
-        <Demo title="Popover, tooltip, dropdown">
+        <Demo title={t("demos.popoverTooltipDropdown.title")}>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline">Popover</Button>
+              <Button variant="outline">{t("demos.popoverTooltipDropdown.popover")}</Button>
             </PopoverTrigger>
             <PopoverContent className="p-4 w-56">
-              <p className="text-caption">Floating popover content.</p>
+              <p className="text-caption">{t("demos.popoverTooltipDropdown.popoverContent")}</p>
             </PopoverContent>
           </Popover>
 
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost">Hover me</Button>
+                <Button variant="ghost">{t("demos.popoverTooltipDropdown.hoverMe")}</Button>
               </TooltipTrigger>
-              <TooltipContent>Helpful hint</TooltipContent>
+              <TooltipContent>{t("demos.popoverTooltipDropdown.hint")}</TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">Menu</Button>
+              <Button variant="outline">{t("demos.popoverTooltipDropdown.menu")}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem><Plus className="w-4 h-4 mr-2" />New</DropdownMenuItem>
-              <DropdownMenuItem><Settings className="w-4 h-4 mr-2" />Settings</DropdownMenuItem>
+              <DropdownMenuLabel>{t("demos.popoverTooltipDropdown.actions")}</DropdownMenuLabel>
+              <DropdownMenuItem><Plus className="w-4 h-4 mr-2" />{t("demos.popoverTooltipDropdown.new")}</DropdownMenuItem>
+              <DropdownMenuItem><Settings className="w-4 h-4 mr-2" />{t("demos.popoverTooltipDropdown.settings")}</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem><Trash2 className="w-4 h-4 mr-2" />Delete</DropdownMenuItem>
+              <DropdownMenuItem><Trash2 className="w-4 h-4 mr-2" />{t("demos.popoverTooltipDropdown.delete")}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </Demo>
-        <Demo title="Dropdown — checkbox & radio items" description="DropdownMenuCheckboxItem (toggles) and DropdownMenuRadioGroup / DropdownMenuRadioItem (single choice).">
+        <Demo title={t("demos.dropdownChoices.title")} description={t("demos.dropdownChoices.description")}>
           <DropdownChoicesDemo />
         </Demo>
-        <Demo title="Confirm modals" description="ConfirmModal plus the DeleteConfirmModal / RegenerateConfirmModal presets — portal-rendered with scroll lock and escape-to-close.">
+        <Demo title={t("demos.confirmModals.title")} description={t("demos.confirmModals.description")}>
           <ConfirmModalsDemo />
         </Demo>
       </Section>
@@ -853,7 +859,7 @@ export default function Showcase() {
       {/* Data display */}
       <Section id="data-display" title={t("dataDisplay.title")}>
         <Demo
-          title="Cards & badges"
+          title={t("demos.cardsBadges.title")}
           code={`import { Card, Badge } from "yunui";
 
 <Card hover className="p-5 w-60">
@@ -866,71 +872,71 @@ export default function Showcase() {
         >
           <Card hover className="p-5 w-60">
             <div className="flex items-center justify-between mb-2">
-              <span className="font-medium">Pro plan</span>
-              <Badge variant="success">Active</Badge>
+              <span className="font-medium">{t("demos.cardsBadges.proPlan")}</span>
+              <Badge variant="success">{t("demos.cardsBadges.active")}</Badge>
             </div>
-            <p className="text-caption">Everything in Basic, plus higher limits.</p>
+            <p className="text-caption">{t("demos.cardsBadges.proDesc")}</p>
           </Card>
           <div className="flex flex-col gap-2">
-            <Badge>Default</Badge>
-            <Badge variant="info">Info</Badge>
-            <Badge variant="warning">Warning</Badge>
-            <Badge variant="error">Error</Badge>
+            <Badge>{t("demos.cardsBadges.default")}</Badge>
+            <Badge variant="info">{t("demos.cardsBadges.info")}</Badge>
+            <Badge variant="warning">{t("demos.cardsBadges.warning")}</Badge>
+            <Badge variant="error">{t("demos.cardsBadges.error")}</Badge>
           </div>
         </Demo>
-        <Demo title="Avatar & progress">
+        <Demo title={t("demos.avatarProgress.title")}>
           <Avatar>
             <AvatarImage src="https://github.com/yuhuanowo.png" alt="avatar" />
             <AvatarFallback>YX</AvatarFallback>
           </Avatar>
           <div className="w-60"><Progress value={66} /></div>
         </Demo>
-        <Demo title="Animated number" description="Springs from 0 on mount — re-enter the section to replay.">
+        <Demo title={t("demos.animatedNumber.title")} description={t("demos.animatedNumber.description")}>
           <div className="flex flex-wrap gap-8">
             <div className="stat-card p-4 w-40">
-              <div className="text-label mb-1">Requests</div>
+              <div className="text-label mb-1">{t("demos.animatedNumber.requests")}</div>
               <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={48213} /></div>
             </div>
             <div className="stat-card p-4 w-40">
-              <div className="text-label mb-1">Uptime</div>
+              <div className="text-label mb-1">{t("demos.animatedNumber.uptime")}</div>
               <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={99.98} suffix="%" decimals={2} /></div>
             </div>
             <div className="stat-card p-4 w-40">
-              <div className="text-label mb-1">Latency</div>
+              <div className="text-label mb-1">{t("demos.animatedNumber.latency")}</div>
               <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={142} suffix="ms" /></div>
             </div>
           </div>
         </Demo>
-        <Demo title="Tabs">
+        <Demo title={t("demos.tabs.title")}>
           <Tabs value={tab} onValueChange={setTab} className="w-full max-w-md">
             <TabsList>
-              <TabsTrigger value="inbox">Inbox</TabsTrigger>
-              <TabsTrigger value="archive">Archive</TabsTrigger>
-              <TabsTrigger value="spam">Spam</TabsTrigger>
+              <TabsTrigger value="inbox">{t("demos.tabs.inbox")}</TabsTrigger>
+              <TabsTrigger value="archive">{t("demos.tabs.archive")}</TabsTrigger>
+              <TabsTrigger value="spam">{t("demos.tabs.spam")}</TabsTrigger>
             </TabsList>
-            <TabsContent value="inbox"><p className="text-body">Inbox content.</p></TabsContent>
-            <TabsContent value="archive"><p className="text-body">Archived items.</p></TabsContent>
-            <TabsContent value="spam"><p className="text-body">No spam 🎉</p></TabsContent>
+            <TabsContent value="inbox"><p className="text-body">{t("demos.tabs.inboxContent")}</p></TabsContent>
+            <TabsContent value="archive"><p className="text-body">{t("demos.tabs.archiveContent")}</p></TabsContent>
+            <TabsContent value="spam"><p className="text-body">{t("demos.tabs.spamContent")}</p></TabsContent>
           </Tabs>
         </Demo>
-        <Demo title="Collapsible">
+        <Demo title={t("demos.collapsible.title")}>
           <Collapsible className="w-full max-w-md">
             <CollapsibleTrigger asChild>
-              <Button variant="outline">Toggle details</Button>
+              <Button variant="outline">{t("demos.collapsible.toggle")}</Button>
             </CollapsibleTrigger>
             <CollapsibleContent>
-              <div className="mt-3 p-4 rounded-xl border border-border text-caption">Hidden details revealed.</div>
+              <div className="mt-3 p-4 rounded-xl border border-border text-caption">{t("demos.collapsible.hidden")}</div>
             </CollapsibleContent>
           </Collapsible>
         </Demo>
-        <Demo title="Bento grid">
+        <Demo title={t("demos.bento.title")}>
           <BentoGrid className="w-full">
-            <BentoCard icon={<Zap className="w-5 h-5" />} title="Fast" description="Sub-second interactions." />
-            <BentoCard icon={<Rocket className="w-5 h-5" />} title="Scalable" description="From prototype to prod." />
-            <BentoCard icon={<Star className="w-5 h-5" />} title="Polished" description="Designed down to the detail." />
+            <BentoCard icon={<Zap className="w-5 h-5" />} title={t("demos.bento.fastTitle")} description={t("demos.bento.fastDesc")} />
+            <BentoCard icon={<Rocket className="w-5 h-5" />} title={t("demos.bento.scalableTitle")} description={t("demos.bento.scalableDesc")} />
+            <BentoCard icon={<Star className="w-5 h-5" />} title={t("demos.bento.polishedTitle")} description={t("demos.bento.polishedDesc")} />
           </BentoGrid>
         </Demo>
-        <Demo title="Marquee">
+        <Demo title={t("demos.marquee.title")}>
           <Marquee className="w-full [--duration:18s]">
             {["OpenAI", "Anthropic", "DeepSeek", "Mistral", "Google"].map((n) => (
               <span key={n} className="mx-6 text-muted-foreground font-medium">{n}</span>
@@ -941,7 +947,7 @@ export default function Showcase() {
 
       {/* Feedback */}
       <Section id="feedback" title={t("feedback.title")}>
-        <Demo title="Skeleton & spinner">
+        <Demo title={t("demos.skeletonSpinner.title")}>
           <div className="space-y-2 w-60">
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-2/3" />
@@ -950,55 +956,55 @@ export default function Showcase() {
           <Spinner size="md" />
           <Spinner size="lg" />
         </Demo>
-        <Demo title="Empty state">
-          <EmptyState icon={<Inbox className="w-8 h-8" />} title="No messages" description="When you get messages they'll show up here." action={<Button variant="primary" size="sm">Refresh</Button>} />
+        <Demo title={t("demos.emptyState.title")}>
+          <EmptyState icon={<Inbox className="w-8 h-8" />} title={t("demos.emptyState.noMessages")} description={t("demos.emptyState.noMessagesDesc")} action={<Button variant="primary" size="sm">{t("demos.emptyState.refresh")}</Button>} />
         </Demo>
-        <Demo title="Page loader" description="Full-screen centered loader for route transitions — framed here in a fixed-height stage (its min-h-dvh is capped to the frame).">
+        <Demo title={t("demos.pageLoader.title")} description={t("demos.pageLoader.description")}>
           <div className="w-full h-44 rounded-2xl border border-border overflow-hidden [&>*]:min-h-full!">
-            <PageLoader title="Loading workspace" subtitle="Fetching your models and keys…" />
+            <PageLoader title={t("demos.pageLoader.loadingTitle")} subtitle={t("demos.pageLoader.loadingSubtitle")} />
           </div>
         </Demo>
-        <Demo title="Page states" description="PageLoadingState · PageErrorState · PageEmptyState — the in-content (not full-screen) variants.">
+        <Demo title={t("demos.pageStates.title")} description={t("demos.pageStates.description")}>
           <div className="grid sm:grid-cols-3 gap-3 w-full">
-            <div className="rounded-xl border border-border"><PageLoadingState message="Loading…" /></div>
-            <div className="rounded-xl border border-border"><PageErrorState message="Couldn't load models." onRetry={() => toast.info("Retrying…")} /></div>
-            <div className="rounded-xl border border-border"><PageEmptyState icon={Inbox} title="No models yet" description="Add a provider to get started." action={<Button size="sm" variant="primary">Add</Button>} /></div>
+            <div className="rounded-xl border border-border"><PageLoadingState message={t("demos.pageStates.loading")} /></div>
+            <div className="rounded-xl border border-border"><PageErrorState message={t("demos.pageStates.errorMsg")} onRetry={() => toast.info(t("demos.pageStates.retrying"))} /></div>
+            <div className="rounded-xl border border-border"><PageEmptyState icon={Inbox} title={t("demos.pageStates.emptyTitle")} description={t("demos.pageStates.emptyDesc")} action={<Button size="sm" variant="primary">{t("demos.pageStates.add")}</Button>} /></div>
           </div>
         </Demo>
-        <Demo title="Media states" description="MediaLoadingState · MediaErrorState · MediaEmptyState — used across the media generation pages.">
+        <Demo title={t("demos.mediaStates.title")} description={t("demos.mediaStates.description")}>
           <div className="grid sm:grid-cols-3 gap-3 w-full">
-            <div className="rounded-xl border border-border"><MediaLoadingState message="Generating…" /></div>
-            <div className="rounded-xl border border-border"><MediaErrorState message="Generation failed — try again." onRetry={() => toast.info("Retrying…")} /></div>
-            <div className="rounded-xl border border-border"><MediaEmptyState icon={ImageIcon} title="No images yet" description="Your generated images will appear here." action={<Button size="sm" variant="primary">Generate</Button>} /></div>
+            <div className="rounded-xl border border-border"><MediaLoadingState message={t("demos.mediaStates.generating")} /></div>
+            <div className="rounded-xl border border-border"><MediaErrorState message={t("demos.mediaStates.errorMsg")} onRetry={() => toast.info(t("demos.mediaStates.retrying"))} /></div>
+            <div className="rounded-xl border border-border"><MediaEmptyState icon={ImageIcon} title={t("demos.mediaStates.emptyTitle")} description={t("demos.mediaStates.emptyDesc")} action={<Button size="sm" variant="primary">{t("demos.mediaStates.generate")}</Button>} /></div>
           </div>
         </Demo>
-        <Demo title="Thinking block (AI)">
+        <Demo title={t("demos.thinkingBlock.title")}>
           <div className="w-full max-w-lg">
             <ThinkingBlock content={"Let me reason about this step by step…\n1. Parse the request\n2. Plan the answer"} isStreaming defaultOpen />
           </div>
         </Demo>
-        <Demo title="Toast (sonner)" description="Themed toast helpers — success / error / info / warning.">
-          <Button variant="primary" size="sm" onClick={() => toast.success("Saved!", "Your changes are live.")}>Success</Button>
-          <Button variant="red" size="sm" onClick={() => toast.error("Failed", "Something went wrong.")}>Error</Button>
-          <Button variant="outline" size="sm" onClick={() => toast.info("Heads up", "A new model is available.")}>Info</Button>
-          <Button variant="amber" size="sm" onClick={() => toast.warning("Careful", "This action is irreversible.")}>Warning</Button>
+        <Demo title={t("demos.toast.title")} description={t("demos.toast.description")}>
+          <Button variant="primary" size="sm" onClick={() => toast.success(t("demos.toast.successTitle"), t("demos.toast.successBody"))}>{t("demos.toast.success")}</Button>
+          <Button variant="red" size="sm" onClick={() => toast.error(t("demos.toast.errorTitle"), t("demos.toast.errorBody"))}>{t("demos.toast.error")}</Button>
+          <Button variant="outline" size="sm" onClick={() => toast.info(t("demos.toast.infoTitle"), t("demos.toast.infoBody"))}>{t("demos.toast.info")}</Button>
+          <Button variant="amber" size="sm" onClick={() => toast.warning(t("demos.toast.warningTitle"), t("demos.toast.warningBody"))}>{t("demos.toast.warning")}</Button>
         </Demo>
       </Section>
 
       {/* Navigation */}
       <Section id="navigation" title={t("navigation.title")}>
-        <Demo title="Nav tabs">
+        <Demo title={t("demos.navTabs.title")}>
           <NavTabs
             activeKey={tab}
             onChange={setTab}
             tabs={[
-              { key: "inbox", label: "Inbox" },
-              { key: "archive", label: "Archive" },
-              { key: "spam", label: "Spam" },
+              { key: "inbox", label: t("demos.navTabs.inbox") },
+              { key: "archive", label: t("demos.navTabs.archive") },
+              { key: "spam", label: t("demos.navTabs.spam") },
             ]}
           />
         </Demo>
-        <Demo title="Language switcher (AI)">
+        <Demo title={t("demos.languageSwitcher.title")}>
           <LanguageSwitcher
             variant="pill"
             currentLocale="en"
@@ -1014,28 +1020,28 @@ export default function Showcase() {
 
       {/* Patterns */}
       <Section id="patterns" title={t("patterns.title")}>
-        <Demo title="Media page header" description="Title + sync button + error/stats — used across the media generation pages.">
+        <Demo title={t("demos.mediaPageHeader.title")} description={t("demos.mediaPageHeader.description")}>
           <div className="w-full max-w-2xl">
             <MediaPageHeader
-              title="Images"
-              description="Generate and manage your images."
+              title={t("demos.mediaPageHeader.headerTitle")}
+              description={t("demos.mediaPageHeader.headerDescription")}
               isSyncing={false}
               syncError={null}
-              onSync={() => toast.info("Syncing…")}
+              onSync={() => toast.info(t("demos.mediaPageHeader.syncing"))}
               stats={[
-                { label: "images", value: 128 },
-                { label: "this month", value: 42 },
+                { label: t("demos.mediaPageHeader.statImages"), value: 128 },
+                { label: t("demos.mediaPageHeader.statThisMonth"), value: 42 },
               ]}
             />
           </div>
         </Demo>
-        <Demo title="Model card" description="AI model card — icon is a slot, all fields are props (no API/schema coupling).">
+        <Demo title={t("demos.modelCard.title")} description={t("demos.modelCard.description")}>
           <div className="grid sm:grid-cols-2 gap-4 w-full max-w-2xl">
             <ModelCard
               name="Claude Opus 4.8"
               icon={<ModelIcon provider="anthropic" developer="claude" size={40} rounded />}
               ids={["claude-opus-4-8", "opus-latest"]}
-              description="Most capable model for complex reasoning and agentic work."
+              description={t("demos.modelCard.opusDesc")}
               capabilities={["vision", "thinking", "function_calling", "streaming"]}
               developer={{ label: "Anthropic", iconUrl: getIconPath("anthropic") ?? undefined }}
               context="200K"
@@ -1046,7 +1052,7 @@ export default function Showcase() {
               name="DeepSeek R1"
               icon={<ModelIcon provider="deepseek" developer="deepseek" size={40} rounded />}
               ids={["deepseek-r1"]}
-              description="Open reasoning model with strong math and code."
+              description={t("demos.modelCard.deepseekDesc")}
               capabilities={["thinking", "streaming"]}
               developer={{ label: "DeepSeek", iconUrl: getIconPath("deepseek") ?? undefined }}
               context="64K"
@@ -1055,7 +1061,7 @@ export default function Showcase() {
             />
           </div>
         </Demo>
-        <Demo title="AI avatars & type icons" description="ProviderAvatar / ModelAvatar (rounded, image-backed), ProviderIconImg (short alias) and ModelTypeIcon (capability glyphs).">
+        <Demo title={t("demos.aiAvatars.title")} description={t("demos.aiAvatars.description")}>
           <div className="space-y-5 w-full max-w-2xl">
             <div>
               <p className="text-label mb-2">ProviderAvatar</p>
@@ -1096,15 +1102,15 @@ export default function Showcase() {
             </div>
           </div>
         </Demo>
-        <Demo title="Fumadocs button variants" description="buttonVariants — a class-variance-authority recipe for fumadocs-themed buttons; applied to plain elements via className.">
+        <Demo title={t("demos.fumadocsButtons.title")} description={t("demos.fumadocsButtons.description")}>
           <button className={buttonVariants({ variant: "primary" })}>Primary</button>
           <button className={buttonVariants({ variant: "secondary" })}>Secondary</button>
           <button className={buttonVariants({ variant: "outline" })}>Outline</button>
           <button className={buttonVariants({ variant: "ghost" })}>Ghost</button>
-          <button className={buttonVariants({ color: "primary", size: "sm" })}>Small</button>
+          <button className={buttonVariants({ color: "primary", size: "sm" })}>{t("demos.buttonSizes.small")}</button>
           <button className={buttonVariants({ variant: "outline", size: "icon" })} aria-label="Docs"><FileText className="size-5" /></button>
         </Demo>
-        <Demo title="Code block">
+        <Demo title={t("demos.codeBlock.title")}>
           <div className="w-full max-w-2xl">
             <CodeBlock
               language="bash"
@@ -1112,22 +1118,22 @@ export default function Showcase() {
             />
           </div>
         </Demo>
-        <Demo title="FAQ">
+        <Demo title={t("demos.faq.title")}>
           <div className="w-full">
             <FAQ
               items={[
-                { question: "What is YunUI?", answer: "A versioned React 19 + Tailwind v4 design system you sync across every project." },
-                { question: "How do projects sync?", answer: "Bump the yunui version; the design follows." },
-                { question: "Does it support theming?", answer: "Yes — light, zinc-dark and true-black." },
+                { question: t("demos.faq.q1"), answer: t("demos.faq.a1") },
+                { question: t("demos.faq.q2"), answer: t("demos.faq.a2") },
+                { question: t("demos.faq.q3"), answer: t("demos.faq.a3") },
               ]}
             />
           </div>
         </Demo>
-        <Demo title="Blog card">
+        <Demo title={t("demos.blogCard.title")}>
           <div className="w-80">
             <BlogCard
-              title="Introducing YunUI"
-              description="One design system, every project in sync."
+              title={t("demos.blogCard.postTitle")}
+              description={t("demos.blogCard.postDescription")}
               category="Engineering"
               date="2026-06-21"
               readingTime={4}
@@ -1136,11 +1142,11 @@ export default function Showcase() {
             />
           </div>
         </Demo>
-        <Demo title="Blog post header" description="Full article header — category, title, author, date and reading time.">
+        <Demo title={t("demos.blogPostHeader.title")} description={t("demos.blogPostHeader.description")}>
           <div className="w-full max-w-2xl">
             <BlogPostHeader
-              title="Building a shared design system"
-              description="How the design system is versioned and synced across every project."
+              title={t("demos.blogPostHeader.postTitle")}
+              description={t("demos.blogPostHeader.postDescription")}
               category="Engineering"
               date="2026-06-21"
               readingTime={6}
@@ -1149,45 +1155,45 @@ export default function Showcase() {
             />
           </div>
         </Demo>
-        <Demo title="Category filter & pagination" description="CategoryFilter + BlogPagination — both controlled; the host owns routing.">
+        <Demo title={t("demos.blogControls.title")} description={t("demos.blogControls.description")}>
           <BlogControlsDemo />
         </Demo>
-        <Demo title="Code demo (tabbed)" description="CodeDemo — a tabbed CodeBlock preset with Python / Node.js / cURL quick-start snippets.">
+        <Demo title={t("demos.codeDemo.title")} description={t("demos.codeDemo.description")}>
           <div className="w-full">
             <CodeDemo />
           </div>
         </Demo>
-        <Demo title="Docs page actions" description="LLMCopyButton (copy page as Markdown for an LLM) and ViewOptions (raw Markdown / GitHub links) — the fumadocs-styled doc header actions.">
+        <Demo title={t("demos.docsActions.title")} description={t("demos.docsActions.description")}>
           <div className="flex items-center gap-1 rounded-lg border border-border bg-card px-1 py-1">
             <LLMCopyButton markdownUrl="/docs/overview.md" />
             <ViewOptions markdownUrl="/docs/overview.md" githubUrl="https://github.com/YuhuanStudio/YunUI" />
           </div>
         </Demo>
-        <Demo title="Account locked card" description="Terminal auth screen (banned / suspended) — presentational; the host owns logout/redirect via onBack.">
+        <Demo title={t("demos.accountLocked.title")} description={t("demos.accountLocked.description")}>
           <AccountLockedDemo />
         </Demo>
-        <Demo title="Fellows banner">
+        <Demo title={t("demos.fellowsBanner.title")}>
           <div className="w-full max-w-xl">
             <FellowsBanner
-              title="Join the Fellows program"
-              description="Selective access for builders and researchers."
-              ctaText="Apply"
-              features={["Pro-level limits", "Priority support", "Early features"]}
+              title={t("demos.fellowsBanner.bannerTitle")}
+              description={t("demos.fellowsBanner.bannerDescription")}
+              ctaText={t("demos.fellowsBanner.cta")}
+              features={[t("demos.fellowsBanner.feature1"), t("demos.fellowsBanner.feature2"), t("demos.fellowsBanner.feature3")]}
               href="#"
             />
           </div>
         </Demo>
-        <Demo title="Error boundary (catches a crashing child)">
+        <Demo title={t("demos.errorBoundary.title")}>
           <div className="w-full max-w-md">
             <ErrorBoundaryDemo />
           </div>
         </Demo>
-        <Demo title="Background effects (decorative)" description="A subtle dotted radial backdrop — it sits behind your page content (intentionally faint).">
+        <Demo title={t("demos.backgroundEffects.title")} description={t("demos.backgroundEffects.description")}>
           <div className="relative isolate w-full h-48 rounded-2xl border border-border overflow-hidden flex items-center justify-center">
             <BackgroundEffects />
             <div className="text-center">
-              <p className="font-semibold">Your content here</p>
-              <p className="text-caption mt-1">BackgroundEffects renders behind it</p>
+              <p className="font-semibold">{t("demos.backgroundEffects.yourContent")}</p>
+              <p className="text-caption mt-1">{t("demos.backgroundEffects.behindIt")}</p>
             </div>
           </div>
         </Demo>
