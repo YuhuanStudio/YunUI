@@ -261,7 +261,7 @@ export default function Home() {
       {/* Everything below the hero sits in a centered, readable column     */}
       {/* (the old Shell used to constrain width; now pages own it).        */}
       {/* ----------------------------------------------------------------- */}
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl w-[calc(100%-48px)] mx-auto">
 
       {/* ----------------------------------------------------------------- */}
       {/* Stats strip — AnimatedNumber primitives                           */}

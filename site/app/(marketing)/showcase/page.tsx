@@ -439,7 +439,7 @@ export default function Showcase() {
   return (
     // The old Shell wrapped content in max-w-5xl; now the page owns its own
     // readable, centered container (the floating navbar is full-bleed above).
-    <div className="max-w-6xl mx-auto px-6 pb-8">
+    <div className="max-w-6xl w-[calc(100%-48px)] mx-auto pb-8">
       {/* Header / intro */}
       <section id="overview" className="scroll-mt-20 mb-12">
         <span className="badge badge-info mb-4 inline-block">{t("badge")}</span>
