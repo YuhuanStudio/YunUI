@@ -76,6 +76,9 @@ export function Providers({
                 return { push: r.push, replace: r.replace, back: r.back };
               },
               useT,
+              // Self-host icons from the site's own public/icons (the package
+              // default now points at jsDelivr; the site ships its own copy).
+              iconBasePath: "/icons",
             }}
           >
             {children}

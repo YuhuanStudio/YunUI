@@ -44,9 +44,16 @@ export interface YunUIAdapters {
   /**
    * Base URL/path under which the AI provider/model icon assets are served.
    * The library resolves icons to `<iconBasePath>/providers/*.png` and
-   * `<iconBasePath>/models/*.png`. These assets are NOT bundled — host them
-   * yourself (e.g. copy this repo's `site/public/icons`) and point this at
-   * them (`/icons`, `/assets/icons`, a CDN origin, …). Defaults to `/icons`.
+   * `<iconBasePath>/models/*.png`.
+   *
+   * Defaults to the **bundled** icon set served via jsDelivr
+   * (`https://cdn.jsdelivr.net/npm/@yuhuanowo/yunui@0.2/icons`), so provider/
+   * model icons work with zero setup. To self-host — and to extend with your own
+   * icons — copy the package's `icons/` (or this repo's `site/public/icons`)
+   * into your app and point this at it (`/icons`, `/assets/icons`, a CDN, …).
+   *
+   * next/image consumers: either self-host, or allow `cdn.jsdelivr.net` in
+   * `images.remotePatterns`.
    */
   iconBasePath: string;
 }
@@ -104,7 +111,10 @@ export const DEFAULT_ADAPTERS: YunUIAdapters = {
   Image: DefaultImage,
   useRouter: defaultUseRouter,
   useT: defaultUseT,
-  iconBasePath: "/icons",
+  // Bundled icons via jsDelivr — zero-setup default. Override to self-host/extend.
+  // Pinned to the 0.2.x line (jsDelivr resolves @0.2 to the latest 0.2.x); bump
+  // this when the major/minor moves (see CLAUDE.md versioning policy).
+  iconBasePath: "https://cdn.jsdelivr.net/npm/@yuhuanowo/yunui@0.2/icons",
 };
 
 // ---- context --------------------------------------------------------------

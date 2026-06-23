@@ -11,6 +11,19 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-06-24
+
+### Changed
+- **AI icons are now bundled and served via CDN by default.** The package ships
+  the provider/model icon set under `icons/`, and `iconBasePath` now defaults to
+  jsDelivr (`https://cdn.jsdelivr.net/npm/@yuhuanowo/yunui@0.2/icons`) — so
+  `ProviderIcon` / `ModelIcon` / `ModelCard` render with **zero setup**.
+  - To self-host and extend with your own icons, copy the package's `icons/`
+    into your app and set `iconBasePath` (e.g. `"/icons"`).
+  - **Behavior change for self-hosting consumers** that relied on the old
+    `/icons` default (e.g. Yunxin): set `iconBasePath: "/icons"` to keep using
+    your own copy. `next/image` users: allow `cdn.jsdelivr.net` or self-host.
+
 ## [0.2.1] - 2026-06-24
 
 ### Added
@@ -143,7 +156,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.8...v0.2.0
 [0.1.8]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.7...v0.1.8

@@ -4,9 +4,11 @@ import { YunUIProvider } from "../adapters/context";
 import { ProviderIcon } from "../ai/provider-icons";
 
 describe("ProviderIcon — iconBasePath", () => {
-  it("resolves built-in icons under /icons by default", () => {
+  it("resolves built-in icons from the bundled jsDelivr CDN by default", () => {
     const { container } = render(<ProviderIcon provider="openai" />);
-    expect(container.querySelector("img")?.getAttribute("src")).toMatch(/^\/icons\/providers\//);
+    expect(container.querySelector("img")?.getAttribute("src")).toMatch(
+      /^https:\/\/cdn\.jsdelivr\.net\/npm\/@yuhuanowo\/yunui@[^/]+\/icons\/providers\//
+    );
   });
 
   it("honors a consumer-configured iconBasePath", () => {
