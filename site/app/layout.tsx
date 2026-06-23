@@ -7,8 +7,15 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "YunUI — design system",
-  description: "Browse every YunUI component across all themes.",
+  title: "YunUI — the design system you build once, and ship everywhere",
+  description:
+    "A React 19 + Tailwind v4 component library with tokens, 3 themes, and a framework-agnostic adapter layer. Edit once, version, sync every project.",
+  icons: {
+    icon: [
+      { url: "/yunui-logo.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

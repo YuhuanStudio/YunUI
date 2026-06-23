@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ThemeToggle } from "yunui";
 import { LanguageSwitcher, Footer, GithubIcon } from "yunui/ai";
 import { Sidebar, type SidebarSection } from "yunui/patterns";
+import { Logo } from "@/components/logo";
 import {
   Menu,
   LayoutGrid,
@@ -25,7 +26,9 @@ const SECTIONS: SidebarSection[] = [
   {
     items: [
       { label: "Overview", href: "#overview", icon: LayoutGrid },
-      { label: "Foundations", href: "#foundations", icon: Palette },
+      { label: "Why YunUI", href: "#why", icon: Sparkles },
+      { label: "Theming, live", href: "#live-preview", icon: Palette },
+      { label: "Foundations", href: "#foundations", icon: Component },
       { label: "Utility Classes", href: "#design", icon: Component },
       { label: "Dashboard Demo", href: "#dashboard", icon: Sparkles },
     ],
@@ -93,14 +96,35 @@ export function Shell({ children }: { children: ReactNode }) {
           >
             <PanelLeftOpen size={18} className="shrink-0" />
           </button>
+          {/* Brand lockup — logo mark + wordmark, links home */}
+          <Link href="/" aria-label="YunUI home" className="flex items-center hover:opacity-80 transition-opacity">
+            <Logo size={24} />
+          </Link>
           <div className="flex-1" />
-          <div className="flex items-center gap-1.5">
+          <nav className="hidden sm:flex items-center gap-0.5">
             <Link
               href="/docs"
               className="px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
             >
               Docs
             </Link>
+            <Link
+              href="/docs/components"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+            >
+              Components
+            </Link>
+            <a
+              href="https://github.com/YuhuanStudio/YunUI"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="GitHub"
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+            >
+              <GithubIcon />
+            </a>
+          </nav>
+          <div className="flex items-center gap-1.5">
             <LanguageSwitcher
               variant="pill"
               currentLocale="en"

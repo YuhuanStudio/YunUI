@@ -145,7 +145,15 @@ import {
   Image as ImageIcon,
   Lock,
   FileText,
+  Boxes,
+  Palette,
+  Puzzle,
+  ShieldCheck,
+  FlaskConical,
+  CheckCircle2,
+  ArrowRight,
 } from "lucide-react";
+import { LogoMark } from "@/components/logo";
 
 // ---- layout helpers -------------------------------------------------------
 
@@ -429,30 +437,55 @@ export default function Home() {
     <>
       {/* Overview / hero */}
       <section id="overview" className="scroll-mt-20 mb-20">
-        <span className="badge badge-info mb-4">v0.1 · extracted from Yunxin</span>
+        <div className="inline-flex items-center gap-2 mb-5">
+          <span className="text-foreground"><LogoMark size={28} /></span>
+          <span className="badge badge-info">React 19 · Tailwind v4 · MIT</span>
+        </div>
         <h1 className="heading-xl text-4xl sm:text-5xl leading-[1.1] max-w-3xl">
-          One design system.<br />Every project in sync.
+          The design system you<br />build once, and ship everywhere.
         </h1>
-        <p className="text-body mt-4 max-w-2xl">
-          YunUI is the Yunxin design system as a versioned package — tokens, animations, and components
-          in one place. Edit a component here and every project on <code className="code-inline">yunui</code>{" "}
-          picks it up on the next version bump. Use the theme switch (top-right) to preview
-          light / zinc-dark / true-black.
+        <p className="text-body mt-5 max-w-2xl">
+          A React 19 + Tailwind v4 component library with tokens, 3 themes, and a framework-agnostic
+          adapter layer. Edit once, version, sync every project.
         </p>
-        <div className="mt-7 flex flex-wrap gap-3">
+        <div className="mt-7 flex flex-wrap items-center gap-3">
           <Button variant="primary" asChild>
             <Link href="/docs">Get started</Link>
           </Button>
           <Button variant="outline" asChild>
-            <Link href="/docs/components">Browse components</Link>
+            <Link href="/docs/components">Components</Link>
           </Button>
-          <ShinyButton>Star on GitHub</ShinyButton>
+          <Button variant="ghost" asChild>
+            <a href="https://github.com/YuhuanStudio/YunUI" target="_blank" rel="noreferrer noopener">
+              GitHub
+            </a>
+          </Button>
+          <Button variant="ghost" asChild>
+            <a href="https://www.npmjs.com/package/@yuhuanowo/yunui" target="_blank" rel="noreferrer noopener">
+              npm
+            </a>
+          </Button>
+        </div>
+        {/* Provenance badges (shields.io) */}
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://img.shields.io/npm/v/@yuhuanowo/yunui?color=18181b&labelColor=18181b&label=npm"
+            alt="npm version"
+            height={20}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://img.shields.io/npm/l/@yuhuanowo/yunui?color=18181b&labelColor=18181b&label=license"
+            alt="MIT license"
+            height={20}
+          />
         </div>
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { k: "Primitives", v: "23" },
-            { k: "Patterns", v: "20+" },
+            { k: "Components + patterns", v: "~33" },
             { k: "Themes", v: "3" },
+            { k: "Tests", v: "141" },
             { k: "Entry points", v: "5" },
           ].map((s) => (
             <div key={s.k} className="stat-card p-4">
@@ -460,6 +493,109 @@ export default function Home() {
               <div className="text-label mt-1">{s.k}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Why YunUI — feature bento (dogfoods BentoGrid/BentoCard) */}
+      <Section
+        id="why"
+        title="Why YunUI"
+        description="A component library built to be the single source of truth across every project you ship."
+      >
+        <BentoGrid className="w-full">
+          <BentoCard
+            icon={<Boxes className="w-5 h-5" />}
+            title="~33 components + patterns"
+            description="Primitives, page-level patterns, and AI product components — composed, typed, and ready to ship."
+          />
+          <BentoCard
+            icon={<Palette className="w-5 h-5" />}
+            title="3 themes (light / dark / OLED)"
+            description="Token-driven theming. Light, zinc-dark, and a true-black OLED theme — swap with one class."
+          />
+          <BentoCard
+            icon={<Puzzle className="w-5 h-5" />}
+            title="Framework-agnostic adapters"
+            description="Bring your own Link, Image, and i18n. Inject them once; the library stays portable across apps."
+          />
+          <BentoCard
+            icon={<ShieldCheck className="w-5 h-5" />}
+            title="Tokenless OIDC releases"
+            description="Published to npm via trusted publishing with provenance — no long-lived tokens in CI."
+          />
+          <BentoCard
+            icon={<FlaskConical className="w-5 h-5" />}
+            title="141 tests, typed, JSDoc'd"
+            description="Strict TypeScript, JSDoc on the public surface, and a test suite that guards every primitive."
+          />
+          <BentoCard
+            icon={<Rocket className="w-5 h-5" />}
+            title="In production at Yunxin"
+            description="Battle-tested in production — already powering a real, shipping app end to end."
+          />
+        </BentoGrid>
+      </Section>
+
+      {/* Live theme preview — real components that respond to the ThemeToggle */}
+      <Section
+        id="live-preview"
+        title="Theming, live"
+        description="Real YunUI components — flip the theme switch (top-right) to see light, zinc-dark, and true-black update in place."
+      >
+        <div className="rounded-2xl border border-border bg-(--bg-elevated) p-6 sm:p-8 space-y-6">
+          <div className="flex flex-wrap items-center gap-3">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <ShinyButton>Shiny</ShinyButton>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Card className="p-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-medium">Pro plan</span>
+                <Badge variant="success">Active</Badge>
+              </div>
+              <p className="text-caption mb-4">Everything in Basic, plus higher limits and priority support.</p>
+              <div className="flex flex-wrap gap-2">
+                <Badge>Default</Badge>
+                <Badge variant="info">Info</Badge>
+                <Badge variant="warning">Warning</Badge>
+                <Badge variant="error">Error</Badge>
+              </div>
+            </Card>
+            <Card className="p-5 space-y-3">
+              <div>
+                <Label>Email</Label>
+                <Input placeholder="you@example.com" icon={<Search className="w-4 h-4" />} />
+              </div>
+              <div className="flex items-center gap-4 pt-1">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <Checkbox checked={checked} onCheckedChange={setChecked} />
+                  Subscribe
+                </label>
+                <Switch checked={sw} onCheckedChange={setSw} />
+              </div>
+              <Button variant="primary" size="sm" className="mt-1">
+                Continue
+                <ArrowRight className="w-4 h-4 ml-1.5" />
+              </Button>
+            </Card>
+          </div>
+        </div>
+      </Section>
+
+      {/* Honest social proof */}
+      <section className="mb-20">
+        <div className="card p-6 flex flex-wrap items-center gap-4">
+          <CheckCircle2 className="w-6 h-6 text-success shrink-0" />
+          <div className="min-w-0">
+            <p className="font-medium">Battle-tested in production</p>
+            <p className="text-caption mt-0.5">
+              YunUI already powers <span className="font-medium text-foreground">Yunxin</span>, a real shipping
+              app — every primitive and pattern here is in daily use, not a demo.
+            </p>
+          </div>
         </div>
       </section>
 

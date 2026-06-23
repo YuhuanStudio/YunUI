@@ -23,6 +23,24 @@ YunUI's components render canonical utility classes (`.card`, `.btn-primary`, `.
 @source "../node_modules/@yuhuanowo/yunui/dist";
 ```
 
+<Callout type="warn" title="Don't skip the @source line">
+  Tailwind v4 only generates the utility classes it sees in scanned files. YunUI's
+  components live in `node_modules`, which Tailwind ignores by default — so you **must**
+  add this line or those classes never get emitted and components render unstyled:
+
+  ```css
+  @source "../node_modules/@yuhuanowo/yunui/dist";
+  ```
+
+  Adjust the relative path so it points at `@yuhuanowo/yunui/dist` from your `globals.css`.
+</Callout>
+
+<Callout type="info" title="Components rendering unstyled?">
+  You almost certainly missed the `@source` line above (or its path doesn't resolve to
+  `node_modules/@yuhuanowo/yunui/dist`). Add it, restart the dev server so Tailwind
+  re-scans, and the `.card` / `.btn-*` / `.badge` styles will appear.
+</Callout>
+
 If you also use fumadocs, import its preset before YunUI so the design-system tokens win:
 
 ```css
