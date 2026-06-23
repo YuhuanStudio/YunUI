@@ -467,7 +467,7 @@ export default function Showcase() {
       </section>
 
       {/* Foundations — the design tokens everything is built on */}
-      <Section id="foundations" title="Foundations" description="The tokens, type scale, surfaces and motion that define the Yunxin look.">
+      <Section id="foundations" title="Foundations" description="The tokens, type scale, surfaces and motion that define the YunUI look.">
         <Demo title="Color tokens" description="CSS variables, theme-aware — they re-map under .dark and .true-black.">
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 w-full">
             {COLOR_TOKENS.map((t) => (

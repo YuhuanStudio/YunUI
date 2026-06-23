@@ -11,10 +11,8 @@ export const metadata: Metadata = {
   description:
     "A React 19 + Tailwind v4 component library with tokens, 3 themes, and a framework-agnostic adapter layer. Edit once, version, sync every project.",
   icons: {
-    icon: [
-      { url: "/yunui-logo.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico" },
-    ],
+    icon: [{ url: "/favicon.ico" }],
+    apple: [{ url: "/yuhuanstudio-logo.png" }],
   },
 };
 
