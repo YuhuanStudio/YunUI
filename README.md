@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/@yuhuanowo/yunui.svg)](https://www.npmjs.com/package/@yuhuanowo/yunui)
 
-Yunxin 的设计系统(YUNXIN Design System v3 / Zinc),提取成一个独立、版本化、可被多项目引用的 UI 库 —— 对标 [once-ui.com](https://once-ui.com)。
+一个独立、版本化、可被多项目引用的 React 19 + Tailwind v4 设计系统 —— 对标 [once-ui.com](https://once-ui.com)。
 
 改 YunUI 一处 → 发版 → 各项目升级版本号即可同步获得统一的 **设计 token、动画、组件**。已在 Yunxin 生产环境使用。
 
@@ -19,7 +19,7 @@ npm i @yuhuanowo/yunui      # 或 pnpm add / yarn add
 > 想让 import 保持短名 `yunui`?用包别名:
 > ```jsonc
 > // package.json
-> "dependencies": { "yunui": "npm:@yuhuanowo/yunui@^0.1.5" }
+> "dependencies": { "yunui": "npm:@yuhuanowo/yunui@^0.1.8" }
 > ```
 > 之后 `import { Button } from "yunui"` 即可,下文示例同理。
 
@@ -88,7 +88,7 @@ import { useTranslations } from "next-intl";
 | `@yuhuanowo/yunui/css` | 设计系统样式(token 变量、`@theme` 映射、`.btn`/`.card`/`.glass` 等全局类、动画 keyframes) |
 | `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` 与适配器接口 |
 | `@yuhuanowo/yunui/patterns` | 页面级组件:FAQ、StatCard(`tone`/`inline`/`valueFirst` 变体)、BlogCard、CodeBlock、Sidebar、BackgroundEffects 等 |
-| `@yuhuanowo/yunui/ai` | Yunxin AI 产品域(prop 驱动,无 API 直连):ProviderIcon / ModelIcon / ModelTypeIcon、ModelCard、CapabilitySelector、Navbar、Footer、LanguageSwitcher、ThinkingBlock、IDBadge … |
+| `@yuhuanowo/yunui/ai` | AI 产品域组件(prop 驱动,无 API 直连):ProviderIcon / ModelIcon / ModelTypeIcon、ModelCard、CapabilitySelector、Navbar、Footer、LanguageSwitcher、ThinkingBlock、IDBadge … |
 
 **工具 / hooks**(从 `@yuhuanowo/yunui` 导出):`cn`、`toast` / `Toaster`(基于 sonner)、`MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`、`useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`。
 
@@ -106,7 +106,7 @@ import { useTranslations } from "next-intl";
 
 ```bash
 # 在 YunUI:改代码 → 升 package.json 版本号 → 提交
-git tag v0.1.6 && git push origin v0.1.6
+git tag v0.1.8 && git push origin v0.1.8
 # ↑ 推 tag 触发 GitHub Actions:typecheck → test → build → npm publish
 #   (tokenless OIDC trusted publishing + provenance,无需本地发布/OTP)
 
@@ -148,4 +148,4 @@ export function Thing() {
 
 ## License
 
-Apache-2.0 © yuhuanowo
+Apache-2.0 © YuhuanStudio

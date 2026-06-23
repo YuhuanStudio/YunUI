@@ -55,7 +55,7 @@
     "utilityClasses": "工具类"
   },
   "landing": {
-    "heroBadge": "新增：Flex · Grid · Table · npm 上 v0.1.8",
+    "heroBadge": "新增：Flex · Grid · Table · Accordion",
     "heroTitleLead": "一次构建。",
     "heroTitleAccent": "随处发布。",
     "heroSubtitle": "基于 React 19 + Tailwind v4 的设计系统：令牌驱动、三套主题、与框架无关的适配层。一次编辑，版本化管理，并同步到你交付的每一个项目。",
@@ -71,7 +71,7 @@
       "components": "组件 + 模式",
       "tests": "测试，全部通过",
       "themes": "内置主题",
-      "deps": "强制运行时依赖"
+      "entryPoints": "子路径入口"
     },
     "quickStart": {
       "badge": "快速开始",

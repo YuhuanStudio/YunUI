@@ -542,7 +542,7 @@ export default function Showcase() {
       <Section id="dashboard" title={t("dashboard.title")}>
         <PageHeader
           title="Overview"
-          description="A page composed from YunUI layout pieces, exactly like Yunxin."
+          description="A page composed from YunUI layout pieces — just like a real product page."
           actions={<Button variant="primary" size="sm"><Plus className="w-4 h-4 mr-1.5" />New key</Button>}
         />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -569,7 +569,7 @@ export default function Showcase() {
             <Sparkles className="w-4 h-4 text-muted-foreground" />
             <h3 className="heading-md">Getting started</h3>
           </div>
-          <CodeBlock language="bash" code={'curl https://api.yunxin.ai/v1/models \\\n  -H "Authorization: Bearer $KEY"'} />
+          <CodeBlock language="bash" code={'curl https://api.example.com/v1/models \\\n  -H "Authorization: Bearer $KEY"'} />
         </div>
       </Section>
 
@@ -738,7 +738,7 @@ export default function Showcase() {
             <p className="text-caption mt-2">Selected: {caps.join(", ") || "none"}</p>
           </div>
         </Demo>
-        <Demo title="Provider select — real provider icons (AI)" description="CustomSelect with the bundled Yunxin provider-icon system; Combobox above also uses it.">
+        <Demo title="Provider select — real provider icons (AI)" description="CustomSelect with the bundled provider-icon system; Combobox above also uses it.">
           <div className="w-64">
             <CustomSelect
               value={prov}
@@ -1108,7 +1108,7 @@ export default function Showcase() {
           <div className="w-full max-w-2xl">
             <CodeBlock
               language="bash"
-              code={'curl https://api.yunxin.ai/v1/chat/completions \\\n  -H "Authorization: Bearer $KEY"'}
+              code={'curl https://api.example.com/v1/chat/completions \\\n  -H "Authorization: Bearer $KEY"'}
             />
           </div>
         </Demo>
@@ -1116,7 +1116,7 @@ export default function Showcase() {
           <div className="w-full">
             <FAQ
               items={[
-                { question: "What is YunUI?", answer: "A shared design system extracted from Yunxin." },
+                { question: "What is YunUI?", answer: "A versioned React 19 + Tailwind v4 design system you sync across every project." },
                 { question: "How do projects sync?", answer: "Bump the yunui version; the design follows." },
                 { question: "Does it support theming?", answer: "Yes — light, zinc-dark and true-black." },
               ]}
@@ -1140,7 +1140,7 @@ export default function Showcase() {
           <div className="w-full max-w-2xl">
             <BlogPostHeader
               title="Building a shared design system"
-              description="How we extracted Yunxin's UI into a versioned package every project can sync to."
+              description="How the design system is versioned and synced across every project."
               category="Engineering"
               date="2026-06-21"
               readingTime={6}
@@ -1192,10 +1192,6 @@ export default function Showcase() {
           </div>
         </Demo>
       </Section>
-
-      <footer className="py-10 text-center text-caption border-t border-border">
-        YunUI · edit once, sync everywhere
-      </footer>
     </div>
   );
 }

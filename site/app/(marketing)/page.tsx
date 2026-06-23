@@ -134,12 +134,12 @@ export default function Home() {
   const t = useTranslations("landing");
 
   // Stats strip — AnimatedNumber tiles. Real counts: 41+ components + patterns,
-  // 141 test cases, 3 themes, 0 forced runtime deps. Labels are localized.
+  // 141 test cases, 3 themes, 5 subpath entry points. Labels are localized.
   const STATS: { value: number; suffix?: string; label: string; icon: ReactNode }[] = [
     { value: 41, suffix: "+", label: t("stats.components"), icon: <Boxes className="w-6 h-6" /> },
     { value: 141, label: t("stats.tests"), icon: <TestTube2 className="w-6 h-6" /> },
     { value: 3, label: t("stats.themes"), icon: <Palette className="w-6 h-6" /> },
-    { value: 0, label: t("stats.deps"), icon: <Package className="w-6 h-6" /> },
+    { value: 5, label: t("stats.entryPoints"), icon: <Package className="w-6 h-6" /> },
   ];
 
   const CODE_TAB_LABELS: Record<string, string> = {

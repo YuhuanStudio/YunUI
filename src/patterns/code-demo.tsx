@@ -5,7 +5,7 @@ const codeSnippets = {
     python: `import openai
 
 client = openai.OpenAI(
-    base_url="https://api.yunxin.ai/v1",
+    base_url="https://api.example.com/v1",
     api_key="your_api_key"
 )
 
@@ -19,7 +19,7 @@ print(response.choices[0].message.content)`,
     javascript: `import OpenAI from 'openai';
 
 const client = new OpenAI({
-  baseURL: 'https://api.yunxin.ai/v1',
+  baseURL: 'https://api.example.com/v1',
   apiKey: 'your_api_key'
 });
 
@@ -30,7 +30,7 @@ const response = await client.chat.completions.create({
 
 console.log(response.choices[0].message.content);`,
 
-    curl: `curl https://api.yunxin.ai/v1/chat/completions \\
+    curl: `curl https://api.example.com/v1/chat/completions \\
   -H "Authorization: Bearer your_api_key" \\
   -H "Content-Type: application/json" \\
   -d '{

@@ -55,7 +55,7 @@
     "utilityClasses": "工具類別"
   },
   "landing": {
-    "heroBadge": "新增：Flex · Grid · Table · npm 上 v0.1.8",
+    "heroBadge": "新增：Flex · Grid · Table · Accordion",
     "heroTitleLead": "一次建構。",
     "heroTitleAccent": "隨處發布。",
     "heroSubtitle": "基於 React 19 + Tailwind v4 的設計系統：權杖驅動、三套主題、與框架無關的轉接層。一次編輯、版本化管理，並同步到你交付的每一個專案。",
@@ -71,7 +71,7 @@
       "components": "元件 + 模式",
       "tests": "測試，全部通過",
       "themes": "內建主題",
-      "deps": "強制執行階段相依"
+      "entryPoints": "子路徑入口"
     },
     "quickStart": {
       "badge": "快速開始",
@@ -163,7 +163,7 @@
     },
     "design": {
       "title": "工具類別",
-      "description": "Yunxin 的頁面常常直接使用這些類別——設計存在於 CSS 中，元件只是薄薄的封裝。"
+      "description": "用 YunUI 的應用常直接使用這些類別——設計存在於 CSS 中，元件只是薄薄的封裝。"
     },
     "dashboard": {
       "title": "儀表板示範"

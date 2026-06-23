@@ -55,7 +55,7 @@
     "utilityClasses": "Utility Classes"
   },
   "landing": {
-    "heroBadge": "New: Flex · Grid · Table · v0.1.8 on npm",
+    "heroBadge": "New: Flex · Grid · Table · Accordion",
     "heroTitleLead": "Build once.",
     "heroTitleAccent": "Ship everywhere.",
     "heroSubtitle": "A React 19 + Tailwind v4 design system: token-driven, three themes, a framework-agnostic adapter layer. Edit once, version it, and sync every project you ship.",
@@ -71,7 +71,7 @@
       "components": "Components + patterns",
       "tests": "Tests, all green",
       "themes": "Built-in themes",
-      "deps": "Forced runtime deps"
+      "entryPoints": "Subpath entry points"
     },
     "quickStart": {
       "badge": "Quick start",
