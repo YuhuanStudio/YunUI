@@ -111,7 +111,7 @@ export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-dvh flex flex-col relative overflow-x-hidden">
+    <div className="min-h-dvh flex flex-col relative overflow-x-hidden bg-background">
       <Navbar pathname={pathname ?? "/"} />
 
       {/* Full-bleed content — pages own their own max-width containers. Top
