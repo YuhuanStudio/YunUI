@@ -7,6 +7,15 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- **Layout primitives** (the big once-ui-parity gap): `Flex`, `Grid`, `Column`,
+  `Row`, `Stack` — token-aware `gap`/`padding`/`align`/`justify`/`columns` via
+  static class maps (Tailwind-compiler-safe).
+- **`Accordion`** + **`RadioGroup`** (Radix-backed, full keyboard a11y).
+- **Data display**: `Table` family (Table/Thead/Tbody/Tfoot/Tr/Th/Td + aliases),
+  `Breadcrumb` family, controlled `Pagination` (ellipsis truncation, a11y labels).
+- Tests for all of the above (141 total, up from 101).
+
 ## [0.1.8]
 
 ### Added

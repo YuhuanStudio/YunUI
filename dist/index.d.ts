@@ -13,6 +13,8 @@ import { LucideIcon } from 'lucide-react';
 import * as Primitive from '@radix-ui/react-collapsible';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { ClassValue } from 'clsx';
+import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 
 /**
  * Modal Size Classes
@@ -198,6 +200,221 @@ interface ComboboxProps {
 }
 /** Searchable, optionally creatable combobox — type to filter, Enter to pick or create. */
 declare function Combobox({ options, value, onChange, placeholder, className, disabled, allowCustom, creatableText, }: ComboboxProps): React$1.JSX.Element;
+
+/**
+ * Radix Accordion root — a vertically stacked set of collapsible sections.
+ *
+ * Set `type="single"` for one-at-a-time panels (optionally `collapsible` so the
+ * open one can be closed) or `type="multiple"` to allow several open at once.
+ * Full keyboard a11y (arrow keys, Home/End, Enter/Space) comes from Radix.
+ */
+declare const Accordion: React$1.ForwardRefExoticComponent<(AccordionPrimitive.AccordionSingleProps | AccordionPrimitive.AccordionMultipleProps) & React$1.RefAttributes<HTMLDivElement>>;
+/** A single collapsible section. Give each a unique `value`. */
+declare const AccordionItem: React$1.ForwardRefExoticComponent<Omit<AccordionPrimitive.AccordionItemProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+/** Clickable header that toggles its section; shows a chevron that rotates when open. */
+declare const AccordionTrigger: React$1.ForwardRefExoticComponent<Omit<AccordionPrimitive.AccordionTriggerProps & React$1.RefAttributes<HTMLButtonElement>, "ref"> & React$1.RefAttributes<HTMLButtonElement>>;
+/**
+ * Collapsible panel body. Animates its height open/closed by transitioning the
+ * `grid-template-rows` `0fr` → `1fr` track, driven by Radix's
+ * `data-state` attribute. Self-contained (no external keyframes required).
+ */
+declare const AccordionContent: React$1.ForwardRefExoticComponent<Omit<AccordionPrimitive.AccordionContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+
+/**
+ * Radix RadioGroup root — a single-choice set of {@link RadioGroupItem}s.
+ *
+ * Controlled via `value`/`onValueChange` (or uncontrolled via `defaultValue`).
+ * Arrow keys move and select within the group; the whole group is one tab stop.
+ */
+declare const RadioGroup: React$1.ForwardRefExoticComponent<Omit<RadioGroupPrimitive.RadioGroupProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+/**
+ * A single radio option. Pair with a `<label htmlFor>` via `id`.
+ * Renders a ring outline that fills with the primary accent and a center dot
+ * when selected — matching YunUI's Checkbox/Switch visual language.
+ */
+declare const RadioGroupItem: React$1.ForwardRefExoticComponent<Omit<RadioGroupPrimitive.RadioGroupItemProps & React$1.RefAttributes<HTMLButtonElement>, "ref"> & React$1.RefAttributes<HTMLButtonElement>>;
+
+/**
+ * Supported spacing-scale values (Tailwind's default scale: 1 unit = 0.25rem).
+ * A fixed set so the literal classes below are always present for the compiler.
+ */
+type SpacingScale = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12;
+declare const directionMap: {
+    readonly row: "flex-row";
+    readonly col: "flex-col";
+    readonly "row-reverse": "flex-row-reverse";
+    readonly "col-reverse": "flex-col-reverse";
+};
+type FlexDirection = keyof typeof directionMap;
+declare const alignMap: {
+    readonly start: "items-start";
+    readonly center: "items-center";
+    readonly end: "items-end";
+    readonly stretch: "items-stretch";
+    readonly baseline: "items-baseline";
+};
+type Align = keyof typeof alignMap;
+declare const justifyMap: {
+    readonly start: "justify-start";
+    readonly center: "justify-center";
+    readonly end: "justify-end";
+    readonly between: "justify-between";
+    readonly around: "justify-around";
+    readonly evenly: "justify-evenly";
+};
+type Justify = keyof typeof justifyMap;
+/** Supported fixed column/row counts (1–12), mapped to literal grid classes. */
+type GridCount = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+interface FlexProps extends React$1.HTMLAttributes<HTMLElement> {
+    /** Main axis direction. @defaultValue "row" */
+    direction?: FlexDirection;
+    /** Cross-axis alignment (`align-items`). */
+    align?: Align;
+    /** Main-axis distribution (`justify-content`). */
+    justify?: Justify;
+    /** Gap between children, on the spacing scale. */
+    gap?: SpacingScale;
+    /** Allow children to wrap onto multiple lines. */
+    wrap?: boolean;
+    /** Padding on all sides, on the spacing scale. */
+    padding?: SpacingScale;
+    /** Horizontal padding (`px`), on the spacing scale. */
+    px?: SpacingScale;
+    /** Vertical padding (`py`), on the spacing scale. */
+    py?: SpacingScale;
+    /** Element/tag to render as. @defaultValue "div" */
+    as?: React$1.ElementType;
+}
+/**
+ * Flexbox layout primitive. Maps `direction`/`align`/`justify`/`gap`/`wrap`/
+ * padding props to literal Tailwind classes via static maps. Purely
+ * presentational — extra props are spread onto the rendered element.
+ */
+declare const Flex: React$1.ForwardRefExoticComponent<FlexProps & React$1.RefAttributes<HTMLElement>>;
+interface GridProps extends React$1.HTMLAttributes<HTMLElement> {
+    /** Number of equal columns (1–12). */
+    columns?: GridCount;
+    /** Number of explicit rows (1–12). */
+    rows?: GridCount;
+    /** Gap between cells, on the spacing scale. */
+    gap?: SpacingScale;
+    /** Cross-axis alignment of items within their cells (`align-items`). */
+    align?: Align;
+    /** Padding on all sides, on the spacing scale. */
+    padding?: SpacingScale;
+    /** Element/tag to render as. @defaultValue "div" */
+    as?: React$1.ElementType;
+}
+/**
+ * CSS-grid layout primitive. Maps `columns`/`rows`/`gap`/`align`/`padding`
+ * to literal Tailwind classes via static maps. Purely presentational.
+ */
+declare const Grid: React$1.ForwardRefExoticComponent<GridProps & React$1.RefAttributes<HTMLElement>>;
+/** Thin wrapper around {@link Flex} fixed to `direction="col"`. */
+declare const Column: React$1.ForwardRefExoticComponent<Omit<FlexProps, "direction"> & React$1.RefAttributes<HTMLElement>>;
+/** Thin wrapper around {@link Flex} fixed to `direction="row"`. */
+declare const Row: React$1.ForwardRefExoticComponent<Omit<FlexProps, "direction"> & React$1.RefAttributes<HTMLElement>>;
+/**
+ * Vertical {@link Flex} (`direction="col"`) with a sensible default `gap`.
+ * Alias of {@link Column} optimised for stacking content; override `gap` freely.
+ */
+declare const Stack: React$1.ForwardRefExoticComponent<Omit<FlexProps, "direction"> & React$1.RefAttributes<HTMLElement>>;
+
+/**
+ * Table root — wraps a `<table>` in an overflow container so wide tables scroll
+ * horizontally instead of breaking the layout. `className` is applied to the
+ * inner `<table>`; pass `containerClassName` to style the scroll wrapper.
+ */
+declare const Table: React$1.ForwardRefExoticComponent<React$1.TableHTMLAttributes<HTMLTableElement> & {
+    /** Class applied to the outer scroll/overflow wrapper. */
+    containerClassName?: string;
+} & React$1.RefAttributes<HTMLTableElement>>;
+/** Table header group (`<thead>`); contains the column-header row(s). */
+declare const TableHeader: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableSectionElement> & React$1.RefAttributes<HTMLTableSectionElement>>;
+/** Table body group (`<tbody>`); rows are divided by subtle borders. */
+declare const TableBody: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableSectionElement> & React$1.RefAttributes<HTMLTableSectionElement>>;
+/** Table footer group (`<tfoot>`); a muted summary row band. */
+declare const TableFooter: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableSectionElement> & React$1.RefAttributes<HTMLTableSectionElement>>;
+/** Table row (`<tr>`) with a divider and hover highlight. */
+declare const TableRow: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableRowElement> & React$1.RefAttributes<HTMLTableRowElement>>;
+/** Column header cell (`<th>`): left-aligned, uppercase, muted, small. */
+declare const TableHead: React$1.ForwardRefExoticComponent<React$1.ThHTMLAttributes<HTMLTableCellElement> & React$1.RefAttributes<HTMLTableCellElement>>;
+/** Standard data cell (`<td>`). */
+declare const TableCell: React$1.ForwardRefExoticComponent<React$1.TdHTMLAttributes<HTMLTableCellElement> & React$1.RefAttributes<HTMLTableCellElement>>;
+/** Caption (`<caption>`) rendered below the table; muted helper text. */
+declare const TableCaption: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableCaptionElement> & React$1.RefAttributes<HTMLTableCaptionElement>>;
+
+/** Breadcrumb root: a `<nav>` landmark labelling the trail for screen readers. */
+declare const Breadcrumb: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.HTMLAttributes<HTMLElement>, HTMLElement>, "ref"> & {
+    /** Accessible name for the navigation landmark. @defaultValue "Breadcrumb" */
+    "aria-label"?: string;
+} & React$1.RefAttributes<HTMLElement>>;
+/** Ordered list (`<ol>`) holding the breadcrumb items. */
+declare const BreadcrumbList: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.OlHTMLAttributes<HTMLOListElement>, HTMLOListElement>, "ref"> & React$1.RefAttributes<HTMLOListElement>>;
+/** A single breadcrumb item (`<li>`); wrap a link, page, or separator. */
+declare const BreadcrumbItem: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>, "ref"> & React$1.RefAttributes<HTMLLIElement>>;
+/**
+ * A navigable breadcrumb link. Routes through the host app's `Link` adapter
+ * (`useYunUI().Link`) so it integrates with the consumer's router; falls back
+ * to a plain `<a>` when no provider is present.
+ */
+declare function BreadcrumbLink({ className, href, ...props }: {
+    /** Destination URL. */
+    href: string;
+    children?: React$1.ReactNode;
+    className?: string;
+} & Omit<React$1.AnchorHTMLAttributes<HTMLAnchorElement>, "href">): React$1.JSX.Element;
+declare namespace BreadcrumbLink {
+    var displayName: string;
+}
+/**
+ * The current page in the trail. Non-interactive and marked
+ * `aria-current="page"` for assistive tech.
+ */
+declare const BreadcrumbPage: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>, "ref"> & React$1.RefAttributes<HTMLSpanElement>>;
+/**
+ * Visual separator between items (a chevron by default). Hidden from the
+ * accessibility tree since it carries no information for screen readers.
+ */
+declare const BreadcrumbSeparator: {
+    ({ children, className, ...props }: React$1.ComponentPropsWithoutRef<"li">): React$1.JSX.Element;
+    displayName: string;
+};
+/**
+ * Ellipsis placeholder for collapsed middle items in a long trail.
+ */
+declare const BreadcrumbEllipsis: {
+    ({ className, ...props }: React$1.ComponentPropsWithoutRef<"span">): React$1.JSX.Element;
+    displayName: string;
+};
+
+interface PaginationProps extends Omit<React$1.HTMLAttributes<HTMLElement>, "onChange"> {
+    /** The active page (1-based). */
+    page: number;
+    /** Total number of pages. */
+    totalPages: number;
+    /** Called with the requested page when a control is activated. */
+    onPageChange: (page: number) => void;
+    /**
+     * How many page buttons to show on each side of the current page before
+     * collapsing into an ellipsis.
+     * @defaultValue 1
+     */
+    siblingCount?: number;
+    /** Accessible label for the previous-page button. @defaultValue "Go to previous page" */
+    previousLabel?: string;
+    /** Accessible label for the next-page button. @defaultValue "Go to next page" */
+    nextLabel?: string;
+    /** Accessible name for the wrapping nav landmark. @defaultValue "Pagination" */
+    ariaLabel?: string;
+}
+/**
+ * Controlled pagination control. Renders previous/next arrows plus numbered
+ * page buttons with ellipsis truncation. The current page is highlighted with
+ * the primary accent and exposes `aria-current="page"`; prev/next are disabled
+ * at the bounds.
+ */
+declare const Pagination: React$1.ForwardRefExoticComponent<PaginationProps & React$1.RefAttributes<HTMLElement>>;
 
 interface ButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement> {
     /**
@@ -651,4 +868,4 @@ declare function useBodyScrollLock(locked?: boolean): void;
  */
 declare function useModalBehavior(isOpen: boolean, onClose: () => void): void;
 
-export { AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, IconButton, Input, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, PageLoader, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RegenerateConfirmModal, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Switch, type SwitchProps, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, cn, fadeIn, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useModalBehavior };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, Input, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, PageLoader, Pagination, type PaginationProps, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, cn, fadeIn, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useModalBehavior };

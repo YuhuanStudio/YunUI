@@ -1014,3 +1014,21 @@ DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 
 export { Combobox } from "./combobox";
 export type { ComboboxOption } from "./combobox";
+
+// =====================================================
+// RE-EXPORT NEW PRIMITIVES (accordion, radio-group, layout, table, breadcrumb, pagination)
+// =====================================================
+
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./accordion";
+export { RadioGroup, RadioGroupItem } from "./radio-group";
+export { Flex, Grid, Column, Row, Stack } from "./layout";
+export type { FlexProps, GridProps, SpacingScale, GridCount } from "./layout";
+export {
+    Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption,
+    Thead, Tbody, Tfoot, Tr, Th, Td,
+} from "./table";
+export {
+    Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink,
+    BreadcrumbSeparator, BreadcrumbPage, BreadcrumbEllipsis,
+} from "./breadcrumb";
+export { Pagination, type PaginationProps } from "./pagination";
