@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "yunui";
 import { LanguageSwitcher, Footer, GithubIcon } from "yunui/ai";
 import { Sidebar, type SidebarSection } from "yunui/patterns";
@@ -20,58 +21,76 @@ import {
   Sparkles,
   PanelLeft,
   PanelLeftOpen,
+  Boxes,
 } from "lucide-react";
 
-const SECTIONS: SidebarSection[] = [
+// Landing-page anchors (the marketing route, "/").
+const LANDING_SECTIONS: SidebarSection[] = [
   {
     items: [
-      { label: "Overview", href: "#overview", icon: LayoutGrid },
-      { label: "Why YunUI", href: "#why", icon: Sparkles },
-      { label: "Theming, live", href: "#live-preview", icon: Palette },
-      { label: "Foundations", href: "#foundations", icon: Component },
-      { label: "Utility Classes", href: "#design", icon: Component },
-      { label: "Dashboard Demo", href: "#dashboard", icon: Sparkles },
+      { label: "Overview", href: "/#overview", icon: LayoutGrid },
+      { label: "Why YunUI", href: "/#why", icon: Sparkles },
+      { label: "Theming, live", href: "/#live-preview", icon: Palette },
+      { label: "A taste of the kit", href: "/#highlights", icon: Boxes },
+    ],
+  },
+  {
+    title: "Explore",
+    items: [
+      { label: "All components", href: "/showcase", icon: Component },
+    ],
+  },
+];
+
+// Showcase-gallery anchors (the "/showcase" route). Cross-route links keep their
+// route prefix so a click navigates rather than scrolling a stale page.
+const SHOWCASE_SECTIONS: SidebarSection[] = [
+  {
+    items: [
+      { label: "Overview", href: "/showcase#overview", icon: LayoutGrid },
+      { label: "Foundations", href: "/showcase#foundations", icon: Component },
+      { label: "Utility Classes", href: "/showcase#design", icon: Component },
+      { label: "Dashboard Demo", href: "/showcase#dashboard", icon: Sparkles },
     ],
   },
   {
     title: "Components",
     items: [
-      { label: "Layout & Chrome", href: "#layout", icon: PanelLeft },
-      { label: "Buttons & Actions", href: "#buttons", icon: MousePointerClick },
-      { label: "Form Controls", href: "#forms", icon: TextCursorInput },
-      { label: "Overlays", href: "#overlays", icon: Component },
-      { label: "Data Display", href: "#data-display", icon: Layers },
-      { label: "Feedback", href: "#feedback", icon: Bell },
-      { label: "Navigation", href: "#navigation", icon: Compass },
-      { label: "Patterns", href: "#patterns", icon: Database },
+      { label: "Layout & Chrome", href: "/showcase#layout", icon: PanelLeft },
+      { label: "Buttons & Actions", href: "/showcase#buttons", icon: MousePointerClick },
+      { label: "Form Controls", href: "/showcase#forms", icon: TextCursorInput },
+      { label: "Overlays", href: "/showcase#overlays", icon: Component },
+      { label: "Data Display", href: "/showcase#data-display", icon: Layers },
+      { label: "Feedback", href: "/showcase#feedback", icon: Bell },
+      { label: "Navigation", href: "/showcase#navigation", icon: Compass },
+      { label: "Patterns", href: "/showcase#patterns", icon: Database },
     ],
   },
 ];
 
 export function Shell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const [active, setActive] = useState("#overview");
 
-  const handleNavigate = (href: string) => {
-    setActive(href);
-    const el = document.getElementById(href.slice(1));
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const onShowcase = pathname?.startsWith("/showcase");
+  const sections = onShowcase ? SHOWCASE_SECTIONS : LANDING_SECTIONS;
+  const homeHref = onShowcase ? "/showcase#overview" : "/#overview";
 
   return (
     <div className="min-h-dvh flex overflow-x-hidden">
+      {/* No onNavigate handler: the Sidebar renders real <Link>s so cross-route
+          links (/showcase) navigate and same-page #anchors scroll natively. */}
       <Sidebar
         appName="YunUI"
         logoSrc="/favicon.ico"
-        homeHref="#overview"
-        sections={SECTIONS}
-        currentPath={active}
+        homeHref={homeHref}
+        sections={sections}
+        currentPath={pathname ?? "/"}
         isOpen={open}
         onClose={() => setOpen(false)}
         collapsed={collapsed}
         onToggleCollapse={() => setCollapsed(true)}
-        onNavigate={handleNavigate}
       />
 
       {/* Content column, offset by the fixed sidebar on desktop. Matches Yunxin:
@@ -103,16 +122,16 @@ export function Shell({ children }: { children: ReactNode }) {
           <div className="flex-1" />
           <nav className="hidden sm:flex items-center gap-0.5">
             <Link
+              href="/showcase"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+            >
+              Showcase
+            </Link>
+            <Link
               href="/docs"
               className="px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
             >
               Docs
-            </Link>
-            <Link
-              href="/docs/components"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
-            >
-              Components
             </Link>
             <a
               href="https://github.com/YuhuanStudio/YunUI"
@@ -144,11 +163,11 @@ export function Shell({ children }: { children: ReactNode }) {
         <Footer
           appName="YunUI"
           logoSrc="/favicon.ico"
-          homeHref="#overview"
+          homeHref="/#overview"
           tagline="One design system, every project in sync."
           sections={[
-            { title: "Docs", links: [{ label: "Overview", href: "#overview" }, { label: "Foundations", href: "#foundations" }, { label: "Components", href: "#layout" }] },
-            { title: "Resources", links: [{ label: "Patterns", href: "#patterns" }, { label: "Utility Classes", href: "#design" }] },
+            { title: "Product", links: [{ label: "Overview", href: "/#overview" }, { label: "Why YunUI", href: "/#why" }, { label: "Showcase", href: "/showcase" }] },
+            { title: "Resources", links: [{ label: "Docs", href: "/docs" }, { label: "Patterns", href: "/showcase#patterns" }, { label: "Utility Classes", href: "/showcase#design" }] },
           ]}
           social={[{ icon: <GithubIcon />, href: "https://github.com/yuhuanowo", label: "GitHub" }]}
           copyright="© 2026 YunUI · edit once, sync everywhere"
