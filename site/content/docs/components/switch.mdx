@@ -1,0 +1,35 @@
+import { Switch } from "yunui";
+
+A controlled on/off toggle. It's controlled-only: pass `checked` and `onCheckedChange`. Supports two sizes (`sm`, `md`) and four color variants for the checked state.
+
+## Import
+
+```tsx
+import { Switch } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`Switch` is controlled — wire it to state:
+
+```tsx
+const [on, setOn] = useState(false);
+<Switch checked={on} onCheckedChange={setOn} />
+```
+
+## Sizes & variants
+
+<ComponentPreview
+  title="Sizes (sm, md) and variants (default, success, warning, danger)"
+  code={`<Switch checked={on} onCheckedChange={setOn} />
+<Switch checked={on} onCheckedChange={setOn} size="md" />
+<Switch checked={on} onCheckedChange={setOn} variant="success" />
+<Switch checked={on} onCheckedChange={setOn} variant="warning" />
+<Switch checked={on} onCheckedChange={setOn} variant="danger" />`}
+>
+  <SwitchDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Switch" />

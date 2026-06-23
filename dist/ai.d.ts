@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import { VariantProps } from 'class-variance-authority';
+export { D as DiscordIcon, F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial, G as GithubIcon, I as InstagramIcon } from './footer-BoFu7Wqq.js';
 
 interface ThinkingBlockProps {
     content: string;
@@ -104,8 +105,8 @@ declare function getProviderIconOptions(): {
     value: string;
     label: string;
 }[];
-declare function normalizeProviderId(id: string): string;
-declare function getIconPath(providerId: string): string | null;
+declare function normalizeProviderId(id: string | null | undefined): string;
+declare function getIconPath(providerId: string | null | undefined): string | null;
 interface ProviderIconProps {
     /** Provider id; resolved to a built-in icon by name (e.g. "openai", "anthropic"). */
     provider: string;
@@ -128,7 +129,7 @@ declare function ProviderAvatar({ provider, size, className, }: {
     className?: string;
 }): React.JSX.Element;
 declare const ProviderNames: Record<string, string>;
-declare function getProviderName(providerId: string): string;
+declare function getProviderName(providerId: string | null | undefined): string;
 interface ModelIconProps {
     /** Model's own icon URL or `/icons/models/` filename (highest priority). */
     iconUrl?: string | null;
@@ -229,46 +230,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-declare const GithubIcon: () => React.JSX.Element;
-declare const InstagramIcon: () => React.JSX.Element;
-declare const DiscordIcon: () => React.JSX.Element;
-interface FooterLink {
-    /** Link text. */
-    label: string;
-    /** Destination href. */
-    href: string;
-}
-interface FooterSection {
-    /** Column heading. */
-    title: string;
-    /** Links in this column. */
-    links: FooterLink[];
-}
-interface FooterSocial {
-    /** Icon to render (e.g. {@link GithubIcon}). */
-    icon: ReactNode;
-    /** Destination href (external links open in a new tab). */
-    href: string;
-    /** Accessible label for the link. */
-    label: string;
-}
-interface FooterProps {
-    /** Brand name shown next to the logo. */
-    appName: string;
-    /** Logo image src. @defaultValue "/favicon.ico" */
-    logoSrc?: string;
-    /** Where the logo links to. @defaultValue "/" */
-    homeHref?: string;
-    /** Short brand tagline under the logo. */
-    tagline?: string;
-    /** Link columns. */
-    sections?: FooterSection[];
-    /** Social/icon links shown in the bottom bar. */
-    social?: FooterSocial[];
-    /** Defaults to `© <year> <appName>. All rights reserved.` */
-    copyright?: string;
-}
-/** Site footer: brand block, link columns, copyright line, and social icons. */
-declare function Footer({ appName, logoSrc, homeHref, tagline, sections, social, copyright, }: FooterProps): React.JSX.Element;
-
-export { type ButtonProps, CapabilitySelector, DiscordIcon, Footer, type FooterLink, type FooterProps, type FooterSection, type FooterSocial, GithubIcon, IDBadge, InstagramIcon, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelTypeIcon, type NavLink, Navbar, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { type ButtonProps, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelTypeIcon, type NavLink, Navbar, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };

@@ -1,0 +1,65 @@
+import { PageLoadingState, PageErrorState, PageEmptyState } from "yunui/patterns";
+import { Button } from "yunui";
+
+Three centered, full-section placeholders for the common page lifecycles: loading, error, and empty. They share consistent spacing and typography so a page can swap between them cleanly while data resolves.
+
+## Import
+
+```tsx
+import { PageLoadingState, PageErrorState, PageEmptyState } from "@yuhuanowo/yunui/patterns";
+```
+
+## PageLoadingState
+
+A centered spinner with an optional `message`.
+
+<ComponentPreview
+  title="PageLoadingState"
+  code={`<PageLoadingState message="Loading your data…" />`}
+>
+  <div className="w-full max-w-xl">
+    <PageLoadingState message="Loading your data…" />
+  </div>
+</ComponentPreview>
+
+## PageErrorState
+
+A centered error `message` with an optional retry link (shown when `onRetry` is provided).
+
+<ComponentPreview
+  title="PageErrorState"
+  code={`<PageErrorState message="Failed to load data." />`}
+>
+  <div className="w-full max-w-xl">
+    <PageErrorState message="Failed to load data." />
+  </div>
+</ComponentPreview>
+
+## PageEmptyState
+
+A centered empty state with a `title`, optional `description`, an optional leading `icon` component, and an `action` slot for a button.
+
+<ComponentPreview
+  title="PageEmptyState"
+  code={`<PageEmptyState
+  title="No projects yet"
+  description="Create your first project to get started."
+  action={<Button variant="primary">New project</Button>}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <PageEmptyState
+      title="No projects yet"
+      description="Create your first project to get started."
+      action={<Button variant="primary">New project</Button>}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="PageLoadingState" />
+
+<PropsTable name="PageErrorState" />
+
+<PropsTable name="PageEmptyState" />

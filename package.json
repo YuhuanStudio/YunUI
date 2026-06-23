@@ -43,8 +43,11 @@
     "./styles/yunui.css": "./styles/yunui.css"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "node scripts/gen-tokens.mjs && tsup",
+    "tokens": "node scripts/gen-tokens.mjs",
+    "dev": "node scripts/gen-tokens.mjs && tsup && concurrently -k -n lib,site -c cyan,green \"tsup --watch\" \"pnpm --filter yunui-site dev\"",
+    "dev:lib": "tsup --watch",
+    "dev:site": "pnpm --filter yunui-site dev",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "clean": "rm -rf dist"
@@ -84,6 +87,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.2",
+    "concurrently": "^10.0.3",
     "jsdom": "^29.1.1",
     "publint": "^0.3.21",
     "react": "19.2.7",

@@ -1,0 +1,47 @@
+import { LLMCopyButton, ViewOptions } from "yunui/patterns";
+
+文件頁面標頭的一組小型操作控制項。`LLMCopyButton` 會抓取頁面的 Markdown 原始檔並複製到剪貼簿（方便貼給 LLM），`ViewOptions` 則提供檢視原始 Markdown 以及在 GitHub 上編輯該頁面的連結。
+
+## 匯入
+
+```tsx
+import { LLMCopyButton, ViewOptions } from "@yuhuanowo/yunui/patterns";
+```
+
+## 複製為 Markdown
+
+`LLMCopyButton` 在點擊時抓取 `markdownUrl` 並將文字寫入剪貼簿。
+
+<ComponentPreview
+  title="LLMCopyButton"
+  code={`import { LLMCopyButton } from "@yuhuanowo/yunui/patterns";
+
+<LLMCopyButton markdownUrl="/docs/patterns/docs-actions.md" />`}
+>
+  <LLMCopyButton markdownUrl="/docs/patterns/docs-actions.md" />
+</ComponentPreview>
+
+## 檢視選項
+
+`ViewOptions` 渲染一個「Markdown」連結，並在設定了 `githubUrl` 時渲染一個「在 GitHub 上編輯」連結。
+
+<ComponentPreview
+  title="ViewOptions"
+  code={`import { ViewOptions } from "@yuhuanowo/yunui/patterns";
+
+<ViewOptions
+  markdownUrl="/docs/patterns/docs-actions.md"
+  githubUrl="https://github.com/yuhuanowo/YunUI"
+/>`}
+>
+  <ViewOptions
+    markdownUrl="/docs/patterns/docs-actions.md"
+    githubUrl="https://github.com/yuhuanowo/YunUI"
+  />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="LLMCopyButton" />
+
+<PropsTable name="ViewOptions" />

@@ -1,0 +1,46 @@
+import { BlogCard } from "yunui/patterns";
+
+A blog post preview card with a cover image, category badge, meta row (date, reading time, author), and tag chips. It links to the post via the injected `Link` adapter, and offers a `featured` variant that spans two columns on `md`+ grids.
+
+## Import
+
+```tsx
+import { BlogCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+<ComponentPreview
+  title="BlogCard"
+  code={`import { BlogCard } from "@yuhuanowo/yunui/patterns";
+
+<BlogCard
+  title="Designing with YunUI patterns"
+  description="How prop-driven compositions keep your product UI consistent."
+  date="2026-01-15"
+  author={{ name: "Yuhuan" }}
+  category="Engineering"
+  tags={["design-systems", "react"]}
+  readingTime={6}
+  coverImage="/yuhuanstudio-logo.png"
+  url="#"
+/>`}
+>
+  <div className="w-full max-w-sm">
+    <BlogCard
+      title="Designing with YunUI patterns"
+      description="How prop-driven compositions keep your product UI consistent."
+      date="2026-01-15"
+      author={{ name: "Yuhuan" }}
+      category="Engineering"
+      tags={["design-systems", "react"]}
+      readingTime={6}
+      coverImage="/yuhuanstudio-logo.png"
+      url="#"
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="BlogCard" />

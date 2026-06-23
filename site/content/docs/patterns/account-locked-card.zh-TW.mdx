@@ -1,0 +1,35 @@
+import { AccountLockedCard } from "yunui/patterns";
+
+用於「帳戶已鎖定」終態認證頁面（封禁或停用）的全螢幕卡片。它僅負責呈現——宿主應用透過 `onBack` 自行處理登出/跳轉，可選的 `onMount` 回呼會在掛載時執行一次，避免背景認證探測把使用者反覆彈回迴圈。
+
+## 匯入
+
+```tsx
+import { AccountLockedCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+`onBack` 和 `onMount` 是函式，無法在 MDX 中跨越伺服器到用戶端的邊界，因此下面的範例由一個小型用戶端包裝元件渲染。
+
+<ComponentPreview
+  title="AccountLockedCard"
+  code={`import { AccountLockedCard } from "@yuhuanowo/yunui/patterns";
+import { ShieldAlert } from "lucide-react";
+
+<AccountLockedCard
+  appName="YunUI"
+  icon={<ShieldAlert className="w-6 h-6 text-error" />}
+  title="Account suspended"
+  subtitle="Your account has been temporarily locked."
+  appeal="If you think this is a mistake, contact support."
+  backLabel="Back to sign in"
+  onBack={() => {}}
+/>`}
+>
+  <AccountLockedCardDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="AccountLockedCard" />

@@ -1,0 +1,52 @@
+import { PageHeader } from "yunui/patterns";
+import { Button } from "yunui";
+
+A consistent page title block: a large heading, an optional `description`, and an optional `actions` slot pinned to the right (buttons, menus, etc.). Drop it at the top of any page for uniform spacing and typography.
+
+## Import
+
+```tsx
+import { PageHeader } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="PageHeader"
+  code={`<PageHeader
+  title="Dashboard"
+  description="An overview of your account activity."
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <PageHeader
+      title="Dashboard"
+      description="An overview of your account activity."
+    />
+  </div>
+</ComponentPreview>
+
+## With actions
+
+The `actions` slot takes any node — typically one or more buttons.
+
+<ComponentPreview
+  title="With actions"
+  code={`<PageHeader
+  title="Projects"
+  description="Manage your active projects."
+  actions={<Button variant="primary">New project</Button>}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <PageHeader
+      title="Projects"
+      description="Manage your active projects."
+      actions={<Button variant="primary">New project</Button>}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="PageHeader" />

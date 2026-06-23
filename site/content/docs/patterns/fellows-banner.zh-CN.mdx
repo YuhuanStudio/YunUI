@@ -1,0 +1,59 @@
+import { FellowsBanner } from "yunui/patterns";
+
+一个紧凑、可点击的推广横幅——带图标、标题、描述、可选 `features` 列表（以“·”连接成一行）以及行动号召的渐变卡片。整张卡片通过注入的路由适配器作为链接，点击时会跳转到 `href`。
+
+## Import
+
+```tsx
+import { FellowsBanner } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="FellowsBanner"
+  code={`<FellowsBanner
+  title="Join the Fellows program"
+  description="Selective access for builders and researchers."
+  ctaText="Apply"
+  features={["Pro-level limits", "Priority support", "Early features"]}
+  href="#"
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <FellowsBanner
+      title="Join the Fellows program"
+      description="Selective access for builders and researchers."
+      ctaText="Apply"
+      features={["Pro-level limits", "Priority support", "Early features"]}
+      href="#"
+    />
+  </div>
+</ComponentPreview>
+
+## Without features
+
+`features` 列表是可选的——省略它即可得到一个极简横幅。
+
+<ComponentPreview
+  title="Minimal"
+  code={`<FellowsBanner
+  title="Upgrade to Pro"
+  description="Unlock higher limits and priority support."
+  ctaText="Learn more"
+  href="#"
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <FellowsBanner
+      title="Upgrade to Pro"
+      description="Unlock higher limits and priority support."
+      ctaText="Learn more"
+      href="#"
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="FellowsBanner" />

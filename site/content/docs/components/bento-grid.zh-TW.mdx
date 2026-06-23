@@ -1,0 +1,98 @@
+import { BentoGrid, BentoCard } from "yunui";
+import { Sparkles, Zap, Shield } from "lucide-react";
+
+一個響應式的便當（bento）風格網格。`BentoGrid` 佈局為單欄（行動端）/ 三欄（桌面端）網格，每個 `BentoCard` 都是一個玻璃質感的方塊，帶有頭部媒體插槽、圖示、標題和描述。透過 `className` 使用 Tailwind 類別可讓方塊跨越多欄或多列。
+
+## 匯入
+
+```tsx
+import { BentoGrid, BentoCard } from "@yuhuanowo/yunui";
+```
+
+## 基本用法
+
+<ComponentPreview
+  title="Bento layout"
+  code={`import { Sparkles, Zap, Shield } from "lucide-react";
+
+<BentoGrid>
+  <BentoCard
+    icon={<Sparkles className="w-5 h-5" />}
+    title="Polished"
+    description="Glassy tiles with a subtle hover shift."
+  />
+  <BentoCard
+    icon={<Zap className="w-5 h-5" />}
+    title="Fast"
+    description="Pure CSS layout, no runtime cost."
+  />
+  <BentoCard
+    icon={<Shield className="w-5 h-5" />}
+    title="Resilient"
+    description="Responsive from one to three columns."
+  />
+</BentoGrid>`}
+>
+  <BentoGrid>
+    <BentoCard
+      icon={<Sparkles className="w-5 h-5" />}
+      title="Polished"
+      description="Glassy tiles with a subtle hover shift."
+    />
+    <BentoCard
+      icon={<Zap className="w-5 h-5" />}
+      title="Fast"
+      description="Pure CSS layout, no runtime cost."
+    />
+    <BentoCard
+      icon={<Shield className="w-5 h-5" />}
+      title="Resilient"
+      description="Responsive from one to three columns."
+    />
+  </BentoGrid>
+</ComponentPreview>
+
+## 跨欄方塊
+
+在 `BentoCard` 上使用 `className` 可讓其跨越多欄，並提供 `header` 在文字上方放置一塊媒體區域。
+
+<ComponentPreview
+  title="Featured tile"
+  code={`<BentoGrid>
+  <BentoCard
+    className="md:col-span-2"
+    header={<div className="h-24 rounded-xl bg-gradient-to-br from-indigo-400/30 to-purple-400/30" />}
+    icon={<Sparkles className="w-5 h-5" />}
+    title="Featured"
+    description="This tile spans two columns and has a header visual."
+  />
+  <BentoCard
+    icon={<Zap className="w-5 h-5" />}
+    title="Compact"
+    description="A standard single-column tile."
+  />
+</BentoGrid>`}
+>
+  <BentoGrid>
+    <BentoCard
+      className="md:col-span-2"
+      header={<div className="h-24 rounded-xl bg-gradient-to-br from-indigo-400/30 to-purple-400/30" />}
+      icon={<Sparkles className="w-5 h-5" />}
+      title="Featured"
+      description="This tile spans two columns and has a header visual."
+    />
+    <BentoCard
+      icon={<Zap className="w-5 h-5" />}
+      title="Compact"
+      description="A standard single-column tile."
+    />
+  </BentoGrid>
+</ComponentPreview>
+
+## 屬性 — BentoGrid
+
+<PropsTable name="BentoGrid" />
+
+## 屬性 — BentoCard
+
+<PropsTable name="BentoCard" />

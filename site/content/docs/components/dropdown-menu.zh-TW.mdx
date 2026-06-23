@@ -1,0 +1,101 @@
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, Button } from "yunui";
+
+一個以 Radix 為基礎的情境操作選單。`DropdownMenu` 將 `DropdownMenuTrigger` 與一個傳送到 portal、帶動畫的 `DropdownMenuContent`（容納各個 `DropdownMenuItem`）配對。用 `DropdownMenuLabel` 與 `DropdownMenuSeparator` 對選單項目分組，用 `DropdownMenuShortcut` 提示鍵盤快捷鍵，並可使用核取方塊/單選/子選單部分建構更豐富的選單。完整的鍵盤無障礙支援由 Radix 提供。
+
+## Import
+
+```tsx
+import {
+  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
+  DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "@yuhuanowo/yunui";
+```
+
+## 基礎用法
+
+此範例用 `defaultOpen` 開啟選單，讓你可以直接看到其內容：
+
+<ComponentPreview
+  title="Dropdown menu"
+  code={`<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Open menu</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Log out</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`}
+>
+  <DropdownMenu defaultOpen modal={false}>
+    <DropdownMenuTrigger asChild>
+      <Button variant="outline">Open menu</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Billing</DropdownMenuItem>
+      <DropdownMenuItem>Settings</DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>Log out</DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</ComponentPreview>
+
+## 帶快捷鍵
+
+`DropdownMenuShortcut` 會在選單項目內靠右對齊一個鍵盤提示：
+
+<ComponentPreview
+  title="Keyboard shortcuts"
+  code={`<DropdownMenuContent>
+  <DropdownMenuItem>
+    New file<DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+  </DropdownMenuItem>
+  <DropdownMenuItem>
+    Save<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+  </DropdownMenuItem>
+</DropdownMenuContent>`}
+>
+  <DropdownMenu defaultOpen modal={false}>
+    <DropdownMenuTrigger asChild>
+      <Button variant="outline">File</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuItem>
+        New file<DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        Save<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>
+        Close<DropdownMenuShortcut>⌘W</DropdownMenuShortcut>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</ComponentPreview>
+
+## 組成部分
+
+| 部分 | 作用 |
+| --- | --- |
+| `DropdownMenu` | 根元件；持有 `open`/`onOpenChange` 或 `defaultOpen`。 |
+| `DropdownMenuTrigger` | 開啟選單的元素（用 `asChild` 包裹 `Button`）。 |
+| `DropdownMenuContent` | 傳送到 portal、帶動畫的選單面板。 |
+| `DropdownMenuItem` | 可點擊的操作（`onSelect`）；`inset` 使其與可勾選項目對齊。 |
+| `DropdownMenuCheckboxItem` | 可切換項目，`checked` 時顯示勾號。 |
+| `DropdownMenuRadioGroup` / `DropdownMenuRadioItem` | 單選項目集合。 |
+| `DropdownMenuLabel` | 不可互動的分區標題。 |
+| `DropdownMenuSeparator` | 分組之間的細分隔線。 |
+| `DropdownMenuShortcut` | 選單項目內靠右對齊的鍵盤快捷鍵提示。 |
+| `DropdownMenuSub` / `DropdownMenuSubTrigger` / `DropdownMenuSubContent` | 巢狀子選單。 |
+
+`DropdownMenu` 以設計系統樣式重新匯出 Radix `DropdownMenu` 的各個部分。完整的屬性參考請見 [Radix DropdownMenu 文件](https://www.radix-ui.com/primitives/docs/components/dropdown-menu)。

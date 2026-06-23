@@ -1,0 +1,27 @@
+import { Pagination } from "yunui";
+
+一個受控的分頁導覽。它算繪上一頁/下一頁箭頭以及帶數字的頁碼按鈕，並自動用省略號截斷——第一頁和最後一頁始終可見，`siblingCount` 個相鄰頁圍繞在目前頁兩側。由宿主持有頁碼狀態與路由：傳入目前的 `page` 與 `totalPages`，並在 `onPageChange` 時更新。當 `totalPages <= 1` 時不算繪任何內容。
+
+## Import
+
+```tsx
+import { Pagination } from "@yuhuanowo/yunui";
+```
+
+## 基礎用法
+
+`Pagination` 是受控的，因此將 `page`/`onPageChange` 接上你自己的 state（或路由）：
+
+<ComponentPreview
+  title="Pagination"
+  code={`function Example() {
+  const [page, setPage] = useState(3);
+  return <Pagination page={page} totalPages={10} onPageChange={setPage} />;
+}`}
+>
+  <PaginationDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="Pagination" />

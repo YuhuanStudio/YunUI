@@ -1,0 +1,59 @@
+import { FellowsBanner } from "yunui/patterns";
+
+A compact, clickable promo banner — a gradient card with an icon, title, description, an optional `features` list (rendered as a "·"-joined line), and a call-to-action. The whole card is a link via the injected routing adapter, so it navigates to `href` on click.
+
+## Import
+
+```tsx
+import { FellowsBanner } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="FellowsBanner"
+  code={`<FellowsBanner
+  title="Join the Fellows program"
+  description="Selective access for builders and researchers."
+  ctaText="Apply"
+  features={["Pro-level limits", "Priority support", "Early features"]}
+  href="#"
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <FellowsBanner
+      title="Join the Fellows program"
+      description="Selective access for builders and researchers."
+      ctaText="Apply"
+      features={["Pro-level limits", "Priority support", "Early features"]}
+      href="#"
+    />
+  </div>
+</ComponentPreview>
+
+## Without features
+
+The `features` list is optional — omit it for a minimal banner.
+
+<ComponentPreview
+  title="Minimal"
+  code={`<FellowsBanner
+  title="Upgrade to Pro"
+  description="Unlock higher limits and priority support."
+  ctaText="Learn more"
+  href="#"
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <FellowsBanner
+      title="Upgrade to Pro"
+      description="Unlock higher limits and priority support."
+      ctaText="Learn more"
+      href="#"
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="FellowsBanner" />

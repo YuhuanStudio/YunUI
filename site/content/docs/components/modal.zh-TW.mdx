@@ -1,0 +1,54 @@
+import { Modal, Button } from "yunui";
+
+YunUI 自帶的受控模態框——一個傳送到 body、置中的卡片，包含標頭（`title` + 可選 `subtitle`）、可捲動的主體，以及可選的 `footer`。它會鎖定 body 捲動，點擊背景或按 Escape 鍵即可關閉，帶進出動畫，且對 SSR 安全。與 Radix `Dialog` 不同，你需要透過 `isOpen` + `onClose` 自行掌控開啟狀態。
+
+## Import
+
+```tsx
+import { Modal } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+`Modal` 完全受控：將它的 `isOpen` 保存在 state 中，並傳入 `onClose` 將其翻回。下面的範例把觸發按鈕接到了本地 state。
+
+<ComponentPreview title="Controlled modal">
+  <ModalDemo />
+</ComponentPreview>
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Modal, Button } from "@yuhuanowo/yunui";
+
+export function ModalDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="Invite your team"
+        subtitle="They'll get an email with a join link."
+        size="md"
+        footer={
+          <div className="flex justify-end gap-3">
+            <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={() => setOpen(false)}>Send invites</Button>
+          </div>
+        }
+      >
+        <p className="text-sm text-muted-foreground">
+          Enter the email addresses of the people you want to invite.
+        </p>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Props
+
+<PropsTable name="Modal" />

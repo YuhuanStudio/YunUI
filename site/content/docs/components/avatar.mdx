@@ -1,0 +1,72 @@
+import { Avatar, AvatarImage, AvatarFallback } from "yunui";
+
+A circular avatar built on Radix Avatar. Compose `Avatar` with `AvatarImage` and `AvatarFallback`: the image shows when it loads, and the fallback (e.g. initials) takes over while it loads or if it fails.
+
+## Import
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Image with fallback"
+  code={`<Avatar>
+  <AvatarImage src="https://github.com/yuhuanowo.png" alt="@yuhuanowo" />
+  <AvatarFallback>YH</AvatarFallback>
+</Avatar>`}
+>
+  <Avatar>
+    <AvatarImage src="https://github.com/yuhuanowo.png" alt="@yuhuanowo" />
+    <AvatarFallback>YH</AvatarFallback>
+  </Avatar>
+</ComponentPreview>
+
+## Fallback only
+
+When there is no image (or the URL is broken), only the fallback renders.
+
+<ComponentPreview
+  title="Initials fallback"
+  code={`<Avatar>
+  <AvatarImage src="" alt="" />
+  <AvatarFallback>AI</AvatarFallback>
+</Avatar>`}
+>
+  <Avatar>
+    <AvatarImage src="" alt="" />
+    <AvatarFallback>AI</AvatarFallback>
+  </Avatar>
+</ComponentPreview>
+
+## Sizes
+
+The avatar is sized via `className` (it defaults to 40×40).
+
+<ComponentPreview
+  title="Custom sizes"
+  code={`<Avatar className="h-8 w-8">
+  <AvatarFallback>SM</AvatarFallback>
+</Avatar>
+<Avatar className="h-12 w-12">
+  <AvatarFallback>LG</AvatarFallback>
+</Avatar>`}
+>
+  <div className="flex items-center gap-3">
+    <Avatar className="h-8 w-8">
+      <AvatarFallback>SM</AvatarFallback>
+    </Avatar>
+    <Avatar className="h-12 w-12">
+      <AvatarFallback>LG</AvatarFallback>
+    </Avatar>
+  </div>
+</ComponentPreview>
+
+## Parts
+
+| Part | Description |
+| --- | --- |
+| `Avatar` | Circular container; size it with `className`. Wraps the image and fallback. |
+| `AvatarImage` | The avatar image. Forwards `src`/`alt`; hidden automatically until it loads, and on load error. |
+| `AvatarFallback` | Placeholder (e.g. initials) shown while the image loads or when it is missing. Accepts `delayMs` to avoid a flash. |

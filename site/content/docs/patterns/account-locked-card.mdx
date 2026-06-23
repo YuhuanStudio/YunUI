@@ -1,0 +1,35 @@
+import { AccountLockedCard } from "yunui/patterns";
+
+A full-screen card for terminal "your account is locked" auth screens (banned or suspended). It is presentational only — the host owns the logout/redirect behind `onBack`, and an optional `onMount` callback runs once so background auth probes can't bounce the user back into a loop.
+
+## Import
+
+```tsx
+import { AccountLockedCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+`onBack` and `onMount` are functions, which can't cross the server→client boundary in MDX, so the example below is rendered from a small client wrapper.
+
+<ComponentPreview
+  title="AccountLockedCard"
+  code={`import { AccountLockedCard } from "@yuhuanowo/yunui/patterns";
+import { ShieldAlert } from "lucide-react";
+
+<AccountLockedCard
+  appName="YunUI"
+  icon={<ShieldAlert className="w-6 h-6 text-error" />}
+  title="Account suspended"
+  subtitle="Your account has been temporarily locked."
+  appeal="If you think this is a mistake, contact support."
+  backLabel="Back to sign in"
+  onBack={() => {}}
+/>`}
+>
+  <AccountLockedCardDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="AccountLockedCard" />

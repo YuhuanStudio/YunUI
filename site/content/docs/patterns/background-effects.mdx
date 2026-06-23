@@ -1,0 +1,28 @@
+import { BackgroundEffects } from "yunui/patterns";
+
+A decorative, full-bleed background layer — a subtle dotted grid masked to a soft radial vignette. It is positioned absolutely and is purely visual (`pointer-events-none`), so it sits behind your content inside any `relative` container.
+
+## Import
+
+```tsx
+import { BackgroundEffects } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+Drop it as the first child of a `relative` container that has some height.
+
+<ComponentPreview
+  title="BackgroundEffects"
+  code={`import { BackgroundEffects } from "@yuhuanowo/yunui/patterns";
+
+<div className="relative h-64 rounded-xl overflow-hidden flex items-center justify-center">
+  <BackgroundEffects />
+  <p className="text-sm text-muted-foreground">Content sits above the effect.</p>
+</div>`}
+>
+  <div className="relative h-64 w-full rounded-xl overflow-hidden flex items-center justify-center">
+    <BackgroundEffects />
+    <p className="text-sm text-muted-foreground">Content sits above the effect.</p>
+  </div>
+</ComponentPreview>

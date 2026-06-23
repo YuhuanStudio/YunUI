@@ -1,0 +1,48 @@
+import { Progress } from "yunui";
+
+基於 Radix Progress 建構的水平進度條。傳入 0 到 100 之間的 `value`，已填滿的指示條會動畫過渡到該百分比。所有 Radix Progress 屬性都會透傳，`className` 可用於調整軌道的高度或顏色。
+
+## 匯入
+
+```tsx
+import { Progress } from "@yuhuanowo/yunui";
+```
+
+## 基礎
+
+<ComponentPreview
+  title="Progress values"
+  code={`<Progress value={25} />
+<Progress value={60} />
+<Progress value={100} />`}
+>
+  <div className="w-full max-w-sm space-y-4">
+    <Progress value={25} />
+    <Progress value={60} />
+    <Progress value={100} />
+  </div>
+</ComponentPreview>
+
+## 空與滿
+
+<ComponentPreview
+  title="Edge values"
+  code={`<Progress value={0} />
+<Progress value={100} />`}
+>
+  <div className="w-full max-w-sm space-y-4">
+    <Progress value={0} />
+    <Progress value={100} />
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+`Progress` 包裝了 Radix Progress 根元素，因此接受所有 Radix Progress 屬性以及 `className`。最常設定的屬性：
+
+<PropsTable
+  rows={[
+    { name: "value", type: "number", defaultValue: "0", description: "完成百分比，0–100。已填滿的指示條會動畫過渡到該寬度。" },
+    { name: "className", type: "string", description: "軌道的額外類名（例如用於變更高度或背景）。" },
+  ]}
+/>

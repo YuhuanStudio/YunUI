@@ -1,0 +1,78 @@
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose, Button } from "yunui";
+
+基于 Radix `Dialog` 构建的模态对话框——由一组部件组合而成，在变暗、模糊的背景之上渲染一个传送到 body、可聚焦锁定、支持键盘操作的面板。`DialogContent` 已内置遮罩层和关闭按钮。通过 `DialogTrigger` 触发，或使用 `open`/`onOpenChange` 自行控制。
+
+## Import
+
+```tsx
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Dialog"
+  code={`<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>
+        Make changes to your profile here. Click save when you're done.
+      </DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="secondary">Cancel</Button>
+      </DialogClose>
+      <Button>Save changes</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`}
+>
+  <Dialog>
+    <DialogTrigger asChild>
+      <Button>Open dialog</Button>
+    </DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Edit profile</DialogTitle>
+        <DialogDescription>
+          Make changes to your profile here. Click save when you're done.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="secondary">Cancel</Button>
+        </DialogClose>
+        <Button>Save changes</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</ComponentPreview>
+
+## Parts
+
+| 部件 | 作用 |
+| --- | --- |
+| `Dialog` | 根节点；持有 `open`/`onOpenChange`（或以非受控方式运行）。 |
+| `DialogTrigger` | 打开对话框的元素（用 `asChild` 包裹一个 `Button`）。 |
+| `DialogContent` | 传送、居中的面板——已内置遮罩层和关闭按钮。 |
+| `DialogHeader` | 标题与描述的布局区块。 |
+| `DialogTitle` | 为屏幕阅读器标注对话框的可访问标题。 |
+| `DialogDescription` | 标题下方的补充文字。 |
+| `DialogFooter` | 操作按钮的右对齐行。 |
+| `DialogClose` | 激活后关闭对话框的元素。 |
+
+`Dialog` 以设计系统样式重新导出 Radix `Dialog` 部件。完整的属性参考（包括 `DialogPortal` 和 `DialogOverlay`）请见 [Radix Dialog 文档](https://www.radix-ui.com/primitives/docs/components/dialog)。

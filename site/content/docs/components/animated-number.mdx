@@ -1,0 +1,50 @@
+import { AnimatedNumber } from "yunui";
+
+A number that springs from 0 up to `value` on mount (and whenever `value` changes). It starts at 0 on both server and client, so it is safe to render during SSR and hydration. Use `suffix` for units and `decimals` for fractional precision.
+
+## Import
+
+```tsx
+import { AnimatedNumber } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Count up"
+  code={`<AnimatedNumber value={1280} />`}
+>
+  <span className="text-4xl font-bold tabular-nums">
+    <AnimatedNumber value={1280} />
+  </span>
+</ComponentPreview>
+
+## With a suffix
+
+Append a unit such as `%` or `K` with the `suffix` prop.
+
+<ComponentPreview
+  title="Suffix"
+  code={`<AnimatedNumber value={98} suffix="%" />`}
+>
+  <span className="text-4xl font-bold tabular-nums">
+    <AnimatedNumber value={98} suffix="%" />
+  </span>
+</ComponentPreview>
+
+## Decimals
+
+Set `decimals` for fractional values; trailing zeros are stripped.
+
+<ComponentPreview
+  title="Decimal places"
+  code={`<AnimatedNumber value={4.8} decimals={1} />`}
+>
+  <span className="text-4xl font-bold tabular-nums">
+    <AnimatedNumber value={4.8} decimals={1} />
+  </span>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="AnimatedNumber" />

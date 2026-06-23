@@ -1,0 +1,55 @@
+import { Navbar } from "yunui/ai";
+
+A floating top navigation bar: a logo, center links with scroll-spy and active-link styling, theme/language control slots, and auth buttons with a built-in mobile menu. Links are plain data (`NavLink[]`), and navigation goes through the configured `Link` adapter. It manages its own mobile-menu state.
+
+## Import
+
+```tsx
+import { Navbar } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+The bar is fixed to the top of the viewport. Provide `links` and an `appName`; the host supplies routing through the adapters.
+
+<ComponentPreview
+  title="Basic"
+  code={`import { Navbar } from "@yuhuanowo/yunui/ai";
+
+<Navbar
+  appName="Acme AI"
+  currentPath="/"
+  links={[
+    { href: "/", label: "Home" },
+    { href: "/models", label: "Models" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/docs", label: "Docs" },
+  ]}
+/>`}
+>
+  <Navbar
+    appName="Acme AI"
+    currentPath="/"
+    links={[
+      { href: "/", label: "Home" },
+      { href: "/models", label: "Models" },
+      { href: "/pricing", label: "Pricing" },
+      { href: "/docs", label: "Docs" },
+    ]}
+  />
+</ComponentPreview>
+
+## Minimal variant
+
+Use `variant="minimal"` to drop the center links and auth buttons — useful for auth or onboarding flows.
+
+<ComponentPreview
+  title="Minimal variant"
+  code={`<Navbar appName="Acme AI" variant="minimal" />`}
+>
+  <Navbar appName="Acme AI" variant="minimal" />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Navbar" />

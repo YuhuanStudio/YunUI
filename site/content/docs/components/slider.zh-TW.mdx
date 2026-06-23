@@ -1,0 +1,44 @@
+import { Slider } from "yunui";
+
+基於 Radix `Slider` 建構的範圍滑桿。它渲染設計系統的軌道、範圍和滑桿，並轉發每一個 Radix Slider 屬性（`defaultValue`、`value`/`onValueChange`、`min`、`max`、`step`、`disabled`）。
+
+## Import
+
+```tsx
+import { Slider } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Single thumb"
+  code={`<Slider defaultValue={[50]} max={100} step={1} />`}
+>
+  <div className="w-full max-w-sm">
+    <Slider defaultValue={[50]} max={100} step={1} />
+  </div>
+</ComponentPreview>
+
+## Range (two thumbs)
+
+<ComponentPreview
+  title="Range"
+  code={`<Slider defaultValue={[25, 75]} max={100} step={1} />`}
+>
+  <div className="w-full max-w-sm">
+    <Slider defaultValue={[25, 75]} max={100} step={1} />
+  </div>
+</ComponentPreview>
+
+## Disabled
+
+<ComponentPreview
+  title="Disabled"
+  code={`<Slider defaultValue={[40]} max={100} disabled />`}
+>
+  <div className="w-full max-w-sm">
+    <Slider defaultValue={[40]} max={100} disabled />
+  </div>
+</ComponentPreview>
+
+`Slider` 是 Radix `Slider` 之上的輕量樣式封裝。完整的屬性參考（受控的 `value`/`onValueChange`、`minStepsBetweenThumbs`、方向等）請參閱 [Radix Slider 文件](https://www.radix-ui.com/primitives/docs/components/slider)。

@@ -1,0 +1,38 @@
+import { CapabilitySelector } from "yunui/ai";
+
+一个可切换模型能力的多选网格。它完全受控——由你持有 `selected` 数组，并通过 `onChange` 更新。选项集合会随 `modelType` 变化（默认是 LLM 集合：chat、streaming、function calling、vision、thinking）。
+
+## Import
+
+```tsx
+import { CapabilitySelector } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+由于它是受控组件，请在 state 中保存选中项，并通过 `onChange` 传回。
+
+<ComponentPreview
+  title="Basic"
+  code={`import { useState } from "react";
+import { CapabilitySelector } from "@yuhuanowo/yunui/ai";
+
+function Example() {
+  const [selected, setSelected] = useState(["chat", "vision"]);
+  return (
+    <CapabilitySelector
+      selected={selected}
+      onChange={setSelected}
+      columns={3}
+    />
+  );
+}`}
+>
+  <div className="w-full max-w-md">
+    <CapabilitySelectorDemo />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CapabilitySelector" />

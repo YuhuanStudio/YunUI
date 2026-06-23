@@ -1,0 +1,66 @@
+import { toast, Toaster, Button } from "yunui";
+
+Brief, non-blocking notifications, powered by [Sonner](https://sonner.emilkowal.ski/). Call `toast.success(...)`, `toast.error(...)`, `toast.info(...)`, `toast.warning(...)`, `toast.loading(...)`, or `toast.promise(...)` from anywhere to push a styled, icon-prefixed message. Render `<Toaster />` **once** near your app root so the toasts have somewhere to mount.
+
+## Import
+
+```tsx
+import { toast, Toaster } from "@yuhuanowo/yunui";
+```
+
+## Setup
+
+Mount the `Toaster` once at the root of your app (e.g. in your root layout). It positions itself bottom-right and styles every toast with the design-system tokens.
+
+```tsx
+// app/layout.tsx
+import { Toaster } from "@yuhuanowo/yunui";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+```
+
+## Basic
+
+Because `toast(...)` is imperative, trigger it from an event handler inside a client component.
+
+<ComponentPreview title="Fire a toast">
+  <ToastDemo />
+</ComponentPreview>
+
+```tsx
+"use client";
+
+import { toast, Button } from "@yuhuanowo/yunui";
+
+export function ToastDemo() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <Button onClick={() => toast.success("Saved", "Your changes are live.")}>Success</Button>
+      <Button variant="red" onClick={() => toast.error("Failed", "Could not reach the server.")}>Error</Button>
+      <Button variant="outline" onClick={() => toast.info("Heads up", "A new version is available.")}>Info</Button>
+      <Button variant="amber" onClick={() => toast.warning("Careful", "This will overwrite your draft.")}>Warning</Button>
+    </div>
+  );
+}
+```
+
+## Methods
+
+| Method | Signature | Description |
+| --- | --- | --- |
+| `toast.success` | `(message, description?)` | Green success toast with a check icon. |
+| `toast.error` | `(message, description?)` | Red error toast with an alert icon. |
+| `toast.info` | `(message, description?)` | Blue informational toast. |
+| `toast.warning` | `(message, description?)` | Amber warning toast. |
+| `toast.loading` | `(message)` | Spinner toast; returns an id you can later dismiss. |
+| `toast.promise` | `(promise, { loading, success, error })` | Drives a toast through a promise's lifecycle. |
+| `toast.dismiss` | `(id?)` | Dismisses a specific toast, or all of them. |

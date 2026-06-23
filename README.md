@@ -2,44 +2,47 @@
 
 [![npm](https://img.shields.io/npm/v/@yuhuanowo/yunui.svg)](https://www.npmjs.com/package/@yuhuanowo/yunui)
 
-一个独立、版本化、可被多项目引用的 React 19 + Tailwind v4 设计系统 —— 对标 [once-ui.com](https://once-ui.com)。
+**English** · [简体中文](./README.zh-CN.md) · [繁體中文](./README.zh-TW.md)
 
-改 YunUI 一处 → 发版 → 各项目升级版本号即可同步获得统一的 **设计 token、动画、组件**。已在 Yunxin 生产环境使用。
+A standalone, versioned, multi-project React 19 + Tailwind v4 design system — in the spirit of [once-ui.com](https://once-ui.com).
+
+Edit YunUI once → publish a new version → every project picks up the same **design tokens, animations, and components** on its next upgrade (`pnpm up`). Already running in production at Yunxin.
 
 ---
 
-## 安装
+## Install
 
 ```bash
-npm i @yuhuanowo/yunui      # 或 pnpm add / yarn add
+npm i @yuhuanowo/yunui      # or pnpm add / yarn add
 ```
 
-要求消费方使用 **React 19** 与 **Tailwind CSS v4**(peerDependencies)。
+Consumers must be on **React 19** and **Tailwind CSS v4** (peer dependencies).
 
-> 想让 import 保持短名 `yunui`?用包别名:
+> Want to keep the import short as `yunui`? Use a package alias:
 > ```jsonc
 > // package.json
-> "dependencies": { "yunui": "npm:@yuhuanowo/yunui@^0.1.8" }
+> "dependencies": { "yunui": "npm:@yuhuanowo/yunui@^0.2.0" }
 > ```
-> 之后 `import { Button } from "yunui"` 即可,下文示例同理。
+> Then `import { Button } from "yunui"` works — the examples below assume this.
 
-## 接入(3 步)
+## Setup (3 steps)
 
-### 1. 引入设计系统样式
+### 1. Import the design-system styles
 
-在全局 CSS(如 `app/globals.css`):
+In your global CSS (e.g. `app/globals.css`):
 
 ```css
 @import "tailwindcss";
 @import "@yuhuanowo/yunui/css";
 
-/* 关键:让 Tailwind v4 扫描 YunUI 产物里的内联工具类,否则组件会"没样式" */
+/* Key step: let Tailwind v4 scan YunUI's compiled output for its inline utility
+   classes, otherwise components render unstyled. */
 @source "../node_modules/@yuhuanowo/yunui/dist";
 ```
 
-> `@source` 路径以该 CSS 文件为基准,按你的项目结构调整。字体(Geist / JetBrains Mono)不打包,由消费方自行加载。
+> The `@source` path is relative to that CSS file — adjust it to your project layout. Fonts (Geist / JetBrains Mono) are not bundled; load them yourself in the consuming app.
 
-### 2. 用组件
+### 2. Use a component
 
 ```tsx
 import { Button, Card, Dialog, DialogContent } from "@yuhuanowo/yunui";
@@ -53,9 +56,9 @@ export function Demo() {
 }
 ```
 
-### 3.(可选)注入框架适配器
+### 3. (Optional) Inject framework adapters
 
-部分组件需要路由 / 图片 / i18n。在根布局用 `YunUIProvider` 注入你框架的实现:
+Some components need routing / images / i18n. Inject your framework's implementations once at the root with `YunUIProvider`:
 
 ```tsx
 import { YunUIProvider } from "@yuhuanowo/yunui/adapters";
@@ -76,75 +79,74 @@ import { useTranslations } from "next-intl";
 </YunUIProvider>;
 ```
 
-不注入时,YunUI 使用零依赖默认实现(`<a>` / `<img>` / identity 翻译)。
+Without a provider, YunUI uses zero-dependency defaults (`<a>` / `<img>` / identity translation).
 
 ---
 
-## 入口
+## Entry points
 
-| 入口 | 内容 |
+| Entry | Contents |
 | --- | --- |
-| `@yuhuanowo/yunui` | 原子组件:Button / Input / Textarea / Card / Badge / Dialog / Select / Slider / Progress / Tabs / Avatar / Tooltip / DropdownMenu / Skeleton / Spinner / PageLoader / EmptyState / IconButton / Label,以及 MotionDiv·fadeIn·stagger 等动画预设 |
-| `@yuhuanowo/yunui/css` | 设计系统样式(token 变量、`@theme` 映射、`.btn`/`.card`/`.glass` 等全局类、动画 keyframes) |
-| `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` 与适配器接口 |
-| `@yuhuanowo/yunui/patterns` | 页面级组件:FAQ、StatCard(`tone`/`inline`/`valueFirst` 变体)、BlogCard、CodeBlock、Sidebar、BackgroundEffects 等 |
-| `@yuhuanowo/yunui/ai` | AI 产品域组件(prop 驱动,无 API 直连):ProviderIcon / ModelIcon / ModelTypeIcon、ModelCard、CapabilitySelector、Navbar、Footer、LanguageSwitcher、ThinkingBlock、IDBadge … |
+| `@yuhuanowo/yunui` | Atomic components: Button / IconButton / Input / Textarea / Card / Badge / Dialog / Select / Slider / Progress / Tabs / Avatar / Tooltip / DropdownMenu / Skeleton / Spinner / PageLoader / EmptyState / Label; layout primitives Flex / Grid / Row / Column / Stack; data display Table / Breadcrumb / Pagination; interactive Accordion / RadioGroup / Switch / Checkbox / Combobox / CustomSelect / SegmentedSelect / NavTabs / Collapsible / Popover / Modal / Sheet / ConfirmModal / ThemeToggle; plus ShinyButton / Marquee / BentoGrid / AnimatedNumber and the MotionDiv · fadeIn · stagger animation presets |
+| `@yuhuanowo/yunui/css` | Design-system stylesheet (token variables, `@theme` mappings, global `.btn` / `.card` / `.glass` classes, animation keyframes) |
+| `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` and the adapter interfaces |
+| `@yuhuanowo/yunui/patterns` | Page-level components: FAQ, StatCard (`tone` / `inline` / `valueFirst` variants), BlogCard, CodeBlock, Sidebar, PageHeader, BackgroundEffects, and more |
+| `@yuhuanowo/yunui/ai` | AI product-domain components (prop-driven, no direct API calls): ProviderIcon / ModelIcon / ModelTypeIcon, ModelCard, CapabilitySelector, Navbar, Footer, LanguageSwitcher, ThinkingBlock, IDBadge, … |
 
-**工具 / hooks**(从 `@yuhuanowo/yunui` 导出):`cn`、`toast` / `Toaster`(基于 sonner)、`MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`、`useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`。
+**Utilities / hooks** (exported from `@yuhuanowo/yunui`): `cn`, `toast` / `Toaster` (sonner-based), `MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`, `useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`.
 
-> ⚠️ **`yunui/ai` 的图标素材需要你自备。** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` 会从 `/icons/providers/*.png`、`/icons/models/*.png` 加载图标 —— 这些素材**不随 npm 包发布**(包里只有 `dist` / `styles`)。消费方需把对应图标托管到 `iconBasePath` 指向的位置(默认 `/icons`,可从本仓库 `site/public/icons/` 取),否则图标会显示为裂图。base path 可通过适配器配置:`<YunUIProvider adapters={{ iconBasePath: "/assets/icons" }}>`(也可指向 CDN)。单个自定义图标 URL 通过组件 `iconUrl` prop 传入,原样使用。
+> ⚠️ **`yunui/ai` icon assets are not bundled.** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` load images from `/icons/providers/*.png`, `/icons/models/*.png` — these assets are **not shipped with the npm package** (the package contains only `dist` / `styles`). Host the icons at the location `iconBasePath` points to (default `/icons`; you can grab them from this repo's `site/public/icons/`), or icons render as broken images. Configure the base path via the adapter: `<YunUIProvider adapters={{ iconBasePath: "/assets/icons" }}>` (a CDN origin works too). A single custom icon URL can be passed via a component's `iconUrl` prop and is used as-is.
 >
-> 同样,`./_deferred/ai-search`(文档 AI 搜索)**未导出** —— 它绑定 `@ai-sdk/react` + 聊天栈,是产品功能而非通用组件,导出会给库强加 ai-sdk peer 依赖。
+> Likewise, `./_deferred/ai-search` (the docs AI search) is **not exported** — it is bound to `@ai-sdk/react` + a chat stack, making it a product feature rather than a general component; exporting it would force an ai-sdk peer dependency on the library.
 
 ---
 
-## 主题
+## Themes
 
-三套主题,通过根元素 class 切换(配合 `next-themes`):`light`(默认 `:root`)、`.dark`、`.true-black`(OLED)。
+Three themes, switched via a class on the root element (works with `next-themes`): `light` (default `:root`), `.dark`, and `.true-black` (OLED).
 
-## 同步流程(改一处,各项目同步)
+## Sync workflow (edit once, every project follows)
 
 ```bash
-# 在 YunUI:改代码 → 升 package.json 版本号 → 提交
-git tag v0.1.8 && git push origin v0.1.8
-# ↑ 推 tag 触发 GitHub Actions:typecheck → test → build → npm publish
-#   (tokenless OIDC trusted publishing + provenance,无需本地发布/OTP)
+# In YunUI: edit code → bump the version in package.json → commit
+git tag v0.2.0 && git push origin v0.2.0
+# ↑ pushing the tag triggers GitHub Actions: typecheck → test → build → npm publish
+#   (tokenless OIDC trusted publishing + provenance; no local publish/OTP needed)
 
-# 在消费项目:
+# In the consuming project:
 pnpm up @yuhuanowo/yunui
 ```
 
-> 发布走 GitHub Actions(`.github/workflows/release.yml`)。一次性设置:在
-> npmjs.com 的包 Settings → Trusted Publisher 里添加 GitHub Actions
-> (repo `YuhuanStudio/YunUI`,workflow `release.yml`)。**不需要任何 npm token。**
+> Publishing runs via GitHub Actions (`.github/workflows/release.yml`). One-time setup: on npmjs.com, under the package's Settings → Trusted Publisher, add the GitHub Actions publisher (repo `YuhuanStudio/YunUI`, workflow `release.yml`). **No npm token required.**
 
-## 开发
+## Development
 
 ```bash
 pnpm install
-pnpm dev        # tsup watch(配合 site/ 实时预览)
-pnpm build      # 产出 dist/
+pnpm dev        # tsup watch (pairs with the site/ live preview)
+pnpm build      # produce dist/
 pnpm typecheck
+pnpm test
 ```
 
-展示站在 `site/`(Next 16 + Tailwind v4):`pnpm --filter yunui-site dev`。
+The showcase site lives in `site/` (Next 16 + Tailwind v4): `pnpm --filter yunui-site dev`.
 
-## 贡献 / 加新组件
+## Contributing / adding a component
 
-完整规范见 **[CONTRIBUTING.md](./CONTRIBUTING.md)**。最容易踩的一条:**组件不内置文案 / 不绑定 i18n 库**。需要显示文字的组件必须走 adapter,不要 import next-intl,也不要硬写字符串:
+Full guidelines are in **[CONTRIBUTING.md](./CONTRIBUTING.md)**. The most common pitfall: **components carry no copy and bind no i18n library.** Any component that shows text must go through an adapter — don't import next-intl, don't hardcode strings:
 
 ```tsx
 import { useYunUI } from "../adapters/context";
 
 export function Thing() {
-  const t = useYunUI().useT("thing");   // 命名空间
-  return <button>{t("submit")}</button>; // key,不是字面量
+  const t = useYunUI().useT("thing");   // namespace
+  return <button>{t("submit")}</button>; // a key, not a literal
 }
 ```
 
-- 不注入 provider 时 `useT` 直接返回 key(组件照样渲染,展示站也是这样跑的)。
-- 真正的翻译文案加到**消费方**(如 Yunxin `messages/{en,zh-CN,zh-TW}.json`),不放 YunUI。
-- 同理:路由/图片走 `useYunUI().Link/Image/useRouter`(别用 `next/*`);业务数据走 **props**(别在组件里 `useBranding`/`fetch`/`localStorage`)。
+- Without a provider, `useT` returns the key directly (the component still renders — that's how the showcase runs).
+- Real translations live in the **consumer** (e.g. Yunxin's `messages/{en,zh-CN,zh-TW}.json`), not in YunUI.
+- Same idea for routing/images via `useYunUI().Link/Image/useRouter` (never `next/*`), and business data via **props** (no `useBranding`/`fetch`/`localStorage` inside a component).
 
 ## License
 

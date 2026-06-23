@@ -1,0 +1,79 @@
+import { ModelCard, ProviderIcon } from "yunui/ai";
+
+A card that summarizes an AI model: a provider/model icon, the display name, capability chips, copyable id badges, a short description, and a footer with the developer, context window, tier, and price. Pass `onClick` to make the whole card a keyboard-activatable button.
+
+## Import
+
+```tsx
+import { ModelCard } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+The `icon` slot is host-rendered — pass a `<ProviderIcon>` (or `<ModelIcon>`) so the card stays framework-agnostic.
+
+<ComponentPreview
+  title="Basic"
+  code={`import { ModelCard, ProviderIcon } from "@yuhuanowo/yunui/ai";
+
+<ModelCard
+  name="GPT-4o"
+  icon={<ProviderIcon provider="openai" size={32} rounded />}
+  ids={["gpt-4o"]}
+  description="Multimodal flagship model with vision and fast responses."
+  capabilities={["vision", "streaming", "function_calling"]}
+  developer={{ label: "OpenAI" }}
+  context="128K"
+  price="$2.50/M"
+/>`}
+>
+  <div className="w-full max-w-xs">
+    <ModelCard
+      name="GPT-4o"
+      icon={<ProviderIcon provider="openai" size={32} rounded />}
+      ids={["gpt-4o"]}
+      description="Multimodal flagship model with vision and fast responses."
+      capabilities={["vision", "streaming", "function_calling"]}
+      developer={{ label: "OpenAI" }}
+      context="128K"
+      price="$2.50/M"
+    />
+  </div>
+</ComponentPreview>
+
+## Status badges
+
+Use `nonofficial` and `suspended` to flag a model's availability. A `tier` chip is shown unless it is `"free"`.
+
+<ComponentPreview
+  title="Status badges"
+  code={`<ModelCard
+  name="Claude Opus 4"
+  icon={<ProviderIcon provider="anthropic" size={32} rounded />}
+  ids={["claude-opus-4", "claude-opus-4-latest"]}
+  description="High-reasoning model for complex, long-running tasks."
+  capabilities={["thinking", "vision", "function_calling"]}
+  developer={{ label: "Anthropic" }}
+  context="200K"
+  tier="pro"
+  nonofficial
+/>`}
+>
+  <div className="w-full max-w-xs">
+    <ModelCard
+      name="Claude Opus 4"
+      icon={<ProviderIcon provider="anthropic" size={32} rounded />}
+      ids={["claude-opus-4", "claude-opus-4-latest"]}
+      description="High-reasoning model for complex, long-running tasks."
+      capabilities={["thinking", "vision", "function_calling"]}
+      developer={{ label: "Anthropic" }}
+      context="200K"
+      tier="pro"
+      nonofficial
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ModelCard" />

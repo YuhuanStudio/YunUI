@@ -1,0 +1,47 @@
+import { Badge } from "yunui";
+
+用于状态和标签的小型行内胶囊。它渲染语义化的颜色变体，并转发所有原生 `<span>` 属性。
+
+## 导入
+
+```tsx
+import { Badge } from "@yuhuanowo/yunui";
+```
+
+## 变体
+
+<ComponentPreview
+  title="Variants"
+  code={`<Badge>Default</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="error">Error</Badge>
+<Badge variant="info">Info</Badge>`}
+>
+  <Badge>Default</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="error">Error</Badge>
+  <Badge variant="info">Info</Badge>
+</ComponentPreview>
+
+## 上下文中
+
+徽章可以自然地置于文本旁，一目了然地传达状态。
+
+<ComponentPreview
+  title="Inline status"
+  code={`<span className="inline-flex items-center gap-2 text-sm">
+  Claude Opus 4.8
+  <Badge variant="success">Active</Badge>
+</span>`}
+>
+  <span className="inline-flex items-center gap-2 text-sm">
+    Claude Opus 4.8
+    <Badge variant="success">Active</Badge>
+  </span>
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="Badge" />

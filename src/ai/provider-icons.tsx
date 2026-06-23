@@ -114,12 +114,16 @@ function getDeveloperIconFile(developer: string): string | null {
         return developerIconMap[normalized];
     }
 
-    // Check partial matches
+    // Partial match: the input must CONTAIN a known key of >=3 chars; prefer the
+    // longest match. Avoids false positives like "ai" -> openai or "x" -> grok
+    // that the old bidirectional substring check produced.
+    let best: { key: string; file: string } | null = null;
     for (const [key, file] of Object.entries(developerIconMap)) {
-        if (normalized.includes(key) || key.includes(normalized)) {
-            return file;
+        if (key.length >= 3 && normalized.includes(key) && (!best || key.length > best.key.length)) {
+            best = { key, file };
         }
     }
+    if (best) return best.file;
 
     return null;
 }
@@ -235,25 +239,30 @@ export function getProviderIconOptions(): { value: string; label: string }[] {
 // Canonical provider-id normalization (lowercase, strip dashes/underscores/spaces).
 // Single source of truth — the icon registry's producer keys and the lookup here must
 // use the identical rule, so share this rather than re-inlining the regex.
-export function normalizeProviderId(id: string): string {
-    return id.toLowerCase().replace(/[-_\s]/g, "");
+export function normalizeProviderId(id: string | null | undefined): string {
+    // Guard against undefined/null ids (e.g. a model record with no provider yet)
+    // so icon components degrade to a fallback instead of crashing the page.
+    return (id ?? "").toLowerCase().replace(/[-_\s]/g, "");
 }
 
 // Get icon path for provider (resolves to /icons/providers/<file> via providerIconMap)
-export function getIconPath(providerId: string): string | null {
+export function getIconPath(providerId: string | null | undefined): string | null {
     const normalized = normalizeProviderId(providerId);
+    if (!normalized) return null;
 
     // Direct match
     if (providerIconMap[normalized]) {
         return `/icons/providers/${providerIconMap[normalized]}`;
     }
 
-    // Check partial matches
+    // Partial match: input must contain a known key (>=3 chars); prefer longest.
+    let best: { key: string; file: string } | null = null;
     for (const [key, file] of Object.entries(providerIconMap)) {
-        if (normalized.includes(key) || key.includes(normalized)) {
-            return `/icons/providers/${file}`;
+        if (key.length >= 3 && normalized.includes(key) && (!best || key.length > best.key.length)) {
+            best = { key, file };
         }
     }
+    if (best) return `/icons/providers/${best.file}`;
 
     return null;
 }
@@ -292,6 +301,9 @@ export function ProviderIcon({
     // admin-set icon registry is consumer-specific and not bundled here.)
     const { Image, iconBasePath } = useYunUI();
     const [customError, setCustomError] = useState(false);
+    // When the built-in icon asset 404s (icons aren't bundled — host them or set
+    // iconBasePath), degrade to the initial/SVG fallback instead of a broken img.
+    const [pathError, setPathError] = useState(false);
     const effectiveIconUrl = iconUrl;
     // If the custom icon fails to load, fall through to the built-in name-based icon.
     if (effectiveIconUrl && !customError) {
@@ -320,7 +332,7 @@ export function ProviderIcon({
         return 'rounded-lg';                 // 8px for larger icons
     };
 
-    if (iconPath) {
+    if (iconPath && !pathError) {
         if (rounded) {
             return (
                 <div
@@ -334,6 +346,7 @@ export function ProviderIcon({
                         height={size}
                         className="object-cover"
                         unoptimized
+                        onError={() => setPathError(true)}
                     />
                 </div>
             );
@@ -347,6 +360,7 @@ export function ProviderIcon({
                 height={size}
                 className={`object-contain ${className}`}
                 unoptimized
+                onError={() => setPathError(true)}
             />
         );
     }
@@ -358,7 +372,7 @@ export function ProviderIcon({
                 className={`${getRadiusClass()} bg-linear-to-br from-black/5 to-black/10 flex items-center justify-center ${className}`}
                 style={{ width: size, height: size }}
             >
-                <span className="text-xs font-medium text-muted-foreground">{provider.charAt(0).toUpperCase()}</span>
+                <span className="text-xs font-medium text-muted-foreground">{(provider || "?").charAt(0).toUpperCase()}</span>
             </div>
         );
     }
@@ -478,18 +492,21 @@ export const ProviderNames: Record<string, string> = {
     aionly: "AiOnly",
 };
 
-export function getProviderName(providerId: string): string {
+export function getProviderName(providerId: string | null | undefined): string {
+    if (!providerId) return "";
     const normalized = providerId.toLowerCase().replace(/[-_\s]/g, "");
 
     // Direct match
     if (ProviderNames[normalized]) return ProviderNames[normalized];
 
-    // Partial match
+    // Partial match: input must contain a known key (>=3 chars); prefer longest.
+    let best: { key: string; name: string } | null = null;
     for (const [key, name] of Object.entries(ProviderNames)) {
-        if (normalized.includes(key) || key.includes(normalized)) {
-            return name;
+        if (key.length >= 3 && normalized.includes(key) && (!best || key.length > best.key.length)) {
+            best = { key, name };
         }
     }
+    if (best) return best.name;
 
     // Capitalize first letter of original
     return providerId.charAt(0).toUpperCase() + providerId.slice(1);

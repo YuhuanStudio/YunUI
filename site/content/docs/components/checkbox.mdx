@@ -1,0 +1,31 @@
+import { Checkbox } from "yunui";
+
+A controlled checkbox. It's controlled-only: pass `checked` and `onCheckedChange`. Pair it with a `<label htmlFor>` (via the `id` prop) for an accessible, click-to-toggle row.
+
+## Import
+
+```tsx
+import { Checkbox } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`Checkbox` is controlled — wire it to state:
+
+```tsx
+const [checked, setChecked] = useState(false);
+<label className="flex items-center gap-2">
+  <Checkbox checked={checked} onCheckedChange={setChecked} id="terms" />
+  Accept terms
+</label>
+```
+
+## Example
+
+<ComponentPreview title="Checkbox rows">
+  <CheckboxDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Checkbox" />

@@ -1,0 +1,42 @@
+import { CustomSelect } from "yunui";
+
+一個完全自訂樣式的下拉選擇框，支援可選的下拉內搜尋、逐項圖示與描述，以及完整的鍵盤操作（方向鍵、Home/End、Enter、Escape）。它是受控的：傳入 `value`、`onChange` 以及一個 `options` 陣列。若需要自由輸入或可建立的值，請參閱 [Combobox](/docs/components/combobox)；若需要以 Radix 為基礎的組合式部件，請參閱 [Select](/docs/components/select)。
+
+## Import
+
+```tsx
+import { CustomSelect } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`CustomSelect` 是受控元件 —— 將 `value` 與 `onChange` 與狀態繫結：
+
+```tsx
+const [value, setValue] = useState("medium");
+
+<CustomSelect
+  value={value}
+  onChange={setValue}
+  searchable
+  placeholder="Select a model size"
+  options={[
+    { value: "small", label: "Small", description: "Fast, lower cost" },
+    { value: "medium", label: "Medium", description: "Balanced" },
+    { value: "large", label: "Large", description: "Highest quality" },
+    { value: "xl", label: "Extra Large", description: "Maximum capacity" },
+  ]}
+/>
+```
+
+## Example
+
+設定 `searchable` 可在下拉中加入篩選框。每個選項都可以攜帶一個 `icon` 與一行次要的 `description` 描述。
+
+<ComponentPreview title="Searchable select with descriptions">
+  <CustomSelectDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CustomSelect" />

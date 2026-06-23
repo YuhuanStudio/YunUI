@@ -1,0 +1,43 @@
+import { ErrorBoundary } from "yunui/patterns";
+
+A React error boundary that catches render errors in its subtree and shows a friendly fallback — an icon, message, and a "Try again" button that resets the boundary. Override the copy with `labels`, supply a fully custom `fallback`, or hook into `onError` for logging.
+
+## Import
+
+```tsx
+import { ErrorBoundary } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+Wrap any subtree. While no error is thrown, it renders its children transparently.
+
+<ComponentPreview
+  title="ErrorBoundary"
+  code={`<ErrorBoundary>
+  <div className="card p-6">This content is protected by an error boundary.</div>
+</ErrorBoundary>`}
+>
+  <div className="w-full max-w-xl">
+    <ErrorBoundary>
+      <div className="card p-6">This content is protected by an error boundary.</div>
+    </ErrorBoundary>
+  </div>
+</ComponentPreview>
+
+## Custom labels
+
+Pass `labels` to localize the fallback's title, message, and retry button.
+
+```tsx
+<ErrorBoundary
+  labels={{ title: "Something broke", message: "Please try again.", retry: "Reload" }}
+  onError={(error, info) => logToService(error, info)}
+>
+  <Dashboard />
+</ErrorBoundary>
+```
+
+## Props
+
+<PropsTable name="ErrorBoundary" />

@@ -1,0 +1,54 @@
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "yunui";
+
+基于 Radix `Select` 构建的下拉选择框——由一系列组合部件构成，渲染出一个挂载到 portal、带动画、支持键盘访问的列表框。如需扁平的、基于 options 数组的 API（带搜索），请参阅 [Combobox](/docs/components/combobox)；如需完全自定义样式的变体，请参阅 [CustomSelect](/docs/components/custom-select)。
+
+## Import
+
+```tsx
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Select"
+  code={`<Select defaultValue="next">
+  <SelectTrigger className="w-48">
+    <SelectValue placeholder="Pick a framework" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="next">Next.js</SelectItem>
+    <SelectItem value="remix">Remix</SelectItem>
+    <SelectItem value="astro">Astro</SelectItem>
+  </SelectContent>
+</Select>`}
+>
+  <Select defaultValue="next">
+    <SelectTrigger className="w-48">
+      <SelectValue placeholder="Pick a framework" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="next">Next.js</SelectItem>
+      <SelectItem value="remix">Remix</SelectItem>
+      <SelectItem value="astro">Astro</SelectItem>
+    </SelectContent>
+  </Select>
+</ComponentPreview>
+
+## Parts
+
+| 部件 | 作用 |
+| --- | --- |
+| `Select` | 根组件；持有 `value`/`onValueChange` 或 `defaultValue`。 |
+| `SelectTrigger` | 打开列表框的按钮。 |
+| `SelectValue` | 渲染已选中的标签（或 `placeholder`）。 |
+| `SelectContent` | 挂载到 portal、带动画的下拉面板。 |
+| `SelectItem` | 单个选项（`value` 为必需）。 |
+
+`Select` 重新导出了带有设计系统样式的 Radix `Select` 部件。完整的属性参考（包括 `SelectGroup`）请参阅 [Radix Select 文档](https://www.radix-ui.com/primitives/docs/components/select)。

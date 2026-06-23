@@ -9,7 +9,8 @@ import NextLink from "next/link";
 import NextImage from "next/image";
 import { useRouter as useNextRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { LocaleProvider } from "./locale-provider";
+import { LOCALES, LOCALE_NAMES, isLocale, type Locale } from "@/i18n/config";
+import { LocaleProvider, useLocale, useSetLocale } from "./locale-provider";
 
 // YunUI's adapter `useT` delegates to next-intl's `useTranslations` — mirrors
 // Yunxin's yunui-provider.tsx. Component labels (theme toggle, combobox, select,
@@ -20,7 +21,40 @@ const useT = (namespace?: string) => {
     (t as (k: string, v?: Record<string, unknown>) => string)(key, vars);
 };
 
-export function Providers({ children }: { children: ReactNode }) {
+// fumadocs RootProvider, wired to our cookie-backed locale store. Passing
+// `i18n.locales` makes fumadocs render its built-in language switcher at the
+// bottom of the docs sidebar; `onLocaleChange` routes the choice back into our
+// store (cookie + instant in-session switch) instead of fumadocs' default
+// URL redirect. Must live *inside* LocaleProvider to read the locale context.
+function FumadocsRoot({ children }: { children: ReactNode }) {
+  const locale = useLocale();
+  const setLocale = useSetLocale();
+  return (
+    <RootProvider
+      // We own theming via the next-themes ThemeProvider above (custom
+      // light/dark/true-black), so disable fumadocs' own theme integration.
+      theme={{ enabled: false }}
+      search={{ enabled: true }}
+      i18n={{
+        locale,
+        locales: LOCALES.map((l) => ({ locale: l, name: LOCALE_NAMES[l] })),
+        onLocaleChange: (v) => {
+          if (isLocale(v)) setLocale(v);
+        },
+      }}
+    >
+      {children}
+    </RootProvider>
+  );
+}
+
+export function Providers({
+  initialLocale,
+  children,
+}: {
+  initialLocale: Locale;
+  children: ReactNode;
+}) {
   return (
     <ThemeProvider
       attribute="class"
@@ -31,11 +65,8 @@ export function Providers({ children }: { children: ReactNode }) {
     >
       {/* Client-side locale (cookie-backed, instant switch) wraps the tree so
           both yunui component labels and the marketing copy re-render on change. */}
-      <LocaleProvider>
-        {/* fumadocs context for the docs' search dialog. We own theming via the
-            next-themes ThemeProvider above (custom light/dark/true-black), so
-            disable fumadocs' own theme integration to avoid double-mounting. */}
-        <RootProvider theme={{ enabled: false }} search={{ enabled: true }}>
+      <LocaleProvider initialLocale={initialLocale}>
+        <FumadocsRoot>
           <YunUIProvider
             adapters={{
               Link: NextLink as never,
@@ -50,7 +81,7 @@ export function Providers({ children }: { children: ReactNode }) {
             {children}
             <Toaster />
           </YunUIProvider>
-        </RootProvider>
+        </FumadocsRoot>
       </LocaleProvider>
     </ThemeProvider>
   );

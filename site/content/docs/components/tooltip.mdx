@@ -1,0 +1,73 @@
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, Button } from "yunui";
+
+A small floating label that appears on hover or focus, built on Radix `Tooltip`. Wrap your trigger in a `TooltipProvider` (place one near the app root to share open/close timing), then pair a `TooltipTrigger` with a `TooltipContent` bubble.
+
+## Import
+
+```tsx
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Tooltip"
+  code={`<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="outline">Hover me</Button>
+    </TooltipTrigger>
+    <TooltipContent>Add to your library</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`}
+>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Hover me</Button>
+      </TooltipTrigger>
+      <TooltipContent>Add to your library</TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</ComponentPreview>
+
+## Sides
+
+`TooltipContent` accepts Radix's `side` (`top` / `right` / `bottom` / `left`) and `sideOffset` props to control where the bubble appears.
+
+<ComponentPreview
+  title="Placed on the right"
+  code={`<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="outline">Right side</Button>
+    </TooltipTrigger>
+    <TooltipContent side="right">Shown to the right</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`}
+>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Right side</Button>
+      </TooltipTrigger>
+      <TooltipContent side="right">Shown to the right</TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</ComponentPreview>
+
+## Parts
+
+| Part | Role |
+| --- | --- |
+| `TooltipProvider` | Shares open/close timing; place once near the app root (accepts `delayDuration`). |
+| `Tooltip` | Root; pairs a trigger with its content. |
+| `TooltipTrigger` | Element that shows the tooltip on hover/focus (use `asChild` to wrap a `Button`). |
+| `TooltipContent` | The floating bubble; accepts `side` and `sideOffset`. |
+
+`Tooltip` re-exports Radix `Tooltip` parts with design-system styling. See the [Radix Tooltip docs](https://www.radix-ui.com/primitives/docs/components/tooltip) for the complete prop reference.

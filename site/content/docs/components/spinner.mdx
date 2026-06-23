@@ -1,0 +1,41 @@
+import { Spinner } from "yunui";
+
+An animated loading spinner with a built-in, screen-reader-only "Loading…" label. It comes in three sizes and inherits the muted foreground color, so it sits naturally inside buttons, cards, and inline text.
+
+## Import
+
+```tsx
+import { Spinner } from "@yuhuanowo/yunui";
+```
+
+## Sizes
+
+<ComponentPreview
+  title="Sizes"
+  code={`<Spinner size="sm" />
+<Spinner size="md" />
+<Spinner size="lg" />`}
+>
+  <div className="flex items-center gap-6">
+    <Spinner size="sm" />
+    <Spinner size="md" />
+    <Spinner size="lg" />
+  </div>
+</ComponentPreview>
+
+## Inline with text
+
+<ComponentPreview
+  title="Inline"
+  code={`<span className="inline-flex items-center gap-2">
+  <Spinner size="sm" /> Loading…
+</span>`}
+>
+  <span className="inline-flex items-center gap-2 text-sm">
+    <Spinner size="sm" /> Loading…
+  </span>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Spinner" />

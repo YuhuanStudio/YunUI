@@ -1,0 +1,41 @@
+import { Spinner } from "yunui";
+
+一個帶有內建、僅供螢幕閱讀器朗讀的「Loading…」標籤的載入旋轉圖示。提供三種尺寸，並繼承柔和的前景色，因此能自然地嵌入按鈕、卡片和行內文字中。
+
+## 匯入
+
+```tsx
+import { Spinner } from "@yuhuanowo/yunui";
+```
+
+## 尺寸
+
+<ComponentPreview
+  title="Sizes"
+  code={`<Spinner size="sm" />
+<Spinner size="md" />
+<Spinner size="lg" />`}
+>
+  <div className="flex items-center gap-6">
+    <Spinner size="sm" />
+    <Spinner size="md" />
+    <Spinner size="lg" />
+  </div>
+</ComponentPreview>
+
+## 與文字行內排列
+
+<ComponentPreview
+  title="Inline"
+  code={`<span className="inline-flex items-center gap-2">
+  <Spinner size="sm" /> Loading…
+</span>`}
+>
+  <span className="inline-flex items-center gap-2 text-sm">
+    <Spinner size="sm" /> Loading…
+  </span>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="Spinner" />

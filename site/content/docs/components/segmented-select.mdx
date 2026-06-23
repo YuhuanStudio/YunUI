@@ -1,0 +1,39 @@
+import { SegmentedSelect } from "yunui";
+
+An inline segmented control — a row of buttons where exactly one option is active at a time. Use it for short, mutually exclusive choices like a view switcher or a filter mode. It's controlled: pass `value` and `onChange`, plus an `options` array. Each option can carry an optional Lucide `icon` and a native-tooltip `desc`.
+
+## Import
+
+```tsx
+import { SegmentedSelect } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`SegmentedSelect` is controlled — wire `value` and `onChange` to state:
+
+```tsx
+import { LayoutGrid, List, Table } from "lucide-react";
+
+const [value, setValue] = useState("grid");
+
+<SegmentedSelect
+  value={value}
+  onChange={setValue}
+  options={[
+    { value: "grid", label: "Grid", icon: LayoutGrid },
+    { value: "list", label: "List", icon: List },
+    { value: "table", label: "Table", icon: Table },
+  ]}
+/>
+```
+
+## Example
+
+<ComponentPreview title="View switcher">
+  <SegmentedSelectDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="SegmentedSelect" />

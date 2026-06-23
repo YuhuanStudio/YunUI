@@ -1,0 +1,52 @@
+import { PageHeader } from "yunui/patterns";
+import { Button } from "yunui";
+
+一致的頁面標題區塊：一個大號標題、可選的 `description`，以及固定在右側的可選 `actions` 插槽（按鈕、選單等）。把它放在任意頁面頂部，即可獲得統一的間距與排版。
+
+## Import
+
+```tsx
+import { PageHeader } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="PageHeader"
+  code={`<PageHeader
+  title="Dashboard"
+  description="An overview of your account activity."
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <PageHeader
+      title="Dashboard"
+      description="An overview of your account activity."
+    />
+  </div>
+</ComponentPreview>
+
+## With actions
+
+`actions` 插槽可接收任意節點——通常是一個或多個按鈕。
+
+<ComponentPreview
+  title="With actions"
+  code={`<PageHeader
+  title="Projects"
+  description="Manage your active projects."
+  actions={<Button variant="primary">New project</Button>}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <PageHeader
+      title="Projects"
+      description="Manage your active projects."
+      actions={<Button variant="primary">New project</Button>}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="PageHeader" />

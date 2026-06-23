@@ -1,0 +1,44 @@
+import { Sheet, Button } from "yunui";
+
+A mobile-only panel that slides in from the right over a backdrop (hidden on `lg` screens and up). It's a controlled YunUI overlay: drive it with `open` + `onClose`. It renders an optional header `title` and close button, locks body scroll, and closes on backdrop click or the Escape key.
+
+## Import
+
+```tsx
+import { Sheet } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+A `Sheet` is fully controlled: keep its `open` in state and pass `onClose` to dismiss it. Because it only shows below the `lg` breakpoint, narrow your viewport to see it slide in.
+
+<ComponentPreview title="Slide-in sheet">
+  <SheetDemo />
+</ComponentPreview>
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Sheet, Button } from "@yuhuanowo/yunui";
+
+export function SheetDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open sheet</Button>
+      <Sheet open={open} onClose={() => setOpen(false)} title="Menu">
+        <nav className="flex flex-col p-2">
+          <a className="px-3 py-2 rounded-lg hover:bg-muted text-sm" href="#">Dashboard</a>
+          <a className="px-3 py-2 rounded-lg hover:bg-muted text-sm" href="#">Projects</a>
+          <a className="px-3 py-2 rounded-lg hover:bg-muted text-sm" href="#">Settings</a>
+        </nav>
+      </Sheet>
+    </>
+  );
+}
+```
+
+## Props
+
+<PropsTable name="Sheet" />

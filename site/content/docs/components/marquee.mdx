@@ -1,0 +1,78 @@
+import { Marquee, Badge } from "yunui";
+
+An infinitely scrolling row (or column) that repeats its children to fill a seamless loop. It supports a reversed direction, pause-on-hover, and a vertical orientation. Tune the speed and spacing with the `--duration` and `--gap` CSS variables via `className`.
+
+## Import
+
+```tsx
+import { Marquee } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Scrolling row"
+  code={`<Marquee>
+  <Badge>React</Badge>
+  <Badge>Next.js</Badge>
+  <Badge>Tailwind</Badge>
+  <Badge>Radix</Badge>
+</Marquee>`}
+>
+  <div className="w-full">
+    <Marquee>
+      <Badge>React</Badge>
+      <Badge>Next.js</Badge>
+      <Badge>Tailwind</Badge>
+      <Badge>Radix</Badge>
+    </Marquee>
+  </div>
+</ComponentPreview>
+
+## Reverse & pause on hover
+
+Set `reverse` to scroll the other way, and `pauseOnHover` to stop the animation while the pointer is over it.
+
+<ComponentPreview
+  title="Reverse + pause on hover"
+  code={`<Marquee reverse pauseOnHover>
+  <Badge variant="info">Vision</Badge>
+  <Badge variant="success">Thinking</Badge>
+  <Badge variant="warning">Tools</Badge>
+  <Badge variant="error">Audio</Badge>
+</Marquee>`}
+>
+  <div className="w-full">
+    <Marquee reverse pauseOnHover>
+      <Badge variant="info">Vision</Badge>
+      <Badge variant="success">Thinking</Badge>
+      <Badge variant="warning">Tools</Badge>
+      <Badge variant="error">Audio</Badge>
+    </Marquee>
+  </div>
+</ComponentPreview>
+
+## Custom speed
+
+Override `--duration` through `className` to slow the loop down or speed it up.
+
+<ComponentPreview
+  title="Slower loop"
+  code={`<Marquee className="[--duration:20s]">
+  <Badge>Alpha</Badge>
+  <Badge>Beta</Badge>
+  <Badge>Gamma</Badge>
+</Marquee>`}
+>
+  <div className="w-full">
+    <Marquee className="[--duration:20s]">
+      <Badge>Alpha</Badge>
+      <Badge>Beta</Badge>
+      <Badge>Gamma</Badge>
+    </Marquee>
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Marquee" />

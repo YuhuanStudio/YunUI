@@ -30,6 +30,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
                 className={`
                     w-4 h-4 rounded border-2 flex items-center justify-center
                     transition-all duration-200 ease-in-out
+                    outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background
                     ${checked
                         ? "bg-primary border-primary text-primary-foreground"
                         : "border-slate-300 dark:border-slate-600 bg-transparent hover:border-primary/50"

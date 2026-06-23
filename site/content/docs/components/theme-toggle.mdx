@@ -1,0 +1,31 @@
+import { ThemeToggle } from "yunui";
+
+A theme switcher dropdown backed by next-themes. Clicking it opens a menu with four options — light, zinc-dark, true-black, and system — and the trigger animates a sun/moon swap to reflect the active theme. The host app provides the next-themes provider; this site already does, so the toggle below is live.
+
+## Import
+
+```tsx
+import { ThemeToggle } from "@yuhuanowo/yunui";
+```
+
+## Icon (default)
+
+<ComponentPreview
+  title="Icon variant"
+  code={`<ThemeToggle />`}
+>
+  <ThemeToggle />
+</ComponentPreview>
+
+## Pill
+
+<ComponentPreview
+  title="Pill variant"
+  code={`<ThemeToggle variant="pill" />`}
+>
+  <ThemeToggle variant="pill" />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ThemeToggle" />

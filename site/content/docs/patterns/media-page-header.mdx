@@ -1,0 +1,84 @@
+import { MediaPageHeader, MediaEmptyState, MediaLoadingState, MediaErrorState } from "yunui/patterns";
+import { Image as ImageIcon } from "lucide-react";
+
+A set of page-level building blocks for media library screens: a header with a title, description, sync button, error banner, and optional stat chips, plus matching empty, loading, and error states.
+
+## Import
+
+```tsx
+import {
+  MediaPageHeader,
+  MediaEmptyState,
+  MediaLoadingState,
+  MediaErrorState,
+} from "@yuhuanowo/yunui/patterns";
+```
+
+## Header
+
+`onSync` is a function, which can't cross the server→client boundary in MDX, so the header is rendered from a small client wrapper.
+
+<ComponentPreview
+  title="MediaPageHeader"
+  code={`import { MediaPageHeader } from "@yuhuanowo/yunui/patterns";
+
+<MediaPageHeader
+  title="Media library"
+  description="All your synced images and videos."
+  isSyncing={false}
+  syncError={null}
+  onSync={() => {}}
+  stats={[
+    { label: "items", value: 128 },
+    { label: "albums", value: 6 },
+  ]}
+/>`}
+>
+  <MediaPageHeaderDemo />
+</ComponentPreview>
+
+## Empty state
+
+The `icon` prop takes a Lucide *component* (a function), so this example is also rendered from a client wrapper.
+
+<ComponentPreview
+  title="MediaEmptyState"
+  code={`import { MediaEmptyState } from "@yuhuanowo/yunui/patterns";
+import { Image as ImageIcon } from "lucide-react";
+
+<MediaEmptyState
+  icon={ImageIcon}
+  title="No media yet"
+  description="Sync a source to start filling your library."
+/>`}
+>
+  <MediaEmptyStateDemo />
+</ComponentPreview>
+
+## Loading & error states
+
+`MediaLoadingState` and `MediaErrorState` are static and can be used directly. `MediaErrorState` accepts an optional `onRetry` callback to render a retry button.
+
+<ComponentPreview
+  title="MediaLoadingState"
+  code={`<MediaLoadingState message="Loading your media…" />`}
+>
+  <MediaLoadingState message="Loading your media…" />
+</ComponentPreview>
+
+<ComponentPreview
+  title="MediaErrorState"
+  code={`<MediaErrorState message="Could not reach the media service." />`}
+>
+  <MediaErrorState message="Could not reach the media service." />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="MediaPageHeader" />
+
+<PropsTable name="MediaEmptyState" />
+
+<PropsTable name="MediaLoadingState" />
+
+<PropsTable name="MediaErrorState" />

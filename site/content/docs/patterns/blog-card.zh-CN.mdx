@@ -1,0 +1,46 @@
+import { BlogCard } from "yunui/patterns";
+
+博客文章预览卡片，包含封面图、分类徽章、元信息行（日期、阅读时长、作者）和标签。它通过注入的 `Link` 适配器链接到文章，并提供在 `md`+ 网格上横跨两列的 `featured` 变体。
+
+## 引入
+
+```tsx
+import { BlogCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+<ComponentPreview
+  title="BlogCard"
+  code={`import { BlogCard } from "@yuhuanowo/yunui/patterns";
+
+<BlogCard
+  title="Designing with YunUI patterns"
+  description="How prop-driven compositions keep your product UI consistent."
+  date="2026-01-15"
+  author={{ name: "Yuhuan" }}
+  category="Engineering"
+  tags={["design-systems", "react"]}
+  readingTime={6}
+  coverImage="/yuhuanstudio-logo.png"
+  url="#"
+/>`}
+>
+  <div className="w-full max-w-sm">
+    <BlogCard
+      title="Designing with YunUI patterns"
+      description="How prop-driven compositions keep your product UI consistent."
+      date="2026-01-15"
+      author={{ name: "Yuhuan" }}
+      category="Engineering"
+      tags={["design-systems", "react"]}
+      readingTime={6}
+      coverImage="/yuhuanstudio-logo.png"
+      url="#"
+    />
+  </div>
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="BlogCard" />

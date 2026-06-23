@@ -41,8 +41,10 @@ export function SegmentedSelect<T = string>({
                 return (
                     <button
                         key={String(opt.value)}
+                        type="button"
                         onClick={() => !disabled && onChange(opt.value)}
                         disabled={disabled}
+                        aria-pressed={value === opt.value}
                         title={opt.desc}
                         className={cn(
                             "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none",

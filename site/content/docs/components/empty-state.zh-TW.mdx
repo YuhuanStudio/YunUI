@@ -1,0 +1,55 @@
+import { EmptyState, Button } from "yunui";
+import { Inbox, SearchX } from "lucide-react";
+
+用於空清單、無結果畫面和零資料狀態的置中「空空如也」佔位符。它依序堆疊可選的 `icon`、必填的 `title`、可選的 `description`，以及可選的 `action` 插槽（例如一個主按鈕），讓使用者知道下一步該做什麼。
+
+## 匯入
+
+```tsx
+import { EmptyState } from "@yuhuanowo/yunui";
+```
+
+## 基礎
+
+<ComponentPreview
+  title="Empty list"
+  code={`import { Inbox } from "lucide-react";
+
+<EmptyState
+  icon={<Inbox className="w-8 h-8" />}
+  title="No messages"
+  description="When you receive messages they'll show up here."
+/>`}
+>
+  <EmptyState
+    icon={<Inbox className="w-8 h-8" />}
+    title="No messages"
+    description="When you receive messages they'll show up here."
+  />
+</ComponentPreview>
+
+## 帶操作
+
+<ComponentPreview
+  title="With a button"
+  code={`import { SearchX } from "lucide-react";
+import { Button } from "@yuhuanowo/yunui";
+
+<EmptyState
+  icon={<SearchX className="w-8 h-8" />}
+  title="No results"
+  description="Try a different search term or clear your filters."
+  action={<Button variant="primary">Clear filters</Button>}
+/>`}
+>
+  <EmptyState
+    icon={<SearchX className="w-8 h-8" />}
+    title="No results"
+    description="Try a different search term or clear your filters."
+    action={<Button variant="primary">Clear filters</Button>}
+  />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="EmptyState" />

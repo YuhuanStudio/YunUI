@@ -1,0 +1,108 @@
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage, BreadcrumbEllipsis } from "yunui";
+
+An accessible breadcrumb trail. `Breadcrumb` is a `<nav>` landmark wrapping an ordered `BreadcrumbList`; each `BreadcrumbItem` holds a `BreadcrumbLink` (which routes through the YunUI `Link` adapter), the current `BreadcrumbPage`, or a `BreadcrumbSeparator`. Use `BreadcrumbEllipsis` to collapse long trails.
+
+## Import
+
+```tsx
+import {
+  Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink,
+  BreadcrumbSeparator, BreadcrumbPage, BreadcrumbEllipsis,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Breadcrumb"
+  code={`<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</ComponentPreview>
+
+## Collapsed (ellipsis)
+
+For deep trails, replace the middle items with `BreadcrumbEllipsis`:
+
+<ComponentPreview
+  title="With an ellipsis"
+  code={`<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbEllipsis />
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbEllipsis />
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</ComponentPreview>
+
+## Parts
+
+| Part | Role |
+| --- | --- |
+| `Breadcrumb` | Root `<nav>` landmark (`aria-label` defaults to `"Breadcrumb"`). |
+| `BreadcrumbList` | Ordered `<ol>` holding the items. |
+| `BreadcrumbItem` | A single `<li>` in the trail. |
+| `BreadcrumbLink` | A navigable link; routes through the YunUI `Link` adapter (`href` required). |
+| `BreadcrumbPage` | The current page; non-interactive and marked `aria-current="page"`. |
+| `BreadcrumbSeparator` | Visual divider (a chevron by default); hidden from assistive tech. |
+| `BreadcrumbEllipsis` | Placeholder for collapsed middle items in a long trail. |

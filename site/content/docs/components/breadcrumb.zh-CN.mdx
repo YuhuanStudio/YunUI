@@ -1,0 +1,108 @@
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage, BreadcrumbEllipsis } from "yunui";
+
+一个无障碍的面包屑导航。`Breadcrumb` 是包裹有序 `BreadcrumbList` 的 `<nav>` 地标；每个 `BreadcrumbItem` 可容纳 `BreadcrumbLink`（通过 YunUI 的 `Link` 适配器路由）、当前的 `BreadcrumbPage` 或 `BreadcrumbSeparator`。使用 `BreadcrumbEllipsis` 折叠较长的路径。
+
+## Import
+
+```tsx
+import {
+  Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink,
+  BreadcrumbSeparator, BreadcrumbPage, BreadcrumbEllipsis,
+} from "@yuhuanowo/yunui";
+```
+
+## 基础用法
+
+<ComponentPreview
+  title="Breadcrumb"
+  code={`<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</ComponentPreview>
+
+## 折叠（省略号）
+
+对于较深的路径，用 `BreadcrumbEllipsis` 替换中间的项：
+
+<ComponentPreview
+  title="With an ellipsis"
+  code={`<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbEllipsis />
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbEllipsis />
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</ComponentPreview>
+
+## 组成部分
+
+| 部分 | 作用 |
+| --- | --- |
+| `Breadcrumb` | 根 `<nav>` 地标（`aria-label` 默认为 `"Breadcrumb"`）。 |
+| `BreadcrumbList` | 容纳各项的有序 `<ol>`。 |
+| `BreadcrumbItem` | 路径中的单个 `<li>`。 |
+| `BreadcrumbLink` | 可导航的链接；通过 YunUI 的 `Link` 适配器路由（必填 `href`）。 |
+| `BreadcrumbPage` | 当前页面；不可交互并标记 `aria-current="page"`。 |
+| `BreadcrumbSeparator` | 视觉分隔符（默认为箭头）；对辅助技术隐藏。 |
+| `BreadcrumbEllipsis` | 用于在较长路径中折叠中间项的占位符。 |

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import type { TableOfContents } from "fumadocs-core/toc";
 import {
@@ -9,7 +10,7 @@ import {
   type MDXLoader,
   type MDXModule,
 } from "@/lib/docs";
-import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/i18n/config";
+import { COOKIE_NAME, DEFAULT_LOCALE, LOCALES, isLocale, type Locale } from "@/i18n/config";
 import { getMDXComponents } from "@/mdx-components";
 import { LocalizedDoc, type LocaleDocContent } from "./localized-doc";
 
@@ -71,9 +72,12 @@ export async function generateMetadata(props: {
   const { slug } = await props.params;
   const entry = getDoc(slug);
   if (!entry) return {};
-  // Metadata is static (no client locale at build); use the default locale.
-  const title = resolveLocalized(entry.title, DEFAULT_LOCALE);
-  const description = resolveLocalized(entry.description, DEFAULT_LOCALE);
+  // Resolve the locale from the NEXT_LOCALE cookie so the <title>/description
+  // match the language the page renders in.
+  const cookieLocale = (await cookies()).get(COOKIE_NAME)?.value;
+  const locale = isLocale(cookieLocale) ? cookieLocale : DEFAULT_LOCALE;
+  const title = resolveLocalized(entry.title, locale);
+  const description = resolveLocalized(entry.description, locale);
   return {
     title: `${title} — YunUI`,
     description,

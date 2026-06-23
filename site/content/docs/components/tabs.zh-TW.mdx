@@ -1,0 +1,95 @@
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "yunui";
+
+一組以 Radix 為基礎的頁籤面板。`Tabs` 管理目前作用中的頁籤；透過 `TabsList`（觸發器列）、`TabsTrigger`（單個可點擊頁籤）與 `TabsContent`（對應頁籤作用時顯示的面板）組合使用。完整的鍵盤無障礙支援（方向鍵、Home/End）由 Radix 提供。使用 `defaultValue` 實現非受控頁籤，或用 `value`/`onValueChange` 進行受控。
+
+## Import
+
+```tsx
+import {
+  Tabs, TabsList, TabsTrigger, TabsContent,
+} from "@yuhuanowo/yunui";
+```
+
+## 基礎用法
+
+<ComponentPreview
+  title="Tabs"
+  code={`<Tabs defaultValue="account">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Manage your account details.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>`}
+>
+  <Tabs defaultValue="account" className="w-full max-w-md">
+    <TabsList>
+      <TabsTrigger value="account">Account</TabsTrigger>
+      <TabsTrigger value="password">Password</TabsTrigger>
+    </TabsList>
+    <TabsContent value="account">Manage your account details.</TabsContent>
+    <TabsContent value="password">Change your password here.</TabsContent>
+  </Tabs>
+</ComponentPreview>
+
+## 多個頁籤
+
+<ComponentPreview
+  title="Three tabs"
+  code={`<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+    <TabsTrigger value="reports">Reports</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">A snapshot of your workspace.</TabsContent>
+  <TabsContent value="analytics">Usage trends over time.</TabsContent>
+  <TabsContent value="reports">Exportable summaries.</TabsContent>
+</Tabs>`}
+>
+  <Tabs defaultValue="overview" className="w-full max-w-md">
+    <TabsList>
+      <TabsTrigger value="overview">Overview</TabsTrigger>
+      <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <TabsTrigger value="reports">Reports</TabsTrigger>
+    </TabsList>
+    <TabsContent value="overview">A snapshot of your workspace.</TabsContent>
+    <TabsContent value="analytics">Usage trends over time.</TabsContent>
+    <TabsContent value="reports">Exportable summaries.</TabsContent>
+  </Tabs>
+</ComponentPreview>
+
+## 停用頁籤
+
+<ComponentPreview
+  title="Disabled trigger"
+  code={`<Tabs defaultValue="general">
+  <TabsList>
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="billing" disabled>Billing</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">General preferences.</TabsContent>
+  <TabsContent value="billing">Billing is unavailable on this plan.</TabsContent>
+</Tabs>`}
+>
+  <Tabs defaultValue="general" className="w-full max-w-md">
+    <TabsList>
+      <TabsTrigger value="general">General</TabsTrigger>
+      <TabsTrigger value="billing" disabled>Billing</TabsTrigger>
+    </TabsList>
+    <TabsContent value="general">General preferences.</TabsContent>
+    <TabsContent value="billing">Billing is unavailable on this plan.</TabsContent>
+  </Tabs>
+</ComponentPreview>
+
+## 組成部分
+
+| 部分 | 作用 |
+| --- | --- |
+| `Tabs` | 根元件；持有 `value`/`onValueChange` 或 `defaultValue`。 |
+| `TabsList` | 觸發器的橫向容器。 |
+| `TabsTrigger` | 可點擊的頁籤（必填 `value`）；支援 `disabled`。 |
+| `TabsContent` | 對應頁籤作用時顯示的面板（必填 `value`）。 |
+
+`Tabs` 以設計系統樣式重新匯出 Radix `Tabs` 的各個部分。完整的屬性參考（含 `orientation` 與 `activationMode`）請見 [Radix Tabs 文件](https://www.radix-ui.com/primitives/docs/components/tabs)。

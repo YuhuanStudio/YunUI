@@ -1,0 +1,44 @@
+import { BlogPostHeader } from "yunui/patterns";
+
+單篇部落格文章頁面的頁首區塊：分類徽章、大標題、引導描述、作者/日期/閱讀時長中繼資訊列、可選封面圖，以及標籤連結。
+
+## 匯入
+
+```tsx
+import { BlogPostHeader } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+<ComponentPreview
+  title="BlogPostHeader"
+  code={`import { BlogPostHeader } from "@yuhuanowo/yunui/patterns";
+
+<BlogPostHeader
+  title="Designing with YunUI patterns"
+  description="How prop-driven compositions keep your product UI consistent."
+  date="2026-01-15"
+  author={{ name: "Yuhuan" }}
+  category="Engineering"
+  tags={["design-systems", "react"]}
+  readingTime={6}
+  coverImage="/yuhuanstudio-logo.png"
+/>`}
+>
+  <div className="w-full max-w-2xl">
+    <BlogPostHeader
+      title="Designing with YunUI patterns"
+      description="How prop-driven compositions keep your product UI consistent."
+      date="2026-01-15"
+      author={{ name: "Yuhuan" }}
+      category="Engineering"
+      tags={["design-systems", "react"]}
+      readingTime={6}
+      coverImage="/yuhuanstudio-logo.png"
+    />
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="BlogPostHeader" />

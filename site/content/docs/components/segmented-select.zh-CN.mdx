@@ -1,0 +1,39 @@
+import { SegmentedSelect } from "yunui";
+
+一个内联的分段控件 —— 一排按钮，任意时刻只有一个选项处于激活状态。适用于简短、互斥的选择，例如视图切换器或筛选模式。它是受控的：传入 `value`、`onChange` 以及一个 `options` 数组。每个选项都可以携带一个可选的 Lucide `icon` 图标和一个原生提示 `desc`。
+
+## Import
+
+```tsx
+import { SegmentedSelect } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`SegmentedSelect` 是受控组件 —— 将 `value` 和 `onChange` 与状态绑定：
+
+```tsx
+import { LayoutGrid, List, Table } from "lucide-react";
+
+const [value, setValue] = useState("grid");
+
+<SegmentedSelect
+  value={value}
+  onChange={setValue}
+  options={[
+    { value: "grid", label: "Grid", icon: LayoutGrid },
+    { value: "list", label: "List", icon: List },
+    { value: "table", label: "Table", icon: Table },
+  ]}
+/>
+```
+
+## Example
+
+<ComponentPreview title="View switcher">
+  <SegmentedSelectDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="SegmentedSelect" />

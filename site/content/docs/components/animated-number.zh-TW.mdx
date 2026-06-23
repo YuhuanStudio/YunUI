@@ -1,0 +1,50 @@
+import { AnimatedNumber } from "yunui";
+
+一個在掛載時（以及每當 `value` 變化時）以彈簧動畫從 0 增長到 `value` 的數字。它在伺服端和客戶端都從 0 開始，因此在 SSR 和水合期間渲染都是安全的。用 `suffix` 表示單位，用 `decimals` 表示小數精度。
+
+## 匯入
+
+```tsx
+import { AnimatedNumber } from "@yuhuanowo/yunui";
+```
+
+## 基本用法
+
+<ComponentPreview
+  title="Count up"
+  code={`<AnimatedNumber value={1280} />`}
+>
+  <span className="text-4xl font-bold tabular-nums">
+    <AnimatedNumber value={1280} />
+  </span>
+</ComponentPreview>
+
+## 帶後綴
+
+用 `suffix` 屬性追加單位，例如 `%` 或 `K`。
+
+<ComponentPreview
+  title="Suffix"
+  code={`<AnimatedNumber value={98} suffix="%" />`}
+>
+  <span className="text-4xl font-bold tabular-nums">
+    <AnimatedNumber value={98} suffix="%" />
+  </span>
+</ComponentPreview>
+
+## 小數
+
+為小數值設定 `decimals`；末尾的零會被去除。
+
+<ComponentPreview
+  title="Decimal places"
+  code={`<AnimatedNumber value={4.8} decimals={1} />`}
+>
+  <span className="text-4xl font-bold tabular-nums">
+    <AnimatedNumber value={4.8} decimals={1} />
+  </span>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="AnimatedNumber" />

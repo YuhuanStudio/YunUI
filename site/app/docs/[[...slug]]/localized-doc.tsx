@@ -1,14 +1,16 @@
 "use client";
 
-// Client wrapper that renders the docs page in the active client locale.
+// Client wrapper that renders the docs page in the active locale.
 //
-// The site has no locale routing (it's a static export, locale lives in a
-// cookie — see app/locale-provider.tsx). The server component pre-renders the
-// compiled MDX body for every available locale variant and hands them all to
-// this wrapper (as already-rendered React nodes — a compiled MDX component is
-// a function and can't cross the RSC → Client boundary). This wrapper picks the
-// node matching `useLocale()` and falls back to English when a page has no
-// variant for the active locale.
+// There is no locale in the URL — the locale is resolved on the *server* from
+// the NEXT_LOCALE cookie (see app/layout.tsx / app/locale-provider.tsx), so the
+// initial server render is already in the right language. The server component
+// pre-renders the compiled MDX body for *every* available locale variant and
+// hands them all to this wrapper (as already-rendered React nodes — a compiled
+// MDX component is a function and can't cross the RSC → Client boundary). This
+// wrapper picks the node matching `useLocale()` — which equals the server locale
+// on first paint (no flash), and lets the language switcher swap the body
+// instantly with no reload. Falls back to English when a page lacks a variant.
 //
 // Only the prose (the MDX body) and the title/description are localized; the
 // shared <ComponentPreview>/<PropsTable> demos and code samples live inside the

@@ -1,0 +1,36 @@
+import { BlogPagination } from "yunui/patterns";
+
+適用於部落格列表的精簡分頁器：上一頁/下一頁按鈕，加上帶前後省略號的滑動頁碼區間。它是受控的——宿主應用透過 `onPageChange` 自行處理路由。
+
+## 匯入
+
+```tsx
+import { BlogPagination } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+`onPageChange` 是函式，無法在 MDX 中跨越伺服器到用戶端的邊界，因此範例由一個用 state 追蹤目前頁碼的小型用戶端包裝元件渲染。
+
+<ComponentPreview
+  title="BlogPagination"
+  code={`import { BlogPagination } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [page, setPage] = useState(1);
+  return (
+    <BlogPagination
+      currentPage={page}
+      totalPages={8}
+      onPageChange={setPage}
+    />
+  );
+}`}
+>
+  <BlogPaginationDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="BlogPagination" />

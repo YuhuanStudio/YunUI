@@ -13,8 +13,8 @@ import { Grid } from "@yuhuanowo/yunui";
 <ComponentPreview
   title="3 columns"
   code={`<Grid columns={3} gap={3}>
-  <Box>1</Box><Box>2</Box><Box>3</Box>
-  <Box>4</Box><Box>5</Box><Box>6</Box>
+  <Card>1</Card><Card>2</Card><Card>3</Card>
+  <Card>4</Card><Card>5</Card><Card>6</Card>
 </Grid>`}
 >
   <Grid columns={3} gap={3} className="w-full max-w-md">
@@ -29,7 +29,7 @@ import { Grid } from "@yuhuanowo/yunui";
 <ComponentPreview
   title="2 columns, wider gap"
   code={`<Grid columns={2} gap={6}>
-  <Box>A</Box><Box>B</Box>
+  <Card>A</Card><Card>B</Card>
 </Grid>`}
 >
   <Grid columns={2} gap={6} className="w-full max-w-sm">
@@ -45,7 +45,7 @@ import { Grid } from "@yuhuanowo/yunui";
 <ComponentPreview
   title="Stat tiles"
   code={`<Grid columns={4} gap={4}>
-  {stats.map((s) => <StatTile key={s} />)}
+  {stats.map((v) => <Card key={v}>{v}</Card>)}
 </Grid>`}
 >
   <Grid columns={4} gap={4} className="w-full max-w-2xl">

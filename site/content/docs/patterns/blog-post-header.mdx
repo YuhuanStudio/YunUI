@@ -1,0 +1,44 @@
+import { BlogPostHeader } from "yunui/patterns";
+
+The header block for a single blog post page: category badge, large title, lead description, an author/date/reading-time meta row, an optional cover image, and tag links.
+
+## Import
+
+```tsx
+import { BlogPostHeader } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+<ComponentPreview
+  title="BlogPostHeader"
+  code={`import { BlogPostHeader } from "@yuhuanowo/yunui/patterns";
+
+<BlogPostHeader
+  title="Designing with YunUI patterns"
+  description="How prop-driven compositions keep your product UI consistent."
+  date="2026-01-15"
+  author={{ name: "Yuhuan" }}
+  category="Engineering"
+  tags={["design-systems", "react"]}
+  readingTime={6}
+  coverImage="/yuhuanstudio-logo.png"
+/>`}
+>
+  <div className="w-full max-w-2xl">
+    <BlogPostHeader
+      title="Designing with YunUI patterns"
+      description="How prop-driven compositions keep your product UI consistent."
+      date="2026-01-15"
+      author={{ name: "Yuhuan" }}
+      category="Engineering"
+      tags={["design-systems", "react"]}
+      readingTime={6}
+      coverImage="/yuhuanstudio-logo.png"
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="BlogPostHeader" />

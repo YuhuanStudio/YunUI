@@ -1,0 +1,65 @@
+import { NavTabs } from "yunui";
+
+用于页面级导航的标准横向标签栏。每个标签都带有滑动的下划线指示器和柔和的浮动悬浮框。传入 `tabs` 数组以及当前标签的 `activeKey`；标签会渲染为 `<button>`（触发 `onChange`），或在标签带有 `href` 时，通过 YunUI 的 `Link` 适配器渲染为路由链接。
+
+## Import
+
+```tsx
+import { NavTabs } from "@yuhuanowo/yunui";
+```
+
+## 基础用法
+
+该组件是受控的——由宿主持有当前激活的 key。下面这个实时示例将它接入本地 state：
+
+<ComponentPreview
+  title="Nav tabs"
+  code={`function Example() {
+  const [active, setActive] = useState("overview");
+  return (
+    <NavTabs
+      activeKey={active}
+      onChange={setActive}
+      ariaLabel="Account sections"
+      tabs={[
+        { key: "overview", label: "Overview" },
+        { key: "analytics", label: "Analytics" },
+        { key: "reports", label: "Reports" },
+        { key: "settings", label: "Settings" },
+      ]}
+    />
+  );
+}`}
+>
+  <NavTabsDemo />
+</ComponentPreview>
+
+## 作为路由链接
+
+当某个标签提供了 `href` 时，它会渲染为路由链接（通过宿主的 `Link` 适配器）而非按钮，并在激活的标签上设置 `aria-current="page"`。用于映射到真实 URL 的标签：
+
+```tsx
+<NavTabs
+  activeKey="/settings/profile"
+  ariaLabel="Settings"
+  tabs={[
+    { key: "/settings/profile", label: "Profile", href: "/settings/profile" },
+    { key: "/settings/team", label: "Team", href: "/settings/team" },
+    { key: "/settings/billing", label: "Billing", href: "/settings/billing" },
+  ]}
+/>
+```
+
+## 属性
+
+<PropsTable name="NavTabs" />
+
+`tabs` 中的每一项是一个 `NavTab`：
+
+<PropsTable
+  rows={[
+    { name: "key", type: "string", required: true, description: "Unique key; matched against activeKey to mark the active tab." },
+    { name: "label", type: "ReactNode", required: true, description: "Tab label content." },
+    { name: "href", type: "string", description: "When set, the tab renders as a route Link instead of a button." },
+  ]}
+/>

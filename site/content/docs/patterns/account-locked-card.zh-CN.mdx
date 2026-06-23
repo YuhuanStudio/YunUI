@@ -1,0 +1,35 @@
+import { AccountLockedCard } from "yunui/patterns";
+
+用于「账户已锁定」终态认证页面（封禁或停用）的全屏卡片。它仅负责展示——宿主应用通过 `onBack` 自行处理登出/跳转，可选的 `onMount` 回调会在挂载时执行一次，避免后台认证探测把用户反复弹回循环。
+
+## 引入
+
+```tsx
+import { AccountLockedCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+`onBack` 和 `onMount` 是函数，无法在 MDX 中跨越服务端到客户端的边界，因此下面的示例由一个小型客户端包装组件渲染。
+
+<ComponentPreview
+  title="AccountLockedCard"
+  code={`import { AccountLockedCard } from "@yuhuanowo/yunui/patterns";
+import { ShieldAlert } from "lucide-react";
+
+<AccountLockedCard
+  appName="YunUI"
+  icon={<ShieldAlert className="w-6 h-6 text-error" />}
+  title="Account suspended"
+  subtitle="Your account has been temporarily locked."
+  appeal="If you think this is a mistake, contact support."
+  backLabel="Back to sign in"
+  onBack={() => {}}
+/>`}
+>
+  <AccountLockedCardDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="AccountLockedCard" />

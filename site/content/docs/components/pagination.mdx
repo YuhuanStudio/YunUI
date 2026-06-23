@@ -1,0 +1,27 @@
+import { Pagination } from "yunui";
+
+A controlled page navigator. It renders previous/next arrows plus numbered page buttons with automatic ellipsis truncation — the first and last pages always stay visible, and `siblingCount` neighbours surround the current page. The host owns page state and routing: pass the current `page` and `totalPages`, and update on `onPageChange`. Renders nothing when `totalPages <= 1`.
+
+## Import
+
+```tsx
+import { Pagination } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+`Pagination` is controlled, so wire `page`/`onPageChange` to your own state (or router):
+
+<ComponentPreview
+  title="Pagination"
+  code={`function Example() {
+  const [page, setPage] = useState(3);
+  return <Pagination page={page} totalPages={10} onPageChange={setPage} />;
+}`}
+>
+  <PaginationDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Pagination" />

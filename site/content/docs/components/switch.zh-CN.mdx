@@ -1,0 +1,35 @@
+import { Switch } from "yunui";
+
+受控的开/关切换开关。它仅支持受控模式：传入 `checked` 和 `onCheckedChange`。支持两种尺寸（`sm`、`md`）以及选中状态的四种颜色变体。
+
+## Import
+
+```tsx
+import { Switch } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`Switch` 是受控组件——将它与 state 关联：
+
+```tsx
+const [on, setOn] = useState(false);
+<Switch checked={on} onCheckedChange={setOn} />
+```
+
+## Sizes & variants
+
+<ComponentPreview
+  title="Sizes (sm, md) and variants (default, success, warning, danger)"
+  code={`<Switch checked={on} onCheckedChange={setOn} />
+<Switch checked={on} onCheckedChange={setOn} size="md" />
+<Switch checked={on} onCheckedChange={setOn} variant="success" />
+<Switch checked={on} onCheckedChange={setOn} variant="warning" />
+<Switch checked={on} onCheckedChange={setOn} variant="danger" />`}
+>
+  <SwitchDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Switch" />

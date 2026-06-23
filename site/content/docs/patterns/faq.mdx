@@ -1,0 +1,61 @@
+import { FAQ } from "yunui/patterns";
+
+An accordion list of questions where one item expands at a time. It takes a plain `items` array of `{ question, answer }` and manages its own open state, so the host app just supplies (and translates) the content. Use `defaultOpenIndex` to choose which item starts open, or pass `null` to start fully collapsed.
+
+## Import
+
+```tsx
+import { FAQ } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="FAQ"
+  code={`<FAQ
+  items={[
+    { question: "What is YunUI?", answer: "A prop-driven React component library." },
+    { question: "Is it free?", answer: "Yes, it is open source under Apache-2.0." },
+    { question: "Does it support i18n?", answer: "Yes, via injected adapters." },
+  ]}
+/>`}
+>
+  <div className="w-full max-w-2xl">
+    <FAQ
+      items={[
+        { question: "What is YunUI?", answer: "A prop-driven React component library." },
+        { question: "Is it free?", answer: "Yes, it is open source under Apache-2.0." },
+        { question: "Does it support i18n?", answer: "Yes, via injected adapters." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Start collapsed
+
+Pass `defaultOpenIndex={null}` so every item begins closed.
+
+<ComponentPreview
+  title="All collapsed"
+  code={`<FAQ
+  defaultOpenIndex={null}
+  items={[
+    { question: "Can I customize the theme?", answer: "Yes, via design tokens." },
+    { question: "Where do patterns live?", answer: "Under @yuhuanowo/yunui/patterns." },
+  ]}
+/>`}
+>
+  <div className="w-full max-w-2xl">
+    <FAQ
+      defaultOpenIndex={null}
+      items={[
+        { question: "Can I customize the theme?", answer: "Yes, via design tokens." },
+        { question: "Where do patterns live?", answer: "Under @yuhuanowo/yunui/patterns." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="FAQ" />

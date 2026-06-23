@@ -1,0 +1,39 @@
+import { PageLoader } from "yunui";
+
+A full-viewport, centered loading screen: a large spinner with an optional `title` and `subtitle` stacked beneath it. Use it as the fallback while a route, layout, or data-heavy page is loading. It fills at least the full dynamic viewport height, so the previews below are boxed to a fixed height for illustration.
+
+## Import
+
+```tsx
+import { PageLoader } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Spinner only"
+  code={`<PageLoader />`}
+>
+  <div className="relative h-48 w-full overflow-hidden rounded-lg border">
+    <PageLoader className="min-h-full" />
+  </div>
+</ComponentPreview>
+
+## With title & subtitle
+
+<ComponentPreview
+  title="With messages"
+  code={`<PageLoader title="Loading workspace" subtitle="This only takes a moment." />`}
+>
+  <div className="relative h-48 w-full overflow-hidden rounded-lg border">
+    <PageLoader
+      className="min-h-full"
+      title="Loading workspace"
+      subtitle="This only takes a moment."
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="PageLoader" />

@@ -1,0 +1,40 @@
+import { IconButton } from "yunui";
+import { Heart, Settings, Trash2 } from "lucide-react";
+
+An icon-only button with a built-in tooltip. The required `label` doubles as the accessible name and the tooltip text, so icon-only actions stay usable for screen readers and keyboard users. Every native `<button>` attribute (like `onClick` and `disabled`) spreads through.
+
+## Import
+
+```tsx
+import { IconButton } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Icon actions"
+  code={`import { Heart, Settings, Trash2 } from "lucide-react";
+
+<IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+<IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
+<IconButton icon={<Trash2 className="w-4 h-4" />} label="Delete" />`}
+>
+  <div className="flex items-center gap-1">
+    <IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+    <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
+    <IconButton icon={<Trash2 className="w-4 h-4" />} label="Delete" />
+  </div>
+</ComponentPreview>
+
+## Disabled
+
+<ComponentPreview
+  title="Disabled"
+  code={`<IconButton icon={<Settings className="w-4 h-4" />} label="Settings" disabled />`}
+>
+  <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" disabled />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="IconButton" />

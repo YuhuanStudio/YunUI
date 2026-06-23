@@ -421,7 +421,7 @@ interface ButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement> {
      * Visual style. Options: `primary`, `secondary`, `ghost`, `accent`, `outline`, `amber`, `red`/`destructive`.
      * @defaultValue "default"
      */
-    variant?: /** @deprecated alias of `primary` */ "default" | "primary" | "secondary" | "ghost" | "accent" | "outline" | "amber" | /** @deprecated alias of `destructive` */ "red" | "destructive";
+    variant?: /** @deprecated alias of `primary` */ "default" | "primary" | "secondary" | "ghost" | "accent" | /** Solid fill from the runtime-themeable brand token (data-brand). */ "brand" | "outline" | "amber" | /** @deprecated alias of `destructive` */ "red" | "destructive";
     /** Size: `sm`, `md` (default), `lg`, or `icon` (square 40×40). */
     size?: "sm" | "md" | "lg" | "icon";
     /** Show a spinner before the children and disable the button while busy. */
@@ -868,4 +868,54 @@ declare function useBodyScrollLock(locked?: boolean): void;
  */
 declare function useModalBehavior(isOpen: boolean, onClose: () => void): void;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, Input, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, PageLoader, Pagination, type PaginationProps, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, cn, fadeIn, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useModalBehavior };
+/**
+ * Runtime theming for YunUI's token system.
+ *
+ * The design tokens (styles/tokens.css) are driven by data-* attributes on a
+ * root element. Switching a role's palette is a single attribute change — no
+ * rebuild, instant, and it cascades to every component/utility that consumes the
+ * semantic tokens (e.g. the `bg-brand-solid-strong` / `text-accent-on-background-*`
+ * utilities). Light/dark itself is still owned by your theme manager (e.g.
+ * next-themes via the `.dark` class); this layer governs brand/accent/neutral
+ * palette + solid/surface style.
+ *
+ *   import { applyTheme, useYunUITheme, YUNUI_PALETTES } from "@yuhuanowo/yunui";
+ *   applyTheme({ brand: "emerald", accent: "violet" });   // imperative
+ *   const [theme, setTheme] = useYunUITheme({ brand: "blue" }); // React, persisted
+ */
+type YunUIPalette = "gray" | "sand" | "slate" | "mint" | "rose" | "dusk" | "red" | "orange" | "yellow" | "moss" | "green" | "emerald" | "aqua" | "cyan" | "blue" | "indigo" | "violet" | "magenta" | "pink";
+/** How solid (filled) surfaces derive their color. */
+type YunUISolid = "color" | "contrast" | "inverse";
+/** Whether elevated surfaces are opaque or frosted. */
+type YunUISurface = "filled" | "translucent";
+/** Color scheme — usually managed by your theme manager, exposed here for completeness. */
+type YunUIColorScheme = "light" | "dark";
+interface YunUITheme {
+    /** Primary brand palette. */
+    brand?: YunUIPalette;
+    /** Secondary accent palette. */
+    accent?: YunUIPalette;
+    /** Neutral/gray palette (typically gray, sand, or slate). */
+    neutral?: YunUIPalette;
+    solid?: YunUISolid;
+    surface?: YunUISurface;
+    theme?: YunUIColorScheme;
+}
+/** All palettes available to the brand/accent/neutral roles (for building pickers). */
+declare const YUNUI_PALETTES: YunUIPalette[];
+/**
+ * Apply theme attributes to an element (defaults to <html>). Only the keys you
+ * pass are written; pass `null` for a key to clear it. Safe to call on the
+ * server (no-ops when there is no document and no explicit element).
+ */
+declare function applyTheme(theme: Partial<Record<keyof YunUITheme, string | null>>, el?: HTMLElement | null): void;
+/** Read the current theme attributes back off an element (defaults to <html>). */
+declare function readTheme(el?: HTMLElement | null): YunUITheme;
+/**
+ * React hook for runtime theming. Returns the current theme and a setter that
+ * merges a patch, applies it to <html>, and persists to localStorage. On mount
+ * it hydrates from localStorage (falling back to `defaults`) and applies it.
+ */
+declare function useYunUITheme(defaults?: YunUITheme): [YunUITheme, (patch: YunUITheme) => void];
+
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, Input, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, PageLoader, Pagination, type PaginationProps, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useModalBehavior, useYunUITheme };

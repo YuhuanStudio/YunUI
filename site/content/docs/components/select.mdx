@@ -1,0 +1,54 @@
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "yunui";
+
+A dropdown select built on Radix `Select` — a composed family of parts that renders a portalled, animated, keyboard-accessible listbox. For a flat, options-array API (with search) see [Combobox](/docs/components/combobox); for a fully custom-styled variant see [CustomSelect](/docs/components/custom-select).
+
+## Import
+
+```tsx
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Select"
+  code={`<Select defaultValue="next">
+  <SelectTrigger className="w-48">
+    <SelectValue placeholder="Pick a framework" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="next">Next.js</SelectItem>
+    <SelectItem value="remix">Remix</SelectItem>
+    <SelectItem value="astro">Astro</SelectItem>
+  </SelectContent>
+</Select>`}
+>
+  <Select defaultValue="next">
+    <SelectTrigger className="w-48">
+      <SelectValue placeholder="Pick a framework" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="next">Next.js</SelectItem>
+      <SelectItem value="remix">Remix</SelectItem>
+      <SelectItem value="astro">Astro</SelectItem>
+    </SelectContent>
+  </Select>
+</ComponentPreview>
+
+## Parts
+
+| Part | Role |
+| --- | --- |
+| `Select` | Root; holds `value`/`onValueChange` or `defaultValue`. |
+| `SelectTrigger` | The button that opens the listbox. |
+| `SelectValue` | Renders the selected label (or `placeholder`). |
+| `SelectContent` | Portalled, animated dropdown panel. |
+| `SelectItem` | A single option (`value` required). |
+
+`Select` re-exports Radix `Select` parts with design-system styling. See the [Radix Select docs](https://www.radix-ui.com/primitives/docs/components/select) for the complete prop reference, including `SelectGroup`.

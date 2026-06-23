@@ -1,0 +1,41 @@
+import { StatCard } from "yunui/patterns";
+import { Coins } from "lucide-react";
+
+The canonical dashboard metric tile — one component for every stat. It supports an optional leading `icon`, a `trend` indicator (up/green or down/red), a semantic `tone` tint, and `inline` / `valueFirst` layout variants, so compact colored tiles and rich trend cards all share a single source.
+
+## Import
+
+```tsx
+import { StatCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+The `icon` prop takes a Lucide *component* (a function), which can't cross the server→client boundary in MDX, so the example below is rendered from a small client wrapper.
+
+<ComponentPreview
+  title="StatCard"
+  code={`import { StatCard } from "@yuhuanowo/yunui/patterns";
+import { Coins } from "lucide-react";
+
+<StatCard icon={Coins} label="Balance" value="$1,250" trend={{ value: 4.2, positive: true }} />`}
+>
+  <StatCardDemo />
+</ComponentPreview>
+
+## Layout variants
+
+`inline` puts the icon and label on one row with the value beneath, while `valueFirst` leads with the big number. Both also accept a `tone` for a semantic color tint.
+
+<ComponentPreview
+  title="Variants"
+  code={`<StatCard inline icon={Coins} label="Pending" value="12" tone="amber" />
+<StatCard valueFirst label="Approved" value="248" tone="emerald" />
+<StatCard label="Rejected" value="3" subtext="Last 24h" tone="red" />`}
+>
+  <StatCardVariantsDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="StatCard" />

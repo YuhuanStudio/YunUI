@@ -1,0 +1,94 @@
+import { ProviderIcon, ProviderAvatar, ModelIcon, ModelAvatar, ModelTypeIcon } from "yunui/ai";
+
+A family of icon components for AI providers and models. Logos are resolved by id from the bundled `/icons` assets, with sensible fallbacks. `ProviderIcon`/`ModelIcon` are flat by default; the `*Avatar` presets are always rounded tiles. `ModelIcon` resolves with a priority of model icon → developer icon → provider icon.
+
+## Import
+
+```tsx
+import {
+  ProviderIcon,
+  ProviderAvatar,
+  ModelIcon,
+  ModelAvatar,
+  ModelTypeIcon,
+} from "@yuhuanowo/yunui/ai";
+```
+
+## Provider icons
+
+Pass a `provider` id (e.g. `openai`, `anthropic`, `google`, `deepseek`, `mistral`). Set `rounded` for an avatar tile, or use `ProviderAvatar` which is rounded by default.
+
+<ComponentPreview
+  title="Provider icons"
+  code={`<ProviderIcon provider="openai" size={32} />
+<ProviderIcon provider="anthropic" size={32} />
+<ProviderIcon provider="google" size={32} rounded />
+<ProviderAvatar provider="deepseek" size={32} />
+<ProviderAvatar provider="mistral" size={32} />`}
+>
+  <div className="flex items-center gap-4">
+    <ProviderIcon provider="openai" size={32} />
+    <ProviderIcon provider="anthropic" size={32} />
+    <ProviderIcon provider="google" size={32} rounded />
+    <ProviderAvatar provider="deepseek" size={32} />
+    <ProviderAvatar provider="mistral" size={32} />
+  </div>
+</ComponentPreview>
+
+## Model icons
+
+`ModelIcon` falls back through model → developer → provider. Here the `developer` id resolves a dedicated model-family logo. `ModelAvatar` is the rounded preset.
+
+<ComponentPreview
+  title="Model icons"
+  code={`<ModelIcon provider="anthropic" developer="claude" size={32} />
+<ModelAvatar provider="google" developer="gemini" size={32} />
+<ModelAvatar provider="deepseek" developer="deepseek" size={32} />`}
+>
+  <div className="flex items-center gap-4">
+    <ModelIcon provider="anthropic" developer="claude" size={32} />
+    <ModelAvatar provider="google" developer="gemini" size={32} />
+    <ModelAvatar provider="deepseek" developer="deepseek" size={32} />
+  </div>
+</ComponentPreview>
+
+## Model type icons
+
+`ModelTypeIcon` renders a colored glyph for a model's modality (`chat`, `embedding`, `image_generation`, `tts`, `video`, …), falling back to a generic bot icon.
+
+<ComponentPreview
+  title="Model type icons"
+  code={`<ModelTypeIcon type="chat" size={20} />
+<ModelTypeIcon type="embedding" size={20} />
+<ModelTypeIcon type="image_generation" size={20} />
+<ModelTypeIcon type="tts" size={20} />
+<ModelTypeIcon type="video" size={20} />`}
+>
+  <div className="flex items-center gap-4">
+    <ModelTypeIcon type="chat" size={20} />
+    <ModelTypeIcon type="embedding" size={20} />
+    <ModelTypeIcon type="image_generation" size={20} />
+    <ModelTypeIcon type="tts" size={20} />
+    <ModelTypeIcon type="video" size={20} />
+  </div>
+</ComponentPreview>
+
+## ProviderIcon props
+
+<PropsTable name="ProviderIcon" />
+
+## ProviderAvatar props
+
+<PropsTable name="ProviderAvatar" />
+
+## ModelIcon props
+
+<PropsTable name="ModelIcon" />
+
+## ModelAvatar props
+
+<PropsTable name="ModelAvatar" />
+
+## ModelTypeIcon props
+
+<PropsTable name="ModelTypeIcon" />

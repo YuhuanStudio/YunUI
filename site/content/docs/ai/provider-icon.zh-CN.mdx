@@ -1,0 +1,94 @@
+import { ProviderIcon, ProviderAvatar, ModelIcon, ModelAvatar, ModelTypeIcon } from "yunui/ai";
+
+一组用于 AI 提供商与模型的图标组件。徽标会根据 id 从内置的 `/icons` 资源中解析，并带有合理的回退。`ProviderIcon`/`ModelIcon` 默认为扁平样式；`*Avatar` 预设始终为圆角图块。`ModelIcon` 按 模型图标 → 开发者图标 → 提供商图标 的优先级进行解析。
+
+## Import
+
+```tsx
+import {
+  ProviderIcon,
+  ProviderAvatar,
+  ModelIcon,
+  ModelAvatar,
+  ModelTypeIcon,
+} from "@yuhuanowo/yunui/ai";
+```
+
+## Provider icons
+
+传入 `provider` id（例如 `openai`、`anthropic`、`google`、`deepseek`、`mistral`）。设置 `rounded` 可得到圆角图块，或直接使用默认圆角的 `ProviderAvatar`。
+
+<ComponentPreview
+  title="Provider icons"
+  code={`<ProviderIcon provider="openai" size={32} />
+<ProviderIcon provider="anthropic" size={32} />
+<ProviderIcon provider="google" size={32} rounded />
+<ProviderAvatar provider="deepseek" size={32} />
+<ProviderAvatar provider="mistral" size={32} />`}
+>
+  <div className="flex items-center gap-4">
+    <ProviderIcon provider="openai" size={32} />
+    <ProviderIcon provider="anthropic" size={32} />
+    <ProviderIcon provider="google" size={32} rounded />
+    <ProviderAvatar provider="deepseek" size={32} />
+    <ProviderAvatar provider="mistral" size={32} />
+  </div>
+</ComponentPreview>
+
+## Model icons
+
+`ModelIcon` 会按 模型 → 开发者 → 提供商 的顺序回退。此处的 `developer` id 解析出专属的模型家族徽标。`ModelAvatar` 是圆角预设。
+
+<ComponentPreview
+  title="Model icons"
+  code={`<ModelIcon provider="anthropic" developer="claude" size={32} />
+<ModelAvatar provider="google" developer="gemini" size={32} />
+<ModelAvatar provider="deepseek" developer="deepseek" size={32} />`}
+>
+  <div className="flex items-center gap-4">
+    <ModelIcon provider="anthropic" developer="claude" size={32} />
+    <ModelAvatar provider="google" developer="gemini" size={32} />
+    <ModelAvatar provider="deepseek" developer="deepseek" size={32} />
+  </div>
+</ComponentPreview>
+
+## Model type icons
+
+`ModelTypeIcon` 为模型的模态（`chat`、`embedding`、`image_generation`、`tts`、`video` 等）渲染带色字形，未匹配时回退到通用的机器人图标。
+
+<ComponentPreview
+  title="Model type icons"
+  code={`<ModelTypeIcon type="chat" size={20} />
+<ModelTypeIcon type="embedding" size={20} />
+<ModelTypeIcon type="image_generation" size={20} />
+<ModelTypeIcon type="tts" size={20} />
+<ModelTypeIcon type="video" size={20} />`}
+>
+  <div className="flex items-center gap-4">
+    <ModelTypeIcon type="chat" size={20} />
+    <ModelTypeIcon type="embedding" size={20} />
+    <ModelTypeIcon type="image_generation" size={20} />
+    <ModelTypeIcon type="tts" size={20} />
+    <ModelTypeIcon type="video" size={20} />
+  </div>
+</ComponentPreview>
+
+## ProviderIcon props
+
+<PropsTable name="ProviderIcon" />
+
+## ProviderAvatar props
+
+<PropsTable name="ProviderAvatar" />
+
+## ModelIcon props
+
+<PropsTable name="ModelIcon" />
+
+## ModelAvatar props
+
+<PropsTable name="ModelAvatar" />
+
+## ModelTypeIcon props
+
+<PropsTable name="ModelTypeIcon" />

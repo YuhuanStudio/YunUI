@@ -1,0 +1,78 @@
+import { Marquee, Badge } from "yunui";
+
+一個無限捲動的行（或列），它會重複其子元素以填滿一個無縫循環。它支援反向捲動、懸停暫停以及垂直方向。可透過 `className` 用 `--duration` 和 `--gap` CSS 變數調節速度和間距。
+
+## 匯入
+
+```tsx
+import { Marquee } from "@yuhuanowo/yunui";
+```
+
+## 基本用法
+
+<ComponentPreview
+  title="Scrolling row"
+  code={`<Marquee>
+  <Badge>React</Badge>
+  <Badge>Next.js</Badge>
+  <Badge>Tailwind</Badge>
+  <Badge>Radix</Badge>
+</Marquee>`}
+>
+  <div className="w-full">
+    <Marquee>
+      <Badge>React</Badge>
+      <Badge>Next.js</Badge>
+      <Badge>Tailwind</Badge>
+      <Badge>Radix</Badge>
+    </Marquee>
+  </div>
+</ComponentPreview>
+
+## 反向與懸停暫停
+
+設定 `reverse` 可反向捲動，設定 `pauseOnHover` 可在指標懸停其上時停止動畫。
+
+<ComponentPreview
+  title="Reverse + pause on hover"
+  code={`<Marquee reverse pauseOnHover>
+  <Badge variant="info">Vision</Badge>
+  <Badge variant="success">Thinking</Badge>
+  <Badge variant="warning">Tools</Badge>
+  <Badge variant="error">Audio</Badge>
+</Marquee>`}
+>
+  <div className="w-full">
+    <Marquee reverse pauseOnHover>
+      <Badge variant="info">Vision</Badge>
+      <Badge variant="success">Thinking</Badge>
+      <Badge variant="warning">Tools</Badge>
+      <Badge variant="error">Audio</Badge>
+    </Marquee>
+  </div>
+</ComponentPreview>
+
+## 自訂速度
+
+透過 `className` 覆寫 `--duration` 以減慢或加快循環。
+
+<ComponentPreview
+  title="Slower loop"
+  code={`<Marquee className="[--duration:20s]">
+  <Badge>Alpha</Badge>
+  <Badge>Beta</Badge>
+  <Badge>Gamma</Badge>
+</Marquee>`}
+>
+  <div className="w-full">
+    <Marquee className="[--duration:20s]">
+      <Badge>Alpha</Badge>
+      <Badge>Beta</Badge>
+      <Badge>Gamma</Badge>
+    </Marquee>
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="Marquee" />

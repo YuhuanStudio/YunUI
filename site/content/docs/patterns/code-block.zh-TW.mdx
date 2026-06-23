@@ -1,0 +1,84 @@
+import { CodeBlock } from "yunui/patterns";
+
+帶視窗裝飾圓點的程式碼區塊，標頭顯示 `language` 徽章或 `filename`，可選行號、輕量語法高亮，以及複製到剪貼簿按鈕。傳入 `tabs` 可渲染多個可切換的程式碼面板，而非單一程式碼區塊。
+
+## Import
+
+```tsx
+import { CodeBlock } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="CodeBlock"
+  code={`<CodeBlock
+  language="tsx"
+  code={\`import { Button } from "@yuhuanowo/yunui";
+
+export function App() {
+  return <Button variant="primary">Click me</Button>;
+}\`}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <CodeBlock
+      language="tsx"
+      code={`import { Button } from "@yuhuanowo/yunui";
+
+export function App() {
+  return <Button variant="primary">Click me</Button>;
+}`}
+    />
+  </div>
+</ComponentPreview>
+
+## With a filename
+
+設定 `filename` 以顯示檔案標籤而非語言徽章，並設定 `showLineNumbers={false}` 來隱藏行號槽。
+
+<ComponentPreview
+  title="Filename"
+  code={`<CodeBlock
+  filename="app.tsx"
+  showLineNumbers={false}
+  code={\`const greeting = "Hello, YunUI";\`}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <CodeBlock
+      filename="app.tsx"
+      showLineNumbers={false}
+      code={`const greeting = "Hello, YunUI";`}
+    />
+  </div>
+</ComponentPreview>
+
+## Tabs
+
+提供一個 `tabs` 陣列，即可在一個程式碼區塊中切換相關片段。
+
+<ComponentPreview
+  title="Tabs"
+  code={`<CodeBlock
+  code=""
+  tabs={[
+    { id: "npm", label: "npm", language: "bash", code: "npm install @yuhuanowo/yunui" },
+    { id: "pnpm", label: "pnpm", language: "bash", code: "pnpm add @yuhuanowo/yunui" },
+  ]}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <CodeBlock
+      code=""
+      tabs={[
+        { id: "npm", label: "npm", language: "bash", code: "npm install @yuhuanowo/yunui" },
+        { id: "pnpm", label: "pnpm", language: "bash", code: "pnpm add @yuhuanowo/yunui" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CodeBlock" />

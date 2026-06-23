@@ -30,7 +30,7 @@ const plugin = (p: string) => resolve(import.meta.dirname, "lib/mdx-plugins", p)
 
 const withMDX = createMDX({
   options: {
-    remarkPlugins: [plugin("remark-gfm.mjs"), plugin("remark-heading.mjs")],
+    remarkPlugins: [plugin("remark-demo-source.mjs"), plugin("remark-gfm.mjs"), plugin("remark-heading.mjs")],
     rehypePlugins: [[plugin("rehype-toc.mjs"), { exportToc: true }]],
   },
 });

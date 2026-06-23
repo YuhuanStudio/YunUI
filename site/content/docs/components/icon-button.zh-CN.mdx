@@ -1,0 +1,40 @@
+import { IconButton } from "yunui";
+import { Heart, Settings, Trash2 } from "lucide-react";
+
+一个带有内置工具提示的纯图标按钮。必填的 `label` 同时充当无障碍名称和工具提示文字，因此纯图标操作对屏幕阅读器和键盘用户依然可用。所有原生 `<button>` 属性（如 `onClick` 和 `disabled`）都会透传。
+
+## 导入
+
+```tsx
+import { IconButton } from "@yuhuanowo/yunui";
+```
+
+## 基础
+
+<ComponentPreview
+  title="Icon actions"
+  code={`import { Heart, Settings, Trash2 } from "lucide-react";
+
+<IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+<IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
+<IconButton icon={<Trash2 className="w-4 h-4" />} label="Delete" />`}
+>
+  <div className="flex items-center gap-1">
+    <IconButton icon={<Heart className="w-4 h-4" />} label="Like" />
+    <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" />
+    <IconButton icon={<Trash2 className="w-4 h-4" />} label="Delete" />
+  </div>
+</ComponentPreview>
+
+## 禁用
+
+<ComponentPreview
+  title="Disabled"
+  code={`<IconButton icon={<Settings className="w-4 h-4" />} label="Settings" disabled />`}
+>
+  <IconButton icon={<Settings className="w-4 h-4" />} label="Settings" disabled />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="IconButton" />

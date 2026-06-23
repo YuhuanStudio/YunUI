@@ -1,0 +1,55 @@
+import { Skeleton } from "yunui";
+
+A pulsing placeholder block for loading states. It renders a muted, rounded `<div>` with a subtle `animate-pulse`. Size and shape it entirely with `className` — set a width and height for lines, or `rounded-full` for avatars — and combine several to sketch out the layout you are waiting on.
+
+## Import
+
+```tsx
+import { Skeleton } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Lines"
+  code={`<Skeleton className="h-4 w-48" />
+<Skeleton className="h-4 w-32" />
+<Skeleton className="h-4 w-40" />`}
+>
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-48" />
+    <Skeleton className="h-4 w-32" />
+    <Skeleton className="h-4 w-40" />
+  </div>
+</ComponentPreview>
+
+## Card placeholder
+
+<ComponentPreview
+  title="Avatar + text"
+  code={`<div className="flex items-center gap-3">
+  <Skeleton className="h-12 w-12 rounded-full" />
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-40" />
+    <Skeleton className="h-4 w-24" />
+  </div>
+</div>`}
+>
+  <div className="flex items-center gap-3">
+    <Skeleton className="h-12 w-12 rounded-full" />
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-40" />
+      <Skeleton className="h-4 w-24" />
+    </div>
+  </div>
+</ComponentPreview>
+
+## Props
+
+`Skeleton` is a plain `<div>`, so it accepts every standard `<div>` attribute. There are no custom props — drive the size, shape, and spacing entirely through `className`.
+
+<PropsTable
+  rows={[
+    { name: "className", type: "string", description: "Sets the size and shape (e.g. `h-4 w-48`, `rounded-full`)." },
+  ]}
+/>

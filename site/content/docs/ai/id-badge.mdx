@@ -1,0 +1,35 @@
+import { IDBadge } from "yunui/ai";
+
+A compact monospace badge for ids, keys, and other copyable tokens. Clicking it copies the `text` to the clipboard and briefly shows a check icon. Long values truncate by default; set `truncate={false}` to keep the full value on one line.
+
+## Import
+
+```tsx
+import { IDBadge } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Basic"
+  code={`<IDBadge text="gpt-4o" />
+<IDBadge text="claude-opus-4-latest" />`}
+>
+  <div className="flex items-center gap-2">
+    <IDBadge text="gpt-4o" />
+    <IDBadge text="claude-opus-4-latest" />
+  </div>
+</ComponentPreview>
+
+## Without truncation
+
+<ComponentPreview
+  title="Without truncation"
+  code={`<IDBadge text="sk-proj-1a2b3c4d5e6f7g8h9i0j" truncate={false} />`}
+>
+  <IDBadge text="sk-proj-1a2b3c4d5e6f7g8h9i0j" truncate={false} />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="IDBadge" />

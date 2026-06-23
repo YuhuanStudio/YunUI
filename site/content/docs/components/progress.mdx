@@ -1,0 +1,48 @@
+import { Progress } from "yunui";
+
+A horizontal progress bar built on Radix Progress. Pass a `value` between 0 and 100; the filled indicator animates to that percentage. Every Radix Progress attribute spreads through, and `className` lets you adjust the track height or color.
+
+## Import
+
+```tsx
+import { Progress } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Progress values"
+  code={`<Progress value={25} />
+<Progress value={60} />
+<Progress value={100} />`}
+>
+  <div className="w-full max-w-sm space-y-4">
+    <Progress value={25} />
+    <Progress value={60} />
+    <Progress value={100} />
+  </div>
+</ComponentPreview>
+
+## Empty & full
+
+<ComponentPreview
+  title="Edge values"
+  code={`<Progress value={0} />
+<Progress value={100} />`}
+>
+  <div className="w-full max-w-sm space-y-4">
+    <Progress value={0} />
+    <Progress value={100} />
+  </div>
+</ComponentPreview>
+
+## Props
+
+`Progress` wraps the Radix Progress root, so it accepts every Radix Progress attribute plus `className`. The one prop you will usually set:
+
+<PropsTable
+  rows={[
+    { name: "value", type: "number", defaultValue: "0", description: "Percent complete, 0–100. The filled indicator animates to this width." },
+    { name: "className", type: "string", description: "Extra classes for the track (e.g. to change its height or background)." },
+  ]}
+/>

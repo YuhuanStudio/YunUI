@@ -1,0 +1,51 @@
+import { ThinkingBlock } from "yunui/ai";
+
+A collapsible panel for a model's reasoning/"thinking" trace. It manages its own open state, animates expand/collapse, and shows a live indicator while `isStreaming`. By default the content renders as pre-wrapped plain text; pass `renderContent` to plug in a Markdown renderer.
+
+## Import
+
+```tsx
+import { ThinkingBlock } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Basic"
+  code={`<ThinkingBlock
+  content="The user is asking for the capital of France. That is Paris. I'll answer directly and concisely."
+  defaultOpen
+/>`}
+>
+  <div className="w-full max-w-lg">
+    <ThinkingBlock
+      content="The user is asking for the capital of France. That is Paris. I'll answer directly and concisely."
+      defaultOpen
+    />
+  </div>
+</ComponentPreview>
+
+## Streaming
+
+While `isStreaming` is true the header shows an active badge and a blinking caret follows the text.
+
+<ComponentPreview
+  title="Streaming"
+  code={`<ThinkingBlock
+  content="Let me work through the steps one by one"
+  isStreaming
+  defaultOpen
+/>`}
+>
+  <div className="w-full max-w-lg">
+    <ThinkingBlock
+      content="Let me work through the steps one by one"
+      isStreaming
+      defaultOpen
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ThinkingBlock" />

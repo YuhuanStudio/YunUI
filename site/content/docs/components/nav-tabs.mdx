@@ -1,0 +1,65 @@
+import { NavTabs } from "yunui";
+
+The canonical horizontal tab bar for page-level navigation. Each tab owns a sliding underline indicator and a soft floating hover box. Pass the `tabs` array plus the `activeKey` of the current tab; tabs render as `<button>`s (call `onChange`) or, when a tab has an `href`, as route links via the YunUI `Link` adapter.
+
+## Import
+
+```tsx
+import { NavTabs } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+The component is controlled — the host owns the active key. This live demo wires it to local state:
+
+<ComponentPreview
+  title="Nav tabs"
+  code={`function Example() {
+  const [active, setActive] = useState("overview");
+  return (
+    <NavTabs
+      activeKey={active}
+      onChange={setActive}
+      ariaLabel="Account sections"
+      tabs={[
+        { key: "overview", label: "Overview" },
+        { key: "analytics", label: "Analytics" },
+        { key: "reports", label: "Reports" },
+        { key: "settings", label: "Settings" },
+      ]}
+    />
+  );
+}`}
+>
+  <NavTabsDemo />
+</ComponentPreview>
+
+## As route links
+
+When a tab supplies an `href`, it renders as a routing link (through the host's `Link` adapter) instead of a button, and `aria-current="page"` is set on the active one. Use this for tabs that map to real URLs:
+
+```tsx
+<NavTabs
+  activeKey="/settings/profile"
+  ariaLabel="Settings"
+  tabs={[
+    { key: "/settings/profile", label: "Profile", href: "/settings/profile" },
+    { key: "/settings/team", label: "Team", href: "/settings/team" },
+    { key: "/settings/billing", label: "Billing", href: "/settings/billing" },
+  ]}
+/>
+```
+
+## Props
+
+<PropsTable name="NavTabs" />
+
+Each entry in `tabs` is a `NavTab`:
+
+<PropsTable
+  rows={[
+    { name: "key", type: "string", required: true, description: "Unique key; matched against activeKey to mark the active tab." },
+    { name: "label", type: "ReactNode", required: true, description: "Tab label content." },
+    { name: "href", type: "string", description: "When set, the tab renders as a route Link instead of a button." },
+  ]}
+/>

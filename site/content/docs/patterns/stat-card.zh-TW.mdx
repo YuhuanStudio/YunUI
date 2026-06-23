@@ -1,0 +1,41 @@
+import { StatCard } from "yunui/patterns";
+import { Coins } from "lucide-react";
+
+標準的儀表板指標卡片——一個元件涵蓋所有統計情境。它支援可選的前置 `icon`、`trend` 趨勢指示（向上/綠色或向下/紅色）、語意化的 `tone` 色調，以及 `inline` / `valueFirst` 版面變體，因此精簡的彩色色塊與豐富的趨勢卡片都共用同一個來源。
+
+## Import
+
+```tsx
+import { StatCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+`icon` 屬性接收的是一個 Lucide *元件*（即函式），它無法在 MDX 中跨越伺服端到客戶端的邊界，因此下方的範例由一個小型客戶端包裝器渲染。
+
+<ComponentPreview
+  title="StatCard"
+  code={`import { StatCard } from "@yuhuanowo/yunui/patterns";
+import { Coins } from "lucide-react";
+
+<StatCard icon={Coins} label="Balance" value="$1,250" trend={{ value: 4.2, positive: true }} />`}
+>
+  <StatCardDemo />
+</ComponentPreview>
+
+## Layout variants
+
+`inline` 把圖示與標籤放在同一列、數值顯示於下方，而 `valueFirst` 則以大數字開頭。兩者都可以接收 `tone` 以取得語意化的顏色色調。
+
+<ComponentPreview
+  title="Variants"
+  code={`<StatCard inline icon={Coins} label="Pending" value="12" tone="amber" />
+<StatCard valueFirst label="Approved" value="248" tone="emerald" />
+<StatCard label="Rejected" value="3" subtext="Last 24h" tone="red" />`}
+>
+  <StatCardVariantsDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="StatCard" />

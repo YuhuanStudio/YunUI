@@ -1,0 +1,78 @@
+import { Footer, GithubIcon, DiscordIcon, InstagramIcon } from "yunui/ai";
+
+網站頁尾：包含圖示與標語的品牌區塊、連結欄（`FooterSection[]`）、版權行，以及底部列的社群圖示連結（`FooterSocial[]`）。連結透過設定的 `Link` 配接器進行。該套件還匯出零相依的 `GithubIcon`、`DiscordIcon` 與 `InstagramIcon` 供社群插槽使用。
+
+## Import
+
+```tsx
+import { Footer, GithubIcon, DiscordIcon, InstagramIcon } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Basic"
+  code={`import { Footer, GithubIcon, DiscordIcon, InstagramIcon } from "@yuhuanowo/yunui/ai";
+
+<Footer
+  appName="Acme AI"
+  tagline="The fastest way to ship AI products."
+  sections={[
+    {
+      title: "Product",
+      links: [
+        { label: "Models", href: "/models" },
+        { label: "Pricing", href: "/pricing" },
+        { label: "Docs", href: "/docs" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { label: "About", href: "/about" },
+        { label: "Blog", href: "/blog" },
+        { label: "Careers", href: "/careers" },
+      ],
+    },
+  ]}
+  social={[
+    { icon: <GithubIcon />, href: "https://github.com", label: "GitHub" },
+    { icon: <DiscordIcon />, href: "https://discord.com", label: "Discord" },
+    { icon: <InstagramIcon />, href: "https://instagram.com", label: "Instagram" },
+  ]}
+/>`}
+>
+  <div className="w-full">
+    <Footer
+      appName="Acme AI"
+      tagline="The fastest way to ship AI products."
+      sections={[
+        {
+          title: "Product",
+          links: [
+            { label: "Models", href: "/models" },
+            { label: "Pricing", href: "/pricing" },
+            { label: "Docs", href: "/docs" },
+          ],
+        },
+        {
+          title: "Company",
+          links: [
+            { label: "About", href: "/about" },
+            { label: "Blog", href: "/blog" },
+            { label: "Careers", href: "/careers" },
+          ],
+        },
+      ]}
+      social={[
+        { icon: <GithubIcon />, href: "https://github.com", label: "GitHub" },
+        { icon: <DiscordIcon />, href: "https://discord.com", label: "Discord" },
+        { icon: <InstagramIcon />, href: "https://instagram.com", label: "Instagram" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Footer" />

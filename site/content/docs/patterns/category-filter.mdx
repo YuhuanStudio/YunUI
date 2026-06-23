@@ -1,0 +1,36 @@
+import { CategoryFilter } from "yunui/patterns";
+
+A row of pill buttons for filtering a blog (or any list) by category, with a leading "all posts" button. It is controlled — the active category is highlighted and the host owns routing through `onSelect`.
+
+## Import
+
+```tsx
+import { CategoryFilter } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+`onSelect` is a function, which can't cross the server→client boundary in MDX, so the example is rendered from a small client wrapper that tracks the selection in state.
+
+<ComponentPreview
+  title="CategoryFilter"
+  code={`import { CategoryFilter } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [selected, setSelected] = useState(null);
+  return (
+    <CategoryFilter
+      categories={["Engineering", "Design", "Product"]}
+      selectedCategory={selected ?? undefined}
+      onSelect={setSelected}
+    />
+  );
+}`}
+>
+  <CategoryFilterDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CategoryFilter" />

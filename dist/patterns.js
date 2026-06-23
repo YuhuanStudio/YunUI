@@ -1,6 +1,7 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-YRITK7CC.js';
-import { copyToClipboard } from './chunk-WASCOOVD.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-KTA7HC4V.js';
+import { copyToClipboard } from './chunk-FOP7I6N3.js';
+export { Footer } from './chunk-FOP7I6N3.js';
 import { cn } from './chunk-N7JHOWGR.js';
 import { useYunUI } from './chunk-T37N6OZA.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';

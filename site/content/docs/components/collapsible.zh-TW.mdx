@@ -1,0 +1,76 @@
+import { Collapsible, CollapsibleTrigger, CollapsibleContent, Button } from "yunui";
+import { ChevronsUpDown } from "lucide-react";
+
+基於 Radix Collapsible 建構的帶動畫顯示/隱藏區域。`CollapsibleTrigger` 切換 `CollapsibleContent` 的可見性，內容會滑動展開和收合。非受控情境使用 `defaultOpen`，需要自行控制時則使用 `open` + `onOpenChange`。
+
+## 匯入
+
+```tsx
+import {
+  Collapsible, CollapsibleTrigger, CollapsibleContent,
+} from "@yuhuanowo/yunui";
+```
+
+## 基礎
+
+<ComponentPreview
+  title="Toggle a section"
+  code={`<Collapsible>
+  <CollapsibleTrigger>Toggle details</CollapsibleTrigger>
+  <CollapsibleContent>
+    YunUI is a versioned design system: build it once, sync it everywhere.
+  </CollapsibleContent>
+</Collapsible>`}
+>
+  <Collapsible className="w-full max-w-md">
+    <CollapsibleTrigger className="font-medium underline-offset-4 hover:underline">
+      Toggle details
+    </CollapsibleTrigger>
+    <CollapsibleContent>
+      <p className="pt-2 text-sm text-muted-foreground">
+        YunUI is a versioned design system: build it once, sync it everywhere.
+      </p>
+    </CollapsibleContent>
+  </Collapsible>
+</ComponentPreview>
+
+## 預設展開
+
+透過 `defaultOpen`（非受控）讓它在首次渲染時即為展開狀態。
+
+<ComponentPreview
+  title="Default open"
+  code={`<Collapsible defaultOpen>
+  <CollapsibleTrigger>
+    <Button variant="outline" size="sm">
+      What's included <ChevronsUpDown className="w-4 h-4" />
+    </Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    Primitives, layout helpers, and themed tokens.
+  </CollapsibleContent>
+</Collapsible>`}
+>
+  <Collapsible defaultOpen className="w-full max-w-md space-y-2">
+    <CollapsibleTrigger asChild>
+      <Button variant="outline" size="sm">
+        What's included <ChevronsUpDown className="w-4 h-4" />
+      </Button>
+    </CollapsibleTrigger>
+    <CollapsibleContent>
+      <p className="text-sm text-muted-foreground">
+        Primitives, layout helpers, and themed tokens.
+      </p>
+    </CollapsibleContent>
+  </Collapsible>
+</ComponentPreview>
+
+## 組成部分
+
+<PropsTable
+  rows={[
+    { name: "Collapsible", type: "CollapsibleProps", description: "根元素。接受 `defaultOpen`（非受控）、`open` + `onOpenChange`（受控）以及 `disabled`。" },
+    { name: "CollapsibleTrigger", type: "CollapsibleTriggerProps", description: "切換內容的按鈕。使用 `asChild` 可渲染你自己的元素（例如一個 Button）。" },
+    { name: "CollapsibleContent", type: "CollapsibleContentProps", description: "滑動展開和收合的區域；透過 Radix 的 open/closed 資料屬性在掛載時播放動畫。" },
+  ]}
+/>

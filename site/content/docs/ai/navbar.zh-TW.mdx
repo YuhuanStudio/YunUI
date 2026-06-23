@@ -1,0 +1,55 @@
+import { Navbar } from "yunui/ai";
+
+懸浮式頂部導覽列：包含圖示、帶捲動監聽與作用中連結樣式的置中連結、主題/語言控制項插槽，以及內建行動端選單的驗證按鈕。連結為純資料（`NavLink[]`），導覽透過設定的 `Link` 配接器進行。它自行管理行動端選單狀態。
+
+## Import
+
+```tsx
+import { Navbar } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+導覽列固定在視窗頂部。提供 `links` 與 `appName`；宿主透過配接器提供路由。
+
+<ComponentPreview
+  title="Basic"
+  code={`import { Navbar } from "@yuhuanowo/yunui/ai";
+
+<Navbar
+  appName="Acme AI"
+  currentPath="/"
+  links={[
+    { href: "/", label: "Home" },
+    { href: "/models", label: "Models" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/docs", label: "Docs" },
+  ]}
+/>`}
+>
+  <Navbar
+    appName="Acme AI"
+    currentPath="/"
+    links={[
+      { href: "/", label: "Home" },
+      { href: "/models", label: "Models" },
+      { href: "/pricing", label: "Pricing" },
+      { href: "/docs", label: "Docs" },
+    ]}
+  />
+</ComponentPreview>
+
+## Minimal variant
+
+使用 `variant="minimal"` 可去掉置中連結與驗證按鈕——適用於驗證或導引流程。
+
+<ComponentPreview
+  title="Minimal variant"
+  code={`<Navbar appName="Acme AI" variant="minimal" />`}
+>
+  <Navbar appName="Acme AI" variant="minimal" />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Navbar" />

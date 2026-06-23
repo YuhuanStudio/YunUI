@@ -1,0 +1,33 @@
+import { ShinyButton } from "yunui";
+
+A high-emphasis call-to-action button with an animated shimmer sweep and a trailing arrow that nudges forward on hover. Use it for the single most important action on a page. Set `href` to render it as a routing link (via the configured Link adapter); otherwise it renders a `<button>` and calls `onClick`.
+
+## Import
+
+```tsx
+import { ShinyButton } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Call to action"
+  code={`<ShinyButton>Get started</ShinyButton>`}
+>
+  <ShinyButton>Get started</ShinyButton>
+</ComponentPreview>
+
+## As a link
+
+Pass `href` to render a routing link instead of a button.
+
+<ComponentPreview
+  title="As a link"
+  code={`<ShinyButton href="/docs">Read the docs</ShinyButton>`}
+>
+  <ShinyButton href="/docs">Read the docs</ShinyButton>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ShinyButton" />

@@ -1,0 +1,66 @@
+import { toast, Toaster, Button } from "yunui";
+
+简短、非阻塞的通知，由 [Sonner](https://sonner.emilkowal.ski/) 提供支持。在任意位置调用 `toast.success(...)`、`toast.error(...)`、`toast.info(...)`、`toast.warning(...)`、`toast.loading(...)` 或 `toast.promise(...)`，即可推送一条带样式、带图标前缀的消息。请在应用根部**只渲染一次** `<Toaster />`，让 toast 有挂载的位置。
+
+## Import
+
+```tsx
+import { toast, Toaster } from "@yuhuanowo/yunui";
+```
+
+## Setup
+
+在应用根部（例如根布局中）只挂载一次 `Toaster`。它会自动定位在右下角，并用设计系统令牌为每条 toast 设置样式。
+
+```tsx
+// app/layout.tsx
+import { Toaster } from "@yuhuanowo/yunui";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+```
+
+## Basic
+
+由于 `toast(...)` 是命令式的，请在客户端组件的事件处理函数中触发它。
+
+<ComponentPreview title="Fire a toast">
+  <ToastDemo />
+</ComponentPreview>
+
+```tsx
+"use client";
+
+import { toast, Button } from "@yuhuanowo/yunui";
+
+export function ToastDemo() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <Button onClick={() => toast.success("Saved", "Your changes are live.")}>Success</Button>
+      <Button variant="red" onClick={() => toast.error("Failed", "Could not reach the server.")}>Error</Button>
+      <Button variant="outline" onClick={() => toast.info("Heads up", "A new version is available.")}>Info</Button>
+      <Button variant="amber" onClick={() => toast.warning("Careful", "This will overwrite your draft.")}>Warning</Button>
+    </div>
+  );
+}
+```
+
+## Methods
+
+| 方法 | 签名 | 描述 |
+| --- | --- | --- |
+| `toast.success` | `(message, description?)` | 带勾选图标的绿色成功提示。 |
+| `toast.error` | `(message, description?)` | 带警告图标的红色错误提示。 |
+| `toast.info` | `(message, description?)` | 蓝色信息提示。 |
+| `toast.warning` | `(message, description?)` | 琥珀色警告提示。 |
+| `toast.loading` | `(message)` | 加载中提示；返回一个稍后可用于关闭的 id。 |
+| `toast.promise` | `(promise, { loading, success, error })` | 随 promise 的生命周期驱动一条提示。 |
+| `toast.dismiss` | `(id?)` | 关闭指定的 toast，或全部关闭。 |

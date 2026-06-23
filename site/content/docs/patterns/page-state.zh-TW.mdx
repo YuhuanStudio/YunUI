@@ -1,0 +1,65 @@
+import { PageLoadingState, PageErrorState, PageEmptyState } from "yunui/patterns";
+import { Button } from "yunui";
+
+三個置中、佔滿區塊的佔位元件，對應常見的頁面生命週期：載入中、錯誤與空狀態。它們共享一致的間距與排版，因此頁面在資料載入過程中可以乾淨地在它們之間切換。
+
+## Import
+
+```tsx
+import { PageLoadingState, PageErrorState, PageEmptyState } from "@yuhuanowo/yunui/patterns";
+```
+
+## PageLoadingState
+
+帶可選 `message` 的置中載入指示器。
+
+<ComponentPreview
+  title="PageLoadingState"
+  code={`<PageLoadingState message="Loading your data…" />`}
+>
+  <div className="w-full max-w-xl">
+    <PageLoadingState message="Loading your data…" />
+  </div>
+</ComponentPreview>
+
+## PageErrorState
+
+帶可選重試連結的置中錯誤 `message`（當提供 `onRetry` 時顯示）。
+
+<ComponentPreview
+  title="PageErrorState"
+  code={`<PageErrorState message="Failed to load data." />`}
+>
+  <div className="w-full max-w-xl">
+    <PageErrorState message="Failed to load data." />
+  </div>
+</ComponentPreview>
+
+## PageEmptyState
+
+帶 `title`、可選 `description`、可選前置 `icon` 元件以及用於放置按鈕的 `action` 插槽的置中空狀態。
+
+<ComponentPreview
+  title="PageEmptyState"
+  code={`<PageEmptyState
+  title="No projects yet"
+  description="Create your first project to get started."
+  action={<Button variant="primary">New project</Button>}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <PageEmptyState
+      title="No projects yet"
+      description="Create your first project to get started."
+      action={<Button variant="primary">New project</Button>}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="PageLoadingState" />
+
+<PropsTable name="PageErrorState" />
+
+<PropsTable name="PageEmptyState" />

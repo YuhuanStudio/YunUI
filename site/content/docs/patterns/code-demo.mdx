@@ -1,0 +1,22 @@
+import { CodeDemo } from "yunui/patterns";
+
+A ready-made, tabbed code sample showing how to call an OpenAI-compatible API from Python, Node.js, and cURL. It is a self-contained showcase block built on `CodeBlock` (with tab switching and copy-to-clipboard) — useful for an API landing page or quickstart.
+
+## Import
+
+```tsx
+import { CodeDemo } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+`CodeDemo` takes no props — the snippets and tabs are built in. Drop it straight into the page.
+
+<ComponentPreview
+  title="CodeDemo"
+  code={`import { CodeDemo } from "@yuhuanowo/yunui/patterns";
+
+<CodeDemo />`}
+>
+  <CodeDemo />
+</ComponentPreview>

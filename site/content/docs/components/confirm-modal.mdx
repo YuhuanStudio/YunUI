@@ -1,0 +1,46 @@
+import { ConfirmModal, Button } from "yunui";
+
+A focused confirmation dialog for destructive or irreversible actions. It shows a variant-coloured icon, a `title`, `message`, and Cancel / Confirm buttons, and supports an `isLoading` state that disables the buttons and shows a spinner while the action runs. Like [Modal](/docs/components/modal), it's controlled via `isOpen` + `onClose`, plus an `onConfirm` callback. Convenience presets `DeleteConfirmModal` and `RegenerateConfirmModal` are also exported.
+
+## Import
+
+```tsx
+import { ConfirmModal } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+Keep `isOpen` in state, run your action in `onConfirm`, and close via `onClose`. The `variant` (`danger` / `warning` / `info` / `success`) sets the icon and confirm-button colour.
+
+<ComponentPreview title="Confirm an action">
+  <ConfirmModalDemo />
+</ComponentPreview>
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { ConfirmModal, Button } from "@yuhuanowo/yunui";
+
+export function ConfirmModalDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="red" onClick={() => setOpen(true)}>Delete project</Button>
+      <ConfirmModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={() => setOpen(false)}
+        variant="danger"
+        title="Delete project?"
+        message="This permanently removes the project and all of its data. This action cannot be undone."
+        confirmText="Delete"
+      />
+    </>
+  );
+}
+```
+
+## Props
+
+<PropsTable name="ConfirmModal" />

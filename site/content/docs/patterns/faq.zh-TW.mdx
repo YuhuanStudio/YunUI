@@ -1,0 +1,61 @@
+import { FAQ } from "yunui/patterns";
+
+一個手風琴式的問題清單，每次只展開一項。它接收一個簡單的 `items` 陣列（`{ question, answer }`）並自行管理展開狀態，因此宿主應用只需提供（並翻譯）內容即可。使用 `defaultOpenIndex` 選擇初始展開的項目，或傳入 `null` 讓其初始全部收合。
+
+## Import
+
+```tsx
+import { FAQ } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="FAQ"
+  code={`<FAQ
+  items={[
+    { question: "What is YunUI?", answer: "A prop-driven React component library." },
+    { question: "Is it free?", answer: "Yes, it is open source under Apache-2.0." },
+    { question: "Does it support i18n?", answer: "Yes, via injected adapters." },
+  ]}
+/>`}
+>
+  <div className="w-full max-w-2xl">
+    <FAQ
+      items={[
+        { question: "What is YunUI?", answer: "A prop-driven React component library." },
+        { question: "Is it free?", answer: "Yes, it is open source under Apache-2.0." },
+        { question: "Does it support i18n?", answer: "Yes, via injected adapters." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Start collapsed
+
+傳入 `defaultOpenIndex={null}`，讓每一項初始都處於收合狀態。
+
+<ComponentPreview
+  title="All collapsed"
+  code={`<FAQ
+  defaultOpenIndex={null}
+  items={[
+    { question: "Can I customize the theme?", answer: "Yes, via design tokens." },
+    { question: "Where do patterns live?", answer: "Under @yuhuanowo/yunui/patterns." },
+  ]}
+/>`}
+>
+  <div className="w-full max-w-2xl">
+    <FAQ
+      defaultOpenIndex={null}
+      items={[
+        { question: "Can I customize the theme?", answer: "Yes, via design tokens." },
+        { question: "Where do patterns live?", answer: "Under @yuhuanowo/yunui/patterns." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="FAQ" />

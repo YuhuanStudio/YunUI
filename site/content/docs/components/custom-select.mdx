@@ -1,0 +1,42 @@
+import { CustomSelect } from "yunui";
+
+A fully custom-styled dropdown select with optional in-dropdown search, per-option icons and descriptions, and complete keyboard support (arrows, Home/End, Enter, Escape). It's controlled: pass `value` and `onChange`, plus an `options` array. For free-text entry or creatable values see [Combobox](/docs/components/combobox); for the Radix-based composed parts see [Select](/docs/components/select).
+
+## Import
+
+```tsx
+import { CustomSelect } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`CustomSelect` is controlled — wire `value` and `onChange` to state:
+
+```tsx
+const [value, setValue] = useState("medium");
+
+<CustomSelect
+  value={value}
+  onChange={setValue}
+  searchable
+  placeholder="Select a model size"
+  options={[
+    { value: "small", label: "Small", description: "Fast, lower cost" },
+    { value: "medium", label: "Medium", description: "Balanced" },
+    { value: "large", label: "Large", description: "Highest quality" },
+    { value: "xl", label: "Extra Large", description: "Maximum capacity" },
+  ]}
+/>
+```
+
+## Example
+
+Set `searchable` to add a filter box inside the dropdown. Each option can carry an `icon` and a secondary `description` line.
+
+<ComponentPreview title="Searchable select with descriptions">
+  <CustomSelectDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CustomSelect" />

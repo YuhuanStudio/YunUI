@@ -575,6 +575,7 @@ var Checkbox = forwardRef(
         className: `
                     w-4 h-4 rounded border-2 flex items-center justify-center
                     transition-all duration-200 ease-in-out
+                    outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background
                     ${checked ? "bg-primary border-primary text-primary-foreground" : "border-slate-300 dark:border-slate-600 bg-transparent hover:border-primary/50"}
                     ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                     ${className}
@@ -1278,6 +1279,7 @@ var Button = React7.forwardRef(
       secondary: "btn-secondary",
       ghost: "btn-ghost",
       accent: "btn-accent",
+      brand: "btn-brand",
       outline: "btn-outline",
       amber: "btn-amber",
       red: "btn-red",
@@ -1313,17 +1315,25 @@ var Button = React7.forwardRef(
 );
 Button.displayName = "Button";
 var Input = React7.forwardRef(
-  ({ className, icon, error, ...props }, ref) => {
+  ({ className, icon, error, id, "aria-describedby": describedBy, ...props }, ref) => {
+    const reactId = React7.useId();
+    const fieldId = id ?? reactId;
+    const errorId = error ? `${fieldId}-error` : void 0;
+    const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || void 0;
     return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-      icon && /* @__PURE__ */ jsx("div", { className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground", children: icon }),
+      icon && /* @__PURE__ */ jsx("div", { "aria-hidden": "true", className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground", children: icon }),
       /* @__PURE__ */ jsx(
         "input",
         {
           ref,
+          id: fieldId,
+          "aria-invalid": error ? true : void 0,
+          "aria-describedby": describedByIds,
           className: cn(
             "w-full h-10 px-4 bg-background border rounded-xl text-sm outline-none transition-colors",
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
+            "disabled:opacity-50 disabled:cursor-not-allowed",
             icon && "pl-10",
             error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
             className
@@ -1331,8 +1341,8 @@ var Input = React7.forwardRef(
           ...props
         }
       ),
-      error && /* @__PURE__ */ jsxs("p", { className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
-        /* @__PURE__ */ jsx(AlertCircle, { className: "w-3 h-3" }),
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+        /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
         error
       ] })
     ] });
@@ -1340,24 +1350,32 @@ var Input = React7.forwardRef(
 );
 Input.displayName = "Input";
 var Textarea = React7.forwardRef(
-  ({ className, error, ...props }, ref) => {
+  ({ className, error, id, "aria-describedby": describedBy, ...props }, ref) => {
+    const reactId = React7.useId();
+    const fieldId = id ?? reactId;
+    const errorId = error ? `${fieldId}-error` : void 0;
+    const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || void 0;
     return /* @__PURE__ */ jsxs("div", { children: [
       /* @__PURE__ */ jsx(
         "textarea",
         {
           ref,
+          id: fieldId,
+          "aria-invalid": error ? true : void 0,
+          "aria-describedby": describedByIds,
           className: cn(
             "w-full px-4 py-3 bg-background border rounded-xl text-sm outline-none transition-colors resize-none",
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
+            "disabled:opacity-50 disabled:cursor-not-allowed",
             error ? "border-red-300 dark:border-red-700" : "border-border",
             className
           ),
           ...props
         }
       ),
-      error && /* @__PURE__ */ jsxs("p", { className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
-        /* @__PURE__ */ jsx(AlertCircle, { className: "w-3 h-3" }),
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+        /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
         error
       ] })
     ] });
@@ -1726,13 +1744,15 @@ var IconButton = React7.forwardRef(
         "button",
         {
           ref,
+          type: props.type ?? "button",
+          "aria-label": label,
           className: cn(
             "p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             className
           ),
           ...props,
-          children: icon
+          children: /* @__PURE__ */ jsx("span", { "aria-hidden": "true", children: icon })
         }
       ) }),
       /* @__PURE__ */ jsx(TooltipContent, { children: label })
@@ -2118,8 +2138,10 @@ function SegmentedSelect({
     return /* @__PURE__ */ jsxs(
       "button",
       {
+        type: "button",
         onClick: () => !disabled && onChange(opt.value),
         disabled,
+        "aria-pressed": value === opt.value,
         title: opt.desc,
         className: cn(
           "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none",
@@ -2353,6 +2375,7 @@ var Switch = forwardRef(
         className: `
                     ${sizeClass.track} rounded-full border-2 flex items-center px-0.5
                     transition-all duration-200 ease-in-out
+                    outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background
                     ${checked ? variantClass.checkedTrack : variantClass.uncheckedTrack}
                     ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                     ${className}
@@ -2441,7 +2464,87 @@ var toast = {
     });
   }
 };
+var YUNUI_PALETTES = [
+  "gray",
+  "sand",
+  "slate",
+  "mint",
+  "rose",
+  "dusk",
+  "red",
+  "orange",
+  "yellow",
+  "moss",
+  "green",
+  "emerald",
+  "aqua",
+  "cyan",
+  "blue",
+  "indigo",
+  "violet",
+  "magenta",
+  "pink"
+];
+var ATTR = {
+  brand: "data-brand",
+  accent: "data-accent",
+  neutral: "data-neutral",
+  solid: "data-solid",
+  surface: "data-surface",
+  theme: "data-theme"
+};
+function resolveTarget(el) {
+  if (el) return el;
+  return typeof document !== "undefined" ? document.documentElement : null;
+}
+function applyTheme(theme, el) {
+  const target = resolveTarget(el);
+  if (!target) return;
+  for (const key of Object.keys(theme)) {
+    const value = theme[key];
+    const attr = ATTR[key];
+    if (!attr) continue;
+    if (value == null) target.removeAttribute(attr);
+    else target.setAttribute(attr, value);
+  }
+}
+function readTheme(el) {
+  const target = resolveTarget(el);
+  const out = {};
+  if (!target) return out;
+  for (const key of Object.keys(ATTR)) {
+    const v = target.getAttribute(ATTR[key]);
+    if (v != null) out[key] = v;
+  }
+  return out;
+}
+var STORAGE_KEY = "yunui-theme";
+function useYunUITheme(defaults = {}) {
+  const [theme, setTheme] = React7.useState(defaults);
+  React7.useEffect(() => {
+    let stored = {};
+    try {
+      stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch {
+    }
+    const merged = { ...defaults, ...stored };
+    setTheme(merged);
+    applyTheme(merged);
+  }, []);
+  const update = React7.useCallback((patch) => {
+    setTheme((prev) => {
+      const next = { ...prev, ...patch };
+      applyTheme(next);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      } catch {
+      }
+      return next;
+    });
+  }, []);
+  return [theme, update];
+}
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, PageLoader, Pagination, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useModalBehavior };
-//# sourceMappingURL=chunk-YRITK7CC.js.map
-//# sourceMappingURL=chunk-YRITK7CC.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, PageLoader, Pagination, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-KTA7HC4V.js.map
+//# sourceMappingURL=chunk-KTA7HC4V.js.map

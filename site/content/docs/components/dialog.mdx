@@ -1,0 +1,78 @@
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose, Button } from "yunui";
+
+A modal dialog built on Radix `Dialog` — a composed family of parts that renders a portalled, focus-trapped, keyboard-accessible panel over a dimmed, blurred backdrop. `DialogContent` includes the overlay and a built-in close button. Drive it with a `DialogTrigger`, or control it yourself with `open`/`onOpenChange`.
+
+## Import
+
+```tsx
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Dialog"
+  code={`<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>
+        Make changes to your profile here. Click save when you're done.
+      </DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="secondary">Cancel</Button>
+      </DialogClose>
+      <Button>Save changes</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`}
+>
+  <Dialog>
+    <DialogTrigger asChild>
+      <Button>Open dialog</Button>
+    </DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Edit profile</DialogTitle>
+        <DialogDescription>
+          Make changes to your profile here. Click save when you're done.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="secondary">Cancel</Button>
+        </DialogClose>
+        <Button>Save changes</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</ComponentPreview>
+
+## Parts
+
+| Part | Role |
+| --- | --- |
+| `Dialog` | Root; holds `open`/`onOpenChange` (or runs uncontrolled). |
+| `DialogTrigger` | Element that opens the dialog (use `asChild` to wrap a `Button`). |
+| `DialogContent` | Portalled, centered panel — includes the overlay and a built-in close button. |
+| `DialogHeader` | Layout block for the title and description. |
+| `DialogTitle` | Accessible title that labels the dialog for screen readers. |
+| `DialogDescription` | Supplementary text under the title. |
+| `DialogFooter` | Right-aligned row for action buttons. |
+| `DialogClose` | Element that closes the dialog when activated. |
+
+`Dialog` re-exports Radix `Dialog` parts with design-system styling. See the [Radix Dialog docs](https://www.radix-ui.com/primitives/docs/components/dialog) for the complete prop reference, including `DialogPortal` and `DialogOverlay`.

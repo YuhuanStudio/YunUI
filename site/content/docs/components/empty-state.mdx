@@ -1,0 +1,55 @@
+import { EmptyState, Button } from "yunui";
+import { Inbox, SearchX } from "lucide-react";
+
+A centered "nothing here" placeholder for empty lists, no-results screens, and zero-data states. It stacks an optional `icon`, a required `title`, an optional `description`, and an optional `action` slot (e.g. a primary button) so the user knows what to do next.
+
+## Import
+
+```tsx
+import { EmptyState } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Empty list"
+  code={`import { Inbox } from "lucide-react";
+
+<EmptyState
+  icon={<Inbox className="w-8 h-8" />}
+  title="No messages"
+  description="When you receive messages they'll show up here."
+/>`}
+>
+  <EmptyState
+    icon={<Inbox className="w-8 h-8" />}
+    title="No messages"
+    description="When you receive messages they'll show up here."
+  />
+</ComponentPreview>
+
+## With an action
+
+<ComponentPreview
+  title="With a button"
+  code={`import { SearchX } from "lucide-react";
+import { Button } from "@yuhuanowo/yunui";
+
+<EmptyState
+  icon={<SearchX className="w-8 h-8" />}
+  title="No results"
+  description="Try a different search term or clear your filters."
+  action={<Button variant="primary">Clear filters</Button>}
+/>`}
+>
+  <EmptyState
+    icon={<SearchX className="w-8 h-8" />}
+    title="No results"
+    description="Try a different search term or clear your filters."
+    action={<Button variant="primary">Clear filters</Button>}
+  />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="EmptyState" />

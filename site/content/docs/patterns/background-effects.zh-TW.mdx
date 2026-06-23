@@ -1,0 +1,28 @@
+import { BackgroundEffects } from "yunui/patterns";
+
+一個裝飾性的全幅背景層——一張被柔和徑向漸隱遮罩處理過的細點網格。它採用絕對定位且純粹用於視覺效果（`pointer-events-none`），因此會置於任意 `relative` 容器內的內容之後。
+
+## 匯入
+
+```tsx
+import { BackgroundEffects } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+把它作為帶有一定高度的 `relative` 容器的第一個子元素放入。
+
+<ComponentPreview
+  title="BackgroundEffects"
+  code={`import { BackgroundEffects } from "@yuhuanowo/yunui/patterns";
+
+<div className="relative h-64 rounded-xl overflow-hidden flex items-center justify-center">
+  <BackgroundEffects />
+  <p className="text-sm text-muted-foreground">Content sits above the effect.</p>
+</div>`}
+>
+  <div className="relative h-64 w-full rounded-xl overflow-hidden flex items-center justify-center">
+    <BackgroundEffects />
+    <p className="text-sm text-muted-foreground">Content sits above the effect.</p>
+  </div>
+</ComponentPreview>

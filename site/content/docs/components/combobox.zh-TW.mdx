@@ -1,0 +1,39 @@
+import { Combobox } from "yunui";
+
+一個可搜尋、可選擇性支援建立新項目的組合框。輸入即可依標籤或值篩選 `options`，按 Enter 選取最相符的一項 —— 當 `allowCustom` 開啟時（預設開啟），還能建立清單中不存在的全新值。它是受控的：傳入 `value` 與 `onChange`。若需要無自由輸入的固定清單，請參閱 [CustomSelect](/docs/components/custom-select)；若需要以 Radix 為基礎的清單框，請參閱 [Select](/docs/components/select)。
+
+## Import
+
+```tsx
+import { Combobox } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`Combobox` 是受控元件 —— 將 `value` 與 `onChange` 與狀態繫結：
+
+```tsx
+const [value, setValue] = useState("next");
+
+<Combobox
+  value={value}
+  onChange={setValue}
+  placeholder="Pick or type a framework…"
+  options={[
+    { value: "next", label: "Next.js", description: "React framework" },
+    { value: "remix", label: "Remix", description: "Full-stack web" },
+    { value: "astro", label: "Astro", description: "Content-first" },
+    { value: "svelte", label: "SvelteKit", description: "Compiler-based" },
+  ]}
+/>
+```
+
+## Example
+
+<ComponentPreview title="Searchable & creatable">
+  <ComboboxDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Combobox" />

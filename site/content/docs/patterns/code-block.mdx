@@ -1,0 +1,84 @@
+import { CodeBlock } from "yunui/patterns";
+
+A styled code block with window-chrome dots, a header showing the `language` badge or a `filename`, optional line numbers, lightweight syntax highlighting, and a copy-to-clipboard button. Pass `tabs` to render multiple switchable code panes instead of a single block.
+
+## Import
+
+```tsx
+import { CodeBlock } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="CodeBlock"
+  code={`<CodeBlock
+  language="tsx"
+  code={\`import { Button } from "@yuhuanowo/yunui";
+
+export function App() {
+  return <Button variant="primary">Click me</Button>;
+}\`}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <CodeBlock
+      language="tsx"
+      code={`import { Button } from "@yuhuanowo/yunui";
+
+export function App() {
+  return <Button variant="primary">Click me</Button>;
+}`}
+    />
+  </div>
+</ComponentPreview>
+
+## With a filename
+
+Set `filename` to show a file label instead of the language badge, and `showLineNumbers={false}` to hide the gutter.
+
+<ComponentPreview
+  title="Filename"
+  code={`<CodeBlock
+  filename="app.tsx"
+  showLineNumbers={false}
+  code={\`const greeting = "Hello, YunUI";\`}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <CodeBlock
+      filename="app.tsx"
+      showLineNumbers={false}
+      code={`const greeting = "Hello, YunUI";`}
+    />
+  </div>
+</ComponentPreview>
+
+## Tabs
+
+Provide a `tabs` array to switch between related snippets in one block.
+
+<ComponentPreview
+  title="Tabs"
+  code={`<CodeBlock
+  code=""
+  tabs={[
+    { id: "npm", label: "npm", language: "bash", code: "npm install @yuhuanowo/yunui" },
+    { id: "pnpm", label: "pnpm", language: "bash", code: "pnpm add @yuhuanowo/yunui" },
+  ]}
+/>`}
+>
+  <div className="w-full max-w-xl">
+    <CodeBlock
+      code=""
+      tabs={[
+        { id: "npm", label: "npm", language: "bash", code: "npm install @yuhuanowo/yunui" },
+        { id: "pnpm", label: "pnpm", language: "bash", code: "pnpm add @yuhuanowo/yunui" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CodeBlock" />

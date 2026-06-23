@@ -1,0 +1,65 @@
+import { NavTabs } from "yunui";
+
+用於頁面層級導覽的標準橫向頁籤列。每個頁籤都帶有滑動的底線指示器與柔和的浮動懸浮框。傳入 `tabs` 陣列以及目前頁籤的 `activeKey`；頁籤會算繪為 `<button>`（觸發 `onChange`），或在頁籤帶有 `href` 時，透過 YunUI 的 `Link` 轉接器算繪為路由連結。
+
+## Import
+
+```tsx
+import { NavTabs } from "@yuhuanowo/yunui";
+```
+
+## 基礎用法
+
+此元件是受控的——由宿主持有目前作用中的 key。下面這個即時範例將它接上本地 state：
+
+<ComponentPreview
+  title="Nav tabs"
+  code={`function Example() {
+  const [active, setActive] = useState("overview");
+  return (
+    <NavTabs
+      activeKey={active}
+      onChange={setActive}
+      ariaLabel="Account sections"
+      tabs={[
+        { key: "overview", label: "Overview" },
+        { key: "analytics", label: "Analytics" },
+        { key: "reports", label: "Reports" },
+        { key: "settings", label: "Settings" },
+      ]}
+    />
+  );
+}`}
+>
+  <NavTabsDemo />
+</ComponentPreview>
+
+## 作為路由連結
+
+當某個頁籤提供了 `href` 時，它會算繪為路由連結（透過宿主的 `Link` 轉接器）而非按鈕，並在作用中的頁籤上設定 `aria-current="page"`。用於對應到真實 URL 的頁籤：
+
+```tsx
+<NavTabs
+  activeKey="/settings/profile"
+  ariaLabel="Settings"
+  tabs={[
+    { key: "/settings/profile", label: "Profile", href: "/settings/profile" },
+    { key: "/settings/team", label: "Team", href: "/settings/team" },
+    { key: "/settings/billing", label: "Billing", href: "/settings/billing" },
+  ]}
+/>
+```
+
+## 屬性
+
+<PropsTable name="NavTabs" />
+
+`tabs` 中的每一項是一個 `NavTab`：
+
+<PropsTable
+  rows={[
+    { name: "key", type: "string", required: true, description: "Unique key; matched against activeKey to mark the active tab." },
+    { name: "label", type: "ReactNode", required: true, description: "Tab label content." },
+    { name: "href", type: "string", description: "When set, the tab renders as a route Link instead of a button." },
+  ]}
+/>

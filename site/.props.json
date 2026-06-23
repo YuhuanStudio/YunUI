@@ -2150,7 +2150,7 @@
     },
     {
       "name": "variant",
-      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"outline\" | \"amber\" | \"red\" | \"destructive\"",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"brand\" | \"outline\" | \"amber\" | \"red\" | \"destructive\"",
       "required": false,
       "defaultValue": "default",
       "description": "Visual style. Options: `primary`, `secondary`, `ghost`, `accent`, `outline`, `amber`, `red`/`destructive`."

@@ -1,0 +1,84 @@
+import { MediaPageHeader, MediaEmptyState, MediaLoadingState, MediaErrorState } from "yunui/patterns";
+import { Image as ImageIcon } from "lucide-react";
+
+一組用於媒體庫頁面的頁面級元件：包含標題、描述、同步按鈕、錯誤橫幅和可選統計標籤的頁首，以及配套的空狀態、載入狀態和錯誤狀態。
+
+## 匯入
+
+```tsx
+import {
+  MediaPageHeader,
+  MediaEmptyState,
+  MediaLoadingState,
+  MediaErrorState,
+} from "@yuhuanowo/yunui/patterns";
+```
+
+## 頁首
+
+`onSync` 是函式，無法在 MDX 中跨越伺服器到用戶端的邊界，因此頁首由一個小型用戶端包裝元件渲染。
+
+<ComponentPreview
+  title="MediaPageHeader"
+  code={`import { MediaPageHeader } from "@yuhuanowo/yunui/patterns";
+
+<MediaPageHeader
+  title="Media library"
+  description="All your synced images and videos."
+  isSyncing={false}
+  syncError={null}
+  onSync={() => {}}
+  stats={[
+    { label: "items", value: 128 },
+    { label: "albums", value: 6 },
+  ]}
+/>`}
+>
+  <MediaPageHeaderDemo />
+</ComponentPreview>
+
+## 空狀態
+
+`icon` 屬性接收的是一個 Lucide *元件*（函式），因此該範例同樣由用戶端包裝元件渲染。
+
+<ComponentPreview
+  title="MediaEmptyState"
+  code={`import { MediaEmptyState } from "@yuhuanowo/yunui/patterns";
+import { Image as ImageIcon } from "lucide-react";
+
+<MediaEmptyState
+  icon={ImageIcon}
+  title="No media yet"
+  description="Sync a source to start filling your library."
+/>`}
+>
+  <MediaEmptyStateDemo />
+</ComponentPreview>
+
+## 載入與錯誤狀態
+
+`MediaLoadingState` 和 `MediaErrorState` 是靜態的，可直接使用。`MediaErrorState` 接受可選的 `onRetry` 回呼以渲染重試按鈕。
+
+<ComponentPreview
+  title="MediaLoadingState"
+  code={`<MediaLoadingState message="Loading your media…" />`}
+>
+  <MediaLoadingState message="Loading your media…" />
+</ComponentPreview>
+
+<ComponentPreview
+  title="MediaErrorState"
+  code={`<MediaErrorState message="Could not reach the media service." />`}
+>
+  <MediaErrorState message="Could not reach the media service." />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="MediaPageHeader" />
+
+<PropsTable name="MediaEmptyState" />
+
+<PropsTable name="MediaLoadingState" />
+
+<PropsTable name="MediaErrorState" />

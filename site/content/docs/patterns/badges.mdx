@@ -1,0 +1,103 @@
+import { FellowBadge, CapabilityBadge, StatusBadge, SourceBadge, ActiveBadge, DeprecatedBadge } from "yunui/patterns";
+
+A family of small, self-labeling status badges. Each takes a plain value (a status key, a capability key, a boolean) and renders a localized label with the right icon and color — the copy comes from the injected i18n adapter, so you only pass the data.
+
+## Import
+
+```tsx
+import {
+  FellowBadge, CapabilityBadge, StatusBadge,
+  SourceBadge, ActiveBadge, DeprecatedBadge,
+} from "@yuhuanowo/yunui/patterns";
+```
+
+## FellowBadge
+
+The recognition mark for an approved Fellows-tier member. Use `variant="pill"` for a bordered chip or the default `inline` for a lightweight inline mark.
+
+<ComponentPreview
+  title="FellowBadge"
+  code={`<FellowBadge />
+<FellowBadge variant="pill" />`}
+>
+  <FellowBadge />
+  <FellowBadge variant="pill" />
+</ComponentPreview>
+
+## CapabilityBadge
+
+A colored, icon-led badge for a model capability. Pass a `capability` key such as `chat`, `vision`, `thinking`, `streaming`, or `function_calling`.
+
+<ComponentPreview
+  title="CapabilityBadge"
+  code={`<CapabilityBadge capability="chat" />
+<CapabilityBadge capability="vision" />
+<CapabilityBadge capability="thinking" />
+<CapabilityBadge capability="streaming" />`}
+>
+  <CapabilityBadge capability="chat" />
+  <CapabilityBadge capability="vision" />
+  <CapabilityBadge capability="thinking" />
+  <CapabilityBadge capability="streaming" />
+</ComponentPreview>
+
+## StatusBadge
+
+An approval-status pill. Pass a `status` of `pending`, `approved`, `auto_approved`, or `rejected`, with an optional `size`.
+
+<ComponentPreview
+  title="StatusBadge"
+  code={`<StatusBadge status="pending" />
+<StatusBadge status="approved" />
+<StatusBadge status="rejected" />
+<StatusBadge status="approved" size="md" />`}
+>
+  <StatusBadge status="pending" />
+  <StatusBadge status="approved" />
+  <StatusBadge status="rejected" />
+  <StatusBadge status="approved" size="md" />
+</ComponentPreview>
+
+## SourceBadge
+
+Marks where a record came from. Pass a `source` of `yaml` or `api`; hide the icon with `showIcon={false}`.
+
+<ComponentPreview
+  title="SourceBadge"
+  code={`<SourceBadge source="yaml" />
+<SourceBadge source="api" />
+<SourceBadge source="api" showIcon={false} />`}
+>
+  <SourceBadge source="yaml" />
+  <SourceBadge source="api" />
+  <SourceBadge source="api" showIcon={false} />
+</ComponentPreview>
+
+## ActiveBadge & DeprecatedBadge
+
+`ActiveBadge` reflects an `isActive` boolean; `DeprecatedBadge` renders only when `isDeprecated` is true.
+
+<ComponentPreview
+  title="ActiveBadge / DeprecatedBadge"
+  code={`<ActiveBadge isActive={true} />
+<ActiveBadge isActive={false} />
+<DeprecatedBadge isDeprecated={true} />`}
+>
+  <ActiveBadge isActive={true} />
+  <ActiveBadge isActive={false} />
+  <DeprecatedBadge isDeprecated={true} />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="FellowBadge" />
+
+<PropsTable name="CapabilityBadge" />
+
+<PropsTable name="StatusBadge" />
+
+<PropsTable name="SourceBadge" />
+
+<PropsTable name="ActiveBadge" />
+
+<PropsTable name="DeprecatedBadge" />

@@ -1,0 +1,101 @@
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, Button } from "yunui";
+
+A Radix-backed contextual actions menu. `DropdownMenu` pairs a `DropdownMenuTrigger` with a portalled, animated `DropdownMenuContent` holding `DropdownMenuItem`s. Group items with `DropdownMenuLabel` and `DropdownMenuSeparator`, hint keyboard shortcuts with `DropdownMenuShortcut`, and reach for the checkbox/radio/sub-menu parts for richer menus. Full keyboard a11y comes from Radix.
+
+## Import
+
+```tsx
+import {
+  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
+  DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+The demo opens the menu with `defaultOpen` so you can see the content inline:
+
+<ComponentPreview
+  title="Dropdown menu"
+  code={`<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Open menu</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Log out</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`}
+>
+  <DropdownMenu defaultOpen modal={false}>
+    <DropdownMenuTrigger asChild>
+      <Button variant="outline">Open menu</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Billing</DropdownMenuItem>
+      <DropdownMenuItem>Settings</DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>Log out</DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</ComponentPreview>
+
+## With shortcuts
+
+`DropdownMenuShortcut` right-aligns a keyboard hint inside an item:
+
+<ComponentPreview
+  title="Keyboard shortcuts"
+  code={`<DropdownMenuContent>
+  <DropdownMenuItem>
+    New file<DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+  </DropdownMenuItem>
+  <DropdownMenuItem>
+    Save<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+  </DropdownMenuItem>
+</DropdownMenuContent>`}
+>
+  <DropdownMenu defaultOpen modal={false}>
+    <DropdownMenuTrigger asChild>
+      <Button variant="outline">File</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuItem>
+        New file<DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        Save<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>
+        Close<DropdownMenuShortcut>⌘W</DropdownMenuShortcut>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</ComponentPreview>
+
+## Parts
+
+| Part | Role |
+| --- | --- |
+| `DropdownMenu` | Root; holds `open`/`onOpenChange` or `defaultOpen`. |
+| `DropdownMenuTrigger` | The element that opens the menu (use `asChild` to wrap a `Button`). |
+| `DropdownMenuContent` | Portalled, animated menu panel. |
+| `DropdownMenuItem` | A clickable action (`onSelect`); `inset` aligns it with checkable items. |
+| `DropdownMenuCheckboxItem` | A toggleable item showing a check when `checked`. |
+| `DropdownMenuRadioGroup` / `DropdownMenuRadioItem` | A single-choice set of items. |
+| `DropdownMenuLabel` | Non-interactive section heading. |
+| `DropdownMenuSeparator` | Thin divider between groups. |
+| `DropdownMenuShortcut` | Right-aligned keyboard-shortcut hint inside an item. |
+| `DropdownMenuSub` / `DropdownMenuSubTrigger` / `DropdownMenuSubContent` | A nested submenu. |
+
+`DropdownMenu` re-exports Radix `DropdownMenu` parts with design-system styling. See the [Radix DropdownMenu docs](https://www.radix-ui.com/primitives/docs/components/dropdown-menu) for the complete prop reference.

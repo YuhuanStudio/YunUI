@@ -1,0 +1,83 @@
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose, Button } from "yunui";
+
+锚定在触发元素上的浮动面板，基于 Radix `Popover` 构建。`PopoverContent` 会传送到 body、定位在触发元素下方，呈现模糊半透明的表面，并带有进出动画。适合承载丰富的非模态溢出内容——表单、菜单或详情卡片。
+
+## Import
+
+```tsx
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Popover"
+  code={`<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Open popover</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <div className="space-y-1">
+      <p className="text-sm font-medium">Dimensions</p>
+      <p className="text-xs text-muted-foreground">
+        Set the width and height for the layer.
+      </p>
+    </div>
+  </PopoverContent>
+</Popover>`}
+>
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="outline">Open popover</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <div className="space-y-1">
+        <p className="text-sm font-medium">Dimensions</p>
+        <p className="text-xs text-muted-foreground">
+          Set the width and height for the layer.
+        </p>
+      </div>
+    </PopoverContent>
+  </Popover>
+</ComponentPreview>
+
+## Alignment
+
+`PopoverContent` 接受 Radix 的 `align`（`start` / `center` / `end`）和 `sideOffset` 属性，用于微调面板相对触发元素的位置。
+
+<ComponentPreview
+  title="Aligned to the start"
+  code={`<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Aligned start</Button>
+  </PopoverTrigger>
+  <PopoverContent align="start">
+    <p className="text-sm">This panel aligns to the trigger's start edge.</p>
+  </PopoverContent>
+</Popover>`}
+>
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="outline">Aligned start</Button>
+    </PopoverTrigger>
+    <PopoverContent align="start">
+      <p className="text-sm">This panel aligns to the trigger's start edge.</p>
+    </PopoverContent>
+  </Popover>
+</ComponentPreview>
+
+## Parts
+
+| 部件 | 作用 |
+| --- | --- |
+| `Popover` | 根节点；持有 `open`/`onOpenChange`（或以非受控方式运行）。 |
+| `PopoverTrigger` | 切换面板显隐的元素（用 `asChild` 包裹一个 `Button`）。 |
+| `PopoverContent` | 传送、带动画的浮动面板；接受 `align` 和 `sideOffset`。 |
+| `PopoverClose` | 激活后关闭气泡卡片的元素。 |
+
+`Popover` 以设计系统样式重新导出 Radix `Popover` 部件。完整的属性参考（包括 `PopoverAnchor` 和定位属性）请见 [Radix Popover 文档](https://www.radix-ui.com/primitives/docs/components/popover)。

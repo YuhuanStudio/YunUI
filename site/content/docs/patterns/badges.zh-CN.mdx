@@ -1,0 +1,103 @@
+import { FellowBadge, CapabilityBadge, StatusBadge, SourceBadge, ActiveBadge, DeprecatedBadge } from "yunui/patterns";
+
+一组小巧、自带标签的状态徽章。每个徽章接收一个简单的值（状态键、能力键或布尔值），并渲染出带正确图标和颜色的本地化标签——文案来自注入的 i18n 适配器，因此你只需传入数据。
+
+## Import
+
+```tsx
+import {
+  FellowBadge, CapabilityBadge, StatusBadge,
+  SourceBadge, ActiveBadge, DeprecatedBadge,
+} from "@yuhuanowo/yunui/patterns";
+```
+
+## FellowBadge
+
+已通过审核的 Fellows 级成员的认可标记。使用 `variant="pill"` 获得带边框的胶囊，或使用默认的 `inline` 获得轻量的内联标记。
+
+<ComponentPreview
+  title="FellowBadge"
+  code={`<FellowBadge />
+<FellowBadge variant="pill" />`}
+>
+  <FellowBadge />
+  <FellowBadge variant="pill" />
+</ComponentPreview>
+
+## CapabilityBadge
+
+用于模型能力的彩色、带图标徽章。传入能力键，如 `chat`、`vision`、`thinking`、`streaming` 或 `function_calling`。
+
+<ComponentPreview
+  title="CapabilityBadge"
+  code={`<CapabilityBadge capability="chat" />
+<CapabilityBadge capability="vision" />
+<CapabilityBadge capability="thinking" />
+<CapabilityBadge capability="streaming" />`}
+>
+  <CapabilityBadge capability="chat" />
+  <CapabilityBadge capability="vision" />
+  <CapabilityBadge capability="thinking" />
+  <CapabilityBadge capability="streaming" />
+</ComponentPreview>
+
+## StatusBadge
+
+审批状态胶囊。传入 `status` 为 `pending`、`approved`、`auto_approved` 或 `rejected`，并可附带可选的 `size`。
+
+<ComponentPreview
+  title="StatusBadge"
+  code={`<StatusBadge status="pending" />
+<StatusBadge status="approved" />
+<StatusBadge status="rejected" />
+<StatusBadge status="approved" size="md" />`}
+>
+  <StatusBadge status="pending" />
+  <StatusBadge status="approved" />
+  <StatusBadge status="rejected" />
+  <StatusBadge status="approved" size="md" />
+</ComponentPreview>
+
+## SourceBadge
+
+标记记录的来源。传入 `source` 为 `yaml` 或 `api`；用 `showIcon={false}` 隐藏图标。
+
+<ComponentPreview
+  title="SourceBadge"
+  code={`<SourceBadge source="yaml" />
+<SourceBadge source="api" />
+<SourceBadge source="api" showIcon={false} />`}
+>
+  <SourceBadge source="yaml" />
+  <SourceBadge source="api" />
+  <SourceBadge source="api" showIcon={false} />
+</ComponentPreview>
+
+## ActiveBadge & DeprecatedBadge
+
+`ActiveBadge` 反映 `isActive` 布尔值；`DeprecatedBadge` 仅在 `isDeprecated` 为 true 时渲染。
+
+<ComponentPreview
+  title="ActiveBadge / DeprecatedBadge"
+  code={`<ActiveBadge isActive={true} />
+<ActiveBadge isActive={false} />
+<DeprecatedBadge isDeprecated={true} />`}
+>
+  <ActiveBadge isActive={true} />
+  <ActiveBadge isActive={false} />
+  <DeprecatedBadge isDeprecated={true} />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="FellowBadge" />
+
+<PropsTable name="CapabilityBadge" />
+
+<PropsTable name="StatusBadge" />
+
+<PropsTable name="SourceBadge" />
+
+<PropsTable name="ActiveBadge" />
+
+<PropsTable name="DeprecatedBadge" />

@@ -1,0 +1,64 @@
+import { Sidebar } from "yunui/patterns";
+
+The app navigation sidebar: a logo, grouped nav `sections` with active-state matching, a mobile drawer, desktop collapse, and a bottom `footer` slot. Routing flows through the injected Link adapter, or you can own navigation with `onNavigate`. Each nav item is plain data (`label` + `href`); an optional `icon` component can be added per item in app code.
+
+The sidebar uses `position: fixed`, so previews place it inside a framed stage with a `transform` (which makes fixed descendants resolve against the frame instead of the viewport).
+
+## Import
+
+```tsx
+import { Sidebar } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Sidebar"
+  code={`<Sidebar
+  appName="YunUI"
+  homeHref="#"
+  currentPath="#overview"
+  sections={[
+    { items: [
+      { label: "Overview", href: "#overview" },
+      { label: "Playground", href: "#playground" },
+      { label: "Models", href: "#models" },
+    ] },
+    { title: "Account", items: [
+      { label: "API Keys", href: "#api-keys" },
+      { label: "Analytics", href: "#analytics" },
+    ] },
+  ]}
+/>`}
+>
+  <div className="relative w-full rounded-2xl border border-border overflow-hidden bg-(--bg-elevated)" style={{ height: 360, transform: "translateZ(0)" }}>
+    <Sidebar
+      appName="YunUI"
+      homeHref="#"
+      currentPath="#overview"
+      sections={[
+        { items: [
+          { label: "Overview", href: "#overview" },
+          { label: "Playground", href: "#playground" },
+          { label: "Models", href: "#models" },
+        ] },
+        { title: "Account", items: [
+          { label: "API Keys", href: "#api-keys" },
+          { label: "Analytics", href: "#analytics" },
+        ] },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Collapsible
+
+Pass `collapsed` plus `onToggleCollapse` to render the desktop collapse button and slide the sidebar off-canvas. Because that needs React state and a function prop, this example renders from a client wrapper.
+
+<ComponentPreview title="Collapse">
+  <SidebarDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Sidebar" />

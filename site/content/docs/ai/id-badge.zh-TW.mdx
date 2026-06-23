@@ -1,0 +1,35 @@
+import { IDBadge } from "yunui/ai";
+
+用於 id、金鑰及其他可複製權杖的緊湊等寬徽章。點擊即可將 `text` 複製到剪貼簿，並短暫顯示勾選圖示。過長的值預設會被截斷；設定 `truncate={false}` 可在一行內保留完整值。
+
+## Import
+
+```tsx
+import { IDBadge } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Basic"
+  code={`<IDBadge text="gpt-4o" />
+<IDBadge text="claude-opus-4-latest" />`}
+>
+  <div className="flex items-center gap-2">
+    <IDBadge text="gpt-4o" />
+    <IDBadge text="claude-opus-4-latest" />
+  </div>
+</ComponentPreview>
+
+## Without truncation
+
+<ComponentPreview
+  title="Without truncation"
+  code={`<IDBadge text="sk-proj-1a2b3c4d5e6f7g8h9i0j" truncate={false} />`}
+>
+  <IDBadge text="sk-proj-1a2b3c4d5e6f7g8h9i0j" truncate={false} />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="IDBadge" />

@@ -61,6 +61,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
         | "secondary"
         | "ghost"
         | "accent"
+        | /** Solid fill from the runtime-themeable brand token (data-brand). */ "brand"
         | "outline"
         | "amber"
         | /** @deprecated alias of `destructive` */ "red"
@@ -83,6 +84,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             secondary: "btn-secondary",
             ghost: "btn-ghost",
             accent: "btn-accent",
+            brand: "btn-brand",
             outline: "btn-outline",
             amber: "btn-amber",
             red: "btn-red",
@@ -136,20 +138,29 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 /** Single-line text input with an optional leading icon and inline error message. */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, icon, error, ...props }, ref) => {
+    ({ className, icon, error, id, "aria-describedby": describedBy, ...props }, ref) => {
+        const reactId = React.useId();
+        const fieldId = id ?? reactId;
+        const errorId = error ? `${fieldId}-error` : undefined;
+        // Associate the inline error with the field so screen readers announce it.
+        const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || undefined;
         return (
             <div className="relative">
                 {icon && (
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                    <div aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                         {icon}
                     </div>
                 )}
                 <input
                     ref={ref}
+                    id={fieldId}
+                    aria-invalid={error ? true : undefined}
+                    aria-describedby={describedByIds}
                     className={cn(
                         "w-full h-10 px-4 bg-background border rounded-xl text-sm outline-none transition-colors",
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
+                        "disabled:opacity-50 disabled:cursor-not-allowed",
                         icon && "pl-10",
                         error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
                         className
@@ -157,8 +168,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     {...props}
                 />
                 {error && (
-                    <p className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" />
+                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                        <AlertCircle aria-hidden="true" className="w-3 h-3" />
                         {error}
                     </p>
                 )}
@@ -179,23 +190,31 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 
 /** Multi-line text input with an inline error message. */
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-    ({ className, error, ...props }, ref) => {
+    ({ className, error, id, "aria-describedby": describedBy, ...props }, ref) => {
+        const reactId = React.useId();
+        const fieldId = id ?? reactId;
+        const errorId = error ? `${fieldId}-error` : undefined;
+        const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || undefined;
         return (
             <div>
                 <textarea
                     ref={ref}
+                    id={fieldId}
+                    aria-invalid={error ? true : undefined}
+                    aria-describedby={describedByIds}
                     className={cn(
                         "w-full px-4 py-3 bg-background border rounded-xl text-sm outline-none transition-colors resize-none",
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
+                        "disabled:opacity-50 disabled:cursor-not-allowed",
                         error ? "border-red-300 dark:border-red-700" : "border-border",
                         className
                     )}
                     {...props}
                 />
                 {error && (
-                    <p className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" />
+                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                        <AlertCircle aria-hidden="true" className="w-3 h-3" />
                         {error}
                     </p>
                 )}
@@ -782,6 +801,8 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
                     <TooltipTrigger asChild>
                         <button
                             ref={ref}
+                            type={props.type ?? "button"}
+                            aria-label={label}
                             className={cn(
                                 "p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
                                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -789,7 +810,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
                             )}
                             {...props}
                         >
-                            {icon}
+                            <span aria-hidden="true">{icon}</span>
                         </button>
                     </TooltipTrigger>
                     <TooltipContent>{label}</TooltipContent>

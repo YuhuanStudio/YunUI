@@ -1,0 +1,22 @@
+import { CodeDemo } from "yunui/patterns";
+
+一個開箱即用的多標籤程式碼範例，展示如何用 Python、Node.js 和 cURL 呼叫相容 OpenAI 的 API。它是基於 `CodeBlock` 建構的自包含展示區塊（支援標籤切換和一鍵複製）——適合用在 API 著陸頁或快速上手指南。
+
+## 匯入
+
+```tsx
+import { CodeDemo } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+`CodeDemo` 不接收任何屬性——程式碼片段和標籤均已內建。直接放進頁面即可。
+
+<ComponentPreview
+  title="CodeDemo"
+  code={`import { CodeDemo } from "@yuhuanowo/yunui/patterns";
+
+<CodeDemo />`}
+>
+  <CodeDemo />
+</ComponentPreview>

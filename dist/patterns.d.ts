@@ -1,5 +1,6 @@
 import * as React$1 from 'react';
 import React__default, { ElementType, ReactNode } from 'react';
+export { F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial } from './footer-BoFu7Wqq.js';
 
 declare function BackgroundEffects(): React$1.JSX.Element;
 

@@ -41,3 +41,16 @@ export {
   useBodyScrollLock,
   useModalBehavior,
 } from "./lib/hooks";
+
+// Runtime theming (drives the design-token system via data-* attributes)
+export {
+  applyTheme,
+  readTheme,
+  useYunUITheme,
+  YUNUI_PALETTES,
+  type YunUITheme,
+  type YunUIPalette,
+  type YunUISolid,
+  type YunUISurface,
+  type YunUIColorScheme,
+} from "./lib/theme";

@@ -1,0 +1,54 @@
+import { Modal, Button } from "yunui";
+
+YunUI's own controlled modal — a portalled, centered card with a header (`title` + optional `subtitle`), a scrollable body, and an optional `footer`. It locks body scroll, closes on backdrop click or the Escape key, animates open and closed, and is SSR-safe. Unlike the Radix `Dialog`, you own the open state via `isOpen` + `onClose`.
+
+## Import
+
+```tsx
+import { Modal } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+A `Modal` is fully controlled: keep its `isOpen` in state and pass `onClose` to flip it back. The example below wires a trigger button to local state.
+
+<ComponentPreview title="Controlled modal">
+  <ModalDemo />
+</ComponentPreview>
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Modal, Button } from "@yuhuanowo/yunui";
+
+export function ModalDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="Invite your team"
+        subtitle="They'll get an email with a join link."
+        size="md"
+        footer={
+          <div className="flex justify-end gap-3">
+            <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={() => setOpen(false)}>Send invites</Button>
+          </div>
+        }
+      >
+        <p className="text-sm text-muted-foreground">
+          Enter the email addresses of the people you want to invite.
+        </p>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Props
+
+<PropsTable name="Modal" />

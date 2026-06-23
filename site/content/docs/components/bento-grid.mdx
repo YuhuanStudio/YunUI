@@ -1,0 +1,98 @@
+import { BentoGrid, BentoCard } from "yunui";
+import { Sparkles, Zap, Shield } from "lucide-react";
+
+A responsive bento-style grid. `BentoGrid` lays out a one-column (mobile) / three-column (desktop) grid, and each `BentoCard` is a glass tile with a header media slot, an icon, a title, and a description. Make a tile span multiple columns or rows with Tailwind classes via `className`.
+
+## Import
+
+```tsx
+import { BentoGrid, BentoCard } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Bento layout"
+  code={`import { Sparkles, Zap, Shield } from "lucide-react";
+
+<BentoGrid>
+  <BentoCard
+    icon={<Sparkles className="w-5 h-5" />}
+    title="Polished"
+    description="Glassy tiles with a subtle hover shift."
+  />
+  <BentoCard
+    icon={<Zap className="w-5 h-5" />}
+    title="Fast"
+    description="Pure CSS layout, no runtime cost."
+  />
+  <BentoCard
+    icon={<Shield className="w-5 h-5" />}
+    title="Resilient"
+    description="Responsive from one to three columns."
+  />
+</BentoGrid>`}
+>
+  <BentoGrid>
+    <BentoCard
+      icon={<Sparkles className="w-5 h-5" />}
+      title="Polished"
+      description="Glassy tiles with a subtle hover shift."
+    />
+    <BentoCard
+      icon={<Zap className="w-5 h-5" />}
+      title="Fast"
+      description="Pure CSS layout, no runtime cost."
+    />
+    <BentoCard
+      icon={<Shield className="w-5 h-5" />}
+      title="Resilient"
+      description="Responsive from one to three columns."
+    />
+  </BentoGrid>
+</ComponentPreview>
+
+## Spanning tiles
+
+Use `className` on a `BentoCard` to make it span multiple columns, and supply a `header` for a media area above the text.
+
+<ComponentPreview
+  title="Featured tile"
+  code={`<BentoGrid>
+  <BentoCard
+    className="md:col-span-2"
+    header={<div className="h-24 rounded-xl bg-gradient-to-br from-indigo-400/30 to-purple-400/30" />}
+    icon={<Sparkles className="w-5 h-5" />}
+    title="Featured"
+    description="This tile spans two columns and has a header visual."
+  />
+  <BentoCard
+    icon={<Zap className="w-5 h-5" />}
+    title="Compact"
+    description="A standard single-column tile."
+  />
+</BentoGrid>`}
+>
+  <BentoGrid>
+    <BentoCard
+      className="md:col-span-2"
+      header={<div className="h-24 rounded-xl bg-gradient-to-br from-indigo-400/30 to-purple-400/30" />}
+      icon={<Sparkles className="w-5 h-5" />}
+      title="Featured"
+      description="This tile spans two columns and has a header visual."
+    />
+    <BentoCard
+      icon={<Zap className="w-5 h-5" />}
+      title="Compact"
+      description="A standard single-column tile."
+    />
+  </BentoGrid>
+</ComponentPreview>
+
+## Props — BentoGrid
+
+<PropsTable name="BentoGrid" />
+
+## Props — BentoCard
+
+<PropsTable name="BentoCard" />

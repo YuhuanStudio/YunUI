@@ -1,0 +1,24 @@
+import { Label, Input } from "yunui";
+
+A styled form label. It renders a native `<label>` with the design-system typography, so `htmlFor` pairs it with any control for click-to-focus and screen-reader association. Every native `<label>` attribute spreads through.
+
+## Import
+
+```tsx
+import { Label } from "@yuhuanowo/yunui";
+```
+
+## With a field
+
+<ComponentPreview
+  title="Label + Input"
+  code={`<Label htmlFor="email">Email</Label>
+<Input id="email" placeholder="you@example.com" />`}
+>
+  <div className="w-full max-w-xs space-y-1.5">
+    <Label htmlFor="email">Email</Label>
+    <Input id="email" placeholder="you@example.com" />
+  </div>
+</ComponentPreview>
+
+`Label` carries no required props of its own — it forwards every native `<label>` attribute. Use `htmlFor` to point at the control's `id`.

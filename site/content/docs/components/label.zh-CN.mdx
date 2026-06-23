@@ -1,0 +1,24 @@
+import { Label, Input } from "yunui";
+
+带样式的表单标签。它渲染一个原生 `<label>`，采用设计系统的排版样式，因此可以通过 `htmlFor` 将其与任意控件配对，实现点击聚焦和屏幕阅读器关联。所有原生 `<label>` 属性都会透传。
+
+## Import
+
+```tsx
+import { Label } from "@yuhuanowo/yunui";
+```
+
+## With a field
+
+<ComponentPreview
+  title="Label + Input"
+  code={`<Label htmlFor="email">Email</Label>
+<Input id="email" placeholder="you@example.com" />`}
+>
+  <div className="w-full max-w-xs space-y-1.5">
+    <Label htmlFor="email">Email</Label>
+    <Input id="email" placeholder="you@example.com" />
+  </div>
+</ComponentPreview>
+
+`Label` 自身没有任何必需的 props——它会转发每一个原生 `<label>` 属性。使用 `htmlFor` 指向控件的 `id`。

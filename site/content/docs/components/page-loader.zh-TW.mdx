@@ -1,0 +1,39 @@
+import { PageLoader } from "yunui";
+
+一個佔滿整個視口、置中的載入畫面：一個大號旋轉圖示，下方堆疊可選的 `title` 與 `subtitle`。在路由、版面或資料密集的頁面載入時用作佔位回退。它至少會填滿整個動態視口高度，因此下方的預覽被限制在固定高度內以便展示。
+
+## 匯入
+
+```tsx
+import { PageLoader } from "@yuhuanowo/yunui";
+```
+
+## 基礎
+
+<ComponentPreview
+  title="Spinner only"
+  code={`<PageLoader />`}
+>
+  <div className="relative h-48 w-full overflow-hidden rounded-lg border">
+    <PageLoader className="min-h-full" />
+  </div>
+</ComponentPreview>
+
+## 帶標題與副標題
+
+<ComponentPreview
+  title="With messages"
+  code={`<PageLoader title="Loading workspace" subtitle="This only takes a moment." />`}
+>
+  <div className="relative h-48 w-full overflow-hidden rounded-lg border">
+    <PageLoader
+      className="min-h-full"
+      title="Loading workspace"
+      subtitle="This only takes a moment."
+    />
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="PageLoader" />

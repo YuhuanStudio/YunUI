@@ -1,0 +1,38 @@
+import { CapabilitySelector } from "yunui/ai";
+
+A multi-select grid of toggleable model capabilities. It is fully controlled — you own the `selected` array and update it from `onChange`. The option set adapts to `modelType` (defaults to the LLM set: chat, streaming, function calling, vision, thinking).
+
+## Import
+
+```tsx
+import { CapabilitySelector } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+Because it is controlled, hold the selection in state and pass it back via `onChange`.
+
+<ComponentPreview
+  title="Basic"
+  code={`import { useState } from "react";
+import { CapabilitySelector } from "@yuhuanowo/yunui/ai";
+
+function Example() {
+  const [selected, setSelected] = useState(["chat", "vision"]);
+  return (
+    <CapabilitySelector
+      selected={selected}
+      onChange={setSelected}
+      columns={3}
+    />
+  );
+}`}
+>
+  <div className="w-full max-w-md">
+    <CapabilitySelectorDemo />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CapabilitySelector" />

@@ -1,0 +1,64 @@
+import { Sidebar } from "yunui/patterns";
+
+應用導覽側邊欄：包含 logo、帶啟用狀態匹配的分組導覽 `sections`、行動裝置抽屜、桌面端收合，以及底部 `footer` 插槽。路由透過注入的 Link 轉接器流轉，你也可以用 `onNavigate` 自行掌控導覽。每個導覽項都是純資料（`label` + `href`）；在應用程式碼中可為每項加入可選的 `icon` 元件。
+
+側邊欄使用了 `position: fixed`，因此預覽將其放在一個帶 `transform` 的框架舞台內（這會讓固定定位的子元素相對於該框架而非視窗進行定位）。
+
+## Import
+
+```tsx
+import { Sidebar } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Sidebar"
+  code={`<Sidebar
+  appName="YunUI"
+  homeHref="#"
+  currentPath="#overview"
+  sections={[
+    { items: [
+      { label: "Overview", href: "#overview" },
+      { label: "Playground", href: "#playground" },
+      { label: "Models", href: "#models" },
+    ] },
+    { title: "Account", items: [
+      { label: "API Keys", href: "#api-keys" },
+      { label: "Analytics", href: "#analytics" },
+    ] },
+  ]}
+/>`}
+>
+  <div className="relative w-full rounded-2xl border border-border overflow-hidden bg-(--bg-elevated)" style={{ height: 360, transform: "translateZ(0)" }}>
+    <Sidebar
+      appName="YunUI"
+      homeHref="#"
+      currentPath="#overview"
+      sections={[
+        { items: [
+          { label: "Overview", href: "#overview" },
+          { label: "Playground", href: "#playground" },
+          { label: "Models", href: "#models" },
+        ] },
+        { title: "Account", items: [
+          { label: "API Keys", href: "#api-keys" },
+          { label: "Analytics", href: "#analytics" },
+        ] },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Collapsible
+
+傳入 `collapsed` 與 `onToggleCollapse` 以渲染桌面端收合按鈕並把側邊欄滑出畫布。由於這需要 React 狀態與函式屬性，本範例由一個客戶端包裝器渲染。
+
+<ComponentPreview title="Collapse">
+  <SidebarDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Sidebar" />

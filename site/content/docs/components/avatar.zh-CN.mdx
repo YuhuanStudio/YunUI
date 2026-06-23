@@ -1,0 +1,72 @@
+import { Avatar, AvatarImage, AvatarFallback } from "yunui";
+
+基于 Radix Avatar 构建的圆形头像。用 `Avatar` 组合 `AvatarImage` 和 `AvatarFallback`：图片加载完成后显示图片，在加载期间或加载失败时则由后备内容（例如首字母缩写）接管。
+
+## 导入
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@yuhuanowo/yunui";
+```
+
+## 基本用法
+
+<ComponentPreview
+  title="Image with fallback"
+  code={`<Avatar>
+  <AvatarImage src="https://github.com/yuhuanowo.png" alt="@yuhuanowo" />
+  <AvatarFallback>YH</AvatarFallback>
+</Avatar>`}
+>
+  <Avatar>
+    <AvatarImage src="https://github.com/yuhuanowo.png" alt="@yuhuanowo" />
+    <AvatarFallback>YH</AvatarFallback>
+  </Avatar>
+</ComponentPreview>
+
+## 仅后备内容
+
+当没有图片（或 URL 无效）时，只渲染后备内容。
+
+<ComponentPreview
+  title="Initials fallback"
+  code={`<Avatar>
+  <AvatarImage src="" alt="" />
+  <AvatarFallback>AI</AvatarFallback>
+</Avatar>`}
+>
+  <Avatar>
+    <AvatarImage src="" alt="" />
+    <AvatarFallback>AI</AvatarFallback>
+  </Avatar>
+</ComponentPreview>
+
+## 尺寸
+
+通过 `className` 设置头像尺寸（默认为 40×40）。
+
+<ComponentPreview
+  title="Custom sizes"
+  code={`<Avatar className="h-8 w-8">
+  <AvatarFallback>SM</AvatarFallback>
+</Avatar>
+<Avatar className="h-12 w-12">
+  <AvatarFallback>LG</AvatarFallback>
+</Avatar>`}
+>
+  <div className="flex items-center gap-3">
+    <Avatar className="h-8 w-8">
+      <AvatarFallback>SM</AvatarFallback>
+    </Avatar>
+    <Avatar className="h-12 w-12">
+      <AvatarFallback>LG</AvatarFallback>
+    </Avatar>
+  </div>
+</ComponentPreview>
+
+## 组成部分
+
+| 部分 | 说明 |
+| --- | --- |
+| `Avatar` | 圆形容器；通过 `className` 设置尺寸。包裹图片和后备内容。 |
+| `AvatarImage` | 头像图片。转发 `src`/`alt`；在加载完成前及加载失败时会自动隐藏。 |
+| `AvatarFallback` | 在图片加载期间或缺失时显示的占位内容（例如首字母缩写）。接受 `delayMs` 以避免闪烁。 |

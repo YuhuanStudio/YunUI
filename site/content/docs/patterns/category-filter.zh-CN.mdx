@@ -1,0 +1,36 @@
+import { CategoryFilter } from "yunui/patterns";
+
+一排用于按分类筛选博客（或任意列表）的胶囊按钮，开头带有「全部文章」按钮。它是受控的——当前分类会高亮显示，宿主应用通过 `onSelect` 自行处理路由。
+
+## 引入
+
+```tsx
+import { CategoryFilter } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+`onSelect` 是函数，无法在 MDX 中跨越服务端到客户端的边界，因此示例由一个用 state 跟踪选择项的小型客户端包装组件渲染。
+
+<ComponentPreview
+  title="CategoryFilter"
+  code={`import { CategoryFilter } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [selected, setSelected] = useState(null);
+  return (
+    <CategoryFilter
+      categories={["Engineering", "Design", "Product"]}
+      selectedCategory={selected ?? undefined}
+      onSelect={setSelected}
+    />
+  );
+}`}
+>
+  <CategoryFilterDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="CategoryFilter" />

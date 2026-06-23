@@ -1,0 +1,79 @@
+import { ModelCard, ProviderIcon } from "yunui/ai";
+
+用于概览某个 AI 模型的卡片：提供商/模型图标、显示名称、能力标签、可复制的 id 徽章、简短描述，以及包含开发者、上下文窗口、等级和价格的页脚。传入 `onClick` 可让整张卡片成为可用键盘激活的按钮。
+
+## Import
+
+```tsx
+import { ModelCard } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+`icon` 插槽由宿主渲染——传入 `<ProviderIcon>`（或 `<ModelIcon>`），让卡片保持与框架无关。
+
+<ComponentPreview
+  title="Basic"
+  code={`import { ModelCard, ProviderIcon } from "@yuhuanowo/yunui/ai";
+
+<ModelCard
+  name="GPT-4o"
+  icon={<ProviderIcon provider="openai" size={32} rounded />}
+  ids={["gpt-4o"]}
+  description="Multimodal flagship model with vision and fast responses."
+  capabilities={["vision", "streaming", "function_calling"]}
+  developer={{ label: "OpenAI" }}
+  context="128K"
+  price="$2.50/M"
+/>`}
+>
+  <div className="w-full max-w-xs">
+    <ModelCard
+      name="GPT-4o"
+      icon={<ProviderIcon provider="openai" size={32} rounded />}
+      ids={["gpt-4o"]}
+      description="Multimodal flagship model with vision and fast responses."
+      capabilities={["vision", "streaming", "function_calling"]}
+      developer={{ label: "OpenAI" }}
+      context="128K"
+      price="$2.50/M"
+    />
+  </div>
+</ComponentPreview>
+
+## Status badges
+
+使用 `nonofficial` 和 `suspended` 标记模型的可用状态。除非 `tier` 为 `"free"`，否则都会显示等级标签。
+
+<ComponentPreview
+  title="Status badges"
+  code={`<ModelCard
+  name="Claude Opus 4"
+  icon={<ProviderIcon provider="anthropic" size={32} rounded />}
+  ids={["claude-opus-4", "claude-opus-4-latest"]}
+  description="High-reasoning model for complex, long-running tasks."
+  capabilities={["thinking", "vision", "function_calling"]}
+  developer={{ label: "Anthropic" }}
+  context="200K"
+  tier="pro"
+  nonofficial
+/>`}
+>
+  <div className="w-full max-w-xs">
+    <ModelCard
+      name="Claude Opus 4"
+      icon={<ProviderIcon provider="anthropic" size={32} rounded />}
+      ids={["claude-opus-4", "claude-opus-4-latest"]}
+      description="High-reasoning model for complex, long-running tasks."
+      capabilities={["thinking", "vision", "function_calling"]}
+      developer={{ label: "Anthropic" }}
+      context="200K"
+      tier="pro"
+      nonofficial
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ModelCard" />

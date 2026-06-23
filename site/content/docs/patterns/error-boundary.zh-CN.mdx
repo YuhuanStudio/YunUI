@@ -1,0 +1,43 @@
+import { ErrorBoundary } from "yunui/patterns";
+
+一个 React 错误边界，能捕获其子树中的渲染错误并显示友好的回退界面——图标、消息，以及一个用于重置边界的“Try again”按钮。可用 `labels` 覆盖文案、提供完全自定义的 `fallback`，或通过 `onError` 接入日志记录。
+
+## Import
+
+```tsx
+import { ErrorBoundary } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+包裹任意子树。在未抛出错误时，它会透明地渲染其子元素。
+
+<ComponentPreview
+  title="ErrorBoundary"
+  code={`<ErrorBoundary>
+  <div className="card p-6">This content is protected by an error boundary.</div>
+</ErrorBoundary>`}
+>
+  <div className="w-full max-w-xl">
+    <ErrorBoundary>
+      <div className="card p-6">This content is protected by an error boundary.</div>
+    </ErrorBoundary>
+  </div>
+</ComponentPreview>
+
+## Custom labels
+
+传入 `labels` 以本地化回退界面的标题、消息和重试按钮。
+
+```tsx
+<ErrorBoundary
+  labels={{ title: "Something broke", message: "Please try again.", retry: "Reload" }}
+  onError={(error, info) => logToService(error, info)}
+>
+  <Dashboard />
+</ErrorBoundary>
+```
+
+## Props
+
+<PropsTable name="ErrorBoundary" />

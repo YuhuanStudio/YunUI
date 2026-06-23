@@ -1,0 +1,31 @@
+import { ThemeToggle } from "yunui";
+
+一个由 next-themes 驱动的主题切换下拉菜单。点击后会打开一个菜单，含四个选项——浅色、锌灰深色、纯黑和跟随系统——触发按钮会以日/月切换动画反映当前主题。宿主应用需提供 next-themes provider；本站点已经提供，因此下方的切换器是实时可用的。
+
+## 导入
+
+```tsx
+import { ThemeToggle } from "@yuhuanowo/yunui";
+```
+
+## 图标（默认）
+
+<ComponentPreview
+  title="Icon variant"
+  code={`<ThemeToggle />`}
+>
+  <ThemeToggle />
+</ComponentPreview>
+
+## 胶囊
+
+<ComponentPreview
+  title="Pill variant"
+  code={`<ThemeToggle variant="pill" />`}
+>
+  <ThemeToggle variant="pill" />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="ThemeToggle" />

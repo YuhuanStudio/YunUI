@@ -1,0 +1,55 @@
+import { Skeleton } from "yunui";
+
+用於載入狀態的脈衝佔位塊。它渲染一個柔和、圓角的 `<div>`，帶有輕微的 `animate-pulse` 動畫。完全透過 `className` 設定其尺寸與形狀——為文字行設定寬高，或用 `rounded-full` 表示頭像——並組合多個以勾勒出你正在等待的版面。
+
+## 匯入
+
+```tsx
+import { Skeleton } from "@yuhuanowo/yunui";
+```
+
+## 基礎
+
+<ComponentPreview
+  title="Lines"
+  code={`<Skeleton className="h-4 w-48" />
+<Skeleton className="h-4 w-32" />
+<Skeleton className="h-4 w-40" />`}
+>
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-48" />
+    <Skeleton className="h-4 w-32" />
+    <Skeleton className="h-4 w-40" />
+  </div>
+</ComponentPreview>
+
+## 卡片佔位
+
+<ComponentPreview
+  title="Avatar + text"
+  code={`<div className="flex items-center gap-3">
+  <Skeleton className="h-12 w-12 rounded-full" />
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-40" />
+    <Skeleton className="h-4 w-24" />
+  </div>
+</div>`}
+>
+  <div className="flex items-center gap-3">
+    <Skeleton className="h-12 w-12 rounded-full" />
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-40" />
+      <Skeleton className="h-4 w-24" />
+    </div>
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+`Skeleton` 就是一個普通的 `<div>`，因此接受所有標準 `<div>` 屬性。它沒有自訂屬性——尺寸、形狀和間距完全透過 `className` 控制。
+
+<PropsTable
+  rows={[
+    { name: "className", type: "string", description: "設定尺寸與形狀（例如 `h-4 w-48`、`rounded-full`）。" },
+  ]}
+/>

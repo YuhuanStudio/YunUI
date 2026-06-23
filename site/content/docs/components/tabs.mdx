@@ -1,0 +1,95 @@
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "yunui";
+
+A Radix-backed set of tabbed panels. `Tabs` manages the active tab; compose it from `TabsList` (the trigger row), `TabsTrigger` (one clickable tab) and `TabsContent` (the panel shown when its tab is active). Full keyboard a11y (arrow keys, Home/End) comes from Radix. Use `defaultValue` for uncontrolled tabs, or `value`/`onValueChange` to control them.
+
+## Import
+
+```tsx
+import {
+  Tabs, TabsList, TabsTrigger, TabsContent,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Tabs"
+  code={`<Tabs defaultValue="account">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Manage your account details.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>`}
+>
+  <Tabs defaultValue="account" className="w-full max-w-md">
+    <TabsList>
+      <TabsTrigger value="account">Account</TabsTrigger>
+      <TabsTrigger value="password">Password</TabsTrigger>
+    </TabsList>
+    <TabsContent value="account">Manage your account details.</TabsContent>
+    <TabsContent value="password">Change your password here.</TabsContent>
+  </Tabs>
+</ComponentPreview>
+
+## Multiple tabs
+
+<ComponentPreview
+  title="Three tabs"
+  code={`<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+    <TabsTrigger value="reports">Reports</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">A snapshot of your workspace.</TabsContent>
+  <TabsContent value="analytics">Usage trends over time.</TabsContent>
+  <TabsContent value="reports">Exportable summaries.</TabsContent>
+</Tabs>`}
+>
+  <Tabs defaultValue="overview" className="w-full max-w-md">
+    <TabsList>
+      <TabsTrigger value="overview">Overview</TabsTrigger>
+      <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <TabsTrigger value="reports">Reports</TabsTrigger>
+    </TabsList>
+    <TabsContent value="overview">A snapshot of your workspace.</TabsContent>
+    <TabsContent value="analytics">Usage trends over time.</TabsContent>
+    <TabsContent value="reports">Exportable summaries.</TabsContent>
+  </Tabs>
+</ComponentPreview>
+
+## Disabled tab
+
+<ComponentPreview
+  title="Disabled trigger"
+  code={`<Tabs defaultValue="general">
+  <TabsList>
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="billing" disabled>Billing</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">General preferences.</TabsContent>
+  <TabsContent value="billing">Billing is unavailable on this plan.</TabsContent>
+</Tabs>`}
+>
+  <Tabs defaultValue="general" className="w-full max-w-md">
+    <TabsList>
+      <TabsTrigger value="general">General</TabsTrigger>
+      <TabsTrigger value="billing" disabled>Billing</TabsTrigger>
+    </TabsList>
+    <TabsContent value="general">General preferences.</TabsContent>
+    <TabsContent value="billing">Billing is unavailable on this plan.</TabsContent>
+  </Tabs>
+</ComponentPreview>
+
+## Parts
+
+| Part | Role |
+| --- | --- |
+| `Tabs` | Root; holds `value`/`onValueChange` or `defaultValue`. |
+| `TabsList` | Horizontal container for the triggers. |
+| `TabsTrigger` | A clickable tab (`value` required); supports `disabled`. |
+| `TabsContent` | The panel shown when its matching tab is active (`value` required). |
+
+`Tabs` re-exports Radix `Tabs` parts with design-system styling. See the [Radix Tabs docs](https://www.radix-ui.com/primitives/docs/components/tabs) for the complete prop reference, including `orientation` and `activationMode`.

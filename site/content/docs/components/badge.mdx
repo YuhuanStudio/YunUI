@@ -1,0 +1,47 @@
+import { Badge } from "yunui";
+
+A small inline pill for statuses and labels. It renders semantic color variants and forwards every native `<span>` attribute.
+
+## Import
+
+```tsx
+import { Badge } from "@yuhuanowo/yunui";
+```
+
+## Variants
+
+<ComponentPreview
+  title="Variants"
+  code={`<Badge>Default</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="error">Error</Badge>
+<Badge variant="info">Info</Badge>`}
+>
+  <Badge>Default</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="error">Error</Badge>
+  <Badge variant="info">Info</Badge>
+</ComponentPreview>
+
+## In context
+
+Badges sit naturally next to text to convey state at a glance.
+
+<ComponentPreview
+  title="Inline status"
+  code={`<span className="inline-flex items-center gap-2 text-sm">
+  Claude Opus 4.8
+  <Badge variant="success">Active</Badge>
+</span>`}
+>
+  <span className="inline-flex items-center gap-2 text-sm">
+    Claude Opus 4.8
+    <Badge variant="success">Active</Badge>
+  </span>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Badge" />

@@ -1,0 +1,39 @@
+import { Combobox } from "yunui";
+
+A searchable, optionally creatable combobox. Type to filter the `options` by label or value, press Enter to pick the top match — and, when `allowCustom` is on (the default), to create a brand-new value that isn't in the list. It's controlled: pass `value` and `onChange`. For a fixed list without free text see [CustomSelect](/docs/components/custom-select); for the Radix-based listbox see [Select](/docs/components/select).
+
+## Import
+
+```tsx
+import { Combobox } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`Combobox` is controlled — wire `value` and `onChange` to state:
+
+```tsx
+const [value, setValue] = useState("next");
+
+<Combobox
+  value={value}
+  onChange={setValue}
+  placeholder="Pick or type a framework…"
+  options={[
+    { value: "next", label: "Next.js", description: "React framework" },
+    { value: "remix", label: "Remix", description: "Full-stack web" },
+    { value: "astro", label: "Astro", description: "Content-first" },
+    { value: "svelte", label: "SvelteKit", description: "Compiler-based" },
+  ]}
+/>
+```
+
+## Example
+
+<ComponentPreview title="Searchable & creatable">
+  <ComboboxDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Combobox" />

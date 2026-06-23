@@ -1,0 +1,76 @@
+import { Collapsible, CollapsibleTrigger, CollapsibleContent, Button } from "yunui";
+import { ChevronsUpDown } from "lucide-react";
+
+An animated show/hide region built on Radix Collapsible. A `CollapsibleTrigger` toggles the visibility of a `CollapsibleContent`, which slides open and closed. Use `defaultOpen` for the uncontrolled case, or `open` + `onOpenChange` when you want to drive it yourself.
+
+## Import
+
+```tsx
+import {
+  Collapsible, CollapsibleTrigger, CollapsibleContent,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Toggle a section"
+  code={`<Collapsible>
+  <CollapsibleTrigger>Toggle details</CollapsibleTrigger>
+  <CollapsibleContent>
+    YunUI is a versioned design system: build it once, sync it everywhere.
+  </CollapsibleContent>
+</Collapsible>`}
+>
+  <Collapsible className="w-full max-w-md">
+    <CollapsibleTrigger className="font-medium underline-offset-4 hover:underline">
+      Toggle details
+    </CollapsibleTrigger>
+    <CollapsibleContent>
+      <p className="pt-2 text-sm text-muted-foreground">
+        YunUI is a versioned design system: build it once, sync it everywhere.
+      </p>
+    </CollapsibleContent>
+  </Collapsible>
+</ComponentPreview>
+
+## Open by default
+
+Render it expanded on first paint with `defaultOpen` (uncontrolled).
+
+<ComponentPreview
+  title="Default open"
+  code={`<Collapsible defaultOpen>
+  <CollapsibleTrigger>
+    <Button variant="outline" size="sm">
+      What's included <ChevronsUpDown className="w-4 h-4" />
+    </Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    Primitives, layout helpers, and themed tokens.
+  </CollapsibleContent>
+</Collapsible>`}
+>
+  <Collapsible defaultOpen className="w-full max-w-md space-y-2">
+    <CollapsibleTrigger asChild>
+      <Button variant="outline" size="sm">
+        What's included <ChevronsUpDown className="w-4 h-4" />
+      </Button>
+    </CollapsibleTrigger>
+    <CollapsibleContent>
+      <p className="text-sm text-muted-foreground">
+        Primitives, layout helpers, and themed tokens.
+      </p>
+    </CollapsibleContent>
+  </Collapsible>
+</ComponentPreview>
+
+## Parts
+
+<PropsTable
+  rows={[
+    { name: "Collapsible", type: "CollapsibleProps", description: "The root. Accepts `defaultOpen` (uncontrolled), `open` + `onOpenChange` (controlled), and `disabled`." },
+    { name: "CollapsibleTrigger", type: "CollapsibleTriggerProps", description: "The button that toggles the content. Use `asChild` to render your own element (e.g. a Button)." },
+    { name: "CollapsibleContent", type: "CollapsibleContentProps", description: "The region that slides open and closed; animates on mount via the Radix open/closed data attributes." },
+  ]}
+/>

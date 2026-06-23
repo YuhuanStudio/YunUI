@@ -1,0 +1,73 @@
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, Button } from "yunui";
+
+悬停或聚焦时出现的小型浮动标签，基于 Radix `Tooltip` 构建。请将触发元素包裹在 `TooltipProvider` 中（在靠近应用根部放置一个，以共享开关时序），然后将 `TooltipTrigger` 与 `TooltipContent` 气泡配对。
+
+## Import
+
+```tsx
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Tooltip"
+  code={`<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="outline">Hover me</Button>
+    </TooltipTrigger>
+    <TooltipContent>Add to your library</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`}
+>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Hover me</Button>
+      </TooltipTrigger>
+      <TooltipContent>Add to your library</TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</ComponentPreview>
+
+## Sides
+
+`TooltipContent` 接受 Radix 的 `side`（`top` / `right` / `bottom` / `left`）和 `sideOffset` 属性，用于控制气泡出现的位置。
+
+<ComponentPreview
+  title="Placed on the right"
+  code={`<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="outline">Right side</Button>
+    </TooltipTrigger>
+    <TooltipContent side="right">Shown to the right</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`}
+>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Right side</Button>
+      </TooltipTrigger>
+      <TooltipContent side="right">Shown to the right</TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</ComponentPreview>
+
+## Parts
+
+| 部件 | 作用 |
+| --- | --- |
+| `TooltipProvider` | 共享开关时序；在靠近应用根部放置一个（接受 `delayDuration`）。 |
+| `Tooltip` | 根节点；将触发元素与其内容配对。 |
+| `TooltipTrigger` | 悬停/聚焦时显示提示的元素（用 `asChild` 包裹一个 `Button`）。 |
+| `TooltipContent` | 浮动气泡；接受 `side` 和 `sideOffset`。 |
+
+`Tooltip` 以设计系统样式重新导出 Radix `Tooltip` 部件。完整的属性参考请见 [Radix Tooltip 文档](https://www.radix-ui.com/primitives/docs/components/tooltip)。

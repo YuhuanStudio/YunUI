@@ -76,6 +76,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
                 className={`
                     ${sizeClass.track} rounded-full border-2 flex items-center px-0.5
                     transition-all duration-200 ease-in-out
+                    outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background
                     ${checked ? variantClass.checkedTrack : variantClass.uncheckedTrack}
                     ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                     ${className}

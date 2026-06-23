@@ -1,0 +1,33 @@
+import { ShinyButton } from "yunui";
+
+一個高強調的行動呼籲按鈕，帶有動畫微光掃過效果和一個在懸停時向前移動的尾部箭頭。用於頁面上最重要的那一個操作。設定 `href` 可將其渲染為路由連結（透過已設定的 Link 配接器）；否則它會渲染為 `<button>` 並呼叫 `onClick`。
+
+## 匯入
+
+```tsx
+import { ShinyButton } from "@yuhuanowo/yunui";
+```
+
+## 基礎
+
+<ComponentPreview
+  title="Call to action"
+  code={`<ShinyButton>Get started</ShinyButton>`}
+>
+  <ShinyButton>Get started</ShinyButton>
+</ComponentPreview>
+
+## 作為連結
+
+傳入 `href` 即可渲染為路由連結而非按鈕。
+
+<ComponentPreview
+  title="As a link"
+  code={`<ShinyButton href="/docs">Read the docs</ShinyButton>`}
+>
+  <ShinyButton href="/docs">Read the docs</ShinyButton>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="ShinyButton" />

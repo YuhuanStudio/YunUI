@@ -1,0 +1,83 @@
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose, Button } from "yunui";
+
+A floating panel anchored to a trigger, built on Radix `Popover`. `PopoverContent` is portalled, positioned below its trigger with a blurred, translucent surface, and animates in and out. Use it for rich, non-modal overflow content — forms, menus, or detail cards.
+
+## Import
+
+```tsx
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+} from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Popover"
+  code={`<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Open popover</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <div className="space-y-1">
+      <p className="text-sm font-medium">Dimensions</p>
+      <p className="text-xs text-muted-foreground">
+        Set the width and height for the layer.
+      </p>
+    </div>
+  </PopoverContent>
+</Popover>`}
+>
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="outline">Open popover</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <div className="space-y-1">
+        <p className="text-sm font-medium">Dimensions</p>
+        <p className="text-xs text-muted-foreground">
+          Set the width and height for the layer.
+        </p>
+      </div>
+    </PopoverContent>
+  </Popover>
+</ComponentPreview>
+
+## Alignment
+
+`PopoverContent` accepts Radix's `align` (`start` / `center` / `end`) and `sideOffset` props to fine-tune where the panel sits relative to its trigger.
+
+<ComponentPreview
+  title="Aligned to the start"
+  code={`<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Aligned start</Button>
+  </PopoverTrigger>
+  <PopoverContent align="start">
+    <p className="text-sm">This panel aligns to the trigger's start edge.</p>
+  </PopoverContent>
+</Popover>`}
+>
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="outline">Aligned start</Button>
+    </PopoverTrigger>
+    <PopoverContent align="start">
+      <p className="text-sm">This panel aligns to the trigger's start edge.</p>
+    </PopoverContent>
+  </Popover>
+</ComponentPreview>
+
+## Parts
+
+| Part | Role |
+| --- | --- |
+| `Popover` | Root; holds `open`/`onOpenChange` (or runs uncontrolled). |
+| `PopoverTrigger` | Element that toggles the panel (use `asChild` to wrap a `Button`). |
+| `PopoverContent` | Portalled, animated floating panel; accepts `align` and `sideOffset`. |
+| `PopoverClose` | Element that closes the popover when activated. |
+
+`Popover` re-exports Radix `Popover` parts with design-system styling. See the [Radix Popover docs](https://www.radix-ui.com/primitives/docs/components/popover) for the complete prop reference, including `PopoverAnchor` and positioning props.

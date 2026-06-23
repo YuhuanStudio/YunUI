@@ -1,0 +1,47 @@
+import { LLMCopyButton, ViewOptions } from "yunui/patterns";
+
+The small action controls for a documentation page header. `LLMCopyButton` fetches the page's Markdown source and copies it to the clipboard (handy for pasting into an LLM), while `ViewOptions` offers links to view the raw Markdown and to edit the page on GitHub.
+
+## Import
+
+```tsx
+import { LLMCopyButton, ViewOptions } from "@yuhuanowo/yunui/patterns";
+```
+
+## Copy as Markdown
+
+`LLMCopyButton` fetches `markdownUrl` on click and writes the text to the clipboard.
+
+<ComponentPreview
+  title="LLMCopyButton"
+  code={`import { LLMCopyButton } from "@yuhuanowo/yunui/patterns";
+
+<LLMCopyButton markdownUrl="/docs/patterns/docs-actions.md" />`}
+>
+  <LLMCopyButton markdownUrl="/docs/patterns/docs-actions.md" />
+</ComponentPreview>
+
+## View options
+
+`ViewOptions` renders a "Markdown" link and, when `githubUrl` is set, an "Edit on GitHub" link.
+
+<ComponentPreview
+  title="ViewOptions"
+  code={`import { ViewOptions } from "@yuhuanowo/yunui/patterns";
+
+<ViewOptions
+  markdownUrl="/docs/patterns/docs-actions.md"
+  githubUrl="https://github.com/yuhuanowo/YunUI"
+/>`}
+>
+  <ViewOptions
+    markdownUrl="/docs/patterns/docs-actions.md"
+    githubUrl="https://github.com/yuhuanowo/YunUI"
+  />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="LLMCopyButton" />
+
+<PropsTable name="ViewOptions" />

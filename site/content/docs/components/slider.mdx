@@ -1,0 +1,44 @@
+import { Slider } from "yunui";
+
+A range slider built on Radix `Slider`. It renders the design-system track, range and thumb, and forwards every Radix Slider prop (`defaultValue`, `value`/`onValueChange`, `min`, `max`, `step`, `disabled`).
+
+## Import
+
+```tsx
+import { Slider } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Single thumb"
+  code={`<Slider defaultValue={[50]} max={100} step={1} />`}
+>
+  <div className="w-full max-w-sm">
+    <Slider defaultValue={[50]} max={100} step={1} />
+  </div>
+</ComponentPreview>
+
+## Range (two thumbs)
+
+<ComponentPreview
+  title="Range"
+  code={`<Slider defaultValue={[25, 75]} max={100} step={1} />`}
+>
+  <div className="w-full max-w-sm">
+    <Slider defaultValue={[25, 75]} max={100} step={1} />
+  </div>
+</ComponentPreview>
+
+## Disabled
+
+<ComponentPreview
+  title="Disabled"
+  code={`<Slider defaultValue={[40]} max={100} disabled />`}
+>
+  <div className="w-full max-w-sm">
+    <Slider defaultValue={[40]} max={100} disabled />
+  </div>
+</ComponentPreview>
+
+`Slider` is a thin styling wrapper over Radix `Slider`. For the full prop reference (controlled `value`/`onValueChange`, `minStepsBetweenThumbs`, orientation, …) see the [Radix Slider docs](https://www.radix-ui.com/primitives/docs/components/slider).
