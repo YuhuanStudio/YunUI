@@ -129,6 +129,23 @@ pnpm typecheck
 
 展示站在 `site/`(Next 16 + Tailwind v4):`pnpm --filter yunui-site dev`。
 
+## 贡献 / 加新组件
+
+完整规范见 **[CONTRIBUTING.md](./CONTRIBUTING.md)**。最容易踩的一条:**组件不内置文案 / 不绑定 i18n 库**。需要显示文字的组件必须走 adapter,不要 import next-intl,也不要硬写字符串:
+
+```tsx
+import { useYunUI } from "../adapters/context";
+
+export function Thing() {
+  const t = useYunUI().useT("thing");   // 命名空间
+  return <button>{t("submit")}</button>; // key,不是字面量
+}
+```
+
+- 不注入 provider 时 `useT` 直接返回 key(组件照样渲染,展示站也是这样跑的)。
+- 真正的翻译文案加到**消费方**(如 Yunxin `messages/{en,zh-CN,zh-TW}.json`),不放 YunUI。
+- 同理:路由/图片走 `useYunUI().Link/Image/useRouter`(别用 `next/*`);业务数据走 **props**(别在组件里 `useBranding`/`fetch`/`localStorage`)。
+
 ## License
 
 MIT © yuhuanowo
