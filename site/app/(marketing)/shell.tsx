@@ -128,7 +128,7 @@ export function Shell({ children }: { children: ReactNode }) {
           { title: "Product", links: [{ label: "Overview", href: "/#overview" }, { label: "Why YunUI", href: "/#why" }, { label: "Showcase", href: "/showcase" }] },
           { title: "Resources", links: [{ label: "Docs", href: "/docs" }, { label: "Patterns", href: "/showcase#patterns" }, { label: "Utility Classes", href: "/showcase#design" }] },
         ]}
-        social={[{ icon: <GithubIcon />, href: "https://github.com/yuhuanowo", label: "GitHub" }]}
+        social={[{ icon: <GithubIcon />, href: "https://github.com/YuhuanStudio/YunUI", label: "GitHub" }]}
         copyright="© 2026 YunUI · edit once, sync everywhere"
       />
     </div>

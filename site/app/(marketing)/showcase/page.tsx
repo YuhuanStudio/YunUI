@@ -1163,7 +1163,7 @@ export default function Showcase() {
         <Demo title="Docs page actions" description="LLMCopyButton (copy page as Markdown for an LLM) and ViewOptions (raw Markdown / GitHub links) — the fumadocs-styled doc header actions.">
           <div className="flex items-center gap-1 rounded-lg border border-border bg-card px-1 py-1">
             <LLMCopyButton markdownUrl="/docs/overview.md" />
-            <ViewOptions markdownUrl="/docs/overview.md" githubUrl="https://github.com/yuhuanowo/YunUI" />
+            <ViewOptions markdownUrl="/docs/overview.md" githubUrl="https://github.com/YuhuanStudio/YunUI" />
           </div>
         </Demo>
         <Demo title="Account locked card" description="Terminal auth screen (banned / suspended) — presentational; the host owns logout/redirect via onBack.">
