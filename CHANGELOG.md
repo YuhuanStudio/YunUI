@@ -7,6 +7,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-23
+
 ### Added
 - **Layout primitives** (the big once-ui-parity gap): `Flex`, `Grid`, `Column`,
   `Row`, `Stack` — token-aware `gap`/`padding`/`align`/`justify`/`columns` via
@@ -15,6 +17,12 @@ patch = fixes, anything may change between 0.x releases).
 - **Data display**: `Table` family (Table/Thead/Tbody/Tfoot/Tr/Th/Td + aliases),
   `Breadcrumb` family, controlled `Pagination` (ellipsis truncation, a11y labels).
 - Tests for all of the above (141 total, up from 101).
+
+### Fixed
+- **`license` field corrected to `Apache-2.0`** to match the repo's LICENSE file.
+  0.1.4–0.1.8 wrongly declared `MIT` in package metadata; this release fixes it.
+- `CodeDemo` sample snippets use a generic `api.example.com` endpoint instead of
+  a product-specific one.
 
 ## [0.1.8]
 
