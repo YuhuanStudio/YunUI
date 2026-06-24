@@ -959,7 +959,7 @@ function Navbar({
         className: "group relative px-2 lg:px-3 py-2 whitespace-nowrap min-w-15 text-center",
         children: [
           /* @__PURE__ */ jsx("span", { className: `text-sm relative z-10 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`, children: link.label }),
-          /* @__PURE__ */ jsx("span", { className: `absolute bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 bg-foreground rounded-full transition-all duration-200 ${isActive(link.href) ? "w-8" : "w-0 group-hover:w-8"}` })
+          /* @__PURE__ */ jsx("span", { className: `absolute bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 bg-foreground rounded-full transition-all duration-200 yunui-accent-bg ${isActive(link.href) ? "w-8" : "w-0 group-hover:w-8"}` })
         ]
       },
       link.href
@@ -980,7 +980,7 @@ function Navbar({
           Link,
           {
             href: signupHref,
-            className: "px-3 sm:px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center",
+            className: "px-3 sm:px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on",
             children: [
               /* @__PURE__ */ jsx("span", { className: "hidden sm:inline", children: signUp }),
               /* @__PURE__ */ jsx("span", { className: "sm:hidden", children: "Sign Up" })

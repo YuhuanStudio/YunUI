@@ -250,6 +250,10 @@
 [data-accent-source="brand"] .yunui-accent-border {
   border-color: var(--brand-solid-strong);
 }
+/* Text/icon ink sitting ON a solid brand fill (e.g. the navbar Sign-up CTA). */
+[data-accent-source="brand"] .yunui-accent-on {
+  color: var(--brand-on-solid-strong);
+}
 
 /* Active navigation indicators (sidebar active bar + tab underline + active
    label) follow the brand. Higher specificity than the base .nav-* rules, so it
