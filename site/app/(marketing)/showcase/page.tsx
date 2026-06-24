@@ -154,6 +154,12 @@ import {
   Image as ImageIcon,
   Lock,
   FileText,
+  Power,
+  Pencil,
+  Server,
+  Cpu,
+  CheckCircle2,
+  Globe,
 } from "lucide-react";
 
 // ---- layout helpers -------------------------------------------------------
@@ -394,6 +400,64 @@ function BlogControlsDemo() {
 function SearchInputDemo() {
   const [q, setQ] = useState("gpt-4o");
   return <SearchInput value={q} onChange={setQ} placeholder="Search models…" />;
+}
+
+function ProviderCardGridDemo() {
+  const CardBadge = ({ children, color }: { children: ReactNode; color: string }) => (
+    <span className={`px-2 py-0.5 rounded-md text-xs font-medium flex items-center gap-1.5 ${color}`}>{children}</span>
+  );
+  const Card = ({
+    provider, name, latency, latencyClass, models, badges,
+  }: { provider: string; name: string; latency: string; latencyClass: string; models: number; badges: ReactNode }) => (
+    <div className="card card-col p-5">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <ProviderIcon provider={provider} size={40} rounded />
+          <div className="min-w-0">
+            <h3 className="font-semibold truncate">{name}</h3>
+            <div className="flex items-center gap-2 text-xs mt-0.5">
+              <span className="flex items-center gap-1 text-green-500"><CheckCircle2 size={12} />Healthy</span>
+              <span className={`flex items-center gap-1 ${latencyClass}`}><Zap size={11} />{latency}</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 shrink-0 text-muted-foreground">
+          <Activity size={16} />
+          <Pencil size={16} />
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-2">{badges}</div>
+      <div className="card-footer flex items-center justify-between">
+        <span className="text-xs text-muted-foreground">{models} models</span>
+        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-green-600 bg-green-500/10">
+          <Power size={14} />Enabled
+        </span>
+      </div>
+    </div>
+  );
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
+      <Card
+        provider="anthropic" name="Claude Code" latency="50ms" latencyClass="text-green-500" models={10}
+        badges={
+          <>
+            <CardBadge color="bg-blue-500/10 text-blue-600 dark:text-blue-400"><Server size={12} />Local Provider</CardBadge>
+            <CardBadge color="bg-slate-500/10 text-slate-600 dark:text-slate-400"><Cpu size={12} />Built-in adapter</CardBadge>
+          </>
+        }
+      />
+      <Card
+        provider="cloudflare" name="Cloudflare Worker" latency="1588ms" latencyClass="text-red-500" models={95}
+        badges={
+          <>
+            <CardBadge color="bg-green-500/10 text-green-600 dark:text-green-400"><KeyRound size={12} />Key Configured</CardBadge>
+            <CardBadge color="bg-muted text-muted-foreground max-w-44"><Globe size={12} /><span className="truncate">https://api.cloudflare.com/…</span></CardBadge>
+            <CardBadge color="bg-slate-500/10 text-slate-600 dark:text-slate-400"><Cpu size={12} />Built-in adapter</CardBadge>
+          </>
+        }
+      />
+    </div>
+  );
 }
 
 // AccountLockedCard renders a full-screen (min-h-dvh) auth screen — frame it in a
@@ -1111,27 +1175,8 @@ export default function Showcase() {
             />
           </div>
         </Demo>
-        <Demo title="Card footer alignment in a grid" description="card-col + card-footer keep footers pinned to the bottom, so equal-height grid cards line up regardless of body content.">
-          <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
-            <div className="card card-col p-4">
-              <h3 className="font-semibold">Claude Code</h3>
-              <p className="text-xs text-green-500 mb-3">Healthy · 50ms</p>
-              <div className="flex flex-wrap gap-2"><Tag>Local Provider</Tag><Tag>Built-in adapter</Tag></div>
-              <div className="card-footer flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">10 models</span>
-                <span className="text-green-600">Enabled</span>
-              </div>
-            </div>
-            <div className="card card-col p-4">
-              <h3 className="font-semibold">Cloudflare Worker</h3>
-              <p className="text-xs text-green-500 mb-3">Healthy · 1588ms</p>
-              <div className="flex flex-col items-start gap-2"><Tag>Key Configured</Tag><Tag>https://api.cloudflare.com/…</Tag><Tag>Built-in adapter</Tag></div>
-              <div className="card-footer flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">95 models</span>
-                <span className="text-green-600">Enabled</span>
-              </div>
-            </div>
-          </div>
+        <Demo title="Provider card — footer alignment in a grid" description="A real provider-card layout: card-col + card-footer pin the model count + toggle to the bottom, so cards with different badge rows still line up across the grid.">
+          <ProviderCardGridDemo />
         </Demo>
       </Section>
 
