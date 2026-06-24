@@ -228,6 +228,20 @@
   --accent-muted: var(--brand-alpha-medium);
 }
 
+/* ...and re-color the primary/accent buttons (which hard-code the monochrome
+   ink) to the brand, keeping their outline style. Default (no attribute) stays
+   monochrome. */
+[data-accent-source="brand"] .btn-primary,
+[data-accent-source="brand"] .btn-accent {
+  color: var(--brand-solid-strong);
+  border-color: var(--brand-solid-strong);
+  background: var(--brand-alpha-weak);
+}
+[data-accent-source="brand"] .btn-primary:hover,
+[data-accent-source="brand"] .btn-accent:hover {
+  background: var(--brand-alpha-medium);
+}
+
 /* True Black — Fumadocs sidebar overrides */
 .true-black #nd-sidebar {
   --color-fd-muted: #111111;

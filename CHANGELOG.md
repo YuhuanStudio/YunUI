@@ -13,6 +13,13 @@ patch = fixes, anything may change between 0.x releases).
 
 _Accumulating; will ship as the next patch (0.2.5) once a batch is ready._
 
+### Added
+- Opt-in brand accent now also re-colors the **primary/accent buttons**
+  (`.btn-primary`, `.btn-accent`) under `data-accent-source="brand"`, keeping
+  their outline style — so "branded mode" covers the main actions, not just the
+  `bg-accent`/`text-accent` utilities. Default monochrome is unchanged (verified
+  visually: default stays black, `data-brand="blue"` turns them blue).
+
 ### Changed
 - **"Which one do I use" guidance** on the overlapping component families, via
   JSDoc (visible in IDE + props tables), so picking one no longer feels like a
