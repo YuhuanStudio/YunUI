@@ -528,14 +528,16 @@ body {
   box-shadow: var(--shadow-md);
 }
 
-/* Lay a card out as a column so its footer can pin to the bottom. In a grid of
-   equal-height cards (align-items: stretch, the default), every footer then lines
-   up no matter how much body content each card has — fixes the "footer floats in
-   a short card" problem once, here, instead of per call site. */
+/* Lay a card out as a column so its footer can pin to the bottom. In a grid the
+   cards are already stretched to equal height (align-items: stretch, the default),
+   so every footer lines up no matter how much body content each card has — fixes
+   the "footer floats in a short card" problem once, here, instead of per call site.
+   NOTE: deliberately NO `height: 100%` — an explicit height overrides the grid's
+   stretch and, when the grid's own height is indefinite, collapses the card back
+   to content height (re-introducing the bug). Stretch alone is the robust path. */
 .card-col {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 /* Footer pinned to the bottom of a `.card-col`, with the standard hairline rule.

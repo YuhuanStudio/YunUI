@@ -11,6 +11,13 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Fixed
+- **`.card-col` no longer sets `height: 100%`.** That explicit height overrode the
+  grid's `align-items: stretch` and, when the grid's own height was indefinite
+  (e.g. a centered flex container), collapsed each card to its content height — so
+  the footer-pinning silently failed. Stretch alone is the robust path; footers now
+  align in any grid context.
+
 ## [0.2.7] - 2026-06-24
 
 ### Added
