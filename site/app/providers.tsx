@@ -16,9 +16,19 @@ import { LocaleProvider, useLocale, useSetLocale } from "./locale-provider";
 // Yunxin's yunui-provider.tsx. Component labels (theme toggle, combobox, select,
 // thinking block, copy) live in messages/{en,zh-CN,zh-TW}.json under `common.*`.
 const useT = (namespace?: string) => {
-  const t = useTranslations(namespace as never);
-  return (key: string, vars?: Record<string, unknown>) =>
-    (t as (k: string, v?: Record<string, unknown>) => string)(key, vars);
+  // Use the ROOT translator and resolve `${namespace}.${key}` manually. Calling
+  // `useTranslations("components.modal")` THROWS at construction when that whole
+  // namespace is untranslated on the site — which crashed YunUI's Modal/Sheet on
+  // open. The root translator never throws on construction; `has()` lets us fall
+  // back to the bare key for anything the site hasn't translated.
+  const t = useTranslations() as unknown as {
+    (k: string, v?: Record<string, unknown>): string;
+    has: (k: string) => boolean;
+  };
+  return (key: string, vars?: Record<string, unknown>) => {
+    const full = namespace ? `${namespace}.${key}` : key;
+    return t.has(full) ? t(full, vars) : key;
+  };
 };
 
 // fumadocs RootProvider, wired to our cookie-backed locale store. Passing

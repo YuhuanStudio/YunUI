@@ -1609,6 +1609,20 @@
       "description": ""
     },
     {
+      "name": "creatableFilter",
+      "type": "((input: string) => boolean)",
+      "required": false,
+      "defaultValue": null,
+      "description": "When set, the \"create new\" row only appears for inputs passing this test."
+    },
+    {
+      "name": "creatableIcon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Glyph shown on the \"create new\" row (default `+`)."
+    },
+    {
       "name": "creatableText",
       "type": "string",
       "required": false,
