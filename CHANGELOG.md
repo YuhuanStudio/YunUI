@@ -11,6 +11,16 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-06-24
+
+### Added
+- Bundled icon set expanded to the **full shared asset library** sourced from
+  Yunxin: `providers` (88), `models` (171), `apps` (55), `paintings` (7),
+  `search` (5) — 326 files. YunUI is now the single source of truth for these
+  icons; any project can pull them from the package or via jsDelivr
+  (`…/@yuhuanowo/yunui@0.2/icons/<category>/<name>`), instead of keeping its own
+  copy.
+
 ## [0.2.2] - 2026-06-24
 
 ### Changed
@@ -156,7 +166,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/YuhuanStudio/YunUI/compare/v0.1.8...v0.2.0
