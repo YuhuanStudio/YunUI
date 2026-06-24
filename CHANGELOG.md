@@ -11,6 +11,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-06-24
+
 ### Added
 - New primitives closing part of the breadth gap with once-ui: **`PasswordInput`**
   (masked field + show/hide reveal toggle), **`NumberInput`** (−/+ steppers with
@@ -228,7 +230,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.5...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.6...HEAD
+[0.2.6]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.2...v0.2.3
