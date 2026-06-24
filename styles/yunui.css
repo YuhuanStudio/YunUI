@@ -237,19 +237,9 @@
   --color-ring: var(--brand-solid-strong);
 }
 
-/* ...and re-color the primary/accent buttons (which hard-code the monochrome
-   ink) to the brand, keeping their outline style. Default (no attribute) stays
-   monochrome. */
-[data-accent-source="brand"] .btn-primary,
-[data-accent-source="brand"] .btn-accent {
-  color: var(--brand-solid-strong);
-  border-color: var(--brand-solid-strong);
-  background: var(--brand-alpha-weak);
-}
-[data-accent-source="brand"] .btn-primary:hover,
-[data-accent-source="brand"] .btn-accent:hover {
-  background: var(--brand-alpha-medium);
-}
+/* NOTE: the primary/accent BUTTON brand overrides live AFTER the `.dark .btn-*`
+   rules (bottom of this file, "OPT-IN BRAND BUTTONS") so they win in dark mode
+   too — placing them here would lose to the later, equal-specificity dark rules. */
 
 /* Filled elements that hard-code the foreground ink (Slider range + thumb,
    Progress fill) follow the brand under opt-in too. Markers do nothing by
@@ -259,6 +249,22 @@
 }
 [data-accent-source="brand"] .yunui-accent-border {
   border-color: var(--brand-solid-strong);
+}
+
+/* Active navigation indicators (sidebar active bar + tab underline + active
+   label) follow the brand. Higher specificity than the base .nav-* rules, so it
+   wins in light and dark. */
+[data-accent-source="brand"] .nav-item.active {
+  color: var(--brand-solid-strong);
+}
+[data-accent-source="brand"] .nav-item.active::before {
+  background: var(--brand-solid-strong);
+}
+[data-accent-source="brand"] .nav-tab.active {
+  color: var(--brand-solid-strong);
+}
+[data-accent-source="brand"] .nav-tab.active::after {
+  background: var(--brand-solid-strong);
 }
 
 /* True Black — Fumadocs sidebar overrides */
@@ -787,6 +793,24 @@ body {
 .dark .btn-red:hover,
 .true-black .btn-red:hover {
   background: rgba(248, 113, 113, 0.2);
+}
+
+/* =====================================================
+   OPT-IN BRAND BUTTONS — under data-accent-source="brand", the primary/accent
+   buttons go SOLID brand. Placed AFTER the .dark .btn-* overrides so it wins in
+   BOTH light and dark (equal specificity → later source wins). Without the
+   attribute, the monochrome buttons above are untouched.
+   ===================================================== */
+[data-accent-source="brand"] .btn-primary,
+[data-accent-source="brand"] .btn-accent {
+  color: var(--brand-solid-strong);
+  border-color: var(--brand-alpha-strong);
+  background: var(--brand-alpha-weak);
+}
+[data-accent-source="brand"] .btn-primary:hover,
+[data-accent-source="brand"] .btn-accent:hover {
+  background: var(--brand-alpha-medium);
+  border-color: var(--brand-solid-strong);
 }
 
 /* =====================================================
