@@ -11,6 +11,10 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- `Checkbox` now accepts `checked="indeterminate"` (renders a dash) for partial
+  select-all states.
+
 ### Changed
 - **`Sheet` is now a general slide-in drawer**, shown on all screen sizes by
   default — it no longer hard-codes `lg:hidden`. Pass **`mobileOnly`** for the old

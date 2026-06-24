@@ -12,7 +12,7 @@ import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
-import { Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Minus, Plus, Search, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, ArrowRight, AlertTriangle } from 'lucide-react';
+import { Minus, Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Plus, Search, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, ArrowRight, AlertTriangle } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
@@ -592,25 +592,26 @@ function Sheet({ open, onClose, children, title, mobileOnly = false }) {
 }
 var Checkbox = forwardRef(
   ({ checked, onCheckedChange, disabled = false, className = "", id }, ref) => {
+    const filled = checked === true || checked === "indeterminate";
     return /* @__PURE__ */ jsx(
       "button",
       {
         ref,
         type: "button",
         role: "checkbox",
-        "aria-checked": checked,
+        "aria-checked": checked === "indeterminate" ? "mixed" : checked,
         id,
-        onClick: () => !disabled && onCheckedChange(!checked),
+        onClick: () => !disabled && onCheckedChange(checked !== true),
         disabled,
         className: `
                     w-4 h-4 rounded border-2 flex items-center justify-center
                     transition-all duration-200 ease-in-out
                     outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background
-                    ${checked ? "bg-primary border-primary text-primary-foreground" : "border-slate-300 dark:border-slate-600 bg-transparent hover:border-primary/50"}
+                    ${filled ? "bg-primary border-primary text-primary-foreground" : "border-slate-300 dark:border-slate-600 bg-transparent hover:border-primary/50"}
                     ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                     ${className}
                 `,
-        children: checked && /* @__PURE__ */ jsx(Check, { size: 12, strokeWidth: 3 })
+        children: checked === "indeterminate" ? /* @__PURE__ */ jsx(Minus, { size: 12, strokeWidth: 3 }) : checked && /* @__PURE__ */ jsx(Check, { size: 12, strokeWidth: 3 })
       }
     );
   }
@@ -2958,5 +2959,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-4EWHVB62.js.map
-//# sourceMappingURL=chunk-4EWHVB62.js.map
+//# sourceMappingURL=chunk-DR2ZDM4X.js.map
+//# sourceMappingURL=chunk-DR2ZDM4X.js.map

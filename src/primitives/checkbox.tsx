@@ -1,12 +1,13 @@
 "use client";
 
 import { forwardRef } from "react";
-import { Check } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 
 export interface CheckboxProps {
-    /** Whether the box is checked (controlled). */
-    checked: boolean;
-    /** Called with the next checked state when toggled. */
+    /** Whether the box is checked. `"indeterminate"` shows a dash — for a
+     *  select-all that's only partially selected. */
+    checked: boolean | "indeterminate";
+    /** Called with the next checked state when toggled (indeterminate → checked). */
     onCheckedChange: (checked: boolean) => void;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
@@ -15,23 +16,25 @@ export interface CheckboxProps {
     id?: string;
 }
 
-/** Controlled checkbox rendered as an accessible toggle button with a check icon. */
+/** Controlled checkbox rendered as an accessible toggle button. Supports an
+ *  `indeterminate` state (dash) for partial select-all. */
 export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
     ({ checked, onCheckedChange, disabled = false, className = "", id }, ref) => {
+        const filled = checked === true || checked === "indeterminate";
         return (
             <button
                 ref={ref}
                 type="button"
                 role="checkbox"
-                aria-checked={checked}
+                aria-checked={checked === "indeterminate" ? "mixed" : checked}
                 id={id}
-                onClick={() => !disabled && onCheckedChange(!checked)}
+                onClick={() => !disabled && onCheckedChange(checked !== true)}
                 disabled={disabled}
                 className={`
                     w-4 h-4 rounded border-2 flex items-center justify-center
                     transition-all duration-200 ease-in-out
                     outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background
-                    ${checked
+                    ${filled
                         ? "bg-primary border-primary text-primary-foreground"
                         : "border-slate-300 dark:border-slate-600 bg-transparent hover:border-primary/50"
                     }
@@ -39,7 +42,9 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
                     ${className}
                 `}
             >
-                {checked && <Check size={12} strokeWidth={3} />}
+                {checked === "indeterminate"
+                    ? <Minus size={12} strokeWidth={3} />
+                    : checked && <Check size={12} strokeWidth={3} />}
             </button>
         );
     }

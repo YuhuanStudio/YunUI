@@ -152,9 +152,10 @@ interface SheetProps {
 declare function Sheet({ open, onClose, children, title, mobileOnly }: SheetProps): React$1.ReactPortal | null;
 
 interface CheckboxProps {
-    /** Whether the box is checked (controlled). */
-    checked: boolean;
-    /** Called with the next checked state when toggled. */
+    /** Whether the box is checked. `"indeterminate"` shows a dash — for a
+     *  select-all that's only partially selected. */
+    checked: boolean | "indeterminate";
+    /** Called with the next checked state when toggled (indeterminate → checked). */
     onCheckedChange: (checked: boolean) => void;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
@@ -162,7 +163,8 @@ interface CheckboxProps {
     /** Element id (e.g. to pair with a `<label htmlFor>`). */
     id?: string;
 }
-/** Controlled checkbox rendered as an accessible toggle button with a check icon. */
+/** Controlled checkbox rendered as an accessible toggle button. Supports an
+ *  `indeterminate` state (dash) for partial select-all. */
 declare const Checkbox: React$1.ForwardRefExoticComponent<CheckboxProps & React$1.RefAttributes<HTMLButtonElement>>;
 
 /**

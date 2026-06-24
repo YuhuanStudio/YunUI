@@ -2215,6 +2215,13 @@
   ],
   "Sheet": [
     {
+      "name": "mobileOnly",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Hide on large screens (`lg`+) — for mobile-only drawers (e.g. a sidebar\nthat's permanent on desktop)."
+    },
+    {
       "name": "onClose",
       "type": "() => void",
       "required": true,
