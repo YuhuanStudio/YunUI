@@ -9,6 +9,9 @@ import {
   Alert,
   Tag,
   AvatarGroup,
+  StatusIndicator,
+  InlineCode,
+  Steps,
 } from "../primitives";
 
 describe("PasswordInput", () => {
@@ -139,5 +142,35 @@ describe("AvatarGroup", () => {
     expect(screen.getByText("b")).toBeInTheDocument();
     expect(screen.queryByText("c")).toBeNull();
     expect(screen.getByText("+2")).toBeInTheDocument();
+  });
+});
+
+describe("StatusIndicator", () => {
+  it("renders a colored dot with a label", () => {
+    const { container } = render(<StatusIndicator status="online">Online</StatusIndicator>);
+    expect(screen.getByText("Online")).toBeInTheDocument();
+    expect(container.querySelector(".bg-green-500")).not.toBeNull();
+  });
+});
+
+describe("InlineCode", () => {
+  it("renders a <code> element with its children", () => {
+    const { container } = render(<InlineCode>npm i</InlineCode>);
+    const code = container.querySelector("code");
+    expect(code?.textContent).toBe("npm i");
+  });
+});
+
+describe("Steps", () => {
+  it("renders every step and marks the current one with aria-current", () => {
+    render(
+      <Steps
+        current={1}
+        steps={[{ title: "One" }, { title: "Two" }, { title: "Three" }]}
+      />
+    );
+    expect(screen.getByText("One")).toBeInTheDocument();
+    expect(screen.getByText("Three")).toBeInTheDocument();
+    expect(screen.getByText("Two")).toHaveAttribute("aria-current", "step");
   });
 });

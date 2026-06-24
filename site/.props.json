@@ -2003,6 +2003,38 @@
       "description": "Accessible label for the remove button (English default)."
     }
   ],
+  "StatusIndicator": [
+    {
+      "name": "pulse",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Add a pulsing halo to signal \"live\"."
+    },
+    {
+      "name": "status",
+      "type": "\"online\" | \"offline\" | \"busy\" | \"away\" | \"neutral\"",
+      "required": false,
+      "defaultValue": "neutral",
+      "description": ""
+    }
+  ],
+  "Steps": [
+    {
+      "name": "current",
+      "type": "number",
+      "required": false,
+      "defaultValue": "0",
+      "description": "Zero-based index of the active step; earlier steps render as completed."
+    },
+    {
+      "name": "steps",
+      "type": "Step[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
   "AvatarGroup": [
     {
       "name": "max",

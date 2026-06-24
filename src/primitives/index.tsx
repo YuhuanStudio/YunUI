@@ -649,6 +649,128 @@ export function Tag({ className, children, onRemove, removeLabel, ...props }: Ta
 }
 
 // =====================================================
+// STATUS INDICATOR
+// =====================================================
+
+interface StatusIndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
+    status?: "online" | "offline" | "busy" | "away" | "neutral";
+    /** Add a pulsing halo to signal "live". */
+    pulse?: boolean;
+}
+
+/** A small colored status dot with an optional label (e.g. provider online/offline). */
+export function StatusIndicator({
+    status = "neutral",
+    pulse = false,
+    className,
+    children,
+    ...props
+}: StatusIndicatorProps) {
+    const color = {
+        online: "bg-green-500",
+        offline: "bg-zinc-400",
+        busy: "bg-red-500",
+        away: "bg-amber-500",
+        neutral: "bg-muted-foreground",
+    }[status];
+    return (
+        <span className={cn("inline-flex items-center gap-1.5 text-sm", className)} {...props}>
+            <span className="relative flex h-2 w-2 shrink-0">
+                {pulse && (
+                    <span
+                        aria-hidden="true"
+                        className={cn("absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", color)}
+                    />
+                )}
+                <span className={cn("relative inline-flex h-2 w-2 rounded-full", color)} />
+            </span>
+            {children}
+        </span>
+    );
+}
+
+// =====================================================
+// INLINE CODE
+// =====================================================
+
+/** Inline `<code>` styling for code spans in prose or chat. Use `Kbd` for keys. */
+export function InlineCode({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
+    return (
+        <code
+            className={cn(
+                "rounded bg-muted px-1.5 py-0.5 font-mono text-[0.85em] text-foreground/90",
+                className
+            )}
+            {...props}
+        />
+    );
+}
+
+// =====================================================
+// STEPS
+// =====================================================
+
+interface Step {
+    title: React.ReactNode;
+    description?: React.ReactNode;
+}
+
+interface StepsProps extends Omit<React.HTMLAttributes<HTMLOListElement>, "children"> {
+    steps: Step[];
+    /** Zero-based index of the active step; earlier steps render as completed. */
+    current?: number;
+}
+
+/** Vertical progress stepper: completed / active / upcoming states with a connector. */
+export function Steps({ steps, current = 0, className, ...props }: StepsProps) {
+    return (
+        <ol className={cn("flex flex-col", className)} {...props}>
+            {steps.map((step, i) => {
+                const state = i < current ? "done" : i === current ? "active" : "upcoming";
+                const isLast = i === steps.length - 1;
+                return (
+                    <li key={i} className="flex gap-3">
+                        <div className="flex flex-col items-center">
+                            <span
+                                aria-hidden="true"
+                                className={cn(
+                                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium",
+                                    state === "done" && "border-transparent bg-primary text-primary-foreground",
+                                    state === "active" && "border-primary text-primary",
+                                    state === "upcoming" && "border-border text-muted-foreground"
+                                )}
+                            >
+                                {state === "done" ? <Check className="h-3.5 w-3.5" /> : i + 1}
+                            </span>
+                            {!isLast && (
+                                <span
+                                    aria-hidden="true"
+                                    className={cn("w-px flex-1 my-1", i < current ? "bg-primary" : "bg-border")}
+                                />
+                            )}
+                        </div>
+                        <div className={cn("pb-6", isLast && "pb-0")}>
+                            <p
+                                className={cn(
+                                    "text-sm font-medium leading-6",
+                                    state === "upcoming" ? "text-muted-foreground" : "text-foreground"
+                                )}
+                                aria-current={state === "active" ? "step" : undefined}
+                            >
+                                {step.title}
+                            </p>
+                            {step.description && (
+                                <p className="text-xs text-muted-foreground mt-0.5">{step.description}</p>
+                            )}
+                        </div>
+                    </li>
+                );
+            })}
+        </ol>
+    );
+}
+
+// =====================================================
 // DIALOG
 // =====================================================
 
@@ -1024,15 +1146,22 @@ export function AvatarGroup({ className, max, children, ...props }: AvatarGroupP
     const items = React.Children.toArray(children);
     const shown = max != null ? items.slice(0, max) : items;
     const overflow = items.length - shown.length;
+    // The separating ring is an inline box-shadow (not a `ring-*`/`border-*`
+    // utility) so it renders in any consumer without depending on those classes
+    // being generated, and without changing the avatar's box size.
+    const ring = { boxShadow: "0 0 0 2px var(--color-background)" };
     return (
         <div className={cn("flex items-center -space-x-2", className)} {...props}>
             {shown.map((child, i) => (
-                <div key={i} className="rounded-full ring-2 ring-background">
+                <div key={i} className="rounded-full" style={ring}>
                     {child}
                 </div>
             ))}
             {overflow > 0 && (
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground ring-2 ring-background">
+                <div
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground"
+                    style={ring}
+                >
                     +{overflow}
                 </div>
             )}

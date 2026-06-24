@@ -30,6 +30,9 @@ import {
   Separator,
   Alert,
   Tag,
+  StatusIndicator,
+  InlineCode,
+  Steps,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -1064,7 +1067,7 @@ export default function Showcase() {
           <Button variant="amber" size="sm" onClick={() => toast.warning(t("demos.toast.warningTitle"), t("demos.toast.warningBody"))}>{t("demos.toast.warning")}</Button>
         </Demo>
         <Demo title="Alert">
-          <div className="w-full max-w-lg space-y-2">
+          <div className="w-full max-w-lg flex flex-col gap-2">
             <Alert variant="info" title="Heads up">Your trial ends in 3 days.</Alert>
             <Alert variant="success" title="Saved">Your changes have been saved.</Alert>
             <Alert variant="warning">Usage is approaching your monthly limit.</Alert>
@@ -1072,7 +1075,7 @@ export default function Showcase() {
           </div>
         </Demo>
         <Demo title="Tags, avatars & separator">
-          <div className="w-full max-w-lg space-y-4">
+          <div className="w-full max-w-lg flex flex-col gap-4">
             <div className="flex flex-wrap gap-2">
               <Tag>vision</Tag>
               <Tag>streaming</Tag>
@@ -1086,6 +1089,26 @@ export default function Showcase() {
               <Avatar><AvatarFallback>ML</AvatarFallback></Avatar>
               <Avatar><AvatarFallback>GP</AvatarFallback></Avatar>
             </AvatarGroup>
+          </div>
+        </Demo>
+        <Demo title="Status, inline code & steps">
+          <div className="w-full max-w-lg flex flex-col gap-4">
+            <div className="flex flex-wrap gap-4">
+              <StatusIndicator status="online">Online</StatusIndicator>
+              <StatusIndicator status="busy">Busy</StatusIndicator>
+              <StatusIndicator status="away">Away</StatusIndicator>
+              <StatusIndicator status="offline">Offline</StatusIndicator>
+            </div>
+            <p className="text-sm">Install with <InlineCode>pnpm add @yuhuanowo/yunui</InlineCode></p>
+            <Separator />
+            <Steps
+              current={1}
+              steps={[
+                { title: "Create account", description: "Sign up with email or OAuth." },
+                { title: "Add an API key", description: "Generate a key in the dashboard." },
+                { title: "Make a request", description: "Call the gateway from your app." },
+              ]}
+            />
           </div>
         </Demo>
       </Section>
