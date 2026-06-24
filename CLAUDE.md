@@ -8,18 +8,20 @@ Yunxin app and being generalized into a standalone system. Published as
 
 **Deliberately slow the version cadence. Stay on `0.2.x` for a long time.**
 
-- Jumping to `0.2.0` already happened faster than wanted. We are NOT in a hurry
-  to reach `0.3.0`, let alone `1.0.0`.
-- Default for every release: **bump the PATCH only** (`0.2.1`, `0.2.2`, … keep
-  going — `0.2.30+` is fine and expected). Many patch releases are the norm here.
-- Do **NOT** bump the minor (`0.3.0`) or major (`1.0.0`) without explicit
-  owner sign-off in the request. A new component or token is still a patch while
-  we stabilize.
-- `0.2.x` is the long-stay zone: API can still shift, but we accumulate fixes as
-  patches rather than advertising "new minor" churn. Treat pre-1.0 as "not yet
-  promising stability" and act accordingly.
-- Releases are tag-triggered (see below). Don't bump `version` in package.json or
-  push a tag unless the task explicitly asks for a release.
+- npm/semver is **exactly 3 numeric segments** (`major.minor.patch`). A 4th
+  segment like `0.2.4.1` is INVALID and cannot be published — so "0.2.4.xxx" is
+  expressed as the **patch slot being the slow counter**: `0.2.5`, `0.2.6`, …
+  up to `0.2.50`+ if needed. `0.2` (the minor) stays frozen; the number after it
+  is the only thing that moves.
+- **Release infrequently.** The cadence was too fast (0.2.0→0.2.4 in one sitting).
+  Going forward: accumulate changes under `[Unreleased]` in the CHANGELOG and cut
+  a patch release only when the owner asks or a batch is genuinely worth shipping.
+  Do NOT bump `version` / push a tag per change.
+- Do **NOT** bump the minor (`0.3.0`) or major (`1.0.0`) without explicit owner
+  sign-off. A new component or token is still a patch while we stabilize.
+- Optional canary scheme (only if asked): prereleases of the next patch,
+  `0.2.5-0`, `0.2.5-1`, … — opt-in for consumers, sort after the current release.
+- Releases are tag-triggered (see below).
 
 ## Commands
 
