@@ -26,6 +26,12 @@ import {
   SelectItem,
   Card,
   Badge,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
   Avatar,
   AvatarImage,
   AvatarFallback,
@@ -1061,6 +1067,38 @@ export default function Showcase() {
             <Badge variant="warning">{t("demos.cardsBadges.warning")}</Badge>
             <Badge variant="error">{t("demos.cardsBadges.error")}</Badge>
           </div>
+        </Demo>
+        <Demo title="Table">
+          <Table containerClassName="rounded-xl border border-border">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>2026-06-24</TableCell>
+                <TableCell>Top-up</TableCell>
+                <TableCell><Badge variant="success">Completed</Badge></TableCell>
+                <TableCell className="text-right">+$20.00</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>2026-06-23</TableCell>
+                <TableCell>Usage</TableCell>
+                <TableCell><Badge variant="info">Pending</Badge></TableCell>
+                <TableCell className="text-right text-muted-foreground">−$3.42</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>2026-06-22</TableCell>
+                <TableCell>Refund</TableCell>
+                <TableCell><Badge variant="warning">Review</Badge></TableCell>
+                <TableCell className="text-right">+$5.00</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </Demo>
         <Demo title={t("demos.avatarProgress.title")}>
           <Avatar>
