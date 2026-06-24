@@ -1111,6 +1111,28 @@ export default function Showcase() {
             />
           </div>
         </Demo>
+        <Demo title="Card footer alignment in a grid" description="card-col + card-footer keep footers pinned to the bottom, so equal-height grid cards line up regardless of body content.">
+          <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
+            <div className="card card-col p-4">
+              <h3 className="font-semibold">Claude Code</h3>
+              <p className="text-xs text-green-500 mb-3">Healthy · 50ms</p>
+              <div className="flex flex-wrap gap-2"><Tag>Local Provider</Tag><Tag>Built-in adapter</Tag></div>
+              <div className="card-footer flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">10 models</span>
+                <span className="text-green-600">Enabled</span>
+              </div>
+            </div>
+            <div className="card card-col p-4">
+              <h3 className="font-semibold">Cloudflare Worker</h3>
+              <p className="text-xs text-green-500 mb-3">Healthy · 1588ms</p>
+              <div className="flex flex-col items-start gap-2"><Tag>Key Configured</Tag><Tag>https://api.cloudflare.com/…</Tag><Tag>Built-in adapter</Tag></div>
+              <div className="card-footer flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">95 models</span>
+                <span className="text-green-600">Enabled</span>
+              </div>
+            </div>
+          </div>
+        </Demo>
       </Section>
 
       {/* Navigation */}

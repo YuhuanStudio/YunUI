@@ -11,6 +11,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-06-24
+
 ### Added
 - **`SearchInput`** — the canonical search field: a leading magnifier with the
   right padding (typed text never sits under the icon) plus an optional clear
@@ -20,6 +22,13 @@ patch = fixes, anything may change between 0.x releases).
 - More common primitives: **`Separator`** (h/v divider), **`Alert`** (info/success/
   warning/error callout with icon + title), **`Tag`** (small, optionally removable
   label), and **`AvatarGroup`** (overlapping avatars with a "+N" overflow chip).
+- Status & docs primitives: **`StatusIndicator`** (colored status dot + label,
+  optional pulse), **`InlineCode`** (inline code span), and **`Steps`** (vertical
+  progress stepper with done/active/upcoming states).
+- **`.card-col` + `.card-footer`** CSS classes: lay a `.card` out as a column with
+  its footer pinned to the bottom, so equal-height grid cards line their footers up
+  regardless of body content. Single-sources the card-footer-alignment fix here
+  (instead of per-consumer inline flex tweaks that keep regressing).
 
 ## [0.2.6] - 2026-06-24
 
@@ -240,7 +249,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.6...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.7...HEAD
+[0.2.7]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.3...v0.2.4
