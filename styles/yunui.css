@@ -867,6 +867,19 @@ select.input:focus,
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
 }
 
+/* NumberInput provides its own −/+ steppers, so hide the browser's native
+   number spinner. Plain CSS (not Tailwind `[&::-webkit-*]` arbitrary variants,
+   which Safari ignored) so it works cross-browser. */
+.yunui-number::-webkit-outer-spin-button,
+.yunui-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.yunui-number {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 select.input option,
 .select option {
   background: var(--bg-card);

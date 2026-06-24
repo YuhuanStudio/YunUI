@@ -1416,41 +1416,51 @@ var Textarea = React7.forwardRef(
 );
 Textarea.displayName = "Textarea";
 var PasswordInput = React7.forwardRef(
-  ({ className, error, id, labels, "aria-describedby": describedBy, ...props }, ref) => {
+  ({ className, error, id, labels, disabled, "aria-describedby": describedBy, ...props }, ref) => {
     const [show, setShow] = React7.useState(false);
     const reactId = React7.useId();
     const fieldId = id ?? reactId;
     const errorId = error ? `${fieldId}-error` : void 0;
     const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || void 0;
-    return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx(
-        "input",
+    return /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsxs(
+        "div",
         {
-          ref,
-          id: fieldId,
-          type: show ? "text" : "password",
-          "aria-invalid": error ? true : void 0,
-          "aria-describedby": describedByIds,
           className: cn(
-            "w-full h-10 px-4 pr-10 bg-background border rounded-xl text-sm outline-none transition-colors",
-            "placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20",
-            "disabled:opacity-50 disabled:cursor-not-allowed",
-            error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
+            "flex items-center h-10 rounded-xl border bg-background transition-colors",
+            "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+            error ? "border-red-300 dark:border-red-700" : "border-border",
+            disabled && "opacity-50",
             className
           ),
-          ...props
-        }
-      ),
-      /* @__PURE__ */ jsx(
-        "button",
-        {
-          type: "button",
-          onClick: () => setShow((s) => !s),
-          "aria-label": show ? labels?.hide ?? "Hide password" : labels?.show ?? "Show password",
-          "aria-pressed": show,
-          tabIndex: -1,
-          className: "absolute right-3 top-1/2 -translate-y-1/2 rounded text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          children: show ? /* @__PURE__ */ jsx(EyeOff, { className: "w-4 h-4" }) : /* @__PURE__ */ jsx(Eye, { className: "w-4 h-4" })
+          children: [
+            /* @__PURE__ */ jsx(
+              "input",
+              {
+                ref,
+                id: fieldId,
+                type: show ? "text" : "password",
+                "aria-invalid": error ? true : void 0,
+                "aria-describedby": describedByIds,
+                disabled,
+                className: "min-w-0 flex-1 h-full bg-transparent rounded-xl px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed",
+                ...props
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                type: "button",
+                onClick: () => setShow((s) => !s),
+                "aria-label": show ? labels?.hide ?? "Hide password" : labels?.show ?? "Show password",
+                "aria-pressed": show,
+                tabIndex: -1,
+                disabled,
+                className: "shrink-0 px-3 text-muted-foreground hover:text-foreground rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                children: show ? /* @__PURE__ */ jsx(EyeOff, { className: "w-4 h-4" }) : /* @__PURE__ */ jsx(Eye, { className: "w-4 h-4" })
+              }
+            )
+          ]
         }
       ),
       error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
@@ -1510,7 +1520,7 @@ var NumberInput = React7.forwardRef(
                 disabled,
                 "aria-invalid": error ? true : void 0,
                 "aria-describedby": describedByIds,
-                className: "w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+                className: "yunui-number w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none",
                 ...props
               }
             ),
@@ -2959,5 +2969,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-DR2ZDM4X.js.map
-//# sourceMappingURL=chunk-DR2ZDM4X.js.map
+//# sourceMappingURL=chunk-NDWBYXX4.js.map
+//# sourceMappingURL=chunk-NDWBYXX4.js.map

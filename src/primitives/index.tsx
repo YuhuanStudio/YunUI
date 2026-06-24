@@ -242,39 +242,48 @@ interface PasswordInputProps extends Omit<InputProps, "icon" | "type"> {
 
 /** Password field with a show/hide reveal toggle; same styling + error API as Input. */
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
-    ({ className, error, id, labels, "aria-describedby": describedBy, ...props }, ref) => {
+    ({ className, error, id, labels, disabled, "aria-describedby": describedBy, ...props }, ref) => {
         const [show, setShow] = React.useState(false);
         const reactId = React.useId();
         const fieldId = id ?? reactId;
         const errorId = error ? `${fieldId}-error` : undefined;
         const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || undefined;
         return (
-            <div className="relative">
-                <input
-                    ref={ref}
-                    id={fieldId}
-                    type={show ? "text" : "password"}
-                    aria-invalid={error ? true : undefined}
-                    aria-describedby={describedByIds}
+            <div>
+                {/* Flex row (not an absolutely-positioned button) so the reveal
+                    toggle is reliably INSIDE the field across browsers (Safari
+                    mis-placed the absolute button outside the input). */}
+                <div
                     className={cn(
-                        "w-full h-10 px-4 pr-10 bg-background border rounded-xl text-sm outline-none transition-colors",
-                        "placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20",
-                        "disabled:opacity-50 disabled:cursor-not-allowed",
-                        error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
+                        "flex items-center h-10 rounded-xl border bg-background transition-colors",
+                        "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+                        error ? "border-red-300 dark:border-red-700" : "border-border",
+                        disabled && "opacity-50",
                         className
                     )}
-                    {...props}
-                />
-                <button
-                    type="button"
-                    onClick={() => setShow((s) => !s)}
-                    aria-label={show ? labels?.hide ?? "Hide password" : labels?.show ?? "Show password"}
-                    aria-pressed={show}
-                    tabIndex={-1}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                    {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
+                    <input
+                        ref={ref}
+                        id={fieldId}
+                        type={show ? "text" : "password"}
+                        aria-invalid={error ? true : undefined}
+                        aria-describedby={describedByIds}
+                        disabled={disabled}
+                        className="min-w-0 flex-1 h-full bg-transparent rounded-xl px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed"
+                        {...props}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShow((s) => !s)}
+                        aria-label={show ? labels?.hide ?? "Hide password" : labels?.show ?? "Show password"}
+                        aria-pressed={show}
+                        tabIndex={-1}
+                        disabled={disabled}
+                        className="shrink-0 px-3 text-muted-foreground hover:text-foreground rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                        {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                </div>
                 {error && (
                     <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
                         <AlertCircle aria-hidden="true" className="w-3 h-3" />
@@ -352,7 +361,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                         disabled={disabled}
                         aria-invalid={error ? true : undefined}
                         aria-describedby={describedByIds}
-                        className="w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        className="yunui-number w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none"
                         {...props}
                     />
                     <button
