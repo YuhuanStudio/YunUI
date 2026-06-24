@@ -40,7 +40,16 @@ export interface YunUITheme {
   solid?: YunUISolid;
   surface?: YunUISurface;
   theme?: YunUIColorScheme;
+  /**
+   * Opt the legacy monochrome accent into the brand palette: `"brand"` makes
+   * accent-driven components follow `brand`; `"mono"` (default) keeps the
+   * original monochrome accent. Pairs with the `data-accent-source` CSS hook.
+   */
+  accentSource?: YunUIAccentSource;
 }
+
+/** Source for the accent color: the brand palette, or the default monochrome. */
+export type YunUIAccentSource = "brand" | "mono";
 
 /** All palettes available to the brand/accent/neutral roles (for building pickers). */
 export const YUNUI_PALETTES: YunUIPalette[] = [
@@ -56,6 +65,7 @@ const ATTR: Record<keyof YunUITheme, string> = {
   solid: "data-solid",
   surface: "data-surface",
   theme: "data-theme",
+  accentSource: "data-accent-source",
 };
 
 function resolveTarget(el?: HTMLElement | null): HTMLElement | null {

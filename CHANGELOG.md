@@ -11,6 +11,17 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-06-24
+
+### Added
+- **Opt-in brand accent** — bridge the legacy monochrome accent to the
+  runtime token system. Set `data-accent-source="brand"` (+ `data-brand`) on
+  `<html>`, or `applyTheme({ accentSource: "brand", brand: "blue" })`, to make
+  accent-driven components (`.btn-accent`, `bg-accent`/`text-accent`, …) follow
+  your brand color across every project. **Purely additive**: without the
+  attribute the default monochrome look is byte-identical (verified by compiled
+  CSS diff). New `YunUIAccentSource` type.
+
 ## [0.2.3] - 2026-06-24
 
 ### Added
@@ -166,7 +177,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.4...HEAD
+[0.2.4]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.0...v0.2.1

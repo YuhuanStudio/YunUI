@@ -53,4 +53,5 @@ export {
   type YunUISolid,
   type YunUISurface,
   type YunUIColorScheme,
+  type YunUIAccentSource,
 } from "./lib/theme";

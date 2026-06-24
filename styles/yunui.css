@@ -212,6 +212,22 @@
   --color-fd-overlay: rgba(0, 0, 0, 0.7);
 }
 
+/* =====================================================
+   OPT-IN BRAND ACCENT — bridge the legacy (monochrome) accent to the
+   runtime-themeable token system. Set data-accent-source="brand" on <html>
+   together with data-brand="<palette>" (and optionally data-theme) to make
+   accent-driven UI (.btn-accent, bg-accent / text-accent utilities, etc.)
+   follow your brand color — the same icons/tokens, re-themed per project with
+   zero rebuild. Placed after all --accent definitions so it wins only when the
+   attribute is present; WITHOUT it, the default monochrome look is byte-identical.
+   Use the helper: applyTheme({ accentSource: "brand", brand: "blue" }).
+   ===================================================== */
+[data-accent-source="brand"] {
+  --accent: var(--brand-solid-strong);
+  --accent-subtle: var(--brand-alpha-weak);
+  --accent-muted: var(--brand-alpha-medium);
+}
+
 /* True Black — Fumadocs sidebar overrides */
 .true-black #nd-sidebar {
   --color-fd-muted: #111111;
