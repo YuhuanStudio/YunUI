@@ -11,11 +11,17 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.9] - 2026-06-24
+
 ### Added
 - `SearchInput` gains a **`size`** prop (`"sm" | "md"`, default `md`). `sm` is a
   compact 32px-tall variant for toolbars and dropdown filters (e.g. the model
   picker), keeping the same icon size so it reads as a smaller version, not a
   different control.
+- `Combobox` gains **`creatableFilter`** (only offer the "create new" row for
+  inputs passing a test) and **`creatableIcon`** (custom glyph for that row) — so
+  consumers like Yunxin's icon-URL combobox can single-source from YunUI instead
+  of forking the component.
 
 ## [0.2.8] - 2026-06-24
 
@@ -264,7 +270,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.8...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.9...HEAD
+[0.2.9]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.8...v0.2.9
 [0.2.8]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.7...v0.2.8
 [0.2.7]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.5...v0.2.6

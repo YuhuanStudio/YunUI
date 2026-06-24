@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import { Check, X, ChevronDown } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 
@@ -35,6 +35,10 @@ interface ComboboxProps {
     allowCustom?: boolean;
     /** Label template for the "create new" row; `{value}` is replaced with the typed text. */
     creatableText?: string;
+    /** When set, the "create new" row only appears for inputs passing this test. */
+    creatableFilter?: (input: string) => boolean;
+    /** Glyph shown on the "create new" row (default `+`). */
+    creatableIcon?: ReactNode;
 }
 
 /** Searchable, optionally creatable combobox — type to filter, Enter to pick or create.
@@ -48,6 +52,8 @@ export function Combobox({
     disabled = false,
     allowCustom = true,
     creatableText,
+    creatableFilter,
+    creatableIcon,
 }: ComboboxProps) {
     const { Image, useT } = useYunUI();
     const t = useT("common.combobox");
@@ -84,11 +90,12 @@ export function Combobox({
         : options;
 
     // 檢查是否可以創建新選項
-    const canCreateNew = allowCustom && inputValue &&
+    const canCreateNew = allowCustom && !!inputValue &&
         !options.some(o =>
             o.value.toLowerCase() === inputValue.toLowerCase() ||
             o.label.toLowerCase() === inputValue.toLowerCase()
-        );
+        ) &&
+        (!creatableFilter || creatableFilter(inputValue));
 
     const handleSelect = (selectedValue: string) => {
         onChange(selectedValue);
@@ -235,7 +242,7 @@ export function Combobox({
                                             transition-colors
                                         "
                                     >
-                                        <span className="text-lg">+</span>
+                                        <span className="text-lg">{creatableIcon ?? "+"}</span>
                                         <span>{resolvedCreatableText.replace('{value}', inputValue)}</span>
                                     </button>
                                 )}

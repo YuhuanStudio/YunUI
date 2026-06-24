@@ -624,7 +624,9 @@ function Combobox({
   className = "",
   disabled = false,
   allowCustom = true,
-  creatableText
+  creatableText,
+  creatableFilter,
+  creatableIcon
 }) {
   const { Image: Image2, useT } = useYunUI();
   const t = useT("common.combobox");
@@ -650,9 +652,9 @@ function Combobox({
   const filteredOptions = inputValue ? options.filter(
     (o) => o.label.toLowerCase().includes(inputValue.toLowerCase()) || o.value.toLowerCase().includes(inputValue.toLowerCase())
   ) : options;
-  const canCreateNew = allowCustom && inputValue && !options.some(
+  const canCreateNew = allowCustom && !!inputValue && !options.some(
     (o) => o.value.toLowerCase() === inputValue.toLowerCase() || o.label.toLowerCase() === inputValue.toLowerCase()
-  );
+  ) && (!creatableFilter || creatableFilter(inputValue));
   const handleSelect = (selectedValue) => {
     onChange(selectedValue);
     setIsOpen(false);
@@ -777,7 +779,7 @@ function Combobox({
           onClick: () => handleSelect(inputValue),
           className: "\n                                            w-full px-3 py-2 text-left text-sm\n                                            flex items-center gap-2\n                                            text-primary hover:bg-muted/50\n                                            transition-colors\n                                        ",
           children: [
-            /* @__PURE__ */ jsx("span", { className: "text-lg", children: "+" }),
+            /* @__PURE__ */ jsx("span", { className: "text-lg", children: creatableIcon ?? "+" }),
             /* @__PURE__ */ jsx("span", { children: resolvedCreatableText.replace("{value}", inputValue) })
           ]
         }
@@ -2956,5 +2958,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-4HDSGRJK.js.map
-//# sourceMappingURL=chunk-4HDSGRJK.js.map
+//# sourceMappingURL=chunk-WJ56QWWZ.js.map
+//# sourceMappingURL=chunk-WJ56QWWZ.js.map

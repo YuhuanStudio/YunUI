@@ -197,10 +197,14 @@ interface ComboboxProps {
     allowCustom?: boolean;
     /** Label template for the "create new" row; `{value}` is replaced with the typed text. */
     creatableText?: string;
+    /** When set, the "create new" row only appears for inputs passing this test. */
+    creatableFilter?: (input: string) => boolean;
+    /** Glyph shown on the "create new" row (default `+`). */
+    creatableIcon?: ReactNode;
 }
 /** Searchable, optionally creatable combobox — type to filter, Enter to pick or create.
  *  For long lists where users type to narrow; see `Select`'s doc for "which select do I use". */
-declare function Combobox({ options, value, onChange, placeholder, className, disabled, allowCustom, creatableText, }: ComboboxProps): React$1.JSX.Element;
+declare function Combobox({ options, value, onChange, placeholder, className, disabled, allowCustom, creatableText, creatableFilter, creatableIcon, }: ComboboxProps): React$1.JSX.Element;
 
 /**
  * Radix Accordion root — a vertically stacked set of collapsible sections.
