@@ -339,6 +339,12 @@ declare const Stack: React$1.ForwardRefExoticComponent<Omit<FlexProps, "directio
 declare const Table: React$1.ForwardRefExoticComponent<React$1.TableHTMLAttributes<HTMLTableElement> & {
     /** Class applied to the outer scroll/overflow wrapper. */
     containerClassName?: string;
+    /**
+     * Stack each row into a labelled card below the `md` breakpoint, so dense
+     * many-column tables stay readable on narrow screens instead of forcing a
+     * horizontal scroll. Pair with `<TableCell label="…">` to label each value.
+     */
+    responsive?: boolean;
 } & React$1.RefAttributes<HTMLTableElement>>;
 /** Table header group (`<thead>`); contains the column-header row(s). */
 declare const TableHeader: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableSectionElement> & React$1.RefAttributes<HTMLTableSectionElement>>;
@@ -351,7 +357,11 @@ declare const TableRow: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes
 /** Column header cell (`<th>`): left-aligned, uppercase, muted, small. */
 declare const TableHead: React$1.ForwardRefExoticComponent<React$1.ThHTMLAttributes<HTMLTableCellElement> & React$1.RefAttributes<HTMLTableCellElement>>;
 /** Standard data cell (`<td>`). */
-declare const TableCell: React$1.ForwardRefExoticComponent<React$1.TdHTMLAttributes<HTMLTableCellElement> & React$1.RefAttributes<HTMLTableCellElement>>;
+declare const TableCell: React$1.ForwardRefExoticComponent<React$1.TdHTMLAttributes<HTMLTableCellElement> & {
+    /** Column label shown beside the value when the parent `<Table responsive>`
+     *  stacks rows into cards on narrow screens. */
+    label?: string;
+} & React$1.RefAttributes<HTMLTableCellElement>>;
 /** Caption (`<caption>`) rendered below the table; muted helper text. */
 declare const TableCaption: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableCaptionElement> & React$1.RefAttributes<HTMLTableCaptionElement>>;
 

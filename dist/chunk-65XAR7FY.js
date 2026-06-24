@@ -1036,11 +1036,15 @@ var Stack = React7.forwardRef(
   ({ gap = 4, ...props }, ref) => /* @__PURE__ */ jsx(Flex, { ref, direction: "col", gap, ...props })
 );
 Stack.displayName = "Stack";
-var Table = React7.forwardRef(({ className, containerClassName, ...props }, ref) => /* @__PURE__ */ jsx("div", { className: cn("relative w-full overflow-x-auto", containerClassName), children: /* @__PURE__ */ jsx(
+var Table = React7.forwardRef(({ className, containerClassName, responsive, ...props }, ref) => /* @__PURE__ */ jsx("div", { className: cn("relative w-full overflow-x-auto", containerClassName), children: /* @__PURE__ */ jsx(
   "table",
   {
     ref,
-    className: cn("w-full caption-bottom border-collapse text-sm", className),
+    className: cn(
+      "w-full caption-bottom border-collapse text-sm",
+      responsive && "yunui-table-responsive",
+      className
+    ),
     ...props
   }
 ) }));
@@ -1099,10 +1103,11 @@ var TableHead = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 TableHead.displayName = "TableHead";
-var TableCell = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableCell = React7.forwardRef(({ className, label, ...props }, ref) => /* @__PURE__ */ jsx(
   "td",
   {
     ref,
+    "data-label": label,
     className: cn("px-4 py-3 align-middle [&:has([role=checkbox])]:pr-0", className),
     ...props
   }
@@ -2969,5 +2974,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-NDWBYXX4.js.map
-//# sourceMappingURL=chunk-NDWBYXX4.js.map
+//# sourceMappingURL=chunk-65XAR7FY.js.map
+//# sourceMappingURL=chunk-65XAR7FY.js.map

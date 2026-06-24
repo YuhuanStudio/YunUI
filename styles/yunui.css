@@ -880,6 +880,47 @@ select.input:focus,
   appearance: textfield;
 }
 
+/* Responsive Table — <Table responsive> stacks each row into a labelled card
+   below the md breakpoint, so dense many-column tables stay readable on narrow
+   screens instead of forcing a horizontal scroll. Each cell's label comes from
+   <TableCell label="…"> (emitted as data-label). */
+@media (max-width: 768px) {
+  .yunui-table-responsive thead {
+    display: none;
+  }
+  .yunui-table-responsive tr {
+    display: block;
+    border: 1px solid var(--border-hairline);
+    border-radius: 14px;
+    margin-bottom: 0.75rem;
+    padding: 0.25rem 0.875rem;
+  }
+  .yunui-table-responsive td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border: 0 !important;
+    text-align: right;
+  }
+  .yunui-table-responsive td::before {
+    content: attr(data-label);
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-align: left;
+    white-space: nowrap;
+  }
+  /* unlabelled cells (e.g. a row-select checkbox) just center their content */
+  .yunui-table-responsive td:not([data-label])::before,
+  .yunui-table-responsive td[data-label=""]::before {
+    content: none;
+  }
+  .yunui-table-responsive td:not([data-label]) {
+    justify-content: center;
+  }
+}
+
 select.input option,
 .select option {
   background: var(--bg-card);

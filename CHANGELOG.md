@@ -12,6 +12,12 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- **`<Table responsive>`** — dense, many-column tables stack each row into a
+  labelled card below the `md` breakpoint instead of forcing a horizontal scroll,
+  so they stay readable on narrow screens. Pair with **`<TableCell label="…">`**
+  to label each value. (Wide screens render the normal table; pages should avoid
+  forcing `whitespace-nowrap`/`min-width` on every column so it can fit the
+  viewport.)
 - `Checkbox` now accepts `checked="indeterminate"` (renders a dash) for partial
   select-all states.
 

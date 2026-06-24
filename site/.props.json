@@ -6556,6 +6556,22 @@
       "required": false,
       "defaultValue": null,
       "description": "Class applied to the outer scroll/overflow wrapper."
+    },
+    {
+      "name": "responsive",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Stack each row into a labelled card below the `md` breakpoint, so dense\nmany-column tables stay readable on narrow screens instead of forcing a\nhorizontal scroll. Pair with `<TableCell label=\"…\">` to label each value."
+    }
+  ],
+  "TableCell": [
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Column label shown beside the value when the parent `<Table responsive>`\nstacks rows into cards on narrow screens."
     }
   ],
   "Pagination": [

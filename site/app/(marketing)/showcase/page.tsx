@@ -1068,35 +1068,39 @@ export default function Showcase() {
             <Badge variant="error">{t("demos.cardsBadges.error")}</Badge>
           </div>
         </Demo>
-        <Demo title="Table">
-          <Table containerClassName="rounded-xl border border-border">
+        <Demo title="Table" description="Many columns. Resize narrow: rows stack into labelled cards (responsive) instead of scrolling sideways.">
+          <Table responsive containerClassName="rounded-xl border border-border">
             <TableHeader>
               <TableRow>
-                <TableHead>Date</TableHead>
+                <TableHead>Model</TableHead>
+                <TableHead>Provider</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+                <TableHead className="text-right">Context</TableHead>
+                <TableHead className="text-right">Price (in/out)</TableHead>
+                <TableHead>Capabilities</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>2026-06-24</TableCell>
-                <TableCell>Top-up</TableCell>
-                <TableCell><Badge variant="success">Completed</Badge></TableCell>
-                <TableCell className="text-right">+$20.00</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>2026-06-23</TableCell>
-                <TableCell>Usage</TableCell>
-                <TableCell><Badge variant="info">Pending</Badge></TableCell>
-                <TableCell className="text-right text-muted-foreground">−$3.42</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>2026-06-22</TableCell>
-                <TableCell>Refund</TableCell>
-                <TableCell><Badge variant="warning">Review</Badge></TableCell>
-                <TableCell className="text-right">+$5.00</TableCell>
-              </TableRow>
+              {[
+                { model: "Claude Opus 4.8", provider: "Anthropic", ctx: "1.00M", price: "10 / 50", caps: ["Chat", "Vision", "Thinking"] },
+                { model: "Claude Haiku", provider: "Anthropic", ctx: "200K", price: "1 / 5", caps: ["Chat", "Streaming"] },
+                { model: "GPT-4o", provider: "OpenAI", ctx: "128K", price: "5 / 15", caps: ["Chat", "Vision"] },
+              ].map((r) => (
+                <TableRow key={r.model}>
+                  <TableCell label="Model" className="font-medium">{r.model}</TableCell>
+                  <TableCell label="Provider">{r.provider}</TableCell>
+                  <TableCell label="Type"><Badge variant="info">Chat</Badge></TableCell>
+                  <TableCell label="Status"><Badge variant="success">Approved</Badge></TableCell>
+                  <TableCell label="Context" className="text-right tabular-nums">{r.ctx}</TableCell>
+                  <TableCell label="Price (in/out)" className="text-right tabular-nums text-muted-foreground">{r.price}</TableCell>
+                  <TableCell label="Capabilities">
+                    <div className="flex flex-wrap gap-1 justify-end md:justify-start">
+                      {r.caps.map((c) => <Tag key={c}>{c}</Tag>)}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </Demo>

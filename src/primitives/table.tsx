@@ -16,12 +16,22 @@ export const Table = React.forwardRef<
     React.TableHTMLAttributes<HTMLTableElement> & {
         /** Class applied to the outer scroll/overflow wrapper. */
         containerClassName?: string;
+        /**
+         * Stack each row into a labelled card below the `md` breakpoint, so dense
+         * many-column tables stay readable on narrow screens instead of forcing a
+         * horizontal scroll. Pair with `<TableCell label="…">` to label each value.
+         */
+        responsive?: boolean;
     }
->(({ className, containerClassName, ...props }, ref) => (
+>(({ className, containerClassName, responsive, ...props }, ref) => (
     <div className={cn("relative w-full overflow-x-auto", containerClassName)}>
         <table
             ref={ref}
-            className={cn("w-full caption-bottom border-collapse text-sm", className)}
+            className={cn(
+                "w-full caption-bottom border-collapse text-sm",
+                responsive && "yunui-table-responsive",
+                className
+            )}
             {...props}
         />
     </div>
@@ -105,10 +115,15 @@ TableHead.displayName = "TableHead";
 /** Standard data cell (`<td>`). */
 export const TableCell = React.forwardRef<
     HTMLTableCellElement,
-    React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
+    React.TdHTMLAttributes<HTMLTableCellElement> & {
+        /** Column label shown beside the value when the parent `<Table responsive>`
+         *  stacks rows into cards on narrow screens. */
+        label?: string;
+    }
+>(({ className, label, ...props }, ref) => (
     <td
         ref={ref}
+        data-label={label}
         className={cn("px-4 py-3 align-middle [&:has([role=checkbox])]:pr-0", className)}
         {...props}
     />
