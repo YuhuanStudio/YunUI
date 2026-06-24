@@ -71,6 +71,8 @@ import {
   DeleteConfirmModal,
   RegenerateConfirmModal,
   toast,
+  useYunUITheme,
+  YUNUI_PALETTES,
 } from "yunui";
 import {
   ThinkingBlock,
@@ -401,6 +403,63 @@ function AccountLockedDemo() {
   );
 }
 
+// Live brand-theming switcher — dogfoods YunUI's runtime theming API
+// (useYunUITheme). Flips data-accent-source/data-brand on <html> so the whole
+// page (accent utilities + primary/accent buttons) re-themes with no rebuild.
+function ThemeControls() {
+  const [theme, setTheme] = useYunUITheme({ accentSource: "mono", brand: "blue" });
+  const brandOn = theme.accentSource === "brand";
+  const active = theme.brand ?? "blue";
+  return (
+    <div className="mt-6 rounded-2xl border border-border bg-(--bg-elevated) p-4">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <p className="text-sm font-medium">Live brand theming</p>
+          <p className="text-caption">
+            Flip the accent to a brand palette — the whole page re-themes, no
+            rebuild. Sets <code className="text-xs">data-accent-source</code> +{" "}
+            <code className="text-xs">data-brand</code> on{" "}
+            <code className="text-xs">&lt;html&gt;</code> via{" "}
+            <code className="text-xs">useYunUITheme()</code>.
+          </p>
+        </div>
+        <div className="flex items-center gap-0.5 rounded-lg bg-card p-0.5 text-xs shrink-0">
+          <button
+            type="button"
+            onClick={() => setTheme({ accentSource: "mono" })}
+            className={`px-2.5 py-1 rounded-md transition-colors ${!brandOn ? "bg-(--bg-elevated) shadow-sm font-medium" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            Mono
+          </button>
+          <button
+            type="button"
+            onClick={() => setTheme({ accentSource: "brand", brand: active })}
+            className={`px-2.5 py-1 rounded-md transition-colors ${brandOn ? "bg-(--bg-elevated) shadow-sm font-medium" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            Brand
+          </button>
+        </div>
+      </div>
+      {brandOn && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {YUNUI_PALETTES.map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => setTheme({ brand: p })}
+              title={p}
+              aria-label={p}
+              aria-pressed={active === p}
+              className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${active === p ? "border-foreground scale-110" : "border-border"}`}
+              style={{ background: `var(--scheme-${p}-600)` }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ---- page -----------------------------------------------------------------
 
 const COLOR_TOKENS: { name: string; varName: string }[] = [
@@ -467,6 +526,7 @@ export default function Showcase() {
             </a>
           ))}
         </nav>
+        <ThemeControls />
       </section>
 
       {/* Foundations — the design tokens everything is built on */}
