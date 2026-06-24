@@ -1559,10 +1559,10 @@
   "Checkbox": [
     {
       "name": "checked",
-      "type": "boolean",
+      "type": "boolean | \"indeterminate\"",
       "required": true,
       "defaultValue": null,
-      "description": "Whether the box is checked (controlled)."
+      "description": "Whether the box is checked. `\"indeterminate\"` shows a dash — for a\nselect-all that's only partially selected."
     },
     {
       "name": "className",
@@ -1590,7 +1590,7 @@
       "type": "(checked: boolean) => void",
       "required": true,
       "defaultValue": null,
-      "description": "Called with the next checked state when toggled."
+      "description": "Called with the next checked state when toggled (indeterminate → checked)."
     }
   ],
   "Combobox": [

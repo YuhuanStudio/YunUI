@@ -575,7 +575,8 @@
         "childFine": "Child renders fine — click to crash it.",
         "throw": "Throw error",
         "caughtTitle": "Caught by ErrorBoundary",
-        "caughtMessage": "The child threw during render — this is the fallback UI."
+        "caughtMessage": "The child threw during render — this is the fallback UI.",
+        "retry": "Try again"
       },
       "backgroundEffects": {
         "title": "Background effects (decorative)",

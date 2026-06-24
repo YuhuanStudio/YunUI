@@ -9,6 +9,9 @@ import {
   Input,
   Textarea,
   SearchInput,
+  PasswordInput,
+  NumberInput,
+  Kbd,
   Label,
   Checkbox,
   Switch,
@@ -160,6 +163,7 @@ import {
   Cpu,
   CheckCircle2,
   Globe,
+  RefreshCw,
 } from "lucide-react";
 
 // ---- layout helpers -------------------------------------------------------
@@ -218,11 +222,6 @@ function Demo({ title, description, code, children }: { title: string; descripti
   );
 }
 
-// A child that crashes on render, to demo ErrorBoundary catching it.
-function Bomb(): never {
-  throw new Error("Demo: this child crashed on render.");
-}
-
 function ErrorBoundaryDemo() {
   const t = useTranslations("showcase.demos.errorBoundary");
   const [boom, setBoom] = useState(false);
@@ -236,10 +235,20 @@ function ErrorBoundaryDemo() {
       </div>
     );
   }
+  // Show the fallback that `<ErrorBoundary>` renders when a child throws. We
+  // render it directly instead of throwing a real error, so Next's dev error
+  // overlay doesn't take over the page — the real ErrorBoundary still catches
+  // genuine render crashes in your app.
   return (
-    <ErrorBoundary labels={{ title: t("caughtTitle"), message: t("caughtMessage") }}>
-      <Bomb />
-    </ErrorBoundary>
+    <div className="w-full max-w-md flex flex-col items-center gap-3 text-center">
+      <Alert variant="error" title={t("caughtTitle")} className="text-left">
+        {t("caughtMessage")}
+      </Alert>
+      <Button variant="secondary" size="sm" onClick={() => setBoom(false)}>
+        <RefreshCw size={14} />
+        {t("retry")}
+      </Button>
+    </div>
   );
 }
 
@@ -404,6 +413,25 @@ function SearchInputDemo() {
     <div className="flex flex-col gap-2">
       <SearchInput value={q} onChange={setQ} placeholder="Search models…" />
       <SearchInput size="sm" value={q2} onChange={setQ2} placeholder="Compact (size=sm)…" />
+    </div>
+  );
+}
+
+function NewInputsDemo() {
+  const [qty, setQty] = useState(8);
+  return (
+    <div className="w-full max-w-sm flex flex-col gap-3">
+      <div>
+        <Label>Password</Label>
+        <PasswordInput placeholder="••••••••" />
+      </div>
+      <div>
+        <Label>Quantity</Label>
+        <NumberInput value={qty} onChange={setQty} min={0} max={20} />
+      </div>
+      <p className="text-sm text-muted-foreground">
+        Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> to open search.
+      </p>
     </div>
   );
 }
@@ -808,6 +836,9 @@ export default function Showcase() {
             <SearchInputDemo />
           </div>
         </Demo>
+        <Demo title="Password, number & keys">
+          <NewInputsDemo />
+        </Demo>
         <Demo title={t("demos.checkboxSwitch.title")}>
           <label className="flex items-center gap-2 text-sm cursor-pointer">
             <Checkbox checked={checked} onCheckedChange={setChecked} />
@@ -1040,15 +1071,15 @@ export default function Showcase() {
         </Demo>
         <Demo title={t("demos.animatedNumber.title")} description={t("demos.animatedNumber.description")}>
           <div className="flex flex-wrap gap-8">
-            <div className="stat-card p-4 w-40">
+            <div className="stat-card p-4 min-w-40">
               <div className="text-label mb-1">{t("demos.animatedNumber.requests")}</div>
               <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={48213} /></div>
             </div>
-            <div className="stat-card p-4 w-40">
+            <div className="stat-card p-4 min-w-40">
               <div className="text-label mb-1">{t("demos.animatedNumber.uptime")}</div>
               <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={99.98} suffix="%" decimals={2} /></div>
             </div>
-            <div className="stat-card p-4 w-40">
+            <div className="stat-card p-4 min-w-40">
               <div className="text-label mb-1">{t("demos.animatedNumber.latency")}</div>
               <div className="stat-number text-3xl font-semibold"><AnimatedNumber value={142} suffix="ms" /></div>
             </div>

@@ -575,7 +575,8 @@
         "childFine": "子元件正常渲染——點擊讓它崩潰。",
         "throw": "拋出錯誤",
         "caughtTitle": "已被 ErrorBoundary 捕捉",
-        "caughtMessage": "子元件在渲染時拋出例外——這就是回退介面。"
+        "caughtMessage": "子元件在渲染時拋出例外——這就是回退介面。",
+        "retry": "重試"
       },
       "backgroundEffects": {
         "title": "背景效果（裝飾性）",

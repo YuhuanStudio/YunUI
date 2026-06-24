@@ -575,7 +575,8 @@
         "childFine": "子组件正常渲染——点击让它崩溃。",
         "throw": "抛出错误",
         "caughtTitle": "已被 ErrorBoundary 捕获",
-        "caughtMessage": "子组件在渲染时抛出异常——这就是回退界面。"
+        "caughtMessage": "子组件在渲染时抛出异常——这就是回退界面。",
+        "retry": "重试"
       },
       "backgroundEffects": {
         "title": "背景效果（装饰性）",
