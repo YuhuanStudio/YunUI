@@ -40,6 +40,7 @@ export {
   useEscapeKey,
   useBodyScrollLock,
   useModalBehavior,
+  useFocusTrap,
 } from "./lib/hooks";
 
 // Runtime theming (drives the design-token system via data-* attributes)

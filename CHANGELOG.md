@@ -11,6 +11,17 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- `useFocusTrap(ref, enabled)` hook. **`Modal` (and `ConfirmModal`/`DeleteConfirmModal`/
+  `RegenerateConfirmModal`, which build on it) now trap focus** — focus moves into
+  the dialog on open, Tab/Shift+Tab cycle inside it, and focus returns to the
+  opener on close. Closes the a11y gap flagged in 0.2.5.
+
+### Fixed
+- Showcase "Code" tabs now match the rendered preview (Button shows all 7 variants;
+  Radix Select shows 3 items) and use the real `@yuhuanowo/yunui` import specifier
+  (the in-repo `yunui` alias only resolves inside this repo).
+
 ## [0.2.5] - 2026-06-24
 
 ### Added

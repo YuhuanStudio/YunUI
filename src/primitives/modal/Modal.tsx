@@ -10,7 +10,8 @@
  * - Escape key to close (with animation)
  * - Body scroll lock when open
  * - Backdrop click to close
- * - ARIA attributes (note: does NOT trap focus — see guidance below)
+ * - ARIA attributes + focus trap (focus moves in on open, Tab cycles inside,
+ *   focus returns to the opener on close)
  * - Optional closing animation
  * - Unsaved changes badge
  * - SSR compatible
@@ -20,8 +21,8 @@
  *   escape, scroll lock, full ARIA. Use it for general/interactive dialogs and
  *   anywhere keyboard focus containment matters.
  * - `Modal` (this): a styled, prop-driven modal (title/subtitle/footer, sizes,
- *   unsaved-changes badge) for the common app case. Manages escape/scroll-lock/
- *   backdrop itself but does not trap focus like Radix.
+ *   unsaved-changes badge) for the common app case. Manages escape, scroll-lock,
+ *   backdrop, and focus-trap itself.
  * - `ConfirmModal` / `DeleteConfirmModal` / `RegenerateConfirmModal`: ready-made
  *   confirmation dialogs built on `Modal`.
  */
@@ -32,7 +33,7 @@ import { useRef, useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { Button } from "../index";
-import { useEscapeKey, useBodyScrollLock } from "../../lib/hooks";
+import { useEscapeKey, useBodyScrollLock, useFocusTrap } from "../../lib/hooks";
 import { cn } from "../../lib/cn";
 import { SIZE_CLASSES, Z_INDEX, ANIMATION_DURATION, DEFAULT_MAX_HEIGHT } from "./constants";
 import type { ModalProps } from "./types";
@@ -136,16 +137,9 @@ export function Modal({
     // Body scroll lock
     useBodyScrollLock(isOpen);
 
-    // Focus management - focus modal on open
-    useEffect(() => {
-        if (isOpen && modalRef.current) {
-            // Small delay to ensure portal is rendered
-            const timer = setTimeout(() => {
-                modalRef.current?.focus();
-            }, 0);
-            return () => clearTimeout(timer);
-        }
-    }, [isOpen]);
+    // Focus management — move focus into the dialog on open, trap Tab/Shift+Tab
+    // inside it, and restore focus to the opener on close (a11y: no focus escape).
+    useFocusTrap(modalRef, isOpen);
 
     // Reset closing state when modal reopens
     useEffect(() => {

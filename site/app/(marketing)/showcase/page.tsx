@@ -681,13 +681,15 @@ export default function Showcase() {
       <Section id="buttons" title={t("buttons.title")}>
         <Demo
           title={t("demos.buttonVariants.title")}
-          code={`import { Button } from "yunui";
+          code={`import { Button } from "@yuhuanowo/yunui";
 
 <Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="outline">Outline</Button>
-<Button variant="accent">Accent</Button>`}
+<Button variant="accent">Accent</Button>
+<Button variant="amber">Amber</Button>
+<Button variant="red">Red</Button>`}
         >
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
@@ -769,7 +771,7 @@ export default function Showcase() {
         </Demo>
         <Demo
           title={t("demos.radixSelect.title")}
-          code={`import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "yunui";
+          code={`import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@yuhuanowo/yunui";
 
 <Select>
   <SelectTrigger className="w-56">
@@ -778,6 +780,7 @@ export default function Showcase() {
   <SelectContent>
     <SelectItem value="a">Provider A</SelectItem>
     <SelectItem value="b">Provider B</SelectItem>
+    <SelectItem value="c">Provider C</SelectItem>
   </SelectContent>
 </Select>`}
         >
@@ -832,7 +835,7 @@ export default function Showcase() {
       <Section id="overlays" title={t("overlays.title")}>
         <Demo
           title={t("demos.dialog.title")}
-          code={`import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from "yunui";
+          code={`import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from "@yuhuanowo/yunui";
 
 <Dialog>
   <DialogTrigger asChild>
@@ -920,7 +923,7 @@ export default function Showcase() {
       <Section id="data-display" title={t("dataDisplay.title")}>
         <Demo
           title={t("demos.cardsBadges.title")}
-          code={`import { Card, Badge } from "yunui";
+          code={`import { Card, Badge } from "@yuhuanowo/yunui";
 
 <Card hover className="p-5 w-60">
   <div className="flex items-center justify-between mb-2">
