@@ -11,6 +11,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.8] - 2026-06-24
+
 ### Fixed
 - **`.card-col` no longer sets `height: 100%`.** That explicit height overrode the
   grid's `align-items: stretch` and, when the grid's own height was indefinite
@@ -256,7 +258,8 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.7...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.8...HEAD
+[0.2.8]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.7...v0.2.8
 [0.2.7]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.4...v0.2.5
