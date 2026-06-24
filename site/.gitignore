@@ -3,3 +3,8 @@
 next-env.d.ts
 *.tsbuildinfo
 .DS_Store
+
+# Playwright (keep visual/__snapshots__ baselines; ignore run artifacts)
+/test-results/
+/playwright-report/
+/blob-report/
