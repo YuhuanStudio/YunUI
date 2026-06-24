@@ -11,6 +11,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.10] - 2026-06-25
+
 ### Added
 - **Icon sync from `@lobehub/icons-static-svg` (MIT).** `scripts/sync-icons.mjs`
   pulls fresh brand-COLOR SVGs for providers/models/apps into `icons/`, so the
@@ -31,6 +33,13 @@ patch = fixes, anything may change between 0.x releases).
   default — it no longer hard-codes `lg:hidden`. Pass **`mobileOnly`** for the old
   hide-on-`lg`+ behavior (a drawer that only exists on mobile). Fixes the Sheet
   appearing to "not open" on desktop.
+
+### Fixed
+- **Safari rendering.** `PasswordInput`'s reveal toggle is now a flex child (it
+  was absolutely positioned, which Safari pushed *outside* the field), and
+  `NumberInput` hides the native number spinner via plain CSS in
+  `styles/yunui.css` — the Tailwind `[&::-webkit-*]` arbitrary variants were
+  ignored by Safari, so it showed a duplicate spinner next to the −/+ steppers.
 
 ## [0.2.9] - 2026-06-24
 
