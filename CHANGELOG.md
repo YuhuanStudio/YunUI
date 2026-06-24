@@ -12,6 +12,11 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- **Icon sync from `@lobehub/icons-static-svg` (MIT).** `scripts/sync-icons.mjs`
+  pulls fresh brand-COLOR SVGs for providers/models/apps into `icons/`, so the
+  set stops drifting — re-run `pnpm icons:sync` to refresh or add brands (alias
+  map handles name differences; mono-only brands keep their raster to avoid the
+  currentColor-in-dark-mode issue). 43 providers upgraded to vector this pass.
 - **`<Table responsive>`** — dense, many-column tables stack each row into a
   labelled card below the `md` breakpoint instead of forcing a horizontal scroll,
   so they stay readable on narrow screens. Pair with **`<TableCell label="…">`**

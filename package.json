@@ -51,7 +51,8 @@
     "dev:site": "pnpm --filter yunui-site dev",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "icons:sync": "node scripts/sync-icons.mjs --apply"
   },
   "peerDependencies": {
     "react": ">=19",
@@ -96,6 +97,7 @@
     "tailwindcss": "^4.3.1",
     "tsup": "^8.5.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.9",
+    "@lobehub/icons-static-svg": "^1.91.0"
   }
 }
