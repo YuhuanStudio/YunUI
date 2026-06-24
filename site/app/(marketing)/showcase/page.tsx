@@ -8,6 +8,7 @@ import {
   ShinyButton,
   Input,
   Textarea,
+  SearchInput,
   Label,
   Checkbox,
   Switch,
@@ -383,6 +384,11 @@ function BlogControlsDemo() {
   );
 }
 
+function SearchInputDemo() {
+  const [q, setQ] = useState("gpt-4o");
+  return <SearchInput value={q} onChange={setQ} placeholder="Search models…" />;
+}
+
 // AccountLockedCard renders a full-screen (min-h-dvh) auth screen — frame it in a
 // scaled-down stage so it previews like the others without taking over the page.
 function AccountLockedDemo() {
@@ -722,6 +728,7 @@ export default function Showcase() {
               <Input placeholder="you@example.com" icon={<Search className="w-4 h-4" />} />
             </div>
             <Textarea placeholder={t("demos.inputTextarea.writePlaceholder")} rows={3} />
+            <SearchInputDemo />
           </div>
         </Demo>
         <Demo title={t("demos.checkboxSwitch.title")}>

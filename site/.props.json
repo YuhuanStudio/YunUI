@@ -2181,6 +2181,103 @@
       "description": "Error message shown below the field; also switches the border to a red error style."
     }
   ],
+  "PasswordInput": [
+    {
+      "name": "error",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Error message shown below the field; also switches the border to a red error style."
+    },
+    {
+      "name": "labels",
+      "type": "{ show?: string; hide?: string; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible labels for the reveal toggle (English defaults)."
+    }
+  ],
+  "NumberInput": [
+    {
+      "name": "error",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Error message shown below the field; also switches the border to a red error style."
+    },
+    {
+      "name": "labels",
+      "type": "{ increment?: string; decrement?: string; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible labels for the steppers (English defaults)."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onChange",
+      "type": "((value: number) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Called with the next clamped value."
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "required": false,
+      "defaultValue": "1",
+      "description": "Increment/decrement step."
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Current value (controlled)."
+    }
+  ],
+  "SearchInput": [
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Show a clear (×) button while there's a value."
+    },
+    {
+      "name": "clearLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible label for the clear button (English default)."
+    },
+    {
+      "name": "onChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Called with the new query string — also called with `\"\"` when cleared."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Current query (controlled)."
+    }
+  ],
   "Card": [
     {
       "name": "hover",

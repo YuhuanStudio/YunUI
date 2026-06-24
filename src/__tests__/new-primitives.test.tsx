@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { PasswordInput, NumberInput, Kbd } from "../primitives";
+import { PasswordInput, NumberInput, Kbd, SearchInput } from "../primitives";
 
 describe("PasswordInput", () => {
   it("masks by default and toggles to text via the reveal button", () => {
@@ -49,5 +49,25 @@ describe("Kbd", () => {
     const kbd = container.querySelector("kbd");
     expect(kbd).not.toBeNull();
     expect(kbd?.textContent).toBe("⌘");
+  });
+});
+
+describe("SearchInput", () => {
+  it("renders a search field and reports typed text as a string", () => {
+    const onChange = vi.fn();
+    const { container } = render(<SearchInput value="" onChange={onChange} placeholder="Search" />);
+    const input = container.querySelector('input[type="search"]')!;
+    expect(input).not.toBeNull();
+    fireEvent.change(input, { target: { value: "gpt" } });
+    expect(onChange).toHaveBeenLastCalledWith("gpt");
+  });
+
+  it("shows the clear button only when there is a value, and clears via onChange('')", () => {
+    const onChange = vi.fn();
+    const { rerender, queryByRole, getByRole } = render(<SearchInput value="" onChange={onChange} />);
+    expect(queryByRole("button", { name: /clear search/i })).toBeNull();
+    rerender(<SearchInput value="gpt" onChange={onChange} />);
+    fireEvent.click(getByRole("button", { name: /clear search/i }));
+    expect(onChange).toHaveBeenLastCalledWith("");
   });
 });

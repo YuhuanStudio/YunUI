@@ -27,6 +27,7 @@ import {
     EyeOff,
     Minus,
     Plus,
+    Search,
 } from "lucide-react";
 
 // Re-export Modal component
@@ -390,6 +391,70 @@ export function Kbd({ className, ...props }: React.HTMLAttributes<HTMLElement>) 
         />
     );
 }
+
+// =====================================================
+// SEARCH INPUT
+// =====================================================
+
+interface SearchInputProps
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type"> {
+    /** Current query (controlled). */
+    value?: string;
+    /** Called with the new query string — also called with `""` when cleared. */
+    onChange?: (value: string) => void;
+    /** Show a clear (×) button while there's a value. @defaultValue true */
+    clearable?: boolean;
+    /** Accessible label for the clear button (English default). */
+    clearLabel?: string;
+}
+
+/**
+ * Canonical search field: a leading magnifier with the right padding so typed
+ * text never sits under the icon, plus an optional clear (×) button. `onChange`
+ * receives the string directly (ergonomic for filtering), and the clear button
+ * fires `onChange("")`. Use this instead of hand-rolling `<input> + absolute icon`.
+ */
+export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
+    ({ className, value, onChange, clearable = true, clearLabel, disabled, ...props }, ref) => {
+        const showClear = clearable && !!value && !disabled;
+        return (
+            <div className="relative">
+                <Search
+                    aria-hidden="true"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+                />
+                <input
+                    ref={ref}
+                    type="search"
+                    value={value}
+                    onChange={(e) => onChange?.(e.target.value)}
+                    disabled={disabled}
+                    className={cn(
+                        "w-full h-10 pl-10 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+                        "placeholder:text-muted-foreground",
+                        "focus:border-ring focus:ring-2 focus:ring-ring/20",
+                        "disabled:opacity-50 disabled:cursor-not-allowed",
+                        "[&::-webkit-search-cancel-button]:appearance-none",
+                        showClear ? "pr-10" : "pr-4",
+                        className
+                    )}
+                    {...props}
+                />
+                {showClear && (
+                    <button
+                        type="button"
+                        onClick={() => onChange?.("")}
+                        aria-label={clearLabel ?? "Clear search"}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                        <X className="h-4 w-4" />
+                    </button>
+                )}
+            </div>
+        );
+    }
+);
+SearchInput.displayName = "SearchInput";
 
 // =====================================================
 // CARD

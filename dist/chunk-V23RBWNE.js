@@ -12,7 +12,7 @@ import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
-import { Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Minus, Plus, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, Search, ArrowRight, AlertTriangle } from 'lucide-react';
+import { Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Minus, Plus, Search, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, ArrowRight, AlertTriangle } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
@@ -1545,6 +1545,51 @@ function Kbd({ className, ...props }) {
     }
   );
 }
+var SearchInput = React7.forwardRef(
+  ({ className, value, onChange, clearable = true, clearLabel, disabled, ...props }, ref) => {
+    const showClear = clearable && !!value && !disabled;
+    return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx(
+        Search,
+        {
+          "aria-hidden": "true",
+          className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          ref,
+          type: "search",
+          value,
+          onChange: (e) => onChange?.(e.target.value),
+          disabled,
+          className: cn(
+            "w-full h-10 pl-10 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+            "placeholder:text-muted-foreground",
+            "focus:border-ring focus:ring-2 focus:ring-ring/20",
+            "disabled:opacity-50 disabled:cursor-not-allowed",
+            "[&::-webkit-search-cancel-button]:appearance-none",
+            showClear ? "pr-10" : "pr-4",
+            className
+          ),
+          ...props
+        }
+      ),
+      showClear && /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          onClick: () => onChange?.(""),
+          "aria-label": clearLabel ?? "Clear search",
+          className: "absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
+        }
+      )
+    ] });
+  }
+);
+SearchInput.displayName = "SearchInput";
 var Card = React7.forwardRef(
   ({ className, hover, ...props }, ref) => {
     return /* @__PURE__ */ jsx(
@@ -2710,6 +2755,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-D2KGK2LY.js.map
-//# sourceMappingURL=chunk-D2KGK2LY.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-V23RBWNE.js.map
+//# sourceMappingURL=chunk-V23RBWNE.js.map
