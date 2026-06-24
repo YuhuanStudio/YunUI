@@ -21,6 +21,12 @@ _Accumulating; will ship as the next patch (0.2.5) once a batch is ready._
   `Combobox` / `SegmentedSelect`), plus `Tabs` vs `NavTabs`. Non-breaking.
 - Corrected `Modal`'s docstring to state it does **not** trap focus (use `Dialog`
   when keyboard focus containment matters) — was previously implied "accessible".
+- Demarcated `@yuhuanowo/yunui/ai` as the **app-domain layer** (AI-gateway
+  components), not general-purpose primitives — so the core surface reads as a
+  clean design system (core → `.`, patterns → `/patterns`, app domain → `/ai`).
+
+### Internal
+- CI: bumped `actions/checkout` + `actions/setup-node` to v5 (Node 24).
 
 ## [0.2.4] - 2026-06-24
 

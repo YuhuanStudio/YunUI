@@ -1,4 +1,12 @@
-// yunui/ai — Yunxin AI product-domain components.
+// yunui/ai — APP-DOMAIN layer (AI-gateway product components), NOT general-purpose
+// primitives. This is the deliberate split that keeps the core a clean design
+// system instead of "one app in a box":
+//   • core primitives  -> "@yuhuanowo/yunui"          (Button, Input, Dialog, …)
+//   • page patterns     -> "@yuhuanowo/yunui/patterns" (StatCard, PageHeader, …)
+//   • app domain (here) -> "@yuhuanowo/yunui/ai"       (ModelCard, ProviderIcon, …)
+// Import these only if you're building an LLM/AI-gateway-shaped product; a
+// generic app should stay on the core + patterns entries.
+//
 // All are prop-driven with framework deps injected via yunui/adapters; none
 // import app contexts, the API client, or localStorage directly.
 //
