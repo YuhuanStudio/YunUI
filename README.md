@@ -85,6 +85,10 @@ Without a provider, YunUI uses zero-dependency defaults (`<a>` / `<img>` / ident
 
 ## Entry points
 
+> See **[ARCHITECTURE.md](./ARCHITECTURE.md)** for the system design — the three
+> layers (core / patterns / app-domain), the design-token system + runtime
+> theming, the adapter pattern, and how to choose among overlapping components.
+
 | Entry | Contents |
 | --- | --- |
 | `@yuhuanowo/yunui` | Atomic components: Button / IconButton / Input / Textarea / Card / Badge / Dialog / Select / Slider / Progress / Tabs / Avatar / Tooltip / DropdownMenu / Skeleton / Spinner / PageLoader / EmptyState / Label; layout primitives Flex / Grid / Row / Column / Stack; data display Table / Breadcrumb / Pagination; interactive Accordion / RadioGroup / Switch / Checkbox / Combobox / CustomSelect / SegmentedSelect / NavTabs / Collapsible / Popover / Modal / Sheet / ConfirmModal / ThemeToggle; plus ShinyButton / Marquee / BentoGrid / AnimatedNumber and the MotionDiv · fadeIn · stagger animation presets |
