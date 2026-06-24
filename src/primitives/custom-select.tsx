@@ -31,7 +31,8 @@ interface CustomSelectProps {
     disabled?: boolean;
 }
 
-/** Custom dropdown select with optional search, icons, descriptions, and full keyboard support. */
+/** Custom dropdown select with optional search, icons, descriptions, and full keyboard support.
+ *  Data-driven alternative to `Select`; see `Select`'s doc for "which select do I use". */
 export function CustomSelect({
     options,
     value,

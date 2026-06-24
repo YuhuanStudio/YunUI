@@ -198,7 +198,8 @@ interface ComboboxProps {
     /** Label template for the "create new" row; `{value}` is replaced with the typed text. */
     creatableText?: string;
 }
-/** Searchable, optionally creatable combobox — type to filter, Enter to pick or create. */
+/** Searchable, optionally creatable combobox — type to filter, Enter to pick or create.
+ *  For long lists where users type to narrow; see `Select`'s doc for "which select do I use". */
 declare function Combobox({ options, value, onChange, placeholder, className, disabled, allowCustom, creatableText, }: ComboboxProps): React$1.JSX.Element;
 
 /**
@@ -457,7 +458,14 @@ interface BadgeProps extends React$1.HTMLAttributes<HTMLSpanElement> {
 }
 /** Small inline pill for status/labels, with semantic color variants. */
 declare function Badge({ className, variant, ...props }: BadgeProps): React$1.JSX.Element;
-/** Radix Dialog root — controls open state for a modal dialog. Compose with Dialog* parts. */
+/**
+ * Radix Dialog root — controls open state for a modal dialog. Compose with Dialog* parts.
+ *
+ * The accessible default for dialogs (focus trap, escape, scroll lock, full ARIA).
+ * For the prop-driven styled modal use `Modal`; for confirmations use
+ * `ConfirmModal`/`DeleteConfirmModal`/`RegenerateConfirmModal` — see Modal's doc
+ * for the full "which dialog do I use" guidance.
+ */
 declare const Dialog: React$1.FC<DialogPrimitive.DialogProps>;
 /** Element that opens the dialog when activated. */
 declare const DialogTrigger: React$1.ForwardRefExoticComponent<DialogPrimitive.DialogTriggerProps & React$1.RefAttributes<HTMLButtonElement>>;
@@ -477,7 +485,19 @@ declare const DialogTitle: React$1.ForwardRefExoticComponent<Omit<DialogPrimitiv
 declare const DialogDescription: React$1.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogDescriptionProps & React$1.RefAttributes<HTMLParagraphElement>, "ref"> & React$1.RefAttributes<HTMLParagraphElement>>;
 /** Footer layout block (right-aligned action buttons) for the dialog. */
 declare function DialogFooter({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): React$1.JSX.Element;
-/** Radix Select root — a styled native-feeling single-select. Compose with Select* parts. */
+/**
+ * Radix Select root — a styled native-feeling single-select. Compose with Select* parts.
+ *
+ * Choosing a select (so you never have to guess):
+ * - `Select` (this, Radix): the accessible default for a fixed, smallish list of
+ *   options authored as JSX (`<SelectItem>`). Best a11y/keyboard support.
+ * - `CustomSelect`: data-driven (`options` array) with optional search/icons —
+ *   reach for it when options come from data or you need a searchable list.
+ * - `Combobox`: data-driven select with a filterable text input (type-ahead),
+ *   for longer lists where the user types to narrow.
+ * - `SegmentedSelect`: a small inline segmented control (2-5 visible choices),
+ *   not a dropdown.
+ */
 declare const Select: React$1.FC<SelectPrimitive.SelectProps>;
 /** Renders the selected value (or placeholder) inside the trigger. */
 declare const SelectValue: React$1.ForwardRefExoticComponent<SelectPrimitive.SelectValueProps & React$1.RefAttributes<HTMLSpanElement>>;
@@ -659,7 +679,8 @@ interface CustomSelectProps {
     /** Disable interaction and dim the control. */
     disabled?: boolean;
 }
-/** Custom dropdown select with optional search, icons, descriptions, and full keyboard support. */
+/** Custom dropdown select with optional search, icons, descriptions, and full keyboard support.
+ *  Data-driven alternative to `Select`; see `Select`'s doc for "which select do I use". */
 declare function CustomSelect({ options, value, onChange, placeholder, searchable, className, disabled, }: CustomSelectProps): React$1.JSX.Element;
 
 interface SegmentedOption<T = string> {
@@ -683,7 +704,8 @@ interface SegmentedSelectProps<T = string> {
     /** Disable interaction and dim the control. */
     disabled?: boolean;
 }
-/** Inline segmented control — a row of buttons where one option is active at a time. */
+/** Inline segmented control — a row of buttons where one option is active at a time.
+ *  For 2-5 always-visible choices (not a dropdown); see `Select`'s doc for "which select do I use". */
 declare function SegmentedSelect<T = string>({ options, value, onChange, className, disabled, }: SegmentedSelectProps<T>): React$1.JSX.Element;
 
 interface NavTab {
@@ -710,6 +732,10 @@ interface NavTabsProps {
  * `::after`), which slides in + fades + grows exactly like the sidebar's
  * per-item active bar, just rotated to the bottom edge and sitting inside the
  * tab's floating hover box. Hovering raises that soft rounded box (懸浮框).
+ *
+ * `NavTabs` is a controlled nav bar (active key + onChange) — use it for page/
+ * section navigation. For tab panels that show/hide content, use `Tabs` (Radix,
+ * with `TabsList`/`TabsTrigger`/`TabsContent`).
  */
 declare function NavTabs({ tabs, activeKey, onChange, className, ariaLabel }: NavTabsProps): React$1.JSX.Element;
 

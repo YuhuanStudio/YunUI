@@ -29,6 +29,10 @@ interface NavTabsProps {
  * `::after`), which slides in + fades + grows exactly like the sidebar's
  * per-item active bar, just rotated to the bottom edge and sitting inside the
  * tab's floating hover box. Hovering raises that soft rounded box (懸浮框).
+ *
+ * `NavTabs` is a controlled nav bar (active key + onChange) — use it for page/
+ * section navigation. For tab panels that show/hide content, use `Tabs` (Radix,
+ * with `TabsList`/`TabsTrigger`/`TabsContent`).
  */
 export function NavTabs({ tabs, activeKey, onChange, className = "", ariaLabel }: NavTabsProps) {
     const { Link } = useYunUI();

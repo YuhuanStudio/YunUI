@@ -288,7 +288,14 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
 // DIALOG
 // =====================================================
 
-/** Radix Dialog root — controls open state for a modal dialog. Compose with Dialog* parts. */
+/**
+ * Radix Dialog root — controls open state for a modal dialog. Compose with Dialog* parts.
+ *
+ * The accessible default for dialogs (focus trap, escape, scroll lock, full ARIA).
+ * For the prop-driven styled modal use `Modal`; for confirmations use
+ * `ConfirmModal`/`DeleteConfirmModal`/`RegenerateConfirmModal` — see Modal's doc
+ * for the full "which dialog do I use" guidance.
+ */
 export const Dialog = DialogPrimitive.Root;
 /** Element that opens the dialog when activated. */
 export const DialogTrigger = DialogPrimitive.Trigger;
@@ -385,7 +392,19 @@ export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLD
 // SELECT
 // =====================================================
 
-/** Radix Select root — a styled native-feeling single-select. Compose with Select* parts. */
+/**
+ * Radix Select root — a styled native-feeling single-select. Compose with Select* parts.
+ *
+ * Choosing a select (so you never have to guess):
+ * - `Select` (this, Radix): the accessible default for a fixed, smallish list of
+ *   options authored as JSX (`<SelectItem>`). Best a11y/keyboard support.
+ * - `CustomSelect`: data-driven (`options` array) with optional search/icons —
+ *   reach for it when options come from data or you need a searchable list.
+ * - `Combobox`: data-driven select with a filterable text input (type-ahead),
+ *   for longer lists where the user types to narrow.
+ * - `SegmentedSelect`: a small inline segmented control (2-5 visible choices),
+ *   not a dropdown.
+ */
 export const Select = SelectPrimitive.Root;
 /** Renders the selected value (or placeholder) inside the trigger. */
 export const SelectValue = SelectPrimitive.Value;

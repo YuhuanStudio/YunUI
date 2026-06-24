@@ -11,6 +11,17 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+_Accumulating; will ship as the next patch (0.2.5) once a batch is ready._
+
+### Changed
+- **"Which one do I use" guidance** on the overlapping component families, via
+  JSDoc (visible in IDE + props tables), so picking one no longer feels like a
+  trap: 3 dialogs (`Dialog` = accessible default / `Modal` = styled prop-driven /
+  `ConfirmModal*` = confirmations) and 4 selects (`Select` / `CustomSelect` /
+  `Combobox` / `SegmentedSelect`), plus `Tabs` vs `NavTabs`. Non-breaking.
+- Corrected `Modal`'s docstring to state it does **not** trap focus (use `Dialog`
+  when keyboard focus containment matters) — was previously implied "accessible".
+
 ## [0.2.4] - 2026-06-24
 
 ### Added

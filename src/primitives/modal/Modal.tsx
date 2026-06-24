@@ -10,10 +10,20 @@
  * - Escape key to close (with animation)
  * - Body scroll lock when open
  * - Backdrop click to close
- * - Accessible (ARIA attributes)
+ * - ARIA attributes (note: does NOT trap focus — see guidance below)
  * - Optional closing animation
  * - Unsaved changes badge
  * - SSR compatible
+ *
+ * Choosing a dialog (so you never have to guess):
+ * - `Dialog` (Radix, from the root barrel): the accessible default — focus trap,
+ *   escape, scroll lock, full ARIA. Use it for general/interactive dialogs and
+ *   anywhere keyboard focus containment matters.
+ * - `Modal` (this): a styled, prop-driven modal (title/subtitle/footer, sizes,
+ *   unsaved-changes badge) for the common app case. Manages escape/scroll-lock/
+ *   backdrop itself but does not trap focus like Radix.
+ * - `ConfirmModal` / `DeleteConfirmModal` / `RegenerateConfirmModal`: ready-made
+ *   confirmation dialogs built on `Modal`.
  */
 
 "use client";

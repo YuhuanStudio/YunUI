@@ -37,7 +37,8 @@ interface ComboboxProps {
     creatableText?: string;
 }
 
-/** Searchable, optionally creatable combobox — type to filter, Enter to pick or create. */
+/** Searchable, optionally creatable combobox — type to filter, Enter to pick or create.
+ *  For long lists where users type to narrow; see `Select`'s doc for "which select do I use". */
 export function Combobox({
     options,
     value,

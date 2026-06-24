@@ -26,7 +26,8 @@ interface SegmentedSelectProps<T = string> {
     disabled?: boolean;
 }
 
-/** Inline segmented control — a row of buttons where one option is active at a time. */
+/** Inline segmented control — a row of buttons where one option is active at a time.
+ *  For 2-5 always-visible choices (not a dropdown); see `Select`'s doc for "which select do I use". */
 export function SegmentedSelect<T = string>({
     options,
     value,
