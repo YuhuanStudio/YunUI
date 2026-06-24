@@ -1561,11 +1561,11 @@ var Slider = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */
     className: cn("relative flex w-full touch-none select-none items-center", className),
     ...props,
     children: [
-      /* @__PURE__ */ jsx(SliderPrimitive.Track, { className: "relative h-2 w-full grow overflow-hidden rounded-full bg-muted", children: /* @__PURE__ */ jsx(SliderPrimitive.Range, { className: "absolute h-full bg-foreground" }) }),
+      /* @__PURE__ */ jsx(SliderPrimitive.Track, { className: "relative h-2 w-full grow overflow-hidden rounded-full bg-muted", children: /* @__PURE__ */ jsx(SliderPrimitive.Range, { className: "absolute h-full bg-foreground yunui-accent-bg" }) }),
       /* @__PURE__ */ jsx(
         SliderPrimitive.Thumb,
         {
-          className: "block h-5 w-5 rounded-full border-2 border-foreground bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          className: "block h-5 w-5 rounded-full border-2 border-foreground bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 yunui-accent-border"
         }
       )
     ]
@@ -1581,7 +1581,7 @@ var Progress = React7.forwardRef(({ className, value, ...props }, ref) => /* @__
     children: /* @__PURE__ */ jsx(
       ProgressPrimitive.Indicator,
       {
-        className: "h-full w-full flex-1 bg-foreground transition-all duration-300",
+        className: "h-full w-full flex-1 bg-foreground transition-all duration-300 yunui-accent-bg",
         style: { transform: `translateX(-${100 - (value || 0)}%)` }
       }
     )
@@ -2547,5 +2547,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, PageLoader, Pagination, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-55CRM4JY.js.map
-//# sourceMappingURL=chunk-55CRM4JY.js.map
+//# sourceMappingURL=chunk-B5TXNADW.js.map
+//# sourceMappingURL=chunk-B5TXNADW.js.map

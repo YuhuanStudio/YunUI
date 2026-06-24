@@ -506,10 +506,10 @@ export const Slider = React.forwardRef<
         {...props}
     >
         <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted">
-            <SliderPrimitive.Range className="absolute h-full bg-foreground" />
+            <SliderPrimitive.Range className="absolute h-full bg-foreground yunui-accent-bg" />
         </SliderPrimitive.Track>
         <SliderPrimitive.Thumb
-            className="block h-5 w-5 rounded-full border-2 border-foreground bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+            className="block h-5 w-5 rounded-full border-2 border-foreground bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 yunui-accent-border"
         />
     </SliderPrimitive.Root>
 ));
@@ -533,7 +533,7 @@ export const Progress = React.forwardRef<
         {...props}
     >
         <ProgressPrimitive.Indicator
-            className="h-full w-full flex-1 bg-foreground transition-all duration-300"
+            className="h-full w-full flex-1 bg-foreground transition-all duration-300 yunui-accent-bg"
             style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
         />
     </ProgressPrimitive.Root>

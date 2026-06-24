@@ -14,11 +14,17 @@ patch = fixes, anything may change between 0.x releases).
 _Accumulating; will ship as the next patch (0.2.5) once a batch is ready._
 
 ### Added
-- Opt-in brand accent now also re-colors the **primary/accent buttons**
-  (`.btn-primary`, `.btn-accent`) under `data-accent-source="brand"`, keeping
-  their outline style — so "branded mode" covers the main actions, not just the
-  `bg-accent`/`text-accent` utilities. Default monochrome is unchanged (verified
-  visually: default stays black, `data-brand="blue"` turns them blue).
+- **Broad opt-in brand theming.** With `data-accent-source="brand"` (+ `data-brand`)
+  on `<html>` — or `applyTheme({ accentSource: "brand", brand: "blue" })` — the brand
+  color now flows across the whole UI, not just a couple of buttons: primary/accent
+  buttons, the `--color-primary` active/selected states (Switch, Checkbox,
+  RadioGroup, selected combobox/select rows…), Slider range + thumb, Progress fill,
+  focus rings (`--color-ring`), and the `bg-accent`/`text-accent` utilities. Body
+  text stays on `--color-foreground`, so readability is untouched. **Default
+  monochrome is byte-identical** (the markers/overrides do nothing without the
+  attribute; verified visually with a violet brand across the showcase).
+- A live **"Live brand theming" switcher** in the showcase (Mono/Brand + palette
+  swatches) that dogfoods `useYunUITheme` and re-themes the whole page on click.
 
 ### Changed
 - **"Which one do I use" guidance** on the overlapping component families, via

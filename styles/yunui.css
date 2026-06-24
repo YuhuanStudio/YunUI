@@ -226,6 +226,15 @@
   --accent: var(--brand-solid-strong);
   --accent-subtle: var(--brand-alpha-weak);
   --accent-muted: var(--brand-alpha-medium);
+
+  /* Broaden the reach: every "active / selected / focused" state follows the
+     brand too — bg-primary/border-primary/text-primary fills (Switch, Checkbox,
+     RadioGroup, selected combobox/select rows, Progress, Tabs…), the on-primary
+     ink, and focus-visible rings. Body text stays on --color-foreground, so
+     readability is untouched. Default (no attribute) is byte-identical. */
+  --color-primary: var(--brand-solid-strong);
+  --color-primary-foreground: var(--brand-on-solid-strong);
+  --color-ring: var(--brand-solid-strong);
 }
 
 /* ...and re-color the primary/accent buttons (which hard-code the monochrome
@@ -240,6 +249,16 @@
 [data-accent-source="brand"] .btn-primary:hover,
 [data-accent-source="brand"] .btn-accent:hover {
   background: var(--brand-alpha-medium);
+}
+
+/* Filled elements that hard-code the foreground ink (Slider range + thumb,
+   Progress fill) follow the brand under opt-in too. Markers do nothing by
+   default, so the monochrome look is unchanged. */
+[data-accent-source="brand"] .yunui-accent-bg {
+  background-color: var(--brand-solid-strong);
+}
+[data-accent-source="brand"] .yunui-accent-border {
+  border-color: var(--brand-solid-strong);
 }
 
 /* True Black — Fumadocs sidebar overrides */
