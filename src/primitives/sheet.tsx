@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useModalBehavior } from "../lib/hooks";
+import { cn } from "../lib/cn";
 
 interface SheetProps {
     /** Whether the sheet is open (controlled). */
@@ -14,10 +15,14 @@ interface SheetProps {
     children: React.ReactNode;
     /** Optional header title. */
     title?: string;
+    /** Hide on large screens (`lg`+) — for mobile-only drawers (e.g. a sidebar
+     *  that's permanent on desktop). @defaultValue false (shows on all sizes). */
+    mobileOnly?: boolean;
 }
 
-/** Mobile-only slide-in panel from the right, with a backdrop (hidden on `lg` and up). */
-export function Sheet({ open, onClose, children, title }: SheetProps) {
+/** Slide-in panel from the right with a backdrop. By default it shows on every
+ *  screen size; set `mobileOnly` to hide it on `lg`+ (a mobile-only drawer). */
+export function Sheet({ open, onClose, children, title, mobileOnly = false }: SheetProps) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -40,7 +45,7 @@ export function Sheet({ open, onClose, children, title }: SheetProps) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed inset-0 bg-black/20 backdrop-blur-sm lg:hidden"
+                        className={cn("fixed inset-0 bg-black/20 backdrop-blur-sm", mobileOnly && "lg:hidden")}
                         style={{ zIndex: 40 }}
                         onClick={onClose}
                         aria-hidden="true"
@@ -52,7 +57,7 @@ export function Sheet({ open, onClose, children, title }: SheetProps) {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed inset-y-0 right-0 w-[85vw] min-w-72 max-w-sm bg-card shadow-xl flex flex-col lg:hidden"
+                        className={cn("fixed inset-y-0 right-0 w-[85vw] min-w-72 max-w-sm bg-card shadow-xl flex flex-col", mobileOnly && "lg:hidden")}
                         style={{ zIndex: 50 }}
                         onClick={(e) => e.stopPropagation()}
                     >

@@ -11,6 +11,12 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Changed
+- **`Sheet` is now a general slide-in drawer**, shown on all screen sizes by
+  default — it no longer hard-codes `lg:hidden`. Pass **`mobileOnly`** for the old
+  hide-on-`lg`+ behavior (a drawer that only exists on mobile). Fixes the Sheet
+  appearing to "not open" on desktop.
+
 ## [0.2.9] - 2026-06-24
 
 ### Added

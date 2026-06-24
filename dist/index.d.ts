@@ -143,9 +143,13 @@ interface SheetProps {
     children: React.ReactNode;
     /** Optional header title. */
     title?: string;
+    /** Hide on large screens (`lg`+) — for mobile-only drawers (e.g. a sidebar
+     *  that's permanent on desktop). @defaultValue false (shows on all sizes). */
+    mobileOnly?: boolean;
 }
-/** Mobile-only slide-in panel from the right, with a backdrop (hidden on `lg` and up). */
-declare function Sheet({ open, onClose, children, title }: SheetProps): React$1.ReactPortal | null;
+/** Slide-in panel from the right with a backdrop. By default it shows on every
+ *  screen size; set `mobileOnly` to hide it on `lg`+ (a mobile-only drawer). */
+declare function Sheet({ open, onClose, children, title, mobileOnly }: SheetProps): React$1.ReactPortal | null;
 
 interface CheckboxProps {
     /** Whether the box is checked (controlled). */
