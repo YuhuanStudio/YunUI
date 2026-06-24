@@ -26,6 +26,10 @@ import {
   Avatar,
   AvatarImage,
   AvatarFallback,
+  AvatarGroup,
+  Separator,
+  Alert,
+  Tag,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -1058,6 +1062,31 @@ export default function Showcase() {
           <Button variant="red" size="sm" onClick={() => toast.error(t("demos.toast.errorTitle"), t("demos.toast.errorBody"))}>{t("demos.toast.error")}</Button>
           <Button variant="outline" size="sm" onClick={() => toast.info(t("demos.toast.infoTitle"), t("demos.toast.infoBody"))}>{t("demos.toast.info")}</Button>
           <Button variant="amber" size="sm" onClick={() => toast.warning(t("demos.toast.warningTitle"), t("demos.toast.warningBody"))}>{t("demos.toast.warning")}</Button>
+        </Demo>
+        <Demo title="Alert">
+          <div className="w-full max-w-lg space-y-2">
+            <Alert variant="info" title="Heads up">Your trial ends in 3 days.</Alert>
+            <Alert variant="success" title="Saved">Your changes have been saved.</Alert>
+            <Alert variant="warning">Usage is approaching your monthly limit.</Alert>
+            <Alert variant="error" title="Payment failed">Update your billing details to continue.</Alert>
+          </div>
+        </Demo>
+        <Demo title="Tags, avatars & separator">
+          <div className="w-full max-w-lg space-y-4">
+            <div className="flex flex-wrap gap-2">
+              <Tag>vision</Tag>
+              <Tag>streaming</Tag>
+              <Tag onRemove={() => {}}>function-calling</Tag>
+            </div>
+            <Separator />
+            <AvatarGroup max={3}>
+              <Avatar><AvatarFallback>YH</AvatarFallback></Avatar>
+              <Avatar><AvatarFallback>AI</AvatarFallback></Avatar>
+              <Avatar><AvatarFallback>UI</AvatarFallback></Avatar>
+              <Avatar><AvatarFallback>ML</AvatarFallback></Avatar>
+              <Avatar><AvatarFallback>GP</AvatarFallback></Avatar>
+            </AvatarGroup>
+          </div>
         </Demo>
       </Section>
 

@@ -1642,6 +1642,81 @@ function Badge({ className, variant = "default", ...props }) {
     }
   );
 }
+function Separator2({
+  className,
+  orientation = "horizontal",
+  decorative = false,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      role: decorative ? "none" : "separator",
+      "aria-orientation": !decorative && orientation === "vertical" ? "vertical" : void 0,
+      className: cn(
+        "shrink-0 bg-border",
+        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function Alert({ className, variant = "info", title, icon, children, ...props }) {
+  const styles = {
+    info: "bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-900",
+    success: "bg-green-50 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-900",
+    warning: "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-900",
+    error: "bg-red-50 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900"
+  };
+  const defaultIcon = {
+    info: /* @__PURE__ */ jsx(Info, { className: "h-4 w-4" }),
+    success: /* @__PURE__ */ jsx(CheckCircle2, { className: "h-4 w-4" }),
+    warning: /* @__PURE__ */ jsx(AlertTriangle, { className: "h-4 w-4" }),
+    error: /* @__PURE__ */ jsx(AlertCircle, { className: "h-4 w-4" })
+  };
+  const resolvedIcon = icon === void 0 ? defaultIcon[variant] : icon;
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      role: "alert",
+      className: cn("flex gap-3 rounded-xl border p-3 text-sm", styles[variant], className),
+      ...props,
+      children: [
+        resolvedIcon && /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "mt-0.5 shrink-0", children: resolvedIcon }),
+        /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1", children: [
+          title && /* @__PURE__ */ jsx("p", { className: "font-medium", children: title }),
+          children && /* @__PURE__ */ jsx("div", { className: cn(title && "mt-0.5", "opacity-90"), children })
+        ] })
+      ]
+    }
+  );
+}
+function Tag({ className, children, onRemove, removeLabel, ...props }) {
+  return /* @__PURE__ */ jsxs(
+    "span",
+    {
+      className: cn(
+        "inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-foreground/80",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        onRemove && /* @__PURE__ */ jsx(
+          "button",
+          {
+            type: "button",
+            onClick: onRemove,
+            "aria-label": removeLabel ?? "Remove",
+            className: "-mr-0.5 rounded-sm p-0.5 text-muted-foreground hover:bg-foreground/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            children: /* @__PURE__ */ jsx(X, { className: "h-3 w-3" })
+          }
+        )
+      ]
+    }
+  );
+}
 var Dialog = DialogPrimitive.Root;
 var DialogTrigger = DialogPrimitive.Trigger;
 var DialogPortal = DialogPrimitive.Portal;
@@ -1881,6 +1956,18 @@ var AvatarFallback = React7.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
+function AvatarGroup({ className, max, children, ...props }) {
+  const items = React7.Children.toArray(children);
+  const shown = max != null ? items.slice(0, max) : items;
+  const overflow = items.length - shown.length;
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex items-center -space-x-2", className), ...props, children: [
+    shown.map((child, i) => /* @__PURE__ */ jsx("div", { className: "rounded-full ring-2 ring-background", children: child }, i)),
+    overflow > 0 && /* @__PURE__ */ jsxs("div", { className: "flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground ring-2 ring-background", children: [
+      "+",
+      overflow
+    ] })
+  ] });
+}
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
@@ -2768,6 +2855,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-7XUPI5P2.js.map
-//# sourceMappingURL=chunk-7XUPI5P2.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-KFLDCEOO.js.map
+//# sourceMappingURL=chunk-KFLDCEOO.js.map

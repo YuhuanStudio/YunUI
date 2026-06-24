@@ -1948,6 +1948,70 @@
       "description": "Semantic color: `default` (neutral), `success`, `warning`, `error`, or `info`."
     }
   ],
+  "Separator": [
+    {
+      "name": "decorative",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Purely decorative — no semantic role announced to assistive tech."
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "defaultValue": "horizontal",
+      "description": ""
+    }
+  ],
+  "Alert": [
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Leading icon. Defaults to a variant-appropriate icon; pass `null` to hide."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional bold title above the body."
+    },
+    {
+      "name": "variant",
+      "type": "\"error\" | \"success\" | \"warning\" | \"info\"",
+      "required": false,
+      "defaultValue": "default",
+      "description": ""
+    }
+  ],
+  "Tag": [
+    {
+      "name": "onRemove",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Show a remove (×) button and call this when it's pressed."
+    },
+    {
+      "name": "removeLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible label for the remove button (English default)."
+    }
+  ],
+  "AvatarGroup": [
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Cap how many avatars render; the remainder collapse into a \"+N\" chip."
+    }
+  ],
   "Spinner": [
     {
       "name": "size",

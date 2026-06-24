@@ -17,6 +17,9 @@ patch = fixes, anything may change between 0.x releases).
   button. Uses `type="text"` + `role="searchbox"` so there's **no duplicate native
   ✕**, restores focus after clearing, and `onChange` returns the string directly.
   Replaces hand-rolled `<input> + absolute icon` search boxes.
+- More common primitives: **`Separator`** (h/v divider), **`Alert`** (info/success/
+  warning/error callout with icon + title), **`Tag`** (small, optionally removable
+  label), and **`AvatarGroup`** (overlapping avatars with a "+N" overflow chip).
 
 ## [0.2.6] - 2026-06-24
 

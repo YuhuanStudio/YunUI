@@ -28,6 +28,8 @@ import {
     Minus,
     Plus,
     Search,
+    Info,
+    AlertTriangle,
 } from "lucide-react";
 
 // Re-export Modal component
@@ -534,6 +536,119 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
 }
 
 // =====================================================
+// SEPARATOR
+// =====================================================
+
+interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
+    orientation?: "horizontal" | "vertical";
+    /** Purely decorative — no semantic role announced to assistive tech. */
+    decorative?: boolean;
+}
+
+/** A thin divider line. Horizontal by default; set `orientation="vertical"` inside a flex row. */
+export function Separator({
+    className,
+    orientation = "horizontal",
+    decorative = false,
+    ...props
+}: SeparatorProps) {
+    return (
+        <div
+            role={decorative ? "none" : "separator"}
+            aria-orientation={!decorative && orientation === "vertical" ? "vertical" : undefined}
+            className={cn(
+                "shrink-0 bg-border",
+                orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
+                className
+            )}
+            {...props}
+        />
+    );
+}
+
+// =====================================================
+// ALERT
+// =====================================================
+
+interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+    variant?: "info" | "success" | "warning" | "error";
+    /** Optional bold title above the body. */
+    title?: React.ReactNode;
+    /** Leading icon. Defaults to a variant-appropriate icon; pass `null` to hide. */
+    icon?: React.ReactNode;
+}
+
+/** Inline callout for info / success / warning / error messages. */
+export function Alert({ className, variant = "info", title, icon, children, ...props }: AlertProps) {
+    const styles = {
+        info: "bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-900",
+        success: "bg-green-50 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-900",
+        warning: "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-900",
+        error: "bg-red-50 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900",
+    };
+    const defaultIcon = {
+        info: <Info className="h-4 w-4" />,
+        success: <CheckCircle2 className="h-4 w-4" />,
+        warning: <AlertTriangle className="h-4 w-4" />,
+        error: <AlertCircle className="h-4 w-4" />,
+    };
+    const resolvedIcon = icon === undefined ? defaultIcon[variant] : icon;
+    return (
+        <div
+            role="alert"
+            className={cn("flex gap-3 rounded-xl border p-3 text-sm", styles[variant], className)}
+            {...props}
+        >
+            {resolvedIcon && (
+                <span aria-hidden="true" className="mt-0.5 shrink-0">
+                    {resolvedIcon}
+                </span>
+            )}
+            <div className="min-w-0 flex-1">
+                {title && <p className="font-medium">{title}</p>}
+                {children && <div className={cn(title && "mt-0.5", "opacity-90")}>{children}</div>}
+            </div>
+        </div>
+    );
+}
+
+// =====================================================
+// TAG
+// =====================================================
+
+interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
+    /** Show a remove (×) button and call this when it's pressed. */
+    onRemove?: () => void;
+    /** Accessible label for the remove button (English default). */
+    removeLabel?: string;
+}
+
+/** A small label, optionally removable. Use `Badge` for non-interactive status text. */
+export function Tag({ className, children, onRemove, removeLabel, ...props }: TagProps) {
+    return (
+        <span
+            className={cn(
+                "inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-foreground/80",
+                className
+            )}
+            {...props}
+        >
+            {children}
+            {onRemove && (
+                <button
+                    type="button"
+                    onClick={onRemove}
+                    aria-label={removeLabel ?? "Remove"}
+                    className="-mr-0.5 rounded-sm p-0.5 text-muted-foreground hover:bg-foreground/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                    <X className="h-3 w-3" />
+                </button>
+            )}
+        </span>
+    );
+}
+
+// =====================================================
 // DIALOG
 // =====================================================
 
@@ -894,6 +1009,36 @@ export const AvatarFallback = React.forwardRef<
     />
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
+
+// =====================================================
+// AVATAR GROUP
+// =====================================================
+
+interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Cap how many avatars render; the remainder collapse into a "+N" chip. */
+    max?: number;
+}
+
+/** Overlapping row of `Avatar`s with an optional "+N" overflow chip. */
+export function AvatarGroup({ className, max, children, ...props }: AvatarGroupProps) {
+    const items = React.Children.toArray(children);
+    const shown = max != null ? items.slice(0, max) : items;
+    const overflow = items.length - shown.length;
+    return (
+        <div className={cn("flex items-center -space-x-2", className)} {...props}>
+            {shown.map((child, i) => (
+                <div key={i} className="rounded-full ring-2 ring-background">
+                    {child}
+                </div>
+            ))}
+            {overflow > 0 && (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground ring-2 ring-background">
+                    +{overflow}
+                </div>
+            )}
+        </div>
+    );
+}
 
 // =====================================================
 // TOOLTIP

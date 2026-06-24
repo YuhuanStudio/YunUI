@@ -505,6 +505,30 @@ interface BadgeProps extends React$1.HTMLAttributes<HTMLSpanElement> {
 }
 /** Small inline pill for status/labels, with semantic color variants. */
 declare function Badge({ className, variant, ...props }: BadgeProps): React$1.JSX.Element;
+interface SeparatorProps extends React$1.HTMLAttributes<HTMLDivElement> {
+    orientation?: "horizontal" | "vertical";
+    /** Purely decorative — no semantic role announced to assistive tech. */
+    decorative?: boolean;
+}
+/** A thin divider line. Horizontal by default; set `orientation="vertical"` inside a flex row. */
+declare function Separator({ className, orientation, decorative, ...props }: SeparatorProps): React$1.JSX.Element;
+interface AlertProps extends Omit<React$1.HTMLAttributes<HTMLDivElement>, "title"> {
+    variant?: "info" | "success" | "warning" | "error";
+    /** Optional bold title above the body. */
+    title?: React$1.ReactNode;
+    /** Leading icon. Defaults to a variant-appropriate icon; pass `null` to hide. */
+    icon?: React$1.ReactNode;
+}
+/** Inline callout for info / success / warning / error messages. */
+declare function Alert({ className, variant, title, icon, children, ...props }: AlertProps): React$1.JSX.Element;
+interface TagProps extends React$1.HTMLAttributes<HTMLSpanElement> {
+    /** Show a remove (×) button and call this when it's pressed. */
+    onRemove?: () => void;
+    /** Accessible label for the remove button (English default). */
+    removeLabel?: string;
+}
+/** A small label, optionally removable. Use `Badge` for non-interactive status text. */
+declare function Tag({ className, children, onRemove, removeLabel, ...props }: TagProps): React$1.JSX.Element;
 /**
  * Radix Dialog root — controls open state for a modal dialog. Compose with Dialog* parts.
  *
@@ -577,6 +601,12 @@ declare const Avatar: React$1.ForwardRefExoticComponent<Omit<AvatarPrimitive.Ava
 declare const AvatarImage: React$1.ForwardRefExoticComponent<Omit<AvatarPrimitive.AvatarImageProps & React$1.RefAttributes<HTMLImageElement>, "ref"> & React$1.RefAttributes<HTMLImageElement>>;
 /** Placeholder (e.g. initials) shown when the avatar image is missing or loading. */
 declare const AvatarFallback: React$1.ForwardRefExoticComponent<Omit<AvatarPrimitive.AvatarFallbackProps & React$1.RefAttributes<HTMLSpanElement>, "ref"> & React$1.RefAttributes<HTMLSpanElement>>;
+interface AvatarGroupProps extends React$1.HTMLAttributes<HTMLDivElement> {
+    /** Cap how many avatars render; the remainder collapse into a "+N" chip. */
+    max?: number;
+}
+/** Overlapping row of `Avatar`s with an optional "+N" overflow chip. */
+declare function AvatarGroup({ className, max, children, ...props }: AvatarGroupProps): React$1.JSX.Element;
 /** Wraps tooltips to share open/close timing; place once near the app root. */
 declare const TooltipProvider: React$1.FC<TooltipPrimitive.TooltipProviderProps>;
 /** Radix Tooltip root — pairs a trigger with its content. */
@@ -1001,4 +1031,4 @@ declare function readTheme(el?: HTMLElement | null): YunUITheme;
  */
 declare function useYunUITheme(defaults?: YunUITheme): [YunUITheme, (patch: YunUITheme) => void];
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
