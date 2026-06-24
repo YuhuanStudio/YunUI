@@ -416,16 +416,34 @@ interface SearchInputProps
  */
 export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
     ({ className, value, onChange, clearable = true, clearLabel, disabled, ...props }, ref) => {
+        // Internal ref so the clear button can restore focus, while still
+        // forwarding the node to a caller-provided ref.
+        const innerRef = React.useRef<HTMLInputElement>(null);
+        const setRef = React.useCallback(
+            (node: HTMLInputElement | null) => {
+                innerRef.current = node;
+                if (typeof ref === "function") ref(node);
+                else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
+            },
+            [ref]
+        );
         const showClear = clearable && !!value && !disabled;
+        const handleClear = () => {
+            onChange?.("");
+            innerRef.current?.focus();
+        };
         return (
             <div className="relative">
                 <Search
                     aria-hidden="true"
                     className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
                 />
+                {/* type="text" + role="searchbox" deliberately: type="search" adds a
+                    native clear (×) decoration that would collide with our own button. */}
                 <input
-                    ref={ref}
-                    type="search"
+                    ref={setRef}
+                    type="text"
+                    role="searchbox"
                     value={value}
                     onChange={(e) => onChange?.(e.target.value)}
                     disabled={disabled}
@@ -434,7 +452,6 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",
-                        "[&::-webkit-search-cancel-button]:appearance-none",
                         showClear ? "pr-10" : "pr-4",
                         className
                     )}
@@ -443,7 +460,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                 {showClear && (
                     <button
                         type="button"
-                        onClick={() => onChange?.("")}
+                        onClick={handleClear}
                         aria-label={clearLabel ?? "Clear search"}
                         className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >

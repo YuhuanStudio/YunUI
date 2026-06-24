@@ -1547,7 +1547,20 @@ function Kbd({ className, ...props }) {
 }
 var SearchInput = React7.forwardRef(
   ({ className, value, onChange, clearable = true, clearLabel, disabled, ...props }, ref) => {
+    const innerRef = React7.useRef(null);
+    const setRef = React7.useCallback(
+      (node) => {
+        innerRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
+      },
+      [ref]
+    );
     const showClear = clearable && !!value && !disabled;
+    const handleClear = () => {
+      onChange?.("");
+      innerRef.current?.focus();
+    };
     return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
       /* @__PURE__ */ jsx(
         Search,
@@ -1559,8 +1572,9 @@ var SearchInput = React7.forwardRef(
       /* @__PURE__ */ jsx(
         "input",
         {
-          ref,
-          type: "search",
+          ref: setRef,
+          type: "text",
+          role: "searchbox",
           value,
           onChange: (e) => onChange?.(e.target.value),
           disabled,
@@ -1569,7 +1583,6 @@ var SearchInput = React7.forwardRef(
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            "[&::-webkit-search-cancel-button]:appearance-none",
             showClear ? "pr-10" : "pr-4",
             className
           ),
@@ -1580,7 +1593,7 @@ var SearchInput = React7.forwardRef(
         "button",
         {
           type: "button",
-          onClick: () => onChange?.(""),
+          onClick: handleClear,
           "aria-label": clearLabel ?? "Clear search",
           className: "absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
@@ -2756,5 +2769,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-V23RBWNE.js.map
-//# sourceMappingURL=chunk-V23RBWNE.js.map
+//# sourceMappingURL=chunk-7XUPI5P2.js.map
+//# sourceMappingURL=chunk-7XUPI5P2.js.map

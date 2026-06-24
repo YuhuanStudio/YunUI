@@ -11,6 +11,13 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- **`SearchInput`** — the canonical search field: a leading magnifier with the
+  right padding (typed text never sits under the icon) plus an optional clear
+  button. Uses `type="text"` + `role="searchbox"` so there's **no duplicate native
+  ✕**, restores focus after clearing, and `onChange` returns the string directly.
+  Replaces hand-rolled `<input> + absolute icon` search boxes.
+
 ## [0.2.6] - 2026-06-24
 
 ### Added

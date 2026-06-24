@@ -55,19 +55,20 @@ describe("Kbd", () => {
 describe("SearchInput", () => {
   it("renders a search field and reports typed text as a string", () => {
     const onChange = vi.fn();
-    const { container } = render(<SearchInput value="" onChange={onChange} placeholder="Search" />);
-    const input = container.querySelector('input[type="search"]')!;
-    expect(input).not.toBeNull();
+    render(<SearchInput value="" onChange={onChange} placeholder="Search" />);
+    const input = screen.getByRole("searchbox");
     fireEvent.change(input, { target: { value: "gpt" } });
     expect(onChange).toHaveBeenLastCalledWith("gpt");
   });
 
-  it("shows the clear button only when there is a value, and clears via onChange('')", () => {
+  it("has exactly one clear control — shown only with a value — and clears via onChange('')", () => {
     const onChange = vi.fn();
-    const { rerender, queryByRole, getByRole } = render(<SearchInput value="" onChange={onChange} />);
-    expect(queryByRole("button", { name: /clear search/i })).toBeNull();
+    const { rerender } = render(<SearchInput value="" onChange={onChange} />);
+    expect(screen.queryByRole("button", { name: /clear search/i })).toBeNull();
     rerender(<SearchInput value="gpt" onChange={onChange} />);
-    fireEvent.click(getByRole("button", { name: /clear search/i }));
+    // Exactly one clear button (no native type="search" ✕ alongside ours).
+    expect(screen.getAllByRole("button", { name: /clear search/i })).toHaveLength(1);
+    fireEvent.click(screen.getByRole("button", { name: /clear search/i }));
     expect(onChange).toHaveBeenLastCalledWith("");
   });
 });
