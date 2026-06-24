@@ -399,7 +399,7 @@ export function Kbd({ className, ...props }: React.HTMLAttributes<HTMLElement>) 
 // =====================================================
 
 interface SearchInputProps
-    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type"> {
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type" | "size"> {
     /** Current query (controlled). */
     value?: string;
     /** Called with the new query string — also called with `""` when cleared. */
@@ -408,6 +408,8 @@ interface SearchInputProps
     clearable?: boolean;
     /** Accessible label for the clear button (English default). */
     clearLabel?: string;
+    /** Field size — `sm` for toolbars/dropdowns, `md` standalone. @defaultValue "md" */
+    size?: "sm" | "md";
 }
 
 /**
@@ -417,7 +419,7 @@ interface SearchInputProps
  * fires `onChange("")`. Use this instead of hand-rolling `<input> + absolute icon`.
  */
 export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-    ({ className, value, onChange, clearable = true, clearLabel, disabled, ...props }, ref) => {
+    ({ className, value, onChange, clearable = true, clearLabel, disabled, size = "md", ...props }, ref) => {
         // Internal ref so the clear button can restore focus, while still
         // forwarding the node to a caller-provided ref.
         const innerRef = React.useRef<HTMLInputElement>(null);
@@ -434,11 +436,15 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             onChange?.("");
             innerRef.current?.focus();
         };
+        const sm = size === "sm";
         return (
             <div className="relative">
                 <Search
                     aria-hidden="true"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+                    className={cn(
+                        "absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none",
+                        sm ? "left-2.5" : "left-3"
+                    )}
                 />
                 {/* type="text" + role="searchbox" deliberately: type="search" adds a
                     native clear (×) decoration that would collide with our own button. */}
@@ -450,11 +456,12 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                     onChange={(e) => onChange?.(e.target.value)}
                     disabled={disabled}
                     className={cn(
-                        "w-full h-10 pl-10 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+                        "w-full bg-background border border-border text-sm outline-none transition-colors",
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",
-                        showClear ? "pr-10" : "pr-4",
+                        sm ? "h-8 rounded-lg pl-8" : "h-10 rounded-xl pl-10",
+                        sm ? (showClear ? "pr-8" : "pr-3") : showClear ? "pr-10" : "pr-4",
                         className
                     )}
                     {...props}
@@ -464,7 +471,10 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                         type="button"
                         onClick={handleClear}
                         aria-label={clearLabel ?? "Clear search"}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className={cn(
+                            "absolute top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                            sm ? "right-1.5" : "right-2.5"
+                        )}
                     >
                         <X className="h-4 w-4" />
                     </button>

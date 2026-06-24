@@ -476,7 +476,7 @@ interface NumberInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputEle
 declare const NumberInput: React$1.ForwardRefExoticComponent<NumberInputProps & React$1.RefAttributes<HTMLInputElement>>;
 /** Inline keyboard-key / shortcut display, e.g. `<Kbd>⌘</Kbd><Kbd>K</Kbd>`. */
 declare function Kbd({ className, ...props }: React$1.HTMLAttributes<HTMLElement>): React$1.JSX.Element;
-interface SearchInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type"> {
+interface SearchInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type" | "size"> {
     /** Current query (controlled). */
     value?: string;
     /** Called with the new query string — also called with `""` when cleared. */
@@ -485,6 +485,8 @@ interface SearchInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputEle
     clearable?: boolean;
     /** Accessible label for the clear button (English default). */
     clearLabel?: string;
+    /** Field size — `sm` for toolbars/dropdowns, `md` standalone. @defaultValue "md" */
+    size?: "sm" | "md";
 }
 /**
  * Canonical search field: a leading magnifier with the right padding so typed

@@ -83,6 +83,11 @@ describe("SearchInput", () => {
     fireEvent.click(screen.getByRole("button", { name: /clear search/i }));
     expect(onChange).toHaveBeenLastCalledWith("");
   });
+
+  it("renders a compact (sm) variant", () => {
+    const { container } = render(<SearchInput size="sm" value="" onChange={() => {}} />);
+    expect(container.querySelector("input")?.className).toContain("h-8");
+  });
 });
 
 describe("Separator", () => {

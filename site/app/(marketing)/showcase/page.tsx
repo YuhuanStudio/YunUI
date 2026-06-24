@@ -399,7 +399,13 @@ function BlogControlsDemo() {
 
 function SearchInputDemo() {
   const [q, setQ] = useState("gpt-4o");
-  return <SearchInput value={q} onChange={setQ} placeholder="Search models…" />;
+  const [q2, setQ2] = useState("");
+  return (
+    <div className="flex flex-col gap-2">
+      <SearchInput value={q} onChange={setQ} placeholder="Search models…" />
+      <SearchInput size="sm" value={q2} onChange={setQ2} placeholder="Compact (size=sm)…" />
+    </div>
+  );
 }
 
 function ProviderCardGridDemo() {

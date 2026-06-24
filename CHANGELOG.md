@@ -11,6 +11,12 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- `SearchInput` gains a **`size`** prop (`"sm" | "md"`, default `md`). `sm` is a
+  compact 32px-tall variant for toolbars and dropdown filters (e.g. the model
+  picker), keeping the same icon size so it reads as a smaller version, not a
+  different control.
+
 ## [0.2.8] - 2026-06-24
 
 ### Fixed

@@ -2367,6 +2367,13 @@
       "description": "Called with the new query string — also called with `\"\"` when cleared."
     },
     {
+      "name": "size",
+      "type": "\"sm\" | \"md\"",
+      "required": false,
+      "defaultValue": "md",
+      "description": "Field size — `sm` for toolbars/dropdowns, `md` standalone."
+    },
+    {
       "name": "value",
       "type": "string",
       "required": false,

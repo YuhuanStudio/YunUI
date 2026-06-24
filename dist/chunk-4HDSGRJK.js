@@ -1546,7 +1546,7 @@ function Kbd({ className, ...props }) {
   );
 }
 var SearchInput = React7.forwardRef(
-  ({ className, value, onChange, clearable = true, clearLabel, disabled, ...props }, ref) => {
+  ({ className, value, onChange, clearable = true, clearLabel, disabled, size = "md", ...props }, ref) => {
     const innerRef = React7.useRef(null);
     const setRef = React7.useCallback(
       (node) => {
@@ -1561,12 +1561,16 @@ var SearchInput = React7.forwardRef(
       onChange?.("");
       innerRef.current?.focus();
     };
+    const sm = size === "sm";
     return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
       /* @__PURE__ */ jsx(
         Search,
         {
           "aria-hidden": "true",
-          className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+          className: cn(
+            "absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none",
+            sm ? "left-2.5" : "left-3"
+          )
         }
       ),
       /* @__PURE__ */ jsx(
@@ -1579,11 +1583,12 @@ var SearchInput = React7.forwardRef(
           onChange: (e) => onChange?.(e.target.value),
           disabled,
           className: cn(
-            "w-full h-10 pl-10 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+            "w-full bg-background border border-border text-sm outline-none transition-colors",
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            showClear ? "pr-10" : "pr-4",
+            sm ? "h-8 rounded-lg pl-8" : "h-10 rounded-xl pl-10",
+            sm ? showClear ? "pr-8" : "pr-3" : showClear ? "pr-10" : "pr-4",
             className
           ),
           ...props
@@ -1595,7 +1600,10 @@ var SearchInput = React7.forwardRef(
           type: "button",
           onClick: handleClear,
           "aria-label": clearLabel ?? "Clear search",
-          className: "absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          className: cn(
+            "absolute top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            sm ? "right-1.5" : "right-2.5"
+          ),
           children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
         }
       )
@@ -2948,5 +2956,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-EROX7LXU.js.map
-//# sourceMappingURL=chunk-EROX7LXU.js.map
+//# sourceMappingURL=chunk-4HDSGRJK.js.map
+//# sourceMappingURL=chunk-4HDSGRJK.js.map
