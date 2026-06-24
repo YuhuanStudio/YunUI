@@ -576,6 +576,7 @@ export const TabsTrigger = React.forwardRef<
             "disabled:pointer-events-none disabled:opacity-50",
             "data-[state=active]:bg-card data-[state=active]:shadow-sm",
             "data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground",
+            "yunui-tab-trigger",
             className
         )}
         {...props}

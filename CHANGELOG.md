@@ -23,7 +23,8 @@ _Accumulating; will ship as the next patch (0.2.5) once a batch is ready._
   text stays on `--color-foreground`, so readability is untouched. **Default
   monochrome is byte-identical** (the markers/overrides do nothing without the
   attribute; verified visually with a violet brand across the showcase).
-  Also covers the active **navigation indicators** (sidebar bar, tab underline).
+  Also covers active **navigation indicators** (sidebar bar, NavTabs underline)
+  and the **Radix Tabs** active pill (translucent brand tint).
   Brand buttons use a **translucent** brand tint (keeps YunUI's glassy feel, not
   heavy solid blocks) and **render correctly in dark mode** (the brand button
   overrides are placed after the `.dark .btn-*` rules so they win in both modes).

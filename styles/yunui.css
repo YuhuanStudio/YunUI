@@ -267,6 +267,12 @@
   background: var(--brand-solid-strong);
 }
 
+/* Radix Tabs active trigger — translucent brand tint instead of the plain pill. */
+[data-accent-source="brand"] .yunui-tab-trigger[data-state="active"] {
+  background-color: var(--brand-alpha-weak);
+  color: var(--brand-solid-strong);
+}
+
 /* True Black — Fumadocs sidebar overrides */
 .true-black #nd-sidebar {
   --color-fd-muted: #111111;
