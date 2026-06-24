@@ -12,7 +12,7 @@ import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
-import { Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, Search, ArrowRight, AlertTriangle } from 'lucide-react';
+import { Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Minus, Plus, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, Search, ArrowRight, AlertTriangle } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
@@ -1412,6 +1412,139 @@ var Textarea = React7.forwardRef(
   }
 );
 Textarea.displayName = "Textarea";
+var PasswordInput = React7.forwardRef(
+  ({ className, error, id, labels, "aria-describedby": describedBy, ...props }, ref) => {
+    const [show, setShow] = React7.useState(false);
+    const reactId = React7.useId();
+    const fieldId = id ?? reactId;
+    const errorId = error ? `${fieldId}-error` : void 0;
+    const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || void 0;
+    return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          ref,
+          id: fieldId,
+          type: show ? "text" : "password",
+          "aria-invalid": error ? true : void 0,
+          "aria-describedby": describedByIds,
+          className: cn(
+            "w-full h-10 px-4 pr-10 bg-background border rounded-xl text-sm outline-none transition-colors",
+            "placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20",
+            "disabled:opacity-50 disabled:cursor-not-allowed",
+            error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
+            className
+          ),
+          ...props
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          onClick: () => setShow((s) => !s),
+          "aria-label": show ? labels?.hide ?? "Hide password" : labels?.show ?? "Show password",
+          "aria-pressed": show,
+          tabIndex: -1,
+          className: "absolute right-3 top-1/2 -translate-y-1/2 rounded text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          children: show ? /* @__PURE__ */ jsx(EyeOff, { className: "w-4 h-4" }) : /* @__PURE__ */ jsx(Eye, { className: "w-4 h-4" })
+        }
+      ),
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+        /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
+        error
+      ] })
+    ] });
+  }
+);
+PasswordInput.displayName = "PasswordInput";
+var NumberInput = React7.forwardRef(
+  ({ className, value, onChange, min, max, step = 1, error, disabled, labels, id, "aria-describedby": describedBy, ...props }, ref) => {
+    const reactId = React7.useId();
+    const fieldId = id ?? reactId;
+    const errorId = error ? `${fieldId}-error` : void 0;
+    const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || void 0;
+    const clamp = (n) => Math.min(max ?? Infinity, Math.max(min ?? -Infinity, n));
+    const base = typeof value === "number" && !Number.isNaN(value) ? value : 0;
+    const bump = (delta) => onChange?.(clamp(base + delta));
+    const atMin = min != null && base <= min;
+    const atMax = max != null && base >= max;
+    const stepBtn = "flex h-10 w-10 shrink-0 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+    return /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsxs(
+        "div",
+        {
+          className: cn(
+            "relative flex items-stretch rounded-xl border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+            error ? "border-red-300 dark:border-red-700" : "border-border",
+            disabled && "opacity-50",
+            className
+          ),
+          children: [
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                type: "button",
+                onClick: () => bump(-step),
+                disabled: disabled || atMin,
+                "aria-label": labels?.decrement ?? "Decrease",
+                className: cn(stepBtn, "rounded-l-xl"),
+                children: /* @__PURE__ */ jsx(Minus, { className: "w-4 h-4" })
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              "input",
+              {
+                ref,
+                id: fieldId,
+                type: "number",
+                inputMode: "numeric",
+                value: typeof value === "number" ? value : "",
+                onChange: (e) => onChange?.(e.target.value === "" ? base : clamp(Number(e.target.value))),
+                min,
+                max,
+                step,
+                disabled,
+                "aria-invalid": error ? true : void 0,
+                "aria-describedby": describedByIds,
+                className: "w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+                ...props
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                type: "button",
+                onClick: () => bump(step),
+                disabled: disabled || atMax,
+                "aria-label": labels?.increment ?? "Increase",
+                className: cn(stepBtn, "rounded-r-xl"),
+                children: /* @__PURE__ */ jsx(Plus, { className: "w-4 h-4" })
+              }
+            )
+          ]
+        }
+      ),
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+        /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
+        error
+      ] })
+    ] });
+  }
+);
+NumberInput.displayName = "NumberInput";
+function Kbd({ className, ...props }) {
+  return /* @__PURE__ */ jsx(
+    "kbd",
+    {
+      className: cn(
+        "inline-flex h-5 min-w-5 items-center justify-center rounded border border-border bg-muted px-1.5 font-mono text-[11px] font-medium text-muted-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
 var Card = React7.forwardRef(
   ({ className, hover, ...props }, ref) => {
     return /* @__PURE__ */ jsx(
@@ -2577,6 +2710,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, PageLoader, Pagination, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-EVBC5X4A.js.map
-//# sourceMappingURL=chunk-EVBC5X4A.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AnimatedNumber, Avatar, AvatarFallback, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-D2KGK2LY.js.map
+//# sourceMappingURL=chunk-D2KGK2LY.js.map

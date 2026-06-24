@@ -12,6 +12,10 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- New primitives closing part of the breadth gap with once-ui: **`PasswordInput`**
+  (masked field + show/hide reveal toggle), **`NumberInput`** (−/+ steppers with
+  min/max clamping), and **`Kbd`** (inline keyboard-key display). All additive,
+  same styling/error API as `Input`.
 - `useFocusTrap(ref, enabled)` hook. **`Modal` (and `ConfirmModal`/`DeleteConfirmModal`/
   `RegenerateConfirmModal`, which build on it) now trap focus** — focus moves into
   the dialog on open, Tab/Shift+Tab cycle inside it, and focus returns to the

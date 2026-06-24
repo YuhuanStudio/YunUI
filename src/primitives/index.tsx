@@ -23,6 +23,10 @@ import {
     Loader2,
     AlertCircle,
     CheckCircle2,
+    Eye,
+    EyeOff,
+    Minus,
+    Plus,
 } from "lucide-react";
 
 // Re-export Modal component
@@ -223,6 +227,169 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     }
 );
 Textarea.displayName = "Textarea";
+
+// =====================================================
+// PASSWORD INPUT
+// =====================================================
+
+interface PasswordInputProps extends Omit<InputProps, "icon" | "type"> {
+    /** Accessible labels for the reveal toggle (English defaults). */
+    labels?: { show?: string; hide?: string };
+}
+
+/** Password field with a show/hide reveal toggle; same styling + error API as Input. */
+export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+    ({ className, error, id, labels, "aria-describedby": describedBy, ...props }, ref) => {
+        const [show, setShow] = React.useState(false);
+        const reactId = React.useId();
+        const fieldId = id ?? reactId;
+        const errorId = error ? `${fieldId}-error` : undefined;
+        const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || undefined;
+        return (
+            <div className="relative">
+                <input
+                    ref={ref}
+                    id={fieldId}
+                    type={show ? "text" : "password"}
+                    aria-invalid={error ? true : undefined}
+                    aria-describedby={describedByIds}
+                    className={cn(
+                        "w-full h-10 px-4 pr-10 bg-background border rounded-xl text-sm outline-none transition-colors",
+                        "placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20",
+                        "disabled:opacity-50 disabled:cursor-not-allowed",
+                        error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
+                        className
+                    )}
+                    {...props}
+                />
+                <button
+                    type="button"
+                    onClick={() => setShow((s) => !s)}
+                    aria-label={show ? labels?.hide ?? "Hide password" : labels?.show ?? "Show password"}
+                    aria-pressed={show}
+                    tabIndex={-1}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                    {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+                {error && (
+                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                        <AlertCircle aria-hidden="true" className="w-3 h-3" />
+                        {error}
+                    </p>
+                )}
+            </div>
+        );
+    }
+);
+PasswordInput.displayName = "PasswordInput";
+
+// =====================================================
+// NUMBER INPUT
+// =====================================================
+
+interface NumberInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type"> {
+    /** Current value (controlled). */
+    value?: number;
+    /** Called with the next clamped value. */
+    onChange?: (value: number) => void;
+    min?: number;
+    max?: number;
+    /** Increment/decrement step. @defaultValue 1 */
+    step?: number;
+    /** Error message shown below the field; also switches the border to a red error style. */
+    error?: string;
+    /** Accessible labels for the steppers (English defaults). */
+    labels?: { increment?: string; decrement?: string };
+}
+
+/** Numeric field with −/+ steppers, min/max clamping, and the Input error API. */
+export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
+    ({ className, value, onChange, min, max, step = 1, error, disabled, labels, id, "aria-describedby": describedBy, ...props }, ref) => {
+        const reactId = React.useId();
+        const fieldId = id ?? reactId;
+        const errorId = error ? `${fieldId}-error` : undefined;
+        const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || undefined;
+        const clamp = (n: number) => Math.min(max ?? Infinity, Math.max(min ?? -Infinity, n));
+        const base = typeof value === "number" && !Number.isNaN(value) ? value : 0;
+        const bump = (delta: number) => onChange?.(clamp(base + delta));
+        const atMin = min != null && base <= min;
+        const atMax = max != null && base >= max;
+        const stepBtn =
+            "flex h-10 w-10 shrink-0 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+        return (
+            <div>
+                <div
+                    className={cn(
+                        "relative flex items-stretch rounded-xl border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+                        error ? "border-red-300 dark:border-red-700" : "border-border",
+                        disabled && "opacity-50",
+                        className
+                    )}
+                >
+                    <button
+                        type="button"
+                        onClick={() => bump(-step)}
+                        disabled={disabled || atMin}
+                        aria-label={labels?.decrement ?? "Decrease"}
+                        className={cn(stepBtn, "rounded-l-xl")}
+                    >
+                        <Minus className="w-4 h-4" />
+                    </button>
+                    <input
+                        ref={ref}
+                        id={fieldId}
+                        type="number"
+                        inputMode="numeric"
+                        value={typeof value === "number" ? value : ""}
+                        onChange={(e) => onChange?.(e.target.value === "" ? base : clamp(Number(e.target.value)))}
+                        min={min}
+                        max={max}
+                        step={step}
+                        disabled={disabled}
+                        aria-invalid={error ? true : undefined}
+                        aria-describedby={describedByIds}
+                        className="w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        {...props}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => bump(step)}
+                        disabled={disabled || atMax}
+                        aria-label={labels?.increment ?? "Increase"}
+                        className={cn(stepBtn, "rounded-r-xl")}
+                    >
+                        <Plus className="w-4 h-4" />
+                    </button>
+                </div>
+                {error && (
+                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                        <AlertCircle aria-hidden="true" className="w-3 h-3" />
+                        {error}
+                    </p>
+                )}
+            </div>
+        );
+    }
+);
+NumberInput.displayName = "NumberInput";
+
+// =====================================================
+// KBD
+// =====================================================
+
+/** Inline keyboard-key / shortcut display, e.g. `<Kbd>⌘</Kbd><Kbd>K</Kbd>`. */
+export function Kbd({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
+    return (
+        <kbd
+            className={cn(
+                "inline-flex h-5 min-w-5 items-center justify-center rounded border border-border bg-muted px-1.5 font-mono text-[11px] font-medium text-muted-foreground",
+                className
+            )}
+            {...props}
+        />
+    );
+}
 
 // =====================================================
 // CARD
