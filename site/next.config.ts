@@ -3,6 +3,11 @@ import { resolve } from "node:path";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
+  // Allow phones/other devices on the LAN to use the dev server. Next 15+ blocks
+  // cross-origin /_next/* requests by default, so visiting http://<lan-ip>:3939
+  // loads the HTML but never hydrates → "only localhost is interactive". Permit
+  // the private LAN ranges so the client bundle/HMR load over the network too.
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*", "*.local"],
   // Treat .mdx as an importable page extension so the docs content tree
   // (content/docs/**/*.mdx) compiles via @next/mdx.
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
