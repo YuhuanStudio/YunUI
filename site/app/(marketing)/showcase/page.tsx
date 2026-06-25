@@ -534,7 +534,10 @@ function IconGalleryDemo() {
       <div className="mb-4 max-w-xs">
         <SearchInput value={q} onChange={setQ} placeholder={`Filter ${all.length} icons…`} />
       </div>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(74px,1fr))] gap-3 max-h-96 overflow-y-auto pr-1">
+      {/* Inline gridTemplateColumns (not a Tailwind arbitrary grid-cols-[…]
+          class) — Safari mis-parsed the escaped repeat()/minmax() class and
+          collapsed the grid to a single centered column. */}
+      <div className="grid gap-3 max-h-96 overflow-y-auto pr-1" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(74px, 1fr))" }}>
         {shown.map((slug) => (
           <div key={slug} className="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-(--bg-hover) transition-colors">
             <ProviderAvatar provider={slug} size={40} />
