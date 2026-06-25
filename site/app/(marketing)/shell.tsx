@@ -64,25 +64,28 @@ function Navbar({ pathname }: { pathname: string }) {
         ))}
       </div>
 
-      {/* Right side — GitHub link + theme toggle */}
+      {/* Right side — GitHub + language hide on mobile (they move into the menu)
+          so the bar stays logo + theme + hamburger and never crowds the wordmark. */}
       <div className="flex items-center gap-1.5 shrink-0">
         <a
           href="https://github.com/YuhuanStudio/YunUI"
           target="_blank"
           rel="noreferrer noopener"
           aria-label={t("github")}
-          className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+          className="hidden md:flex w-9 h-9 rounded-full items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
         >
           <GithubIcon />
         </a>
         {/* Dogfood yunui's LanguageSwitcher; the host owns the locale state +
             cookie side-effect, fed in via props. Sits left of the ThemeToggle. */}
-        <LanguageSwitcher
-          variant="pill"
-          locales={LOCALES.map((loc) => ({ value: loc, label: LOCALE_NAMES[loc] }))}
-          currentLocale={locale}
-          onChange={(l) => setLocale(l as (typeof LOCALES)[number])}
-        />
+        <span className="hidden md:flex items-center">
+          <LanguageSwitcher
+            variant="pill"
+            locales={LOCALES.map((loc) => ({ value: loc, label: LOCALE_NAMES[loc] }))}
+            currentLocale={locale}
+            onChange={(l) => setLocale(l as (typeof LOCALES)[number])}
+          />
+        </span>
         <ThemeToggle variant="pill" />
 
         {/* Mobile menu toggle */}
@@ -114,6 +117,24 @@ function Navbar({ pathname }: { pathname: string }) {
                 {link.label}
               </Link>
             ))}
+            <div className="my-1 border-t border-border" />
+            <div className="flex items-center justify-between px-2 py-1">
+              <LanguageSwitcher
+                variant="pill"
+                locales={LOCALES.map((loc) => ({ value: loc, label: LOCALE_NAMES[loc] }))}
+                currentLocale={locale}
+                onChange={(l) => setLocale(l as (typeof LOCALES)[number])}
+              />
+              <a
+                href="https://github.com/YuhuanStudio/YunUI"
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label={t("github")}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+              >
+                <GithubIcon />
+              </a>
+            </div>
           </div>
         </>
       )}
