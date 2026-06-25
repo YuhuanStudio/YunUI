@@ -50,15 +50,21 @@ describe("Flex", () => {
 });
 
 describe("Grid", () => {
-    it("maps columns to grid-cols-N and renders children", () => {
+    it("maps columns to a mobile-first responsive ramp and renders children", () => {
         render(
             <Grid data-testid="g" columns={3}>
                 cell
             </Grid>
         );
         const el = screen.getByTestId("g");
-        expect(el).toHaveClass("grid", "grid-cols-3");
+        // responsive by default: stacks on mobile, 3 cols at sm+
+        expect(el).toHaveClass("grid", "grid-cols-1", "sm:grid-cols-3");
         expect(el).toHaveTextContent("cell");
+    });
+
+    it("uses literal grid-cols-N when responsive={false}", () => {
+        render(<Grid data-testid="g" columns={3} responsive={false} />);
+        expect(screen.getByTestId("g")).toHaveClass("grid", "grid-cols-3");
     });
 
     it("maps rows, gap, align, and padding", () => {

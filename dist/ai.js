@@ -230,11 +230,11 @@ function CapabilitySelector({ selected, onChange, disabled = false, size = "md",
   const gridColsClass = {
     1: "grid-cols-1",
     2: "grid-cols-2",
-    3: "grid-cols-3",
-    4: "grid-cols-4",
-    5: "grid-cols-5",
-    6: "grid-cols-6"
-  }[columns] || "grid-cols-3";
+    3: "grid-cols-2 sm:grid-cols-3",
+    4: "grid-cols-2 sm:grid-cols-4",
+    5: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5",
+    6: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+  }[columns] || "grid-cols-2 sm:grid-cols-3";
   return /* @__PURE__ */ jsx("div", { className: `grid ${gridColsClass} gap-2`, children: capabilityOptions.map((cap) => {
     const isSelected = selected.includes(cap.value);
     const Icon = cap.icon;

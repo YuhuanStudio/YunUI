@@ -113,15 +113,16 @@ export function CapabilitySelector({ selected, onChange, disabled = false, size 
     const sizeClasses = size === "sm" ? "p-2.5 text-xs gap-1.5" : "p-3 text-sm gap-2";
     const iconSize = size === "sm" ? 14 : 16;
 
-    // Map columns to Tailwind classes (static for purging)
+    // Mobile-first ramp (static classes for purging): fewer columns on a phone,
+    // the requested count at sm+ — so capability chips don't crush on narrow screens.
     const gridColsClass = {
         1: "grid-cols-1",
         2: "grid-cols-2",
-        3: "grid-cols-3",
-        4: "grid-cols-4",
-        5: "grid-cols-5",
-        6: "grid-cols-6",
-    }[columns] || "grid-cols-3";
+        3: "grid-cols-2 sm:grid-cols-3",
+        4: "grid-cols-2 sm:grid-cols-4",
+        5: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5",
+        6: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6",
+    }[columns] || "grid-cols-2 sm:grid-cols-3";
 
     return (
         <div className={`grid ${gridColsClass} gap-2`}>

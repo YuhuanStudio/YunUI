@@ -313,6 +313,9 @@ interface GridProps extends React$1.HTMLAttributes<HTMLElement> {
     align?: Align;
     /** Padding on all sides, on the spacing scale. */
     padding?: SpacingScale;
+    /** Stack into fewer columns on small screens (mobile-first ramp) instead of
+     *  a literal `grid-cols-N` at every width. @defaultValue true */
+    responsive?: boolean;
     /** Element/tag to render as. @defaultValue "div" */
     as?: React$1.ElementType;
 }

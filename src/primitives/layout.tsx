@@ -127,6 +127,25 @@ const colsMap: Record<GridCount, string> = {
     12: "grid-cols-12",
 };
 
+// Mobile-first column ramps: an N-column grid is cramped on a phone, so by
+// default `<Grid columns={N}>` starts with fewer columns and scales up at the
+// `sm`/`lg` breakpoints. Pass `responsive={false}` for the literal `grid-cols-N`.
+// (All classes are written out so Tailwind generates them.)
+const responsiveColsMap: Record<GridCount, string> = {
+    1: "grid-cols-1",
+    2: "grid-cols-2",
+    3: "grid-cols-1 sm:grid-cols-3",
+    4: "grid-cols-2 sm:grid-cols-4",
+    5: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5",
+    6: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6",
+    7: "grid-cols-3 sm:grid-cols-4 lg:grid-cols-7",
+    8: "grid-cols-3 sm:grid-cols-4 lg:grid-cols-8",
+    9: "grid-cols-3 sm:grid-cols-4 lg:grid-cols-9",
+    10: "grid-cols-3 sm:grid-cols-5 lg:grid-cols-10",
+    11: "grid-cols-3 sm:grid-cols-5 lg:grid-cols-11",
+    12: "grid-cols-3 sm:grid-cols-6 lg:grid-cols-12",
+};
+
 const rowsMap: Record<GridCount, string> = {
     1: "grid-rows-1",
     2: "grid-rows-2",
@@ -230,6 +249,9 @@ export interface GridProps extends React.HTMLAttributes<HTMLElement> {
     align?: Align;
     /** Padding on all sides, on the spacing scale. */
     padding?: SpacingScale;
+    /** Stack into fewer columns on small screens (mobile-first ramp) instead of
+     *  a literal `grid-cols-N` at every width. @defaultValue true */
+    responsive?: boolean;
     /** Element/tag to render as. @defaultValue "div" */
     as?: React.ElementType;
 }
@@ -240,7 +262,7 @@ export interface GridProps extends React.HTMLAttributes<HTMLElement> {
  */
 export const Grid = React.forwardRef<HTMLElement, GridProps>(
     (
-        { as, columns, rows, gap, align, padding, className, children, ...props },
+        { as, columns, rows, gap, align, padding, responsive = true, className, children, ...props },
         ref
     ) => {
         const Comp = (as ?? "div") as React.ElementType;
@@ -249,7 +271,7 @@ export const Grid = React.forwardRef<HTMLElement, GridProps>(
                 ref={ref}
                 className={cn(
                     "grid",
-                    columns !== undefined && colsMap[columns],
+                    columns !== undefined && (responsive ? responsiveColsMap[columns] : colsMap[columns]),
                     rows !== undefined && rowsMap[rows],
                     gap !== undefined && gapMap[gap],
                     align && alignMap[align],

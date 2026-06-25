@@ -948,6 +948,20 @@ var colsMap = {
   11: "grid-cols-11",
   12: "grid-cols-12"
 };
+var responsiveColsMap = {
+  1: "grid-cols-1",
+  2: "grid-cols-2",
+  3: "grid-cols-1 sm:grid-cols-3",
+  4: "grid-cols-2 sm:grid-cols-4",
+  5: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5",
+  6: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6",
+  7: "grid-cols-3 sm:grid-cols-4 lg:grid-cols-7",
+  8: "grid-cols-3 sm:grid-cols-4 lg:grid-cols-8",
+  9: "grid-cols-3 sm:grid-cols-4 lg:grid-cols-9",
+  10: "grid-cols-3 sm:grid-cols-5 lg:grid-cols-10",
+  11: "grid-cols-3 sm:grid-cols-5 lg:grid-cols-11",
+  12: "grid-cols-3 sm:grid-cols-6 lg:grid-cols-12"
+};
 var rowsMap = {
   1: "grid-rows-1",
   2: "grid-rows-2",
@@ -1002,7 +1016,7 @@ var Flex = React7.forwardRef(
 );
 Flex.displayName = "Flex";
 var Grid = React7.forwardRef(
-  ({ as, columns, rows, gap, align, padding, className, children, ...props }, ref) => {
+  ({ as, columns, rows, gap, align, padding, responsive = true, className, children, ...props }, ref) => {
     const Comp = as ?? "div";
     return /* @__PURE__ */ jsx(
       Comp,
@@ -1010,7 +1024,7 @@ var Grid = React7.forwardRef(
         ref,
         className: cn(
           "grid",
-          columns !== void 0 && colsMap[columns],
+          columns !== void 0 && (responsive ? responsiveColsMap[columns] : colsMap[columns]),
           rows !== void 0 && rowsMap[rows],
           gap !== void 0 && gapMap[gap],
           align && alignMap[align],
@@ -2974,5 +2988,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-65XAR7FY.js.map
-//# sourceMappingURL=chunk-65XAR7FY.js.map
+//# sourceMappingURL=chunk-RYXVPVHP.js.map
+//# sourceMappingURL=chunk-RYXVPVHP.js.map
