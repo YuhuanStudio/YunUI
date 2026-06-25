@@ -1,6 +1,6 @@
 "use client";
 
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, ArrowRight } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 
 export interface FellowsBannerProps {
@@ -41,8 +41,9 @@ export function FellowsBanner({
           )}
         </div>
       </div>
-      <span className="text-sm font-medium text-primary group-hover:underline whitespace-nowrap shrink-0">
-        {ctaText} →
+      <span className="shrink-0 w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium group-hover:bg-primary/15 transition-colors">
+        {ctaText}
+        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
       </span>
     </Link>
   );

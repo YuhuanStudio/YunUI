@@ -6,7 +6,7 @@ import { cn } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -498,7 +498,7 @@ function BlogPagination({
   const previousLabel = labels?.previous ?? "Previous";
   const nextLabel = labels?.next ?? "Next";
   if (totalPages <= 1) return null;
-  const maxVisible = 5;
+  const maxVisible = 3;
   let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
   const end = Math.min(totalPages, start + maxVisible - 1);
   start = Math.max(1, end - maxVisible + 1);
@@ -519,16 +519,18 @@ function BlogPagination({
     ),
     /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1", children: [
       start > 1 && /* @__PURE__ */ jsxs(Fragment, { children: [
-        /* @__PURE__ */ jsx(Button, { variant: "ghost", size: "sm", onClick: () => handlePageChange(1), className: "min-w-[36px]", children: "1" }),
+        /* @__PURE__ */ jsx(Button, { variant: "ghost", size: "sm", onClick: () => handlePageChange(1), className: "w-8 h-8 p-0 justify-center text-sm", children: "1" }),
         start > 2 && /* @__PURE__ */ jsx("span", { className: "px-2 text-muted-foreground", children: "..." })
       ] }),
       pages.map((page) => /* @__PURE__ */ jsx(
         Button,
         {
-          variant: page === currentPage ? "primary" : "ghost",
+          variant: "ghost",
           size: "sm",
           onClick: () => handlePageChange(page),
-          className: "min-w-[36px]",
+          "aria-current": page === currentPage ? "page" : void 0,
+          className: `w-8 h-8 p-0 justify-center text-sm ${page === currentPage ? "font-semibold" : ""}`,
+          style: page === currentPage ? { color: "var(--text-primary)" } : void 0,
           children: page
         },
         page
@@ -541,7 +543,7 @@ function BlogPagination({
             variant: "ghost",
             size: "sm",
             onClick: () => handlePageChange(totalPages),
-            className: "min-w-[36px]",
+            className: "w-8 h-8 p-0 justify-center text-sm",
             children: totalPages
           }
         )
@@ -573,18 +575,22 @@ function CategoryFilter({
     /* @__PURE__ */ jsx(
       Button,
       {
-        variant: selectedCategory ? "ghost" : "primary",
+        variant: "ghost",
         size: "sm",
         onClick: () => handleCategoryClick(null),
+        className: !selectedCategory ? "font-semibold" : "",
+        style: !selectedCategory ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : void 0,
         children: allLabel
       }
     ),
     categories.map((category) => /* @__PURE__ */ jsx(
       Button,
       {
-        variant: selectedCategory === category ? "primary" : "ghost",
+        variant: "ghost",
         size: "sm",
         onClick: () => handleCategoryClick(category),
+        className: selectedCategory === category ? "font-semibold" : "",
+        style: selectedCategory === category ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : void 0,
         children: category
       },
       category
@@ -811,9 +817,9 @@ function FellowsBanner({
             features.length > 0 && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground/70 mt-1", children: features.join(" \xB7 ") })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs("span", { className: "text-sm font-medium text-primary group-hover:underline whitespace-nowrap shrink-0", children: [
+        /* @__PURE__ */ jsxs("span", { className: "shrink-0 w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium group-hover:bg-primary/15 transition-colors", children: [
           ctaText,
-          " \u2192"
+          /* @__PURE__ */ jsx(ArrowRight, { className: "w-4 h-4 transition-transform group-hover:translate-x-0.5" })
         ] })
       ]
     }

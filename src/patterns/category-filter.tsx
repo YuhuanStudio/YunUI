@@ -22,9 +22,11 @@ export function CategoryFilter({
   return (
     <div className="flex flex-wrap gap-2 mb-8">
       <Button
-        variant={selectedCategory ? "ghost" : "primary"}
+        variant="ghost"
         size="sm"
         onClick={() => handleCategoryClick(null)}
+        className={!selectedCategory ? "font-semibold" : ""}
+        style={!selectedCategory ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : undefined}
       >
         {allLabel}
       </Button>
@@ -32,9 +34,11 @@ export function CategoryFilter({
       {categories.map((category) => (
         <Button
           key={category}
-          variant={selectedCategory === category ? "primary" : "ghost"}
+          variant="ghost"
           size="sm"
           onClick={() => handleCategoryClick(category)}
+          className={selectedCategory === category ? "font-semibold" : ""}
+          style={selectedCategory === category ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : undefined}
         >
           {category}
         </Button>

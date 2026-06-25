@@ -424,6 +424,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Kill the grey tap-highlight box iOS Safari draws over buttons/links on tap —
+   it read as an ugly box "popping up" when tapping e.g. pagination. We provide
+   our own hover/active feedback, so suppress the native overlay everywhere. */
+a,
+button,
+[role="button"],
+[role="checkbox"],
+[role="tab"],
+.btn,
+label,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

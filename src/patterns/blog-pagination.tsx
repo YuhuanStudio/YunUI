@@ -24,8 +24,9 @@ export function BlogPagination({
 
   if (totalPages <= 1) return null;
 
-  // Calculate visible page range
-  const maxVisible = 5;
+  // Calculate visible page range. Keep the window small so a MIDDLE page (which
+  // also shows first + last + two ellipses) doesn't widen the row past a phone.
+  const maxVisible = 3;
   let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
   const end = Math.min(totalPages, start + maxVisible - 1);
   start = Math.max(1, end - maxVisible + 1);
@@ -47,7 +48,7 @@ export function BlogPagination({
       <div className="flex items-center gap-1">
         {start > 1 && (
           <>
-            <Button variant="ghost" size="sm" onClick={() => handlePageChange(1)} className="min-w-[36px]">
+            <Button variant="ghost" size="sm" onClick={() => handlePageChange(1)} className="w-8 h-8 p-0 justify-center text-sm">
               1
             </Button>
             {start > 2 && <span className="px-2 text-muted-foreground">...</span>}
@@ -57,10 +58,14 @@ export function BlogPagination({
         {pages.map((page) => (
           <Button
             key={page}
-            variant={page === currentPage ? "primary" : "ghost"}
+            variant="ghost"
             size="sm"
             onClick={() => handlePageChange(page)}
-            className="min-w-[36px]"
+            aria-current={page === currentPage ? "page" : undefined}
+            // Current page: just bold + full-strength text (no fill / no box) —
+            // inline color because .btn-ghost's muted color would otherwise win.
+            className={`w-8 h-8 p-0 justify-center text-sm ${page === currentPage ? "font-semibold" : ""}`}
+            style={page === currentPage ? { color: "var(--text-primary)" } : undefined}
           >
             {page}
           </Button>
@@ -73,7 +78,7 @@ export function BlogPagination({
               variant="ghost"
               size="sm"
               onClick={() => handlePageChange(totalPages)}
-              className="min-w-[36px]"
+              className="w-8 h-8 p-0 justify-center text-sm"
             >
               {totalPages}
             </Button>
