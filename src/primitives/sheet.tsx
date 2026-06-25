@@ -57,18 +57,21 @@ export function Sheet({ open, onClose, children, title, mobileOnly = false }: Sh
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className={cn("fixed inset-y-0 right-0 w-[85vw] min-w-72 max-w-sm bg-card shadow-2xl flex flex-col overflow-hidden rounded-l-2xl border-l border-border", mobileOnly && "lg:hidden")}
+                        /* A floating, glassy, fully-rounded drawer (inset from the
+                           edges) — matches YunUI's navbar/modal surface treatment
+                           instead of a flat edge-to-edge white slab. */
+                        className={cn("fixed inset-y-3 right-3 w-[85vw] min-w-72 max-w-sm bg-background/95 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden rounded-2xl border border-border", mobileOnly && "lg:hidden")}
                         style={{ zIndex: 50 }}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
+                        <div className="flex items-center justify-between px-5 py-4 border-b border-border/60 shrink-0">
                             {title && (
-                                <h2 className="font-semibold text-sm">{title}</h2>
+                                <h2 className="font-semibold text-sm tracking-tight">{title}</h2>
                             )}
                             <button
                                 onClick={onClose}
-                                className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors ml-auto"
+                                className="-mr-1.5 p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors ml-auto"
                                 aria-label="Close"
                             >
                                 <X size={18} />

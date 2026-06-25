@@ -565,17 +565,17 @@ function Sheet({ open, onClose, children, title, mobileOnly = false }) {
           animate: { x: 0 },
           exit: { x: "100%" },
           transition: { type: "spring", damping: 30, stiffness: 300 },
-          className: cn("fixed inset-y-0 right-0 w-[85vw] min-w-72 max-w-sm bg-card shadow-2xl flex flex-col overflow-hidden rounded-l-2xl border-l border-border", mobileOnly && "lg:hidden"),
+          className: cn("fixed inset-y-3 right-3 w-[85vw] min-w-72 max-w-sm bg-background/95 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden rounded-2xl border border-border", mobileOnly && "lg:hidden"),
           style: { zIndex: 50 },
           onClick: (e) => e.stopPropagation(),
           children: [
-            /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between p-4 border-b border-border shrink-0", children: [
-              title && /* @__PURE__ */ jsx("h2", { className: "font-semibold text-sm", children: title }),
+            /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-5 py-4 border-b border-border/60 shrink-0", children: [
+              title && /* @__PURE__ */ jsx("h2", { className: "font-semibold text-sm tracking-tight", children: title }),
               /* @__PURE__ */ jsx(
                 "button",
                 {
                   onClick: onClose,
-                  className: "p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors ml-auto",
+                  className: "-mr-1.5 p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors ml-auto",
                   "aria-label": "Close",
                   children: /* @__PURE__ */ jsx(X, { size: 18 })
                 }
@@ -2988,5 +2988,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-774XNF5Q.js.map
-//# sourceMappingURL=chunk-774XNF5Q.js.map
+//# sourceMappingURL=chunk-DPTLCTFC.js.map
+//# sourceMappingURL=chunk-DPTLCTFC.js.map
