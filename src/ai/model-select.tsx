@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect, memo, type ReactNode } from "react";
 import { Search, Pin, ChevronDown, X, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 import { cn } from "../lib/cn";
 
 // =====================================================
@@ -209,11 +210,21 @@ export function ModelSelect({
             </button>
 
             {isOpen && (
-                    <div
-                        /* Fixed width so the panel never reflows as you search/
-                           filter; CSS entrance (not framer) so it unmounts at
-                           once on close. */
-                        className="animate-fade origin-top absolute z-50 top-full left-0 mt-2 w-[90vw] sm:w-[34rem] max-w-[calc(100vw-1rem)] bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden"
+                    <motion.div
+                        /* motion.div WITHOUT AnimatePresence: a reliable enter
+                           animation on mount, and an immediate unmount on close
+                           (no exit delay → close is synchronous). Fixed width so
+                           the panel never reflows as you search/filter. */
+                        initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.16, ease: "easeOut" }}
+                        /* w-96 (= 24rem) is a CORE utility — always generated, so the
+                           panel can't fall back to a full-bleed width the way an
+                           arbitrary `w-[24rem]` did when the consuming app's JIT scan
+                           missed it. The small-screen cap is an inline style (not an
+                           arbitrary class) so it can't silently fail to generate. */
+                        style={{ maxWidth: "calc(100vw - 1rem)" }}
+                        className="origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden"
                     >
                         {/* Search + capability filters */}
                         <div className="p-2.5 border-b border-border/50">
@@ -307,7 +318,7 @@ export function ModelSelect({
                                 {renderFooter(filtered.length)}
                             </div>
                         )}
-                    </div>
+                    </motion.div>
                 )}
         </div>
     );
@@ -333,8 +344,11 @@ const ModelRow = memo(function ModelRow({
             data-model-id={option.id}
             onClick={onSelect}
             className={cn(
-                "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
-                selected ? "bg-muted" : "hover:bg-muted/50",
+                // Hover micro-interaction: a subtle lift + a clearly-visible tint.
+                // (bg-muted/50 was too faint over the glassy popover to read as a
+                // hover state.) CSS transform — reliable, no per-row framer.
+                "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-all duration-150 hover:scale-[1.01]",
+                selected ? "bg-muted" : "hover:bg-muted",
             )}
         >
             {/* Left selection bar — YunUI's selected-state signature. */}

@@ -276,9 +276,13 @@ function ModelSelect({
         }
       ),
       isOpen && /* @__PURE__ */ jsxs(
-        "div",
+        motion.div,
         {
-          className: "animate-fade origin-top absolute z-50 top-full left-0 mt-2 w-[90vw] sm:w-[34rem] max-w-[calc(100vw-1rem)] bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden",
+          initial: { opacity: 0, y: -8, scale: 0.96 },
+          animate: { opacity: 1, y: 0, scale: 1 },
+          transition: { duration: 0.16, ease: "easeOut" },
+          style: { maxWidth: "calc(100vw - 1rem)" },
+          className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden",
           children: [
             /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
               /* @__PURE__ */ jsxs("div", { className: "relative", children: [
@@ -358,8 +362,11 @@ var ModelRow = memo(function ModelRow2({
       "data-model-id": option.id,
       onClick: onSelect,
       className: cn(
-        "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
-        selected ? "bg-muted" : "hover:bg-muted/50"
+        // Hover micro-interaction: a subtle lift + a clearly-visible tint.
+        // (bg-muted/50 was too faint over the glassy popover to read as a
+        // hover state.) CSS transform — reliable, no per-row framer.
+        "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-all duration-150 hover:scale-[1.01]",
+        selected ? "bg-muted" : "hover:bg-muted"
       ),
       children: [
         selected && /* @__PURE__ */ jsx("div", { className: "absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-full" }),

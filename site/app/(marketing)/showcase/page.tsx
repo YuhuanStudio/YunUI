@@ -583,16 +583,18 @@ function ModelSelectDemo() {
             <span key={a} className="font-mono bg-muted/50 px-1.5 py-0.5 rounded text-[11px] text-muted-foreground/70">{a}</span>
           ))}
         </div>
-        {showPricing && m.price && (
-          <div className="text-[10px] text-muted-foreground mt-0.5 flex flex-wrap gap-x-2">
-            <span>In: ${m.price.in}/M</span>
-            <span>Out: ${m.price.out}/M</span>
-          </div>
-        )}
+        {/* Specs line: context window first, then pricing when toggled on. */}
+        <div className="text-[10px] text-muted-foreground mt-0.5 flex flex-wrap items-center gap-x-2">
+          <span className="bg-muted px-1.5 py-0.5 rounded-sm font-medium" title="Context window">{m.context}</span>
+          {showPricing && m.price && (
+            <>
+              <span>In: ${m.price.in}/M</span>
+              <span>Out: ${m.price.out}/M</span>
+            </>
+          )}
+        </div>
       </>
     ),
-    // Context window is the headline spec — one clean number on the right.
-    meta: <span className="text-[11px] text-muted-foreground bg-muted px-2 py-0.5 rounded-md font-medium whitespace-nowrap" title="Context window">{m.context}</span>,
   }));
   const has = (id: string, cap: DemoCap) => DEMO_MODELS.find((m) => m.id === id)?.caps.includes(cap) ?? false;
   return (
