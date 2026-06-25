@@ -918,9 +918,9 @@ export default function Showcase() {
               onChange={setSel}
               searchable
               options={[
-                { value: "gpt", label: "GPT-4o" },
-                { value: "claude", label: "Claude Opus" },
-                { value: "deepseek", label: "DeepSeek R1" },
+                { value: "gpt", label: "GPT-4o", icon: <ModelIcon provider="openai" size={18} rounded /> },
+                { value: "claude", label: "Claude Opus", icon: <ModelIcon provider="anthropic" developer="claude" size={18} rounded /> },
+                { value: "deepseek", label: "DeepSeek R1", icon: <ModelIcon provider="deepseek" developer="deepseek" size={18} rounded /> },
               ]}
             />
           </div>
@@ -939,16 +939,22 @@ export default function Showcase() {
         </Demo>
         <Demo
           title={t("demos.radixSelect.title")}
-          code={`import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@yuhuanowo/yunui";
+          code={`import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, ProviderIcon } from "@yuhuanowo/yunui";
 
 <Select>
   <SelectTrigger className="w-56">
     <SelectValue placeholder="Pick a provider" />
   </SelectTrigger>
   <SelectContent>
-    <SelectItem value="a">Provider A</SelectItem>
-    <SelectItem value="b">Provider B</SelectItem>
-    <SelectItem value="c">Provider C</SelectItem>
+    <SelectItem value="openai">
+      <span className="flex items-center gap-2"><ProviderIcon provider="openai" size={16} rounded />OpenAI</span>
+    </SelectItem>
+    <SelectItem value="anthropic">
+      <span className="flex items-center gap-2"><ProviderIcon provider="anthropic" size={16} rounded />Anthropic</span>
+    </SelectItem>
+    <SelectItem value="google">
+      <span className="flex items-center gap-2"><ProviderIcon provider="google" size={16} rounded />Google</span>
+    </SelectItem>
   </SelectContent>
 </Select>`}
         >
@@ -957,9 +963,11 @@ export default function Showcase() {
               <SelectValue placeholder={t("demos.radixSelect.placeholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="a">Provider A</SelectItem>
-              <SelectItem value="b">Provider B</SelectItem>
-              <SelectItem value="c">Provider C</SelectItem>
+              {["openai", "anthropic", "google"].map((p) => (
+                <SelectItem key={p} value={p}>
+                  <span className="flex items-center gap-2"><ProviderIcon provider={p} size={16} rounded />{getProviderName(p)}</span>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </Demo>
