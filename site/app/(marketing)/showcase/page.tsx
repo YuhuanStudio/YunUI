@@ -613,6 +613,12 @@ function ModelSelectDemo() {
           { key: "thinking", title: "Thinking", node: <Brain size={14} className="text-pink-500" />, match: (o) => has(o.id, "thinking") },
           { key: "functions", title: "Function calling", node: <Code size={14} className="text-purple-500" />, match: (o) => has(o.id, "functions") },
         ]}
+        renderFooter={(count) => (
+          <div className="flex items-center justify-between">
+            <span>{count} models</span>
+            <span className="flex items-center gap-1"><Sparkles size={12} /> Searchable</span>
+          </div>
+        )}
       />
       <label className="flex items-center gap-2 text-caption cursor-pointer select-none">
         <input type="checkbox" checked={showPricing} onChange={(e) => setShowPricing(e.target.checked)} className="accent-[var(--brand-solid-strong)]" />

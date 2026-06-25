@@ -108,10 +108,12 @@ interface ModelSelectProps {
     onTogglePin?: (id: string) => void;
     /** Capability filter chips. */
     filters?: ModelSelectFilter[];
+    /** Optional footer bar; receives the current (filtered) result count. */
+    renderFooter?: (count: number) => ReactNode;
 }
 /** A generic, searchable model picker: provider grouping + provider/capability
  *  filters + a pinned section + a styled dropdown. Domain-agnostic. */
-declare function ModelSelect({ options, value, onChange, className, labels, pinned, onTogglePin, filters, }: ModelSelectProps): React.JSX.Element;
+declare function ModelSelect({ options, value, onChange, className, labels, pinned, onTogglePin, filters, renderFooter, }: ModelSelectProps): React.JSX.Element;
 
 /** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge). */
 declare function IDBadge({ text, truncate }: {

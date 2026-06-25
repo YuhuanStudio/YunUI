@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect, memo, type ReactNode } from "react";
-import { Search, Pin, ChevronDown, X } from "lucide-react";
+import { Search, Pin, ChevronDown, X, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/cn";
 
 // =====================================================
@@ -69,6 +70,8 @@ export interface ModelSelectProps {
     onTogglePin?: (id: string) => void;
     /** Capability filter chips. */
     filters?: ModelSelectFilter[];
+    /** Optional footer bar; receives the current (filtered) result count. */
+    renderFooter?: (count: number) => ReactNode;
 }
 
 /** A generic, searchable model picker: provider grouping + provider/capability
@@ -82,6 +85,7 @@ export function ModelSelect({
     pinned,
     onTogglePin,
     filters,
+    renderFooter,
 }: ModelSelectProps) {
     const L = {
         placeholder: "Select a model",
@@ -99,6 +103,7 @@ export function ModelSelect({
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
     const rootRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<HTMLDivElement>(null);
     const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
 
     // Close on outside pointer (mouse + touch).
@@ -114,9 +119,18 @@ export function ModelSelect({
         };
     }, []);
 
+    // On open: focus the search and bring the selected row into view.
     useEffect(() => {
-        if (isOpen) setTimeout(() => inputRef.current?.focus(), 50);
-    }, [isOpen]);
+        if (!isOpen) return;
+        const t = setTimeout(() => {
+            inputRef.current?.focus();
+            if (value && listRef.current) {
+                const el = listRef.current.querySelector<HTMLElement>(`[data-model-id="${CSS.escape(value)}"]`);
+                el?.scrollIntoView({ block: "center" });
+            }
+        }, 50);
+        return () => clearTimeout(t);
+    }, [isOpen, value]);
 
     // Providers (groups) sorted by descending count.
     const groups = useMemo(() => {
@@ -170,12 +184,17 @@ export function ModelSelect({
         if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) e.preventDefault();
     };
 
+    const select = (id: string) => { onChange(id); setIsOpen(false); };
+
     return (
         <div ref={rootRef} className={cn("relative", className)}>
             <button
                 type="button"
                 onClick={() => setIsOpen((o) => !o)}
-                className="flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-lg hover:border-ring transition-all min-w-0 sm:min-w-45 text-left group shadow-sm"
+                className={cn(
+                    "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all min-w-0 sm:min-w-45 shadow-sm hover:shadow-md",
+                    isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring",
+                )}
             >
                 {selected ? (
                     <>
@@ -185,96 +204,113 @@ export function ModelSelect({
                 ) : (
                     <span className="flex-1 text-sm text-muted-foreground">{L.placeholder}</span>
                 )}
-                <ChevronDown size={14} className={cn("text-muted-foreground transition-transform", isOpen && "rotate-180")} />
+                <ChevronDown size={14} className={cn("text-muted-foreground transition-transform shrink-0", isOpen && "rotate-180")} />
             </button>
 
-            {isOpen && (
-                <div className="absolute z-50 top-full left-0 mt-1 w-full sm:w-auto sm:min-w-80 max-w-[calc(100vw-2rem)] sm:max-w-lg bg-popover/90 backdrop-blur-xl border border-border rounded-xl shadow-xl overflow-hidden">
-                    {/* Search + capability filters */}
-                    <div className="p-2.5 border-b border-border">
-                        <div className="relative">
-                            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-                            <input
-                                ref={inputRef}
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                placeholder={L.search}
-                                className="w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-lg outline-none focus:border-ring focus:bg-background transition-colors"
-                            />
-                            {search && (
-                                <button type="button" onClick={() => setSearch("")} title={L.clearSearch} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted">
-                                    <X size={13} />
-                                </button>
-                            )}
-                        </div>
-                        {filters && filters.length > 0 && (
-                            <div className="flex items-center gap-1 mt-2 px-1">
-                                {filters.map((f) => {
-                                    const on = activeFilters.includes(f.key);
-                                    return (
-                                        <button key={f.key} type="button" title={f.title} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("p-1 rounded-md transition-colors", on ? "bg-foreground/10" : "hover:bg-muted")}>
-                                            {f.node}
-                                        </button>
-                                    );
-                                })}
-                                {activeFilters.length > 0 && (
-                                    <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} className="p-1 rounded-md text-muted-foreground hover:bg-muted">
-                                        <X size={14} />
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -4, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                        transition={{ duration: 0.14, ease: "easeOut" }}
+                        className="absolute z-50 top-full left-0 mt-2 w-full sm:w-auto sm:min-w-80 max-w-[calc(100vw-2rem)] sm:max-w-lg bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden"
+                    >
+                        {/* Search + capability filters */}
+                        <div className="p-2.5 border-b border-border/50">
+                            <div className="relative">
+                                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                                <input
+                                    ref={inputRef}
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    placeholder={L.search}
+                                    className="w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
+                                />
+                                {search && (
+                                    <button type="button" onClick={() => setSearch("")} title={L.clearSearch} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted">
+                                        <X size={13} />
                                     </button>
                                 )}
                             </div>
-                        )}
-                    </div>
-
-                    {/* Provider filter */}
-                    {groups.length > 1 && (
-                        <div className="px-2.5 py-2 border-b border-border overflow-x-auto">
-                            <div className="flex gap-1 min-w-max">
-                                <button type="button" onClick={() => setActiveGroup(null)} className={cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
-                                    {L.all} ({options.length})
-                                </button>
-                                {groups.map((g) => (
-                                    <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} className={cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors flex items-center gap-1 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
-                                        {groupIcon[g]}
-                                        {groupLabel[g] ?? g}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* List */}
-                    <div onWheel={onWheel} className="max-h-80 overflow-y-auto overscroll-contain">
-                        {pinnedList.length > 0 && (
-                            <div className="px-1.5 py-1.5">
-                                <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1">
-                                    <Pin size={9} /> {L.pinned}
+                            {filters && filters.length > 0 && (
+                                <div className="flex items-center gap-1 mt-2 px-1">
+                                    {filters.map((f) => {
+                                        const on = activeFilters.includes(f.key);
+                                        return (
+                                            <button key={f.key} type="button" title={f.title} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("p-1 rounded-md transition-colors", on ? "bg-foreground/10" : "hover:bg-muted")}>
+                                                {f.node}
+                                            </button>
+                                        );
+                                    })}
+                                    {activeFilters.length > 0 && (
+                                        <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} className="p-1 rounded-md text-muted-foreground hover:bg-muted">
+                                            <X size={14} />
+                                        </button>
+                                    )}
                                 </div>
-                                {pinnedList.map((o) => (
-                                    <ModelRow key={o.id} option={o} selected={o.id === value} pinned isPinnable={!!onTogglePin} onSelect={() => { onChange(o.id); setIsOpen(false); }} onTogglePin={() => onTogglePin?.(o.id)} />
-                                ))}
-                            </div>
-                        )}
-                        <div className="px-1.5 py-1.5">
-                            {Object.entries(grouped).map(([g, opts]) => (
-                                <div key={g} className="mb-3 last:mb-0">
-                                    <div className="flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover py-1">
-                                        {groupIcon[g]}
-                                        <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">{groupLabel[g] ?? g}</span>
-                                        <span className="text-[10px] text-muted-foreground/60">({opts.length})</span>
-                                    </div>
-                                    {opts.map((o) => (
-                                        <ModelRow key={o.id} option={o} selected={o.id === value} pinned={false} isPinnable={!!onTogglePin} onSelect={() => { onChange(o.id); setIsOpen(false); }} onTogglePin={() => onTogglePin?.(o.id)} />
+                            )}
+                        </div>
+
+                        {/* Provider filter */}
+                        {groups.length > 1 && (
+                            <div className="px-2.5 py-2 border-b border-border/50 overflow-x-auto">
+                                <div className="flex gap-1 min-w-max">
+                                    <button type="button" onClick={() => setActiveGroup(null)} className={cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                        {L.all} ({options.length})
+                                    </button>
+                                    {groups.map((g) => (
+                                        <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} className={cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors flex items-center gap-1 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                            {groupIcon[g]}
+                                            {groupLabel[g] ?? g}
+                                        </button>
                                     ))}
                                 </div>
-                            ))}
-                        </div>
-                        {filtered.length === 0 && (
-                            <div className="py-8 text-center text-sm text-muted-foreground">{L.noResults}</div>
+                            </div>
                         )}
-                    </div>
-                </div>
-            )}
+
+                        {/* List */}
+                        <div ref={listRef} onWheel={onWheel} className="max-h-96 overflow-y-auto overscroll-contain">
+                            {pinnedList.length > 0 && (
+                                <div className="px-1.5 py-1.5 border-b border-border/40">
+                                    <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1">
+                                        <Pin size={9} /> {L.pinned}
+                                    </div>
+                                    {pinnedList.map((o) => (
+                                        <ModelRow key={o.id} option={o} selected={o.id === value} pinned isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
+                                    ))}
+                                </div>
+                            )}
+                            <div className="px-1.5 py-1.5">
+                                {Object.entries(grouped).map(([g, opts]) => (
+                                    <div key={g} className="mb-3 last:mb-0">
+                                        <div className="flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover/95 backdrop-blur-sm py-1.5 z-10">
+                                            {groupIcon[g]}
+                                            <span className="text-[11px] font-semibold">{groupLabel[g] ?? g}</span>
+                                            <span className="ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium">{opts.length}</span>
+                                        </div>
+                                        {opts.map((o) => (
+                                            <ModelRow key={o.id} option={o} selected={o.id === value} pinned={false} isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                            {filtered.length === 0 && (
+                                <div className="py-12 text-center text-muted-foreground">
+                                    <Sparkles size={28} className="mx-auto mb-3 opacity-40" />
+                                    <p className="text-sm">{L.noResults}</p>
+                                </div>
+                            )}
+                        </div>
+
+                        {renderFooter && filtered.length > 0 && (
+                            <div className="border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-muted-foreground">
+                                {renderFooter(filtered.length)}
+                            </div>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
@@ -295,7 +331,15 @@ const ModelRow = memo(function ModelRow({
     onTogglePin: () => void;
 }) {
     return (
-        <div onClick={onSelect} className={cn("relative flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer group transition-all", selected ? "bg-muted" : "hover:bg-muted/50")}>
+        <div
+            data-model-id={option.id}
+            onClick={onSelect}
+            className={cn(
+                "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
+                selected ? "bg-muted" : "hover:bg-muted/50",
+            )}
+        >
+            {/* Left selection bar — YunUI's selected-state signature. */}
             {selected && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-full" />}
             {option.icon}
             <div className="flex-1 min-w-0">
@@ -307,7 +351,15 @@ const ModelRow = memo(function ModelRow({
             </div>
             {option.meta && <div className="flex items-center gap-1 shrink-0">{option.meta}</div>}
             {isPinnable && (
-                <button type="button" onClick={(e) => { e.stopPropagation(); onTogglePin(); }} className={cn("p-1.5 rounded-md transition-all shrink-0 lg:opacity-0 lg:group-hover:opacity-100", pinned ? "text-foreground opacity-100" : "text-muted-foreground/40 opacity-60 hover:text-foreground/70")}>
+                <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onTogglePin(); }}
+                    className={cn(
+                        "p-1.5 rounded-md transition-all shrink-0 lg:opacity-0 lg:group-hover:opacity-100",
+                        pinned ? "text-foreground opacity-100 hover:bg-muted/50" : "text-muted-foreground/40 opacity-60 hover:text-foreground/70 hover:bg-muted/50",
+                    )}
+                    aria-label={pinned ? "Unpin" : "Pin"}
+                >
                     <Pin size={14} className={pinned ? "fill-current" : ""} />
                 </button>
             )}
