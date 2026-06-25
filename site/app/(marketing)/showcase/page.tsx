@@ -996,9 +996,13 @@ export default function Showcase() {
               value={prov}
               onChange={setProv}
               searchable
+              // Label by the icon slug itself — getProviderName collapses many
+              // distinct brands to one name (aws/azure/bedrock/github → "GitHub
+              // Models"), which produced duplicate-looking rows. The slug is the
+              // unique id you'd pass to ProviderIcon.
               options={brandsFeaturedFirst([...PROVIDER_ICON_SLUGS]).map((p) => ({
                 value: p,
-                label: getProviderName(p),
+                label: p,
                 icon: <ProviderIcon provider={p} size={18} rounded />,
               }))}
             />
