@@ -138,6 +138,25 @@ interface CapabilitySelectorProps {
 /** Multi-select grid of toggleable model capabilities; the option set adapts to `modelType`. */
 declare function CapabilitySelector({ selected, onChange, disabled, size, columns, modelType }: CapabilitySelectorProps): React.JSX.Element;
 
+/** Whether a capability key has a known icon/color in the design system. */
+declare function isKnownCapability(capability: string): boolean;
+/** Just the colored capability glyph — e.g. the inline icons shown after a model
+ *  name. Renders nothing for an unknown capability. */
+declare function CapabilityIcon({ capability, size, className, }: {
+    capability: string;
+    size?: number;
+    className?: string;
+}): React.JSX.Element | null;
+/** A capability pill: colored glyph + tinted background + label. The consumer
+ *  supplies the translated `label` (YunUI stays i18n-agnostic). Renders nothing
+ *  for an unknown capability. */
+declare function CapabilityBadge({ capability, label, iconSize, className, }: {
+    capability: string;
+    label?: ReactNode;
+    iconSize?: number;
+    className?: string;
+}): React.JSX.Element | null;
+
 /**
  * Rounded provider icon — a thin alias over the canonical {@link ProviderIcon}
  * (rounded avatar style). Kept for call sites that prefer the short name.
@@ -292,4 +311,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { type ButtonProps, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { type ButtonProps, CapabilityBadge, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };

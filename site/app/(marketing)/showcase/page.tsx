@@ -100,6 +100,7 @@ import {
   ModelSelect,
   type ModelSelectOption,
   CapabilitySelector,
+  CapabilityIcon,
   ProviderIcon,
   ProviderAvatar,
   ModelIcon,
@@ -567,10 +568,12 @@ function ModelSelectDemo() {
     groupIcon: <ProviderIcon provider={m.provider} size={16} rounded />,
     badges: (
       <>
-        {m.caps.includes("streaming") && <Waves size={14} className="text-cyan-500 shrink-0" />}
-        {m.caps.includes("vision") && <Eye size={14} className="text-amber-500 shrink-0" />}
-        {m.caps.includes("thinking") && <Brain size={14} className="text-pink-500 shrink-0" />}
-        {m.caps.includes("functions") && <Code size={14} className="text-purple-500 shrink-0" />}
+        {/* Capability glyphs come from YunUI's shared capability config, so the
+            showcase and Yunxin can't drift on icon/color. */}
+        {m.caps.includes("streaming") && <CapabilityIcon capability="streaming" />}
+        {m.caps.includes("vision") && <CapabilityIcon capability="vision" />}
+        {m.caps.includes("thinking") && <CapabilityIcon capability="thinking" />}
+        {m.caps.includes("functions") && <CapabilityIcon capability="function_calling" />}
         {m.deprecated && <span title="Deprecated"><AlertTriangle size={14} className="text-orange-500 shrink-0" /></span>}
         {m.tier === "pro" && <span title="Pro tier"><Crown size={14} className="text-amber-500 shrink-0" /></span>}
       </>
@@ -606,10 +609,10 @@ function ModelSelectDemo() {
         pinned={pinned}
         onTogglePin={(id) => setPinned((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
         filters={[
-          { key: "streaming", title: "Streaming", node: <Waves size={14} className="text-cyan-500" />, match: (o) => has(o.id, "streaming") },
-          { key: "vision", title: "Vision", node: <Eye size={14} className="text-amber-500" />, match: (o) => has(o.id, "vision") },
-          { key: "thinking", title: "Thinking", node: <Brain size={14} className="text-pink-500" />, match: (o) => has(o.id, "thinking") },
-          { key: "functions", title: "Function calling", node: <Code size={14} className="text-purple-500" />, match: (o) => has(o.id, "functions") },
+          { key: "streaming", title: "Streaming", node: <CapabilityIcon capability="streaming" />, match: (o) => has(o.id, "streaming") },
+          { key: "vision", title: "Vision", node: <CapabilityIcon capability="vision" />, match: (o) => has(o.id, "vision") },
+          { key: "thinking", title: "Thinking", node: <CapabilityIcon capability="thinking" />, match: (o) => has(o.id, "thinking") },
+          { key: "functions", title: "Function calling", node: <CapabilityIcon capability="function_calling" />, match: (o) => has(o.id, "functions") },
         ]}
         renderFooter={(count) => <span>{count} models</span>}
       />

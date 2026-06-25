@@ -5,7 +5,7 @@ import { cn, ThemeToggle } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { memo, useState, useRef, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Pin, Brain, ChevronUp, ChevronDown, Check, Copy, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Code, Eye, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, Radio, Box, Shield, Shuffle, Music, Video, Mic, Volume2, Headphones, Palette, Hash, FileText, MessageSquare, Pencil } from 'lucide-react';
+import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, Shield, Shuffle, Volume2, Headphones, Palette, Hash, FileText } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 
@@ -400,37 +400,37 @@ var ModelRow = memo(function ModelRow2({
   );
 });
 var llmCapabilityConfig = [
-  { value: "chat", icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20" },
-  { value: "streaming", icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 border-cyan-500/20 hover:bg-cyan-500/20" },
-  { value: "function_calling", icon: Code, iconColor: "text-purple-500", color: "bg-purple-500/10 text-purple-600 border-purple-500/20 hover:bg-purple-500/20" },
-  { value: "vision", icon: Eye, iconColor: "text-amber-500", color: "bg-amber-500/10 text-amber-600 border-amber-500/20 hover:bg-amber-500/20" },
-  { value: "thinking", icon: Brain, iconColor: "text-pink-500", color: "bg-pink-500/10 text-pink-600 border-pink-500/20 hover:bg-pink-500/20" }
+  { value: "chat", icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 hover:bg-blue-500/20" },
+  { value: "streaming", icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20 hover:bg-cyan-500/20" },
+  { value: "function_calling", icon: Code, iconColor: "text-purple-500", color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 hover:bg-purple-500/20" },
+  { value: "vision", icon: Eye, iconColor: "text-amber-500", color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 hover:bg-amber-500/20" },
+  { value: "thinking", icon: Brain, iconColor: "text-pink-500", color: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20 hover:bg-pink-500/20" }
 ];
 var imageCapabilityConfig = [
-  { value: "image_edit", icon: Pencil, iconColor: "text-orange-500", color: "bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500/20" },
-  { value: "negative_prompt", icon: Ban, iconColor: "text-red-500", color: "bg-red-500/10 text-red-600 border-red-500/20 hover:bg-red-500/20" },
-  { value: "seed_control", icon: Fingerprint, iconColor: "text-indigo-500", color: "bg-indigo-500/10 text-indigo-600 border-indigo-500/20 hover:bg-indigo-500/20" },
-  { value: "lora", icon: Layers, iconColor: "text-teal-500", color: "bg-teal-500/10 text-teal-600 border-teal-500/20 hover:bg-teal-500/20" },
-  { value: "guidance_scale", icon: SlidersHorizontal, iconColor: "text-yellow-500", color: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20 hover:bg-yellow-500/20" },
-  { value: "strength", icon: SlidersHorizontal, iconColor: "text-orange-500", color: "bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500/20" },
-  { value: "batch", icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 border-cyan-500/20 hover:bg-cyan-500/20" }
+  { value: "image_edit", icon: Pencil, iconColor: "text-orange-500", color: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20 hover:bg-orange-500/20" },
+  { value: "negative_prompt", icon: Ban, iconColor: "text-red-500", color: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20 hover:bg-red-500/20" },
+  { value: "seed_control", icon: Fingerprint, iconColor: "text-indigo-500", color: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 hover:bg-indigo-500/20" },
+  { value: "lora", icon: Layers, iconColor: "text-teal-500", color: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20 hover:bg-teal-500/20" },
+  { value: "guidance_scale", icon: SlidersHorizontal, iconColor: "text-yellow-500", color: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20 hover:bg-yellow-500/20" },
+  { value: "strength", icon: SlidersHorizontal, iconColor: "text-orange-500", color: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20 hover:bg-orange-500/20" },
+  { value: "batch", icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20 hover:bg-cyan-500/20" }
 ];
 var audioCapabilityConfig = [
-  { value: "tts", icon: Mic, iconColor: "text-green-500", color: "bg-green-500/10 text-green-600 border-green-500/20 hover:bg-green-500/20" },
-  { value: "stt", icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20" },
-  { value: "audio_translation", icon: Waves, iconColor: "text-purple-500", color: "bg-purple-500/10 text-purple-600 border-purple-500/20 hover:bg-purple-500/20" }
+  { value: "tts", icon: Mic, iconColor: "text-green-500", color: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 hover:bg-green-500/20" },
+  { value: "stt", icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 hover:bg-blue-500/20" },
+  { value: "audio_translation", icon: Waves, iconColor: "text-purple-500", color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 hover:bg-purple-500/20" }
 ];
 var videoCapabilityConfig = [
-  { value: "video_generation", icon: Video, iconColor: "text-red-500", color: "bg-red-500/10 text-red-600 border-red-500/20 hover:bg-red-500/20" }
+  { value: "video_generation", icon: Video, iconColor: "text-red-500", color: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20 hover:bg-red-500/20" }
 ];
 var musicCapabilityConfig = [
-  { value: "music_generation", icon: Music, iconColor: "text-pink-500", color: "bg-pink-500/10 text-pink-600 border-pink-500/20 hover:bg-pink-500/20" }
+  { value: "music_generation", icon: Music, iconColor: "text-pink-500", color: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20 hover:bg-pink-500/20" }
 ];
 var threedCapabilityConfig = [
-  { value: "threed_generation", icon: Box, iconColor: "text-indigo-500", color: "bg-indigo-500/10 text-indigo-600 border-indigo-500/20 hover:bg-indigo-500/20" }
+  { value: "threed_generation", icon: Box, iconColor: "text-indigo-500", color: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 hover:bg-indigo-500/20" }
 ];
 var realtimeCapabilityConfig = [
-  { value: "realtime_voice", icon: Radio, iconColor: "text-yellow-500", color: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20 hover:bg-yellow-500/20" }
+  { value: "realtime_voice", icon: Radio, iconColor: "text-yellow-500", color: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20 hover:bg-yellow-500/20" }
 ];
 function CapabilitySelector({ selected, onChange, disabled = false, size = "md", columns = 4, modelType }) {
   const t = useYunUI().useT("capabilities");
@@ -500,6 +500,44 @@ function CapabilitySelector({ selected, onChange, disabled = false, size = "md",
       cap.value
     );
   }) });
+}
+var CAPABILITY_BY_KEY = Object.fromEntries(
+  [
+    ...llmCapabilityConfig,
+    ...imageCapabilityConfig,
+    ...audioCapabilityConfig,
+    ...videoCapabilityConfig,
+    ...musicCapabilityConfig,
+    ...threedCapabilityConfig,
+    ...realtimeCapabilityConfig
+  ].map((c) => [c.value, c])
+);
+function isKnownCapability(capability) {
+  return capability in CAPABILITY_BY_KEY;
+}
+function CapabilityIcon({
+  capability,
+  size = 14,
+  className
+}) {
+  const cfg = CAPABILITY_BY_KEY[capability];
+  if (!cfg) return null;
+  const Icon = cfg.icon;
+  return /* @__PURE__ */ jsx(Icon, { size, className: cn(cfg.iconColor, "shrink-0", className) });
+}
+function CapabilityBadge({
+  capability,
+  label,
+  iconSize = 10,
+  className
+}) {
+  const cfg = CAPABILITY_BY_KEY[capability];
+  if (!cfg) return null;
+  const Icon = cfg.icon;
+  return /* @__PURE__ */ jsxs("span", { className: cn("badge inline-flex items-center gap-1 text-xs", cfg.color, className), children: [
+    /* @__PURE__ */ jsx(Icon, { size: iconSize, className: cfg.iconColor }),
+    label
+  ] });
 }
 
 // src/ai/icon-slugs.generated.ts
@@ -1598,6 +1636,6 @@ function Navbar({
   ] });
 }
 
-export { CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { CapabilityBadge, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map
