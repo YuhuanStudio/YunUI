@@ -176,6 +176,10 @@ import {
   RefreshCw,
   Eye,
   Brain,
+  Waves,
+  Code,
+  AlertTriangle,
+  Crown,
 } from "lucide-react";
 
 // ---- layout helpers -------------------------------------------------------
@@ -533,38 +537,70 @@ function brandsFeaturedFirst(slugs: string[]): string[] {
 // Dogfoods the generic ModelSelect: maps a small mock catalog to ModelSelectOption
 // (icon/badges/meta supplied by the consumer), with controlled pinning + a couple
 // of capability filters. Mirrors how an app would adapt its own model type.
-type DemoModel = { id: string; name: string; provider: string; providerLabel: string; caps: string[]; context: string };
+type DemoCap = "streaming" | "vision" | "thinking" | "functions";
+type DemoModel = {
+  id: string; name: string; provider: string; providerLabel: string;
+  caps: DemoCap[]; context: string; maxOut?: string; aliases?: string[];
+  price?: { in: number; out: number }; tier?: "pro"; deprecated?: boolean;
+};
 const DEMO_MODELS: DemoModel[] = [
-  { id: "claude-opus-4-8", name: "Claude Opus 4.8", provider: "anthropic", providerLabel: "Anthropic", caps: ["vision", "thinking"], context: "200K" },
-  { id: "claude-sonnet-4-6", name: "Claude Sonnet 4.6", provider: "anthropic", providerLabel: "Anthropic", caps: ["vision"], context: "200K" },
-  { id: "gpt-5", name: "GPT-5", provider: "openai", providerLabel: "OpenAI", caps: ["vision", "thinking"], context: "256K" },
-  { id: "gpt-5-mini", name: "GPT-5 mini", provider: "openai", providerLabel: "OpenAI", caps: ["vision"], context: "128K" },
-  { id: "gemini-2-5-pro", name: "Gemini 2.5 Pro", provider: "google", providerLabel: "Google", caps: ["vision", "thinking"], context: "1M" },
-  { id: "deepseek-r1", name: "DeepSeek R1", provider: "deepseek", providerLabel: "DeepSeek", caps: ["thinking"], context: "64K" },
+  { id: "claude-opus-4-8", name: "Claude Opus 4.8", provider: "anthropic", providerLabel: "Anthropic", caps: ["streaming", "vision", "thinking", "functions"], context: "200K", maxOut: "64K", aliases: ["opus-latest"], price: { in: 15, out: 75 }, tier: "pro" },
+  { id: "claude-sonnet-4-6", name: "Claude Sonnet 4.6", provider: "anthropic", providerLabel: "Anthropic", caps: ["streaming", "vision", "functions"], context: "200K", maxOut: "64K", price: { in: 3, out: 15 } },
+  { id: "gpt-5", name: "GPT-5", provider: "openai", providerLabel: "OpenAI", caps: ["streaming", "vision", "thinking", "functions"], context: "256K", maxOut: "100K", price: { in: 10, out: 30 }, tier: "pro" },
+  { id: "gpt-5-mini", name: "GPT-5 mini", provider: "openai", providerLabel: "OpenAI", caps: ["streaming", "vision", "functions"], context: "128K", maxOut: "64K", price: { in: 0.25, out: 2 } },
+  { id: "gpt-4o", name: "GPT-4o", provider: "openai", providerLabel: "OpenAI", caps: ["streaming", "vision"], context: "128K", price: { in: 2.5, out: 10 }, deprecated: true },
+  { id: "gemini-2-5-pro", name: "Gemini 2.5 Pro", provider: "google", providerLabel: "Google", caps: ["streaming", "vision", "thinking", "functions"], context: "1M", maxOut: "64K", price: { in: 1.25, out: 10 } },
+  { id: "deepseek-r1", name: "DeepSeek R1", provider: "deepseek", providerLabel: "DeepSeek", caps: ["streaming", "thinking"], context: "64K", maxOut: "8K", price: { in: 0.55, out: 2.19 } },
 ];
 
 function ModelSelectDemo() {
   const [value, setValue] = useState("claude-opus-4-8");
   const [pinned, setPinned] = useState<string[]>(["gpt-5"]);
+  const [showPricing, setShowPricing] = useState(false);
   const options: ModelSelectOption[] = DEMO_MODELS.map((m) => ({
     id: m.id,
     label: m.name,
     group: m.provider,
     groupLabel: m.providerLabel,
-    searchText: m.id,
+    searchText: `${m.id} ${(m.aliases ?? []).join(" ")}`,
     icon: <ModelIcon provider={m.provider} developer={m.provider} size={24} rounded className="shrink-0" />,
     groupIcon: <ProviderIcon provider={m.provider} size={12} rounded />,
     badges: (
       <>
+        {m.caps.includes("streaming") && <Waves size={14} className="text-cyan-500 shrink-0" />}
         {m.caps.includes("vision") && <Eye size={14} className="text-amber-500 shrink-0" />}
         {m.caps.includes("thinking") && <Brain size={14} className="text-pink-500 shrink-0" />}
+        {m.caps.includes("functions") && <Code size={14} className="text-purple-500 shrink-0" />}
+        {m.deprecated && <span title="Deprecated"><AlertTriangle size={14} className="text-orange-500 shrink-0" /></span>}
+        {m.tier === "pro" && <span title="Pro tier"><Crown size={14} className="text-amber-500 shrink-0" /></span>}
       </>
     ),
-    detail: <div className="text-xs text-muted-foreground"><span className="font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]">{m.id}</span></div>,
-    meta: <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm font-medium whitespace-nowrap">{m.context}</span>,
+    detail: (
+      <>
+        <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-1.5">
+          <span className="font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]">{m.id}</span>
+          {(m.aliases ?? []).map((a) => (
+            <span key={a} className="font-mono bg-muted/50 px-1.5 py-0.5 rounded text-[11px] text-muted-foreground/70">{a}</span>
+          ))}
+        </div>
+        {showPricing && m.price && (
+          <div className="text-[10px] text-muted-foreground mt-0.5 flex flex-wrap gap-x-2">
+            <span>In: ${m.price.in}/M</span>
+            <span>Out: ${m.price.out}/M</span>
+          </div>
+        )}
+      </>
+    ),
+    meta: (
+      <>
+        {m.maxOut && <span className="text-[10px] text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded-sm font-medium whitespace-nowrap" title="Max output">→{m.maxOut}</span>}
+        <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm font-medium whitespace-nowrap" title="Context">{m.context}</span>
+      </>
+    ),
   }));
+  const has = (id: string, cap: DemoCap) => DEMO_MODELS.find((m) => m.id === id)?.caps.includes(cap) ?? false;
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md space-y-3">
       <ModelSelect
         options={options}
         value={value}
@@ -572,10 +608,16 @@ function ModelSelectDemo() {
         pinned={pinned}
         onTogglePin={(id) => setPinned((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
         filters={[
-          { key: "vision", title: "Vision", node: <Eye size={14} className="text-amber-500" />, match: (o) => DEMO_MODELS.find((m) => m.id === o.id)?.caps.includes("vision") ?? false },
-          { key: "thinking", title: "Thinking", node: <Brain size={14} className="text-pink-500" />, match: (o) => DEMO_MODELS.find((m) => m.id === o.id)?.caps.includes("thinking") ?? false },
+          { key: "streaming", title: "Streaming", node: <Waves size={14} className="text-cyan-500" />, match: (o) => has(o.id, "streaming") },
+          { key: "vision", title: "Vision", node: <Eye size={14} className="text-amber-500" />, match: (o) => has(o.id, "vision") },
+          { key: "thinking", title: "Thinking", node: <Brain size={14} className="text-pink-500" />, match: (o) => has(o.id, "thinking") },
+          { key: "functions", title: "Function calling", node: <Code size={14} className="text-purple-500" />, match: (o) => has(o.id, "functions") },
         ]}
       />
+      <label className="flex items-center gap-2 text-caption cursor-pointer select-none">
+        <input type="checkbox" checked={showPricing} onChange={(e) => setShowPricing(e.target.checked)} className="accent-[var(--brand-solid-strong)]" />
+        Show pricing in rows
+      </label>
     </div>
   );
 }

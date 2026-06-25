@@ -146,10 +146,10 @@ const providerIconMap: Record<string, string> = {
     xai: "grok.webp",
 
     // Cloud providers
-    azure: "github.webp",
-    "azure-openai": "github.webp",
-    aws: "github.webp",
-    bedrock: "github.webp",
+    azure: "azure.webp",
+    "azure-openai": "azure.webp",
+    aws: "aws.webp",
+    bedrock: "bedrock.webp",
 
     // Chinese providers
     zhipu: "zhipu.webp",
@@ -429,10 +429,10 @@ export const ProviderNames: Record<string, string> = {
     xai: "xAI",
     grok: "Grok",
     groq: "Groq",
-    azure: "GitHub Models",
-    "azure-openai": "GitHub Models",
-    aws: "GitHub Models",
-    bedrock: "GitHub Models",
+    azure: "Azure",
+    "azure-openai": "Azure OpenAI",
+    aws: "AWS",
+    bedrock: "Bedrock",
     nvidia: "NVIDIA",
     zhipu: "Zhipu",
     moonshot: "Moonshot",
