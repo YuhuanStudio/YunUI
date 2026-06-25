@@ -1,100 +1,131 @@
-// Sync provider/model brand icons from @lobehub/icons-static-svg (MIT) into
-// icons/. Re-run this whenever the lobe package is bumped — it keeps our icon
-// set current instead of letting it drift. Prefers the brand `-color` SVG, then
-// falls back to the monochrome base (which uses currentColor, so it adapts to
-// light/dark automatically). Run: `node scripts/sync-icons.mjs [--apply]`.
+// Sync brand icons from @lobehub/icons-static-avatar (MIT) into icons/. We use
+// the AVATAR variants (logo on a brand-colored rounded background) rather than
+// bare logos, so every icon reads as a proper app-style tile — consistent in
+// light AND dark, and not "naked" on the card. Re-run whenever the lobe package
+// is bumped: `node scripts/sync-icons.mjs [--apply]`.
 //
-// Without --apply it only reports coverage (dry run). With --apply it writes
-// icons/<category>/<id>.svg and removes that id's older raster file.
+// What it does (with --apply):
+//   1. Copies EVERY lobe avatar into icons/providers/<slug>.webp — full coverage,
+//      so any provider Yunxin references resolves without per-icon babysitting.
+//   2. Re-points each EXISTING provider/model/app id (by basename) at its avatar
+//      (alias-resolved), removing the stale raster/svg.
+//   3. Regenerates src/ai/icon-slugs.generated.ts (the set getIconPath consults
+//      to resolve ANY avatar slug), and rewrites the hardcoded map filenames to
+//      the file actually on disk.
 
 import { readdirSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const LOBE = join(root, "node_modules/@lobehub/icons-static-svg/icons");
+const AVATARS = join(root, "node_modules/@lobehub/icons-static-avatar/avatars");
 const apply = process.argv.includes("--apply");
 // Target icon root — defaults to this repo's icons/. Pass `--icons <dir>` to sync
 // a consumer's copy too (e.g. Yunxin's public/icons), reusing this repo's lobe dep.
 const iconsArg = process.argv.indexOf("--icons");
 const ICONS_ROOT = iconsArg !== -1 ? process.argv[iconsArg + 1] : join(root, "icons");
 
-// our-id -> lobe slug, for the cases where they differ in spelling/word-order.
-// (Direct, same-name matches need no entry.) `null` = intentionally no lobe
-// equivalent (small aggregators etc.) — keep our existing file, don't warn.
+const norm = (s) => (s ?? "").toLowerCase().replace(/[-_\s.]/g, "");
+
+// our-id -> lobe avatar slug, for ids that differ in spelling/word-order.
+// `null` = no lobe equivalent (small aggregators) — keep our existing file.
 const ALIAS = {
-  "302ai": "ai302", "Xiaomi": "xiaomi", "aws-bedrock": "bedrock",
-  "baidu-cloud": "baiducloud", "bigModel": "zhipu", "dashscope": "tongyi",
-  "gitee-ai": "giteeai", "netease-youdao": "youdao", "tencent-cloud-ti": "tencentcloud",
-  "voyageai": "voyage", "zero-one": "yi", "step": "stepfun", "silicon": "siliconcloud",
-  "o3": "openai", "mimo": "xiaomi", "cogview3flash": "zhipu", "paddleocr": "baidu",
-  "intel": "intel", "lepton": "lepton", "nomic": "nomic", "mixedbread": "mixedbread",
-  "gpustack": "gpustack", "infini": "infinigence", "lanyun": "lanyun",
-  // no lobe equivalent — keep ours, stay quiet:
+  "302ai": "ai302", "aws-bedrock": "aws", "baidu-cloud": "baidu", "bigModel": "zhipu",
+  "dashscope": "tongyi", "gitee-ai": "giteeai", "netease-youdao": "youdao",
+  "tencent-cloud-ti": "tencentcloud", "voyageai": "voyage", "zero-one": "yi",
+  "step": "stepfun", "silicon": "siliconcloud", "o3": "openai", "cogview3flash": "zhipu",
+  "paddleocr": "baidu", "infini": "infinigence", "gcp": "googlecloud", "xai": "grok",
+  "01ai": "yi", "alibaba": "alibabacloud",
+  // no lobe avatar — keep ours, stay quiet:
   "DMXAPI": null, "DMXAPI-to-img": null, "dmxapi-logo": null, "dmxapi-logo-dark": null,
   "aiOnly": null, "alayanew": null, "cephalon": null, "cherryin": null, "graph-rag": null,
   "macos": null, "mcprouter": null, "ocoolai": null, "ph8": null, "tokenflux": null,
   "tokenrouter": null, "xirang": null, "Tesseract.js": null, "Kwaipilot": null,
 };
 
-// Only pull the explicitly brand-COLORED variants. Our icons render via <img>,
-// where a monochrome `fill="currentColor"` SVG would resolve to black and vanish
-// in dark mode — so the mono-only brands keep their existing raster instead.
-function lobeFile(slug) {
-  for (const v of [`${slug}-color`, `${slug}-brand-color`]) {
-    const p = join(LOBE, `${v}.svg`);
-    if (existsSync(p)) return { variant: v, path: p };
-  }
-  return null;
+// Build slug -> avatar file path, keyed by normalized slug.
+const avatarBySlug = new Map();
+for (const f of readdirSync(AVATARS)) {
+  const m = f.match(/^(.+)\.webp$/);
+  if (m && !m[1].endsWith("-text")) avatarBySlug.set(norm(m[1]), join(AVATARS, f));
 }
 
+function avatarForId(id) {
+  if (ALIAS[id] === null) return null;
+  const slug = ALIAS[id] ?? id;
+  return avatarBySlug.get(norm(slug)) ?? null;
+}
+
+// 1. Re-point existing ids at their avatar (restores the tile look).
 function syncCategory(category) {
   const dir = join(ICONS_ROOT, category);
   if (!existsSync(dir)) return;
-  const files = readdirSync(dir);
-  // unique ids by basename (drop extension + _dark)
-  const ids = [...new Set(files.map((f) => f.replace(/\.(png|webp|svg|jpe?g)$/i, "")).filter((b) => !b.endsWith("_dark")))];
-  const matched = [], aliased = [], missing = [];
+  const ids = [...new Set(readdirSync(dir).map((f) => f.replace(/\.(png|webp|svg|jpe?g)$/i, "")).filter((b) => !b.endsWith("_dark")))];
+  let matched = 0; const missing = [];
   for (const id of ids) {
-    if (ALIAS[id] === null) continue; // intentionally skipped
-    const slug = ALIAS[id] ?? id.toLowerCase();
-    const hit = lobeFile(slug);
-    if (!hit) { missing.push(id); continue; }
-    (ALIAS[id] ? aliased : matched).push(`${id}${ALIAS[id] ? `→${slug}` : ""}`);
+    if (ALIAS[id] === null) continue;
+    const av = avatarForId(id);
+    if (!av) { missing.push(id); continue; }
+    matched++;
     if (apply) {
-      writeFileSync(join(dir, `${id}.svg`), readFileSync(hit.path));
-      for (const ext of ["png", "webp", "jpeg", "jpg"]) {
+      writeFileSync(join(dir, `${id}.webp`), readFileSync(av));
+      for (const ext of ["png", "svg", "jpeg", "jpg"]) {
         const old = join(dir, `${id}.${ext}`);
         if (existsSync(old)) rmSync(old);
       }
     }
   }
-  console.log(`\n[${category}] ${ids.length} ids — ${matched.length} direct, ${aliased.length} aliased, ${missing.length} no-lobe-match`);
-  if (aliased.length) console.log(`  aliased: ${aliased.join(", ")}`);
-  if (missing.length) console.log(`  no match (kept as-is): ${missing.join(", ")}`);
+  console.log(`[${category}] ${ids.length} ids — ${matched} → avatar, ${missing.length} kept (no lobe avatar)`);
+  if (missing.length) console.log(`  kept: ${missing.join(", ")}`);
 }
 
-console.log(apply ? "APPLYING (writing .svg, removing old raster)…" : "DRY RUN (pass --apply to write)…");
-for (const cat of ["providers", "models", "apps"]) syncCategory(cat);
+// 2. Full coverage: drop EVERY avatar into providers/ as <normSlug>.webp.
+function copyAllAvatars() {
+  const dir = join(ICONS_ROOT, "providers");
+  if (!existsSync(dir)) return 0;
+  let n = 0;
+  for (const [slug, path] of avatarBySlug) {
+    const dest = join(dir, `${slug}.webp`);
+    if (apply && !existsSync(dest)) { writeFileSync(dest, readFileSync(path)); n++; }
+    else if (!existsSync(dest)) n++;
+  }
+  console.log(`[coverage] ${avatarBySlug.size} avatars available; ${n} new dropped into providers/`);
+  return n;
+}
 
-// Keep the hardcoded filename maps in sync with the files on disk. The icon
-// components reference exact filenames (e.g. `google: "google.png"`); after we
-// rewrite a raster to `.svg` that string would 404, so rewrite every filename
-// literal whose raster no longer exists but whose `.svg` twin does.
+// 3a. Regenerate the slug set getIconPath consults (only when syncing OUR repo).
+function writeSlugSet() {
+  if (iconsArg !== -1) return; // only when targeting this repo's icons/
+  const slugs = [...avatarBySlug.keys()].sort();
+  const out = `// AUTO-GENERATED by scripts/sync-icons.mjs — do not edit by hand.\n` +
+    `// Every brand for which icons/providers/<slug>.webp exists (lobe avatar set).\n` +
+    `export const PROVIDER_ICON_SLUGS: ReadonlySet<string> = new Set([\n` +
+    slugs.map((s) => `  ${JSON.stringify(s)},`).join("\n") + `\n]);\n`;
+  const file = join(root, "src/ai/icon-slugs.generated.ts");
+  if (apply) { writeFileSync(file, out); console.log(`[slugset] wrote ${slugs.length} slugs → src/ai/icon-slugs.generated.ts`); }
+  else console.log(`[slugset] would write ${slugs.length} slugs`);
+}
+
+// 3b. Rewrite hardcoded map filenames to the file actually on disk.
 function fixIconMaps() {
   const mapFiles = [join(root, "src/ai/provider-icons.tsx"), join(root, "src/ai/model-icons.tsx")];
   const dirs = ["providers", "models", "apps"].map((c) => join(ICONS_ROOT, c)).filter(existsSync);
-  const hasFile = (name) => dirs.some((d) => existsSync(join(d, name)));
+  const fileFor = (base) => ["webp", "svg", "png", "jpeg", "jpg"].find((e) => dirs.some((d) => existsSync(join(d, `${base}.${e}`))));
   for (const mf of mapFiles) {
     if (!existsSync(mf)) continue;
-    let src = readFileSync(mf, "utf8");
-    let n = 0;
-    src = src.replace(/"([^"]+?)\.(png|webp|jpe?g)"/g, (m, base, ext) => {
-      if (!hasFile(`${base}.${ext}`) && hasFile(`${base}.svg`)) { n++; return `"${base}.svg"`; }
+    let src = readFileSync(mf, "utf8"); let n = 0;
+    src = src.replace(/"([^"/]+?)\.(png|webp|svg|jpe?g)"/g, (m, base, ext) => {
+      const actual = fileFor(base);
+      if (actual && actual !== ext.toLowerCase()) { n++; return `"${base}.${actual}"`; }
       return m;
     });
-    if (apply && n) { writeFileSync(mf, src); console.log(`  [map] ${mf.split("/").pop()}: rewrote ${n} filename(s) → .svg`); }
-    else if (n) console.log(`  [map] ${mf.split("/").pop()}: ${n} filename(s) would change → .svg`);
+    if (apply && n) { writeFileSync(mf, src); console.log(`  [map] ${mf.split("/").pop()}: rewrote ${n} filename(s)`); }
+    else if (n) console.log(`  [map] ${mf.split("/").pop()}: ${n} filename(s) would change`);
   }
 }
+
+console.log(apply ? "APPLYING (avatar webp, full coverage)…" : "DRY RUN (pass --apply to write)…");
+for (const cat of ["providers", "models", "apps"]) syncCategory(cat);
+copyAllAvatars();
+writeSlugSet();
 fixIconMaps();

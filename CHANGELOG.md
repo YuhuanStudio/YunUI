@@ -11,6 +11,18 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.12] - 2026-06-25
+
+### Changed
+- **Brand icons now come from `@lobehub/icons-static-avatar` (MIT)** — the avatar
+  variants (logo on a brand-colored rounded tile) instead of bare logos, so every
+  provider/model icon reads as a consistent app-style tile in both light and dark
+  (the previous bare SVGs looked "naked" on cards). `scripts/sync-icons.mjs` now
+  vendors the FULL avatar set (309 brands) into `icons/providers/` and generates
+  `PROVIDER_ICON_SLUGS`, so any brand Yunxin references (e.g. `opencode`, which was
+  missing) resolves without a hand-maintained map entry. Mono-only / non-lobe
+  brands keep their existing raster.
+
 ## [0.2.11] - 2026-06-25
 
 ### Fixed

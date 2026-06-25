@@ -1,6 +1,6 @@
 {
   "name": "@yuhuanowo/yunui",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "A versioned React 19 + Tailwind v4 design system — tokens, primitives, patterns, and AI components, in one package.",
   "type": "module",
   "license": "Apache-2.0",
@@ -98,6 +98,7 @@
     "tsup": "^8.5.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9",
-    "@lobehub/icons-static-svg": "^1.91.0"
+    "@lobehub/icons-static-svg": "^1.91.0",
+    "@lobehub/icons-static-avatar": "^1.11.0"
   }
 }
