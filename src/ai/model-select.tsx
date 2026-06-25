@@ -175,7 +175,7 @@ export function ModelSelect({
             <button
                 type="button"
                 onClick={() => setIsOpen((o) => !o)}
-                className="flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-lg hover:border-ring transition-all min-w-0 sm:min-w-45 text-left group shadow-sm w-full"
+                className="flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-lg hover:border-ring transition-all min-w-0 sm:min-w-45 text-left group shadow-sm"
             >
                 {selected ? (
                     <>
