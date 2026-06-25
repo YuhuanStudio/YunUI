@@ -76,3 +76,25 @@ function syncCategory(category) {
 
 console.log(apply ? "APPLYING (writing .svg, removing old raster)…" : "DRY RUN (pass --apply to write)…");
 for (const cat of ["providers", "models", "apps"]) syncCategory(cat);
+
+// Keep the hardcoded filename maps in sync with the files on disk. The icon
+// components reference exact filenames (e.g. `google: "google.png"`); after we
+// rewrite a raster to `.svg` that string would 404, so rewrite every filename
+// literal whose raster no longer exists but whose `.svg` twin does.
+function fixIconMaps() {
+  const mapFiles = [join(root, "src/ai/provider-icons.tsx"), join(root, "src/ai/model-icons.tsx")];
+  const dirs = ["providers", "models", "apps"].map((c) => join(ICONS_ROOT, c)).filter(existsSync);
+  const hasFile = (name) => dirs.some((d) => existsSync(join(d, name)));
+  for (const mf of mapFiles) {
+    if (!existsSync(mf)) continue;
+    let src = readFileSync(mf, "utf8");
+    let n = 0;
+    src = src.replace(/"([^"]+?)\.(png|webp|jpe?g)"/g, (m, base, ext) => {
+      if (!hasFile(`${base}.${ext}`) && hasFile(`${base}.svg`)) { n++; return `"${base}.svg"`; }
+      return m;
+    });
+    if (apply && n) { writeFileSync(mf, src); console.log(`  [map] ${mf.split("/").pop()}: rewrote ${n} filename(s) → .svg`); }
+    else if (n) console.log(`  [map] ${mf.split("/").pop()}: ${n} filename(s) would change → .svg`);
+  }
+}
+fixIconMaps();

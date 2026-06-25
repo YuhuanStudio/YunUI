@@ -11,6 +11,15 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.11] - 2026-06-25
+
+### Fixed
+- **Provider/model icons resolved to the wrong extension after the 0.2.10 lobe sync.**
+  The sync rewrote 43+ rasters to `.svg` but `providerIconMap`/`modelIconMap` still
+  named the old `.png`/`.webp`, so those icons 404'd and fell back to initials.
+  `scripts/sync-icons.mjs` now also rewrites the filename literals in the icon maps
+  to match the files on disk (75 entries corrected).
+
 ## [0.2.10] - 2026-06-25
 
 ### Added
