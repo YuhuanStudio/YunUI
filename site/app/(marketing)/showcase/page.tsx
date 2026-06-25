@@ -293,7 +293,10 @@ function SidebarCollapseDemo() {
       ],
     },
   ];
-  const [collapsed, setCollapsed] = useState(false);
+  // Drive the demo with `isOpen` (not `collapsed`) so the sidebar is visible at
+  // ALL widths — `collapsed`/`lg:translate-x-0` left it hidden on mobile (the
+  // stage showed an empty box). The toggle slides it in/out either way.
+  const [open, setOpen] = useState(true);
   return (
     <Stage height={360}>
       <Sidebar
@@ -302,14 +305,14 @@ function SidebarCollapseDemo() {
         homeHref="#"
         sections={sections}
         currentPath="#overview"
-        collapsed={collapsed}
-        onToggleCollapse={() => setCollapsed((c) => !c)}
+        isOpen={open}
+        onClose={() => setOpen(false)}
         onNavigate={() => {}}
       />
-      {/* Re-open affordance when collapsed (lives in the app header normally) */}
+      {/* Re-open affordance (lives in the app header normally) */}
       <button
-        onClick={() => setCollapsed((c) => !c)}
-        className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${collapsed ? "left-3" : "left-[17rem]"}`}
+        onClick={() => setOpen((o) => !o)}
+        className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${open ? "left-[17rem]" : "left-3"}`}
         aria-label={t("toggleSidebar")}
       >
         <PanelLeft size={16} />
@@ -827,20 +830,21 @@ export default function Showcase() {
           <SidebarCollapseDemo />
         </Demo>
         <Demo title={t("demos.footer.title")} description={t("demos.footer.description")}>
-          <Stage height={300}>
-            <div className="absolute inset-x-0 bottom-0">
-              <Footer
-                appName="YunUI"
-                logoSrc="/favicon.ico"
-                tagline={t("demos.footer.tagline")}
-                sections={[
-                  { title: t("demos.footer.secProduct"), links: [{ label: t("demos.footer.linkModels"), href: "#f-models" }, { label: t("demos.footer.linkDocs"), href: "#f-docs" }, { label: t("demos.footer.linkPricing"), href: "#f-pricing" }] },
-                  { title: t("demos.footer.secCompany"), links: [{ label: t("demos.footer.linkAbout"), href: "#f-about" }, { label: t("demos.footer.linkBlog"), href: "#f-blog" }] },
-                  { title: t("demos.footer.secLegal"), links: [{ label: t("demos.footer.linkPrivacy"), href: "#f-privacy" }, { label: t("demos.footer.linkTerms"), href: "#f-terms" }] },
-                ]}
-              />
-            </div>
-          </Stage>
+          {/* Footer isn't position:fixed, so it doesn't need a fixed-height Stage —
+              render it full-width and let it size to content (a fixed Stage clipped
+              the brand block on mobile, where the footer is taller). */}
+          <div className="w-full">
+            <Footer
+              appName="YunUI"
+              logoSrc="/favicon.ico"
+              tagline={t("demos.footer.tagline")}
+              sections={[
+                { title: t("demos.footer.secProduct"), links: [{ label: t("demos.footer.linkModels"), href: "#f-models" }, { label: t("demos.footer.linkDocs"), href: "#f-docs" }, { label: t("demos.footer.linkPricing"), href: "#f-pricing" }] },
+                { title: t("demos.footer.secCompany"), links: [{ label: t("demos.footer.linkAbout"), href: "#f-about" }, { label: t("demos.footer.linkBlog"), href: "#f-blog" }] },
+                { title: t("demos.footer.secLegal"), links: [{ label: t("demos.footer.linkPrivacy"), href: "#f-privacy" }, { label: t("demos.footer.linkTerms"), href: "#f-terms" }] },
+              ]}
+            />
+          </div>
         </Demo>
       </Section>
 
