@@ -33,7 +33,7 @@ export function BlogPagination({
   const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2">
+    <div className="flex items-center justify-center gap-1.5 sm:gap-2">
       <Button
         variant="ghost"
         size="sm"

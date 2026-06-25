@@ -25,19 +25,23 @@ export function FellowsBanner({
   return (
     <Link
       href={href}
-      className={`card p-5 flex items-center gap-4 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group ${className}`}
+      className={`card p-5 flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group ${className}`}
     >
-      <div className="p-3 bg-primary/10 rounded-xl">
-        <GraduationCap className="w-6 h-6 text-primary" />
+      {/* icon + text stay together; the CTA drops below them on mobile instead of
+          squeezing the title into a narrow 3-line column beside it. */}
+      <div className="flex items-center gap-4 flex-1 min-w-0">
+        <div className="p-3 bg-primary/10 rounded-xl shrink-0">
+          <GraduationCap className="w-6 h-6 text-primary" />
+        </div>
+        <div className="min-w-0">
+          <h3 className="font-semibold text-sm">{title}</h3>
+          <p className="text-sm text-muted-foreground">{description}</p>
+          {features.length > 0 && (
+            <p className="text-xs text-muted-foreground/70 mt-1">{features.join(" · ")}</p>
+          )}
+        </div>
       </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-sm">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
-        {features.length > 0 && (
-          <p className="text-xs text-muted-foreground/70 mt-1">{features.join(" · ")}</p>
-        )}
-      </div>
-      <span className="text-sm font-medium text-primary group-hover:underline whitespace-nowrap">
+      <span className="text-sm font-medium text-primary group-hover:underline whitespace-nowrap shrink-0">
         {ctaText} →
       </span>
     </Link>

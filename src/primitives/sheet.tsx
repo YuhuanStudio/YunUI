@@ -57,7 +57,7 @@ export function Sheet({ open, onClose, children, title, mobileOnly = false }: Sh
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className={cn("fixed inset-y-0 right-0 w-[85vw] min-w-72 max-w-sm bg-card shadow-xl flex flex-col", mobileOnly && "lg:hidden")}
+                        className={cn("fixed inset-y-0 right-0 w-[85vw] min-w-72 max-w-sm bg-card shadow-2xl flex flex-col overflow-hidden rounded-l-2xl border-l border-border", mobileOnly && "lg:hidden")}
                         style={{ zIndex: 50 }}
                         onClick={(e) => e.stopPropagation()}
                     >

@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-RYXVPVHP.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-774XNF5Q.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-TFZKMJGF.js';
@@ -503,7 +503,7 @@ function BlogPagination({
   const end = Math.min(totalPages, start + maxVisible - 1);
   start = Math.max(1, end - maxVisible + 1);
   const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  return /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center justify-center gap-2", children: [
+  return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-center gap-1.5 sm:gap-2", children: [
     /* @__PURE__ */ jsxs(
       Button,
       {
@@ -801,15 +801,17 @@ function FellowsBanner({
     Link,
     {
       href,
-      className: `card p-5 flex items-center gap-4 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group ${className}`,
+      className: `card p-5 flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group ${className}`,
       children: [
-        /* @__PURE__ */ jsx("div", { className: "p-3 bg-primary/10 rounded-xl", children: /* @__PURE__ */ jsx(GraduationCap, { className: "w-6 h-6 text-primary" }) }),
-        /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-          /* @__PURE__ */ jsx("h3", { className: "font-semibold text-sm", children: title }),
-          /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: description }),
-          features.length > 0 && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground/70 mt-1", children: features.join(" \xB7 ") })
+        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-4 flex-1 min-w-0", children: [
+          /* @__PURE__ */ jsx("div", { className: "p-3 bg-primary/10 rounded-xl shrink-0", children: /* @__PURE__ */ jsx(GraduationCap, { className: "w-6 h-6 text-primary" }) }),
+          /* @__PURE__ */ jsxs("div", { className: "min-w-0", children: [
+            /* @__PURE__ */ jsx("h3", { className: "font-semibold text-sm", children: title }),
+            /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: description }),
+            features.length > 0 && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground/70 mt-1", children: features.join(" \xB7 ") })
+          ] })
         ] }),
-        /* @__PURE__ */ jsxs("span", { className: "text-sm font-medium text-primary group-hover:underline whitespace-nowrap", children: [
+        /* @__PURE__ */ jsxs("span", { className: "text-sm font-medium text-primary group-hover:underline whitespace-nowrap shrink-0", children: [
           ctaText,
           " \u2192"
         ] })

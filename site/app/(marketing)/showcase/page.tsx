@@ -1124,7 +1124,7 @@ export default function Showcase() {
           </div>
         </Demo>
         <Demo title="Table" description="Many columns. Resize narrow: rows stack into labelled cards (responsive) instead of scrolling sideways.">
-          <Table responsive containerClassName="rounded-xl border border-border">
+          <Table responsive containerClassName="md:rounded-xl md:border md:border-border">
             <TableHeader>
               <TableRow>
                 <TableHead>Model</TableHead>
