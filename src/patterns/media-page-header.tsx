@@ -26,12 +26,12 @@ export function MediaPageHeader({ title, description, isSyncing, syncError, onSy
 
     return (
         <div className="space-y-3">
-            <div className="flex items-center justify-between">
-                <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
                     <h1 className="heading-xl">{title}</h1>
                     <p className="text-body mt-1">{description}</p>
                 </div>
-                <Button variant="ghost" size="sm" onClick={onSync} disabled={isSyncing} className="text-muted-foreground">
+                <Button variant="ghost" size="sm" onClick={onSync} disabled={isSyncing} className="text-muted-foreground shrink-0 self-start sm:self-auto">
                     <RefreshCw size={16} className={isSyncing ? "animate-spin" : ""} />
                     <span className="ml-2">{isSyncing ? t("syncing") : t("sync")}</span>
                 </Button>
@@ -45,7 +45,7 @@ export function MediaPageHeader({ title, description, isSyncing, syncError, onSy
             )}
 
             {stats && stats.length > 0 && (
-                <div className="flex gap-4 text-sm text-muted-foreground">
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                     {stats.map((stat, index) => (
                         <div key={index} className="flex items-center gap-1">
                             <span className="font-medium text-foreground">{stat.value}</span>
