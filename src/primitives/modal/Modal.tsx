@@ -189,7 +189,8 @@ export function Modal({
             <div
                 ref={modalRef}
                 className={cn(
-                    "card relative w-full shadow-2xl flex flex-col transition-all",
+                    // Glassy surface (not the solid .card) to match Sheet/Dialog/navbar.
+                    "relative w-full rounded-2xl border border-border bg-background/95 backdrop-blur-xl shadow-2xl flex flex-col transition-all",
                     sizeClass,
                     isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100",
                     className
