@@ -1,7 +1,7 @@
 "use client";
 import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-RYXVPVHP.js';
-import { copyToClipboard } from './chunk-BO6CDGJS.js';
-export { Footer } from './chunk-BO6CDGJS.js';
+import { copyToClipboard } from './chunk-N53PNMPJ.js';
+export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -162,7 +162,7 @@ function CodeBlock({
   const handleTabChange = (index) => {
     setActiveTab(index);
   };
-  return /* @__PURE__ */ jsxs("div", { className: cn("card overflow-hidden", className), children: [
+  return /* @__PURE__ */ jsxs("div", { className: cn("card overflow-hidden max-w-full min-w-0", className), children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2.5 border-b border-(--border-hairline) bg-(--bg-elevated)", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5", children: [
         /* @__PURE__ */ jsxs("div", { className: "flex gap-1", children: [
@@ -503,7 +503,7 @@ function BlogPagination({
   const end = Math.min(totalPages, start + maxVisible - 1);
   start = Math.max(1, end - maxVisible + 1);
   const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-center gap-2", children: [
+  return /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center justify-center gap-2", children: [
     /* @__PURE__ */ jsxs(
       Button,
       {
@@ -513,7 +513,7 @@ function BlogPagination({
         disabled: currentPage === 1,
         children: [
           /* @__PURE__ */ jsx(ChevronLeft, { size: 16 }),
-          /* @__PURE__ */ jsx("span", { className: "ml-1", children: previousLabel })
+          /* @__PURE__ */ jsx("span", { className: "ml-1 hidden sm:inline", children: previousLabel })
         ]
       }
     ),
@@ -555,7 +555,7 @@ function BlogPagination({
         onClick: () => handlePageChange(currentPage + 1),
         disabled: currentPage === totalPages,
         children: [
-          /* @__PURE__ */ jsx("span", { className: "mr-1", children: nextLabel }),
+          /* @__PURE__ */ jsx("span", { className: "mr-1 hidden sm:inline", children: nextLabel }),
           /* @__PURE__ */ jsx(ChevronRight, { size: 16 })
         ]
       }

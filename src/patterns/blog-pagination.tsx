@@ -33,7 +33,7 @@ export function BlogPagination({
   const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex flex-wrap items-center justify-center gap-2">
       <Button
         variant="ghost"
         size="sm"
@@ -41,7 +41,7 @@ export function BlogPagination({
         disabled={currentPage === 1}
       >
         <ChevronLeft size={16} />
-        <span className="ml-1">{previousLabel}</span>
+        <span className="ml-1 hidden sm:inline">{previousLabel}</span>
       </Button>
 
       <div className="flex items-center gap-1">
@@ -87,7 +87,7 @@ export function BlogPagination({
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        <span className="mr-1">{nextLabel}</span>
+        <span className="mr-1 hidden sm:inline">{nextLabel}</span>
         <ChevronRight size={16} />
       </Button>
     </div>

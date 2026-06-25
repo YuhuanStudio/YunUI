@@ -1,6 +1,6 @@
 "use client";
-import { copyToClipboard } from './chunk-BO6CDGJS.js';
-export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-BO6CDGJS.js';
+import { copyToClipboard } from './chunk-N53PNMPJ.js';
+export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-N53PNMPJ.js';
 import { cn, ThemeToggle } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -1281,26 +1281,23 @@ function Navbar({
       link.href
     )) }),
     /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 shrink-0", children: [
-      languageSwitcher,
+      /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
       themeToggle ?? /* @__PURE__ */ jsx(ThemeToggle, { variant: "pill" }),
       variant !== "minimal" && /* @__PURE__ */ jsxs(Fragment, { children: [
         /* @__PURE__ */ jsx(
           Link,
           {
             href: loginHref,
-            className: "hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center",
+            className: "hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center",
             children: signIn
           }
         ),
-        /* @__PURE__ */ jsxs(
+        /* @__PURE__ */ jsx(
           Link,
           {
             href: signupHref,
-            className: "px-3 sm:px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on",
-            children: [
-              /* @__PURE__ */ jsx("span", { className: "hidden sm:inline", children: signUp }),
-              /* @__PURE__ */ jsx("span", { className: "sm:hidden", children: "Sign Up" })
-            ]
+            className: "hidden md:inline-block px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on",
+            children: signUp
           }
         )
       ] }),
@@ -1329,6 +1326,8 @@ function Navbar({
           },
           link.href
         )),
+        /* @__PURE__ */ jsx("div", { className: "my-1 border-t border-border" }),
+        languageSwitcher && /* @__PURE__ */ jsx("div", { className: "px-2 py-1.5", children: languageSwitcher }),
         /* @__PURE__ */ jsx(
           Link,
           {
@@ -1336,6 +1335,15 @@ function Navbar({
             onClick: () => setMenuOpen(false),
             className: "px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5",
             children: signIn
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          Link,
+          {
+            href: signupHref,
+            onClick: () => setMenuOpen(false),
+            className: "mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on",
+            children: signUp
           }
         )
       ] })

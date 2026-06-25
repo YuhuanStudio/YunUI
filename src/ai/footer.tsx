@@ -81,8 +81,9 @@ export function Footer({
             <div className="max-w-6xl mx-auto">
                 <div className="card p-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        {/* Brand */}
-                        <div>
+                        {/* Brand — full width on mobile so it doesn't get squeezed
+                            into a half column next to the link sections. */}
+                        <div className="col-span-2 md:col-span-1">
                             <Link href={homeHref} className="flex items-center gap-2 mb-2">
                                 <Image src={logoSrc} alt={appName} width={24} height={24} />
                                 <span className="font-semibold">{appName}</span>

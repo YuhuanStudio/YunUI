@@ -141,26 +141,27 @@ export function Navbar({
                 </div>
             )}
 
-            {/* Right Side */}
+            {/* Right Side. On mobile the bar keeps only theme + hamburger; the
+                language switcher and auth buttons move into the menu so the bar
+                never overflows / truncates the brand on a phone. */}
             <div className="flex items-center gap-1.5 shrink-0">
-                {languageSwitcher}
+                <span className="hidden md:flex items-center gap-1.5">{languageSwitcher}</span>
                 {themeToggle ?? <ThemeToggle variant="pill" />}
 
-                {/* Auth Buttons */}
+                {/* Auth Buttons (desktop) */}
                 {variant !== "minimal" && (
                     <>
                         <Link
                             href={loginHref}
-                            className="hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center"
+                            className="hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center"
                         >
                             {signIn}
                         </Link>
                         <Link
                             href={signupHref}
-                            className="px-3 sm:px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on"
+                            className="hidden md:inline-block px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on"
                         >
-                            <span className="hidden sm:inline">{signUp}</span>
-                            <span className="sm:hidden">Sign Up</span>
+                            {signUp}
                         </Link>
                     </>
                 )}
@@ -194,12 +195,23 @@ export function Navbar({
                                 {link.label}
                             </Link>
                         ))}
+                        <div className="my-1 border-t border-border" />
+                        {languageSwitcher && (
+                            <div className="px-2 py-1.5">{languageSwitcher}</div>
+                        )}
                         <Link
                             href={loginHref}
                             onClick={() => setMenuOpen(false)}
                             className="px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5"
                         >
                             {signIn}
+                        </Link>
+                        <Link
+                            href={signupHref}
+                            onClick={() => setMenuOpen(false)}
+                            className="mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on"
+                        >
+                            {signUp}
                         </Link>
                     </div>
                 </>

@@ -19,7 +19,7 @@ function Footer({
   const copyrightText = copyright ?? `\xA9 ${year} ${appName}. All rights reserved.`;
   return /* @__PURE__ */ jsx("footer", { className: "mt-auto py-6 px-6", children: /* @__PURE__ */ jsx("div", { className: "max-w-6xl mx-auto", children: /* @__PURE__ */ jsxs("div", { className: "card p-6", children: [
     /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-6", children: [
-      /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsxs("div", { className: "col-span-2 md:col-span-1", children: [
         /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex items-center gap-2 mb-2", children: [
           /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 24, height: 24 }),
           /* @__PURE__ */ jsx("span", { className: "font-semibold", children: appName })
@@ -75,5 +75,5 @@ async function copyToClipboard(text) {
 }
 
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon, copyToClipboard };
-//# sourceMappingURL=chunk-BO6CDGJS.js.map
-//# sourceMappingURL=chunk-BO6CDGJS.js.map
+//# sourceMappingURL=chunk-N53PNMPJ.js.map
+//# sourceMappingURL=chunk-N53PNMPJ.js.map

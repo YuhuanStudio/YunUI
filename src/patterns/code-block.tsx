@@ -192,8 +192,11 @@ export function CodeBlock({
         setActiveTab(index);
     };
 
+    // max-w-full + min-w-0: in a flex/grid parent the card would otherwise grow
+    // to the (wide) code's intrinsic width and overflow the page on mobile —
+    // instead it stays within its container and the <pre> scrolls.
     return (
-        <div className={cn("card overflow-hidden", className)}>
+        <div className={cn("card overflow-hidden max-w-full min-w-0", className)}>
             <div className="flex items-center justify-between px-4 py-2.5 border-b border-(--border-hairline) bg-(--bg-elevated)">
                 <div className="flex items-center gap-2.5">
                     <div className="flex gap-1">
