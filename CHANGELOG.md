@@ -11,6 +11,40 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.13] - 2026-06-25
+
+### Added
+- **`ModelSelect` (ai)** — a generic, domain-agnostic searchable model picker:
+  provider grouping, provider + capability filters, a pinned section, and a glassy
+  dropdown. Consumers map their model type to `ModelSelectOption` (icon/badges/
+  detail/meta are slots) and own pinning + filters via props — no app types,
+  pricing or i18n leak into the design system. Selection uses YunUI's left-bar
+  signature (a full bar when selected, a faint bar that slides in on hover, like
+  the Sidebar). New exports: `ModelSelect`, `ModelSelectOption`,
+  `ModelSelectFilter`, `ModelSelectLabels`.
+- **`CapabilityIcon` / `CapabilityBadge` (ai)** — the capability → icon → color
+  mapping is now defined once (the same source `CapabilitySelector` uses) and
+  renders identically everywhere: `CapabilityIcon` is the colored glyph,
+  `CapabilityBadge` the glyph + tinted pill + a consumer-supplied label. Plus
+  `isKnownCapability`. The capability config also gained `dark:` text variants.
+- **`StatCard` `compact` prop (patterns)** — the lighter `card p-4` tile for dense
+  stat grids (keeps the dark-mode tone colors inline versions lacked).
+
+### Changed
+- **Unified glassy overlay surfaces** — `Dialog`, `Modal`, `DropdownMenu`, `Select`
+  and `Sheet` now share the navbar's glassy treatment (`bg-…/90 backdrop-blur-xl`)
+  instead of flat opaque slabs. `Sheet` is a floating, fully-rounded drawer.
+- **Mobile-responsive layouts** — `PageHeader` / `MediaPageHeader` stack title and
+  actions on small screens; `Grid` and `CapabilitySelector` ramp columns
+  mobile-first; `Navbar`, `Footer`, `CodeBlock`, `Pagination` and `Table` were
+  tightened for narrow viewports.
+
+### Fixed
+- **`azure` / `aws` / `bedrock` rendered GitHub's icon and the "GitHub Models"
+  name** — a stale "served-via-GitHub-Models" shortcut. They now resolve to their
+  own icon and proper display name.
+- **`Pagination`** active-state and width on mobile (no stray overflow box on tap).
+
 ## [0.2.12] - 2026-06-25
 
 ### Changed
