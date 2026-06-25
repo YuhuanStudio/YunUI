@@ -909,29 +909,31 @@ select.input:focus,
     margin-bottom: 0.75rem;
     padding: 0.25rem 0.875rem;
   }
+  /* Stack each cell as label-above-value (not label-left/value-right): a
+     space-between row pushed wide values (icons, badges, long names, buttons)
+     off the card and clipped them. Block flow keeps any cell content full-width
+     and on-screen; long unbreakable strings (ids) wrap instead of overflowing. */
   .yunui-table-responsive td {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.55rem 0;
+    display: block;
+    padding: 0.5rem 0;
     border: 0 !important;
-    text-align: right;
+    text-align: left;
+    overflow-wrap: anywhere;
   }
   .yunui-table-responsive td::before {
     content: attr(data-label);
+    display: block;
+    font-size: 0.6875rem;
     font-weight: 500;
-    color: var(--text-secondary);
-    text-align: left;
-    white-space: nowrap;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.2rem;
   }
-  /* unlabelled cells (e.g. a row-select checkbox) just center their content */
+  /* unlabelled cells (row-select checkbox, actions) just render their content */
   .yunui-table-responsive td:not([data-label])::before,
   .yunui-table-responsive td[data-label=""]::before {
     content: none;
-  }
-  .yunui-table-responsive td:not([data-label]) {
-    justify-content: center;
   }
 }
 

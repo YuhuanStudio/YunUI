@@ -40,6 +40,10 @@ patch = fixes, anything may change between 0.x releases).
   tightened for narrow viewports.
 
 ### Fixed
+- **`<Table responsive>` no longer overflows on mobile.** The stacked card used a
+  label-left / value-right row that pushed wide cell content (icons, badges, long
+  names, action buttons) off the card and clipped it. Cells now stack
+  label-above-value, full-width, so any content stays on-screen.
 - **`azure` / `aws` / `bedrock` rendered GitHub's icon and the "GitHub Models"
   name** — a stale "served-via-GitHub-Models" shortcut. They now resolve to their
   own icon and proper display name.
