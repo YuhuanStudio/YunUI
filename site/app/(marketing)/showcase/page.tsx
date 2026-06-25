@@ -1242,35 +1242,61 @@ export default function Showcase() {
             <Badge variant="error">{t("demos.cardsBadges.error")}</Badge>
           </div>
         </Demo>
-        <Demo title="Table" description="Many columns. Resize narrow: rows stack into labelled cards (responsive) instead of scrolling sideways.">
+        <Demo title="Table" description="A real, dense admin model table (checkbox, ids, icons, badge groups, multi-line price, row actions). Resize narrow: rows stack into labelled cards — desktop-only alignment is `md:`-gated so cards read left-aligned, top to bottom.">
+          {/* Mirrors Yunxin's admin model row so the responsive stacking is
+              verified against the REAL complexity, not a toy table. */}
           <Table responsive containerClassName="md:rounded-xl md:border md:border-border">
             <TableHeader>
               <TableRow>
+                <TableHead className="w-8"><input type="checkbox" aria-label="select all" /></TableHead>
                 <TableHead>Model</TableHead>
                 <TableHead>Provider</TableHead>
+                <TableHead>Developer</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Context</TableHead>
+                <TableHead className="text-right">Max output</TableHead>
                 <TableHead className="text-right">Price (in/out)</TableHead>
                 <TableHead>Capabilities</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {[
-                { model: "Claude Opus 4.8", provider: "Anthropic", ctx: "1.00M", price: "10 / 50", caps: ["Chat", "Vision", "Thinking"] },
-                { model: "Claude Haiku", provider: "Anthropic", ctx: "200K", price: "1 / 5", caps: ["Chat", "Streaming"] },
-                { model: "GPT-4o", provider: "OpenAI", ctx: "128K", price: "5 / 15", caps: ["Chat", "Vision"] },
+                { model: "MiniMax-M2.5", ids: ["minimax/MiniMax-M2.5", "MiniMax-M2.5"], prov: "minimax", provName: "MiniMax", dev: "minimax", devName: "MiniMax", ctx: "204.80K", maxOut: "131.07K", price: "75.00 / 300.00", cache: "cache: 10.00 / 20.00", caps: ["function_calling", "chat", "vision", "thinking", "streaming"] },
+                { model: "Claude Opus 4.8", ids: ["anthropic/claude-opus-4-8"], prov: "anthropic", provName: "Anthropic", dev: "claude", devName: "Claude", ctx: "1.00M", maxOut: "64.00K", price: "10.00 / 50.00", cache: "cache: 1.00 / 2.00", caps: ["chat", "vision", "thinking"] },
               ].map((r) => (
                 <TableRow key={r.model}>
-                  <TableCell label="Model" className="font-medium">{r.model}</TableCell>
-                  <TableCell label="Provider">{r.provider}</TableCell>
+                  <TableCell label="" className="w-8"><input type="checkbox" aria-label={`select ${r.model}`} /></TableCell>
+                  <TableCell label="Model">
+                    <div className="flex items-center gap-2.5">
+                      <ProviderIcon provider={r.prov} size={32} rounded />
+                      <div className="min-w-0">
+                        <div className="font-medium truncate">{r.model}</div>
+                        <div className="flex flex-wrap gap-1 mt-0.5">
+                          {r.ids.map((id) => <span key={id} className="font-mono text-[11px] bg-muted px-1.5 py-0.5 rounded border border-border">{id}</span>)}
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell label="Provider"><span className="inline-flex items-center gap-1.5"><ProviderIcon provider={r.prov} size={18} rounded />{r.provName}</span></TableCell>
+                  <TableCell label="Developer"><span className="inline-flex items-center gap-1.5"><ProviderIcon provider={r.dev} size={18} rounded />{r.devName}</span></TableCell>
                   <TableCell label="Type"><Badge variant="info">Chat</Badge></TableCell>
                   <TableCell label="Status"><Badge variant="success">Approved</Badge></TableCell>
-                  <TableCell label="Context" className="text-right tabular-nums">{r.ctx}</TableCell>
-                  <TableCell label="Price (in/out)" className="text-right tabular-nums text-muted-foreground">{r.price}</TableCell>
+                  <TableCell label="Context" className="text-right tabular-nums text-muted-foreground">{r.ctx}</TableCell>
+                  <TableCell label="Max output" className="text-right tabular-nums text-muted-foreground">{r.maxOut}</TableCell>
+                  <TableCell label="Price (in/out)" className="text-right tabular-nums">
+                    <div>{r.price}</div>
+                    <div className="text-[11px] text-muted-foreground/70">{r.cache}</div>
+                  </TableCell>
                   <TableCell label="Capabilities">
-                    <div className="flex flex-wrap gap-1 justify-end md:justify-start">
-                      {r.caps.map((c) => <Tag key={c}>{c}</Tag>)}
+                    <div className="flex flex-wrap gap-1.5">
+                      {r.caps.map((c) => <CapabilityBadge key={c} capability={c} />)}
+                    </div>
+                  </TableCell>
+                  <TableCell label="Actions" className="text-right">
+                    <div className="flex items-center gap-1 justify-end text-muted-foreground">
+                      <Pencil size={15} /><Power size={15} /><Eye size={15} /><Trash2 size={15} />
                     </div>
                   </TableCell>
                 </TableRow>

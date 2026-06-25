@@ -935,6 +935,17 @@ select.input:focus,
   .yunui-table-responsive td[data-label=""]::before {
     content: none;
   }
+  /* Desktop-table alignment (text-right / justify-end the cell content carries
+     for the wide table) reads wrong in a stacked card — left-align it on mobile.
+     The compound selector outranks the Tailwind utility, so no !important and no
+     per-cell `md:` rewrite is needed. */
+  .yunui-table-responsive td [class~="text-right"],
+  .yunui-table-responsive td.text-right {
+    text-align: left;
+  }
+  .yunui-table-responsive td [class~="justify-end"] {
+    justify-content: flex-start;
+  }
 }
 
 select.input option,
