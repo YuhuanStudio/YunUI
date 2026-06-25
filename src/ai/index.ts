@@ -33,6 +33,9 @@ export {
   normalizeProviderId,
   ProviderNames,
 } from "./provider-icons";
+// The full set of brand slugs with a bundled icon (lobe avatar set) — map over it
+// to render a complete icon gallery.
+export { PROVIDER_ICON_SLUGS } from "./icon-slugs.generated";
 export { LanguageSwitcher, type LanguageOption } from "./language-switcher";
 export { Navbar, type NavLink } from "./navbar";
 export {

@@ -1343,6 +1343,6 @@ function Navbar({
   ] });
 }
 
-export { CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelTypeIcon, Navbar, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

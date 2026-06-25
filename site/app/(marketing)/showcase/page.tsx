@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useMemo, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import {
   Button,
@@ -104,6 +104,7 @@ import {
   ModelAvatar,
   ModelTypeIcon,
   ProviderIconImg,
+  PROVIDER_ICON_SLUGS,
   IDBadge,
   getIconPath,
   buttonVariants,
@@ -496,6 +497,30 @@ function ProviderCardGridDemo() {
           </>
         }
       />
+    </div>
+  );
+}
+
+// A searchable gallery of every bundled brand icon, mapped straight from the
+// exported PROVIDER_ICON_SLUGS set — so the showcase always reflects the full set.
+function IconGalleryDemo() {
+  const [q, setQ] = useState("");
+  const all = useMemo(() => [...PROVIDER_ICON_SLUGS].sort(), []);
+  const shown = q.trim() ? all.filter((s) => s.includes(q.trim().toLowerCase())) : all;
+  return (
+    <div className="w-full">
+      <div className="mb-4 max-w-xs">
+        <SearchInput value={q} onChange={setQ} placeholder={`Filter ${all.length} icons…`} />
+      </div>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(74px,1fr))] gap-3 max-h-96 overflow-y-auto pr-1">
+        {shown.map((slug) => (
+          <div key={slug} className="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-(--bg-hover) transition-colors">
+            <ProviderAvatar provider={slug} size={40} />
+            <span className="text-[10px] text-muted-foreground truncate max-w-full" title={slug}>{slug}</span>
+          </div>
+        ))}
+        {shown.length === 0 && <p className="text-sm text-muted-foreground col-span-full py-6 text-center">No icon matches “{q}”.</p>}
+      </div>
     </div>
   );
 }
@@ -1328,6 +1353,9 @@ export default function Showcase() {
               nonofficial
             />
           </div>
+        </Demo>
+        <Demo title="Full icon set" description={`Every bundled brand icon (${PROVIDER_ICON_SLUGS.size} brands, lobe avatar tiles). Resolved by id from /icons — search to filter.`}>
+          <IconGalleryDemo />
         </Demo>
         <Demo title={t("demos.aiAvatars.title")} description={t("demos.aiAvatars.description")}>
           <div className="space-y-5 w-full max-w-2xl">

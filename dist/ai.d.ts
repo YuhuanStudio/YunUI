@@ -166,6 +166,8 @@ declare function ModelAvatar({ iconUrl, developer, provider, size, className, }:
     className?: string;
 }): React.JSX.Element;
 
+declare const PROVIDER_ICON_SLUGS: ReadonlySet<string>;
+
 interface LanguageOption {
     /** Locale code (e.g. "en", "zh-TW"). */
     value: string;
@@ -230,4 +232,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { type ButtonProps, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelTypeIcon, type NavLink, Navbar, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { type ButtonProps, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
