@@ -543,7 +543,11 @@ function IconGalleryDemo() {
       <div className="grid gap-3 max-h-96 overflow-y-auto pr-1" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(74px, 1fr))" }}>
         {shown.map((slug) => (
           <div key={slug} className="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-(--bg-hover) transition-colors">
-            <ProviderAvatar provider={slug} size={40} />
+            {/* Subtle inset ring so dark brand tiles (openai/github) keep a visible
+                edge against a dark background instead of blending in. */}
+            <div className="rounded-lg ring-1 ring-inset ring-foreground/10">
+              <ProviderAvatar provider={slug} size={40} />
+            </div>
             <span className="text-[10px] text-muted-foreground truncate max-w-full" title={slug}>{slug}</span>
           </div>
         ))}
