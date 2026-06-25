@@ -9,6 +9,9 @@
 @import "fumadocs-ui/css/preset.css";
 @import "yunui/css";
 
-/* Let Tailwind v4 scan YunUI's compiled components so their inline utility
-   classes get generated. */
-@source "../node_modules/yunui/dist";
+/* Tailwind v4 must scan YunUI's compiled components so their inline utility
+   classes (incl. sm:*, w-8, rounded-l-2xl, …) get generated. Use the real dist
+   path relative to THIS css file (../../dist) with a glob — the previous
+   ../node_modules/yunui/dist went through a symlink the scanner didn't follow,
+   so component classes were silently dropped and layouts broke. */
+@source "../../dist/**/*.js";
