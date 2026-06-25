@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useRef, useEffect, memo, type ReactNode } from "react";
 import { Search, Pin, ChevronDown, X, Sparkles } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../lib/cn";
 
 // =====================================================
@@ -187,12 +186,14 @@ export function ModelSelect({
     const select = (id: string) => { onChange(id); setIsOpen(false); };
 
     return (
-        <div ref={rootRef} className={cn("relative", className)}>
+        // Fixed-width root so the trigger doesn't grow/shrink as the selected
+        // label changes; override the width via `className`.
+        <div ref={rootRef} className={cn("relative w-64", className)}>
             <button
                 type="button"
                 onClick={() => setIsOpen((o) => !o)}
                 className={cn(
-                    "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all min-w-0 sm:min-w-45 shadow-sm hover:shadow-md",
+                    "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md",
                     isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring",
                 )}
             >
@@ -207,14 +208,12 @@ export function ModelSelect({
                 <ChevronDown size={14} className={cn("text-muted-foreground transition-transform shrink-0", isOpen && "rotate-180")} />
             </button>
 
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -4, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -4, scale: 0.98 }}
-                        transition={{ duration: 0.14, ease: "easeOut" }}
-                        className="absolute z-50 top-full left-0 mt-2 w-full sm:w-auto sm:min-w-80 max-w-[calc(100vw-2rem)] sm:max-w-lg bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden"
+            {isOpen && (
+                    <div
+                        /* Fixed width so the panel never reflows as you search/
+                           filter; CSS entrance (not framer) so it unmounts at
+                           once on close. */
+                        className="animate-fade origin-top absolute z-50 top-full left-0 mt-2 w-[90vw] sm:w-[34rem] max-w-[calc(100vw-1rem)] bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden"
                     >
                         {/* Search + capability filters */}
                         <div className="p-2.5 border-b border-border/50">
@@ -256,11 +255,11 @@ export function ModelSelect({
                         {groups.length > 1 && (
                             <div className="px-2.5 py-2 border-b border-border/50 overflow-x-auto">
                                 <div className="flex gap-1 min-w-max">
-                                    <button type="button" onClick={() => setActiveGroup(null)} className={cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                    <button type="button" onClick={() => setActiveGroup(null)} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
                                         {L.all} ({options.length})
                                     </button>
                                     {groups.map((g) => (
-                                        <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} className={cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors flex items-center gap-1 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                        <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
                                             {groupIcon[g]}
                                             {groupLabel[g] ?? g}
                                         </button>
@@ -286,7 +285,7 @@ export function ModelSelect({
                                     <div key={g} className="mb-3 last:mb-0">
                                         <div className="flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover/95 backdrop-blur-sm py-1.5 z-10">
                                             {groupIcon[g]}
-                                            <span className="text-[11px] font-semibold">{groupLabel[g] ?? g}</span>
+                                            <span className="text-xs font-semibold">{groupLabel[g] ?? g}</span>
                                             <span className="ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium">{opts.length}</span>
                                         </div>
                                         {opts.map((o) => (
@@ -308,9 +307,8 @@ export function ModelSelect({
                                 {renderFooter(filtered.length)}
                             </div>
                         )}
-                    </motion.div>
+                    </div>
                 )}
-            </AnimatePresence>
         </div>
     );
 }

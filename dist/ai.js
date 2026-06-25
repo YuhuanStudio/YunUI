@@ -253,96 +253,96 @@ function ModelSelect({
     onChange(id);
     setIsOpen(false);
   };
-  return /* @__PURE__ */ jsxs("div", { ref: rootRef, className: cn("relative", className), children: [
-    /* @__PURE__ */ jsxs(
-      "button",
-      {
-        type: "button",
-        onClick: () => setIsOpen((o) => !o),
-        className: cn(
-          "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all min-w-0 sm:min-w-45 shadow-sm hover:shadow-md",
-          isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring"
-        ),
-        children: [
-          selected ? /* @__PURE__ */ jsxs(Fragment, { children: [
-            selected.icon,
-            /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-sm font-medium", children: selected.label })
-          ] }) : /* @__PURE__ */ jsx("span", { className: "flex-1 text-sm text-muted-foreground", children: L.placeholder }),
-          /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("text-muted-foreground transition-transform shrink-0", isOpen && "rotate-180") })
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsx(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsxs(
-      motion.div,
-      {
-        initial: { opacity: 0, y: -4, scale: 0.98 },
-        animate: { opacity: 1, y: 0, scale: 1 },
-        exit: { opacity: 0, y: -4, scale: 0.98 },
-        transition: { duration: 0.14, ease: "easeOut" },
-        className: "absolute z-50 top-full left-0 mt-2 w-full sm:w-auto sm:min-w-80 max-w-[calc(100vw-2rem)] sm:max-w-lg bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden",
-        children: [
-          /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
-            /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-              /* @__PURE__ */ jsx(Search, { size: 15, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
-              /* @__PURE__ */ jsx(
-                "input",
-                {
-                  ref: inputRef,
-                  value: search,
-                  onChange: (e) => setSearch(e.target.value),
-                  placeholder: L.search,
-                  className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
-                }
-              ),
-              search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
-            ] }),
-            filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-1", children: [
-              filters.map((f) => {
-                const on = activeFilters.includes(f.key);
-                return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("p-1 rounded-md transition-colors", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
-              }),
-              activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, className: "p-1 rounded-md text-muted-foreground hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
-            ] })
-          ] }),
-          groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
-            /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), className: cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
-              L.all,
-              " (",
-              options.length,
-              ")"
-            ] }),
-            groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), className: cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors flex items-center gap-1 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
-              groupIcon[g],
-              groupLabel[g] ?? g
-            ] }, g))
-          ] }) }),
-          /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, className: "max-h-96 overflow-y-auto overscroll-contain", children: [
-            pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
-              /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
-                /* @__PURE__ */ jsx(Pin, { size: 9 }),
-                " ",
-                L.pinned
+  return (
+    // Fixed-width root so the trigger doesn't grow/shrink as the selected
+    // label changes; override the width via `className`.
+    /* @__PURE__ */ jsxs("div", { ref: rootRef, className: cn("relative w-64", className), children: [
+      /* @__PURE__ */ jsxs(
+        "button",
+        {
+          type: "button",
+          onClick: () => setIsOpen((o) => !o),
+          className: cn(
+            "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md",
+            isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring"
+          ),
+          children: [
+            selected ? /* @__PURE__ */ jsxs(Fragment, { children: [
+              selected.icon,
+              /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-sm font-medium", children: selected.label })
+            ] }) : /* @__PURE__ */ jsx("span", { className: "flex-1 text-sm text-muted-foreground", children: L.placeholder }),
+            /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("text-muted-foreground transition-transform shrink-0", isOpen && "rotate-180") })
+          ]
+        }
+      ),
+      isOpen && /* @__PURE__ */ jsxs(
+        "div",
+        {
+          className: "animate-fade origin-top absolute z-50 top-full left-0 mt-2 w-[90vw] sm:w-[34rem] max-w-[calc(100vw-1rem)] bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden",
+          children: [
+            /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
+              /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+                /* @__PURE__ */ jsx(Search, { size: 15, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    ref: inputRef,
+                    value: search,
+                    onChange: (e) => setSearch(e.target.value),
+                    placeholder: L.search,
+                    className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
+                  }
+                ),
+                search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
               ] }),
-              pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+              filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-1", children: [
+                filters.map((f) => {
+                  const on = activeFilters.includes(f.key);
+                  return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("p-1 rounded-md transition-colors", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
+                }),
+                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, className: "p-1 rounded-md text-muted-foreground hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
+              ] })
             ] }),
-            /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
-              /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover/95 backdrop-blur-sm py-1.5 z-10", children: [
+            groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
+              /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
+                L.all,
+                " (",
+                options.length,
+                ")"
+              ] }),
+              groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
                 groupIcon[g],
-                /* @__PURE__ */ jsx("span", { className: "text-[11px] font-semibold", children: groupLabel[g] ?? g }),
-                /* @__PURE__ */ jsx("span", { className: "ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium", children: opts.length })
+                groupLabel[g] ?? g
+              ] }, g))
+            ] }) }),
+            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, className: "max-h-96 overflow-y-auto overscroll-contain", children: [
+              pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
+                /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
+                  /* @__PURE__ */ jsx(Pin, { size: 9 }),
+                  " ",
+                  L.pinned
+                ] }),
+                pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
               ] }),
-              opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
-            ] }, g)) }),
-            filtered.length === 0 && /* @__PURE__ */ jsxs("div", { className: "py-12 text-center text-muted-foreground", children: [
-              /* @__PURE__ */ jsx(Sparkles, { size: 28, className: "mx-auto mb-3 opacity-40" }),
-              /* @__PURE__ */ jsx("p", { className: "text-sm", children: L.noResults })
-            ] })
-          ] }),
-          renderFooter && filtered.length > 0 && /* @__PURE__ */ jsx("div", { className: "border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-muted-foreground", children: renderFooter(filtered.length) })
-        ]
-      }
-    ) })
-  ] });
+              /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
+                /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover/95 backdrop-blur-sm py-1.5 z-10", children: [
+                  groupIcon[g],
+                  /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold", children: groupLabel[g] ?? g }),
+                  /* @__PURE__ */ jsx("span", { className: "ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium", children: opts.length })
+                ] }),
+                opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+              ] }, g)) }),
+              filtered.length === 0 && /* @__PURE__ */ jsxs("div", { className: "py-12 text-center text-muted-foreground", children: [
+                /* @__PURE__ */ jsx(Sparkles, { size: 28, className: "mx-auto mb-3 opacity-40" }),
+                /* @__PURE__ */ jsx("p", { className: "text-sm", children: L.noResults })
+              ] })
+            ] }),
+            renderFooter && filtered.length > 0 && /* @__PURE__ */ jsx("div", { className: "border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-muted-foreground", children: renderFooter(filtered.length) })
+          ]
+        }
+      )
+    ] })
+  );
 }
 var ModelRow = memo(function ModelRow2({
   option,

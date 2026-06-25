@@ -564,7 +564,7 @@ function ModelSelectDemo() {
     groupLabel: m.providerLabel,
     searchText: `${m.id} ${(m.aliases ?? []).join(" ")}`,
     icon: <ModelIcon provider={m.provider} developer={m.provider} size={24} rounded className="shrink-0" />,
-    groupIcon: <ProviderIcon provider={m.provider} size={12} rounded />,
+    groupIcon: <ProviderIcon provider={m.provider} size={16} rounded />,
     badges: (
       <>
         {m.caps.includes("streaming") && <Waves size={14} className="text-cyan-500 shrink-0" />}
@@ -591,12 +591,8 @@ function ModelSelectDemo() {
         )}
       </>
     ),
-    meta: (
-      <>
-        {m.maxOut && <span className="text-[10px] text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded-sm font-medium whitespace-nowrap" title="Max output">→{m.maxOut}</span>}
-        <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm font-medium whitespace-nowrap" title="Context">{m.context}</span>
-      </>
-    ),
+    // Context window is the headline spec — one clean number on the right.
+    meta: <span className="text-[11px] text-muted-foreground bg-muted px-2 py-0.5 rounded-md font-medium whitespace-nowrap" title="Context window">{m.context}</span>,
   }));
   const has = (id: string, cap: DemoCap) => DEMO_MODELS.find((m) => m.id === id)?.caps.includes(cap) ?? false;
   return (
@@ -613,12 +609,7 @@ function ModelSelectDemo() {
           { key: "thinking", title: "Thinking", node: <Brain size={14} className="text-pink-500" />, match: (o) => has(o.id, "thinking") },
           { key: "functions", title: "Function calling", node: <Code size={14} className="text-purple-500" />, match: (o) => has(o.id, "functions") },
         ]}
-        renderFooter={(count) => (
-          <div className="flex items-center justify-between">
-            <span>{count} models</span>
-            <span className="flex items-center gap-1"><Sparkles size={12} /> Searchable</span>
-          </div>
-        )}
+        renderFooter={(count) => <span>{count} models</span>}
       />
       <label className="flex items-center gap-2 text-caption cursor-pointer select-none">
         <input type="checkbox" checked={showPricing} onChange={(e) => setShowPricing(e.target.checked)} className="accent-[var(--brand-solid-strong)]" />
