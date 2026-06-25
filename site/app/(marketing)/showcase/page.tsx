@@ -105,6 +105,7 @@ import {
   ModelTypeIcon,
   ProviderIconImg,
   PROVIDER_ICON_SLUGS,
+  getProviderName,
   IDBadge,
   getIconPath,
   buttonVariants,
@@ -501,11 +502,32 @@ function ProviderCardGridDemo() {
   );
 }
 
+// Well-known brands lead the icon displays (a plain A–Z sort would bury OpenAI
+// under "ace"/"adobe"). Featured first in this order, then everything else A–Z.
+const FEATURED_BRANDS = [
+  "openai", "anthropic", "claude", "claudecode", "google", "gemini", "gemma",
+  "deepseek", "meta", "llama", "mistral", "qwen", "grok", "xai", "groq", "ollama",
+  "perplexity", "cohere", "microsoft", "azure", "aws", "bedrock", "huggingface",
+  "nvidia", "cloudflare", "openrouter", "together", "fireworks", "replicate",
+  "stability", "midjourney", "zhipu", "moonshot", "minimax", "baidu", "alibaba",
+  "alibabacloud", "bytedance", "tencent", "github", "vercel", "google cloud",
+  "googlecloud", "deepmind", "x", "doubao", "yi", "siliconcloud", "modelscope",
+  "opencode", "zai",
+];
+function brandsFeaturedFirst(slugs: string[]): string[] {
+  const rank = new Map(FEATURED_BRANDS.map((s, i) => [s, i]));
+  return [...slugs].sort((a, b) => {
+    const ra = rank.has(a) ? rank.get(a)! : Infinity;
+    const rb = rank.has(b) ? rank.get(b)! : Infinity;
+    return ra !== rb ? ra - rb : a.localeCompare(b);
+  });
+}
+
 // A searchable gallery of every bundled brand icon, mapped straight from the
 // exported PROVIDER_ICON_SLUGS set — so the showcase always reflects the full set.
 function IconGalleryDemo() {
   const [q, setQ] = useState("");
-  const all = useMemo(() => [...PROVIDER_ICON_SLUGS].sort(), []);
+  const all = useMemo(() => brandsFeaturedFirst([...PROVIDER_ICON_SLUGS]), []);
   const shown = q.trim() ? all.filter((s) => s.includes(q.trim().toLowerCase())) : all;
   return (
     <div className="w-full">
@@ -959,14 +981,11 @@ export default function Showcase() {
               value={prov}
               onChange={setProv}
               searchable
-              options={[
-                { value: "openai", label: "OpenAI", icon: <ProviderIcon provider="openai" size={18} rounded /> },
-                { value: "anthropic", label: "Anthropic", icon: <ProviderIcon provider="anthropic" size={18} rounded /> },
-                { value: "deepseek", label: "DeepSeek", icon: <ProviderIcon provider="deepseek" size={18} rounded /> },
-                { value: "google", label: "Google", icon: <ProviderIcon provider="google" size={18} rounded /> },
-                { value: "mistral", label: "Mistral", icon: <ProviderIcon provider="mistral" size={18} rounded /> },
-                { value: "qwen", label: "Qwen", icon: <ProviderIcon provider="qwen" size={18} rounded /> },
-              ]}
+              options={brandsFeaturedFirst([...PROVIDER_ICON_SLUGS]).map((p) => ({
+                value: p,
+                label: getProviderName(p),
+                icon: <ProviderIcon provider={p} size={18} rounded />,
+              }))}
             />
           </div>
           <div className="flex items-center gap-2">
