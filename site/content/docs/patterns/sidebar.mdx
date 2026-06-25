@@ -12,7 +12,7 @@ import { Sidebar } from "@yuhuanowo/yunui/patterns";
 
 ## Basic
 
-<ComponentPreview contained containedHeight={360}
+<ComponentPreview
   title="Sidebar"
   code={`<Sidebar
   appName="YunUI"
@@ -36,6 +36,7 @@ import { Sidebar } from "@yuhuanowo/yunui/patterns";
       appName="YunUI"
       homeHref="#"
       currentPath="#overview"
+      isOpen
       sections={[
         { items: [
           { label: "Overview", href: "#overview" },
@@ -55,7 +56,7 @@ import { Sidebar } from "@yuhuanowo/yunui/patterns";
 
 Pass `collapsed` plus `onToggleCollapse` to render the desktop collapse button and slide the sidebar off-canvas. Because that needs React state and a function prop, this example renders from a client wrapper.
 
-<ComponentPreview contained containedHeight={360} title="Collapse">
+<ComponentPreview title="Collapse">
   <SidebarDemo />
 </ComponentPreview>
 

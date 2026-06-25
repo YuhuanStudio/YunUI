@@ -240,7 +240,9 @@ export function StatCardVariantsDemo() {
 }
 
 export function SidebarDemo() {
-  const [collapsed, setCollapsed] = useState(false);
+  // Drive with isOpen (not collapsed/lg:translate-x-0) so the sidebar is visible
+  // at all widths — collapsed left the preview empty on mobile.
+  const [open, setOpen] = useState(true);
   const sections: SidebarSection[] = [
     {
       items: [
@@ -269,13 +271,13 @@ export function SidebarDemo() {
         homeHref="#"
         sections={sections}
         currentPath="#overview"
-        collapsed={collapsed}
-        onToggleCollapse={() => setCollapsed((c) => !c)}
+        isOpen={open}
+        onClose={() => setOpen(false)}
         onNavigate={() => {}}
       />
       <button
-        onClick={() => setCollapsed((c) => !c)}
-        className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${collapsed ? "left-3" : "left-[17rem]"}`}
+        onClick={() => setOpen((o) => !o)}
+        className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${open ? "left-[17rem]" : "left-3"}`}
         aria-label="Toggle sidebar"
       >
         <PanelLeft size={16} />
