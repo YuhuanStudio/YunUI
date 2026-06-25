@@ -37,12 +37,16 @@ export interface StatCardProps {
     inline?: boolean;
     /** Value-first layout: big number on top, label beneath (analytics / admin stats style). */
     valueFirst?: boolean;
+    /** Compact surface: the lighter `card p-4` tile instead of `stat-card p-5`
+     *  (matches dense admin stat grids). */
+    compact?: boolean;
     className?: string;
 }
 
-export function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, inline = false, valueFirst = false, className }: StatCardProps) {
+export function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, inline = false, valueFirst = false, compact = false, className }: StatCardProps) {
     const toneCfg = tone ? TONES[tone] : undefined;
     const showTopRow = Boolean(Icon || trend);
+    const surface = compact ? "card p-4" : "stat-card p-5";
 
     const topRow = showTopRow ? (
         <div className="flex items-start justify-between mb-4">
@@ -79,7 +83,7 @@ export function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay
     if (valueFirst) {
         return (
             <div
-                className={cn("stat-card p-5 animate-enter", toneCfg?.card, className)}
+                className={cn(surface, "animate-enter", toneCfg?.card, className)}
                 style={delay ? { animationDelay: `${delay}ms` } : undefined}
             >
                 {topRow}
@@ -92,7 +96,7 @@ export function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay
 
     return (
         <div
-            className={cn("stat-card p-5 animate-enter", toneCfg?.card, className)}
+            className={cn(surface, "animate-enter", toneCfg?.card, className)}
             style={delay ? { animationDelay: `${delay}ms` } : undefined}
         >
             {topRow}

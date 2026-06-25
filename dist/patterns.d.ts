@@ -249,9 +249,12 @@ interface StatCardProps {
     inline?: boolean;
     /** Value-first layout: big number on top, label beneath (analytics / admin stats style). */
     valueFirst?: boolean;
+    /** Compact surface: the lighter `card p-4` tile instead of `stat-card p-5`
+     *  (matches dense admin stat grids). */
+    compact?: boolean;
     className?: string;
 }
-declare function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay, inline, valueFirst, className }: StatCardProps): React$1.JSX.Element;
+declare function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay, inline, valueFirst, compact, className }: StatCardProps): React$1.JSX.Element;
 
 interface FellowsBannerProps {
     title: string;

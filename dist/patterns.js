@@ -745,9 +745,10 @@ var TONES = {
   red: { card: "border-red-500/20 bg-red-500/5", value: "text-red-600 dark:text-red-400" },
   purple: { card: "border-purple-500/20 bg-purple-500/5", value: "text-purple-600 dark:text-purple-400" }
 };
-function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, inline = false, valueFirst = false, className }) {
+function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, inline = false, valueFirst = false, compact = false, className }) {
   const toneCfg = tone ? TONES[tone] : void 0;
   const showTopRow = Boolean(Icon || trend);
+  const surface = compact ? "card p-4" : "stat-card p-5";
   const topRow = showTopRow ? /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between mb-4", children: [
     Icon ? /* @__PURE__ */ jsx("div", { className: "w-10 h-10 rounded-xl bg-muted flex items-center justify-center", children: /* @__PURE__ */ jsx(Icon, { size: 20, strokeWidth: 1.5, className: "text-muted-foreground" }) }) : /* @__PURE__ */ jsx("span", {}),
     trend && /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-1 text-xs font-medium", trend.positive ? "text-success" : "text-error"), children: [
@@ -769,7 +770,7 @@ function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, i
     return /* @__PURE__ */ jsxs(
       "div",
       {
-        className: cn("stat-card p-5 animate-enter", toneCfg?.card, className),
+        className: cn(surface, "animate-enter", toneCfg?.card, className),
         style: delay ? { animationDelay: `${delay}ms` } : void 0,
         children: [
           topRow,
@@ -783,7 +784,7 @@ function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, i
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      className: cn("stat-card p-5 animate-enter", toneCfg?.card, className),
+      className: cn(surface, "animate-enter", toneCfg?.card, className),
       style: delay ? { animationDelay: `${delay}ms` } : void 0,
       children: [
         topRow,
