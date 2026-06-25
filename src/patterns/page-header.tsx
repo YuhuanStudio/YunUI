@@ -11,9 +11,9 @@ interface PageHeaderProps {
 }
 
 export function PageHeader({ title, description, actions, className }: PageHeaderProps) {
+    // Stack title above actions on mobile; side-by-side from sm — so a long title
+    // + action buttons don't crush into one cramped row on a phone.
     return (
-        {/* Stack title above actions on mobile; side-by-side from sm — so a long
-            title + action buttons don't crush into one cramped row on a phone. */}
         <div className={cn("flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4", className)}>
             <div className="min-w-0">
                 <h1 className="heading-xl">{title}</h1>
