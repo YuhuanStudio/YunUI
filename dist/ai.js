@@ -3,9 +3,9 @@ import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-N53PNMPJ.js';
 import { cn, ThemeToggle } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { memo, useState, useRef, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Brain, ChevronUp, ChevronDown, Check, Copy, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Code, Eye, PauseCircle, Bot, Globe, X, Menu, Radio, Box, Shield, Shuffle, Music, Video, Mic, Volume2, Headphones, Palette, Hash, FileText, MessageSquare, Pencil } from 'lucide-react';
+import { Pin, Brain, ChevronUp, ChevronDown, Check, Copy, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Code, Eye, PauseCircle, Search, X, Bot, Globe, Menu, Radio, Box, Shield, Shuffle, Music, Video, Mic, Volume2, Headphones, Palette, Hash, FileText, MessageSquare, Pencil } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 
@@ -152,6 +152,202 @@ function ModelCard({
     }
   );
 }
+function ModelSelect({
+  options,
+  value,
+  onChange,
+  className,
+  labels,
+  pinned,
+  onTogglePin,
+  filters
+}) {
+  const L = {
+    placeholder: "Select a model",
+    search: "Search models\u2026",
+    clearSearch: "Clear",
+    clearFilters: "Clear filters",
+    all: "All",
+    pinned: "Pinned",
+    noResults: "No models found",
+    ...labels
+  };
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [activeGroup, setActiveGroup] = useState(null);
+  const [activeFilters, setActiveFilters] = useState([]);
+  const rootRef = useRef(null);
+  const inputRef = useRef(null);
+  const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
+  useEffect(() => {
+    const onDown = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("touchstart", onDown);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("touchstart", onDown);
+    };
+  }, []);
+  useEffect(() => {
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 50);
+  }, [isOpen]);
+  const groups = useMemo(() => {
+    const counts = {};
+    for (const o of options) counts[o.group] = (counts[o.group] || 0) + 1;
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([g]) => g);
+  }, [options]);
+  const groupLabel = useMemo(() => {
+    const m = {};
+    for (const o of options) if (o.groupLabel) m[o.group] = o.groupLabel;
+    return m;
+  }, [options]);
+  const groupIcon = useMemo(() => {
+    const m = {};
+    for (const o of options) if (o.groupIcon && !(o.group in m)) m[o.group] = o.groupIcon;
+    return m;
+  }, [options]);
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return options.filter((o) => {
+      if (q) {
+        const hay = `${o.label} ${o.searchText ?? ""} ${o.group}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      if (activeGroup && o.group !== activeGroup) return false;
+      if (activeFilters.length && filters) {
+        const fs = filters.filter((f) => activeFilters.includes(f.key));
+        if (!fs.every((f) => f.match(o))) return false;
+      }
+      return true;
+    });
+  }, [options, search, activeGroup, activeFilters, filters]);
+  const pinnedList = filtered.filter((o) => pinnedSet.has(o.id));
+  const grouped = useMemo(() => {
+    const acc = {};
+    for (const o of filtered) {
+      if (pinnedSet.has(o.id)) continue;
+      (acc[o.group] ??= []).push(o);
+    }
+    return acc;
+  }, [filtered, pinnedSet]);
+  const selected = options.find((o) => o.id === value);
+  const onWheel = (e) => {
+    const el = e.currentTarget;
+    const atTop = el.scrollTop <= 1;
+    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+    if (atTop && e.deltaY < 0 || atBottom && e.deltaY > 0) e.preventDefault();
+  };
+  return /* @__PURE__ */ jsxs("div", { ref: rootRef, className: cn("relative", className), children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "button",
+        onClick: () => setIsOpen((o) => !o),
+        className: "flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-lg hover:border-ring transition-all min-w-0 sm:min-w-45 text-left group shadow-sm w-full",
+        children: [
+          selected ? /* @__PURE__ */ jsxs(Fragment, { children: [
+            selected.icon,
+            /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-sm font-medium", children: selected.label })
+          ] }) : /* @__PURE__ */ jsx("span", { className: "flex-1 text-sm text-muted-foreground", children: L.placeholder }),
+          /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("text-muted-foreground transition-transform", isOpen && "rotate-180") })
+        ]
+      }
+    ),
+    isOpen && /* @__PURE__ */ jsxs("div", { className: "absolute z-50 top-full left-0 mt-1 w-full sm:w-auto sm:min-w-80 max-w-[calc(100vw-2rem)] sm:max-w-lg bg-popover/90 backdrop-blur-xl border border-border rounded-xl shadow-xl overflow-hidden", children: [
+      /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border", children: [
+        /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+          /* @__PURE__ */ jsx(Search, { size: 15, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
+          /* @__PURE__ */ jsx(
+            "input",
+            {
+              ref: inputRef,
+              value: search,
+              onChange: (e) => setSearch(e.target.value),
+              placeholder: L.search,
+              className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-lg outline-none focus:border-ring focus:bg-background transition-colors"
+            }
+          ),
+          search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
+        ] }),
+        filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-1", children: [
+          filters.map((f) => {
+            const on = activeFilters.includes(f.key);
+            return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("p-1 rounded-md transition-colors", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
+          }),
+          activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, className: "p-1 rounded-md text-muted-foreground hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
+        ] })
+      ] }),
+      groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border overflow-x-auto", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
+        /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), className: cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
+          L.all,
+          " (",
+          options.length,
+          ")"
+        ] }),
+        groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), className: cn("px-2 py-1 text-[11px] rounded-md font-medium transition-colors flex items-center gap-1 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
+          groupIcon[g],
+          groupLabel[g] ?? g
+        ] }, g))
+      ] }) }),
+      /* @__PURE__ */ jsxs("div", { onWheel, className: "max-h-80 overflow-y-auto overscroll-contain", children: [
+        pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5", children: [
+          /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
+            /* @__PURE__ */ jsx(Pin, { size: 9 }),
+            " ",
+            L.pinned
+          ] }),
+          pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => {
+            onChange(o.id);
+            setIsOpen(false);
+          }, onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover py-1", children: [
+            groupIcon[g],
+            /* @__PURE__ */ jsx("span", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide", children: groupLabel[g] ?? g }),
+            /* @__PURE__ */ jsxs("span", { className: "text-[10px] text-muted-foreground/60", children: [
+              "(",
+              opts.length,
+              ")"
+            ] })
+          ] }),
+          opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => {
+            onChange(o.id);
+            setIsOpen(false);
+          }, onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+        ] }, g)) }),
+        filtered.length === 0 && /* @__PURE__ */ jsx("div", { className: "py-8 text-center text-sm text-muted-foreground", children: L.noResults })
+      ] })
+    ] })
+  ] });
+}
+var ModelRow = memo(function ModelRow2({
+  option,
+  selected,
+  pinned,
+  isPinnable,
+  onSelect,
+  onTogglePin
+}) {
+  return /* @__PURE__ */ jsxs("div", { onClick: onSelect, className: cn("relative flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer group transition-all", selected ? "bg-muted" : "hover:bg-muted/50"), children: [
+    selected && /* @__PURE__ */ jsx("div", { className: "absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-full" }),
+    option.icon,
+    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
+        /* @__PURE__ */ jsx("span", { className: "font-medium truncate", children: option.label }),
+        option.badges
+      ] }),
+      option.detail
+    ] }),
+    option.meta && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1 shrink-0", children: option.meta }),
+    isPinnable && /* @__PURE__ */ jsx("button", { type: "button", onClick: (e) => {
+      e.stopPropagation();
+      onTogglePin();
+    }, className: cn("p-1.5 rounded-md transition-all shrink-0 lg:opacity-0 lg:group-hover:opacity-100", pinned ? "text-foreground opacity-100" : "text-muted-foreground/40 opacity-60 hover:text-foreground/70"), children: /* @__PURE__ */ jsx(Pin, { size: 14, className: pinned ? "fill-current" : "" }) })
+  ] });
+});
 var llmCapabilityConfig = [
   { value: "chat", icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20" },
   { value: "streaming", icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 border-cyan-500/20 hover:bg-cyan-500/20" },
@@ -1351,6 +1547,6 @@ function Navbar({
   ] });
 }
 
-export { CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

@@ -17,6 +17,13 @@
 
 export { ThinkingBlock } from "./thinking-block";
 export { ModelCard, type ModelCardProps } from "./model-card";
+export {
+    ModelSelect,
+    type ModelSelectProps,
+    type ModelSelectOption,
+    type ModelSelectFilter,
+    type ModelSelectLabels,
+} from "./model-select";
 export { IDBadge } from "./id-badge";
 export { CapabilitySelector } from "./capability-selector";
 export { ModelTypeIcon, ProviderIconImg } from "./model-icons";

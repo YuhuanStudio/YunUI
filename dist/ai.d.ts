@@ -55,6 +55,64 @@ interface ModelCardProps {
 /** Card summarizing an AI model: icon, name, capability chips, id badges, description, and a developer/context/tier/price footer. */
 declare function ModelCard({ name, icon, ids, description, capabilities, developer, context, tier, price, nonofficial, suspended, labels, onClick, className, }: ModelCardProps): React.JSX.Element;
 
+interface ModelSelectOption {
+    /** Stable id used as the value. */
+    id: string;
+    /** Display name (trigger label + primary search corpus). */
+    label: string;
+    /** Group key — models are grouped and provider-filtered by this. */
+    group: string;
+    /** Human label for the group (defaults to `group`). */
+    groupLabel?: string;
+    /** Extra text folded into search (ids, aliases, owner). */
+    searchText?: string;
+    /** Leading model icon (trigger + row). */
+    icon?: ReactNode;
+    /** Group/provider icon (filter chip + group header). */
+    groupIcon?: ReactNode;
+    /** Inline capability glyphs shown after the name. */
+    badges?: ReactNode;
+    /** Secondary line under the name (ids/aliases/pricing). */
+    detail?: ReactNode;
+    /** Right-aligned meta chip(s) (context length / max tokens). */
+    meta?: ReactNode;
+    disabled?: boolean;
+}
+/** A capability filter chip; `match` decides whether an option passes it. */
+interface ModelSelectFilter {
+    key: string;
+    /** Chip content (e.g. a capability badge). */
+    node: ReactNode;
+    title?: string;
+    /** Whether an option satisfies this filter (all active filters must pass). */
+    match: (option: ModelSelectOption) => boolean;
+}
+interface ModelSelectLabels {
+    placeholder?: string;
+    search?: string;
+    clearSearch?: string;
+    clearFilters?: string;
+    all?: string;
+    pinned?: string;
+    noResults?: string;
+}
+interface ModelSelectProps {
+    options: ModelSelectOption[];
+    /** Selected option id. */
+    value: string;
+    onChange: (id: string) => void;
+    className?: string;
+    labels?: ModelSelectLabels;
+    /** Controlled pinned ids. Pass with `onTogglePin` to show the pin column. */
+    pinned?: string[];
+    onTogglePin?: (id: string) => void;
+    /** Capability filter chips. */
+    filters?: ModelSelectFilter[];
+}
+/** A generic, searchable model picker: provider grouping + provider/capability
+ *  filters + a pinned section + a styled dropdown. Domain-agnostic. */
+declare function ModelSelect({ options, value, onChange, className, labels, pinned, onTogglePin, filters, }: ModelSelectProps): React.JSX.Element;
+
 /** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge). */
 declare function IDBadge({ text, truncate }: {
     text: string;
@@ -232,4 +290,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { type ButtonProps, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };
+export { type ButtonProps, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, normalizeProviderId };

@@ -97,6 +97,8 @@ import {
   Navbar,
   Footer,
   ModelCard,
+  ModelSelect,
+  type ModelSelectOption,
   CapabilitySelector,
   ProviderIcon,
   ProviderAvatar,
@@ -172,6 +174,8 @@ import {
   CheckCircle2,
   Globe,
   RefreshCw,
+  Eye,
+  Brain,
 } from "lucide-react";
 
 // ---- layout helpers -------------------------------------------------------
@@ -524,6 +528,56 @@ function brandsFeaturedFirst(slugs: string[]): string[] {
     const rb = rank.has(b) ? rank.get(b)! : Infinity;
     return ra !== rb ? ra - rb : a.localeCompare(b);
   });
+}
+
+// Dogfoods the generic ModelSelect: maps a small mock catalog to ModelSelectOption
+// (icon/badges/meta supplied by the consumer), with controlled pinning + a couple
+// of capability filters. Mirrors how an app would adapt its own model type.
+type DemoModel = { id: string; name: string; provider: string; providerLabel: string; caps: string[]; context: string };
+const DEMO_MODELS: DemoModel[] = [
+  { id: "claude-opus-4-8", name: "Claude Opus 4.8", provider: "anthropic", providerLabel: "Anthropic", caps: ["vision", "thinking"], context: "200K" },
+  { id: "claude-sonnet-4-6", name: "Claude Sonnet 4.6", provider: "anthropic", providerLabel: "Anthropic", caps: ["vision"], context: "200K" },
+  { id: "gpt-5", name: "GPT-5", provider: "openai", providerLabel: "OpenAI", caps: ["vision", "thinking"], context: "256K" },
+  { id: "gpt-5-mini", name: "GPT-5 mini", provider: "openai", providerLabel: "OpenAI", caps: ["vision"], context: "128K" },
+  { id: "gemini-2-5-pro", name: "Gemini 2.5 Pro", provider: "google", providerLabel: "Google", caps: ["vision", "thinking"], context: "1M" },
+  { id: "deepseek-r1", name: "DeepSeek R1", provider: "deepseek", providerLabel: "DeepSeek", caps: ["thinking"], context: "64K" },
+];
+
+function ModelSelectDemo() {
+  const [value, setValue] = useState("claude-opus-4-8");
+  const [pinned, setPinned] = useState<string[]>(["gpt-5"]);
+  const options: ModelSelectOption[] = DEMO_MODELS.map((m) => ({
+    id: m.id,
+    label: m.name,
+    group: m.provider,
+    groupLabel: m.providerLabel,
+    searchText: m.id,
+    icon: <ModelIcon provider={m.provider} developer={m.provider} size={24} rounded className="shrink-0" />,
+    groupIcon: <ProviderIcon provider={m.provider} size={12} rounded />,
+    badges: (
+      <>
+        {m.caps.includes("vision") && <Eye size={14} className="text-amber-500 shrink-0" />}
+        {m.caps.includes("thinking") && <Brain size={14} className="text-pink-500 shrink-0" />}
+      </>
+    ),
+    detail: <div className="text-xs text-muted-foreground"><span className="font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]">{m.id}</span></div>,
+    meta: <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm font-medium whitespace-nowrap">{m.context}</span>,
+  }));
+  return (
+    <div className="w-full max-w-md">
+      <ModelSelect
+        options={options}
+        value={value}
+        onChange={setValue}
+        pinned={pinned}
+        onTogglePin={(id) => setPinned((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
+        filters={[
+          { key: "vision", title: "Vision", node: <Eye size={14} className="text-amber-500" />, match: (o) => DEMO_MODELS.find((m) => m.id === o.id)?.caps.includes("vision") ?? false },
+          { key: "thinking", title: "Thinking", node: <Brain size={14} className="text-pink-500" />, match: (o) => DEMO_MODELS.find((m) => m.id === o.id)?.caps.includes("thinking") ?? false },
+        ]}
+      />
+    </div>
+  );
 }
 
 // A searchable gallery of every bundled brand icon, mapped straight from the
@@ -1395,6 +1449,9 @@ export default function Showcase() {
               nonofficial
             />
           </div>
+        </Demo>
+        <Demo title="Model select" description="A generic, searchable model picker — provider grouping + capability filters + a pinned section. Domain-agnostic: map your models to options.">
+          <ModelSelectDemo />
         </Demo>
         <Demo title="Full icon set" description={`Every bundled brand icon (${PROVIDER_ICON_SLUGS.size} brands, lobe avatar tiles). Resolved by id from /icons — search to filter.`}>
           <IconGalleryDemo />
