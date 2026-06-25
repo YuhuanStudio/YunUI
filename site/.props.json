@@ -24,6 +24,29 @@
       "description": ""
     }
   ],
+  "CapabilityIcon": [
+    {
+      "name": "capability",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "defaultValue": "14",
+      "description": ""
+    }
+  ],
   "CapabilitySelector": [
     {
       "name": "columns",
@@ -346,6 +369,71 @@
       "required": true,
       "defaultValue": null,
       "description": ""
+    }
+  ],
+  "ModelSelect": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "filters",
+      "type": "ModelSelectFilter[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Capability filter chips."
+    },
+    {
+      "name": "labels",
+      "type": "ModelSelectLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onChange",
+      "type": "(id: string) => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onTogglePin",
+      "type": "((id: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "options",
+      "type": "ModelSelectOption[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "pinned",
+      "type": "string[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Controlled pinned ids. Pass with `onTogglePin` to show the pin column."
+    },
+    {
+      "name": "renderFooter",
+      "type": "((count: number) => ReactNode)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional footer bar; receives the current (filtered) result count."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Selected option id."
     }
   ],
   "Navbar": [
@@ -1406,6 +1494,13 @@
       "required": false,
       "defaultValue": null,
       "description": ""
+    },
+    {
+      "name": "compact",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Compact surface: the lighter `card p-4` tile instead of `stat-card p-5`\n(matches dense admin stat grids)."
     },
     {
       "name": "delay",
@@ -6366,6 +6461,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Padding on all sides, on the spacing scale."
+    },
+    {
+      "name": "responsive",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Stack into fewer columns on small screens (mobile-first ramp) instead of\na literal `grid-cols-N` at every width."
     },
     {
       "name": "rows",

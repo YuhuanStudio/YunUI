@@ -1,6 +1,5 @@
 "use client";
 
-import { type ReactNode } from "react";
 import { cn } from "../lib/cn";
 import {
     llmCapabilityConfig,
@@ -51,27 +50,6 @@ export function CapabilityIcon({
     return <Icon size={size} className={cn(cfg.iconColor, "shrink-0", className)} />;
 }
 
-/** A capability pill: colored glyph + tinted background + label. The consumer
- *  supplies the translated `label` (YunUI stays i18n-agnostic). Renders nothing
- *  for an unknown capability. */
-export function CapabilityBadge({
-    capability,
-    label,
-    iconSize = 10,
-    className,
-}: {
-    capability: string;
-    label?: ReactNode;
-    iconSize?: number;
-    className?: string;
-}) {
-    const cfg = CAPABILITY_BY_KEY[capability];
-    if (!cfg) return null;
-    const Icon = cfg.icon;
-    return (
-        <span className={cn("badge inline-flex items-center gap-1 text-xs", cfg.color, className)}>
-            <Icon size={iconSize} className={cfg.iconColor} />
-            {label}
-        </span>
-    );
-}
+// NOTE: the labelled pill lives in `yunui/patterns` as `CapabilityBadge`
+// (it auto-labels via the adapter's `useT`). This module intentionally only adds
+// the glyph-only `CapabilityIcon`, which patterns didn't have.

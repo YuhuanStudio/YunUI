@@ -26,7 +26,7 @@ export {
 } from "./model-select";
 export { IDBadge } from "./id-badge";
 export { CapabilitySelector } from "./capability-selector";
-export { CapabilityIcon, CapabilityBadge, isKnownCapability } from "./capability-badge";
+export { CapabilityIcon, isKnownCapability } from "./capability-badge";
 export { ModelTypeIcon, ProviderIconImg } from "./model-icons";
 export { buttonVariants, type ButtonProps } from "./fumadocs-button";
 export {

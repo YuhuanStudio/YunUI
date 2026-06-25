@@ -23,6 +23,7 @@ import {
   BlogPaginationDemo,
   CategoryFilterDemo,
   CapabilitySelectorDemo,
+  ModelSelectDemo,
   LanguageSwitcherDemo,
 } from "@/components/docs/demos";
 
@@ -58,6 +59,7 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     BlogPaginationDemo,
     CategoryFilterDemo,
     CapabilitySelectorDemo,
+    ModelSelectDemo,
     LanguageSwitcherDemo,
     ...components,
   };

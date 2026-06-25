@@ -821,6 +821,16 @@ export const docs: DocEntry[] = [
     "model card ai model capabilities provider llm",
   ),
   aiDoc(
+    "model-select",
+    { en: "Model Select", "zh-CN": "模型选择器", "zh-TW": "模型選擇器" },
+    {
+      en: "A searchable, groupable model picker with capability filters and controlled pinning.",
+      "zh-CN": "可搜索、可分组的模型选择器，支持能力筛选与受控固定。",
+      "zh-TW": "可搜尋、可分組的模型選擇器，支援能力篩選與受控釘選。",
+    },
+    "model select picker dropdown search filter pin ai llm provider",
+  ),
+  aiDoc(
     "provider-icon",
     { en: "Provider Icon", "zh-CN": "提供商图标", "zh-TW": "提供商圖示" },
     {
@@ -839,6 +849,16 @@ export const docs: DocEntry[] = [
       "zh-TW": "受控的模型能力多選網格，隨模型類型自適應。",
     },
     "capability selector capabilities multi-select model type toggle",
+  ),
+  aiDoc(
+    "capability-badge",
+    { en: "Capability Badge", "zh-CN": "能力徽章", "zh-TW": "能力徽章" },
+    {
+      en: "Stateless renderers for a model capability — CapabilityIcon (glyph) and CapabilityBadge (tinted pill + label).",
+      "zh-CN": "呈现模型能力的无状态组件——CapabilityIcon（图示）与 CapabilityBadge（带色调胶囊 + 标签）。",
+      "zh-TW": "呈現模型能力的無狀態元件——CapabilityIcon（符號）與 CapabilityBadge（帶色調膠囊 + 標籤）。",
+    },
+    "capability badge icon glyph pill model vision thinking streaming function calling",
   ),
   aiDoc(
     "thinking-block",
@@ -1002,8 +1022,10 @@ export const groups: DocGroup[] = [
     title: { en: "AI", "zh-CN": "AI", "zh-TW": "AI" },
     pages: [
       "ai/model-card",
+      "ai/model-select",
       "ai/provider-icon",
       "ai/capability-selector",
+      "ai/capability-badge",
       "ai/thinking-block",
       "ai/id-badge",
       "ai/navbar",

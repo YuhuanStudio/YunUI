@@ -1,0 +1,76 @@
+import { ModelSelect } from "yunui/ai";
+
+可搜索、可分组的模型选择器。它是完全受控的——由你持有 `value`（以及可选的 `pinned` 列表），并通过 `onChange` / `onTogglePin` 更新它们。每个选项都是基于插槽的 `ModelSelectOption`，因此图标、能力图示、徽章与详情行都由宿主渲染，保持与框架无关。
+
+## 导入
+
+```tsx
+import { ModelSelect } from "@yuhuanowo/yunui/ai";
+```
+
+## 基础用法
+
+将选中的 id 保存在 state 中，并通过 `onChange` 回传。固定（pin）是可选的，且以相同方式受控——提供 `pinned` 与 `onTogglePin`。触发器宽度由 `className` 决定（默认为 `w-64`）。
+
+<ComponentPreview
+  title="基础用法"
+  code={`import { useState } from "react";
+import { ModelSelect, ModelIcon, ProviderIcon, CapabilityIcon, type ModelSelectOption } from "@yuhuanowo/yunui/ai";
+
+function Example() {
+  const [value, setValue] = useState("claude-opus-4-8");
+  const [pinned, setPinned] = useState<string[]>(["gpt-5"]);
+
+  const options: ModelSelectOption[] = models.map((m) => ({
+    id: m.id,
+    label: m.name,
+    group: m.provider,
+    groupLabel: m.providerLabel,
+    searchText: m.id,
+    icon: <ModelIcon provider={m.provider} developer={m.provider} size={24} rounded />,
+    groupIcon: <ProviderIcon provider={m.provider} size={16} rounded />,
+    badges: m.caps.map((c) => <CapabilityIcon key={c} capability={c} />),
+    detail: <span className="font-mono text-xs">{m.id}</span>,
+  }));
+
+  return (
+    <ModelSelect
+      options={options}
+      value={value}
+      onChange={setValue}
+      pinned={pinned}
+      onTogglePin={(id) =>
+        setPinned((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))
+      }
+      filters={[
+        { key: "vision", title: "Vision", node: <CapabilityIcon capability="vision" />, match: (o) => has(o.id, "vision") },
+      ]}
+      renderFooter={(count) => <span>{count} models</span>}
+    />
+  );
+}`}
+>
+  <ModelSelectDemo />
+</ComponentPreview>
+
+## 选项
+
+每一项都是一个 `ModelSelectOption`。除了 `id`、`label` 和 `group` 之外，其余都是可选插槽，让宿主可以渲染所需的任何内容：
+
+- `groupLabel` / `groupIcon` —— 该选项所属分组显示的标题与图标。
+- `searchText` —— 折入搜索匹配的额外文本（别名、原始 id）。
+- `icon` —— 行首图示，通常是 `<ModelIcon>` 或 `<ProviderIcon>`。
+- `badges` —— 行尾的能力图示（如 `<CapabilityIcon>`）与状态标记。
+- `detail` —— 标签下方的次要行，用于 id、别名或规格。
+- `meta` —— 对齐到行末的最右侧插槽，可放置任意内容。
+- `disabled` —— 渲染该选项但禁止选择。
+
+能力图示来自 YunUI 共享的能力配置（`CapabilityIcon`），因此选择器、筛选标签与独立徽章在图标或颜色上不会发生偏差。
+
+## 筛选与固定
+
+将 `filters` 作为 `ModelSelectFilter[]` 传入——每项包含 `key`、`node`（标签）、可选的 `title` 以及对每个选项运行的 `match` 谓词。`pinned` 与 `onTogglePin` 会在顶部呈现一个固定分组，`renderFooter` 接收可见数量。通过 `labels`（placeholder、search、all、pinned、noResults 等）可覆盖任意内置文案。
+
+## 属性
+
+<PropsTable name="ModelSelect" />

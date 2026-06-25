@@ -345,18 +345,20 @@ const ModelRow = memo(function ModelRow({
             onClick={onSelect}
             className={cn(
                 "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
+                // A clear gray fill on both states (selected solid, hover lighter)
+                // — the bar's opacity then tells selected from merely-hovered.
                 selected ? "bg-muted" : "hover:bg-muted",
             )}
         >
             {/* Left bar — YunUI's selection signature, mirroring the Sidebar nav
-                item: a faint short bar slides in on hover, and a full solid bar
+                item: a faint full-height bar slides in on hover, and a solid bar
                 marks the selected row. */}
             <div
                 className={cn(
-                    "absolute left-0 top-1/2 w-1 rounded-full bg-primary transition-all duration-150",
+                    "absolute left-0 top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
                     selected
-                        ? "h-6 opacity-100 -translate-y-1/2 translate-x-0"
-                        : "h-4 opacity-0 -translate-y-1/2 -translate-x-1.5 group-hover:opacity-40 group-hover:translate-x-0",
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 -translate-x-1.5 group-hover:opacity-50 group-hover:translate-x-0",
                 )}
             />
             {option.icon}

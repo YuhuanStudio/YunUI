@@ -1,0 +1,76 @@
+import { CapabilityIcon } from "yunui/ai";
+import { CapabilityBadge } from "yunui/patterns";
+
+Renderers for a model capability, both driven by YunUI's shared capability config so the icon and color are defined once. `CapabilityIcon` (from `yunui/ai`) is just the colored glyph and renders nothing for an unknown capability. `CapabilityBadge` (from `yunui/patterns`) wraps that glyph in a tinted pill and auto-labels itself through the `YunUIProvider`'s `useT` adapter — so you only pass the `capability`.
+
+## Import
+
+```tsx
+import { CapabilityIcon, isKnownCapability } from "@yuhuanowo/yunui/ai";
+import { CapabilityBadge } from "@yuhuanowo/yunui/patterns";
+```
+
+## Capability icon
+
+Use `CapabilityIcon` for the inline glyphs shown after a model name — in rows, filter chips, or anywhere space is tight. Tune the glyph with `size`.
+
+<ComponentPreview
+  title="Capability icon"
+  code={`import { CapabilityIcon } from "@yuhuanowo/yunui/ai";
+
+<div className="flex items-center gap-2">
+  <CapabilityIcon capability="chat" />
+  <CapabilityIcon capability="streaming" />
+  <CapabilityIcon capability="function_calling" />
+  <CapabilityIcon capability="vision" />
+  <CapabilityIcon capability="thinking" />
+</div>`}
+>
+  <div className="flex items-center gap-3">
+    <CapabilityIcon capability="chat" size={18} />
+    <CapabilityIcon capability="streaming" size={18} />
+    <CapabilityIcon capability="function_calling" size={18} />
+    <CapabilityIcon capability="vision" size={18} />
+    <CapabilityIcon capability="thinking" size={18} />
+  </div>
+</ComponentPreview>
+
+## Capability badge
+
+`CapabilityBadge` adds a tinted pill around the glyph. The label is resolved for you through the `YunUIProvider`'s `useT("components.badges")` adapter, so you pass only the `capability` — no `label` prop. Set `short` to render a compact variant.
+
+<ComponentPreview
+  title="Capability badge"
+  code={`import { CapabilityBadge } from "@yuhuanowo/yunui/patterns";
+
+<div className="flex flex-wrap items-center gap-2">
+  <CapabilityBadge capability="vision" />
+  <CapabilityBadge capability="thinking" />
+  <CapabilityBadge capability="function_calling" />
+  <CapabilityBadge capability="streaming" />
+</div>`}
+>
+  <div className="flex flex-wrap items-center gap-2">
+    <CapabilityBadge capability="vision" />
+    <CapabilityBadge capability="thinking" />
+    <CapabilityBadge capability="function_calling" />
+    <CapabilityBadge capability="streaming" />
+  </div>
+</ComponentPreview>
+
+## Known capabilities
+
+The shared config covers LLM (`chat`, `streaming`, `function_calling`, `vision`, `thinking`), image (`image_edit`, `negative_prompt`, `seed_control`, `lora`, `guidance_scale`, `strength`, `batch`), and audio/video/3D capabilities (`tts`, `stt`, `audio_translation`, `video_generation`, `music_generation`, `threed_generation`, `realtime_voice`). Use `isKnownCapability(key)` to check whether a key resolves to a glyph before rendering — `CapabilityIcon` returns `null` for anything unknown.
+
+```tsx
+import { isKnownCapability } from "@yuhuanowo/yunui/ai";
+
+isKnownCapability("vision"); // true
+isKnownCapability("telepathy"); // false
+```
+
+## Props
+
+<PropsTable name="CapabilityBadge" />
+
+<PropsTable name="CapabilityIcon" />

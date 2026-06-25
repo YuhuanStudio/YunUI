@@ -22,11 +22,11 @@ patch = fixes, anything may change between 0.x releases).
   signature (a full bar when selected, a faint bar that slides in on hover, like
   the Sidebar). New exports: `ModelSelect`, `ModelSelectOption`,
   `ModelSelectFilter`, `ModelSelectLabels`.
-- **`CapabilityIcon` / `CapabilityBadge` (ai)** — the capability → icon → color
-  mapping is now defined once (the same source `CapabilitySelector` uses) and
-  renders identically everywhere: `CapabilityIcon` is the colored glyph,
-  `CapabilityBadge` the glyph + tinted pill + a consumer-supplied label. Plus
-  `isKnownCapability`. The capability config also gained `dark:` text variants.
+- **`CapabilityIcon` (ai)** — the glyph-only capability indicator (the colored
+  icon shown inline after a model name), built on the same shared capability
+  config `CapabilitySelector` uses. Plus `isKnownCapability`. (The labelled pill
+  `CapabilityBadge` already lived in `patterns`.) The capability config also
+  gained `dark:` text variants, improving `CapabilitySelector` dark mode.
 - **`StatCard` `compact` prop (patterns)** — the lighter `card p-4` tile for dense
   stat grids (keeps the dark-mode tone colors inline versions lacked).
 

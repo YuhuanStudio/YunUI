@@ -363,6 +363,8 @@ var ModelRow = memo(function ModelRow2({
       onClick: onSelect,
       className: cn(
         "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
+        // A clear gray fill on both states (selected solid, hover lighter)
+        // — the bar's opacity then tells selected from merely-hovered.
         selected ? "bg-muted" : "hover:bg-muted"
       ),
       children: [
@@ -370,8 +372,8 @@ var ModelRow = memo(function ModelRow2({
           "div",
           {
             className: cn(
-              "absolute left-0 top-1/2 w-1 rounded-full bg-primary transition-all duration-150",
-              selected ? "h-6 opacity-100 -translate-y-1/2 translate-x-0" : "h-4 opacity-0 -translate-y-1/2 -translate-x-1.5 group-hover:opacity-40 group-hover:translate-x-0"
+              "absolute left-0 top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
+              selected ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1.5 group-hover:opacity-50 group-hover:translate-x-0"
             )
           }
         ),
@@ -529,20 +531,6 @@ function CapabilityIcon({
   if (!cfg) return null;
   const Icon = cfg.icon;
   return /* @__PURE__ */ jsx(Icon, { size, className: cn(cfg.iconColor, "shrink-0", className) });
-}
-function CapabilityBadge({
-  capability,
-  label,
-  iconSize = 10,
-  className
-}) {
-  const cfg = CAPABILITY_BY_KEY[capability];
-  if (!cfg) return null;
-  const Icon = cfg.icon;
-  return /* @__PURE__ */ jsxs("span", { className: cn("badge inline-flex items-center gap-1 text-xs", cfg.color, className), children: [
-    /* @__PURE__ */ jsx(Icon, { size: iconSize, className: cfg.iconColor }),
-    label
-  ] });
 }
 
 // src/ai/icon-slugs.generated.ts
@@ -1641,6 +1629,6 @@ function Navbar({
   ] });
 }
 
-export { CapabilityBadge, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

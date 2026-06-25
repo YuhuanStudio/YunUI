@@ -1,0 +1,76 @@
+import { CapabilityIcon } from "yunui/ai";
+import { CapabilityBadge } from "yunui/patterns";
+
+用於呈現模型能力的元件，兩者都由 YunUI 共用的能力設定驅動，因此圖示與顏色只定義一次。`CapabilityIcon`（來自 `yunui/ai`）僅是帶顏色的符號，對於未知能力不渲染任何內容。`CapabilityBadge`（來自 `yunui/patterns`）將該符號包裹在帶色調的膠囊中，並透過 `YunUIProvider` 的 `useT` 介接器自動產生標籤——因此你只需傳入 `capability`。
+
+## 匯入
+
+```tsx
+import { CapabilityIcon, isKnownCapability } from "@yuhuanowo/yunui/ai";
+import { CapabilityBadge } from "@yuhuanowo/yunui/patterns";
+```
+
+## 能力圖示
+
+將 `CapabilityIcon` 用於模型名稱之後的內嵌符號——在列內、篩選標籤或任何空間緊湊之處。透過 `size` 調整圖示大小。
+
+<ComponentPreview
+  title="能力圖示"
+  code={`import { CapabilityIcon } from "@yuhuanowo/yunui/ai";
+
+<div className="flex items-center gap-2">
+  <CapabilityIcon capability="chat" />
+  <CapabilityIcon capability="streaming" />
+  <CapabilityIcon capability="function_calling" />
+  <CapabilityIcon capability="vision" />
+  <CapabilityIcon capability="thinking" />
+</div>`}
+>
+  <div className="flex items-center gap-3">
+    <CapabilityIcon capability="chat" size={18} />
+    <CapabilityIcon capability="streaming" size={18} />
+    <CapabilityIcon capability="function_calling" size={18} />
+    <CapabilityIcon capability="vision" size={18} />
+    <CapabilityIcon capability="thinking" size={18} />
+  </div>
+</ComponentPreview>
+
+## 能力徽章
+
+`CapabilityBadge` 在符號外增加帶色調的膠囊。標籤會透過 `YunUIProvider` 的 `useT("components.badges")` 介接器自動解析，因此你只需傳入 `capability`——無需 `label` 屬性。設定 `short` 可渲染精簡變體。
+
+<ComponentPreview
+  title="能力徽章"
+  code={`import { CapabilityBadge } from "@yuhuanowo/yunui/patterns";
+
+<div className="flex flex-wrap items-center gap-2">
+  <CapabilityBadge capability="vision" />
+  <CapabilityBadge capability="thinking" />
+  <CapabilityBadge capability="function_calling" />
+  <CapabilityBadge capability="streaming" />
+</div>`}
+>
+  <div className="flex flex-wrap items-center gap-2">
+    <CapabilityBadge capability="vision" />
+    <CapabilityBadge capability="thinking" />
+    <CapabilityBadge capability="function_calling" />
+    <CapabilityBadge capability="streaming" />
+  </div>
+</ComponentPreview>
+
+## 已知能力
+
+共用設定涵蓋 LLM（`chat`、`streaming`、`function_calling`、`vision`、`thinking`）、影像（`image_edit`、`negative_prompt`、`seed_control`、`lora`、`guidance_scale`、`strength`、`batch`）以及音訊/影片/3D 能力（`tts`、`stt`、`audio_translation`、`video_generation`、`music_generation`、`threed_generation`、`realtime_voice`）。在渲染前可用 `isKnownCapability(key)` 檢查某個鍵是否能解析為符號——`CapabilityIcon` 對於任何未知鍵都會回傳 `null`。
+
+```tsx
+import { isKnownCapability } from "@yuhuanowo/yunui/ai";
+
+isKnownCapability("vision"); // true
+isKnownCapability("telepathy"); // false
+```
+
+## 屬性
+
+<PropsTable name="CapabilityBadge" />
+
+<PropsTable name="CapabilityIcon" />

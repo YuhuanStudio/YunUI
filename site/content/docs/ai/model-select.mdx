@@ -1,0 +1,76 @@
+import { ModelSelect } from "yunui/ai";
+
+A searchable, groupable model picker. It is fully controlled — you own the `value` (and, optionally, the `pinned` list) and update them from `onChange` / `onTogglePin`. Each option is a slot-driven `ModelSelectOption`, so the icons, capability glyphs, badges, and detail rows are host-rendered and stay framework-agnostic.
+
+## Import
+
+```tsx
+import { ModelSelect } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+Hold the selected id in state and pass it back via `onChange`. Pinning is optional and controlled the same way — supply `pinned` plus `onTogglePin`. The trigger width comes from `className` (defaults to `w-64`).
+
+<ComponentPreview
+  title="Basic"
+  code={`import { useState } from "react";
+import { ModelSelect, ModelIcon, ProviderIcon, CapabilityIcon, type ModelSelectOption } from "@yuhuanowo/yunui/ai";
+
+function Example() {
+  const [value, setValue] = useState("claude-opus-4-8");
+  const [pinned, setPinned] = useState<string[]>(["gpt-5"]);
+
+  const options: ModelSelectOption[] = models.map((m) => ({
+    id: m.id,
+    label: m.name,
+    group: m.provider,
+    groupLabel: m.providerLabel,
+    searchText: m.id,
+    icon: <ModelIcon provider={m.provider} developer={m.provider} size={24} rounded />,
+    groupIcon: <ProviderIcon provider={m.provider} size={16} rounded />,
+    badges: m.caps.map((c) => <CapabilityIcon key={c} capability={c} />),
+    detail: <span className="font-mono text-xs">{m.id}</span>,
+  }));
+
+  return (
+    <ModelSelect
+      options={options}
+      value={value}
+      onChange={setValue}
+      pinned={pinned}
+      onTogglePin={(id) =>
+        setPinned((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))
+      }
+      filters={[
+        { key: "vision", title: "Vision", node: <CapabilityIcon capability="vision" />, match: (o) => has(o.id, "vision") },
+      ]}
+      renderFooter={(count) => <span>{count} models</span>}
+    />
+  );
+}`}
+>
+  <ModelSelectDemo />
+</ComponentPreview>
+
+## Options
+
+Every entry is a `ModelSelectOption`. Beyond `id`, `label`, and `group`, the rest are optional slots that let the host render whatever it needs:
+
+- `groupLabel` / `groupIcon` — the heading and icon shown for the option's group.
+- `searchText` — extra text (aliases, the raw id) folded into the search match.
+- `icon` — the leading glyph for the row, typically a `<ModelIcon>` or `<ProviderIcon>`.
+- `badges` — trailing capability glyphs (e.g. `<CapabilityIcon>`) and status markers.
+- `detail` — a secondary line under the label for the id, aliases, or specs.
+- `meta` — a far-right slot for anything aligned to the row's end.
+- `disabled` — renders the option but blocks selection.
+
+Capability glyphs come from YunUI's shared capability config (`CapabilityIcon`), so the picker, filter chips, and standalone badges can't drift on icon or color.
+
+## Filtering and pinning
+
+Pass `filters` as `ModelSelectFilter[]` — each has a `key`, a `node` (the chip), an optional `title`, and a `match` predicate run against every option. `pinned` plus `onTogglePin` surface a pinned group at the top, and `renderFooter` receives the visible count. Override any built-in copy through `labels` (placeholder, search, all, pinned, noResults, …).
+
+## Props
+
+<PropsTable name="ModelSelect" />

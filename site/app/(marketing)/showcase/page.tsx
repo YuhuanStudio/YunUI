@@ -853,6 +853,7 @@ export default function Showcase() {
           <StatusBadge status="pending" />
           <CapabilityBadge capability="vision" />
           <CapabilityBadge capability="thinking" />
+          <CapabilityBadge capability="function_calling" />
           <SourceBadge source="yaml" />
           <SourceBadge source="api" />
           <ActiveBadge isActive />
@@ -888,6 +889,14 @@ export default function Showcase() {
           <StatCard icon={Activity} label={t("demos.dashboard.statRequests")} value={<AnimatedNumber value={48213} />} trend={{ value: 12, positive: true }} />
           <StatCard icon={KeyRound} label={t("demos.dashboard.statApiKeys")} value={<AnimatedNumber value={3} />} />
           <StatCard icon={TrendingUp} label={t("demos.dashboard.statSpend")} value={<AnimatedNumber value={72.4} decimals={2} />} trend={{ value: 3, positive: false }} />
+        </div>
+        {/* compact value-first tiles (the StatCard `compact` variant) — the dense
+            admin-grid style with semantic tones. */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <StatCard valueFirst compact label={t("demos.dashboard.statBalance")} value="1,284" />
+          <StatCard valueFirst compact tone="emerald" label={t("demos.dashboard.statRequests")} value="952" />
+          <StatCard valueFirst compact tone="amber" label={t("demos.dashboard.statApiKeys")} value="18" />
+          <StatCard valueFirst compact tone="red" label={t("demos.dashboard.statSpend")} value="3" />
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[

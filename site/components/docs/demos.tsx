@@ -22,8 +22,16 @@ import {
   type SidebarSection,
 } from "yunui/patterns";
 import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button } from "yunui";
-import { CapabilitySelector, LanguageSwitcher } from "yunui/ai";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft } from "lucide-react";
+import {
+  CapabilitySelector,
+  LanguageSwitcher,
+  ModelSelect,
+  type ModelSelectOption,
+  CapabilityIcon,
+  ModelIcon,
+  ProviderIcon,
+} from "yunui/ai";
+import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -353,6 +361,84 @@ export function CategoryFilterDemo() {
 export function CapabilitySelectorDemo() {
   const [selected, setSelected] = useState<string[]>(["chat", "vision"]);
   return <CapabilitySelector selected={selected} onChange={setSelected} columns={3} />;
+}
+
+// A few mock models mapped to ModelSelectOption, mirroring the showcase demo:
+// ModelIcon/ProviderIcon fill the icon slots and CapabilityIcon renders the
+// capability glyphs, so the docs and showcase share one source of truth.
+type ModelSelectDemoCap = "streaming" | "vision" | "thinking" | "functions";
+type ModelSelectDemoModel = {
+  id: string;
+  name: string;
+  provider: string;
+  providerLabel: string;
+  caps: ModelSelectDemoCap[];
+  context: string;
+  aliases?: string[];
+  tier?: "pro";
+  deprecated?: boolean;
+};
+const MODEL_SELECT_DEMO_MODELS: ModelSelectDemoModel[] = [
+  { id: "claude-opus-4-8", name: "Claude Opus 4.8", provider: "anthropic", providerLabel: "Anthropic", caps: ["streaming", "vision", "thinking", "functions"], context: "200K", aliases: ["opus-latest"], tier: "pro" },
+  { id: "claude-sonnet-4-6", name: "Claude Sonnet 4.6", provider: "anthropic", providerLabel: "Anthropic", caps: ["streaming", "vision", "functions"], context: "200K" },
+  { id: "gpt-5", name: "GPT-5", provider: "openai", providerLabel: "OpenAI", caps: ["streaming", "vision", "thinking", "functions"], context: "256K", tier: "pro" },
+  { id: "gpt-5-mini", name: "GPT-5 mini", provider: "openai", providerLabel: "OpenAI", caps: ["streaming", "vision", "functions"], context: "128K" },
+  { id: "gpt-4o", name: "GPT-4o", provider: "openai", providerLabel: "OpenAI", caps: ["streaming", "vision"], context: "128K", deprecated: true },
+  { id: "gemini-2-5-pro", name: "Gemini 2.5 Pro", provider: "google", providerLabel: "Google", caps: ["streaming", "vision", "thinking", "functions"], context: "1M" },
+  { id: "deepseek-r1", name: "DeepSeek R1", provider: "deepseek", providerLabel: "DeepSeek", caps: ["streaming", "thinking"], context: "64K" },
+];
+
+export function ModelSelectDemo() {
+  const [value, setValue] = useState("claude-opus-4-8");
+  const [pinned, setPinned] = useState<string[]>(["gpt-5"]);
+  const options: ModelSelectOption[] = MODEL_SELECT_DEMO_MODELS.map((m) => ({
+    id: m.id,
+    label: m.name,
+    group: m.provider,
+    groupLabel: m.providerLabel,
+    searchText: `${m.id} ${(m.aliases ?? []).join(" ")}`,
+    icon: <ModelIcon provider={m.provider} developer={m.provider} size={24} rounded className="shrink-0" />,
+    groupIcon: <ProviderIcon provider={m.provider} size={16} rounded />,
+    badges: (
+      <>
+        {m.caps.includes("streaming") && <CapabilityIcon capability="streaming" />}
+        {m.caps.includes("vision") && <CapabilityIcon capability="vision" />}
+        {m.caps.includes("thinking") && <CapabilityIcon capability="thinking" />}
+        {m.caps.includes("functions") && <CapabilityIcon capability="function_calling" />}
+        {m.deprecated && <span title="Deprecated"><AlertTriangle size={14} className="text-orange-500 shrink-0" /></span>}
+        {m.tier === "pro" && <span title="Pro tier"><Crown size={14} className="text-amber-500 shrink-0" /></span>}
+      </>
+    ),
+    detail: (
+      <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-1.5">
+        <span className="font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]">{m.id}</span>
+        {(m.aliases ?? []).map((a) => (
+          <span key={a} className="font-mono bg-muted/50 px-1.5 py-0.5 rounded text-[11px] text-muted-foreground/70">{a}</span>
+        ))}
+        <span className="bg-muted px-1.5 py-0.5 rounded-sm font-medium" title="Context window">{m.context}</span>
+      </div>
+    ),
+  }));
+  const has = (id: string, cap: ModelSelectDemoCap) =>
+    MODEL_SELECT_DEMO_MODELS.find((m) => m.id === id)?.caps.includes(cap) ?? false;
+  return (
+    <div className="w-full max-w-md">
+      <ModelSelect
+        options={options}
+        value={value}
+        onChange={setValue}
+        pinned={pinned}
+        onTogglePin={(id) => setPinned((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
+        filters={[
+          { key: "streaming", title: "Streaming", node: <CapabilityIcon capability="streaming" />, match: (o) => has(o.id, "streaming") },
+          { key: "vision", title: "Vision", node: <CapabilityIcon capability="vision" />, match: (o) => has(o.id, "vision") },
+          { key: "thinking", title: "Thinking", node: <CapabilityIcon capability="thinking" />, match: (o) => has(o.id, "thinking") },
+          { key: "functions", title: "Function calling", node: <CapabilityIcon capability="function_calling" />, match: (o) => has(o.id, "functions") },
+        ]}
+        renderFooter={(count) => <span>{count} models</span>}
+      />
+    </div>
+  );
 }
 
 export function LanguageSwitcherDemo() {
