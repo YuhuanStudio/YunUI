@@ -15,11 +15,17 @@ export function ComponentPreview({
   description,
   code,
   children,
+  contained,
+  containedHeight = 220,
 }: {
   title?: string;
   description?: string;
   code?: string;
   children: ReactNode;
+  /** Frame `position:fixed` children (Navbar/Sidebar/Footer) so they resolve
+   *  against the preview box instead of escaping over the docs page. */
+  contained?: boolean;
+  containedHeight?: number;
 }) {
   const [view, setView] = useState<"preview" | "code">("preview");
   const showCode = view === "code" && !!code;
@@ -57,11 +63,17 @@ export function ComponentPreview({
         <CodeBlock language="tsx" code={code!} />
       ) : (
         <div
-          className="rounded-2xl border border-border p-10 flex flex-wrap items-center justify-center gap-4 min-h-[150px]"
+          className={
+            contained
+              ? "relative overflow-hidden rounded-2xl border border-border"
+              : "rounded-2xl border border-border p-10 flex flex-wrap items-center justify-center gap-4 min-h-[150px]"
+          }
           style={{
             backgroundImage:
               "radial-gradient(var(--border-subtle) 1px, transparent 1px)",
             backgroundSize: "16px 16px",
+            // transform makes fixed descendants resolve against this box.
+            ...(contained ? { transform: "translateZ(0)", height: containedHeight } : null),
           }}
         >
           {children}
