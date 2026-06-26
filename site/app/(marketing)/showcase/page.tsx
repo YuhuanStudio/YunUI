@@ -622,10 +622,10 @@ function ModelSelectDemo() {
         ]}
         renderFooter={(count) => <span>{count} models</span>}
       />
-      <label className="flex items-center gap-2 text-caption cursor-pointer select-none">
-        <input type="checkbox" checked={showPricing} onChange={(e) => setShowPricing(e.target.checked)} className="accent-[var(--brand-solid-strong)]" />
-        Show pricing in rows
-      </label>
+      <div className="flex items-center gap-2 text-caption">
+        <Checkbox checked={showPricing} onCheckedChange={(v) => setShowPricing(v === true)} aria-label="Show pricing in rows" />
+        <span className="cursor-pointer select-none" onClick={() => setShowPricing((p) => !p)}>Show pricing in rows</span>
+      </div>
     </div>
   );
 }
