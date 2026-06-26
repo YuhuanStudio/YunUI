@@ -57,18 +57,16 @@ export function ModelManagerCard({
     className,
 }: ModelManagerCardProps) {
     return (
-        <div className={cn("card p-4", selected && "ring-2 ring-primary/40 bg-muted/30", className)}>
-            {/* Header: select · icon · name (+ ids) · actions */}
+        <div className={cn("card p-4 flex flex-col", selected && "ring-2 ring-primary/40 bg-muted/30", className)}>
+            {/* Header: select · icon · name + status badges (+ ids). Actions live
+                in a footer at the bottom, not crammed up here. */}
             <div className="flex items-start gap-3">
                 {selectSlot && <div className="shrink-0 pt-0.5">{selectSlot}</div>}
                 {icon && <div className="shrink-0">{icon}</div>}
                 <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-x-2 gap-y-1 flex-wrap min-w-0">
-                            <span className="font-semibold leading-tight">{name}</span>
-                            {nameBadges}
-                        </div>
-                        {actions && <div className="flex items-center gap-0.5 shrink-0 text-muted-foreground -mt-0.5">{actions}</div>}
+                    <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">
+                        <span className="font-semibold leading-tight">{name}</span>
+                        {nameBadges}
                     </div>
                     {ids && <div className="flex flex-wrap items-center gap-1 mt-1.5">{ids}</div>}
                 </div>
@@ -93,6 +91,14 @@ export function ModelManagerCard({
                         <div className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground mb-1.5">{capabilities.label}</div>
                     )}
                     <div className="flex flex-wrap gap-1.5">{capabilities.value}</div>
+                </div>
+            )}
+
+            {/* Actions footer — pinned to the bottom so it aligns across a card
+                grid (mt-auto) and reads as a clear action bar, not header clutter. */}
+            {actions && (
+                <div className="flex items-center justify-end gap-1 mt-auto pt-3.5 border-t border-border">
+                    {actions}
                 </div>
             )}
         </div>

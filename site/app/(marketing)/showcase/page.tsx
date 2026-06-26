@@ -1330,14 +1330,20 @@ export default function Showcase() {
             {/* Faithful to Yunxin admin/models/components/table-row.tsx — the real
                 "Claude Opus (Agent)" row (provider Claude Code, developer Anthropic). */}
             <ModelManagerCard
-              selectSlot={<input type="checkbox" aria-label="select Claude Opus (Agent)" />}
+              selectSlot={<Checkbox aria-label="select Claude Opus (Agent)" />}
               icon={<ProviderIcon provider="anthropic" size={40} rounded />}
               name="Claude Opus (Agent)"
               ids={<>
                 <IDBadge text="claude/opus-agent" />
                 <IDBadge text="claude-opus-agent" />
               </>}
-              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><PauseCircle size={15} /><Trash2 size={15} /></>}
+              actions={<>
+                <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯"><Pencil size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="停用"><Power size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors" title="標記棄用"><Eye size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="暫停"><PauseCircle size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="刪除"><Trash2 size={15} /></button>
+              </>}
               fields={[
                 { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-2 text-sm text-muted-foreground"><ProviderIcon provider="claude" size={18} rounded />Claude Code</span> },
                 { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-2 text-sm"><ProviderIcon provider="anthropic" size={18} rounded />Anthropic</span> },
@@ -1351,7 +1357,7 @@ export default function Showcase() {
             />
             {/* Image model + the name-badge modifiers (YAML / suspended) the real row supports */}
             <ModelManagerCard
-              selectSlot={<input type="checkbox" aria-label="select FLUX.1 Kontext" />}
+              selectSlot={<Checkbox checked aria-label="select FLUX.1 Kontext" />}
               icon={<ProviderIcon provider="flux" size={40} rounded />}
               name="FLUX.1 Kontext"
               nameBadges={<>
@@ -1359,7 +1365,13 @@ export default function Showcase() {
                 <span className="badge bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 flex items-center gap-1"><PauseCircle size={10} />Suspended</span>
               </>}
               ids={<IDBadge text="fal/flux-kontext" />}
-              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><PauseCircle size={15} /><Trash2 size={15} /></>}
+              actions={<>
+                <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯"><Pencil size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="停用"><Power size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors" title="標記棄用"><Eye size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="暫停"><PauseCircle size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="刪除"><Trash2 size={15} /></button>
+              </>}
               fields={[
                 { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-2 text-sm text-muted-foreground"><ProviderIcon provider="fal" size={18} rounded />fal.ai</span> },
                 { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-2 text-sm"><ProviderIcon provider="flux" size={18} rounded />Black Forest</span> },

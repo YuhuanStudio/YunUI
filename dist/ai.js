@@ -418,17 +418,14 @@ function ModelManagerCard({
   selected,
   className
 }) {
-  return /* @__PURE__ */ jsxs("div", { className: cn("card p-4", selected && "ring-2 ring-primary/40 bg-muted/30", className), children: [
+  return /* @__PURE__ */ jsxs("div", { className: cn("card p-4 flex flex-col", selected && "ring-2 ring-primary/40 bg-muted/30", className), children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
       selectSlot && /* @__PURE__ */ jsx("div", { className: "shrink-0 pt-0.5", children: selectSlot }),
       icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
       /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-2", children: [
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap min-w-0", children: [
-            /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight", children: name }),
-            nameBadges
-          ] }),
-          actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5 shrink-0 text-muted-foreground -mt-0.5", children: actions })
+        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap", children: [
+          /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight", children: name }),
+          nameBadges
         ] }),
         ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1.5", children: ids })
       ] })
@@ -440,7 +437,8 @@ function ModelManagerCard({
     capabilities && /* @__PURE__ */ jsxs("div", { className: "mt-3.5", children: [
       capabilities.label && /* @__PURE__ */ jsx("div", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground mb-1.5", children: capabilities.label }),
       /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-1.5", children: capabilities.value })
-    ] })
+    ] }),
+    actions && /* @__PURE__ */ jsx("div", { className: "flex items-center justify-end gap-1 mt-auto pt-3.5 border-t border-border", children: actions })
   ] });
 }
 var llmCapabilityConfig = [
