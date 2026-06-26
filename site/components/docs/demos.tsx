@@ -21,13 +21,14 @@ import {
   CategoryFilter,
   CapabilityBadge,
   Banner,
+  FeatureLockedState,
   NotificationBell,
   NotificationItem,
   NotificationPanel,
   Sidebar,
   type SidebarSection,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button } from "yunui";
+import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus } from "yunui";
 import {
   CapabilitySelector,
   LanguageSwitcher,
@@ -360,6 +361,31 @@ const NOTIF_SEED = [
   { id: "2", icon: CreditCard, tint: "bg-emerald-500/10 text-emerald-500", title: "Payment received", body: "$20.00 added to your balance.", time: "1h", unread: true },
   { id: "3", icon: ShieldAlert, tint: "bg-amber-500/10 text-amber-500", title: "New sign-in", body: "Chrome on macOS · Taipei", time: "3h", unread: false },
 ];
+
+export function InlineStatusDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-6 text-sm">
+      <InlineStatus status="pending" label="Starting" />
+      <InlineStatus status="processing" label="Processing" progress={62} />
+      <InlineStatus status="completed" label="Done" />
+      <InlineStatus status="failed" label="Failed" />
+    </div>
+  );
+}
+
+export function FeatureLockedStateDemo() {
+  return (
+    <div className="w-full">
+      <FeatureLockedState
+        title="Coming soon"
+        description={<><strong className="whitespace-nowrap">Video generation</strong> isn't on your plan yet.</>}
+        noteTitle="Access restricted"
+        noteText="This feature is limited to higher tiers — contact your admin to enable it."
+        className="min-h-0"
+      />
+    </div>
+  );
+}
 
 export function BannerDemo() {
   const [shown, setShown] = useState(["info", "warning", "success", "critical"]);

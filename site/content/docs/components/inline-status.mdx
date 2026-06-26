@@ -1,0 +1,33 @@
+import { InlineStatus } from "yunui";
+
+A compact inline status for an async job: a status icon (spinning while in-progress) plus a label, or a percentage while running. Useful in media/generation lists, build rows, upload trackers — anywhere a row needs a tiny "pending / processing / done / failed" indicator.
+
+For a presence dot use [`StatusIndicator`](/docs/components/status-indicator); for an approval pill, [`StatusBadge`](/docs/patterns/badges).
+
+## Import
+
+```tsx
+import { InlineStatus } from "@yuhuanowo/yunui";
+```
+
+## Example
+
+`status` drives the icon, color and spin. `pending` / `processing` spin; pass `progress` to show a percentage instead of the label while running. Labels are host-supplied (no bundled copy).
+
+<ComponentPreview
+  title="InlineStatus"
+  code={`import { InlineStatus } from "@yuhuanowo/yunui";
+
+<>
+  <InlineStatus status="pending" label="Starting" />
+  <InlineStatus status="processing" label="Processing" progress={62} />
+  <InlineStatus status="completed" label="Done" />
+  <InlineStatus status="failed" label="Failed" />
+</>`}
+>
+  <InlineStatusDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="InlineStatus" />

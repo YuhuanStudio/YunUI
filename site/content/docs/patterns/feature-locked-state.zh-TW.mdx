@@ -1,0 +1,51 @@
+import { FeatureLockedState } from "yunui/patterns";
+
+置中的「此功能對你不可用」畫面：一個圖示徽章、標題、描述，以及可選的虛線「受限」提示卡。當某個功能開關關閉時把它作為後備渲染——功能開關的判斷由宿主負責。
+
+## 匯入
+
+```tsx
+import { FeatureLockedState } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+`description` 是插槽，宿主可以強調功能名稱。傳入 `noteTitle` / `noteText` 可顯示虛線受限提示卡。
+
+<ComponentPreview
+  title="FeatureLockedState"
+  code={`import { FeatureLockedState } from "@yuhuanowo/yunui/patterns";
+
+<FeatureLockedState
+  title="Coming soon"
+  description={<><strong>Video generation</strong> isn't on your plan yet.</>}
+  noteTitle="Access restricted"
+  noteText="This feature is limited to higher tiers — contact your admin to enable it."
+/>`}
+>
+  <FeatureLockedStateDemo />
+</ComponentPreview>
+
+## 搭配功能開關使用
+
+`FeatureLockedState` 僅負責展示。門控邏輯留在你的應用裡：
+
+```tsx
+function Guarded({ enabled, children }) {
+  if (!enabled) {
+    return (
+      <FeatureLockedState
+        title={t("locked.title")}
+        description={<><strong>{name}</strong> {t("locked.suffix")}</>}
+        noteTitle={t("locked.restricted")}
+        noteText={t("locked.message")}
+      />
+    );
+  }
+  return children;
+}
+```
+
+## 屬性
+
+<PropsTable name="FeatureLockedState" />

@@ -53,6 +53,9 @@ export {
   DeprecatedBadge,
 } from "./badges";
 
+// Feature-locked state — the centered "feature unavailable" screen.
+export { FeatureLockedState, type FeatureLockedStateProps } from "./feature-locked-state";
+
 // Banner — tinted horizontal banner row (announcements / releases / verification).
 export { Banner, type BannerProps, type BannerTone } from "./banner";
 

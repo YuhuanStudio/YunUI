@@ -1,0 +1,51 @@
+import { FeatureLockedState } from "yunui/patterns";
+
+The centered "this feature isn't available to you" screen: an icon medallion, a title, a description, and an optional dashed "restricted" note card. Render it as the fallback when a feature flag is off — the host owns the flag check.
+
+## Import
+
+```tsx
+import { FeatureLockedState } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+The `description` is a slot, so the host can emphasize the feature name. Pass `noteTitle` / `noteText` to show the dashed restricted-note card.
+
+<ComponentPreview
+  title="FeatureLockedState"
+  code={`import { FeatureLockedState } from "@yuhuanowo/yunui/patterns";
+
+<FeatureLockedState
+  title="Coming soon"
+  description={<><strong>Video generation</strong> isn't on your plan yet.</>}
+  noteTitle="Access restricted"
+  noteText="This feature is limited to higher tiers — contact your admin to enable it."
+/>`}
+>
+  <FeatureLockedStateDemo />
+</ComponentPreview>
+
+## Usage with a feature flag
+
+`FeatureLockedState` is presentation only. Keep the gate in your app:
+
+```tsx
+function Guarded({ enabled, children }) {
+  if (!enabled) {
+    return (
+      <FeatureLockedState
+        title={t("locked.title")}
+        description={<><strong>{name}</strong> {t("locked.suffix")}</>}
+        noteTitle={t("locked.restricted")}
+        noteText={t("locked.message")}
+      />
+    );
+  }
+  return children;
+}
+```
+
+## Props
+
+<PropsTable name="FeatureLockedState" />

@@ -1296,6 +1296,50 @@
       "description": "The questions to render. The host app supplies (and translates) these."
     }
   ],
+  "FeatureLockedState": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Glyph inside the top medallion (defaults to a sparkles icon)."
+    },
+    {
+      "name": "noteText",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Body of the dashed note card."
+    },
+    {
+      "name": "noteTitle",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Heading of the dashed note card; the card shows when this or `noteText` is set."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
   "FellowsBanner": [
     {
       "name": "className",
@@ -2516,6 +2560,43 @@
       "required": false,
       "defaultValue": "neutral",
       "description": ""
+    }
+  ],
+  "InlineStatus": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "The label for this status (host-supplied; no bundled copy)."
+    },
+    {
+      "name": "progress",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "When in-progress and > 0, the percent replaces the label."
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "defaultValue": "md",
+      "description": "Icon size in px."
+    },
+    {
+      "name": "status",
+      "type": "\"pending\" | \"processing\" | \"completed\" | \"failed\"",
+      "required": true,
+      "defaultValue": null,
+      "description": "Job phase — drives the icon, color and whether it spins."
     }
   ],
   "Steps": [

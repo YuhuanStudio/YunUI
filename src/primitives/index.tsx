@@ -709,6 +709,45 @@ export function StatusIndicator({
 }
 
 // =====================================================
+// INLINE STATUS
+// =====================================================
+
+export type InlineStatusKind = "pending" | "processing" | "completed" | "failed";
+
+interface InlineStatusProps {
+    /** Job phase — drives the icon, color and whether it spins. */
+    status: InlineStatusKind;
+    /** The label for this status (host-supplied; no bundled copy). */
+    label?: React.ReactNode;
+    /** When in-progress and > 0, the percent replaces the label. */
+    progress?: number;
+    /** Icon size in px. */
+    size?: number;
+    className?: string;
+}
+
+const inlineStatusConfig: Record<InlineStatusKind, { icon: typeof Loader2; className: string }> = {
+    pending: { icon: Loader2, className: "text-amber-500" },
+    processing: { icon: Loader2, className: "text-amber-500" },
+    completed: { icon: CheckCircle2, className: "text-green-500" },
+    failed: { icon: AlertCircle, className: "text-red-500" },
+};
+
+/** A compact inline async-job status: a (spinning) icon plus a label or percent.
+ *  For a presence dot use `StatusIndicator`; for an approval pill, `StatusBadge`. */
+export function InlineStatus({ status, label, progress, size = 12, className }: InlineStatusProps) {
+    const config = inlineStatusConfig[status];
+    const Icon = config.icon;
+    const isProcessing = status === "processing" || status === "pending";
+    return (
+        <span className={cn("inline-flex items-center gap-1", config.className, className)}>
+            <Icon size={size} className={cn(isProcessing && "animate-spin")} />
+            <span>{isProcessing && progress !== undefined && progress > 0 ? `${progress}%` : label}</span>
+        </span>
+    );
+}
+
+// =====================================================
 // INLINE CODE
 // =====================================================
 

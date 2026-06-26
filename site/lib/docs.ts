@@ -580,6 +580,16 @@ export const docs: DocEntry[] = [
     "page loader fullscreen loading route fallback splash",
   ),
   comp(
+    "inline-status",
+    { en: "Inline Status", "zh-CN": "内联状态", "zh-TW": "內聯狀態" },
+    {
+      en: "A compact inline async-job status — a (spinning) icon plus a label, or a percentage while running.",
+      "zh-CN": "紧凑的内联异步任务状态——一个（旋转的）图标加标签，或运行时显示百分比。",
+      "zh-TW": "精簡的內聯非同步任務狀態——一個（旋轉的）圖示加標籤，或執行時顯示百分比。",
+    },
+    "inline status async job pending processing completed failed progress percent spinner",
+  ),
+  comp(
     "empty-state",
     { en: "Empty State", "zh-CN": "空状态", "zh-TW": "空狀態" },
     {
@@ -787,6 +797,16 @@ export const docs: DocEntry[] = [
       "zh-TW": "用於游標式或 has-more 清單（總頁數未知）的上一頁 / 頁碼指示 / 下一頁分頁器。",
     },
     "pagination simple cursor has-more page navigator prev next controlled no total",
+  ),
+  pat(
+    "feature-locked-state",
+    { en: "Feature Locked State", "zh-CN": "功能锁定状态", "zh-TW": "功能鎖定狀態" },
+    {
+      en: "The centered 'feature unavailable' screen — an icon medallion, title, description, and an optional dashed restricted-note card. Render as a feature-flag fallback.",
+      "zh-CN": "居中的「功能不可用」界面——图标徽章、标题、描述与可选的虚线受限提示卡。作为功能开关的回退渲染。",
+      "zh-TW": "置中的「功能不可用」畫面——圖示徽章、標題、描述與可選的虛線受限提示卡。作為功能開關的後備渲染。",
+    },
+    "feature locked restricted gate flag unavailable upgrade empty state access",
   ),
   pat(
     "banner",
@@ -1028,6 +1048,7 @@ export const groups: DocGroup[] = [
       "components/skeleton",
       "components/page-loader",
       "components/empty-state",
+      "components/inline-status",
     ],
   },
   {
@@ -1055,6 +1076,7 @@ export const groups: DocGroup[] = [
       "patterns/blog-pagination",
       "patterns/simple-pagination",
       "patterns/banner",
+      "patterns/feature-locked-state",
       "patterns/notification",
       "patterns/category-filter",
       "patterns/code-demo",

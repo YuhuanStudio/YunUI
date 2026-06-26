@@ -26,6 +26,13 @@ patch = fixes, anything may change between 0.x releases).
   degrades to a round globe button on narrow widths instead of overflowing.
 
 ### Added
+- **`InlineStatus` (primitive)** — a compact inline async-job status: a (spinning)
+  icon plus a host-supplied label, or a percentage while running (`pending` /
+  `processing` / `completed` / `failed`). Distinct from `StatusIndicator` (a
+  presence dot) and `StatusBadge` (an approval pill).
+- **`FeatureLockedState` (patterns)** — the centered "feature unavailable" screen
+  (icon medallion · title · description · optional dashed restricted-note card),
+  for rendering as a feature-flag fallback. Presentation only; the host gates.
 - **`Banner` (patterns)** — a tinted, horizontal banner row (`info` / `warning` /
   `critical` / `success` / `neutral`) with an icon, title, inline description,
   meta, actions and an optional dismiss. One component for announcement, release

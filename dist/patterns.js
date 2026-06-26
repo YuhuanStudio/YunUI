@@ -1,12 +1,12 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-ROYADOSY.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-NUWJSYC6.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Bell, Trash2, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Bell, Trash2, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1059,6 +1059,20 @@ function DeprecatedBadge({ isDeprecated }) {
   if (!isDeprecated) return null;
   return /* @__PURE__ */ jsx("span", { className: "badge", children: t("deprecated") });
 }
+function FeatureLockedState({ icon, title, description, noteTitle, noteText, className }) {
+  return /* @__PURE__ */ jsx("div", { className: cn("flex items-center justify-center min-h-[60vh]", className), children: /* @__PURE__ */ jsxs("div", { className: "text-center max-w-md mx-auto p-8", children: [
+    /* @__PURE__ */ jsx("div", { className: "w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-4", children: icon ?? /* @__PURE__ */ jsx(Sparkles, { className: "w-8 h-8 text-muted-foreground" }) }),
+    /* @__PURE__ */ jsx("h2", { className: "text-2xl font-semibold mb-2", children: title }),
+    description && /* @__PURE__ */ jsx("p", { className: "text-muted-foreground mb-6", children: description }),
+    (noteTitle || noteText) && /* @__PURE__ */ jsx("div", { className: "card p-4 bg-muted/30 border border-dashed", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3 text-sm text-muted-foreground", children: [
+      /* @__PURE__ */ jsx(AlertCircle, { className: "w-5 h-5 shrink-0 mt-0.5" }),
+      /* @__PURE__ */ jsxs("div", { className: "text-left", children: [
+        noteTitle && /* @__PURE__ */ jsx("p", { className: "font-medium mb-1", children: noteTitle }),
+        noteText && /* @__PURE__ */ jsx("p", { children: noteText })
+      ] })
+    ] }) })
+  ] }) });
+}
 var TONES2 = {
   info: {
     bg: "bg-linear-to-r from-blue-500/10 via-blue-500/5 to-blue-500/10",
@@ -1235,6 +1249,6 @@ function NotificationPanel({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

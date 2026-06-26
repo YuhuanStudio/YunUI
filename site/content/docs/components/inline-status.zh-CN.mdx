@@ -1,0 +1,33 @@
+import { InlineStatus } from "yunui";
+
+用于异步任务的紧凑内联状态：一个状态图标（进行中时旋转）加标签，或运行时显示百分比。适合媒体/生成列表、构建行、上传追踪——任何需要小巧「等待 / 处理中 / 完成 / 失败」指示的行。
+
+需要在线状态圆点请用 [`StatusIndicator`](/docs/components/status-indicator);需要审批胶囊请用 [`StatusBadge`](/docs/patterns/badges)。
+
+## 导入
+
+```tsx
+import { InlineStatus } from "@yuhuanowo/yunui";
+```
+
+## 示例
+
+`status` 驱动图标、颜色与旋转。`pending` / `processing` 会旋转;传入 `progress` 可在运行时显示百分比而非标签。标签由宿主提供(不内置文案)。
+
+<ComponentPreview
+  title="InlineStatus"
+  code={`import { InlineStatus } from "@yuhuanowo/yunui";
+
+<>
+  <InlineStatus status="pending" label="Starting" />
+  <InlineStatus status="processing" label="Processing" progress={62} />
+  <InlineStatus status="completed" label="Done" />
+  <InlineStatus status="failed" label="Failed" />
+</>`}
+>
+  <InlineStatusDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="InlineStatus" />

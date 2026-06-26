@@ -401,6 +401,19 @@ declare function DeprecatedBadge({ isDeprecated }: {
     isDeprecated: boolean;
 }): React$1.JSX.Element | null;
 
+interface FeatureLockedStateProps {
+    /** Glyph inside the top medallion (defaults to a sparkles icon). */
+    icon?: ReactNode;
+    title: ReactNode;
+    description?: ReactNode;
+    /** Heading of the dashed note card; the card shows when this or `noteText` is set. */
+    noteTitle?: ReactNode;
+    /** Body of the dashed note card. */
+    noteText?: ReactNode;
+    className?: string;
+}
+declare function FeatureLockedState({ icon, title, description, noteTitle, noteText, className }: FeatureLockedStateProps): React$1.JSX.Element;
+
 type BannerTone = "info" | "warning" | "critical" | "success" | "neutral";
 interface BannerProps {
     /** Tone — drives the gradient, border, text and icon color. */
@@ -483,4 +496,4 @@ interface NotificationPanelProps {
 }
 declare function NotificationPanel({ title, unreadCount, unreadLabel, loading, loadingLabel, empty, emptyLabel, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
