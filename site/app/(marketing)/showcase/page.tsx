@@ -1330,7 +1330,7 @@ export default function Showcase() {
             {/* Faithful to Yunxin admin/models/components/table-row.tsx — the real
                 "Claude Opus (Agent)" row (provider Claude Code, developer Anthropic). */}
             <ModelManagerCard
-              selectSlot={<Checkbox aria-label="select Claude Opus (Agent)" />}
+              selectSlot={<Checkbox />}
               icon={<ProviderIcon provider="anthropic" size={40} rounded />}
               name="Claude Opus (Agent)"
               ids={<>
@@ -1357,7 +1357,7 @@ export default function Showcase() {
             />
             {/* Image model + the name-badge modifiers (YAML / suspended) the real row supports */}
             <ModelManagerCard
-              selectSlot={<Checkbox checked aria-label="select FLUX.1 Kontext" />}
+              selectSlot={<Checkbox checked />}
               icon={<ProviderIcon provider="flux" size={40} rounded />}
               name="FLUX.1 Kontext"
               nameBadges={<>

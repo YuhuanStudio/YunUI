@@ -153,10 +153,11 @@ declare function Sheet({ open, onClose, children, title, mobileOnly }: SheetProp
 
 interface CheckboxProps {
     /** Whether the box is checked. `"indeterminate"` shows a dash — for a
-     *  select-all that's only partially selected. */
-    checked: boolean | "indeterminate";
-    /** Called with the next checked state when toggled (indeterminate → checked). */
-    onCheckedChange: (checked: boolean) => void;
+     *  select-all that's only partially selected. Defaults to `false`. */
+    checked?: boolean | "indeterminate";
+    /** Called with the next checked state when toggled (indeterminate → checked).
+     *  Optional — omit for a read-only/display checkbox (it won't toggle). */
+    onCheckedChange?: (checked: boolean) => void;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
     className?: string;

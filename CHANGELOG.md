@@ -11,6 +11,11 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Fixed
+- **`Checkbox` no longer crashes when used uncontrolled.** `checked` now defaults
+  to `false` and `onCheckedChange` is optional (guarded), so a display-only
+  checkbox (no handler) renders instead of throwing on click.
+
 ### Added
 - **`ModelManagerCard` (ai)** — a dense admin model row rendered as a card: header
   (select · icon · name + id chips · row actions), a 2-column labelled spec grid

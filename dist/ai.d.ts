@@ -131,9 +131,11 @@ interface ModelManagerCardProps {
     nameBadges?: ReactNode;
     /** Id / alias chips rendered under the name. */
     ids?: ReactNode;
-    /** Row-select control (a checkbox), shown at the card's top-left. */
+    /** Row-select control (a checkbox). Pinned to the top-right corner so it
+     *  never shifts the icon/name. */
     selectSlot?: ReactNode;
-    /** Row actions (edit / enable / inspect / delete …), shown top-right. */
+    /** Row actions (edit / enable / inspect / delete …) — a quiet button row at
+     *  the bottom (no footer rule). */
     actions?: ReactNode;
     /** Labelled specs — provider, developer, type, status, context/resolution,
      *  max output, price, … — laid out in a 2-column grid. */

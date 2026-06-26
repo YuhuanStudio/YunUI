@@ -5,10 +5,11 @@ import { Check, Minus } from "lucide-react";
 
 export interface CheckboxProps {
     /** Whether the box is checked. `"indeterminate"` shows a dash — for a
-     *  select-all that's only partially selected. */
-    checked: boolean | "indeterminate";
-    /** Called with the next checked state when toggled (indeterminate → checked). */
-    onCheckedChange: (checked: boolean) => void;
+     *  select-all that's only partially selected. Defaults to `false`. */
+    checked?: boolean | "indeterminate";
+    /** Called with the next checked state when toggled (indeterminate → checked).
+     *  Optional — omit for a read-only/display checkbox (it won't toggle). */
+    onCheckedChange?: (checked: boolean) => void;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
     className?: string;
@@ -19,7 +20,7 @@ export interface CheckboxProps {
 /** Controlled checkbox rendered as an accessible toggle button. Supports an
  *  `indeterminate` state (dash) for partial select-all. */
 export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
-    ({ checked, onCheckedChange, disabled = false, className = "", id }, ref) => {
+    ({ checked = false, onCheckedChange, disabled = false, className = "", id }, ref) => {
         const filled = checked === true || checked === "indeterminate";
         return (
             <button
@@ -28,7 +29,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
                 role="checkbox"
                 aria-checked={checked === "indeterminate" ? "mixed" : checked}
                 id={id}
-                onClick={() => !disabled && onCheckedChange(checked !== true)}
+                onClick={() => !disabled && onCheckedChange?.(checked !== true)}
                 disabled={disabled}
                 className={`
                     w-4 h-4 rounded border-2 flex items-center justify-center

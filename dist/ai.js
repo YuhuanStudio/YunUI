@@ -418,28 +418,38 @@ function ModelManagerCard({
   selected,
   className
 }) {
-  return /* @__PURE__ */ jsxs("div", { className: cn("card p-4 flex flex-col", selected && "ring-2 ring-primary/40 bg-muted/30", className), children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
-      selectSlot && /* @__PURE__ */ jsx("div", { className: "shrink-0 pt-0.5", children: selectSlot }),
-      icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
-      /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap", children: [
-          /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight", children: name }),
-          nameBadges
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "card p-5 relative transition-shadow hover:shadow-md",
+        selected && "ring-2 ring-primary/40 bg-muted/30",
+        className
+      ),
+      children: [
+        selectSlot && /* @__PURE__ */ jsx("div", { className: "absolute top-4 right-4 z-10", children: selectSlot }),
+        /* @__PURE__ */ jsxs("div", { className: cn("flex items-start gap-3", selectSlot && "pr-8"), children: [
+          icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
+          /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+            /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap", children: [
+              /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight", children: name }),
+              nameBadges
+            ] }),
+            ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1.5", children: ids })
+          ] })
         ] }),
-        ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1.5", children: ids })
-      ] })
-    ] }),
-    fields && fields.length > 0 && /* @__PURE__ */ jsx("dl", { className: "grid grid-cols-2 gap-x-4 gap-y-2.5 mt-3.5 text-sm", children: fields.map((f, i) => /* @__PURE__ */ jsxs("div", { className: cn("min-w-0", f.full && "col-span-2"), children: [
-      /* @__PURE__ */ jsx("dt", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground", children: f.label }),
-      /* @__PURE__ */ jsx("dd", { className: "mt-0.5", children: f.value })
-    ] }, i)) }),
-    capabilities && /* @__PURE__ */ jsxs("div", { className: "mt-3.5", children: [
-      capabilities.label && /* @__PURE__ */ jsx("div", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground mb-1.5", children: capabilities.label }),
-      /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-1.5", children: capabilities.value })
-    ] }),
-    actions && /* @__PURE__ */ jsx("div", { className: "flex items-center justify-end gap-1 mt-auto pt-3.5 border-t border-border", children: actions })
-  ] });
+        fields && fields.length > 0 && /* @__PURE__ */ jsx("dl", { className: "grid grid-cols-2 gap-x-4 gap-y-3 mt-4 text-sm", children: fields.map((f, i) => /* @__PURE__ */ jsxs("div", { className: cn("min-w-0", f.full && "col-span-2"), children: [
+          /* @__PURE__ */ jsx("dt", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground", children: f.label }),
+          /* @__PURE__ */ jsx("dd", { className: "mt-1", children: f.value })
+        ] }, i)) }),
+        capabilities && /* @__PURE__ */ jsxs("div", { className: "mt-4", children: [
+          capabilities.label && /* @__PURE__ */ jsx("div", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground mb-1.5", children: capabilities.label }),
+          /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-1.5", children: capabilities.value })
+        ] }),
+        actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5 mt-4 -mb-1 -ml-1.5", children: actions })
+      ]
+    }
+  );
 }
 var llmCapabilityConfig = [
   { value: "chat", icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 hover:bg-blue-500/20" },
