@@ -1,0 +1,47 @@
+import { Banner } from "yunui/patterns";
+
+A tinted, horizontal **banner row** for dashboard headers and home screens: a tone-colored gradient card with an icon, a title + optional inline description, optional meta (e.g. a timestamp), a trailing actions slot, and an optional dismiss button. It covers announcement / release / verification-style banners with one component.
+
+Presentation only — the host owns fetching, dismiss persistence, and copy. (For a stacked, solid form-message box, use the [`Alert`](/docs/components/alert) primitive instead.)
+
+## Import
+
+```tsx
+import { Banner } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+`tone` drives the gradient, border, text and icon color (and a default icon). `dismissible` adds the ✕ button; `actions` and `meta` are slots.
+
+<ComponentPreview
+  title="Banner"
+  code={`import { Banner } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [shown, setShown] = useState(true);
+  if (!shown) return null;
+  return (
+    <Banner
+      tone="success"
+      title="v1.4.0 shipped"
+      description="Faster exports and a new dark theme."
+      meta="1d ago"
+      actions={<a href="/changelog">View</a>}
+      dismissible
+      onDismiss={() => setShown(false)}
+    />
+  );
+}`}
+>
+  <BannerDemo />
+</ComponentPreview>
+
+## Tones
+
+`info` · `warning` · `critical` · `success` · `neutral`. Each sets the gradient + a default icon; override the glyph with `icon` (e.g. a `Rocket` for a release), or pass `icon={null}` to omit it.
+
+## Props
+
+<PropsTable name="Banner" />

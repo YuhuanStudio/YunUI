@@ -912,6 +912,78 @@
       "description": ""
     }
   ],
+  "Banner": [
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Trailing actions — links or buttons."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Secondary text shown inline after the title (hidden on mobile)."
+    },
+    {
+      "name": "dismissible",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Show a dismiss (✕) button."
+    },
+    {
+      "name": "dismissLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Leading icon; defaults to a tone-appropriate glyph (pass `null` to omit)."
+    },
+    {
+      "name": "meta",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Small right-aligned meta (e.g. a relative timestamp)."
+    },
+    {
+      "name": "onDismiss",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "The banner headline."
+    },
+    {
+      "name": "tone",
+      "type": "\"info\" | \"warning\" | \"critical\" | \"success\" | \"neutral\"",
+      "required": false,
+      "defaultValue": "info",
+      "description": "Tone — drives the gradient, border, text and icon color."
+    }
+  ],
   "BlogCard": [
     {
       "name": "author",

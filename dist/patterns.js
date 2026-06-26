@@ -6,7 +6,7 @@ import { cn } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Bell, Trash2 } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Bell, Trash2, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1059,6 +1059,82 @@ function DeprecatedBadge({ isDeprecated }) {
   if (!isDeprecated) return null;
   return /* @__PURE__ */ jsx("span", { className: "badge", children: t("deprecated") });
 }
+var TONES2 = {
+  info: {
+    bg: "bg-linear-to-r from-blue-500/10 via-blue-500/5 to-blue-500/10",
+    border: "border-blue-500/25",
+    text: "text-blue-700 dark:text-blue-300",
+    icon: "text-blue-500",
+    dismissHover: "hover:bg-blue-500/10",
+    defaultIcon: /* @__PURE__ */ jsx(Info, { size: 16 })
+  },
+  warning: {
+    bg: "bg-linear-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10",
+    border: "border-amber-500/25",
+    text: "text-amber-700 dark:text-amber-300",
+    icon: "text-amber-500",
+    dismissHover: "hover:bg-amber-500/10",
+    defaultIcon: /* @__PURE__ */ jsx(AlertTriangle, { size: 16 })
+  },
+  critical: {
+    bg: "bg-linear-to-r from-red-500/10 via-red-500/5 to-red-500/10",
+    border: "border-red-500/25",
+    text: "text-red-700 dark:text-red-300",
+    icon: "text-red-500",
+    dismissHover: "hover:bg-red-500/10",
+    defaultIcon: /* @__PURE__ */ jsx(AlertCircle, { size: 16 })
+  },
+  success: {
+    bg: "bg-linear-to-r from-green-500/10 via-green-500/5 to-green-500/10",
+    border: "border-green-500/25",
+    text: "text-green-700 dark:text-green-300",
+    icon: "text-green-500",
+    dismissHover: "hover:bg-green-500/10",
+    defaultIcon: /* @__PURE__ */ jsx(CheckCircle2, { size: 16 })
+  },
+  neutral: {
+    bg: "bg-muted/40",
+    border: "border-border",
+    text: "text-foreground",
+    icon: "text-muted-foreground",
+    dismissHover: "hover:bg-muted",
+    defaultIcon: /* @__PURE__ */ jsx(Info, { size: 16 })
+  }
+};
+function Banner({
+  tone = "info",
+  icon,
+  title,
+  description,
+  meta,
+  actions,
+  dismissible,
+  onDismiss,
+  dismissLabel,
+  className
+}) {
+  const t = TONES2[tone];
+  const resolvedIcon = icon === void 0 ? t.defaultIcon : icon;
+  return /* @__PURE__ */ jsx("div", { className: cn("card", t.bg, t.border, className), children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5", children: [
+    resolvedIcon != null && /* @__PURE__ */ jsx("span", { className: cn("shrink-0", t.icon), "aria-hidden": "true", children: resolvedIcon }),
+    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsx("span", { className: cn("text-sm font-medium", t.text), children: title }),
+      description && /* @__PURE__ */ jsx("span", { className: cn("text-sm ml-2 hidden sm:inline opacity-70", t.text), children: description })
+    ] }),
+    meta != null && /* @__PURE__ */ jsx("span", { className: "text-[10px] text-muted-foreground/50 shrink-0", children: meta }),
+    actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-2 shrink-0", children: actions }),
+    dismissible && /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        onClick: onDismiss,
+        "aria-label": dismissLabel,
+        className: cn("p-1 rounded-lg transition-colors shrink-0", t.dismissHover),
+        children: /* @__PURE__ */ jsx(X, { size: 14, className: "text-muted-foreground/50" })
+      }
+    )
+  ] }) });
+}
 function NotificationBell({ count = 0, max = 99, label, icon, onClick, className }) {
   return /* @__PURE__ */ jsxs(
     "button",
@@ -1159,6 +1235,6 @@ function NotificationPanel({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

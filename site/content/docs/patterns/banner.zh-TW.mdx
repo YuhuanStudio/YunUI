@@ -1,0 +1,47 @@
+import { Banner } from "yunui/patterns";
+
+用於儀表板頂部與首頁的彩色**橫幅條**：一張帶色調漸層的卡片，含圖示、標題 + 可選的內聯描述、可選的中繼資訊（如時間戳）、尾部操作插槽，以及可選的關閉按鈕。一個元件即可涵蓋公告 / 版本發布 / 信箱驗證類橫幅。
+
+僅負責展示——資料抓取、關閉狀態持久化和文案都由宿主負責。（若需要堆疊式、實心的表單訊息框，請改用 [`Alert`](/docs/components/alert) 基礎元件。）
+
+## 匯入
+
+```tsx
+import { Banner } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+`tone` 驅動漸層、邊框、文字與圖示顏色（並提供預設圖示）。`dismissible` 加上 ✕ 按鈕；`actions` 和 `meta` 是插槽。
+
+<ComponentPreview
+  title="Banner"
+  code={`import { Banner } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [shown, setShown] = useState(true);
+  if (!shown) return null;
+  return (
+    <Banner
+      tone="success"
+      title="v1.4.0 shipped"
+      description="Faster exports and a new dark theme."
+      meta="1d ago"
+      actions={<a href="/changelog">View</a>}
+      dismissible
+      onDismiss={() => setShown(false)}
+    />
+  );
+}`}
+>
+  <BannerDemo />
+</ComponentPreview>
+
+## 色調
+
+`info` · `warning` · `critical` · `success` · `neutral`。每種設定漸層 + 一個預設圖示;用 `icon` 覆蓋圖示(例如版本發布用 `Rocket`),或傳 `icon={null}` 省略。
+
+## 屬性
+
+<PropsTable name="Banner" />

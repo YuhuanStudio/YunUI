@@ -53,6 +53,9 @@ export {
   DeprecatedBadge,
 } from "./badges";
 
+// Banner — tinted horizontal banner row (announcements / releases / verification).
+export { Banner, type BannerProps, type BannerTone } from "./banner";
+
 // Notifications — presentational bell + row + dropdown panel (host owns data).
 export {
   NotificationBell,

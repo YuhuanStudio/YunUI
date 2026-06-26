@@ -401,6 +401,28 @@ declare function DeprecatedBadge({ isDeprecated }: {
     isDeprecated: boolean;
 }): React$1.JSX.Element | null;
 
+type BannerTone = "info" | "warning" | "critical" | "success" | "neutral";
+interface BannerProps {
+    /** Tone — drives the gradient, border, text and icon color. */
+    tone?: BannerTone;
+    /** Leading icon; defaults to a tone-appropriate glyph (pass `null` to omit). */
+    icon?: ReactNode;
+    /** The banner headline. */
+    title: ReactNode;
+    /** Secondary text shown inline after the title (hidden on mobile). */
+    description?: ReactNode;
+    /** Small right-aligned meta (e.g. a relative timestamp). */
+    meta?: ReactNode;
+    /** Trailing actions — links or buttons. */
+    actions?: ReactNode;
+    /** Show a dismiss (✕) button. */
+    dismissible?: boolean;
+    onDismiss?: () => void;
+    dismissLabel?: string;
+    className?: string;
+}
+declare function Banner({ tone, icon, title, description, meta, actions, dismissible, onDismiss, dismissLabel, className, }: BannerProps): React$1.JSX.Element;
+
 /** An icon trigger (the bell) carrying an unread-count badge. */
 interface NotificationBellProps {
     /** Unread count; the badge is hidden when 0 / undefined. */
@@ -461,4 +483,4 @@ interface NotificationPanelProps {
 }
 declare function NotificationPanel({ title, unreadCount, unreadLabel, loading, loadingLabel, empty, emptyLabel, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

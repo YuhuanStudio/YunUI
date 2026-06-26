@@ -1,0 +1,47 @@
+import { Banner } from "yunui/patterns";
+
+用于仪表盘头部与首页的彩色**横幅条**：一张带色调渐变的卡片，含图标、标题 + 可选的内联描述、可选的元信息（如时间戳）、尾部操作插槽，以及可选的关闭按钮。一个组件即可覆盖公告 / 版本发布 / 邮箱验证类横幅。
+
+仅负责展示——数据获取、关闭状态持久化和文案都由宿主负责。（若需要堆叠式、实心的表单消息框，请改用 [`Alert`](/docs/components/alert) 基础组件。）
+
+## 导入
+
+```tsx
+import { Banner } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+`tone` 驱动渐变、边框、文字与图标颜色（并提供默认图标）。`dismissible` 添加 ✕ 按钮；`actions` 和 `meta` 是插槽。
+
+<ComponentPreview
+  title="Banner"
+  code={`import { Banner } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [shown, setShown] = useState(true);
+  if (!shown) return null;
+  return (
+    <Banner
+      tone="success"
+      title="v1.4.0 shipped"
+      description="Faster exports and a new dark theme."
+      meta="1d ago"
+      actions={<a href="/changelog">View</a>}
+      dismissible
+      onDismiss={() => setShown(false)}
+    />
+  );
+}`}
+>
+  <BannerDemo />
+</ComponentPreview>
+
+## 色调
+
+`info` · `warning` · `critical` · `success` · `neutral`。每种设定渐变 + 一个默认图标;用 `icon` 覆盖图标(例如版本发布用 `Rocket`),或传 `icon={null}` 省略。
+
+## 属性
+
+<PropsTable name="Banner" />

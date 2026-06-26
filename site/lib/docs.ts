@@ -789,6 +789,16 @@ export const docs: DocEntry[] = [
     "pagination simple cursor has-more page navigator prev next controlled no total",
   ),
   pat(
+    "banner",
+    { en: "Banner", "zh-CN": "横幅", "zh-TW": "橫幅" },
+    {
+      en: "A tinted horizontal banner row (info / warning / critical / success) with an icon, title, inline description, meta, actions and an optional dismiss — for announcements, releases and verification prompts.",
+      "zh-CN": "彩色横幅条（info / warning / critical / success），含图标、标题、内联描述、元信息、操作与可选关闭——用于公告、版本发布与验证提示。",
+      "zh-TW": "彩色橫幅條（info / warning / critical / success），含圖示、標題、內聯描述、中繼資訊、操作與可選關閉——用於公告、版本發布與驗證提示。",
+    },
+    "banner announcement release notice alert tone dismissible info warning critical success",
+  ),
+  pat(
     "notification",
     { en: "Notification", "zh-CN": "通知", "zh-TW": "通知" },
     {
@@ -1044,6 +1054,7 @@ export const groups: DocGroup[] = [
       "patterns/blog-post-header",
       "patterns/blog-pagination",
       "patterns/simple-pagination",
+      "patterns/banner",
       "patterns/notification",
       "patterns/category-filter",
       "patterns/code-demo",

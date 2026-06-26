@@ -20,6 +20,7 @@ import {
   SimplePagination,
   CategoryFilter,
   CapabilityBadge,
+  Banner,
   NotificationBell,
   NotificationItem,
   NotificationPanel,
@@ -359,6 +360,36 @@ const NOTIF_SEED = [
   { id: "2", icon: CreditCard, tint: "bg-emerald-500/10 text-emerald-500", title: "Payment received", body: "$20.00 added to your balance.", time: "1h", unread: true },
   { id: "3", icon: ShieldAlert, tint: "bg-amber-500/10 text-amber-500", title: "New sign-in", body: "Chrome on macOS · Taipei", time: "3h", unread: false },
 ];
+
+export function BannerDemo() {
+  const [shown, setShown] = useState(["info", "warning", "success", "critical"]);
+  const seed: { tone: "info" | "warning" | "success" | "critical"; title: string; description: string; meta?: string }[] = [
+    { tone: "info", title: "Scheduled maintenance", description: "Sunday 02:00–03:00 UTC.", meta: "2h ago" },
+    { tone: "success", title: "v1.4.0 shipped", description: "Faster exports and a new dark theme.", meta: "1d ago" },
+    { tone: "warning", title: "Verify your email", description: "Some features stay locked until you do." },
+    { tone: "critical", title: "Payment failed", description: "Update your card to avoid interruption." },
+  ];
+  return (
+    <div className="w-full max-w-2xl space-y-2">
+      {seed.filter((b) => shown.includes(b.tone)).map((b) => (
+        <Banner
+          key={b.tone}
+          tone={b.tone}
+          title={b.title}
+          description={b.description}
+          meta={b.meta}
+          actions={<a href="#" onClick={(e) => e.preventDefault()} className="text-xs font-medium opacity-70 hover:opacity-100 transition-opacity">View</a>}
+          dismissible
+          dismissLabel="Dismiss"
+          onDismiss={() => setShown((p) => p.filter((x) => x !== b.tone))}
+        />
+      ))}
+      {shown.length === 0 && (
+        <button onClick={() => setShown(["info", "warning", "success", "critical"])} className="text-xs text-muted-foreground hover:text-foreground">Reset banners</button>
+      )}
+    </div>
+  );
+}
 
 export function NotificationDemo() {
   const [items, setItems] = useState(NOTIF_SEED);

@@ -26,6 +26,10 @@ patch = fixes, anything may change between 0.x releases).
   degrades to a round globe button on narrow widths instead of overflowing.
 
 ### Added
+- **`Banner` (patterns)** — a tinted, horizontal banner row (`info` / `warning` /
+  `critical` / `success` / `neutral`) with an icon, title, inline description,
+  meta, actions and an optional dismiss. One component for announcement, release
+  and verification-style banners (distinct from the stacked `Alert` primitive).
 - **`NotificationBell` / `NotificationItem` / `NotificationPanel` (patterns)** —
   presentational notification-center pieces: a bell trigger with an unread-count
   badge, a notification row (type-glyph slot · title · body · time, optional
