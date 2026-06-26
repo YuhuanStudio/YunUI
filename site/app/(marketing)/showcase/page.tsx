@@ -97,6 +97,7 @@ import {
   Navbar,
   Footer,
   ModelCard,
+  ModelManagerCard,
   ModelSelect,
   type ModelSelectOption,
   CapabilitySelector,
@@ -1303,6 +1304,49 @@ export default function Showcase() {
               ))}
             </TableBody>
           </Table>
+        </Demo>
+        <Demo title="Model manager card" description="A dense admin model row as a card — EVERY column present (name + ids, provider, developer, type, status, context / resolution, max output, price in/out, capabilities, actions). Starting point for discussing the model-management layout.">
+          <div className="grid sm:grid-cols-2 gap-3 w-full">
+            {/* An LLM model (context + max output) */}
+            <ModelManagerCard
+              selectSlot={<input type="checkbox" aria-label="select MiniMax-M2.5" />}
+              icon={<ProviderIcon provider="minimax" size={40} rounded />}
+              name="MiniMax-M2.5"
+              ids={<>
+                <span className="font-mono text-[11px] bg-muted px-1.5 py-0.5 rounded border border-border">minimax/MiniMax-M2.5</span>
+                <span className="font-mono text-[11px] bg-muted/60 px-1.5 py-0.5 rounded border border-border text-muted-foreground">MiniMax-M2.5</span>
+              </>}
+              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><Trash2 size={15} /></>}
+              fields={[
+                { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="minimax" size={18} rounded />MiniMax</span> },
+                { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="minimax" size={18} rounded />MiniMax</span> },
+                { label: "類型 / Type", value: <Badge variant="info">Chat</Badge> },
+                { label: "狀態 / Status", value: <Badge variant="success">Approved</Badge> },
+                { label: "上下文 / Context", value: <span className="tabular-nums">204.80K</span> },
+                { label: "最大輸出 / Max output", value: <span className="tabular-nums">131.07K</span> },
+                { label: "價格 / Price (in/out)", value: <span className="tabular-nums">75.00 / 300.00<span className="text-[11px] text-muted-foreground/70"> · cache 10 / 20</span></span>, full: true },
+              ]}
+              capabilities={{ label: "能力 / Capabilities", value: ["function_calling", "chat", "vision", "thinking", "streaming"].map((c) => <CapabilityBadge key={c} capability={c} />) }}
+            />
+            {/* An image model (resolution instead of context) */}
+            <ModelManagerCard
+              selectSlot={<input type="checkbox" aria-label="select FLUX.1" />}
+              icon={<ProviderIcon provider="fal" size={40} rounded />}
+              name="FLUX.1 [dev]"
+              ids={<span className="font-mono text-[11px] bg-muted px-1.5 py-0.5 rounded border border-border">fal/flux-1-dev</span>}
+              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><Trash2 size={15} /></>}
+              fields={[
+                { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="fal" size={18} rounded />fal.ai</span> },
+                { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="bfl" size={18} rounded />Black Forest</span> },
+                { label: "類型 / Type", value: <Badge variant="default">Image</Badge> },
+                { label: "狀態 / Status", value: <Badge variant="warning">Pending</Badge> },
+                { label: "解析度 / Resolution", value: <span className="tabular-nums">256–2048</span> },
+                { label: "最大輸出 / Max output", value: <span className="text-muted-foreground">—</span> },
+                { label: "價格 / Price (per image)", value: <span className="tabular-nums">25.00</span>, full: true },
+              ]}
+              capabilities={{ label: "能力 / Capabilities", value: ["image_edit", "negative_prompt", "seed_control", "lora", "guidance_scale"].map((c) => <CapabilityBadge key={c} capability={c} />) }}
+            />
+          </div>
         </Demo>
         <Demo title={t("demos.avatarProgress.title")}>
           <Avatar>

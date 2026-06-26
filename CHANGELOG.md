@@ -11,6 +11,14 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- **`ModelManagerCard` (ai)** — a dense admin model row rendered as a card: header
+  (select · icon · name + id chips · row actions), a 2-column labelled spec grid
+  (provider, developer, type, status, context **or** resolution, max output, price
+  in/out), and capability badges — every admin-table column present, top-to-bottom,
+  so model management reads on any width instead of a wide scrolling table. All
+  values are slots. _Layout is a starting point — under discussion._
+
 ## [0.2.13] - 2026-06-26
 
 ### Added

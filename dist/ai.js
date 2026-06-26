@@ -406,6 +406,39 @@ var ModelRow = memo(function ModelRow2({
     }
   );
 });
+function ModelManagerCard({
+  icon,
+  name,
+  ids,
+  selectSlot,
+  actions,
+  fields,
+  capabilities,
+  selected,
+  className
+}) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("card p-4", selected && "ring-2 ring-primary/40 bg-muted/30", className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
+      selectSlot && /* @__PURE__ */ jsx("div", { className: "shrink-0 pt-0.5", children: selectSlot }),
+      icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
+      /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+        /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-2", children: [
+          /* @__PURE__ */ jsx("span", { className: "font-semibold truncate leading-tight", children: name }),
+          actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1.5 shrink-0 text-muted-foreground", children: actions })
+        ] }),
+        ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1", children: ids })
+      ] })
+    ] }),
+    fields && fields.length > 0 && /* @__PURE__ */ jsx("dl", { className: "grid grid-cols-2 gap-x-4 gap-y-2.5 mt-3.5 text-sm", children: fields.map((f, i) => /* @__PURE__ */ jsxs("div", { className: cn("min-w-0", f.full && "col-span-2"), children: [
+      /* @__PURE__ */ jsx("dt", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground", children: f.label }),
+      /* @__PURE__ */ jsx("dd", { className: "mt-0.5", children: f.value })
+    ] }, i)) }),
+    capabilities && /* @__PURE__ */ jsxs("div", { className: "mt-3.5", children: [
+      capabilities.label && /* @__PURE__ */ jsx("div", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground mb-1.5", children: capabilities.label }),
+      /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-1.5", children: capabilities.value })
+    ] })
+  ] });
+}
 var llmCapabilityConfig = [
   { value: "chat", icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 hover:bg-blue-500/20" },
   { value: "streaming", icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20 hover:bg-cyan-500/20" },
@@ -1629,6 +1662,6 @@ function Navbar({
   ] });
 }
 
-export { CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

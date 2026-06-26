@@ -24,6 +24,7 @@ export {
     type ModelSelectFilter,
     type ModelSelectLabels,
 } from "./model-select";
+export { ModelManagerCard, type ModelManagerCardProps, type ModelManagerField } from "./model-manager-card";
 export { IDBadge } from "./id-badge";
 export { CapabilitySelector } from "./capability-selector";
 export { CapabilityIcon, isKnownCapability } from "./capability-badge";

@@ -115,6 +115,39 @@ interface ModelSelectProps {
  *  filters + a pinned section + a styled dropdown. Domain-agnostic. */
 declare function ModelSelect({ options, value, onChange, className, labels, pinned, onTogglePin, filters, renderFooter, }: ModelSelectProps): React.JSX.Element;
 
+/** One labelled spec shown in the card's spec grid. */
+interface ModelManagerField {
+    label: ReactNode;
+    value: ReactNode;
+    /** Span both grid columns (e.g. a long price line). */
+    full?: boolean;
+}
+interface ModelManagerCardProps {
+    /** Leading model icon. */
+    icon?: ReactNode;
+    /** Model display name (the card title). */
+    name: ReactNode;
+    /** Id / alias chips rendered under the name. */
+    ids?: ReactNode;
+    /** Row-select control (a checkbox), shown at the card's top-left. */
+    selectSlot?: ReactNode;
+    /** Row actions (edit / enable / inspect / delete …), shown top-right. */
+    actions?: ReactNode;
+    /** Labelled specs — provider, developer, type, status, context/resolution,
+     *  max output, price, … — laid out in a 2-column grid. */
+    fields?: ModelManagerField[];
+    /** Capability badges + an optional label. */
+    capabilities?: {
+        label?: ReactNode;
+        value: ReactNode;
+    };
+    /** Mark the row selected (a ring + tint). */
+    selected?: boolean;
+    className?: string;
+}
+/** A model-management row as a card (all admin columns, top-to-bottom). */
+declare function ModelManagerCard({ icon, name, ids, selectSlot, actions, fields, capabilities, selected, className, }: ModelManagerCardProps): React.JSX.Element;
+
 /** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge). */
 declare function IDBadge({ text, truncate }: {
     text: string;
@@ -302,4 +335,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
