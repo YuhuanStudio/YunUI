@@ -1,0 +1,33 @@
+import { SettingRow } from "yunui/patterns";
+
+**設定 / 偏好** 清單中帶標籤的一列：標題、可選描述，以及尾端的控制項槽——`Switch`、`Select` 或按鈕。在卡片中堆疊多列，底部邊框分隔它們，最後一列去掉邊框。僅負責呈現——控制項及其狀態由主端擁有。
+
+## 匯入
+
+```tsx
+import { SettingRow } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+將任意控制項傳入 `control` 槽。`description` 在標題下方換行顯示，可選。
+
+<ComponentPreview
+  title="SettingRow"
+  code={`import { SettingRow } from "@yuhuanowo/yunui/patterns";
+import { Switch } from "@yuhuanowo/yunui";
+
+<div className="rounded-xl border border-border bg-card px-4">
+  <SettingRow title="Email notifications"
+    description="Receive a summary of account activity in your inbox."
+    control={<Switch checked={email} onCheckedChange={setEmail} />} />
+  <SettingRow title="Weekly digest"
+    control={<Switch checked={digest} onCheckedChange={setDigest} />} />
+</div>`}
+>
+  <SettingRowDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="SettingRow" />

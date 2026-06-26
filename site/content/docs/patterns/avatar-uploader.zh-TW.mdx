@@ -1,0 +1,27 @@
+import { AvatarUploader } from "yunui/patterns";
+
+可點擊的頭像，點擊開啟 **檔案選擇器**：顯示目前圖片（或首字母後備）、懸停時的相機疊層，以及上傳時的載入轉圈。上傳由主端負責——`onSelectFile` 回傳選中的 `File`，`uploading` 驅動轉圈。
+
+## 匯入
+
+```tsx
+import { AvatarUploader } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+沒有 `src` 時，在漸層背景上渲染 `fallback`（如首字母）。上傳進行中設定 `uploading`，將相機替換為轉圈。
+
+<ComponentPreview
+  title="AvatarUploader"
+  code={`import { AvatarUploader } from "@yuhuanowo/yunui/patterns";
+
+<AvatarUploader fallback="YH" uploading={uploading} label="Change avatar"
+  onSelectFile={(file) => upload(file)} />`}
+>
+  <AvatarUploaderDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="AvatarUploader" />

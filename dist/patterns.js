@@ -6,7 +6,7 @@ import { cn } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Bell, Trash2, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1315,7 +1315,126 @@ function NotificationPanel({
     }
   );
 }
+function SettingRow({ title, description, control, className }) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex items-center justify-between gap-4 py-3 border-b border-border last:border-0", className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1", children: [
+      /* @__PURE__ */ jsx("div", { className: "text-sm font-medium", children: title }),
+      description && /* @__PURE__ */ jsx("div", { className: "text-xs text-(--text-tertiary) mt-0.5 leading-relaxed whitespace-normal wrap-break-word", children: description })
+    ] }),
+    control != null && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: control })
+  ] });
+}
+function LinkRow({ icon, title, description, href, external, className }) {
+  const { Link } = useYunUI();
+  const inner = /* @__PURE__ */ jsxs(Fragment, { children: [
+    icon != null && /* @__PURE__ */ jsx("span", { className: "text-(--text-tertiary) shrink-0", children: icon }),
+    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsx("div", { className: "text-sm font-medium", children: title }),
+      description && /* @__PURE__ */ jsx("div", { className: "text-xs text-(--text-tertiary) truncate", children: description })
+    ] }),
+    /* @__PURE__ */ jsx(ChevronRight, { size: 16, className: "text-(--text-muted) shrink-0" })
+  ] });
+  const cls = cn(
+    "flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-(--bg-elevated) transition-colors",
+    className
+  );
+  if (external) {
+    return /* @__PURE__ */ jsx("a", { href, target: "_blank", rel: "noopener noreferrer", className: cls, children: inner });
+  }
+  return /* @__PURE__ */ jsx(Link, { href, className: cls, children: inner });
+}
+function ConnectedAccountRow({
+  icon,
+  badge,
+  avatarUrl,
+  name,
+  subname,
+  detail,
+  time,
+  onUnlink,
+  unlinking,
+  unlinkLabel,
+  className
+}) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-3 p-3 rounded-xl bg-(--bg-elevated) border border-border", className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "relative shrink-0", children: [
+      avatarUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        /* @__PURE__ */ jsx("img", { src: avatarUrl, alt: "", className: "w-9 h-9 rounded-full object-cover ring-2 ring-border" })
+      ) : /* @__PURE__ */ jsx("div", { className: "w-9 h-9 rounded-full bg-muted flex items-center justify-center ring-2 ring-border", children: icon }),
+      badge != null && /* @__PURE__ */ jsx("div", { className: "absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-(--bg-elevated) border border-border flex items-center justify-center", children: badge })
+    ] }),
+    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsx("span", { className: "text-sm font-medium capitalize", children: name }),
+        subname != null && /* @__PURE__ */ jsxs("span", { className: "text-xs text-(--text-secondary) truncate", children: [
+          "\xB7 ",
+          subname
+        ] })
+      ] }),
+      detail != null && /* @__PURE__ */ jsx("div", { className: "text-xs text-(--text-tertiary) truncate", children: detail }),
+      time != null && /* @__PURE__ */ jsxs("div", { className: "text-[10px] text-(--text-tertiary) flex items-center gap-1 mt-0.5", children: [
+        /* @__PURE__ */ jsx(Clock, { size: 8 }),
+        time
+      ] })
+    ] }),
+    onUnlink && /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        onClick: onUnlink,
+        disabled: unlinking,
+        title: unlinkLabel,
+        "aria-label": unlinkLabel,
+        className: "p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-(--text-tertiary) hover:text-red-500 transition-colors shrink-0",
+        children: unlinking ? /* @__PURE__ */ jsx(Loader2, { size: 14, className: "animate-spin" }) : /* @__PURE__ */ jsx(X, { size: 14 })
+      }
+    )
+  ] });
+}
+function AvatarUploader({
+  src,
+  fallback,
+  size = 48,
+  uploading,
+  onSelectFile,
+  label,
+  className
+}) {
+  const inputRef = useRef(null);
+  return /* @__PURE__ */ jsxs(
+    "button",
+    {
+      type: "button",
+      onClick: () => inputRef.current?.click(),
+      "aria-label": label,
+      className: cn("relative group cursor-pointer shrink-0 rounded-full", className),
+      style: { width: size, height: size },
+      children: [
+        /* @__PURE__ */ jsx(
+          "input",
+          {
+            ref: inputRef,
+            type: "file",
+            accept: "image/*",
+            className: "hidden",
+            onChange: (e) => {
+              const file = e.target.files?.[0];
+              if (file) onSelectFile?.(file);
+              e.target.value = "";
+            }
+          }
+        ),
+        src ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          /* @__PURE__ */ jsx("img", { src, alt: "", className: "w-full h-full rounded-full object-cover ring-2 ring-border group-hover:ring-primary transition-all" })
+        ) : /* @__PURE__ */ jsx("div", { className: "w-full h-full rounded-full bg-linear-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold ring-2 ring-border group-hover:ring-primary transition-all", style: { fontSize: size * 0.36 }, children: fallback }),
+        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center", children: uploading ? /* @__PURE__ */ jsx(Loader2, { size: Math.round(size / 3), className: "text-white animate-spin" }) : /* @__PURE__ */ jsx(Camera, { size: Math.round(size / 3), className: "text-white" }) })
+      ]
+    }
+  );
+}
 
-export { AccountLockedCard, ActiveBadge, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

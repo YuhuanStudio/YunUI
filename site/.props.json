@@ -830,6 +830,57 @@
       "description": ""
     }
   ],
+  "AvatarUploader": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "fallback",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Fallback content (e.g. the user's initials)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible label for the control."
+    },
+    {
+      "name": "onSelectFile",
+      "type": "((file: File) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Called with the picked file."
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "defaultValue": "48",
+      "description": "Diameter in px."
+    },
+    {
+      "name": "src",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Current avatar image URL; when absent, `fallback` is shown."
+    },
+    {
+      "name": "uploading",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "True while an upload is in flight — shows a spinner."
+    }
+  ],
   "FellowBadge": [
     {
       "name": "className",
@@ -1232,6 +1283,85 @@
       "description": "Render multiple switchable code tabs instead of a single `code` block."
     }
   ],
+  "ConnectedAccountRow": [
+    {
+      "name": "avatarUrl",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Avatar image URL; falls back to `icon` in a ring."
+    },
+    {
+      "name": "badge",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Small provider badge overlaid bottom-right."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "detail",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Detail line — e.g.\n@username or an email."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Provider glyph, shown in a ring when there's no avatar image."
+    },
+    {
+      "name": "name",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onUnlink",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "subname",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "A faint \"· extra\" after the name."
+    },
+    {
+      "name": "time",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host-formatted connected time (rendered after a clock glyph)."
+    },
+    {
+      "name": "unlinking",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "unlinkLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
   "LLMCopyButton": [
     {
       "name": "markdownUrl",
@@ -1379,6 +1509,50 @@
     {
       "name": "title",
       "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "LinkRow": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "external",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Open in a new tab via a plain anchor (default false → adapter Link)."
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Destination."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
       "required": true,
       "defaultValue": null,
       "description": ""
@@ -1912,6 +2086,36 @@
       "required": false,
       "defaultValue": null,
       "description": "Host-formatted relative time (rendered after a clock glyph)."
+    }
+  ],
+  "SettingRow": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "control",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "The trailing control (e.g. a `<Switch>`)."
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
     }
   ],
   "Sidebar": [

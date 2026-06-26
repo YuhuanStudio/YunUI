@@ -1,0 +1,29 @@
+import { ConnectedAccountRow } from "yunui/patterns";
+
+**已連結帳戶 / 整合** 清單中的一列：供應商頭像（圖片，或環中圖示）帶小型供應商徽章疊加、帳戶名 + 可選副名、詳情列（使用者名稱 / 信箱）、連結時間頁尾與解除綁定按鈕。僅負責呈現——解除綁定操作由主端擁有。
+
+## 匯入
+
+```tsx
+import { ConnectedAccountRow } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+傳入 `avatarUrl` 顯示真實頭像，或用 `icon` 在環中顯示供應商圖示。`badge` 在右下角疊加小型供應商標記。
+
+<ComponentPreview
+  title="ConnectedAccountRow"
+  code={`import { ConnectedAccountRow } from "@yuhuanowo/yunui/patterns";
+import { Github } from "lucide-react";
+
+<ConnectedAccountRow icon={<Github size={18} />} badge={<Github size={11} />}
+  name="GitHub" subname="primary" detail="@octocat"
+  time="Connected 3 months ago" unlinkLabel="Unlink" onUnlink={() => {}} />`}
+>
+  <ConnectedAccountRowDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="ConnectedAccountRow" />

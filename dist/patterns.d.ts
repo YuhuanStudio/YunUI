@@ -535,4 +535,63 @@ interface NotificationPanelProps {
 }
 declare function NotificationPanel({ title, unreadCount, unreadLabel, loading, loadingLabel, empty, emptyLabel, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, type SessionItemProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+interface SettingRowProps {
+    title: ReactNode;
+    description?: ReactNode;
+    /** The trailing control (e.g. a `<Switch>`). */
+    control?: ReactNode;
+    className?: string;
+}
+declare function SettingRow({ title, description, control, className }: SettingRowProps): React$1.JSX.Element;
+
+interface LinkRowProps {
+    icon?: ReactNode;
+    title: ReactNode;
+    description?: ReactNode;
+    /** Destination. */
+    href: string;
+    /** Open in a new tab via a plain anchor (default false → adapter Link). */
+    external?: boolean;
+    className?: string;
+}
+declare function LinkRow({ icon, title, description, href, external, className }: LinkRowProps): React$1.JSX.Element;
+
+interface ConnectedAccountRowProps {
+    /** Provider glyph, shown in a ring when there's no avatar image. */
+    icon?: ReactNode;
+    /** Small provider badge overlaid bottom-right. */
+    badge?: ReactNode;
+    /** Avatar image URL; falls back to `icon` in a ring. */
+    avatarUrl?: string;
+    name: ReactNode;
+    /** A faint "· extra" after the name. */
+    subname?: ReactNode;
+    /** Detail line — e.g. @username or an email. */
+    detail?: ReactNode;
+    /** Host-formatted connected time (rendered after a clock glyph). */
+    time?: ReactNode;
+    onUnlink?: () => void;
+    unlinking?: boolean;
+    unlinkLabel?: string;
+    className?: string;
+}
+declare function ConnectedAccountRow({ icon, badge, avatarUrl, name, subname, detail, time, onUnlink, unlinking, unlinkLabel, className, }: ConnectedAccountRowProps): React$1.JSX.Element;
+
+interface AvatarUploaderProps {
+    /** Current avatar image URL; when absent, `fallback` is shown. */
+    src?: string;
+    /** Fallback content (e.g. the user's initials). */
+    fallback?: ReactNode;
+    /** Diameter in px. */
+    size?: number;
+    /** True while an upload is in flight — shows a spinner. */
+    uploading?: boolean;
+    /** Called with the picked file. */
+    onSelectFile?: (file: File) => void;
+    /** Accessible label for the control. */
+    label?: string;
+    className?: string;
+}
+declare function AvatarUploader({ src, fallback, size, uploading, onSelectFile, label, className, }: AvatarUploaderProps): React$1.JSX.Element;
+
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

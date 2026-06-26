@@ -1,0 +1,27 @@
+import { AvatarUploader } from "yunui/patterns";
+
+A clickable avatar that opens a **file picker**: it shows the current image (or an initials fallback), a camera overlay on hover, and a spinner while uploading. The host owns the upload — `onSelectFile` hands back the chosen `File`, and `uploading` drives the spinner.
+
+## Import
+
+```tsx
+import { AvatarUploader } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+Without `src` it renders the `fallback` (e.g. initials) on a gradient. Set `uploading` while your upload is in flight to swap the camera for a spinner.
+
+<ComponentPreview
+  title="AvatarUploader"
+  code={`import { AvatarUploader } from "@yuhuanowo/yunui/patterns";
+
+<AvatarUploader fallback="YH" uploading={uploading} label="Change avatar"
+  onSelectFile={(file) => upload(file)} />`}
+>
+  <AvatarUploaderDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="AvatarUploader" />

@@ -60,6 +60,21 @@ patch = fixes, anything may change between 0.x releases).
   in/out), and capability badges — every admin-table column present, top-to-bottom,
   so model management reads on any width instead of a wide scrolling table. All
   values are slots. Long, unbreakable names wrap inside the card.
+- **`SettingRow` (patterns)** — one labelled row in a settings / preferences list:
+  title · optional description · trailing control slot (a `Switch`, `Select`,
+  button…). Stack several in a card; a bottom border divides them and the last
+  one drops it. Presentation only — the host owns the control and its state.
+- **`LinkRow` (patterns)** — a tappable row that links somewhere: leading icon ·
+  title + description · trailing chevron. For support links, settings navigation,
+  "manage X" entries. `external` opens a new-tab anchor; otherwise it routes
+  through the adapter `Link`.
+- **`ConnectedAccountRow` (patterns)** — a row in a connected-accounts /
+  integrations list: a provider avatar (image, or a glyph in a ring) with a small
+  provider badge overlay · name + optional sub-name · detail line · connected-time
+  footer · unlink button. Host owns the unlink.
+- **`AvatarUploader` (patterns)** — a clickable avatar that opens a file picker:
+  shows the image or an initials fallback, a camera overlay on hover, and a spinner
+  while uploading. `onSelectFile` hands back the chosen `File`; the host uploads.
 
 ## [0.2.13] - 2026-06-26
 

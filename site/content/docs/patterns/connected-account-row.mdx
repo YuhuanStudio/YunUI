@@ -1,0 +1,29 @@
+import { ConnectedAccountRow } from "yunui/patterns";
+
+A row in a **connected-accounts / integrations** list: a provider avatar (an image, or a glyph in a ring) with a small provider badge overlaid, the account name + an optional sub-name, a detail line (username / email), a connected-time footer, and an unlink button. Presentation only — the host owns the unlink action.
+
+## Import
+
+```tsx
+import { ConnectedAccountRow } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+Pass `avatarUrl` for a real avatar, or `icon` for a provider glyph in a ring. `badge` overlays a small provider mark bottom-right.
+
+<ComponentPreview
+  title="ConnectedAccountRow"
+  code={`import { ConnectedAccountRow } from "@yuhuanowo/yunui/patterns";
+import { Github } from "lucide-react";
+
+<ConnectedAccountRow icon={<Github size={18} />} badge={<Github size={11} />}
+  name="GitHub" subname="primary" detail="@octocat"
+  time="Connected 3 months ago" unlinkLabel="Unlink" onUnlink={() => {}} />`}
+>
+  <ConnectedAccountRowDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ConnectedAccountRow" />

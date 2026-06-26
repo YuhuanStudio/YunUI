@@ -154,6 +154,10 @@ import {
   FeatureLockedStateDemo,
   SessionItemDemo,
   MetricBarDemo,
+  SettingRowDemo,
+  LinkRowDemo,
+  ConnectedAccountRowDemo,
+  AvatarUploaderDemo,
 } from "@/components/docs/demos";
 import {
   Heart,
@@ -1766,6 +1770,18 @@ export default function Showcase() {
         </Demo>
         <Demo title="Feature locked state" description="The centered 'feature unavailable' screen — icon medallion, title, description and an optional dashed restricted-note card.">
           <FeatureLockedStateDemo />
+        </Demo>
+        <Demo title="Setting row" description="One labelled row in a settings list — title, optional description, and a trailing control slot (Switch, Select, button). Stack several; a divider separates them.">
+          <SettingRowDemo />
+        </Demo>
+        <Demo title="Link row" description="A tappable row that links somewhere — leading icon, title + description, trailing chevron. For support links and settings navigation.">
+          <LinkRowDemo />
+        </Demo>
+        <Demo title="Connected account row" description="A row in a connected-accounts list — provider avatar with a badge overlay, name + sub-name, detail line, connected-time footer, and an unlink button.">
+          <ConnectedAccountRowDemo />
+        </Demo>
+        <Demo title="Avatar uploader" description="A clickable avatar that opens a file picker — image or initials fallback, a camera overlay on hover, and a spinner while uploading.">
+          <AvatarUploaderDemo />
         </Demo>
         <Demo title={t("demos.fellowsBanner.title")}>
           <div className="w-full max-w-xl">

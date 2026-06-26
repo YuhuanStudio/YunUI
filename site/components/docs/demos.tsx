@@ -27,6 +27,10 @@ import {
   NotificationBell,
   NotificationItem,
   NotificationPanel,
+  SettingRow,
+  LinkRow,
+  ConnectedAccountRow,
+  AvatarUploader,
   Sidebar,
   type SidebarSection,
 } from "yunui/patterns";
@@ -42,7 +46,7 @@ import {
   ModelIcon,
   ProviderIcon,
 } from "yunui/ai";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone } from "lucide-react";
+import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -498,6 +502,97 @@ export function NotificationDemo() {
           );
         })}
       </NotificationPanel>
+    </div>
+  );
+}
+
+export function SettingRowDemo() {
+  const [email, setEmail] = useState(true);
+  const [push, setPush] = useState(false);
+  const [digest, setDigest] = useState(true);
+  return (
+    <div className="w-full max-w-md rounded-xl border border-border bg-card px-4">
+      <SettingRow
+        title="Email notifications"
+        description="Receive a summary of account activity in your inbox."
+        control={<Switch checked={email} onCheckedChange={setEmail} />}
+      />
+      <SettingRow
+        title="Push notifications"
+        description="Get notified on your devices the moment something happens."
+        control={<Switch checked={push} onCheckedChange={setPush} />}
+      />
+      <SettingRow
+        title="Weekly digest"
+        control={<Switch checked={digest} onCheckedChange={setDigest} />}
+      />
+    </div>
+  );
+}
+
+export function LinkRowDemo() {
+  return (
+    <div className="w-full max-w-md space-y-2">
+      <LinkRow icon={<HelpCircle size={18} />} title="Help center" description="Guides, FAQs and troubleshooting" href="#" external />
+      <LinkRow icon={<FileText size={18} />} title="Documentation" description="API reference and integration guides" href="#" external />
+      <LinkRow icon={<Shield size={18} />} title="Privacy policy" description="How we handle your data" href="#" external />
+    </div>
+  );
+}
+
+export function ConnectedAccountRowDemo() {
+  const [linked, setLinked] = useState(["github", "google"]);
+  return (
+    <div className="w-full max-w-md space-y-2">
+      {linked.includes("github") && (
+        <ConnectedAccountRow
+          icon={<Code2 size={18} />}
+          badge={<Code2 size={11} />}
+          name="GitHub"
+          subname="primary"
+          detail="@octocat"
+          time="Connected 3 months ago"
+          unlinkLabel="Unlink"
+          onUnlink={() => setLinked((p) => p.filter((x) => x !== "github"))}
+        />
+      )}
+      {linked.includes("google") && (
+        <ConnectedAccountRow
+          icon={<Globe size={18} />}
+          badge={<Globe size={11} />}
+          name="Google"
+          detail="octocat@gmail.com"
+          time="Connected 1 year ago"
+          unlinkLabel="Unlink"
+          onUnlink={() => setLinked((p) => p.filter((x) => x !== "google"))}
+        />
+      )}
+      {linked.length === 0 && (
+        <button onClick={() => setLinked(["github", "google"])} className="text-xs text-muted-foreground hover:text-foreground">Reset accounts</button>
+      )}
+    </div>
+  );
+}
+
+export function AvatarUploaderDemo() {
+  const [uploading, setUploading] = useState(false);
+  return (
+    <div className="flex items-center gap-6">
+      <AvatarUploader
+        fallback="YH"
+        uploading={uploading}
+        label="Change avatar"
+        onSelectFile={() => {
+          setUploading(true);
+          setTimeout(() => setUploading(false), 1500);
+        }}
+      />
+      <AvatarUploader
+        size={72}
+        src="https://avatars.githubusercontent.com/u/9919?v=4"
+        label="Change avatar"
+        onSelectFile={() => {}}
+      />
     </div>
   );
 }

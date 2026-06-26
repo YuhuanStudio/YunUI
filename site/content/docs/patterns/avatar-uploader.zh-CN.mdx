@@ -1,0 +1,27 @@
+import { AvatarUploader } from "yunui/patterns";
+
+可点击的头像，点击打开 **文件选择器**：显示当前图片（或首字母回退）、悬停时的相机叠层，以及上传时的加载转圈。上传由宿主负责——`onSelectFile` 回传选中的 `File`，`uploading` 驱动转圈。
+
+## 导入
+
+```tsx
+import { AvatarUploader } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+没有 `src` 时，在渐变背景上渲染 `fallback`（如首字母）。上传进行中设置 `uploading`，将相机替换为转圈。
+
+<ComponentPreview
+  title="AvatarUploader"
+  code={`import { AvatarUploader } from "@yuhuanowo/yunui/patterns";
+
+<AvatarUploader fallback="YH" uploading={uploading} label="Change avatar"
+  onSelectFile={(file) => upload(file)} />`}
+>
+  <AvatarUploaderDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="AvatarUploader" />

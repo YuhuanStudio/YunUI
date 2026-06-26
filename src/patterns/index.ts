@@ -74,3 +74,11 @@ export {
   NotificationPanel,
   type NotificationPanelProps,
 } from "./notification";
+
+// Settings / profile rows.
+export { SettingRow, type SettingRowProps } from "./setting-row";
+export { LinkRow, type LinkRowProps } from "./link-row";
+export { ConnectedAccountRow, type ConnectedAccountRowProps } from "./connected-account-row";
+
+// Avatar uploader — clickable avatar with file picker + upload spinner.
+export { AvatarUploader, type AvatarUploaderProps } from "./avatar-uploader";

@@ -1,0 +1,32 @@
+import { LinkRow } from "yunui/patterns";
+
+A tappable row that **links somewhere**: a leading icon, a title + description, and a trailing chevron. Use it for support links, settings navigation, "manage X" entries. External links open in a new tab via a plain anchor; internal ones route through the adapter `Link`. Presentation only.
+
+## Import
+
+```tsx
+import { LinkRow } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+Set `external` for a new-tab anchor; omit it to navigate internally through the adapter router.
+
+<ComponentPreview
+  title="LinkRow"
+  code={`import { LinkRow } from "@yuhuanowo/yunui/patterns";
+import { HelpCircle, FileText } from "lucide-react";
+
+<>
+  <LinkRow icon={<HelpCircle size={18} />} title="Help center"
+    description="Guides, FAQs and troubleshooting" href="/help" external />
+  <LinkRow icon={<FileText size={18} />} title="Documentation"
+    description="API reference and integration guides" href="/docs" external />
+</>`}
+>
+  <LinkRowDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="LinkRow" />

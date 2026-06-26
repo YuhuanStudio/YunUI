@@ -849,6 +849,46 @@ export const docs: DocEntry[] = [
     "notification bell badge unread dropdown panel item toast alert center",
   ),
   pat(
+    "setting-row",
+    { en: "Setting Row", "zh-CN": "设置行", "zh-TW": "設定列" },
+    {
+      en: "One labelled row in a settings / preferences list — a title, optional description, and a trailing control slot (Switch, Select, button). Stack several; a divider separates them.",
+      "zh-CN": "设置 / 偏好列表中的一行——标题、可选描述与尾部控件槽（Switch、Select、按钮）。可堆叠多行,分隔线自动区隔。",
+      "zh-TW": "設定 / 偏好清單中的一列——標題、可選描述與尾端控制項槽（Switch、Select、按鈕）。可堆疊多列,分隔線自動區隔。",
+    },
+    "setting preference row toggle switch control option list divider profile",
+  ),
+  pat(
+    "link-row",
+    { en: "Link Row", "zh-CN": "链接行", "zh-TW": "連結列" },
+    {
+      en: "A tappable row that links somewhere — leading icon, title + description, trailing chevron. For support links, settings navigation, 'manage X' entries. External links open a new tab; internal use the adapter Link.",
+      "zh-CN": "可点击的导航行——前置图标、标题 + 描述、尾部箭头。用于支持链接、设置导航、「管理 X」入口。外链新开标签页,内链走适配器 Link。",
+      "zh-TW": "可點擊的導覽列——前置圖示、標題 + 描述、尾端箭頭。用於支援連結、設定導覽、「管理 X」入口。外連新開分頁,內連走轉接器 Link。",
+    },
+    "link row navigation chevron support settings external anchor list profile",
+  ),
+  pat(
+    "connected-account-row",
+    { en: "Connected Account Row", "zh-CN": "已连接账户行", "zh-TW": "已連結帳戶列" },
+    {
+      en: "A row in a connected-accounts / integrations list — a provider avatar (image or glyph in a ring) with a badge overlay, name + sub-name, detail line, connected-time footer, and an unlink button.",
+      "zh-CN": "已连接账户 / 集成列表中的一行——供应商头像（图片或环中图标）带徽章叠加、名称 + 副名、详情行、连接时间页脚与解绑按钮。",
+      "zh-TW": "已連結帳戶 / 整合清單中的一列——供應商頭像（圖片或環中圖示）帶徽章疊加、名稱 + 副名、詳情列、連結時間頁尾與解除綁定按鈕。",
+    },
+    "connected account oauth integration provider unlink avatar badge social github google profile",
+  ),
+  pat(
+    "avatar-uploader",
+    { en: "Avatar Uploader", "zh-CN": "头像上传", "zh-TW": "頭像上傳" },
+    {
+      en: "A clickable avatar that opens a file picker — shows the image or an initials fallback, a camera overlay on hover, and a spinner while uploading. The host owns the upload.",
+      "zh-CN": "可点击的头像,点击打开文件选择器——显示图片或首字母回退、悬停时相机叠层、上传时加载转圈。上传由宿主负责。",
+      "zh-TW": "可點擊的頭像,點擊開啟檔案選擇器——顯示圖片或首字母後備、懸停時相機疊層、上傳時載入轉圈。上傳由主端負責。",
+    },
+    "avatar uploader image upload file picker camera profile picture initials fallback",
+  ),
+  pat(
     "category-filter",
     { en: "Category Filter", "zh-CN": "分类筛选", "zh-TW": "分類篩選" },
     {
@@ -1100,6 +1140,10 @@ export const groups: DocGroup[] = [
       "patterns/session-item",
       "patterns/metric-bar",
       "patterns/notification",
+      "patterns/setting-row",
+      "patterns/link-row",
+      "patterns/connected-account-row",
+      "patterns/avatar-uploader",
       "patterns/category-filter",
       "patterns/code-demo",
       "patterns/docs-actions",

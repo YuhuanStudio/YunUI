@@ -1,0 +1,32 @@
+import { LinkRow } from "yunui/patterns";
+
+可点击的 **导航行**：前置图标、标题 + 描述，以及尾部箭头。用于支持链接、设置导航、「管理 X」入口。外部链接通过普通 `<a>` 新开标签页；内部链接走适配器 `Link`。仅负责展示。
+
+## 导入
+
+```tsx
+import { LinkRow } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+设置 `external` 以新标签页打开；省略它则通过适配器路由内部导航。
+
+<ComponentPreview
+  title="LinkRow"
+  code={`import { LinkRow } from "@yuhuanowo/yunui/patterns";
+import { HelpCircle, FileText } from "lucide-react";
+
+<>
+  <LinkRow icon={<HelpCircle size={18} />} title="Help center"
+    description="Guides, FAQs and troubleshooting" href="/help" external />
+  <LinkRow icon={<FileText size={18} />} title="Documentation"
+    description="API reference and integration guides" href="/docs" external />
+</>`}
+>
+  <LinkRowDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="LinkRow" />
