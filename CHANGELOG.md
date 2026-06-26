@@ -11,7 +11,7 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
-## [0.2.13] - 2026-06-25
+## [0.2.13] - 2026-06-26
 
 ### Added
 - **`ModelSelect` (ai)** — a generic, domain-agnostic searchable model picker:
