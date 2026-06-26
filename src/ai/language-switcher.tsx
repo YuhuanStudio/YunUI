@@ -68,12 +68,14 @@ export function LanguageSwitcher({
             {variant === "pill" ? (
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50"
+                    className="flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50"
                     disabled={pending}
                     aria-label={label}
                 >
-                    <Globe size={14} />
-                    <span>{currentLabel}</span>
+                    <Globe size={14} className="shrink-0" />
+                    {/* Drop the label when there's no room — collapse to icon-only
+                        (the Globe + aria-label still convey the control). */}
+                    <span className="hidden sm:inline">{currentLabel}</span>
                 </button>
             ) : (
                 <button

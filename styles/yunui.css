@@ -1014,6 +1014,11 @@ select.input option,
   border-radius: 6px;
   background: var(--bg-glass-hover);
   color: var(--text-secondary);
+  /* A badge is an atomic unit: icon + label stay on one line, and the badge
+     keeps its natural width inside a flex row (wraps as a whole, never gets
+     squeezed so its CJK label breaks per-character in a narrow column). */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .badge-accent {

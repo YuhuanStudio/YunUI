@@ -15,6 +15,15 @@ patch = fixes, anything may change between 0.x releases).
 - **`Checkbox` no longer crashes when used uncontrolled.** `checked` now defaults
   to `false` and `onCheckedChange` is optional (guarded), so a display-only
   checkbox (no handler) renders instead of throwing on click.
+- **`ModelManagerCard` no longer stretches to fit a long model name.** The name now
+  carries `min-w-0 break-words`, so an unbreakable long name wraps inside the card
+  instead of widening the whole column.
+- **`.badge` is now an atomic unit.** Added `white-space: nowrap` + `flex-shrink: 0`
+  so a badge keeps its icon and label on one line and wraps as a whole in a narrow
+  flex column, instead of being squeezed until a CJK label breaks per-character.
+- **`LanguageSwitcher` `pill` collapses to icon-only when space is tight.** The label
+  is `hidden sm:inline` (icon + `aria-label` still convey the control), so the pill
+  degrades to a round globe button on narrow widths instead of overflowing.
 
 ### Added
 - **`SimplePagination` (patterns)** — a prev / page-indicator / next pager for

@@ -435,7 +435,7 @@ function ModelManagerCard({
           icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
           /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
             /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap", children: [
-              /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight", children: name }),
+              /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight min-w-0 break-words", children: name }),
               nameBadges
             ] }),
             ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1.5", children: ids })
@@ -1500,12 +1500,12 @@ function LanguageSwitcher({
       "button",
       {
         onClick: () => setIsOpen(!isOpen),
-        className: "flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50",
+        className: "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50",
         disabled: pending,
         "aria-label": label,
         children: [
-          /* @__PURE__ */ jsx(Globe, { size: 14 }),
-          /* @__PURE__ */ jsx("span", { children: currentLabel })
+          /* @__PURE__ */ jsx(Globe, { size: 14, className: "shrink-0" }),
+          /* @__PURE__ */ jsx("span", { className: "hidden sm:inline", children: currentLabel })
         ]
       }
     ) : /* @__PURE__ */ jsx(

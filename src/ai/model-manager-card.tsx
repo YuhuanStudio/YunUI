@@ -79,7 +79,7 @@ export function ModelManagerCard({
                 {icon && <div className="shrink-0">{icon}</div>}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">
-                        <span className="font-semibold leading-tight">{name}</span>
+                        <span className="font-semibold leading-tight min-w-0 break-words">{name}</span>
                         {nameBadges}
                     </div>
                     {ids && <div className="flex flex-wrap items-center gap-1 mt-1.5">{ids}</div>}
