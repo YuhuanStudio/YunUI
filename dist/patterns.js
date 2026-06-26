@@ -564,6 +564,30 @@ function BlogPagination({
     )
   ] });
 }
+function SimplePagination({
+  currentPage,
+  hasPrevious,
+  hasNext,
+  onPrevious,
+  onNext,
+  labels
+}) {
+  const canPrev = hasPrevious ?? currentPage > 1;
+  const previousLabel = labels?.previous ?? "Previous";
+  const nextLabel = labels?.next ?? "Next";
+  const pageNode = labels?.page ? labels.page(currentPage) : `Page ${currentPage}`;
+  return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-center gap-1.5 sm:gap-2", children: [
+    /* @__PURE__ */ jsxs(Button, { variant: "ghost", size: "sm", onClick: onPrevious, disabled: !canPrev, children: [
+      /* @__PURE__ */ jsx(ChevronLeft, { size: 16 }),
+      /* @__PURE__ */ jsx("span", { className: "ml-1 hidden sm:inline", children: previousLabel })
+    ] }),
+    /* @__PURE__ */ jsx("span", { className: "px-3 text-sm font-medium tabular-nums whitespace-nowrap", children: pageNode }),
+    /* @__PURE__ */ jsxs(Button, { variant: "ghost", size: "sm", onClick: onNext, disabled: !hasNext, children: [
+      /* @__PURE__ */ jsx("span", { className: "mr-1 hidden sm:inline", children: nextLabel }),
+      /* @__PURE__ */ jsx(ChevronRight, { size: 16 })
+    ] })
+  ] });
+}
 function CategoryFilter({
   categories,
   selectedCategory,
@@ -1036,6 +1060,6 @@ function DeprecatedBadge({ isDeprecated }) {
   return /* @__PURE__ */ jsx("span", { className: "badge", children: t("deprecated") });
 }
 
-export { AccountLockedCard, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

@@ -1,5 +1,5 @@
 import * as React$1 from 'react';
-import React__default, { ElementType, ReactNode } from 'react';
+import React__default, { ReactNode, ElementType } from 'react';
 export { F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial } from './footer-BoFu7Wqq.js';
 
 declare function BackgroundEffects(): React$1.JSX.Element;
@@ -116,6 +116,27 @@ interface BlogPaginationProps {
     };
 }
 declare function BlogPagination({ currentPage, totalPages, onPageChange, labels, }: BlogPaginationProps): React$1.JSX.Element | null;
+
+interface SimplePaginationProps {
+    /** 1-indexed current page, shown in the centre indicator. */
+    currentPage: number;
+    /** Whether a previous page exists. Defaults to `currentPage > 1`. */
+    hasPrevious?: boolean;
+    /** Whether a next page exists — cursor-style, for lists with no known total. */
+    hasNext: boolean;
+    onPrevious: () => void;
+    onNext: () => void;
+    /** Localized labels. `page` renders the centre indicator (default `Page {n}`). */
+    labels?: {
+        previous?: string;
+        next?: string;
+        page?: (n: number) => ReactNode;
+    };
+}
+/** Prev / page-indicator / next pager for cursor- or has-more-style lists where
+ *  the total page count isn't known (so numbered pages aren't possible). Matches
+ *  `BlogPagination`'s ghost-button styling. */
+declare function SimplePagination({ currentPage, hasPrevious, hasNext, onPrevious, onNext, labels, }: SimplePaginationProps): React$1.JSX.Element;
 
 interface CategoryFilterProps {
     categories: string[];
@@ -380,4 +401,4 @@ declare function DeprecatedBadge({ isDeprecated }: {
     isDeprecated: boolean;
 }): React$1.JSX.Element | null;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

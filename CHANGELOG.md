@@ -17,6 +17,10 @@ patch = fixes, anything may change between 0.x releases).
   checkbox (no handler) renders instead of throwing on click.
 
 ### Added
+- **`SimplePagination` (patterns)** — a prev / page-indicator / next pager for
+  cursor- or has-more-style lists where the total page count isn't known (so
+  `BlogPagination`'s numbered pages don't apply). Same ghost-button styling;
+  `hasNext` drives the next button, `labels.page` renders the centre indicator.
 - **`ModelManagerCard` (ai)** — a dense admin model row rendered as a card: header
   (select · icon · name + id chips · row actions), a 2-column labelled spec grid
   (provider, developer, type, status, context **or** resolution, max output, price

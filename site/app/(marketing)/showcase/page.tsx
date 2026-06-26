@@ -121,6 +121,7 @@ import {
   BlogCard,
   BlogPostHeader,
   BlogPagination,
+  SimplePagination,
   CategoryFilter,
   BackgroundEffects,
   PageHeader,
@@ -433,6 +434,13 @@ function BlogControlsDemo() {
         onSelect={setCategory}
       />
       <BlogPagination currentPage={page} totalPages={12} onPageChange={setPage} />
+      {/* SimplePagination — cursor / has-more lists with no known total */}
+      <SimplePagination
+        currentPage={page}
+        hasNext={page < 12}
+        onPrevious={() => setPage((p) => Math.max(1, p - 1))}
+        onNext={() => setPage((p) => p + 1)}
+      />
       <p className="text-caption text-center">{t("page")} {page} · {t("category")}: {category ?? t("all")}</p>
     </div>
   );
