@@ -25,6 +25,7 @@ export function CategoryFilter({
         variant="ghost"
         size="sm"
         onClick={() => handleCategoryClick(null)}
+        aria-pressed={!selectedCategory}
         className={!selectedCategory ? "font-semibold" : ""}
         style={!selectedCategory ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : undefined}
       >
@@ -37,6 +38,7 @@ export function CategoryFilter({
           variant="ghost"
           size="sm"
           onClick={() => handleCategoryClick(category)}
+          aria-pressed={selectedCategory === category}
           className={selectedCategory === category ? "font-semibold" : ""}
           style={selectedCategory === category ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : undefined}
         >

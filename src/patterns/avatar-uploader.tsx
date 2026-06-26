@@ -43,7 +43,7 @@ export function AvatarUploader({
             type="button"
             onClick={() => inputRef.current?.click()}
             aria-label={label}
-            className={cn("relative group cursor-pointer shrink-0 rounded-full", className)}
+            className={cn("relative group cursor-pointer shrink-0 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring", className)}
             style={{ width: size, height: size }}
         >
             <input
@@ -65,7 +65,7 @@ export function AvatarUploader({
                     {fallback}
                 </div>
             )}
-            <div className="absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity flex items-center justify-center">
                 {uploading ? (
                     <Loader2 size={Math.round(size / 3)} className="text-white animate-spin" />
                 ) : (

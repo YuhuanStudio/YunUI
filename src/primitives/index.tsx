@@ -169,13 +169,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",
                         icon && "pl-10",
-                        error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
+                        error ? "border-(--error) focus:border-(--error)" : "border-border",
                         className
                     )}
                     {...props}
                 />
                 {error && (
-                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                    <p id={errorId} className="mt-1.5 text-xs text-error flex items-center gap-1">
                         <AlertCircle aria-hidden="true" className="w-3 h-3" />
                         {error}
                     </p>
@@ -214,13 +214,13 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",
-                        error ? "border-red-300 dark:border-red-700" : "border-border",
+                        error ? "border-(--error) focus:border-(--error)" : "border-border",
                         className
                     )}
                     {...props}
                 />
                 {error && (
-                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                    <p id={errorId} className="mt-1.5 text-xs text-error flex items-center gap-1">
                         <AlertCircle aria-hidden="true" className="w-3 h-3" />
                         {error}
                     </p>
@@ -257,7 +257,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
                     className={cn(
                         "flex items-center h-10 rounded-xl border bg-background transition-colors",
                         "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
-                        error ? "border-red-300 dark:border-red-700" : "border-border",
+                        error ? "border-(--error) focus:border-(--error)" : "border-border",
                         disabled && "opacity-50",
                         className
                     )}
@@ -285,7 +285,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
                     </button>
                 </div>
                 {error && (
-                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                    <p id={errorId} className="mt-1.5 text-xs text-error flex items-center gap-1">
                         <AlertCircle aria-hidden="true" className="w-3 h-3" />
                         {error}
                     </p>
@@ -334,7 +334,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 <div
                     className={cn(
                         "relative flex items-stretch rounded-xl border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
-                        error ? "border-red-300 dark:border-red-700" : "border-border",
+                        error ? "border-(--error) focus:border-(--error)" : "border-border",
                         disabled && "opacity-50",
                         className
                     )}
@@ -375,7 +375,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                     </button>
                 </div>
                 {error && (
-                    <p id={errorId} className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                    <p id={errorId} className="mt-1.5 text-xs text-error flex items-center gap-1">
                         <AlertCircle aria-hidden="true" className="w-3 h-3" />
                         {error}
                     </p>
@@ -534,12 +534,14 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /** Small inline pill for status/labels, with semantic color variants. */
 export function Badge({ className, variant = "default", ...props }: BadgeProps) {
+    // Token-driven semantic tints (see .bg-*-soft / .text-* helpers in yunui.css)
+    // so a Badge, an Alert and a status dot all read the same red/green/amber.
     const variants = {
         default: "bg-muted text-foreground/80",
-        success: "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-        warning: "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-        error: "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-        info: "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+        success: "bg-success-soft text-success",
+        warning: "bg-warning-soft text-warning",
+        error: "bg-error-soft text-error",
+        info: "bg-info-soft text-info",
     };
 
     return (
@@ -599,11 +601,13 @@ interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">
 
 /** Inline callout for info / success / warning / error messages. */
 export function Alert({ className, variant = "info", title, icon, children, ...props }: AlertProps) {
+    // Token-driven semantic tints (.bg-*-soft / .text-* / .border-*-soft helpers
+    // in yunui.css) so Alert matches Badge and the status dots across all themes.
     const styles = {
-        info: "bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-900",
-        success: "bg-green-50 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-900",
-        warning: "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-900",
-        error: "bg-red-50 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900",
+        info: "bg-info-soft text-info border-info-soft",
+        success: "bg-success-soft text-success border-success-soft",
+        warning: "bg-warning-soft text-warning border-warning-soft",
+        error: "bg-error-soft text-error border-error-soft",
     };
     const defaultIcon = {
         info: <Info className="h-4 w-4" />,
@@ -612,9 +616,11 @@ export function Alert({ className, variant = "info", title, icon, children, ...p
         error: <AlertCircle className="h-4 w-4" />,
     };
     const resolvedIcon = icon === undefined ? defaultIcon[variant] : icon;
+    // Urgent variants assert; info/success are polite status messages.
+    const role = variant === "error" || variant === "warning" ? "alert" : "status";
     return (
         <div
-            role="alert"
+            role={role}
             className={cn("flex gap-3 rounded-xl border p-3 text-sm", styles[variant], className)}
             {...props}
         >
@@ -686,10 +692,10 @@ export function StatusIndicator({
     ...props
 }: StatusIndicatorProps) {
     const color = {
-        online: "bg-green-500",
+        online: "bg-(--success)",
         offline: "bg-zinc-400",
-        busy: "bg-red-500",
-        away: "bg-amber-500",
+        busy: "bg-(--error)",
+        away: "bg-(--warning)",
         neutral: "bg-muted-foreground",
     }[status];
     return (
@@ -889,7 +895,7 @@ export const DialogContent = React.forwardRef<
             {...props}
         >
             {children}
-            <DialogPrimitive.Close className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
+            <DialogPrimitive.Close className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <X className="h-4 w-4" />
             </DialogPrimitive.Close>
         </DialogPrimitive.Content>
@@ -1020,7 +1026,7 @@ export const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
         ref={ref}
         className={cn(
-            "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 px-3 text-sm outline-none",
+            "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-3 text-sm outline-none",
             "focus:bg-muted data-disabled:pointer-events-none data-disabled:opacity-50",
             className
         )}
@@ -1467,7 +1473,7 @@ export const DropdownMenuSubTrigger = React.forwardRef<
     <DropdownMenuPrimitive.SubTrigger
         ref={ref}
         className={cn(
-            "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+            "flex cursor-default select-none items-center rounded-md px-2 py-1.5 text-sm outline-none focus:bg-muted focus:text-foreground data-[state=open]:bg-muted",
             inset && "pl-8",
             className
         )}
@@ -1487,7 +1493,7 @@ export const DropdownMenuSubContent = React.forwardRef<
     <DropdownMenuPrimitive.SubContent
         ref={ref}
         className={cn(
-            "z-50 min-w-32 overflow-hidden rounded-md border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+            "z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
             className
         )}
         {...props}
@@ -1526,7 +1532,7 @@ export const DropdownMenuItem = React.forwardRef<
     <DropdownMenuItemInternal
         ref={ref}
         className={cn(
-            "relative flex cursor-default select-none items-center rounded-lg px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+            "relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors focus:bg-muted focus:text-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
             inset && "pl-8",
             className
         )}
@@ -1545,7 +1551,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
     <DropdownMenuPrimitive.CheckboxItem
         ref={ref}
         className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+            "relative flex cursor-default select-none items-center rounded-md py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-muted focus:text-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
             className
         )}
         checked={checked}
@@ -1569,7 +1575,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
     <DropdownMenuPrimitive.RadioItem
         ref={ref}
         className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+            "relative flex cursor-default select-none items-center rounded-md py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-muted focus:text-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
             className
         )}
         {...props}

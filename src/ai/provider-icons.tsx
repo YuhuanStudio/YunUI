@@ -321,7 +321,7 @@ export function ProviderIcon({
             const getRadius = () => (size <= 14 ? 'rounded-sm' : size <= 20 ? 'rounded-md' : 'rounded-lg');
             return (
                 <div
-                    className={`${getRadius()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`}
+                    className={`${getRadius()} overflow-hidden bg-muted flex items-center justify-center ${className}`}
                     style={{ width: size, height: size }}
                 >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -346,7 +346,7 @@ export function ProviderIcon({
         if (rounded) {
             return (
                 <div
-                    className={`${getRadiusClass()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`}
+                    className={`${getRadiusClass()} overflow-hidden bg-muted flex items-center justify-center ${className}`}
                     style={{ width: size, height: size }}
                 >
                     <Image
@@ -379,7 +379,7 @@ export function ProviderIcon({
     if (rounded) {
         return (
             <div
-                className={`${getRadiusClass()} bg-linear-to-br from-black/5 to-black/10 flex items-center justify-center ${className}`}
+                className={`${getRadiusClass()} bg-muted flex items-center justify-center ${className}`}
                 style={{ width: size, height: size }}
             >
                 <span className="text-xs font-medium text-muted-foreground">{(provider || "?").charAt(0).toUpperCase()}</span>
@@ -596,7 +596,7 @@ export function ModelIcon({
         if (rounded) {
             return (
                 <div
-                    className={`${getRadiusClass()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`}
+                    className={`${getRadiusClass()} overflow-hidden bg-muted flex items-center justify-center ${className}`}
                     style={{ width: size, height: size }}
                 >
                     <Image
@@ -636,7 +636,7 @@ export function ModelIcon({
             if (rounded) {
                 return (
                     <div
-                        className={`${getRadiusClass()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`}
+                        className={`${getRadiusClass()} overflow-hidden bg-muted flex items-center justify-center ${className}`}
                         style={{ width: size, height: size }}
                     >
                         <Image

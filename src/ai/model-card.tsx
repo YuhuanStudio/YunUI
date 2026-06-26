@@ -91,7 +91,7 @@ export function ModelCard({
           onClick();
         }
       }}
-      className={`card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col ${className}`}
+      className={`card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`}
     >
       {/* Header: icon + capability chips */}
       <div className="flex items-start justify-between mb-3">
@@ -118,7 +118,7 @@ export function ModelCard({
             </span>
           )}
           {suspended && (
-            <span className="shrink-0 inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded font-medium whitespace-nowrap bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+            <span className="shrink-0 inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded badge-warning font-medium whitespace-nowrap">
               <PauseCircle size={10} />
               {labels?.suspended ?? "Suspended"}
             </span>
@@ -144,7 +144,7 @@ export function ModelCard({
       <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 text-[11px] text-muted-foreground pt-3 border-t border-border">
         <span className="flex items-center gap-1.5 min-w-0">
           {developer?.iconUrl && (
-            <div className="rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5" style={{ width: 12, height: 12 }}>
+            <div className="rounded-md overflow-hidden bg-muted" style={{ width: 12, height: 12 }}>
               <Image src={developer.iconUrl} alt={developer.label} width={12} height={12} className="object-cover" />
             </div>
           )}

@@ -173,7 +173,8 @@ export function Combobox({
                     <button
                         type="button"
                         onClick={clearValue}
-                        className="absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                        aria-label="Clear"
+                        className="absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                         <X size={14} />
                     </button>
@@ -183,7 +184,8 @@ export function Combobox({
                     type="button"
                     onClick={() => !disabled && setIsOpen(!isOpen)}
                     disabled={disabled}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50"
+                    aria-label="Toggle options"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                     <ChevronDown size={14} className={isOpen ? "rotate-180 transition-transform" : ""} />
                 </button>
@@ -211,6 +213,7 @@ export function Combobox({
                                                 w-full px-3 py-2 text-left text-sm
                                                 flex items-center gap-2
                                                 hover:bg-(--bg-hover) transition-colors
+                                                outline-none focus-visible:ring-2 focus-visible:ring-ring
                                                 ${isSelected ? "bg-primary/10 text-primary" : ""}
                                             `}
                                         >
@@ -240,6 +243,7 @@ export function Combobox({
                                             flex items-center gap-2
                                             text-primary hover:bg-muted/50
                                             transition-colors
+                                            outline-none focus-visible:ring-2 focus-visible:ring-ring
                                         "
                                     >
                                         <span className="text-lg">{creatableIcon ?? "+"}</span>

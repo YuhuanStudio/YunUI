@@ -95,6 +95,7 @@
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
+  --info: #3b82f6;
 
   /* Code Block */
   --code-bg: #f4f4f5;
@@ -1080,7 +1081,39 @@ select.input option,
 }
 
 .text-info {
-  color: #3b82f6;
+  color: var(--info);
+}
+
+/* Soft semantic-color backgrounds — the proven, themeable counterpart to the
+   .text-* helpers above. Use for medallions / icon tiles / soft banners that
+   need a ~10% tint of a status color (the `bg-error/10` Tailwind utility does
+   NOT resolve — there is no --color-error). color-mix tracks the token across
+   light / dark / true-black. */
+.bg-error-soft {
+  background-color: color-mix(in srgb, var(--error) 10%, transparent);
+}
+.bg-success-soft {
+  background-color: color-mix(in srgb, var(--success) 10%, transparent);
+}
+.bg-warning-soft {
+  background-color: color-mix(in srgb, var(--warning) 10%, transparent);
+}
+.bg-info-soft {
+  background-color: color-mix(in srgb, var(--info) 10%, transparent);
+}
+
+/* Matching tinted borders for soft semantic callouts (Alert, banners). */
+.border-error-soft {
+  border-color: color-mix(in srgb, var(--error) 30%, transparent);
+}
+.border-success-soft {
+  border-color: color-mix(in srgb, var(--success) 30%, transparent);
+}
+.border-warning-soft {
+  border-color: color-mix(in srgb, var(--warning) 30%, transparent);
+}
+.border-info-soft {
+  border-color: color-mix(in srgb, var(--info) 30%, transparent);
 }
 
 .badge-neutral {

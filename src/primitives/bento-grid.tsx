@@ -51,7 +51,7 @@ export const BentoCard = ({
                 <div className="mb-2 text-[var(--text-primary)]">
                     {icon}
                 </div>
-                <div className="font-bold text-[var(--text-primary)] text-lg mb-2 mt-2">
+                <div className="font-semibold text-[var(--text-primary)] text-lg mb-2 mt-2">
                     {title}
                 </div>
                 <div className="font-normal text-[var(--text-secondary)] text-sm leading-relaxed">

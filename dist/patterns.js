@@ -1,8 +1,8 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-24DEJWWP.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-HGADFKBQ.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
-import { cn } from './chunk-TFZKMJGF.js';
+import { cn } from './chunk-GHO4RCDR.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -175,7 +175,7 @@ function CodeBlock({
           {
             onClick: () => handleTabChange(index),
             className: cn(
-              "px-3 py-1 rounded-md text-xs font-medium transition-all",
+              "px-3 py-1 rounded-md text-xs font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring",
               activeTab === index ? "bg-(--accent-subtle) text-(--text-primary)" : "text-(--text-tertiary) hover:text-(--text-secondary) hover:bg-(--accent-subtle)/50"
             ),
             children: tab.label
@@ -187,7 +187,7 @@ function CodeBlock({
         "button",
         {
           onClick: handleCopy,
-          className: "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle)",
+          className: "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
             /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5 text-(--success)" }),
             /* @__PURE__ */ jsx("span", { className: "text-(--success)", children: t("copied") })
@@ -393,7 +393,7 @@ function BlogCard({
   const { Link } = useYunUI();
   const formattedDate = date ? formatDate(date, locale) : null;
   const isFeatured = variant === "featured";
-  return /* @__PURE__ */ jsx(Link, { href: url, className: "block h-full", children: /* @__PURE__ */ jsxs(Card, { hover: true, className: `overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`, children: [
+  return /* @__PURE__ */ jsx(Link, { href: url, className: "block h-full", children: /* @__PURE__ */ jsxs(Card, { hover: true, className: `group overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`, children: [
     /* @__PURE__ */ jsx("div", { className: "aspect-video w-full overflow-hidden bg-muted flex-shrink-0", children: coverImage ? /* @__PURE__ */ jsx(
       "img",
       {
@@ -430,7 +430,7 @@ function BlogCard({
             e.stopPropagation();
             window.location.href = `/blog?tag=${tag}`;
           },
-          className: "text-xs bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer",
+          className: "text-xs bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: [
             "#",
             tag
@@ -603,6 +603,7 @@ function CategoryFilter({
         variant: "ghost",
         size: "sm",
         onClick: () => handleCategoryClick(null),
+        "aria-pressed": !selectedCategory,
         className: !selectedCategory ? "font-semibold" : "",
         style: !selectedCategory ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : void 0,
         children: allLabel
@@ -614,6 +615,7 @@ function CategoryFilter({
         variant: "ghost",
         size: "sm",
         onClick: () => handleCategoryClick(category),
+        "aria-pressed": selectedCategory === category,
         className: selectedCategory === category ? "font-semibold" : "",
         style: selectedCategory === category ? { background: "var(--bg-elevated)", color: "var(--text-primary)" } : void 0,
         children: category
@@ -744,12 +746,12 @@ function PageLoadingState({ message }) {
 }
 function PageErrorState({ message, onRetry, retryLabel = "Retry" }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
-    /* @__PURE__ */ jsx("div", { className: "text-red-600 dark:text-red-400 font-medium mb-2", children: message }),
+    /* @__PURE__ */ jsx("div", { className: "text-error font-medium mb-2", children: message }),
     onRetry && /* @__PURE__ */ jsx(
       "button",
       {
         onClick: onRetry,
-        className: "text-sm text-muted-foreground hover:text-foreground transition-colors underline",
+        className: "text-sm text-muted-foreground hover:text-foreground transition-colors underline outline-none focus-visible:ring-2 focus-visible:ring-ring rounded",
         children: retryLabel
       }
     )
@@ -857,7 +859,7 @@ function ErrorFallback({
   labels
 }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center min-h-100 p-8", children: [
-    /* @__PURE__ */ jsx("div", { className: "w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mb-4", children: /* @__PURE__ */ jsx(AlertCircle, { size: 32, className: "text-red-500" }) }),
+    /* @__PURE__ */ jsx("div", { className: "w-16 h-16 rounded-full bg-error-soft flex items-center justify-center mb-4", children: /* @__PURE__ */ jsx(AlertCircle, { size: 32, className: "text-error" }) }),
     /* @__PURE__ */ jsx("h2", { className: "text-xl font-semibold mb-2", children: labels?.title ?? "Something went wrong" }),
     /* @__PURE__ */ jsx("p", { className: "text-muted-foreground text-center mb-4 max-w-md", children: error?.message || labels?.message || "An unexpected error occurred." }),
     /* @__PURE__ */ jsxs(Button, { variant: "secondary", onClick: onRetry, className: "whitespace-nowrap", children: [
@@ -912,7 +914,7 @@ function AccountLockedCard({
       /* @__PURE__ */ jsx("span", { className: "font-semibold text-[15px]", children: appName })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "p-6 bg-card border border-border rounded-xl", children: [
-      /* @__PURE__ */ jsx("div", { className: "mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-error/10", children: icon }),
+      /* @__PURE__ */ jsx("div", { className: "mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-error-soft", children: icon }),
       /* @__PURE__ */ jsx("h1", { className: "text-xl font-semibold mb-2 text-center", children: title }),
       /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground mb-5 text-center", children: subtitle }),
       children,
@@ -923,7 +925,7 @@ function AccountLockedCard({
           type: "button",
           onClick: onBack,
           disabled: loading,
-          className: "w-full h-10 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60",
+          className: "w-full h-10 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           children: backLabel
         }
       )
@@ -943,7 +945,7 @@ function MediaPageHeader({ title, description, isSyncing, syncError, onSync, sta
         /* @__PURE__ */ jsx("span", { className: "ml-2", children: isSyncing ? t("syncing") : t("sync") })
       ] })
     ] }),
-    syncError && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm", children: [
+    syncError && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 p-3 rounded-lg bg-error-soft border border-error-soft text-error text-sm", children: [
       /* @__PURE__ */ jsx(AlertCircle, { size: 16 }),
       /* @__PURE__ */ jsx("span", { children: syncError })
     ] }),
@@ -972,8 +974,8 @@ function MediaLoadingState({ message }) {
 function MediaErrorState({ message, onRetry }) {
   const t = useYunUI().useT("components.mediaPageHeader");
   return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
-    /* @__PURE__ */ jsx(AlertCircle, { size: 40, className: "text-red-500/50 mb-3" }),
-    /* @__PURE__ */ jsx("div", { className: "font-medium text-red-600 dark:text-red-400 mb-1", children: t("error") }),
+    /* @__PURE__ */ jsx(AlertCircle, { size: 40, className: "text-error opacity-50 mb-3" }),
+    /* @__PURE__ */ jsx("div", { className: "font-medium text-error mb-1", children: t("error") }),
     /* @__PURE__ */ jsx("div", { className: "text-caption mb-4", children: message }),
     onRetry && /* @__PURE__ */ jsxs(Button, { variant: "outline", size: "sm", onClick: onRetry, children: [
       /* @__PURE__ */ jsx(RefreshCw, { size: 14, className: "mr-2" }),
@@ -1094,8 +1096,8 @@ function SessionItem({
     /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
         /* @__PURE__ */ jsx("span", { className: "text-xs font-medium truncate", children: name }),
-        current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 shrink-0", children: currentLabel }),
-        inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 shrink-0", children: inactiveLabel })
+        current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0", children: currentLabel }),
+        inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0", children: inactiveLabel })
       ] }),
       detail && /* @__PURE__ */ jsx("div", { className: "text-[10px] text-(--text-tertiary) mt-0.5", children: detail }),
       (ip != null || time != null) && /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-2 mt-1 text-[10px] text-(--text-tertiary)", children: [
@@ -1117,7 +1119,7 @@ function SessionItem({
         disabled: revoking,
         "aria-label": revokeLabel,
         title: revokeLabel,
-        className: "p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-(--text-tertiary) hover:text-red-500 transition-colors shrink-0",
+        className: "p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring",
         children: revoking ? /* @__PURE__ */ jsx(Loader2, { size: 12, className: "animate-spin" }) : /* @__PURE__ */ jsx(LogOut, { size: 12 })
       }
     )
@@ -1134,6 +1136,10 @@ function MetricBar({ icon, label, value, percentage, color, className }) {
       /* @__PURE__ */ jsx("div", { className: "h-1.5 bg-muted rounded-full overflow-hidden", children: /* @__PURE__ */ jsx(
         "div",
         {
+          role: "progressbar",
+          "aria-valuenow": Math.max(0, Math.min(100, percentage)),
+          "aria-valuemin": 0,
+          "aria-valuemax": 100,
           className: "h-full rounded-full transition-all duration-300",
           style: { width: `${Math.max(0, Math.min(100, percentage))}%`, backgroundColor: color }
         }
@@ -1203,7 +1209,7 @@ function Banner({
       /* @__PURE__ */ jsx("span", { className: cn("text-sm font-medium", t.text), children: title }),
       description && /* @__PURE__ */ jsx("span", { className: cn("text-sm ml-2 hidden sm:inline opacity-70", t.text), children: description })
     ] }),
-    meta != null && /* @__PURE__ */ jsx("span", { className: "text-[10px] text-muted-foreground/50 shrink-0", children: meta }),
+    meta != null && /* @__PURE__ */ jsx("span", { className: "text-[10px] text-muted-foreground/70 shrink-0", children: meta }),
     actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-2 shrink-0", children: actions }),
     dismissible && /* @__PURE__ */ jsx(
       "button",
@@ -1211,8 +1217,8 @@ function Banner({
         type: "button",
         onClick: onDismiss,
         "aria-label": dismissLabel,
-        className: cn("p-1 rounded-lg transition-colors shrink-0", t.dismissHover),
-        children: /* @__PURE__ */ jsx(X, { size: 14, className: "text-muted-foreground/50" })
+        className: cn("p-1 rounded-lg transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring", t.dismissHover),
+        children: /* @__PURE__ */ jsx(X, { size: 14, className: "text-muted-foreground/70" })
       }
     )
   ] }) });
@@ -1225,12 +1231,12 @@ function NotificationBell({ count = 0, max = 99, label, icon, onClick, className
       onClick,
       "aria-label": label,
       className: cn(
-        "relative flex items-center justify-center rounded-lg px-2 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
+        "relative flex items-center justify-center rounded-lg px-2 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
         className
       ),
       children: [
         icon ?? /* @__PURE__ */ jsx(Bell, { size: 18 }),
-        count > 0 && /* @__PURE__ */ jsx("span", { className: "absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white px-1", children: count > max ? `${max}+` : count })
+        count > 0 && /* @__PURE__ */ jsx("span", { className: "absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--error) text-[10px] font-bold text-white px-1", children: count > max ? `${max}+` : count })
       ]
     }
   );
@@ -1260,7 +1266,7 @@ function NotificationItem({
   ] });
   const rowClass = cn("flex items-center gap-2.5 px-3 py-2.5", dismissible ? "pr-9" : "pr-3");
   return /* @__PURE__ */ jsxs("div", { className: cn("group/notif relative rounded-xl hover:bg-foreground/5 transition-colors", className), children: [
-    href ? /* @__PURE__ */ jsx(Link, { href, onClick: onSelect, className: rowClass, children: inner }) : /* @__PURE__ */ jsx("button", { type: "button", onClick: onSelect, className: cn(rowClass, "w-full text-left"), children: inner }),
+    href ? /* @__PURE__ */ jsx(Link, { href, onClick: onSelect, className: rowClass, children: inner }) : /* @__PURE__ */ jsx("button", { type: "button", onClick: onSelect, className: cn(rowClass, "w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset rounded-xl"), children: inner }),
     dismissible && /* @__PURE__ */ jsx(
       "button",
       {
@@ -1271,8 +1277,8 @@ function NotificationItem({
           e.preventDefault();
           onDismiss?.();
         },
-        className: "absolute right-1.5 top-1/2 -translate-y-1/2 p-1 rounded-lg opacity-0 group-hover/notif:opacity-100 hover:bg-muted transition-all",
-        children: /* @__PURE__ */ jsx(Trash2, { size: 12, className: "text-muted-foreground/40 hover:text-red-500" })
+        className: "absolute right-1.5 top-1/2 -translate-y-1/2 p-1 rounded-lg opacity-0 group-hover/notif:opacity-100 group-focus-within/notif:opacity-100 hover:bg-muted transition-all outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring",
+        children: /* @__PURE__ */ jsx(Trash2, { size: 12, className: "text-muted-foreground/40 hover:text-error" })
       }
     )
   ] });
@@ -1293,7 +1299,7 @@ function NotificationPanel({
     "div",
     {
       className: cn(
-        "w-80 sm:w-[400px] rounded-2xl border border-white/10 dark:border-white/5 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5",
+        "w-80 sm:w-[400px] rounded-2xl border border-border bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5",
         className
       ),
       children: [
@@ -1387,7 +1393,7 @@ function ConnectedAccountRow({
         disabled: unlinking,
         title: unlinkLabel,
         "aria-label": unlinkLabel,
-        className: "p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-(--text-tertiary) hover:text-red-500 transition-colors shrink-0",
+        className: "p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring",
         children: unlinking ? /* @__PURE__ */ jsx(Loader2, { size: 14, className: "animate-spin" }) : /* @__PURE__ */ jsx(X, { size: 14 })
       }
     )
@@ -1409,7 +1415,7 @@ function AvatarUploader({
       type: "button",
       onClick: () => inputRef.current?.click(),
       "aria-label": label,
-      className: cn("relative group cursor-pointer shrink-0 rounded-full", className),
+      className: cn("relative group cursor-pointer shrink-0 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring", className),
       style: { width: size, height: size },
       children: [
         /* @__PURE__ */ jsx(
@@ -1430,7 +1436,7 @@ function AvatarUploader({
           // eslint-disable-next-line @next/next/no-img-element
           /* @__PURE__ */ jsx("img", { src, alt: "", className: "w-full h-full rounded-full object-cover ring-2 ring-border group-hover:ring-primary transition-all" })
         ) : /* @__PURE__ */ jsx("div", { className: "w-full h-full rounded-full bg-linear-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold ring-2 ring-border group-hover:ring-primary transition-all", style: { fontSize: size * 0.36 }, children: fallback }),
-        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center", children: uploading ? /* @__PURE__ */ jsx(Loader2, { size: Math.round(size / 3), className: "text-white animate-spin" }) : /* @__PURE__ */ jsx(Camera, { size: Math.round(size / 3), className: "text-white" }) })
+        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity flex items-center justify-center", children: uploading ? /* @__PURE__ */ jsx(Loader2, { size: Math.round(size / 3), className: "text-white animate-spin" }) : /* @__PURE__ */ jsx(Camera, { size: Math.round(size / 3), className: "text-white" }) })
       ]
     }
   );

@@ -58,12 +58,12 @@ export function SessionItem({
                 <div className="flex items-center gap-2">
                     <span className="text-xs font-medium truncate">{name}</span>
                     {current && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 shrink-0">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0">
                             {currentLabel}
                         </span>
                     )}
                     {inactive && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 shrink-0">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0">
                             {inactiveLabel}
                         </span>
                     )}
@@ -93,7 +93,7 @@ export function SessionItem({
                     disabled={revoking}
                     aria-label={revokeLabel}
                     title={revokeLabel}
-                    className="p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-(--text-tertiary) hover:text-red-500 transition-colors shrink-0"
+                    className="p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                     {revoking ? <Loader2 size={12} className="animate-spin" /> : <LogOut size={12} />}
                 </button>

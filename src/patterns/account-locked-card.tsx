@@ -53,7 +53,7 @@ export function AccountLockedCard({
         </div>
 
         <div className="p-6 bg-card border border-border rounded-xl">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-error/10">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-error-soft">
             {icon}
           </div>
           <h1 className="text-xl font-semibold mb-2 text-center">{title}</h1>
@@ -67,7 +67,7 @@ export function AccountLockedCard({
             type="button"
             onClick={onBack}
             disabled={loading}
-            className="w-full h-10 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60"
+            className="w-full h-10 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {backLabel}
           </button>

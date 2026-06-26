@@ -135,7 +135,8 @@ export function CapabilitySelector({ selected, onChange, disabled = false, size 
                         type="button"
                         onClick={() => toggleCapability(cap.value)}
                         disabled={disabled}
-                        className={`rounded-lg border text-left transition-all flex items-center ${sizeClasses} ${
+                        aria-pressed={isSelected}
+                        className={`rounded-lg border text-left transition-colors flex items-center outline-none focus-visible:ring-2 focus-visible:ring-ring ${sizeClasses} ${
                             isSelected
                                 ? cap.color
                                 : "bg-background border-border hover:bg-muted/50"

@@ -32,28 +32,28 @@ export const toast = {
     success: (message: string, description?: string) => {
         sonnerToast.success(message, {
             description,
-            icon: <CheckCircle2 className="w-5 h-5 text-green-500" />,
+            icon: <CheckCircle2 className="w-5 h-5 text-success" />,
         });
     },
 
     error: (message: string, description?: string) => {
         sonnerToast.error(message, {
             description,
-            icon: <AlertCircle className="w-5 h-5 text-red-500" />,
+            icon: <AlertCircle className="w-5 h-5 text-error" />,
         });
     },
 
     info: (message: string, description?: string) => {
         sonnerToast.info(message, {
             description,
-            icon: <Info className="w-5 h-5 text-blue-500" />,
+            icon: <Info className="w-5 h-5 text-info" />,
         });
     },
 
     warning: (message: string, description?: string) => {
         sonnerToast.warning(message, {
             description,
-            icon: <AlertTriangle className="w-5 h-5 text-amber-500" />,
+            icon: <AlertTriangle className="w-5 h-5 text-warning" />,
         });
     },
 

@@ -57,7 +57,7 @@ export function BlogCard({
 
   return (
     <Link href={url} className="block h-full">
-      <Card hover className={`overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`}>
+      <Card hover className={`group overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`}>
         {/* Cover Image - always render with fixed aspect ratio */}
         <div className="aspect-video w-full overflow-hidden bg-muted flex-shrink-0">
           {coverImage ? (
@@ -125,7 +125,7 @@ export function BlogCard({
                     e.stopPropagation();
                     window.location.href = `/blog?tag=${tag}`;
                   }}
-                  className="text-xs bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer"
+                  className="text-xs bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   #{tag}
                 </button>

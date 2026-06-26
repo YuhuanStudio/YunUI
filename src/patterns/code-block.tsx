@@ -211,7 +211,7 @@ export function CodeBlock({
                                     key={tab.id}
                                     onClick={() => handleTabChange(index)}
                                     className={cn(
-                                        "px-3 py-1 rounded-md text-xs font-medium transition-all",
+                                        "px-3 py-1 rounded-md text-xs font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring",
                                         activeTab === index
                                             ? "bg-(--accent-subtle) text-(--text-primary)"
                                             : "text-(--text-tertiary) hover:text-(--text-secondary) hover:bg-(--accent-subtle)/50"
@@ -232,7 +232,7 @@ export function CodeBlock({
                 {copyable && (
                     <button
                         onClick={handleCopy}
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle)"
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                         {copied ? (
                             <>

@@ -68,9 +68,11 @@ export function LanguageSwitcher({
             {variant === "pill" ? (
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50"
+                    className="flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     disabled={pending}
                     aria-label={label}
+                    aria-expanded={isOpen}
+                    aria-haspopup="listbox"
                 >
                     <Globe size={14} className="shrink-0" />
                     {/* Drop the label when there's no room — collapse to icon-only
@@ -80,9 +82,11 @@ export function LanguageSwitcher({
             ) : (
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     disabled={pending}
                     aria-label={label}
+                    aria-expanded={isOpen}
+                    aria-haspopup="listbox"
                 >
                     <Globe className="h-[1.2rem] w-[1.2rem]" />
                 </button>
@@ -90,7 +94,7 @@ export function LanguageSwitcher({
 
             {/* Dropdown */}
             {isOpen && (
-                <div className={`absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-white/10 dark:border-white/5 bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`}>
+                <div className={`absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`}>
                     <div className="p-1">
                         {locales.map((lang) => (
                             <button

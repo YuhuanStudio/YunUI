@@ -1,7 +1,7 @@
 "use client";
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-N53PNMPJ.js';
-import { cn, ThemeToggle } from './chunk-TFZKMJGF.js';
+import { cn, ThemeToggle } from './chunk-GHO4RCDR.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { memo, useState, useRef, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -17,7 +17,8 @@ function ThinkingBlock({ content, isStreaming, defaultOpen = false, renderConten
       "button",
       {
         onClick: () => setIsOpen(!isOpen),
-        className: "w-full flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/50 transition-colors",
+        "aria-expanded": isOpen,
+        className: "w-full flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
         children: [
           /* @__PURE__ */ jsx("div", { className: cn(
             "flex items-center justify-center w-5 h-5 rounded-md bg-muted text-muted-foreground",
@@ -62,12 +63,13 @@ function IDBadge({ text, truncate = true }) {
     setTimeout(() => setCopied(false), 1500);
   };
   return /* @__PURE__ */ jsxs(
-    "div",
+    "button",
     {
-      onMouseDown: handleCopy,
+      type: "button",
       onClick: handleCopy,
-      className: `group/badge relative inline-flex items-center rounded-md bg-muted border border-border hover:bg-muted/70 cursor-pointer transition-colors duration-200 overflow-hidden ${truncate ? "max-w-full min-w-0" : ""}`,
+      className: `group/badge relative inline-flex items-center rounded-md bg-muted border border-border hover:bg-muted/70 cursor-pointer transition-colors duration-200 overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring ${truncate ? "max-w-full min-w-0" : ""}`,
       title: t("clickToCopy", { text }),
+      "aria-label": t("clickToCopy", { text }),
       children: [
         /* @__PURE__ */ jsx("span", { className: `px-2 py-0.5 text-xs font-mono block ${truncate ? "truncate max-w-full min-w-0" : "whitespace-nowrap"}`, children: text }),
         /* @__PURE__ */ jsx("span", { className: "opacity-0 group-hover/badge:opacity-100 absolute right-0 inset-y-0 w-5 flex items-center justify-center rounded-r-md bg-muted/90 backdrop-blur-sm transition-opacity duration-200", children: copied ? /* @__PURE__ */ jsx(Check, { size: 10 }) : /* @__PURE__ */ jsx(Copy, { size: 10 }) })
@@ -118,7 +120,7 @@ function ModelCard({
           onClick();
         }
       },
-      className: `card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col ${className}`,
+      className: `card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`,
       children: [
         /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between mb-3", children: [
           icon,
@@ -130,7 +132,7 @@ function ModelCard({
         /* @__PURE__ */ jsx("div", { className: "mb-2", children: /* @__PURE__ */ jsxs("div", { className: "font-medium text-sm group-hover:text-foreground flex items-center gap-1.5", children: [
           /* @__PURE__ */ jsx("span", { className: "truncate", children: name }),
           nonofficial && /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[10px] px-1.5 py-0.5 rounded badge-warning font-medium whitespace-nowrap", children: labels?.nonofficial ?? "Unofficial" }),
-          suspended && /* @__PURE__ */ jsxs("span", { className: "shrink-0 inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded font-medium whitespace-nowrap bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20", children: [
+          suspended && /* @__PURE__ */ jsxs("span", { className: "shrink-0 inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded badge-warning font-medium whitespace-nowrap", children: [
             /* @__PURE__ */ jsx(PauseCircle, { size: 10 }),
             labels?.suspended ?? "Suspended"
           ] })
@@ -139,7 +141,7 @@ function ModelCard({
         /* @__PURE__ */ jsx("div", { className: "text-xs text-muted-foreground line-clamp-2 mb-3 min-h-[2.5em]", children: description || /* @__PURE__ */ jsx("span", { className: "opacity-40", children: labels?.noDescription ?? "No description" }) }),
         /* @__PURE__ */ jsxs("div", { className: "mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 text-[11px] text-muted-foreground pt-3 border-t border-border", children: [
           /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-1.5 min-w-0", children: [
-            developer?.iconUrl && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5", style: { width: 12, height: 12 }, children: /* @__PURE__ */ jsx(Image, { src: developer.iconUrl, alt: developer.label, width: 12, height: 12, className: "object-cover" }) }),
+            developer?.iconUrl && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-muted", style: { width: 12, height: 12 }, children: /* @__PURE__ */ jsx(Image, { src: developer.iconUrl, alt: developer.label, width: 12, height: 12, className: "object-cover" }) }),
             developer?.label && /* @__PURE__ */ jsx("span", { children: developer.label })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
@@ -262,8 +264,10 @@ function ModelSelect({
         {
           type: "button",
           onClick: () => setIsOpen((o) => !o),
+          "aria-expanded": isOpen,
+          "aria-haspopup": "listbox",
           className: cn(
-            "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md",
+            "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring"
           ),
           children: [
@@ -297,24 +301,24 @@ function ModelSelect({
                     className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                   }
                 ),
-                search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
+                search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
               ] }),
               filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-1", children: [
                 filters.map((f) => {
                   const on = activeFilters.includes(f.key);
-                  return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("p-1 rounded-md transition-colors", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
+                  return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, "aria-label": f.title, "aria-pressed": on, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
                 }),
-                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, className: "p-1 rounded-md text-muted-foreground hover:bg-muted", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
+                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
               ] })
             ] }),
             groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
-              /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
+              /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), "aria-pressed": !activeGroup, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
                 L.all,
                 " (",
                 options.length,
                 ")"
               ] }),
-              groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
+              groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), "aria-pressed": activeGroup === g, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
                 groupIcon[g],
                 groupLabel[g] ?? g
               ] }, g))
@@ -545,7 +549,8 @@ function CapabilitySelector({ selected, onChange, disabled = false, size = "md",
         type: "button",
         onClick: () => toggleCapability(cap.value),
         disabled,
-        className: `rounded-lg border text-left transition-all flex items-center ${sizeClasses} ${isSelected ? cap.color : "bg-background border-border hover:bg-muted/50"} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+        "aria-pressed": isSelected,
+        className: `rounded-lg border text-left transition-colors flex items-center outline-none focus-visible:ring-2 focus-visible:ring-ring ${sizeClasses} ${isSelected ? cap.color : "bg-background border-border hover:bg-muted/50"} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
         children: [
           /* @__PURE__ */ jsx(Icon, { size: iconSize, className: `${isSelected ? "" : cap.iconColor} shrink-0` }),
           /* @__PURE__ */ jsx("span", { className: "font-medium", children: cap.label })
@@ -1137,7 +1142,7 @@ function ProviderIcon({
       return /* @__PURE__ */ jsx(
         "div",
         {
-          className: `${getRadius()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`,
+          className: `${getRadius()} overflow-hidden bg-muted flex items-center justify-center ${className}`,
           style: { width: size, height: size },
           children: /* @__PURE__ */ jsx("img", { src: effectiveIconUrl, alt: provider, width: size, height: size, className: "object-cover", onError: () => setCustomError(true) })
         }
@@ -1156,7 +1161,7 @@ function ProviderIcon({
       return /* @__PURE__ */ jsx(
         "div",
         {
-          className: `${getRadiusClass()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`,
+          className: `${getRadiusClass()} overflow-hidden bg-muted flex items-center justify-center ${className}`,
           style: { width: size, height: size },
           children: /* @__PURE__ */ jsx(
             Image,
@@ -1190,7 +1195,7 @@ function ProviderIcon({
     return /* @__PURE__ */ jsx(
       "div",
       {
-        className: `${getRadiusClass()} bg-linear-to-br from-black/5 to-black/10 flex items-center justify-center ${className}`,
+        className: `${getRadiusClass()} bg-muted flex items-center justify-center ${className}`,
         style: { width: size, height: size },
         children: /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-muted-foreground", children: (provider || "?").charAt(0).toUpperCase() })
       }
@@ -1339,7 +1344,7 @@ function ModelIcon({
       return /* @__PURE__ */ jsx(
         "div",
         {
-          className: `${getRadiusClass()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`,
+          className: `${getRadiusClass()} overflow-hidden bg-muted flex items-center justify-center ${className}`,
           style: { width: size, height: size },
           children: /* @__PURE__ */ jsx(
             Image,
@@ -1378,7 +1383,7 @@ function ModelIcon({
         return /* @__PURE__ */ jsx(
           "div",
           {
-            className: `${getRadiusClass()} overflow-hidden bg-linear-to-br from-black/2 to-black/5 flex items-center justify-center ${className}`,
+            className: `${getRadiusClass()} overflow-hidden bg-muted flex items-center justify-center ${className}`,
             style: { width: size, height: size },
             children: /* @__PURE__ */ jsx(
               Image,
@@ -1500,9 +1505,11 @@ function LanguageSwitcher({
       "button",
       {
         onClick: () => setIsOpen(!isOpen),
-        className: "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50",
+        className: "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         disabled: pending,
         "aria-label": label,
+        "aria-expanded": isOpen,
+        "aria-haspopup": "listbox",
         children: [
           /* @__PURE__ */ jsx(Globe, { size: 14, className: "shrink-0" }),
           /* @__PURE__ */ jsx("span", { className: "hidden sm:inline", children: currentLabel })
@@ -1512,13 +1519,15 @@ function LanguageSwitcher({
       "button",
       {
         onClick: () => setIsOpen(!isOpen),
-        className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50",
+        className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         disabled: pending,
         "aria-label": label,
+        "aria-expanded": isOpen,
+        "aria-haspopup": "listbox",
         children: /* @__PURE__ */ jsx(Globe, { className: "h-[1.2rem] w-[1.2rem]" })
       }
     ),
-    isOpen && /* @__PURE__ */ jsx("div", { className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-white/10 dark:border-white/5 bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`, children: /* @__PURE__ */ jsx("div", { className: "p-1", children: locales.map((lang) => /* @__PURE__ */ jsx(
+    isOpen && /* @__PURE__ */ jsx("div", { className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`, children: /* @__PURE__ */ jsx("div", { className: "p-1", children: locales.map((lang) => /* @__PURE__ */ jsx(
       "button",
       {
         onClick: () => handleLocaleChange(lang.value),

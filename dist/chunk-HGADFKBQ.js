@@ -1,5 +1,5 @@
 "use client";
-import { cn } from './chunk-TFZKMJGF.js';
+import { cn } from './chunk-GHO4RCDR.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import * as React7 from 'react';
 import { forwardRef, useState, useEffect, useRef, useCallback, useId } from 'react';
@@ -282,7 +282,7 @@ function Modal({
                 /* @__PURE__ */ jsxs("div", { className: "space-y-1 min-w-0", children: [
                   /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
                     /* @__PURE__ */ jsx("h2", { id: "modal-title", className: "text-lg font-semibold truncate", children: title }),
-                    showUnsavedBadge && /* @__PURE__ */ jsx("span", { className: "badge bg-amber-500/10 text-amber-600 border-amber-500/20 shrink-0", children: t("unsaved") })
+                    showUnsavedBadge && /* @__PURE__ */ jsx("span", { className: "badge-warning shrink-0", children: t("unsaved") })
                   ] }),
                   subtitle && /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground truncate", children: subtitle })
                 ] }),
@@ -608,7 +608,7 @@ var Checkbox = forwardRef(
                     w-4 h-4 rounded border-2 flex items-center justify-center
                     transition-all duration-200 ease-in-out
                     outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background
-                    ${filled ? "bg-primary border-primary text-primary-foreground" : "border-slate-300 dark:border-slate-600 bg-transparent hover:border-primary/50"}
+                    ${filled ? "bg-primary border-primary text-primary-foreground" : "border-(--border-strong) bg-transparent hover:border-primary/50"}
                     ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                     ${className}
                 `,
@@ -725,7 +725,8 @@ function Combobox({
         {
           type: "button",
           onClick: clearValue,
-          className: "absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1",
+          "aria-label": "Clear",
+          className: "absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: /* @__PURE__ */ jsx(X, { size: 14 })
         }
       ),
@@ -735,7 +736,8 @@ function Combobox({
           type: "button",
           onClick: () => !disabled && setIsOpen(!isOpen),
           disabled,
-          className: "absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50",
+          "aria-label": "Toggle options",
+          className: "absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: isOpen ? "rotate-180 transition-transform" : "" })
         }
       )
@@ -753,6 +755,7 @@ function Combobox({
                                                 w-full px-3 py-2 text-left text-sm
                                                 flex items-center gap-2
                                                 hover:bg-(--bg-hover) transition-colors
+                                                outline-none focus-visible:ring-2 focus-visible:ring-ring
                                                 ${isSelected ? "bg-primary/10 text-primary" : ""}
                                             `,
             children: [
@@ -779,7 +782,7 @@ function Combobox({
         {
           type: "button",
           onClick: () => handleSelect(inputValue),
-          className: "\n                                            w-full px-3 py-2 text-left text-sm\n                                            flex items-center gap-2\n                                            text-primary hover:bg-muted/50\n                                            transition-colors\n                                        ",
+          className: "\n                                            w-full px-3 py-2 text-left text-sm\n                                            flex items-center gap-2\n                                            text-primary hover:bg-muted/50\n                                            transition-colors\n                                            outline-none focus-visible:ring-2 focus-visible:ring-ring\n                                        ",
           children: [
             /* @__PURE__ */ jsx("span", { className: "text-lg", children: creatableIcon ?? "+" }),
             /* @__PURE__ */ jsx("span", { children: resolvedCreatableText.replace("{value}", inputValue) })
@@ -853,7 +856,7 @@ var RadioGroupItem = React7.forwardRef(({ className, ...props }, ref) => /* @__P
     ref,
     className: cn(
       "h-4 w-4 shrink-0 rounded-full border-2 flex items-center justify-center",
-      "border-slate-300 dark:border-slate-600 bg-transparent",
+      "border-(--border-strong) bg-transparent",
       "transition-all duration-200 ease-in-out",
       "hover:border-primary/50",
       "data-[state=checked]:border-primary",
@@ -1180,8 +1183,6 @@ var BreadcrumbPage = React7.forwardRef(({ className, ...props }, ref) => /* @__P
   "span",
   {
     ref,
-    role: "link",
-    "aria-disabled": "true",
     "aria-current": "page",
     className: cn("font-medium text-foreground", className),
     ...props
@@ -1388,13 +1389,13 @@ var Input = React7.forwardRef(
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             icon && "pl-10",
-            error ? "border-red-300 focus:border-red-400 dark:border-red-700" : "border-border",
+            error ? "border-(--error) focus:border-(--error)" : "border-border",
             className
           ),
           ...props
         }
       ),
-      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-error flex items-center gap-1", children: [
         /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
         error
       ] })
@@ -1421,13 +1422,13 @@ var Textarea = React7.forwardRef(
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            error ? "border-red-300 dark:border-red-700" : "border-border",
+            error ? "border-(--error) focus:border-(--error)" : "border-border",
             className
           ),
           ...props
         }
       ),
-      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-error flex items-center gap-1", children: [
         /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
         error
       ] })
@@ -1449,7 +1450,7 @@ var PasswordInput = React7.forwardRef(
           className: cn(
             "flex items-center h-10 rounded-xl border bg-background transition-colors",
             "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
-            error ? "border-red-300 dark:border-red-700" : "border-border",
+            error ? "border-(--error) focus:border-(--error)" : "border-border",
             disabled && "opacity-50",
             className
           ),
@@ -1483,7 +1484,7 @@ var PasswordInput = React7.forwardRef(
           ]
         }
       ),
-      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-error flex items-center gap-1", children: [
         /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
         error
       ] })
@@ -1509,7 +1510,7 @@ var NumberInput = React7.forwardRef(
         {
           className: cn(
             "relative flex items-stretch rounded-xl border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
-            error ? "border-red-300 dark:border-red-700" : "border-border",
+            error ? "border-(--error) focus:border-(--error)" : "border-border",
             disabled && "opacity-50",
             className
           ),
@@ -1558,7 +1559,7 @@ var NumberInput = React7.forwardRef(
           ]
         }
       ),
-      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-red-500 flex items-center gap-1", children: [
+      error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-error flex items-center gap-1", children: [
         /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
         error
       ] })
@@ -1666,10 +1667,10 @@ Card.displayName = "Card";
 function Badge({ className, variant = "default", ...props }) {
   const variants = {
     default: "bg-muted text-foreground/80",
-    success: "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-    warning: "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-    error: "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-    info: "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+    success: "bg-success-soft text-success",
+    warning: "bg-warning-soft text-warning",
+    error: "bg-error-soft text-error",
+    info: "bg-info-soft text-info"
   };
   return /* @__PURE__ */ jsx(
     "span",
@@ -1705,10 +1706,10 @@ function Separator2({
 }
 function Alert({ className, variant = "info", title, icon, children, ...props }) {
   const styles = {
-    info: "bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-900",
-    success: "bg-green-50 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-900",
-    warning: "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-900",
-    error: "bg-red-50 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900"
+    info: "bg-info-soft text-info border-info-soft",
+    success: "bg-success-soft text-success border-success-soft",
+    warning: "bg-warning-soft text-warning border-warning-soft",
+    error: "bg-error-soft text-error border-error-soft"
   };
   const defaultIcon = {
     info: /* @__PURE__ */ jsx(Info, { className: "h-4 w-4" }),
@@ -1717,10 +1718,11 @@ function Alert({ className, variant = "info", title, icon, children, ...props })
     error: /* @__PURE__ */ jsx(AlertCircle, { className: "h-4 w-4" })
   };
   const resolvedIcon = icon === void 0 ? defaultIcon[variant] : icon;
+  const role = variant === "error" || variant === "warning" ? "alert" : "status";
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      role: "alert",
+      role,
       className: cn("flex gap-3 rounded-xl border p-3 text-sm", styles[variant], className),
       ...props,
       children: [
@@ -1766,10 +1768,10 @@ function StatusIndicator({
   ...props
 }) {
   const color = {
-    online: "bg-green-500",
+    online: "bg-(--success)",
     offline: "bg-zinc-400",
-    busy: "bg-red-500",
-    away: "bg-amber-500",
+    busy: "bg-(--error)",
+    away: "bg-(--warning)",
     neutral: "bg-muted-foreground"
   }[status];
   return /* @__PURE__ */ jsxs("span", { className: cn("inline-flex items-center gap-1.5 text-sm", className), ...props, children: [
@@ -1895,7 +1897,7 @@ var DialogContent = React7.forwardRef(({ className, children, ...props }, ref) =
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors", children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }) })
+        /* @__PURE__ */ jsx(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }) })
       ]
     }
   )
@@ -1979,7 +1981,7 @@ var SelectItem = React7.forwardRef(({ className, children, ...props }, ref) => /
   {
     ref,
     className: cn(
-      "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 px-3 text-sm outline-none",
+      "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-3 text-sm outline-none",
       "focus:bg-muted data-disabled:pointer-events-none data-disabled:opacity-50",
       className
     ),
@@ -2241,7 +2243,7 @@ var DropdownMenuSubTrigger = React7.forwardRef(({ className, inset, children, ..
   {
     ref,
     className: cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+      "flex cursor-default select-none items-center rounded-md px-2 py-1.5 text-sm outline-none focus:bg-muted focus:text-foreground data-[state=open]:bg-muted",
       inset && "pl-8",
       className
     ),
@@ -2258,7 +2260,7 @@ var DropdownMenuSubContent = React7.forwardRef(({ className, ...props }, ref) =>
   {
     ref,
     className: cn(
-      "z-50 min-w-32 overflow-hidden rounded-md border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      "z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
       className
     ),
     ...props
@@ -2284,7 +2286,7 @@ var DropdownMenuItem = React7.forwardRef(({ className, inset, ...props }, ref) =
   {
     ref,
     className: cn(
-      "relative flex cursor-default select-none items-center rounded-lg px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+      "relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors focus:bg-muted focus:text-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
       inset && "pl-8",
       className
     ),
@@ -2298,7 +2300,7 @@ var DropdownMenuCheckboxItem = React7.forwardRef(({ className, children, checked
   {
     ref,
     className: cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+      "relative flex cursor-default select-none items-center rounded-md py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-muted focus:text-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
       className
     ),
     checked,
@@ -2315,7 +2317,7 @@ var DropdownMenuRadioItem = React7.forwardRef(({ className, children, ...props }
   {
     ref,
     className: cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+      "relative flex cursor-default select-none items-center rounded-md py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-muted focus:text-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
       className
     ),
     ...props,
@@ -2732,7 +2734,7 @@ var BentoCard = ({
         header,
         /* @__PURE__ */ jsxs("div", { className: "group-hover/bento:translate-x-2 transition duration-200", children: [
           /* @__PURE__ */ jsx("div", { className: "mb-2 text-[var(--text-primary)]", children: icon }),
-          /* @__PURE__ */ jsx("div", { className: "font-bold text-[var(--text-primary)] text-lg mb-2 mt-2", children: title }),
+          /* @__PURE__ */ jsx("div", { className: "font-semibold text-[var(--text-primary)] text-lg mb-2 mt-2", children: title }),
           /* @__PURE__ */ jsx("div", { className: "font-normal text-[var(--text-secondary)] text-sm leading-relaxed", children: description })
         ] })
       ]
@@ -2794,27 +2796,27 @@ var sizeClasses = {
 var variantClasses = {
   default: {
     checkedTrack: "border-primary bg-primary/10",
-    uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
+    uncheckedTrack: "border-(--border-strong) bg-transparent",
     checkedThumb: "bg-primary",
-    uncheckedThumb: "bg-slate-300 dark:bg-slate-600"
+    uncheckedThumb: "bg-(--border-strong)"
   },
   success: {
-    checkedTrack: "border-emerald-500 bg-emerald-500/10",
-    uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
-    checkedThumb: "bg-emerald-500",
-    uncheckedThumb: "bg-slate-300 dark:bg-slate-600"
+    checkedTrack: "border-(--success) bg-success-soft",
+    uncheckedTrack: "border-(--border-strong) bg-transparent",
+    checkedThumb: "bg-(--success)",
+    uncheckedThumb: "bg-(--border-strong)"
   },
   warning: {
-    checkedTrack: "border-amber-500 bg-amber-500/10",
-    uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
-    checkedThumb: "bg-amber-500",
-    uncheckedThumb: "bg-slate-300 dark:bg-slate-600"
+    checkedTrack: "border-(--warning) bg-warning-soft",
+    uncheckedTrack: "border-(--border-strong) bg-transparent",
+    checkedThumb: "bg-(--warning)",
+    uncheckedThumb: "bg-(--border-strong)"
   },
   danger: {
-    checkedTrack: "border-red-500 bg-red-500/10",
-    uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
-    checkedThumb: "bg-red-500",
-    uncheckedThumb: "bg-slate-300 dark:bg-slate-600"
+    checkedTrack: "border-(--error) bg-error-soft",
+    uncheckedTrack: "border-(--border-strong) bg-transparent",
+    checkedThumb: "bg-(--error)",
+    uncheckedThumb: "bg-(--border-strong)"
   }
 };
 var Switch = forwardRef(
@@ -2886,25 +2888,25 @@ var toast = {
   success: (message, description) => {
     toast$1.success(message, {
       description,
-      icon: /* @__PURE__ */ jsx(CheckCircle2, { className: "w-5 h-5 text-green-500" })
+      icon: /* @__PURE__ */ jsx(CheckCircle2, { className: "w-5 h-5 text-success" })
     });
   },
   error: (message, description) => {
     toast$1.error(message, {
       description,
-      icon: /* @__PURE__ */ jsx(AlertCircle, { className: "w-5 h-5 text-red-500" })
+      icon: /* @__PURE__ */ jsx(AlertCircle, { className: "w-5 h-5 text-error" })
     });
   },
   info: (message, description) => {
     toast$1.info(message, {
       description,
-      icon: /* @__PURE__ */ jsx(Info, { className: "w-5 h-5 text-blue-500" })
+      icon: /* @__PURE__ */ jsx(Info, { className: "w-5 h-5 text-info" })
     });
   },
   warning: (message, description) => {
     toast$1.warning(message, {
       description,
-      icon: /* @__PURE__ */ jsx(AlertTriangle, { className: "w-5 h-5 text-amber-500" })
+      icon: /* @__PURE__ */ jsx(AlertTriangle, { className: "w-5 h-5 text-warning" })
     });
   },
   loading: (message) => {
@@ -3006,5 +3008,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-24DEJWWP.js.map
-//# sourceMappingURL=chunk-24DEJWWP.js.map
+//# sourceMappingURL=chunk-HGADFKBQ.js.map
+//# sourceMappingURL=chunk-HGADFKBQ.js.map

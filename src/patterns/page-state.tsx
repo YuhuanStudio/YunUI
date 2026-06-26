@@ -31,11 +31,11 @@ interface PageErrorStateProps {
 export function PageErrorState({ message, onRetry, retryLabel = "Retry" }: PageErrorStateProps) {
     return (
         <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="text-red-600 dark:text-red-400 font-medium mb-2">{message}</div>
+            <div className="text-error font-medium mb-2">{message}</div>
             {onRetry && (
                 <button
                     onClick={onRetry}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors underline"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors underline outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
                 >
                     {retryLabel}
                 </button>

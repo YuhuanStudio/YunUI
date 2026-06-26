@@ -149,8 +149,8 @@ export function ConfirmCloseDialog({
                 )}
             >
                 <div className="flex items-start gap-3 mb-4">
-                    <div className="p-2 bg-amber-500/10 rounded-lg shrink-0">
-                        <AlertTriangle className="text-amber-500" size={20} />
+                    <div className="p-2 bg-warning-soft rounded-lg shrink-0">
+                        <AlertTriangle className="text-warning" size={20} />
                     </div>
                     <div className="flex-1 min-w-0">
                         <h3 id="confirm-close-title" className="font-semibold mb-1">

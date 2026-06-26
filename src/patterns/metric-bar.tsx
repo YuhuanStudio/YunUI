@@ -39,6 +39,10 @@ export function MetricBar({ icon, label, value, percentage, color, className }: 
                 </div>
                 <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                     <div
+                        role="progressbar"
+                        aria-valuenow={Math.max(0, Math.min(100, percentage))}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
                         className="h-full rounded-full transition-all duration-300"
                         style={{ width: `${Math.max(0, Math.min(100, percentage))}%`, backgroundColor: color }}
                     />

@@ -42,7 +42,7 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
       "button",
       {
         onClick: () => setIsOpen(!isOpen),
-        className: "flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary)",
+        className: "flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "aria-label": t("toggle"),
         children: [
           /* @__PURE__ */ jsx(Sun, { size: 14, className: "rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" }),
@@ -53,7 +53,7 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
       "button",
       {
         onClick: () => setIsOpen(!isOpen),
-        className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors",
+        className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "aria-label": t("toggle"),
         children: [
           /* @__PURE__ */ jsx(Sun, { className: "h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 absolute" }),
@@ -62,7 +62,7 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsx("div", { className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-white/10 dark:border-white/5 bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`, children: /* @__PURE__ */ jsx("div", { className: "p-1", children: themes.map((themeItem) => /* @__PURE__ */ jsxs(
+    isOpen && /* @__PURE__ */ jsx("div", { className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`, children: /* @__PURE__ */ jsx("div", { className: "p-1", children: themes.map((themeItem) => /* @__PURE__ */ jsxs(
       "button",
       {
         onClick: () => {
@@ -81,5 +81,5 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
 }
 
 export { ThemeToggle, cn };
-//# sourceMappingURL=chunk-TFZKMJGF.js.map
-//# sourceMappingURL=chunk-TFZKMJGF.js.map
+//# sourceMappingURL=chunk-GHO4RCDR.js.map
+//# sourceMappingURL=chunk-GHO4RCDR.js.map

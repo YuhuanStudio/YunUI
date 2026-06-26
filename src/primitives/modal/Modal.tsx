@@ -207,7 +207,7 @@ export function Modal({
                                 {title}
                             </h2>
                             {showUnsavedBadge && (
-                                <span className="badge bg-amber-500/10 text-amber-600 border-amber-500/20 shrink-0">
+                                <span className="badge-warning shrink-0">
                                     {t('unsaved')}
                                 </span>
                             )}

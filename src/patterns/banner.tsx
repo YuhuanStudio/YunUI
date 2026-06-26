@@ -104,16 +104,16 @@ export function Banner({
                         <span className={cn("text-sm ml-2 hidden sm:inline opacity-70", t.text)}>{description}</span>
                     )}
                 </div>
-                {meta != null && <span className="text-[10px] text-muted-foreground/50 shrink-0">{meta}</span>}
+                {meta != null && <span className="text-[10px] text-muted-foreground/70 shrink-0">{meta}</span>}
                 {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
                 {dismissible && (
                     <button
                         type="button"
                         onClick={onDismiss}
                         aria-label={dismissLabel}
-                        className={cn("p-1 rounded-lg transition-colors shrink-0", t.dismissHover)}
+                        className={cn("p-1 rounded-lg transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring", t.dismissHover)}
                     >
-                        <X size={14} className="text-muted-foreground/50" />
+                        <X size={14} className="text-muted-foreground/70" />
                     </button>
                 )}
             </div>

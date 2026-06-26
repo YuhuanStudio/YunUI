@@ -34,27 +34,27 @@ const sizeClasses = {
 const variantClasses = {
     default: {
         checkedTrack: "border-primary bg-primary/10",
-        uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
+        uncheckedTrack: "border-(--border-strong) bg-transparent",
         checkedThumb: "bg-primary",
-        uncheckedThumb: "bg-slate-300 dark:bg-slate-600",
+        uncheckedThumb: "bg-(--border-strong)",
     },
     success: {
-        checkedTrack: "border-emerald-500 bg-emerald-500/10",
-        uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
-        checkedThumb: "bg-emerald-500",
-        uncheckedThumb: "bg-slate-300 dark:bg-slate-600",
+        checkedTrack: "border-(--success) bg-success-soft",
+        uncheckedTrack: "border-(--border-strong) bg-transparent",
+        checkedThumb: "bg-(--success)",
+        uncheckedThumb: "bg-(--border-strong)",
     },
     warning: {
-        checkedTrack: "border-amber-500 bg-amber-500/10",
-        uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
-        checkedThumb: "bg-amber-500",
-        uncheckedThumb: "bg-slate-300 dark:bg-slate-600",
+        checkedTrack: "border-(--warning) bg-warning-soft",
+        uncheckedTrack: "border-(--border-strong) bg-transparent",
+        checkedThumb: "bg-(--warning)",
+        uncheckedThumb: "bg-(--border-strong)",
     },
     danger: {
-        checkedTrack: "border-red-500 bg-red-500/10",
-        uncheckedTrack: "border-slate-300 dark:border-slate-600 bg-transparent",
-        checkedThumb: "bg-red-500",
-        uncheckedThumb: "bg-slate-300 dark:bg-slate-600",
+        checkedTrack: "border-(--error) bg-error-soft",
+        uncheckedTrack: "border-(--border-strong) bg-transparent",
+        checkedThumb: "bg-(--error)",
+        uncheckedThumb: "bg-(--border-strong)",
     },
 };
 

@@ -87,8 +87,6 @@ export const BreadcrumbPage = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <span
         ref={ref}
-        role="link"
-        aria-disabled="true"
         aria-current="page"
         className={cn("font-medium text-foreground", className)}
         {...props}

@@ -38,7 +38,7 @@ export function MediaPageHeader({ title, description, isSyncing, syncError, onSy
             </div>
 
             {syncError && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm">
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-error-soft border border-error-soft text-error text-sm">
                     <AlertCircle size={16} />
                     <span>{syncError}</span>
                 </div>
@@ -98,8 +98,8 @@ export function MediaErrorState({ message, onRetry }: { message: string; onRetry
     const t = useYunUI().useT("components.mediaPageHeader");
     return (
         <div className="flex flex-col items-center justify-center py-16 text-center">
-            <AlertCircle size={40} className="text-red-500/50 mb-3" />
-            <div className="font-medium text-red-600 dark:text-red-400 mb-1">{t("error")}</div>
+            <AlertCircle size={40} className="text-error opacity-50 mb-3" />
+            <div className="font-medium text-error mb-1">{t("error")}</div>
             <div className="text-caption mb-4">{message}</div>
             {onRetry && (
                 <Button variant="outline" size="sm" onClick={onRetry}>

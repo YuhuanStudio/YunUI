@@ -34,13 +34,13 @@ export function NotificationBell({ count = 0, max = 99, label, icon, onClick, cl
             onClick={onClick}
             aria-label={label}
             className={cn(
-                "relative flex items-center justify-center rounded-lg px-2 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
+                "relative flex items-center justify-center rounded-lg px-2 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 className,
             )}
         >
             {icon ?? <Bell size={18} />}
             {count > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white px-1">
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--error) text-[10px] font-bold text-white px-1">
                     {count > max ? `${max}+` : count}
                 </span>
             )}
@@ -112,7 +112,7 @@ export function NotificationItem({
                     {inner}
                 </Link>
             ) : (
-                <button type="button" onClick={onSelect} className={cn(rowClass, "w-full text-left")}>
+                <button type="button" onClick={onSelect} className={cn(rowClass, "w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset rounded-xl")}>
                     {inner}
                 </button>
             )}
@@ -125,9 +125,9 @@ export function NotificationItem({
                         e.preventDefault();
                         onDismiss?.();
                     }}
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1 rounded-lg opacity-0 group-hover/notif:opacity-100 hover:bg-muted transition-all"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1 rounded-lg opacity-0 group-hover/notif:opacity-100 group-focus-within/notif:opacity-100 hover:bg-muted transition-all outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                    <Trash2 size={12} className="text-muted-foreground/40 hover:text-red-500" />
+                    <Trash2 size={12} className="text-muted-foreground/40 hover:text-error" />
                 </button>
             )}
         </div>
@@ -170,7 +170,7 @@ export function NotificationPanel({
     return (
         <div
             className={cn(
-                "w-80 sm:w-[400px] rounded-2xl border border-white/10 dark:border-white/5 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5",
+                "w-80 sm:w-[400px] rounded-2xl border border-border bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5",
                 className,
             )}
         >

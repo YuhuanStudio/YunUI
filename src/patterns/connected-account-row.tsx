@@ -80,7 +80,7 @@ export function ConnectedAccountRow({
                     disabled={unlinking}
                     title={unlinkLabel}
                     aria-label={unlinkLabel}
-                    className="p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-(--text-tertiary) hover:text-red-500 transition-colors shrink-0"
+                    className="p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                     {unlinking ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
                 </button>

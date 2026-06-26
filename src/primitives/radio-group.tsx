@@ -35,7 +35,7 @@ export const RadioGroupItem = React.forwardRef<
         ref={ref}
         className={cn(
             "h-4 w-4 shrink-0 rounded-full border-2 flex items-center justify-center",
-            "border-slate-300 dark:border-slate-600 bg-transparent",
+            "border-(--border-strong) bg-transparent",
             "transition-all duration-200 ease-in-out",
             "hover:border-primary/50",
             "data-[state=checked]:border-primary",

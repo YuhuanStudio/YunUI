@@ -25,7 +25,8 @@ export function ThinkingBlock({ content, isStreaming, defaultOpen = false, rende
         <div className="my-2 rounded-xl border border-border bg-muted/30 overflow-hidden">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/50 transition-colors"
+                aria-expanded={isOpen}
+                className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
             >
                 <div className={cn(
                     "flex items-center justify-center w-5 h-5 rounded-md bg-muted text-muted-foreground",

@@ -193,8 +193,10 @@ export function ModelSelect({
             <button
                 type="button"
                 onClick={() => setIsOpen((o) => !o)}
+                aria-expanded={isOpen}
+                aria-haspopup="listbox"
                 className={cn(
-                    "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md",
+                    "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring",
                 )}
             >
@@ -238,7 +240,7 @@ export function ModelSelect({
                                     className="w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                                 />
                                 {search && (
-                                    <button type="button" onClick={() => setSearch("")} title={L.clearSearch} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted">
+                                    <button type="button" onClick={() => setSearch("")} title={L.clearSearch} aria-label={L.clearSearch} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
                                         <X size={13} />
                                     </button>
                                 )}
@@ -248,13 +250,13 @@ export function ModelSelect({
                                     {filters.map((f) => {
                                         const on = activeFilters.includes(f.key);
                                         return (
-                                            <button key={f.key} type="button" title={f.title} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("p-1 rounded-md transition-colors", on ? "bg-foreground/10" : "hover:bg-muted")}>
+                                            <button key={f.key} type="button" title={f.title} aria-label={f.title} aria-pressed={on} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted")}>
                                                 {f.node}
                                             </button>
                                         );
                                     })}
                                     {activeFilters.length > 0 && (
-                                        <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} className="p-1 rounded-md text-muted-foreground hover:bg-muted">
+                                        <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} aria-label={L.clearFilters} className="p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
                                             <X size={14} />
                                         </button>
                                     )}
@@ -266,11 +268,11 @@ export function ModelSelect({
                         {groups.length > 1 && (
                             <div className="px-2.5 py-2 border-b border-border/50 overflow-x-auto">
                                 <div className="flex gap-1 min-w-max">
-                                    <button type="button" onClick={() => setActiveGroup(null)} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                    <button type="button" onClick={() => setActiveGroup(null)} aria-pressed={!activeGroup} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
                                         {L.all} ({options.length})
                                     </button>
                                     {groups.map((g) => (
-                                        <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                        <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} aria-pressed={activeGroup === g} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
                                             {groupIcon[g]}
                                             {groupLabel[g] ?? g}
                                         </button>
