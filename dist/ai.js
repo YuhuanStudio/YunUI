@@ -427,7 +427,7 @@ function ModelManagerCard({
         className
       ),
       children: [
-        (selectSlot || actions) && /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2 mb-3.5 min-h-7", children: [
+        (selectSlot || actions) && /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2 -mt-2 mb-3 min-h-7", children: [
           /* @__PURE__ */ jsx("div", { className: "flex items-center", children: selectSlot }),
           actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5 -mr-1.5 text-muted-foreground", children: actions })
         ] }),

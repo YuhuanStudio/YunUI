@@ -68,7 +68,7 @@ export function ModelManagerCard({
             {/* Top control bar: select (left) · actions (right). Keeps both off the
                 content so the icon stays flush-left and nothing crowds the bottom. */}
             {(selectSlot || actions) && (
-                <div className="flex items-center justify-between gap-2 mb-3.5 min-h-7">
+                <div className="flex items-center justify-between gap-2 -mt-2 mb-3 min-h-7">
                     <div className="flex items-center">{selectSlot}</div>
                     {actions && <div className="flex items-center gap-0.5 -mr-1.5 text-muted-foreground">{actions}</div>}
                 </div>
