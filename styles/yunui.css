@@ -84,6 +84,13 @@
   --accent-subtle: #f4f4f5;
   --accent-muted: #e4e4e7;
 
+  /* Interaction surfaces — aliases consumed by hover / selected / muted states
+     across components (accordion, combobox, custom-select, pagination, table).
+     Defined once: nested var() resolves at use-site, so these track the active
+     theme's --accent-subtle / --bg-elevated automatically. */
+  --bg-hover: var(--accent-subtle);
+  --bg-muted: var(--bg-elevated);
+
   /* Semantic */
   --success: #10b981;
   --warning: #f59e0b;
@@ -537,6 +544,11 @@ summary {
   cursor: pointer;
 }
 
+.card-interactive:focus-visible {
+  outline: 2px solid var(--border-strong);
+  outline-offset: 2px;
+}
+
 .card-interactive:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
@@ -636,6 +648,13 @@ summary {
   cursor: pointer;
   outline: none;
   border: 1px solid;
+}
+
+/* Keyboard focus ring — applies to every .btn variant. Uses :focus-visible so
+   it only shows for keyboard users, not on mouse click. */
+.btn:focus-visible {
+  outline: 2px solid var(--border-strong);
+  outline-offset: 2px;
 }
 
 /* Primary - dark outline with subtle bg */
@@ -1113,6 +1132,12 @@ select.input option,
   background: rgba(0, 0, 0, 0.03);
 }
 
+.nav-item:focus-visible {
+  outline: 2px solid var(--border-strong);
+  outline-offset: -2px;
+  color: var(--text-primary);
+}
+
 .nav-item:hover::before {
   transform: translateY(-50%) translateX(0);
   opacity: 0.3;
@@ -1180,6 +1205,12 @@ select.input option,
 .nav-tab:hover {
   color: var(--text-primary);
   background: var(--accent-subtle);
+}
+
+.nav-tab:focus-visible {
+  outline: 2px solid var(--border-strong);
+  outline-offset: -2px;
+  color: var(--text-primary);
 }
 
 .nav-tab:hover::after {
@@ -1528,6 +1559,12 @@ select.input option,
 .dropdown-item:hover {
   color: var(--text-primary);
   background: rgba(0, 0, 0, 0.03);
+}
+
+.dropdown-item:focus-visible {
+  outline: 2px solid var(--border-strong);
+  outline-offset: -2px;
+  color: var(--text-primary);
 }
 
 .dropdown-item:hover::before {
@@ -2475,5 +2512,21 @@ html {
 @media (prefers-reduced-motion: no-preference) {
   .modal-content {
     animation: fadeInScale 0.2s ease-out;
+  }
+}
+
+/* Reduced-motion reset — when the user asks for less motion, neutralize all
+   animations/transitions (skeleton shimmer, marquee, shimmer buttons, pulses,
+   typing cursors, particles, framer-motion, Radix data-state animations…).
+   Kept last so it wins the cascade. Animations collapse to a single, instant
+   frame rather than vanishing, so end-states still render. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

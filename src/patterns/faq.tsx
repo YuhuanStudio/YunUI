@@ -29,12 +29,13 @@ export function FAQ({ items, defaultOpenIndex = 0 }: FAQProps) {
                     key={i}
                     className={cn(
                         "glass-card overflow-hidden transition-all duration-300",
-                        openIndex === i ? "bg-card/60 ring-1 ring-accent-muted" : "hover:bg-card/50"
+                        openIndex === i ? "bg-card/60 ring-1 ring-(--accent-muted)" : "hover:bg-card/50"
                     )}
                 >
                     <button
                         onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                        className="w-full flex items-center justify-between p-6 text-left gap-4"
+                        aria-expanded={openIndex === i}
+                        className="w-full flex items-center justify-between p-6 text-left gap-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset rounded-[inherit]"
                     >
                         <span className="font-semibold text-foreground flex-1 min-w-0">{faq.question}</span>
                         <span className={cn("text-muted-foreground transition-transform duration-300 shrink-0", openIndex === i ? "rotate-45" : "")}>

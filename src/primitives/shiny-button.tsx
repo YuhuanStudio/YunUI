@@ -20,7 +20,7 @@ export function ShinyButton({
     const ButtonContent = (
         <div
             className={cn(
-                "group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-(--text-primary) px-8 py-3 font-semibold text-background transition-all hover:ring-2 hover:ring-(--brand-primary) hover:ring-offset-2 hover:ring-offset-background",
+                "group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-(--text-primary) px-8 py-3 font-semibold text-background transition-all hover:ring-2 hover:ring-(--accent) hover:ring-offset-2 hover:ring-offset-background",
                 className
             )}
         >
@@ -32,9 +32,14 @@ export function ShinyButton({
         </div>
     );
 
+    // Keyboard focus ring lives on the actual focusable element (the anchor /
+    // button), not the inner styled div, so it shows for keyboard users.
+    const focusCls =
+        "rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+
     if (href) {
-        return <Link href={href} onClick={onClick}>{ButtonContent}</Link>;
+        return <Link href={href} onClick={onClick} className={focusCls}>{ButtonContent}</Link>;
     }
 
-    return <button onClick={onClick}>{ButtonContent}</button>;
+    return <button type="button" onClick={onClick} className={focusCls}>{ButtonContent}</button>;
 }

@@ -2602,8 +2602,8 @@ function SegmentedSelect({
         "aria-pressed": value === opt.value,
         title: opt.desc,
         className: cn(
-          "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none",
-          value === opt.value ? "text-foreground border-border-strong bg-accent-subtle hover:bg-accent-muted hover:shadow-xs" : "text-muted-foreground border-border-default bg-muted/50 hover:text-foreground hover:border-border-strong hover:bg-muted",
+          "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+          value === opt.value ? "text-foreground border-(--border-strong) bg-accent-subtle hover:bg-accent-muted hover:shadow-xs" : "text-muted-foreground border-(--border-default) bg-muted/50 hover:text-foreground hover:border-(--border-strong) hover:bg-muted",
           disabled && "opacity-50 cursor-not-allowed pointer-events-none"
         ),
         children: [
@@ -2644,7 +2644,7 @@ function ShinyButton({
     "div",
     {
       className: cn(
-        "group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-(--text-primary) px-8 py-3 font-semibold text-background transition-all hover:ring-2 hover:ring-(--brand-primary) hover:ring-offset-2 hover:ring-offset-background",
+        "group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-(--text-primary) px-8 py-3 font-semibold text-background transition-all hover:ring-2 hover:ring-(--accent) hover:ring-offset-2 hover:ring-offset-background",
         className
       ),
       children: [
@@ -2656,10 +2656,11 @@ function ShinyButton({
       ]
     }
   );
+  const focusCls = "rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-background";
   if (href) {
-    return /* @__PURE__ */ jsx(Link, { href, onClick, children: ButtonContent });
+    return /* @__PURE__ */ jsx(Link, { href, onClick, className: focusCls, children: ButtonContent });
   }
-  return /* @__PURE__ */ jsx("button", { onClick, children: ButtonContent });
+  return /* @__PURE__ */ jsx("button", { type: "button", onClick, className: focusCls, children: ButtonContent });
 }
 function Marquee({
   className,
@@ -2770,7 +2771,7 @@ var PopoverContent = React7.forwardRef(({ className, align = "center", sideOffse
     sideOffset,
     side: "bottom",
     className: cn(
-      "z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-xl border bg-fd-popover/60 backdrop-blur-lg p-2 text-sm text-fd-popover-foreground shadow-lg focus-visible:outline-none data-[state=closed]:animate-fd-popover-out data-[state=open]:animate-fd-popover-in",
+      "z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-xl border border-border bg-popover/95 backdrop-blur-lg p-2 text-sm text-popover-foreground shadow-lg focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
       className
     ),
     ...props
@@ -3005,5 +3006,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-3USRY5QN.js.map
-//# sourceMappingURL=chunk-3USRY5QN.js.map
+//# sourceMappingURL=chunk-24DEJWWP.js.map
+//# sourceMappingURL=chunk-24DEJWWP.js.map

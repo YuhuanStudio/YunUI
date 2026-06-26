@@ -25,7 +25,7 @@ export function FellowsBanner({
   return (
     <Link
       href={href}
-      className={`card p-5 flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group ${className}`}
+      className={`card p-5 flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-primary/20 bg-linear-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`}
     >
       {/* icon + text stay together; the CTA drops below them on mobile instead of
           squeezing the title into a narrow 3-line column beside it. */}

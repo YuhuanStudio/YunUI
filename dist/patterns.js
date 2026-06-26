@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-3USRY5QN.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-24DEJWWP.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-TFZKMJGF.js';
@@ -268,14 +268,15 @@ function FAQ({ items, defaultOpenIndex = 0 }) {
     {
       className: cn(
         "glass-card overflow-hidden transition-all duration-300",
-        openIndex === i ? "bg-card/60 ring-1 ring-accent-muted" : "hover:bg-card/50"
+        openIndex === i ? "bg-card/60 ring-1 ring-(--accent-muted)" : "hover:bg-card/50"
       ),
       children: [
         /* @__PURE__ */ jsxs(
           "button",
           {
             onClick: () => setOpenIndex(openIndex === i ? null : i),
-            className: "w-full flex items-center justify-between p-6 text-left gap-4",
+            "aria-expanded": openIndex === i,
+            className: "w-full flex items-center justify-between p-6 text-left gap-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset rounded-[inherit]",
             children: [
               /* @__PURE__ */ jsx("span", { className: "font-semibold text-foreground flex-1 min-w-0", children: faq.question }),
               /* @__PURE__ */ jsx("span", { className: cn("text-muted-foreground transition-transform duration-300 shrink-0", openIndex === i ? "rotate-45" : ""), children: /* @__PURE__ */ jsx(Plus, { className: "w-5 h-5" }) })
@@ -832,7 +833,7 @@ function FellowsBanner({
     Link,
     {
       href,
-      className: `card p-5 flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group ${className}`,
+      className: `card p-5 flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-primary/20 bg-linear-to-r from-primary/5 to-transparent hover:border-primary/40 transition-all group outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`,
       children: [
         /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-4 flex-1 min-w-0", children: [
           /* @__PURE__ */ jsx("div", { className: "p-3 bg-primary/10 rounded-xl shrink-0", children: /* @__PURE__ */ jsx(GraduationCap, { className: "w-6 h-6 text-primary" }) }),
