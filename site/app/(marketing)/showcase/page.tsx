@@ -148,6 +148,12 @@ import {
   ViewOptions,
 } from "yunui/patterns";
 import {
+  NotificationDemo,
+  BannerDemo,
+  InlineStatusDemo,
+  FeatureLockedStateDemo,
+} from "@/components/docs/demos";
+import {
   Heart,
   Settings,
   Trash2,
@@ -1740,6 +1746,18 @@ export default function Showcase() {
         </Demo>
         <Demo title={t("demos.accountLocked.title")} description={t("demos.accountLocked.description")}>
           <AccountLockedDemo />
+        </Demo>
+        <Demo title="Banner" description="Tinted announcement / release / verification rows (info · warning · critical · success). Dismissible; icon, meta and actions are slots.">
+          <BannerDemo />
+        </Demo>
+        <Demo title="Notification" description="Presentational notification center — a bell with an unread badge, the dropdown panel chrome, and rows with type icons, time and a hover dismiss. The host owns data.">
+          <NotificationDemo />
+        </Demo>
+        <Demo title="Inline status" description="A compact async-job status: a (spinning) icon plus a label, or a percentage while running.">
+          <InlineStatusDemo />
+        </Demo>
+        <Demo title="Feature locked state" description="The centered 'feature unavailable' screen — icon medallion, title, description and an optional dashed restricted-note card.">
+          <FeatureLockedStateDemo />
         </Demo>
         <Demo title={t("demos.fellowsBanner.title")}>
           <div className="w-full max-w-xl">
