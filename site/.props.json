@@ -1367,6 +1367,208 @@
       "description": ""
     }
   ],
+  "NotificationBell": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "count",
+      "type": "number",
+      "required": false,
+      "defaultValue": "0",
+      "description": "Unread count; the badge is hidden when 0 / undefined."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Override the bell glyph."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible label for the trigger."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "defaultValue": "99",
+      "description": "Cap the displayed number — above it shows `{max}+`."
+    },
+    {
+      "name": "onClick",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "NotificationItem": [
+    {
+      "name": "body",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "dismissible",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Show a hover dismiss (trash) button."
+    },
+    {
+      "name": "dismissLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional target — when set the row is an adapter `<Link>`."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Type glyph — the host renders it (e.g. an icon for the notification type)."
+    },
+    {
+      "name": "iconClassName",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Tint classes for the icon square (bg + text color)."
+    },
+    {
+      "name": "onDismiss",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onSelect",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Fires on row activation (also use to close the panel)."
+    },
+    {
+      "name": "time",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host-formatted relative time (e.g. \"2h\")."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "unread",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Unread rows read bolder; read rows are muted."
+    }
+  ],
+  "NotificationPanel": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "The notification rows."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "empty",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "When true (and not loading) the empty state replaces the children."
+    },
+    {
+      "name": "emptyLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "footer",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Footer slot — typically a centered \"view all\" adapter Link."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "loadingLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "unreadCount",
+      "type": "number",
+      "required": false,
+      "defaultValue": "0",
+      "description": "Unread count shown in the header; hidden when 0."
+    },
+    {
+      "name": "unreadLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Word rendered after the count (e.g. \"unread\")."
+    }
+  ],
   "PageHeader": [
     {
       "name": "actions",

@@ -1,0 +1,78 @@
+import { NotificationBell, NotificationItem, NotificationPanel } from "yunui/patterns";
+
+Presentational building blocks for a notification center: a **`NotificationBell`** (an icon trigger with an unread-count badge), a **`NotificationItem`** (one row — type glyph, title, body, time, with an optional link and hover-dismiss), and a **`NotificationPanel`** (the dropdown chrome — header, scrollable list with loading / empty states, and a footer slot).
+
+These are **presentation only**: the host owns data fetching, auth, polling, mark-as-read, and the open/close state. Copy is passed in (no bundled i18n) and links go through the adapter `Link`.
+
+## Import
+
+```tsx
+import { NotificationBell, NotificationItem, NotificationPanel } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+The bell's `count` drives the badge; the panel renders `NotificationItem` children with loading / empty states; each item can be a link (adapter `Link`) and/or carry a hover dismiss button.
+
+<ComponentPreview
+  title="Notification center"
+  code={`import { NotificationBell, NotificationItem, NotificationPanel } from "@yuhuanowo/yunui/patterns";
+import { MessageSquare, CreditCard, ShieldAlert } from "lucide-react";
+import { useState } from "react";
+
+function Example() {
+  const [items, setItems] = useState(SEED);
+  const unread = items.filter((n) => n.unread).length;
+  return (
+    <>
+      <NotificationBell count={unread} label="Notifications" />
+      <NotificationPanel
+        title="Notifications"
+        unreadCount={unread}
+        unreadLabel="unread"
+        empty={items.length === 0}
+        emptyLabel="You're all caught up"
+        footer={<a href="/notifications">View all</a>}
+      >
+        {items.map((n) => (
+          <NotificationItem
+            key={n.id}
+            icon={<n.icon size={14} />}
+            iconClassName={n.tint}
+            title={n.title}
+            body={n.body}
+            time={n.time}
+            unread={n.unread}
+            dismissible
+            onDismiss={() => setItems((p) => p.filter((x) => x.id !== n.id))}
+          />
+        ))}
+      </NotificationPanel>
+    </>
+  );
+}`}
+>
+  <NotificationDemo />
+</ComponentPreview>
+
+## Composition
+
+The pieces are deliberately separate so the host owns the dropdown:
+
+- **`NotificationBell`** — the trigger. Wire `onClick` to your open state; `count` shows the unread badge (`max` caps it, e.g. `99+`).
+- **`NotificationPanel`** — wrap it in your own `relative` / absolutely-positioned container. Drive `loading` / `empty` from your fetch state; put a "view all" `Link` in `footer`.
+- **`NotificationItem`** — render one per notification. The host maps a notification type to the `icon` + `iconClassName` tint; `href` makes the row a link, `dismissible` + `onDismiss` adds the hover trash button.
+
+## Props
+
+### NotificationBell
+
+<PropsTable name="NotificationBell" />
+
+### NotificationItem
+
+<PropsTable name="NotificationItem" />
+
+### NotificationPanel
+
+<PropsTable name="NotificationPanel" />

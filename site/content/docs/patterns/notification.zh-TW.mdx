@@ -1,0 +1,78 @@
+import { NotificationBell, NotificationItem, NotificationPanel } from "yunui/patterns";
+
+建構通知中心的展示型元件：**`NotificationBell`**（帶未讀數徽章的圖示觸發器）、**`NotificationItem`**（單則通知列——類型圖示、標題、內文、時間，可選連結與懸停刪除）、以及 **`NotificationPanel`**（下拉容器外殼——標頭、帶載入 / 空狀態的可捲動清單，以及底部插槽）。
+
+它們**只負責展示**：資料抓取、驗證、輪詢、標記已讀和開關狀態都由宿主負責。文案透過屬性傳入（不內建 i18n），連結走轉接器的 `Link`。
+
+## 匯入
+
+```tsx
+import { NotificationBell, NotificationItem, NotificationPanel } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+鈴鐺的 `count` 驅動徽章；面板渲染 `NotificationItem` 子項並帶載入 / 空狀態；每則可以是連結（轉接器 `Link`），也可帶懸停刪除按鈕。
+
+<ComponentPreview
+  title="Notification center"
+  code={`import { NotificationBell, NotificationItem, NotificationPanel } from "@yuhuanowo/yunui/patterns";
+import { MessageSquare, CreditCard, ShieldAlert } from "lucide-react";
+import { useState } from "react";
+
+function Example() {
+  const [items, setItems] = useState(SEED);
+  const unread = items.filter((n) => n.unread).length;
+  return (
+    <>
+      <NotificationBell count={unread} label="Notifications" />
+      <NotificationPanel
+        title="Notifications"
+        unreadCount={unread}
+        unreadLabel="unread"
+        empty={items.length === 0}
+        emptyLabel="You're all caught up"
+        footer={<a href="/notifications">View all</a>}
+      >
+        {items.map((n) => (
+          <NotificationItem
+            key={n.id}
+            icon={<n.icon size={14} />}
+            iconClassName={n.tint}
+            title={n.title}
+            body={n.body}
+            time={n.time}
+            unread={n.unread}
+            dismissible
+            onDismiss={() => setItems((p) => p.filter((x) => x.id !== n.id))}
+          />
+        ))}
+      </NotificationPanel>
+    </>
+  );
+}`}
+>
+  <NotificationDemo />
+</ComponentPreview>
+
+## 組合方式
+
+這些部件刻意拆開，讓宿主掌控下拉：
+
+- **`NotificationBell`** —— 觸發器。把 `onClick` 接到你的開關狀態;`count` 顯示未讀徽章(`max` 設上限,如 `99+`)。
+- **`NotificationPanel`** —— 用你自己的 `relative` / 絕對定位容器包裹它。用 fetch 狀態驅動 `loading` / `empty`;把「檢視全部」的 `Link` 放進 `footer`。
+- **`NotificationItem`** —— 每則通知渲染一個。宿主把通知類型對應到 `icon` + `iconClassName` 配色;`href` 讓整列成為連結,`dismissible` + `onDismiss` 加上懸停刪除按鈕。
+
+## 屬性
+
+### NotificationBell
+
+<PropsTable name="NotificationBell" />
+
+### NotificationItem
+
+<PropsTable name="NotificationItem" />
+
+### NotificationPanel
+
+<PropsTable name="NotificationPanel" />

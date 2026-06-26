@@ -20,6 +20,9 @@ import {
   SimplePagination,
   CategoryFilter,
   CapabilityBadge,
+  NotificationBell,
+  NotificationItem,
+  NotificationPanel,
   Sidebar,
   type SidebarSection,
 } from "yunui/patterns";
@@ -35,7 +38,7 @@ import {
   ModelIcon,
   ProviderIcon,
 } from "yunui/ai";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle } from "lucide-react";
+import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -349,6 +352,48 @@ export function MediaEmptyStateDemo() {
 export function BlogPaginationDemo() {
   const [page, setPage] = useState(1);
   return <BlogPagination currentPage={page} totalPages={8} onPageChange={setPage} />;
+}
+
+const NOTIF_SEED = [
+  { id: "1", icon: MessageSquare, tint: "bg-blue-500/10 text-blue-500", title: "New reply from Alex", body: "Thanks — that fixed it!", time: "2m", unread: true },
+  { id: "2", icon: CreditCard, tint: "bg-emerald-500/10 text-emerald-500", title: "Payment received", body: "$20.00 added to your balance.", time: "1h", unread: true },
+  { id: "3", icon: ShieldAlert, tint: "bg-amber-500/10 text-amber-500", title: "New sign-in", body: "Chrome on macOS · Taipei", time: "3h", unread: false },
+];
+
+export function NotificationDemo() {
+  const [items, setItems] = useState(NOTIF_SEED);
+  const unread = items.filter((n) => n.unread).length;
+  return (
+    <div className="flex flex-col items-center gap-5">
+      <NotificationBell count={unread} label="Notifications" />
+      <NotificationPanel
+        title="Notifications"
+        unreadCount={unread}
+        unreadLabel="unread"
+        empty={items.length === 0}
+        emptyLabel="You're all caught up"
+        footer={<a href="#" onClick={(e) => e.preventDefault()}>View all</a>}
+      >
+        {items.map((n) => {
+          const Icon = n.icon;
+          return (
+            <NotificationItem
+              key={n.id}
+              icon={<Icon size={14} />}
+              iconClassName={n.tint}
+              title={n.title}
+              body={n.body}
+              time={n.time}
+              unread={n.unread}
+              dismissible
+              dismissLabel="Dismiss"
+              onDismiss={() => setItems((prev) => prev.filter((x) => x.id !== n.id))}
+            />
+          );
+        })}
+      </NotificationPanel>
+    </div>
+  );
 }
 
 export function SimplePaginationDemo() {

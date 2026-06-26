@@ -52,3 +52,13 @@ export {
   ActiveBadge,
   DeprecatedBadge,
 } from "./badges";
+
+// Notifications — presentational bell + row + dropdown panel (host owns data).
+export {
+  NotificationBell,
+  type NotificationBellProps,
+  NotificationItem,
+  type NotificationItemProps,
+  NotificationPanel,
+  type NotificationPanelProps,
+} from "./notification";

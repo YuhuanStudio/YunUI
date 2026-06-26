@@ -789,6 +789,16 @@ export const docs: DocEntry[] = [
     "pagination simple cursor has-more page navigator prev next controlled no total",
   ),
   pat(
+    "notification",
+    { en: "Notification", "zh-CN": "通知", "zh-TW": "通知" },
+    {
+      en: "Presentational notification center pieces — a bell with an unread badge, a notification row, and the dropdown panel chrome. The host owns data.",
+      "zh-CN": "通知中心的展示型部件——带未读徽章的铃铛、通知行，以及下拉面板外壳。数据由宿主负责。",
+      "zh-TW": "通知中心的展示型部件——帶未讀徽章的鈴鐺、通知列,以及下拉面板外殼。資料由宿主負責。",
+    },
+    "notification bell badge unread dropdown panel item toast alert center",
+  ),
+  pat(
     "category-filter",
     { en: "Category Filter", "zh-CN": "分类筛选", "zh-TW": "分類篩選" },
     {
@@ -1034,6 +1044,7 @@ export const groups: DocGroup[] = [
       "patterns/blog-post-header",
       "patterns/blog-pagination",
       "patterns/simple-pagination",
+      "patterns/notification",
       "patterns/category-filter",
       "patterns/code-demo",
       "patterns/docs-actions",

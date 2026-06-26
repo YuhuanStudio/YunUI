@@ -6,7 +6,7 @@ import { cn } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Bell, Trash2 } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1059,7 +1059,106 @@ function DeprecatedBadge({ isDeprecated }) {
   if (!isDeprecated) return null;
   return /* @__PURE__ */ jsx("span", { className: "badge", children: t("deprecated") });
 }
+function NotificationBell({ count = 0, max = 99, label, icon, onClick, className }) {
+  return /* @__PURE__ */ jsxs(
+    "button",
+    {
+      type: "button",
+      onClick,
+      "aria-label": label,
+      className: cn(
+        "relative flex items-center justify-center rounded-lg px-2 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
+        className
+      ),
+      children: [
+        icon ?? /* @__PURE__ */ jsx(Bell, { size: 18 }),
+        count > 0 && /* @__PURE__ */ jsx("span", { className: "absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white px-1", children: count > max ? `${max}+` : count })
+      ]
+    }
+  );
+}
+function NotificationItem({
+  icon,
+  iconClassName,
+  title,
+  body,
+  time,
+  unread,
+  href,
+  onSelect,
+  dismissible,
+  onDismiss,
+  dismissLabel,
+  className
+}) {
+  const { Link } = useYunUI();
+  const inner = /* @__PURE__ */ jsxs(Fragment, { children: [
+    icon != null && /* @__PURE__ */ jsx("div", { className: cn("shrink-0 rounded-lg p-1.5", iconClassName ?? "bg-muted"), children: icon }),
+    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsx("p", { className: cn("text-sm leading-snug truncate", unread ? "font-medium" : "text-muted-foreground"), children: title }),
+      body && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground/60 mt-0.5 line-clamp-1", children: body })
+    ] }),
+    time != null && /* @__PURE__ */ jsx("span", { className: "shrink-0 self-center text-[10px] text-muted-foreground/50", children: time })
+  ] });
+  const rowClass = cn("flex items-center gap-2.5 px-3 py-2.5", dismissible ? "pr-9" : "pr-3");
+  return /* @__PURE__ */ jsxs("div", { className: cn("group/notif relative rounded-xl hover:bg-foreground/5 transition-colors", className), children: [
+    href ? /* @__PURE__ */ jsx(Link, { href, onClick: onSelect, className: rowClass, children: inner }) : /* @__PURE__ */ jsx("button", { type: "button", onClick: onSelect, className: cn(rowClass, "w-full text-left"), children: inner }),
+    dismissible && /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        "aria-label": dismissLabel,
+        onClick: (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          onDismiss?.();
+        },
+        className: "absolute right-1.5 top-1/2 -translate-y-1/2 p-1 rounded-lg opacity-0 group-hover/notif:opacity-100 hover:bg-muted transition-all",
+        children: /* @__PURE__ */ jsx(Trash2, { size: 12, className: "text-muted-foreground/40 hover:text-red-500" })
+      }
+    )
+  ] });
+}
+function NotificationPanel({
+  title,
+  unreadCount = 0,
+  unreadLabel,
+  loading,
+  loadingLabel,
+  empty,
+  emptyLabel,
+  footer,
+  children,
+  className
+}) {
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "w-80 sm:w-[400px] rounded-2xl border border-white/10 dark:border-white/5 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-3", children: [
+          /* @__PURE__ */ jsx("h3", { className: "text-sm font-semibold", children: title }),
+          unreadCount > 0 && /* @__PURE__ */ jsxs("span", { className: "text-[10px] font-medium text-primary", children: [
+            unreadCount,
+            unreadLabel ? /* @__PURE__ */ jsxs(Fragment, { children: [
+              " ",
+              unreadLabel
+            ] }) : null
+          ] })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "max-h-[400px] overflow-y-auto px-2 pb-2 flex flex-col gap-1", children: loading ? /* @__PURE__ */ jsx("div", { className: "p-4 text-center text-sm text-muted-foreground", children: loadingLabel }) : empty ? /* @__PURE__ */ jsxs("div", { className: "p-6 text-center", children: [
+          /* @__PURE__ */ jsx(Bell, { size: 24, className: "mx-auto mb-2 text-muted-foreground/40" }),
+          /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: emptyLabel })
+        ] }) : children }),
+        footer && /* @__PURE__ */ jsx("div", { className: "text-center text-xs text-muted-foreground hover:text-foreground transition-colors [&>a]:block [&>a]:py-2.5", children: footer })
+      ]
+    }
+  );
+}
 
-export { AccountLockedCard, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

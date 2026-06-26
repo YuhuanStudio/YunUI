@@ -401,4 +401,64 @@ declare function DeprecatedBadge({ isDeprecated }: {
     isDeprecated: boolean;
 }): React$1.JSX.Element | null;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+/** An icon trigger (the bell) carrying an unread-count badge. */
+interface NotificationBellProps {
+    /** Unread count; the badge is hidden when 0 / undefined. */
+    count?: number;
+    /** Cap the displayed number — above it shows `{max}+`. */
+    max?: number;
+    /** Accessible label for the trigger. */
+    label?: string;
+    /** Override the bell glyph. */
+    icon?: ReactNode;
+    onClick?: () => void;
+    className?: string;
+}
+declare function NotificationBell({ count, max, label, icon, onClick, className }: NotificationBellProps): React$1.JSX.Element;
+/** A single notification row: type glyph · title + body · time, optionally a
+ *  link (adapter Link) and a hover dismiss button. */
+interface NotificationItemProps {
+    /** Type glyph — the host renders it (e.g. an icon for the notification type). */
+    icon?: ReactNode;
+    /** Tint classes for the icon square (bg + text color). */
+    iconClassName?: string;
+    title: ReactNode;
+    body?: ReactNode;
+    /** Host-formatted relative time (e.g. "2h"). */
+    time?: ReactNode;
+    /** Unread rows read bolder; read rows are muted. */
+    unread?: boolean;
+    /** Optional target — when set the row is an adapter `<Link>`. */
+    href?: string;
+    /** Fires on row activation (also use to close the panel). */
+    onSelect?: () => void;
+    /** Show a hover dismiss (trash) button. */
+    dismissible?: boolean;
+    onDismiss?: () => void;
+    dismissLabel?: string;
+    className?: string;
+}
+declare function NotificationItem({ icon, iconClassName, title, body, time, unread, href, onSelect, dismissible, onDismiss, dismissLabel, className, }: NotificationItemProps): React$1.JSX.Element;
+/** The dropdown panel chrome: header (title + unread count), a scrollable list
+ *  with loading / empty states, and a footer slot (e.g. a "view all" link).
+ *  Render `<NotificationItem>`s as children. */
+interface NotificationPanelProps {
+    title: ReactNode;
+    /** Unread count shown in the header; hidden when 0. */
+    unreadCount?: number;
+    /** Word rendered after the count (e.g. "unread"). */
+    unreadLabel?: ReactNode;
+    loading?: boolean;
+    loadingLabel?: ReactNode;
+    /** When true (and not loading) the empty state replaces the children. */
+    empty?: boolean;
+    emptyLabel?: ReactNode;
+    /** Footer slot — typically a centered "view all" adapter Link. */
+    footer?: ReactNode;
+    /** The notification rows. */
+    children?: ReactNode;
+    className?: string;
+}
+declare function NotificationPanel({ title, unreadCount, unreadLabel, loading, loadingLabel, empty, emptyLabel, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
+
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

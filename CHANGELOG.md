@@ -26,6 +26,12 @@ patch = fixes, anything may change between 0.x releases).
   degrades to a round globe button on narrow widths instead of overflowing.
 
 ### Added
+- **`NotificationBell` / `NotificationItem` / `NotificationPanel` (patterns)** —
+  presentational notification-center pieces: a bell trigger with an unread-count
+  badge, a notification row (type-glyph slot · title · body · time, optional
+  adapter-`Link` + hover dismiss), and the dropdown chrome (header, scrollable
+  list with loading / empty states, footer slot). The host owns fetch / auth /
+  polling / mark-as-read and the open state; copy is passed in.
 - **`SimplePagination` (patterns)** — a prev / page-indicator / next pager for
   cursor- or has-more-style lists where the total page count isn't known (so
   `BlogPagination`'s numbered pages don't apply). Same ghost-button styling;
