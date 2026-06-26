@@ -38,26 +38,26 @@ const variantConfig: Record<ConfirmModalVariant, {
     Icon: typeof Trash2;
 }> = {
     danger: {
-        iconBg: "bg-red-100 dark:bg-red-900/30",
-        iconColor: "text-red-600 dark:text-red-400",
+        iconBg: "bg-error-soft",
+        iconColor: "text-error",
         buttonVariant: "red",
         Icon: Trash2,
     },
     warning: {
-        iconBg: "bg-amber-100 dark:bg-amber-900/30",
-        iconColor: "text-amber-600 dark:text-amber-400",
+        iconBg: "bg-warning-soft",
+        iconColor: "text-warning",
         buttonVariant: "amber",
         Icon: RefreshCw,
     },
     info: {
-        iconBg: "bg-blue-100 dark:bg-blue-900/30",
-        iconColor: "text-blue-600 dark:text-blue-400",
+        iconBg: "bg-info-soft",
+        iconColor: "text-info",
         buttonVariant: "default",
         Icon: Info,
     },
     success: {
-        iconBg: "bg-green-100 dark:bg-green-900/30",
-        iconColor: "text-green-600 dark:text-green-400",
+        iconBg: "bg-success-soft",
+        iconColor: "text-success",
         buttonVariant: "default",
         Icon: CheckCircle,
     },
