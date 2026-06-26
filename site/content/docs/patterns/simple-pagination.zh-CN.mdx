@@ -1,0 +1,44 @@
+import { SimplePagination } from "yunui/patterns";
+
+用于游标式 / has-more 列表的"上一页 / 页码指示 / 下一页"分页器，适用于**总页数未知**的场景，因此 `BlogPagination` 的编号页码不再适用。它是受控的——翻页由宿主通过 `onPrevious` / `onNext` 负责，`hasNext` 决定下一页按钮是否可用。
+
+## 导入
+
+```tsx
+import { SimplePagination } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+处理函数无法跨越 MDX 的服务端→客户端边界，因此示例由一个小型客户端包装组件渲染，并在 state 中跟踪当前页。`hasNext` 由宿主的"是否存在下一个游标"计算得出——这里用固定的 5 页上限。
+
+<ComponentPreview
+  title="SimplePagination"
+  code={`import { SimplePagination } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [page, setPage] = useState(1);
+  return (
+    <SimplePagination
+      currentPage={page}
+      hasNext={page < 5}
+      onPrevious={() => setPage((p) => Math.max(1, p - 1))}
+      onNext={() => setPage((p) => p + 1)}
+      labels={{ previous: "Previous", next: "Next", page: (n) => \`Page \${n}\` }}
+    />
+  );
+}`}
+>
+  <SimplePaginationDemo />
+</ComponentPreview>
+
+## 如何选择分页器
+
+- **`SimplePagination`** —— 没有总数的游标 / `has_more` 接口：上一页、页码指示、下一页。当你只知道是否有下一页时使用。
+- **`BlogPagination`** —— 已知总页数，需要带省略号的编号页码。
+- **`Pagination`**（基础组件）—— 上述两种模式所基于的更底层受控分页器。
+
+## 属性
+
+<PropsTable name="SimplePagination" />

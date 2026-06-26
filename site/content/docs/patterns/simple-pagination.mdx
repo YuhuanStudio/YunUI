@@ -1,0 +1,44 @@
+import { SimplePagination } from "yunui/patterns";
+
+A previous / page-indicator / next pager for cursor- or has-more-style lists where the **total page count isn't known**, so `BlogPagination`'s numbered pages don't apply. It is controlled — the host owns paging through `onPrevious` / `onNext`, and `hasNext` drives whether the next button is enabled.
+
+## Import
+
+```tsx
+import { SimplePagination } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+The handlers are functions, which can't cross the server→client boundary in MDX, so the example is rendered from a small client wrapper that tracks the current page in state. `hasNext` is computed from the host's "is there a next cursor?" — here a fixed 5-page cap.
+
+<ComponentPreview
+  title="SimplePagination"
+  code={`import { SimplePagination } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [page, setPage] = useState(1);
+  return (
+    <SimplePagination
+      currentPage={page}
+      hasNext={page < 5}
+      onPrevious={() => setPage((p) => Math.max(1, p - 1))}
+      onNext={() => setPage((p) => p + 1)}
+      labels={{ previous: "Previous", next: "Next", page: (n) => \`Page \${n}\` }}
+    />
+  );
+}`}
+>
+  <SimplePaginationDemo />
+</ComponentPreview>
+
+## When to use which pager
+
+- **`SimplePagination`** — cursor / `has_more` APIs with no total: `prev`, a page indicator, `next`. Use this when you only know whether there's a next page.
+- **`BlogPagination`** — you know the total page count and want numbered pages with ellipses.
+- **`Pagination`** (primitive) — the lower-level controlled pager the patterns build on.
+
+## Props
+
+<PropsTable name="SimplePagination" />

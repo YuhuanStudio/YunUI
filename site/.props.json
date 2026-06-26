@@ -371,6 +371,78 @@
       "description": ""
     }
   ],
+  "ModelManagerCard": [
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Row actions (edit / enable / inspect / delete …) — sit at the right of the\ntop control bar (no footer rule)."
+    },
+    {
+      "name": "capabilities",
+      "type": "{ label?: ReactNode; value: ReactNode; }",
+      "required": false,
+      "defaultValue": null,
+      "description": "Capability badges + an optional label."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "fields",
+      "type": "ModelManagerField[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Labelled specs — provider, developer, type, status, context/resolution,\nmax output, price, … — laid out in a 2-column grid."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Leading model icon."
+    },
+    {
+      "name": "ids",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Id / alias chips rendered under the name."
+    },
+    {
+      "name": "name",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Model display name (the card title)."
+    },
+    {
+      "name": "nameBadges",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Inline status badges next to the name (YAML, deprecated, inactive, suspended…)."
+    },
+    {
+      "name": "selected",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Mark the row selected (a ring + tint)."
+    },
+    {
+      "name": "selectSlot",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Row-select control (a checkbox). Sits at the left of the top control bar."
+    }
+  ],
   "ModelSelect": [
     {
       "name": "className",
@@ -1487,6 +1559,50 @@
       "description": "Grouped navigation sections."
     }
   ],
+  "SimplePagination": [
+    {
+      "name": "currentPage",
+      "type": "number",
+      "required": true,
+      "defaultValue": null,
+      "description": "1-indexed current page, shown in the centre indicator."
+    },
+    {
+      "name": "hasNext",
+      "type": "boolean",
+      "required": true,
+      "defaultValue": null,
+      "description": "Whether a next page exists — cursor-style, for lists with no known total."
+    },
+    {
+      "name": "hasPrevious",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Whether a previous page exists. Defaults to `currentPage > 1`."
+    },
+    {
+      "name": "labels",
+      "type": "{ previous?: string; next?: string; page?: ((n: number) => ReactNode) | undefined; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Localized labels. `page` renders the centre indicator (default `Page {n}`)."
+    },
+    {
+      "name": "onNext",
+      "type": "() => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onPrevious",
+      "type": "() => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
   "StatCard": [
     {
       "name": "className",
@@ -1655,9 +1771,9 @@
     {
       "name": "checked",
       "type": "boolean | \"indeterminate\"",
-      "required": true,
-      "defaultValue": null,
-      "description": "Whether the box is checked. `\"indeterminate\"` shows a dash — for a\nselect-all that's only partially selected."
+      "required": false,
+      "defaultValue": "false",
+      "description": "Whether the box is checked. `\"indeterminate\"` shows a dash — for a\nselect-all that's only partially selected. Defaults to `false`."
     },
     {
       "name": "className",
@@ -1682,10 +1798,10 @@
     },
     {
       "name": "onCheckedChange",
-      "type": "(checked: boolean) => void",
-      "required": true,
+      "type": "((checked: boolean) => void)",
+      "required": false,
       "defaultValue": null,
-      "description": "Called with the next checked state when toggled (indeterminate → checked)."
+      "description": "Called with the next checked state when toggled (indeterminate → checked).\nOptional — omit for a read-only/display checkbox (it won't toggle)."
     }
   ],
   "Combobox": [

@@ -1,0 +1,44 @@
+import { SimplePagination } from "yunui/patterns";
+
+用於游標式 / has-more 清單的「上一頁 / 頁碼指示 / 下一頁」分頁器，適用於**總頁數未知**的情境，因此 `BlogPagination` 的編號頁碼不再適用。它是受控的——翻頁由宿主透過 `onPrevious` / `onNext` 負責，`hasNext` 決定下一頁按鈕是否可用。
+
+## 匯入
+
+```tsx
+import { SimplePagination } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+處理函式無法跨越 MDX 的伺服端→客戶端邊界，因此範例由一個小型客戶端包裝元件渲染，並在 state 中追蹤目前頁。`hasNext` 由宿主的「是否存在下一個游標」計算得出——這裡用固定的 5 頁上限。
+
+<ComponentPreview
+  title="SimplePagination"
+  code={`import { SimplePagination } from "@yuhuanowo/yunui/patterns";
+import { useState } from "react";
+
+function Example() {
+  const [page, setPage] = useState(1);
+  return (
+    <SimplePagination
+      currentPage={page}
+      hasNext={page < 5}
+      onPrevious={() => setPage((p) => Math.max(1, p - 1))}
+      onNext={() => setPage((p) => p + 1)}
+      labels={{ previous: "Previous", next: "Next", page: (n) => \`Page \${n}\` }}
+    />
+  );
+}`}
+>
+  <SimplePaginationDemo />
+</ComponentPreview>
+
+## 如何選擇分頁器
+
+- **`SimplePagination`** —— 沒有總數的游標 / `has_more` 介面：上一頁、頁碼指示、下一頁。當你只知道是否有下一頁時使用。
+- **`BlogPagination`** —— 已知總頁數，需要帶省略號的編號頁碼。
+- **`Pagination`**（基礎元件）—— 上述兩種模式所基於的更底層受控分頁器。
+
+## 屬性
+
+<PropsTable name="SimplePagination" />

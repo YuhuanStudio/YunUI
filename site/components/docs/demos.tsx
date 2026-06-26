@@ -17,7 +17,9 @@ import {
   MediaPageHeader,
   MediaEmptyState,
   BlogPagination,
+  SimplePagination,
   CategoryFilter,
+  CapabilityBadge,
   Sidebar,
   type SidebarSection,
 } from "yunui/patterns";
@@ -27,11 +29,13 @@ import {
   LanguageSwitcher,
   ModelSelect,
   type ModelSelectOption,
+  ModelManagerCard,
   CapabilityIcon,
+  IDBadge,
   ModelIcon,
   ProviderIcon,
 } from "yunui/ai";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown } from "lucide-react";
+import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -345,6 +349,54 @@ export function MediaEmptyStateDemo() {
 export function BlogPaginationDemo() {
   const [page, setPage] = useState(1);
   return <BlogPagination currentPage={page} totalPages={8} onPageChange={setPage} />;
+}
+
+export function SimplePaginationDemo() {
+  // Cursor-style: no known total, so "next" is gated on hasNext (here: 5 pages).
+  const [page, setPage] = useState(1);
+  return (
+    <SimplePagination
+      currentPage={page}
+      hasNext={page < 5}
+      onPrevious={() => setPage((p) => Math.max(1, p - 1))}
+      onNext={() => setPage((p) => p + 1)}
+      labels={{ previous: "Previous", next: "Next", page: (n) => `Page ${n}` }}
+    />
+  );
+}
+
+export function ModelManagerCardDemo() {
+  const [selected, setSelected] = useState(false);
+  return (
+    <div className="w-full max-w-sm">
+      <ModelManagerCard
+        selected={selected}
+        selectSlot={<Checkbox checked={selected} onCheckedChange={setSelected} />}
+        icon={<ProviderIcon provider="anthropic" size={40} rounded />}
+        name="Claude Opus 4.8"
+        ids={<IDBadge text="claude-opus-4-8" />}
+        actions={
+          <>
+            <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="Edit"><Pencil size={15} /></button>
+            <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="Disable"><Power size={15} /></button>
+            <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="Delete"><Trash2 size={15} /></button>
+          </>
+        }
+        fields={[
+          { label: "Provider", value: <span className="text-sm text-muted-foreground">Anthropic</span> },
+          { label: "Type", value: <span className="text-sm">Chat</span> },
+          { label: "Context", value: <span className="text-sm text-muted-foreground">200K</span> },
+          { label: "Max output", value: <span className="text-sm text-muted-foreground">128K</span> },
+          { label: "Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><CheckCircle size={12} />Approved</span> },
+          { label: "Price (in / out)", value: <span className="font-mono text-sm text-muted-foreground">$5 / $25 per M</span>, full: true },
+        ]}
+        capabilities={{
+          label: "Capabilities",
+          value: ["chat", "function_calling", "streaming", "thinking"].map((c) => <CapabilityBadge key={c} capability={c} />),
+        }}
+      />
+    </div>
+  );
 }
 
 export function CategoryFilterDemo() {

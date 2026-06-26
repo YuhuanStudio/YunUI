@@ -779,6 +779,16 @@ export const docs: DocEntry[] = [
     "pagination blog page navigator prev next controlled",
   ),
   pat(
+    "simple-pagination",
+    { en: "Simple Pagination", "zh-CN": "简单分页", "zh-TW": "簡單分頁" },
+    {
+      en: "A prev / page-indicator / next pager for cursor- or has-more lists where the total page count isn't known.",
+      "zh-CN": "用于游标式或 has-more 列表（总页数未知）的上一页 / 页码指示 / 下一页分页器。",
+      "zh-TW": "用於游標式或 has-more 清單（總頁數未知）的上一頁 / 頁碼指示 / 下一頁分頁器。",
+    },
+    "pagination simple cursor has-more page navigator prev next controlled no total",
+  ),
+  pat(
     "category-filter",
     { en: "Category Filter", "zh-CN": "分类筛选", "zh-TW": "分類篩選" },
     {
@@ -829,6 +839,16 @@ export const docs: DocEntry[] = [
       "zh-TW": "可搜尋、可分組的模型選擇器，支援能力篩選與受控釘選。",
     },
     "model select picker dropdown search filter pin ai llm provider",
+  ),
+  aiDoc(
+    "model-manager-card",
+    { en: "Model Manager Card", "zh-CN": "模型管理卡片", "zh-TW": "模型管理卡片" },
+    {
+      en: "A dense admin model row rendered as a card — select, icon, name + ids, a 2-column spec grid, capabilities, and row actions; every admin-table column, top-to-bottom.",
+      "zh-CN": "将一行密集的管理后台模型行渲染成卡片——选择、图标、名称 + id、两列规格网格、能力与行操作；后台表格的每一列，自上而下。",
+      "zh-TW": "將一列密集的管理後台模型列渲染成卡片——選擇、圖示、名稱 + id、兩欄規格網格、能力與列操作；後台表格的每一欄，自上而下。",
+    },
+    "model manager card admin table row spec grid capabilities actions select slots",
   ),
   aiDoc(
     "provider-icon",
@@ -1013,6 +1033,7 @@ export const groups: DocGroup[] = [
       "patterns/blog-card",
       "patterns/blog-post-header",
       "patterns/blog-pagination",
+      "patterns/simple-pagination",
       "patterns/category-filter",
       "patterns/code-demo",
       "patterns/docs-actions",
@@ -1023,6 +1044,7 @@ export const groups: DocGroup[] = [
     pages: [
       "ai/model-card",
       "ai/model-select",
+      "ai/model-manager-card",
       "ai/provider-icon",
       "ai/capability-selector",
       "ai/capability-badge",

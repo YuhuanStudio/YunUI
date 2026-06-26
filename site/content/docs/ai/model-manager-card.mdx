@@ -1,0 +1,66 @@
+import { ModelManagerCard } from "yunui/ai";
+
+A dense **admin "model row" rendered as a card**. It carries every column a model-management table needs — a select control, an icon, the name with status badges, id chips, a 2-column labelled spec grid (provider, developer, type, status, context **or** resolution, max output, price in/out), capability badges, and row actions — laid out top-to-bottom so model management reads on any width instead of a wide scrolling table.
+
+It is **domain-agnostic**: every value is a slot the consumer fills, so no app types, pricing, or i18n leak into the design system.
+
+## Import
+
+```tsx
+import { ModelManagerCard } from "@yuhuanowo/yunui/ai";
+```
+
+## Example
+
+`selectSlot` and `actions` are slots; the example wires a stateful `Checkbox` into the select slot and renders icon buttons for the actions. `fields` is an array of `{ label, value, full? }` (set `full` to span both grid columns).
+
+<ComponentPreview
+  title="ModelManagerCard"
+  code={`import { ModelManagerCard, ProviderIcon, IDBadge } from "@yuhuanowo/yunui/ai";
+import { CapabilityBadge } from "@yuhuanowo/yunui/patterns";
+import { Checkbox } from "@yuhuanowo/yunui";
+import { useState } from "react";
+
+function Example() {
+  const [selected, setSelected] = useState(false);
+  return (
+    <ModelManagerCard
+      selected={selected}
+      selectSlot={<Checkbox checked={selected} onCheckedChange={setSelected} />}
+      icon={<ProviderIcon provider="anthropic" size={40} rounded />}
+      name="Claude Opus 4.8"
+      ids={<IDBadge text="claude-opus-4-8" />}
+      actions={/* edit / disable / delete icon buttons */ null}
+      fields={[
+        { label: "Provider", value: "Anthropic" },
+        { label: "Type", value: "Chat" },
+        { label: "Context", value: "200K" },
+        { label: "Max output", value: "128K" },
+        { label: "Status", value: "Approved" },
+        { label: "Price (in / out)", value: "$5 / $25 per M", full: true },
+      ]}
+      capabilities={{
+        label: "Capabilities",
+        value: ["chat", "function_calling", "streaming", "thinking"].map((c) => (
+          <CapabilityBadge key={c} capability={c} />
+        )),
+      }}
+    />
+  );
+}`}
+>
+  <ModelManagerCardDemo />
+</ComponentPreview>
+
+## Anatomy
+
+- **Top control bar** — `selectSlot` (left) and `actions` (right). Keeps both off the content so the icon stays flush-left.
+- **Identity** — `icon` · `name` + `nameBadges` (YAML / deprecated / suspended …) · `ids` chips.
+- **Spec grid** — `fields` laid out in 2 columns; a field with `full: true` spans both.
+- **Capabilities** — an optional `label` and the capability badges.
+
+A long, unbreakable model `name` wraps inside the card rather than widening the column.
+
+## Props
+
+<PropsTable name="ModelManagerCard" />

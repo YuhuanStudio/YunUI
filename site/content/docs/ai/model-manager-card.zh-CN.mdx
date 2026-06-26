@@ -1,0 +1,66 @@
+import { ModelManagerCard } from "yunui/ai";
+
+将一行密集的**管理后台"模型行"渲染成卡片**。它承载模型管理表格所需的每一列——选择控件、图标、带状态徽章的名称、id 标签、两列式带标签的规格网格（供应商、开发者、类型、状态、上下文**或**分辨率、最大输出、价格（输入/输出））、能力徽章和行操作——自上而下排布，因此模型管理在任意宽度下都可阅读，而不必横向滚动宽表格。
+
+它是**领域无关**的：每个值都是消费方填充的插槽，因此没有应用类型、定价或 i18n 渗入设计系统。
+
+## 导入
+
+```tsx
+import { ModelManagerCard } from "@yuhuanowo/yunui/ai";
+```
+
+## 示例
+
+`selectSlot` 和 `actions` 都是插槽；示例将一个受控的 `Checkbox` 接入选择插槽，并为操作渲染图标按钮。`fields` 是一个 `{ label, value, full? }` 数组（设置 `full` 可横跨两列）。
+
+<ComponentPreview
+  title="ModelManagerCard"
+  code={`import { ModelManagerCard, ProviderIcon, IDBadge } from "@yuhuanowo/yunui/ai";
+import { CapabilityBadge } from "@yuhuanowo/yunui/patterns";
+import { Checkbox } from "@yuhuanowo/yunui";
+import { useState } from "react";
+
+function Example() {
+  const [selected, setSelected] = useState(false);
+  return (
+    <ModelManagerCard
+      selected={selected}
+      selectSlot={<Checkbox checked={selected} onCheckedChange={setSelected} />}
+      icon={<ProviderIcon provider="anthropic" size={40} rounded />}
+      name="Claude Opus 4.8"
+      ids={<IDBadge text="claude-opus-4-8" />}
+      actions={/* edit / disable / delete icon buttons */ null}
+      fields={[
+        { label: "Provider", value: "Anthropic" },
+        { label: "Type", value: "Chat" },
+        { label: "Context", value: "200K" },
+        { label: "Max output", value: "128K" },
+        { label: "Status", value: "Approved" },
+        { label: "Price (in / out)", value: "$5 / $25 per M", full: true },
+      ]}
+      capabilities={{
+        label: "Capabilities",
+        value: ["chat", "function_calling", "streaming", "thinking"].map((c) => (
+          <CapabilityBadge key={c} capability={c} />
+        )),
+      }}
+    />
+  );
+}`}
+>
+  <ModelManagerCardDemo />
+</ComponentPreview>
+
+## 结构
+
+- **顶部控制栏** —— `selectSlot`（左）和 `actions`（右）。让两者都不占用内容区，使图标保持左对齐。
+- **身份信息** —— `icon` · `name` + `nameBadges`（YAML / 已弃用 / 已暂停 …）· `ids` 标签。
+- **规格网格** —— `fields` 以两列布局；设置 `full: true` 的字段横跨两列。
+- **能力** —— 可选的 `label` 与能力徽章。
+
+过长、不可断行的模型 `name` 会在卡片内换行，而不会撑宽整列。
+
+## 属性
+
+<PropsTable name="ModelManagerCard" />
