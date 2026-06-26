@@ -245,6 +245,12 @@ function Demo({ title, description, code, children }: { title: string; descripti
   );
 }
 
+// Self-contained checkbox so the showcase model cards actually toggle.
+function MmcSelect({ defaultChecked = false }: { defaultChecked?: boolean }) {
+  const [checked, setChecked] = useState(defaultChecked);
+  return <Checkbox checked={checked} onCheckedChange={setChecked} />;
+}
+
 function ErrorBoundaryDemo() {
   const t = useTranslations("showcase.demos.errorBoundary");
   const [boom, setBoom] = useState(false);
@@ -1248,7 +1254,7 @@ export default function Showcase() {
             <Badge variant="error">{t("demos.cardsBadges.error")}</Badge>
           </div>
         </Demo>
-        <Demo title="Yunxin 模型表格(目前)— Current model table" description="A 1:1 reproduction of Yunxin's admin model table (admin/models/components/table-row.tsx): same columns, same ModelIcon/ProviderIconImg/ModelTypeIcon/IDBadge/CapabilityBadge rendering, same data. The wide table that scrolls sideways on narrow screens — the 'before' we're redesigning into the card below.">
+        <Demo title="Table" description="The Table primitive carrying a dense, many-column admin model row (icons, id chips, badge groups, multi-line price, row actions). Scrolls horizontally when the columns outgrow the viewport.">
           <Table containerClassName="rounded-xl border border-border">
             <TableHeader>
               <TableRow>
@@ -1330,7 +1336,7 @@ export default function Showcase() {
             {/* Faithful to Yunxin admin/models/components/table-row.tsx — the real
                 "Claude Opus (Agent)" row (provider Claude Code, developer Anthropic). */}
             <ModelManagerCard
-              selectSlot={<Checkbox />}
+              selectSlot={<MmcSelect />}
               icon={<ProviderIcon provider="anthropic" size={40} rounded />}
               name="Claude Opus (Agent)"
               ids={<>
@@ -1357,7 +1363,7 @@ export default function Showcase() {
             />
             {/* Image model + the name-badge modifiers (YAML / suspended) the real row supports */}
             <ModelManagerCard
-              selectSlot={<Checkbox checked />}
+              selectSlot={<MmcSelect defaultChecked />}
               icon={<ProviderIcon provider="flux" size={40} rounded />}
               name="FLUX.1 Kontext"
               nameBadges={<>
