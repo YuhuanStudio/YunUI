@@ -29,11 +29,10 @@ export interface ModelManagerCardProps {
     nameBadges?: ReactNode;
     /** Id / alias chips rendered under the name. */
     ids?: ReactNode;
-    /** Row-select control (a checkbox). Pinned to the top-right corner so it
-     *  never shifts the icon/name. */
+    /** Row-select control (a checkbox). Sits at the left of the top control bar. */
     selectSlot?: ReactNode;
-    /** Row actions (edit / enable / inspect / delete …) — a quiet button row at
-     *  the bottom (no footer rule). */
+    /** Row actions (edit / enable / inspect / delete …) — sit at the right of the
+     *  top control bar (no footer rule). */
     actions?: ReactNode;
     /** Labelled specs — provider, developer, type, status, context/resolution,
      *  max output, price, … — laid out in a 2-column grid. */
@@ -61,17 +60,22 @@ export function ModelManagerCard({
     return (
         <div
             className={cn(
-                "card p-5 relative transition-shadow hover:shadow-md",
+                "card p-5 transition-shadow hover:shadow-md",
                 selected && "ring-2 ring-primary/40 bg-muted/30",
                 className,
             )}
         >
-            {/* Select — pinned to the top-right corner, out of flow, so the icon
-                stays flush-left and never gets pushed around by the checkbox. */}
-            {selectSlot && <div className="absolute top-4 right-4 z-10">{selectSlot}</div>}
+            {/* Top control bar: select (left) · actions (right). Keeps both off the
+                content so the icon stays flush-left and nothing crowds the bottom. */}
+            {(selectSlot || actions) && (
+                <div className="flex items-center justify-between gap-2 mb-3.5 min-h-7">
+                    <div className="flex items-center">{selectSlot}</div>
+                    {actions && <div className="flex items-center gap-0.5 -mr-1.5 text-muted-foreground">{actions}</div>}
+                </div>
+            )}
 
             {/* Identity: icon · name + status badges · id chips */}
-            <div className={cn("flex items-start gap-3", selectSlot && "pr-8")}>
+            <div className="flex items-start gap-3">
                 {icon && <div className="shrink-0">{icon}</div>}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">
@@ -101,13 +105,6 @@ export function ModelManagerCard({
                         <div className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground mb-1.5">{capabilities.label}</div>
                     )}
                     <div className="flex flex-wrap gap-1.5">{capabilities.value}</div>
-                </div>
-            )}
-
-            {/* Actions — a quiet icon-button row at the bottom; no footer rule. */}
-            {actions && (
-                <div className="flex items-center gap-0.5 mt-4 -mb-1 -ml-1.5">
-                    {actions}
                 </div>
             )}
         </div>

@@ -422,13 +422,16 @@ function ModelManagerCard({
     "div",
     {
       className: cn(
-        "card p-5 relative transition-shadow hover:shadow-md",
+        "card p-5 transition-shadow hover:shadow-md",
         selected && "ring-2 ring-primary/40 bg-muted/30",
         className
       ),
       children: [
-        selectSlot && /* @__PURE__ */ jsx("div", { className: "absolute top-4 right-4 z-10", children: selectSlot }),
-        /* @__PURE__ */ jsxs("div", { className: cn("flex items-start gap-3", selectSlot && "pr-8"), children: [
+        (selectSlot || actions) && /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2 mb-3.5 min-h-7", children: [
+          /* @__PURE__ */ jsx("div", { className: "flex items-center", children: selectSlot }),
+          actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5 -mr-1.5 text-muted-foreground", children: actions })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
           icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
           /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
             /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap", children: [
@@ -445,8 +448,7 @@ function ModelManagerCard({
         capabilities && /* @__PURE__ */ jsxs("div", { className: "mt-4", children: [
           capabilities.label && /* @__PURE__ */ jsx("div", { className: "text-[10px] font-medium uppercase tracking-wide text-muted-foreground mb-1.5", children: capabilities.label }),
           /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-1.5", children: capabilities.value })
-        ] }),
-        actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5 mt-4 -mb-1 -ml-1.5", children: actions })
+        ] })
       ]
     }
   );
