@@ -182,6 +182,11 @@ import {
   Code,
   AlertTriangle,
   Crown,
+  PauseCircle,
+  CheckCircle,
+  Clock,
+  Square,
+  FileCode,
 } from "lucide-react";
 
 // ---- layout helpers -------------------------------------------------------
@@ -1243,61 +1248,76 @@ export default function Showcase() {
             <Badge variant="error">{t("demos.cardsBadges.error")}</Badge>
           </div>
         </Demo>
-        <Demo title="Table" description="A real, dense admin model table (checkbox, ids, icons, badge groups, multi-line price, row actions). Resize narrow: rows stack into labelled cards — desktop-only alignment is `md:`-gated so cards read left-aligned, top to bottom.">
-          {/* Mirrors Yunxin's admin model row so the responsive stacking is
-              verified against the REAL complexity, not a toy table. */}
-          <Table responsive containerClassName="md:rounded-xl md:border md:border-border">
+        <Demo title="Yunxin 模型表格(目前)— Current model table" description="A 1:1 reproduction of Yunxin's admin model table (admin/models/components/table-row.tsx): same columns, same ModelIcon/ProviderIconImg/ModelTypeIcon/IDBadge/CapabilityBadge rendering, same data. The wide table that scrolls sideways on narrow screens — the 'before' we're redesigning into the card below.">
+          <Table containerClassName="rounded-xl border border-border">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-8"><input type="checkbox" aria-label="select all" /></TableHead>
-                <TableHead>Model</TableHead>
-                <TableHead>Provider</TableHead>
-                <TableHead>Developer</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Context</TableHead>
-                <TableHead className="text-right">Max output</TableHead>
-                <TableHead className="text-right">Price (in/out)</TableHead>
-                <TableHead>Capabilities</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="w-8"><Square size={18} className="text-muted-foreground" /></TableHead>
+                <TableHead>名稱</TableHead>
+                <TableHead>供應商</TableHead>
+                <TableHead>開發者</TableHead>
+                <TableHead>類型</TableHead>
+                <TableHead>狀態</TableHead>
+                <TableHead>上下文 / 解析度</TableHead>
+                <TableHead>最大輸出 TOKEN</TableHead>
+                <TableHead>價格（輸入/輸出）</TableHead>
+                <TableHead>能力</TableHead>
+                <TableHead className="text-right">操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {[
-                { model: "MiniMax-M2.5", ids: ["minimax/MiniMax-M2.5", "MiniMax-M2.5"], prov: "minimax", provName: "MiniMax", dev: "minimax", devName: "MiniMax", ctx: "204.80K", maxOut: "131.07K", price: "75.00 / 300.00", cache: "cache: 10.00 / 20.00", caps: ["function_calling", "chat", "vision", "thinking", "streaming"] },
-                { model: "Claude Opus 4.8", ids: ["anthropic/claude-opus-4-8"], prov: "anthropic", provName: "Anthropic", dev: "claude", devName: "Claude", ctx: "1.00M", maxOut: "64.00K", price: "10.00 / 50.00", cache: "cache: 1.00 / 2.00", caps: ["chat", "vision", "thinking"] },
+                { name: "Claude Opus (Agent)", dev: "anthropic", devName: "Anthropic", prov: "claude", provName: "Claude Code", ids: ["claude/opus-agent"], type: "chat" as const, typeLabel: "Chat", ctx: "200.00K", maxOut: "128.00K", price: "5.00K / 25.00K", caps: ["chat", "function_calling", "streaming", "thinking"] },
+                { name: "GPT-5.1", dev: "openai", devName: "OpenAI", prov: "openai", provName: "OpenAI", ids: ["openai/gpt-5.1", "gpt-5.1-latest"], type: "chat" as const, typeLabel: "Chat", ctx: "400.00K", maxOut: "128.00K", price: "1.25K / 10.00K", caps: ["chat", "vision", "function_calling", "streaming"] },
               ].map((r) => (
-                <TableRow key={r.model}>
-                  <TableCell label="" className="w-8"><input type="checkbox" aria-label={`select ${r.model}`} /></TableCell>
-                  <TableCell label="Model">
-                    <div className="flex items-center gap-2.5">
-                      <ProviderIcon provider={r.prov} size={32} rounded />
-                      <div className="min-w-0">
-                        <div className="font-medium truncate">{r.model}</div>
-                        <div className="flex flex-wrap gap-1 mt-0.5">
-                          {r.ids.map((id) => <span key={id} className="font-mono text-[11px] bg-muted px-1.5 py-0.5 rounded border border-border">{id}</span>)}
+                <TableRow key={r.name} className="group">
+                  <TableCell>
+                    <button className="p-1 hover:bg-muted rounded-sm transition-colors"><Square size={18} className="text-muted-foreground" /></button>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-start gap-3">
+                      <div className="shrink-0"><ModelIcon developer={r.dev} provider={r.prov} size={40} rounded /></div>
+                      <div className="space-y-1.5 flex-1 min-w-0">
+                        <div className="font-medium">{r.name}</div>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {r.ids.map((id) => <IDBadge key={id} text={id} />)}
                         </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell label="Provider"><span className="inline-flex items-center gap-1.5"><ProviderIcon provider={r.prov} size={18} rounded />{r.provName}</span></TableCell>
-                  <TableCell label="Developer"><span className="inline-flex items-center gap-1.5"><ProviderIcon provider={r.dev} size={18} rounded />{r.devName}</span></TableCell>
-                  <TableCell label="Type"><Badge variant="info">Chat</Badge></TableCell>
-                  <TableCell label="Status"><Badge variant="success">Approved</Badge></TableCell>
-                  <TableCell label="Context" className="text-right tabular-nums text-muted-foreground">{r.ctx}</TableCell>
-                  <TableCell label="Max output" className="text-right tabular-nums text-muted-foreground">{r.maxOut}</TableCell>
-                  <TableCell label="Price (in/out)" className="text-right tabular-nums">
-                    <div>{r.price}</div>
-                    <div className="text-[11px] text-muted-foreground/70">{r.cache}</div>
-                  </TableCell>
-                  <TableCell label="Capabilities">
-                    <div className="flex flex-wrap gap-1.5">
-                      {r.caps.map((c) => <CapabilityBadge key={c} capability={c} />)}
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <ProviderIconImg provider={r.prov} size={18} />
+                      <span className="text-sm text-muted-foreground">{r.provName}</span>
                     </div>
                   </TableCell>
-                  <TableCell label="Actions" className="text-right">
-                    <div className="flex items-center gap-1 justify-end text-muted-foreground">
-                      <Pencil size={15} /><Power size={15} /><Eye size={15} /><Trash2 size={15} />
+                  <TableCell className="whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <ProviderIcon provider={r.dev} size={18} rounded />
+                      <span className="text-sm">{r.devName}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    <div className="flex items-center gap-2"><ModelTypeIcon type={r.type} size={16} /><span className="text-sm capitalize">{r.typeLabel}</span></div>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><CheckCircle size={12} />Approved</span>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap text-muted-foreground"><span className="text-sm">{r.ctx}</span></TableCell>
+                  <TableCell className="whitespace-nowrap text-muted-foreground"><span className="text-sm">{r.maxOut}</span></TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    <div className="text-sm"><div className="font-mono text-muted-foreground">{r.price}</div></div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1">{r.caps.map((c) => <CapabilityBadge key={c} capability={c} />)}</div>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap text-right">
+                    <div className="flex items-center justify-end gap-1 text-muted-foreground">
+                      <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯"><Pencil size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="停用"><Power size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-muted transition-colors" title="標記棄用"><Eye size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="暫停"><PauseCircle size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="刪除"><Trash2 size={14} /></button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -1307,44 +1327,49 @@ export default function Showcase() {
         </Demo>
         <Demo title="Model manager card" description="A dense admin model row as a card — EVERY column present (name + ids, provider, developer, type, status, context / resolution, max output, price in/out, capabilities, actions). Starting point for discussing the model-management layout.">
           <div className="grid sm:grid-cols-2 gap-3 w-full">
-            {/* An LLM model (context + max output) */}
+            {/* Faithful to Yunxin admin/models/components/table-row.tsx — the real
+                "Claude Opus (Agent)" row (provider Claude Code, developer Anthropic). */}
             <ModelManagerCard
-              selectSlot={<input type="checkbox" aria-label="select MiniMax-M2.5" />}
-              icon={<ProviderIcon provider="minimax" size={40} rounded />}
-              name="MiniMax-M2.5"
+              selectSlot={<input type="checkbox" aria-label="select Claude Opus (Agent)" />}
+              icon={<ProviderIcon provider="anthropic" size={40} rounded />}
+              name="Claude Opus (Agent)"
               ids={<>
-                <span className="font-mono text-[11px] bg-muted px-1.5 py-0.5 rounded border border-border">minimax/MiniMax-M2.5</span>
-                <span className="font-mono text-[11px] bg-muted/60 px-1.5 py-0.5 rounded border border-border text-muted-foreground">MiniMax-M2.5</span>
+                <IDBadge text="claude/opus-agent" />
+                <IDBadge text="claude-opus-agent" />
               </>}
-              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><Trash2 size={15} /></>}
+              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><PauseCircle size={15} /><Trash2 size={15} /></>}
               fields={[
-                { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="minimax" size={18} rounded />MiniMax</span> },
-                { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="minimax" size={18} rounded />MiniMax</span> },
-                { label: "類型 / Type", value: <Badge variant="info">Chat</Badge> },
-                { label: "狀態 / Status", value: <Badge variant="success">Approved</Badge> },
-                { label: "上下文 / Context", value: <span className="tabular-nums">204.80K</span> },
-                { label: "最大輸出 / Max output", value: <span className="tabular-nums">131.07K</span> },
-                { label: "價格 / Price (in/out)", value: <span className="tabular-nums">75.00 / 300.00<span className="text-[11px] text-muted-foreground/70"> · cache 10 / 20</span></span>, full: true },
+                { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-2 text-sm text-muted-foreground"><ProviderIcon provider="claude" size={18} rounded />Claude Code</span> },
+                { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-2 text-sm"><ProviderIcon provider="anthropic" size={18} rounded />Anthropic</span> },
+                { label: "類型 / Type", value: <span className="inline-flex items-center gap-2 text-sm"><ModelTypeIcon type="chat" size={16} />Chat</span> },
+                { label: "狀態 / Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><CheckCircle size={12} />Approved</span> },
+                { label: "上下文 / 解析度", value: <span className="text-sm text-muted-foreground">200.00K</span> },
+                { label: "最大輸出 TOKEN", value: <span className="text-sm text-muted-foreground">128.00K</span> },
+                { label: "價格（輸入/輸出）", value: <span className="font-mono text-sm text-muted-foreground">5.00K / 25.00K</span>, full: true },
               ]}
-              capabilities={{ label: "能力 / Capabilities", value: ["function_calling", "chat", "vision", "thinking", "streaming"].map((c) => <CapabilityBadge key={c} capability={c} />) }}
+              capabilities={{ label: "能力 / Capabilities", value: ["chat", "function_calling", "streaming", "thinking"].map((c) => <CapabilityBadge key={c} capability={c} />) }}
             />
-            {/* An image model (resolution instead of context) */}
+            {/* Image model + the name-badge modifiers (YAML / suspended) the real row supports */}
             <ModelManagerCard
-              selectSlot={<input type="checkbox" aria-label="select FLUX.1" />}
-              icon={<ProviderIcon provider="fal" size={40} rounded />}
-              name="FLUX.1 [dev]"
-              ids={<span className="font-mono text-[11px] bg-muted px-1.5 py-0.5 rounded border border-border">fal/flux-1-dev</span>}
-              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><Trash2 size={15} /></>}
+              selectSlot={<input type="checkbox" aria-label="select FLUX.1 Kontext" />}
+              icon={<ProviderIcon provider="flux" size={40} rounded />}
+              name="FLUX.1 Kontext"
+              nameBadges={<>
+                <span className="badge flex items-center gap-1 bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20"><FileCode size={10} />YAML</span>
+                <span className="badge bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 flex items-center gap-1"><PauseCircle size={10} />Suspended</span>
+              </>}
+              ids={<IDBadge text="fal/flux-kontext" />}
+              actions={<><Pencil size={15} /><Power size={15} /><Eye size={15} /><PauseCircle size={15} /><Trash2 size={15} /></>}
               fields={[
-                { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="fal" size={18} rounded />fal.ai</span> },
-                { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-1.5"><ProviderIcon provider="bfl" size={18} rounded />Black Forest</span> },
-                { label: "類型 / Type", value: <Badge variant="default">Image</Badge> },
-                { label: "狀態 / Status", value: <Badge variant="warning">Pending</Badge> },
-                { label: "解析度 / Resolution", value: <span className="tabular-nums">256–2048</span> },
-                { label: "最大輸出 / Max output", value: <span className="text-muted-foreground">—</span> },
-                { label: "價格 / Price (per image)", value: <span className="tabular-nums">25.00</span>, full: true },
+                { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-2 text-sm text-muted-foreground"><ProviderIcon provider="fal" size={18} rounded />fal.ai</span> },
+                { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-2 text-sm"><ProviderIcon provider="flux" size={18} rounded />Black Forest</span> },
+                { label: "類型 / Type", value: <span className="inline-flex items-center gap-2 text-sm"><ModelTypeIcon type="image_generation" size={16} />Image generation</span> },
+                { label: "狀態 / Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400"><Clock size={12} />Pending</span> },
+                { label: "上下文 / 解析度", value: <span className="text-sm text-muted-foreground">256–2048 × 256–2048</span> },
+                { label: "最大輸出 TOKEN", value: <span className="text-sm text-muted-foreground">—</span> },
+                { label: "價格（輸入/輸出）", value: <span className="font-mono text-sm text-muted-foreground">25.00 /req</span>, full: true },
               ]}
-              capabilities={{ label: "能力 / Capabilities", value: ["image_edit", "negative_prompt", "seed_control", "lora", "guidance_scale"].map((c) => <CapabilityBadge key={c} capability={c} />) }}
+              capabilities={{ label: "能力 / Capabilities", value: ["image_edit", "negative_prompt", "seed_control", "lora"].map((c) => <CapabilityBadge key={c} capability={c} />) }}
             />
           </div>
         </Demo>

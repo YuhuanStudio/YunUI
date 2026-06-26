@@ -25,6 +25,8 @@ export interface ModelManagerCardProps {
     icon?: ReactNode;
     /** Model display name (the card title). */
     name: ReactNode;
+    /** Inline status badges next to the name (YAML, deprecated, inactive, suspended…). */
+    nameBadges?: ReactNode;
     /** Id / alias chips rendered under the name. */
     ids?: ReactNode;
     /** Row-select control (a checkbox), shown at the card's top-left. */
@@ -45,6 +47,7 @@ export interface ModelManagerCardProps {
 export function ModelManagerCard({
     icon,
     name,
+    nameBadges,
     ids,
     selectSlot,
     actions,
@@ -61,10 +64,13 @@ export function ModelManagerCard({
                 {icon && <div className="shrink-0">{icon}</div>}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                        <span className="font-semibold truncate leading-tight">{name}</span>
-                        {actions && <div className="flex items-center gap-1.5 shrink-0 text-muted-foreground">{actions}</div>}
+                        <div className="flex items-center gap-x-2 gap-y-1 flex-wrap min-w-0">
+                            <span className="font-semibold leading-tight">{name}</span>
+                            {nameBadges}
+                        </div>
+                        {actions && <div className="flex items-center gap-0.5 shrink-0 text-muted-foreground -mt-0.5">{actions}</div>}
                     </div>
-                    {ids && <div className="flex flex-wrap items-center gap-1 mt-1">{ids}</div>}
+                    {ids && <div className="flex flex-wrap items-center gap-1 mt-1.5">{ids}</div>}
                 </div>
             </div>
 

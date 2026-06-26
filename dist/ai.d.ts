@@ -127,6 +127,8 @@ interface ModelManagerCardProps {
     icon?: ReactNode;
     /** Model display name (the card title). */
     name: ReactNode;
+    /** Inline status badges next to the name (YAML, deprecated, inactive, suspended…). */
+    nameBadges?: ReactNode;
     /** Id / alias chips rendered under the name. */
     ids?: ReactNode;
     /** Row-select control (a checkbox), shown at the card's top-left. */
@@ -146,7 +148,7 @@ interface ModelManagerCardProps {
     className?: string;
 }
 /** A model-management row as a card (all admin columns, top-to-bottom). */
-declare function ModelManagerCard({ icon, name, ids, selectSlot, actions, fields, capabilities, selected, className, }: ModelManagerCardProps): React.JSX.Element;
+declare function ModelManagerCard({ icon, name, nameBadges, ids, selectSlot, actions, fields, capabilities, selected, className, }: ModelManagerCardProps): React.JSX.Element;
 
 /** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge). */
 declare function IDBadge({ text, truncate }: {

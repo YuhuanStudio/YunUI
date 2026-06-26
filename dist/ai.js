@@ -409,6 +409,7 @@ var ModelRow = memo(function ModelRow2({
 function ModelManagerCard({
   icon,
   name,
+  nameBadges,
   ids,
   selectSlot,
   actions,
@@ -423,10 +424,13 @@ function ModelManagerCard({
       icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
       /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
         /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-2", children: [
-          /* @__PURE__ */ jsx("span", { className: "font-semibold truncate leading-tight", children: name }),
-          actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1.5 shrink-0 text-muted-foreground", children: actions })
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap min-w-0", children: [
+            /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight", children: name }),
+            nameBadges
+          ] }),
+          actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5 shrink-0 text-muted-foreground -mt-0.5", children: actions })
         ] }),
-        ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1", children: ids })
+        ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1.5", children: ids })
       ] })
     ] }),
     fields && fields.length > 0 && /* @__PURE__ */ jsx("dl", { className: "grid grid-cols-2 gap-x-4 gap-y-2.5 mt-3.5 text-sm", children: fields.map((f, i) => /* @__PURE__ */ jsxs("div", { className: cn("min-w-0", f.full && "col-span-2"), children: [
