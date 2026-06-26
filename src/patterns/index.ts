@@ -56,6 +56,12 @@ export {
 // Feature-locked state — the centered "feature unavailable" screen.
 export { FeatureLockedState, type FeatureLockedStateProps } from "./feature-locked-state";
 
+// Session item — a row in an active-sessions / signed-in-devices list.
+export { SessionItem, type SessionItemProps } from "./session-item";
+
+// Metric bar — a labelled row with a proportion bar (spend/usage breakdowns).
+export { MetricBar, type MetricBarProps } from "./metric-bar";
+
 // Banner — tinted horizontal banner row (announcements / releases / verification).
 export { Banner, type BannerProps, type BannerTone } from "./banner";
 

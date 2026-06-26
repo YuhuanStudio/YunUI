@@ -152,6 +152,8 @@ import {
   BannerDemo,
   InlineStatusDemo,
   FeatureLockedStateDemo,
+  SessionItemDemo,
+  MetricBarDemo,
 } from "@/components/docs/demos";
 import {
   Heart,
@@ -1755,6 +1757,12 @@ export default function Showcase() {
         </Demo>
         <Demo title="Inline status" description="A compact async-job status: a (spinning) icon plus a label, or a percentage while running.">
           <InlineStatusDemo />
+        </Demo>
+        <Demo title="Session item" description="A row in an active-sessions / signed-in-devices list — device glyph, name with current/inactive badges, browser·OS, IP + last-seen, revoke.">
+          <SessionItemDemo />
+        </Demo>
+        <Demo title="Metric bar" description="A labelled row with a thin proportion bar for 'top N' breakdowns — spend by provider, usage by category, storage by bucket.">
+          <MetricBarDemo />
         </Demo>
         <Demo title="Feature locked state" description="The centered 'feature unavailable' screen — icon medallion, title, description and an optional dashed restricted-note card.">
           <FeatureLockedStateDemo />

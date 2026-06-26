@@ -799,6 +799,26 @@ export const docs: DocEntry[] = [
     "pagination simple cursor has-more page navigator prev next controlled no total",
   ),
   pat(
+    "session-item",
+    { en: "Session Item", "zh-CN": "会话项", "zh-TW": "工作階段項" },
+    {
+      en: "A row in an active-sessions / signed-in-devices list — device glyph, name with current/inactive badges, browser·OS, IP + last-seen, and a revoke button.",
+      "zh-CN": "活跃会话 / 已登录设备列表中的一行——设备图标、带当前/失效徽章的名称、浏览器·系统、IP + 最后活动，以及吊销按钮。",
+      "zh-TW": "活躍工作階段 / 已登入裝置清單中的一列——裝置圖示、帶目前/失效徽章的名稱、瀏覽器·系統、IP + 最後活動，以及撤銷按鈕。",
+    },
+    "session device sign-in active revoke security browser os ip current inactive",
+  ),
+  pat(
+    "metric-bar",
+    { en: "Metric Bar", "zh-CN": "指标条", "zh-TW": "指標條" },
+    {
+      en: "A labelled row with a thin proportion bar for 'top N' breakdowns — spend by provider, usage by category, storage by bucket. Icon/dot, label, value, colored bar.",
+      "zh-CN": "带细比例条的标签行，用于「Top N」分解——按供应商花费、按分类用量、按存储桶容量。图标/色点、标签、数值、彩色条。",
+      "zh-TW": "帶細比例條的標籤列，用於「Top N」分解——按供應商花費、按分類用量、按儲存桶容量。圖示/色點、標籤、數值、彩色條。",
+    },
+    "metric bar usage breakdown proportion progress spend provider category top analytics",
+  ),
+  pat(
     "feature-locked-state",
     { en: "Feature Locked State", "zh-CN": "功能锁定状态", "zh-TW": "功能鎖定狀態" },
     {
@@ -1077,6 +1097,8 @@ export const groups: DocGroup[] = [
       "patterns/simple-pagination",
       "patterns/banner",
       "patterns/feature-locked-state",
+      "patterns/session-item",
+      "patterns/metric-bar",
       "patterns/notification",
       "patterns/category-filter",
       "patterns/code-demo",

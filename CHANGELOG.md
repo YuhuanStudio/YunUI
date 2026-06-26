@@ -26,6 +26,13 @@ patch = fixes, anything may change between 0.x releases).
   degrades to a round globe button on narrow widths instead of overflowing.
 
 ### Added
+- **`SessionItem` (patterns)** — a row in an active-sessions / signed-in-devices
+  list: device glyph, name with current / inactive badges, a `browser · OS` line,
+  an IP + last-seen footer, and a revoke button. Host maps device→icon, formats
+  the time, owns revoke.
+- **`MetricBar` (patterns)** — a labelled row with a thin proportion bar for
+  "top N" breakdowns (spend-by-provider, usage-by-category, storage-by-bucket):
+  icon (or color dot) · label · right-aligned value · colored bar.
 - **`InlineStatus` (primitive)** — a compact inline async-job status: a (spinning)
   icon plus a host-supplied label, or a percentage while running (`pending` /
   `processing` / `completed` / `failed`). Distinct from `StatusIndicator` (a

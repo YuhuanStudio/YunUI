@@ -1,0 +1,32 @@
+import { SessionItem } from "yunui/patterns";
+
+One row in an **active-sessions / signed-in-devices** list: a device glyph, the device name with current / inactive badges, a `browser · OS` detail line, an IP + last-seen footer, and a revoke button. Presentation only — the host maps the device type to an icon, formats the time, and owns the revoke action.
+
+## Import
+
+```tsx
+import { SessionItem } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+`current` shows a badge and hides the revoke button; `inactive` dims the row. The device `icon` and the relative `time` are host-supplied slots.
+
+<ComponentPreview
+  title="SessionItem"
+  code={`import { SessionItem } from "@yuhuanowo/yunui/patterns";
+import { Monitor, Smartphone } from "lucide-react";
+
+<>
+  <SessionItem icon={<Monitor size={16} />} name="MacBook Pro" detail="Chrome on macOS"
+    ip="203.0.113.7" time="Active now" current currentLabel="Current" />
+  <SessionItem icon={<Smartphone size={16} />} name="iPhone 15" detail="Safari on iOS"
+    ip="198.51.100.22" time="3h ago" revokeLabel="Revoke" onRevoke={() => {}} />
+</>`}
+>
+  <SessionItemDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="SessionItem" />

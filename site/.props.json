@@ -1483,6 +1483,50 @@
       "description": ""
     }
   ],
+  "MetricBar": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "CSS color for the bar fill (and the dot when there's no icon)."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Leading icon; when omitted a small color dot (using `color`) is shown."
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "percentage",
+      "type": "number",
+      "required": true,
+      "defaultValue": null,
+      "description": "Bar fill, 0–100."
+    },
+    {
+      "name": "value",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Right-aligned value (e.g. \"120 credits\")."
+    }
+  ],
   "NotificationBell": [
     {
       "name": "className",
@@ -1775,6 +1819,99 @@
       "required": true,
       "defaultValue": null,
       "description": "Heading text."
+    }
+  ],
+  "SessionItem": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "current",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Marks the current session — shows a badge and hides the revoke button."
+    },
+    {
+      "name": "currentLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "detail",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Secondary detail line, e.g. \"Chrome on macOS\"."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Device glyph (host maps the device type to an icon)."
+    },
+    {
+      "name": "inactive",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Dims the row and shows an \"inactive\" badge."
+    },
+    {
+      "name": "inactiveLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "ip",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "IP address (rendered after a globe glyph)."
+    },
+    {
+      "name": "name",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Device name / label."
+    },
+    {
+      "name": "onRevoke",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Revoke handler — when set (and not current), shows the revoke button."
+    },
+    {
+      "name": "revokeLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "revoking",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "time",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host-formatted relative time (rendered after a clock glyph)."
     }
   ],
   "Sidebar": [

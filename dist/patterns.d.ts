@@ -414,6 +414,45 @@ interface FeatureLockedStateProps {
 }
 declare function FeatureLockedState({ icon, title, description, noteTitle, noteText, className }: FeatureLockedStateProps): React$1.JSX.Element;
 
+interface SessionItemProps {
+    /** Device glyph (host maps the device type to an icon). */
+    icon?: ReactNode;
+    /** Device name / label. */
+    name: ReactNode;
+    /** Secondary detail line, e.g. "Chrome on macOS". */
+    detail?: ReactNode;
+    /** IP address (rendered after a globe glyph). */
+    ip?: ReactNode;
+    /** Host-formatted relative time (rendered after a clock glyph). */
+    time?: ReactNode;
+    /** Marks the current session — shows a badge and hides the revoke button. */
+    current?: boolean;
+    currentLabel?: ReactNode;
+    /** Dims the row and shows an "inactive" badge. */
+    inactive?: boolean;
+    inactiveLabel?: ReactNode;
+    /** Revoke handler — when set (and not current), shows the revoke button. */
+    onRevoke?: () => void;
+    revoking?: boolean;
+    revokeLabel?: string;
+    className?: string;
+}
+declare function SessionItem({ icon, name, detail, ip, time, current, currentLabel, inactive, inactiveLabel, onRevoke, revoking, revokeLabel, className, }: SessionItemProps): React$1.JSX.Element;
+
+interface MetricBarProps {
+    /** Leading icon; when omitted a small color dot (using `color`) is shown. */
+    icon?: ReactNode;
+    label: ReactNode;
+    /** Right-aligned value (e.g. "120 credits"). */
+    value?: ReactNode;
+    /** Bar fill, 0–100. */
+    percentage: number;
+    /** CSS color for the bar fill (and the dot when there's no icon). */
+    color?: string;
+    className?: string;
+}
+declare function MetricBar({ icon, label, value, percentage, color, className }: MetricBarProps): React$1.JSX.Element;
+
 type BannerTone = "info" | "warning" | "critical" | "success" | "neutral";
 interface BannerProps {
     /** Tone — drives the gradient, border, text and icon color. */
@@ -496,4 +535,4 @@ interface NotificationPanelProps {
 }
 declare function NotificationPanel({ title, unreadCount, unreadLabel, loading, loadingLabel, empty, emptyLabel, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, type SessionItemProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

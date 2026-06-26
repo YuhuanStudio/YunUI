@@ -22,6 +22,8 @@ import {
   CapabilityBadge,
   Banner,
   FeatureLockedState,
+  SessionItem,
+  MetricBar,
   NotificationBell,
   NotificationItem,
   NotificationPanel,
@@ -40,7 +42,7 @@ import {
   ModelIcon,
   ProviderIcon,
 } from "yunui/ai";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard } from "lucide-react";
+import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -361,6 +363,53 @@ const NOTIF_SEED = [
   { id: "2", icon: CreditCard, tint: "bg-emerald-500/10 text-emerald-500", title: "Payment received", body: "$20.00 added to your balance.", time: "1h", unread: true },
   { id: "3", icon: ShieldAlert, tint: "bg-amber-500/10 text-amber-500", title: "New sign-in", body: "Chrome on macOS · Taipei", time: "3h", unread: false },
 ];
+
+export function SessionItemDemo() {
+  const [sessions, setSessions] = useState([
+    { id: 1, icon: Monitor, name: "MacBook Pro", detail: "Chrome on macOS", ip: "203.0.113.7", time: "Active now", current: true },
+    { id: 2, icon: Smartphone, name: "iPhone 15", detail: "Safari on iOS", ip: "198.51.100.22", time: "3h ago" },
+    { id: 3, icon: Monitor, name: "Windows PC", detail: "Edge on Windows", ip: "192.0.2.44", time: "2d ago", inactive: true },
+  ]);
+  return (
+    <div className="w-full max-w-md space-y-2">
+      {sessions.map((s) => {
+        const Icon = s.icon;
+        return (
+          <SessionItem
+            key={s.id}
+            icon={<Icon size={16} />}
+            name={s.name}
+            detail={s.detail}
+            ip={s.ip}
+            time={s.time}
+            current={s.current}
+            currentLabel="Current"
+            inactive={s.inactive}
+            inactiveLabel="Inactive"
+            revokeLabel="Revoke"
+            onRevoke={() => setSessions((prev) => prev.filter((x) => x.id !== s.id))}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+export function MetricBarDemo() {
+  const rows = [
+    { label: "OpenAI", value: "4,820 credits", percentage: 100, color: "#10a37f" },
+    { label: "Anthropic", value: "3,140 credits", percentage: 65, color: "#d97757" },
+    { label: "Google", value: "1,090 credits", percentage: 22, color: "#4285f4" },
+    { label: "Mistral", value: "410 credits", percentage: 9, color: "#fa520f" },
+  ];
+  return (
+    <div className="w-full max-w-md space-y-3">
+      {rows.map((r) => (
+        <MetricBar key={r.label} label={r.label} value={r.value} percentage={r.percentage} color={r.color} />
+      ))}
+    </div>
+  );
+}
 
 export function InlineStatusDemo() {
   return (

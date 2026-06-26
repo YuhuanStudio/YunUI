@@ -1,0 +1,30 @@
+import { MetricBar } from "yunui/patterns";
+
+A labelled row with a thin horizontal **proportion bar** — for "top N" breakdowns like spend-by-provider, usage-by-category, or storage-by-bucket. A leading icon (or a color dot), a label, a right-aligned value, and a colored bar. The host supplies the color and any icon.
+
+## Import
+
+```tsx
+import { MetricBar } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+`percentage` (0–100) fills the bar; `color` tints both the bar and the dot shown when there's no `icon`. `value` is right-aligned.
+
+<ComponentPreview
+  title="MetricBar"
+  code={`import { MetricBar } from "@yuhuanowo/yunui/patterns";
+
+<>
+  <MetricBar label="OpenAI" value="4,820 credits" percentage={100} color="#10a37f" />
+  <MetricBar label="Anthropic" value="3,140 credits" percentage={65} color="#d97757" />
+  <MetricBar label="Google" value="1,090 credits" percentage={22} color="#4285f4" />
+</>`}
+>
+  <MetricBarDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="MetricBar" />

@@ -1,0 +1,32 @@
+import { SessionItem } from "yunui/patterns";
+
+「活跃会话 / 已登录设备」列表中的一行：设备图标、带当前 / 失效徽章的设备名、`浏览器 · 系统` 详情行、IP + 最后活动时间页脚，以及一个吊销按钮。仅负责展示——宿主把设备类型映射到图标、格式化时间，并负责吊销操作。
+
+## 导入
+
+```tsx
+import { SessionItem } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+`current` 显示徽章并隐藏吊销按钮;`inactive` 让该行变暗。设备 `icon` 与相对 `time` 都是宿主提供的插槽。
+
+<ComponentPreview
+  title="SessionItem"
+  code={`import { SessionItem } from "@yuhuanowo/yunui/patterns";
+import { Monitor, Smartphone } from "lucide-react";
+
+<>
+  <SessionItem icon={<Monitor size={16} />} name="MacBook Pro" detail="Chrome on macOS"
+    ip="203.0.113.7" time="Active now" current currentLabel="Current" />
+  <SessionItem icon={<Smartphone size={16} />} name="iPhone 15" detail="Safari on iOS"
+    ip="198.51.100.22" time="3h ago" revokeLabel="Revoke" onRevoke={() => {}} />
+</>`}
+>
+  <SessionItemDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="SessionItem" />

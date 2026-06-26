@@ -1,0 +1,32 @@
+import { SessionItem } from "yunui/patterns";
+
+「活躍工作階段 / 已登入裝置」清單中的一列：裝置圖示、帶目前 / 失效徽章的裝置名、`瀏覽器 · 系統` 詳情列、IP + 最後活動時間頁尾，以及一個撤銷按鈕。僅負責展示——宿主把裝置類型對應到圖示、格式化時間，並負責撤銷操作。
+
+## 匯入
+
+```tsx
+import { SessionItem } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+`current` 顯示徽章並隱藏撤銷按鈕;`inactive` 讓該列變暗。裝置 `icon` 與相對 `time` 都是宿主提供的插槽。
+
+<ComponentPreview
+  title="SessionItem"
+  code={`import { SessionItem } from "@yuhuanowo/yunui/patterns";
+import { Monitor, Smartphone } from "lucide-react";
+
+<>
+  <SessionItem icon={<Monitor size={16} />} name="MacBook Pro" detail="Chrome on macOS"
+    ip="203.0.113.7" time="Active now" current currentLabel="Current" />
+  <SessionItem icon={<Smartphone size={16} />} name="iPhone 15" detail="Safari on iOS"
+    ip="198.51.100.22" time="3h ago" revokeLabel="Revoke" onRevoke={() => {}} />
+</>`}
+>
+  <SessionItemDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="SessionItem" />

@@ -1,0 +1,30 @@
+import { MetricBar } from "yunui/patterns";
+
+带细横向**比例条**的标签行——用于「Top N」分解，例如按供应商的花费、按分类的用量、按存储桶的容量。一个前导图标（或色点）、一个标签、一个右对齐的数值，以及一条彩色比例条。颜色与图标由宿主提供。
+
+## 导入
+
+```tsx
+import { MetricBar } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+`percentage`（0–100）填充比例条;`color` 同时为比例条和无 `icon` 时显示的色点着色。`value` 右对齐。
+
+<ComponentPreview
+  title="MetricBar"
+  code={`import { MetricBar } from "@yuhuanowo/yunui/patterns";
+
+<>
+  <MetricBar label="OpenAI" value="4,820 credits" percentage={100} color="#10a37f" />
+  <MetricBar label="Anthropic" value="3,140 credits" percentage={65} color="#d97757" />
+  <MetricBar label="Google" value="1,090 credits" percentage={22} color="#4285f4" />
+</>`}
+>
+  <MetricBarDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="MetricBar" />

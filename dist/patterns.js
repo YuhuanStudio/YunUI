@@ -1,12 +1,12 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-NUWJSYC6.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-3USRY5QN.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-TFZKMJGF.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Bell, Trash2, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Bell, Trash2, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1073,6 +1073,73 @@ function FeatureLockedState({ icon, title, description, noteTitle, noteText, cla
     ] }) })
   ] }) });
 }
+function SessionItem({
+  icon,
+  name,
+  detail,
+  ip,
+  time,
+  current,
+  currentLabel,
+  inactive,
+  inactiveLabel,
+  onRevoke,
+  revoking,
+  revokeLabel,
+  className
+}) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex items-start gap-3 p-2 rounded-lg bg-(--bg-elevated) relative", inactive && "opacity-50", className), children: [
+    icon != null && /* @__PURE__ */ jsx("div", { className: "w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0", children: icon }),
+    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsx("span", { className: "text-xs font-medium truncate", children: name }),
+        current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 shrink-0", children: currentLabel }),
+        inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 shrink-0", children: inactiveLabel })
+      ] }),
+      detail && /* @__PURE__ */ jsx("div", { className: "text-[10px] text-(--text-tertiary) mt-0.5", children: detail }),
+      (ip != null || time != null) && /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-2 mt-1 text-[10px] text-(--text-tertiary)", children: [
+        ip != null && /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-0.5", children: [
+          /* @__PURE__ */ jsx(Globe, { size: 8 }),
+          ip
+        ] }),
+        time != null && /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-0.5", children: [
+          /* @__PURE__ */ jsx(Clock, { size: 8 }),
+          time
+        ] })
+      ] })
+    ] }),
+    !current && onRevoke && /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        onClick: onRevoke,
+        disabled: revoking,
+        "aria-label": revokeLabel,
+        title: revokeLabel,
+        className: "p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-(--text-tertiary) hover:text-red-500 transition-colors shrink-0",
+        children: revoking ? /* @__PURE__ */ jsx(Loader2, { size: 12, className: "animate-spin" }) : /* @__PURE__ */ jsx(LogOut, { size: 12 })
+      }
+    )
+  ] });
+}
+function MetricBar({ icon, label, value, percentage, color, className }) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-3", className), children: [
+    icon != null ? icon : /* @__PURE__ */ jsx("div", { className: "w-3 h-3 rounded-full shrink-0", style: { backgroundColor: color } }),
+    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between mb-1 gap-2", children: [
+        /* @__PURE__ */ jsx("span", { className: "text-sm font-medium truncate", children: label }),
+        value != null && /* @__PURE__ */ jsx("span", { className: "text-sm text-muted-foreground shrink-0", children: value })
+      ] }),
+      /* @__PURE__ */ jsx("div", { className: "h-1.5 bg-muted rounded-full overflow-hidden", children: /* @__PURE__ */ jsx(
+        "div",
+        {
+          className: "h-full rounded-full transition-all duration-300",
+          style: { width: `${Math.max(0, Math.min(100, percentage))}%`, backgroundColor: color }
+        }
+      ) })
+    ] })
+  ] });
+}
 var TONES2 = {
   info: {
     bg: "bg-linear-to-r from-blue-500/10 via-blue-500/5 to-blue-500/10",
@@ -1249,6 +1316,6 @@ function NotificationPanel({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

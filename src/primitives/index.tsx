@@ -727,10 +727,10 @@ interface InlineStatusProps {
 }
 
 const inlineStatusConfig: Record<InlineStatusKind, { icon: typeof Loader2; className: string }> = {
-    pending: { icon: Loader2, className: "text-amber-500" },
-    processing: { icon: Loader2, className: "text-amber-500" },
-    completed: { icon: CheckCircle2, className: "text-green-500" },
-    failed: { icon: AlertCircle, className: "text-red-500" },
+    pending: { icon: Loader2, className: "text-warning" },
+    processing: { icon: Loader2, className: "text-warning" },
+    completed: { icon: CheckCircle2, className: "text-success" },
+    failed: { icon: AlertCircle, className: "text-error" },
 };
 
 /** A compact inline async-job status: a (spinning) icon plus a label or percent.
