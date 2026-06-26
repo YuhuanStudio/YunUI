@@ -1340,7 +1340,7 @@ export default function Showcase() {
           </Table>
         </Demo>
         <Demo title="Model manager card" description="A dense admin model row as a card — EVERY column present (name + ids, provider, developer, type, status, context / resolution, max output, price in/out, capabilities, actions). Starting point for discussing the model-management layout.">
-          <div className="grid sm:grid-cols-2 gap-3 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
             {/* Faithful to Yunxin admin/models/components/table-row.tsx — the real
                 "Claude Opus (Agent)" row (provider Claude Code, developer Anthropic). */}
             <ModelManagerCard
