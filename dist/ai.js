@@ -260,10 +260,11 @@ function ModelSelect({
     for (const opts of Object.values(grouped)) out.push(...opts);
     return out;
   }, [pinnedList, grouped]);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(-1);
   useEffect(() => {
-    setActiveIndex(0);
+    setActiveIndex(-1);
   }, [isOpen, search, activeGroup, activeFilters]);
+  const clearActiveOnPointer = () => setActiveIndex((i) => i === -1 ? i : -1);
   useEffect(() => {
     const id = flatOptions[activeIndex]?.id;
     if (!isOpen || !id || !listRef.current) return;
@@ -277,10 +278,10 @@ function ModelSelect({
       setActiveIndex((i) => Math.min(i + 1, flatOptions.length - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, 0));
+      setActiveIndex((i) => i < 0 ? flatOptions.length - 1 : Math.max(i - 1, 0));
     } else if (e.key === "Enter") {
       e.preventDefault();
-      const o = flatOptions[activeIndex];
+      const o = flatOptions[activeIndex] ?? flatOptions[0];
       if (o) select(o.id);
     } else if (e.key === "Escape") {
       e.preventDefault();
@@ -360,7 +361,7 @@ function ModelSelect({
                 groupLabel[g] ?? g
               ] }, g))
             ] }) }),
-            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, id: "yunui-ms-listbox", role: "listbox", className: "max-h-96 overflow-y-auto overscroll-contain", children: [
+            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, id: "yunui-ms-listbox", role: "listbox", className: "max-h-96 overflow-y-auto overscroll-contain", children: [
               pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
                 /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
                   /* @__PURE__ */ jsx(Pin, { size: 9 }),

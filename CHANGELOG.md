@@ -12,6 +12,11 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **`ModelSelect` keyboard-highlight ring no longer sits on the top row by default.**
+  The arrow-key highlight now starts at "no selection" (`-1`) instead of index `0`, so
+  the white focus ring appears only once the user actually presses Up/Down — and clears
+  on mouse move so it never competes with hover. `Enter` with nothing highlighted still
+  picks the top result (classic combobox).
 - **`Checkbox` no longer crashes when used uncontrolled.** `checked` now defaults
   to `false` and `onCheckedChange` is optional (guarded), so a display-only
   checkbox (no handler) renders instead of throwing on click.

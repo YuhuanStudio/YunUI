@@ -310,7 +310,7 @@ declare class ErrorBoundary extends React__default.Component<ErrorBoundaryProps,
     static getDerivedStateFromError(error: Error): ErrorBoundaryState;
     componentDidCatch(error: Error, errorInfo: React__default.ErrorInfo): void;
     handleRetry: () => void;
-    render(): string | number | bigint | boolean | React__default.JSX.Element | Iterable<React__default.ReactNode> | Promise<string | number | bigint | boolean | React__default.ReactPortal | React__default.ReactElement<unknown, string | React__default.JSXElementConstructor<any>> | Iterable<React__default.ReactNode> | null | undefined> | null | undefined;
+    render(): string | number | bigint | boolean | Iterable<React__default.ReactNode> | Promise<string | number | bigint | boolean | React__default.ReactPortal | React__default.ReactElement<unknown, string | React__default.JSXElementConstructor<any>> | Iterable<React__default.ReactNode> | null | undefined> | React__default.JSX.Element | null | undefined;
 }
 
 /**
