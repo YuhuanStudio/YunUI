@@ -11,12 +11,25 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.15] - 2026-06-27
+
 ### Added
 - **`PageLayout` (patterns)** — the standard full-height page shell: a navbar slot,
   a `flex-1` `<main>` offset (`pt-28`) to clear the fixed navbar, and a footer slot.
   Navbar/footer are passed as slots so the shell stays decoupled from their props;
   `hideFooter`, `transparentBg` and `mainClassName` cover the common variations.
   Extracted from Yunxin's hand-rolled shell (used by 8+ marketing pages).
+- **Original OKLCH palette system — 24 palettes.** The design-token scheme layer is
+  now generated from an in-house OKLCH model (`scripts/gen-tokens.mjs`) with
+  perceptually-even ramps; added `teal`, `lime`, `amber`, `plum` and `fuchsia` (19 →
+  24). The brand/accent/neutral roles can target any of them at runtime.
+- **`YUNUI_THEME_PRESETS` — 12 curated multi-color themes.** Named
+  `{brand, accent, neutral}` combos (Aurora, Sunset, Forest, Ocean, Grape, Ember,
+  Lagoon, Blossom, Royal, Citrus, Orchid, Mono), exported with
+  `YunUIThemePreset` / `YunUIThemePresetName`. Apply with `applyTheme(preset)`.
+- **Theme-effect utilities** (in the stylesheet, token-driven so they restyle with
+  the active brand/accent): `.bg-brand-gradient`, `.text-brand-gradient`,
+  `.glow-brand`, `.glow-accent`, `.bg-brand-sheen`.
 
 ### Fixed
 - **iOS Safari no longer zooms the page when focusing a field.** Mobile Safari
@@ -74,6 +87,9 @@ patch = fixes, anything may change between 0.x releases).
   `.dropdown-item` was extended to also drive Radix rows (keyboard
   `data-highlighted`, selected `data-state=checked`), so hand-rolled and Radix
   dropdowns render identically.
+- **Palette values are now original.** The scheme primitives are regenerated from
+  the OKLCH model rather than the previously vendored ramps, so semantic-token
+  consumers may see subtle color shifts. The generator and all values are first-party.
 
 ## [0.2.14] - 2026-06-27
 

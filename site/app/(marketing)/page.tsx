@@ -42,7 +42,7 @@ import { LogoMark } from "@/components/logo";
 
 // Shown in the hero provenance badges. Bump on each npm release (kept manual
 // because the package's package.json isn't exported for a runtime import).
-const PKG_VERSION = "0.2.14";
+const PKG_VERSION = "0.2.15";
 
 // ---------------------------------------------------------------------------
 // Section header — the centered pill-badge + gradient title + subcopy rhythm
