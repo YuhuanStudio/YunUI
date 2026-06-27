@@ -12,6 +12,15 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Changed
+- **`ProviderIcon` / `ModelIcon` now render known brands as monochrome glyphs.**
+  The lobe **avatar** assets bake each brand's own background into the image
+  (OpenAI black, Anthropic cream, …), so side by side — and against the grayscale
+  UI — the tiles looked disjointed (a stray white/cream square). Known providers
+  now render an inline `currentColor` brand glyph (bundled from
+  `@lobehub/icons-static-svg`, 45 common brands): rounded → glyph on a uniform
+  neutral `bg-muted` tile, flat → a bare theme-coloured glyph. Provider and model
+  icons finally match, and adapt to light/dark. A model's own custom `iconUrl`
+  still wins, and unknown providers fall back to the avatar webp / letter.
 - **Softer corner radii across the core surfaces.** Bumped the global component
   classes a notch rounder — `.btn` 12→14, `.btn-sm` 9→11, `.btn-lg` 14→16,
   `.card`/`.glass-card` 16→20, `.stat-card`/`.gradient-card`/`.glass-card-enhanced`
