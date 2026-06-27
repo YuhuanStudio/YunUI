@@ -1,10 +1,22 @@
 # YunUI
 
 [![npm](https://img.shields.io/npm/v/@yuhuanowo/yunui.svg)](https://www.npmjs.com/package/@yuhuanowo/yunui)
+[![showcase & docs](https://img.shields.io/badge/showcase%20%26%20docs-ui.yuhuanstudio.com-111)](https://ui.yuhuanstudio.com)
 
 **English** · [简体中文](./README.zh-CN.md) · [繁體中文](./README.zh-TW.md)
 
-A standalone, versioned, multi-project React 19 + Tailwind v4 design system — in the spirit of [once-ui.com](https://once-ui.com).
+A standalone, versioned React 19 + Tailwind v4 design system that doesn't shout — every detail quietly considered.
+
+🔗 **Live showcase & docs → [ui.yuhuanstudio.com](https://ui.yuhuanstudio.com)**
+
+<p align="center">
+  <a href="https://ui.yuhuanstudio.com"><img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/hero-light.png" alt="YunUI — quietly beautiful, quietly engineered" width="100%"></a>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/showcase-light.png" alt="Every YunUI component on one page" width="49%">
+  <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/hero-dark.png" alt="YunUI in the true-black theme" width="49%">
+</p>
 
 Edit YunUI once → publish a new version → every project picks up the same **design tokens, animations, and components** on its next upgrade (`pnpm up`). Already running in production at Yunxin.
 

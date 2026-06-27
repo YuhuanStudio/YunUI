@@ -9,9 +9,9 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "YunUI — the design system you build once, and ship everywhere",
+  title: "YunUI — quietly beautiful, quietly engineered",
   description:
-    "A React 19 + Tailwind v4 component library with tokens, 3 themes, and a framework-agnostic adapter layer. Edit once, version, sync every project.",
+    "A React 19 + Tailwind v4 design system that doesn't shout — token-driven, three themes, and a framework-agnostic adapter layer. Every detail considered, none of them loud.",
   icons: {
     icon: [{ url: "/favicon.ico" }],
     apple: [{ url: "/yuhuanstudio-logo.png" }],

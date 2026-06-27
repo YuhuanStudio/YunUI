@@ -1542,7 +1542,7 @@ export default function Showcase() {
           <Accordion type="single" collapsible className="w-full max-w-md space-y-2 text-left">
             <AccordionItem value="a">
               <AccordionTrigger>What is YunUI?</AccordionTrigger>
-              <AccordionContent>A versioned design system you build once and sync everywhere.</AccordionContent>
+              <AccordionContent>A versioned React + Tailwind design system — quietly considered, down to the details.</AccordionContent>
             </AccordionItem>
             <AccordionItem value="b">
               <AccordionTrigger>How do projects sync?</AccordionTrigger>

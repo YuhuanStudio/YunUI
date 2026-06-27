@@ -1,10 +1,22 @@
 # YunUI
 
 [![npm](https://img.shields.io/npm/v/@yuhuanowo/yunui.svg)](https://www.npmjs.com/package/@yuhuanowo/yunui)
+[![showcase & docs](https://img.shields.io/badge/展示与文档-ui.yuhuanstudio.com-111)](https://ui.yuhuanstudio.com)
 
 [English](./README.md) · **简体中文** · [繁體中文](./README.zh-TW.md)
 
-一个独立、版本化、可被多项目引用的 React 19 + Tailwind v4 设计系统 —— 对标 [once-ui.com](https://once-ui.com)。
+一套不喧哗的 React 19 + Tailwind v4 设计系统 —— 每个细节都被好好想过。
+
+🔗 **在线展示与文档 → [ui.yuhuanstudio.com](https://ui.yuhuanstudio.com)**
+
+<p align="center">
+  <a href="https://ui.yuhuanstudio.com"><img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/hero-light.png" alt="YunUI — 安静的好看，安静的扎实" width="100%"></a>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/showcase-light.png" alt="所有 YunUI 组件，尽在一页" width="49%">
+  <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/hero-dark.png" alt="YunUI 纯黑主题" width="49%">
+</p>
 
 改 YunUI 一处 → 发版 → 各项目升级版本号即可同步获得统一的 **设计 token、动画、组件**。已在 Yunxin 生产环境使用。
 

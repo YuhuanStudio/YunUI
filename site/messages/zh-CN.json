@@ -43,7 +43,7 @@
     "menu": "菜单"
   },
   "footer": {
-    "tagline": "一套设计系统，所有项目保持同步。",
+    "tagline": "安静的好看，安静的扎实。",
     "copyright": "© 2026 YuhuanStudio",
     "product": "产品",
     "resources": "资源",
@@ -56,9 +56,9 @@
   },
   "landing": {
     "heroBadge": "新增：Flex · Grid · Table · Accordion",
-    "heroTitleLead": "一次构建。",
-    "heroTitleAccent": "随处发布。",
-    "heroSubtitle": "基于 React 19 + Tailwind v4 的设计系统：令牌驱动、三套主题、与框架无关的适配层。一次编辑，版本化管理，并同步到你交付的每一个项目。",
+    "heroTitleLead": "安静的好看。",
+    "heroTitleAccent": "安静的扎实。",
+    "heroSubtitle": "一套不喧哗的 React 19 + Tailwind v4 设计系统。令牌驱动、三套主题、与框架无关的适配层——每个细节都被在意过，却没有一个在喧哗。",
     "browseComponents": "浏览组件",
     "readDocs": "阅读文档",
     "bullets": {
@@ -83,8 +83,8 @@
     },
     "why": {
       "badge": "为什么选择 YunUI",
-      "title": "唯一可信源",
-      "subtitle": "一个组件库，旨在成为你交付的每一个项目的唯一可信源。",
+      "title": "在意，藏在细节里。",
+      "subtitle": "不是组件最多，而是每一个都被好好想过。",
       "componentsTitle": "41+ 组件 + 模式",
       "componentsDesc": "基础组件、页面级模式以及 AI 产品组件——已组合、已类型化，开箱即用。",
       "themesTitle": "3 套主题（浅色 / 深色 / OLED）",
@@ -96,7 +96,7 @@
       "testsTitle": "141 个测试，类型化，附 JSDoc",
       "testsDesc": "严格的 TypeScript、公共接口上的 JSDoc，以及守护每个基础组件的测试套件。",
       "productionTitle": "已在 Yunxin 生产环境运行",
-      "productionDesc": "经过生产环境的实战检验——已端到端支撑一个真实上线的应用。"
+      "productionDesc": "静静地跑在一个真实上线的应用里——Yunxin，从头到尾。"
     },
     "livePreview": {
       "badge": "实时主题",
@@ -118,13 +118,13 @@
       "q2": "它需要特定的框架吗？",
       "a2": "不需要。核心基础组件与框架无关。路由、图片和 i18n 等事项通过一个轻量的适配层（YunUIProvider）注入——接入 Next 的 Link/Image 或你自己的实现，组件库便能在各个应用间保持可移植。",
       "q3": "更新是如何交付的？",
-      "a3": "在组件库中编辑一次、版本化，然后通过 npm 同步到每一个使用方项目。版本发布通过无令牌的 OIDC 受信任发布带溯源信息进行——CI 中没有长期有效的密钥。",
+      "a3": "改动都在同一套组件库里，版本化后通过 npm 取用。版本发布通过无令牌的 OIDC 受信任发布、带溯源信息进行——CI 中没有长期有效的密钥。",
       "q4": "它无障碍吗？",
       "a4": "交互式基础组件构建在 Radix 风格的行为之上，已接入键盘导航、焦点管理和 ARIA。组件均已类型化并附带 JSDoc，141 个用例的测试套件守护着公共接口。"
     },
     "cta": {
       "badge": "立即开始",
-      "title": "一套设计系统，所有项目保持同步。",
+      "title": "安静地做好了。你准备好就用。",
       "subtitle": "浏览组件库、阅读文档，或直接前往 GitHub 查看源码。",
       "browseComponents": "浏览组件",
       "readDocs": "阅读文档",
@@ -258,7 +258,7 @@
       "footer": {
         "title": "页脚",
         "description": "分组与社交链接为属性；布局与样式由设计系统提供。",
-        "tagline": "一套设计系统，每个项目保持同步。",
+        "tagline": "安静的好看，安静的扎实。",
         "secProduct": "产品",
         "secCompany": "公司",
         "secLegal": "法律",

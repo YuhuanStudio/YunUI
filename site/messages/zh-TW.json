@@ -43,7 +43,7 @@
     "menu": "選單"
   },
   "footer": {
-    "tagline": "一套設計系統，所有專案保持同步。",
+    "tagline": "安靜的好看，安靜的扎實。",
     "copyright": "© 2026 YuhuanStudio",
     "product": "產品",
     "resources": "資源",
@@ -56,9 +56,9 @@
   },
   "landing": {
     "heroBadge": "新增：Flex · Grid · Table · Accordion",
-    "heroTitleLead": "一次建構。",
-    "heroTitleAccent": "隨處發布。",
-    "heroSubtitle": "基於 React 19 + Tailwind v4 的設計系統：權杖驅動、三套主題、與框架無關的轉接層。一次編輯、版本化管理，並同步到你交付的每一個專案。",
+    "heroTitleLead": "安靜的好看。",
+    "heroTitleAccent": "安靜的扎實。",
+    "heroSubtitle": "一套不喧嘩的 React 19 + Tailwind v4 設計系統。權杖驅動、三套主題、與框架無關的轉接層——每個細節都被在意過，卻沒有一個在喧嘩。",
     "browseComponents": "瀏覽元件",
     "readDocs": "閱讀文件",
     "bullets": {
@@ -83,8 +83,8 @@
     },
     "why": {
       "badge": "為什麼選擇 YunUI",
-      "title": "唯一可信來源",
-      "subtitle": "一個元件庫，旨在成為你交付的每一個專案的唯一可信來源。",
+      "title": "在意，藏在細節裡。",
+      "subtitle": "不是元件最多，而是每一個都被好好想過。",
       "componentsTitle": "41+ 元件 + 模式",
       "componentsDesc": "基礎元件、頁面級模式以及 AI 產品元件——已組合、已型別化，開箱即用。",
       "themesTitle": "3 套主題（淺色 / 深色 / OLED）",
@@ -96,7 +96,7 @@
       "testsTitle": "141 個測試，型別化，附 JSDoc",
       "testsDesc": "嚴格的 TypeScript、公開介面上的 JSDoc，以及守護每個基礎元件的測試套件。",
       "productionTitle": "已在 Yunxin 生產環境運行",
-      "productionDesc": "經過生產環境的實戰檢驗——已端到端支撐一個真實上線的應用程式。"
+      "productionDesc": "靜靜地跑在一個真實上線的應用裡——Yunxin，從頭到尾。"
     },
     "livePreview": {
       "badge": "即時主題",
@@ -118,13 +118,13 @@
       "q2": "它需要特定的框架嗎？",
       "a2": "不需要。核心基礎元件與框架無關。路由、圖片和 i18n 等事項透過一個輕量的轉接層（YunUIProvider）注入——接入 Next 的 Link/Image 或你自己的實作，元件庫便能在各個應用程式間保持可攜性。",
       "q3": "更新是如何交付的？",
-      "a3": "在元件庫中編輯一次、版本化，然後透過 npm 同步到每一個使用方專案。版本發布透過無權杖的 OIDC 受信任發布帶來源資訊進行——CI 中沒有長期有效的密鑰。",
+      "a3": "改動都在同一套元件庫裡，版本化後透過 npm 取用。版本發布透過無權杖的 OIDC 受信任發布、帶來源資訊進行——CI 中沒有長期有效的密鑰。",
       "q4": "它無障礙嗎？",
       "a4": "互動式基礎元件建構在 Radix 風格的行為之上，已接入鍵盤導覽、焦點管理和 ARIA。元件均已型別化並附帶 JSDoc，141 個案例的測試套件守護著公開介面。"
     },
     "cta": {
       "badge": "立即開始",
-      "title": "一套設計系統，所有專案保持同步。",
+      "title": "安靜地做好了。你準備好就用。",
       "subtitle": "瀏覽元件庫、閱讀文件，或直接前往 GitHub 查看原始碼。",
       "browseComponents": "瀏覽元件",
       "readDocs": "閱讀文件",
@@ -258,7 +258,7 @@
       "footer": {
         "title": "頁尾",
         "description": "分組與社群連結為屬性；版面與樣式由設計系統提供。",
-        "tagline": "一套設計系統，每個專案保持同步。",
+        "tagline": "安靜的好看，安靜的扎實。",
         "secProduct": "產品",
         "secCompany": "公司",
         "secLegal": "法律",

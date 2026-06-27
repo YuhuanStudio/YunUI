@@ -195,7 +195,8 @@ jobs:
         uses: chrnorm/deployment-status@v2
         with:
           token: "${{ github.token }}"
-          environment-url: ${{ secrets.SITE_DOMAIN != '' && format('https://{0}', secrets.SITE_DOMAIN) || '' }}
+          # SITE_DOMAIN holds the full URL (e.g. https://ui.yuhuanstudio.com).
+          environment-url: ${{ secrets.SITE_DOMAIN }}
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
           state: "success"
 
