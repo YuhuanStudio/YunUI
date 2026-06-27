@@ -1652,6 +1652,56 @@ select.input option,
   opacity: 1;
 }
 
+/* Radix-driven states — let the SAME .dropdown-item drive @radix-ui Select /
+   DropdownMenu rows (keyboard `data-highlighted`, selected `data-state=checked`),
+   so hand-rolled and Radix dropdowns share one look. Hand-rolled lists can also
+   set `data-highlighted` for keyboard highlight and `.active` for the selection. */
+.dropdown-item[data-highlighted] {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.03);
+  outline: none;
+}
+
+.dropdown-item[data-highlighted]::before {
+  transform: translateY(-50%) translateX(0);
+  opacity: 0.3;
+}
+
+.dropdown-item[data-state="checked"] {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.dropdown-item[data-state="checked"]::before {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+  height: 18px;
+}
+
+.dark .dropdown-item[data-highlighted],
+.true-black .dropdown-item[data-highlighted] {
+  background: var(--accent-subtle);
+  color: var(--text-primary);
+}
+
+.dark .dropdown-item[data-highlighted]::before,
+.true-black .dropdown-item[data-highlighted]::before {
+  background: var(--text-primary);
+  opacity: 0.4;
+}
+
+.dark .dropdown-item[data-state="checked"],
+.true-black .dropdown-item[data-state="checked"] {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.dark .dropdown-item[data-state="checked"]::before,
+.true-black .dropdown-item[data-state="checked"]::before {
+  background: var(--text-primary);
+  opacity: 1;
+}
+
 /* Input dark mode fixes */
 .dark .input:focus,
 .true-black .input:focus {

@@ -11,6 +11,20 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Changed
+- **All dropdown / select panels share the LanguageSwitcher look.** Unified every
+  floating menu panel onto one chrome — `rounded-2xl border border-border
+  bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5` — across `Select`,
+  `CustomSelect`, `Combobox`, `DropdownMenu`, `Popover`, `ModelSelect` and the
+  `Navbar` mobile menu (they previously diverged: square `rounded-xl`, opaque
+  `bg-(--bg-elevated)` / `bg-popover`, weaker/absent blur, `shadow-md`/`shadow-2xl`).
+  The selectable rows in `Select`/`CustomSelect`/`Combobox` now use the shared
+  `.dropdown-item` class — the same left accent bar on hover/selection as the
+  language picker, replacing per-component check-mark / tinted-background styles.
+  `.dropdown-item` was extended to also drive Radix rows (keyboard
+  `data-highlighted`, selected `data-state=checked`), so hand-rolled and Radix
+  dropdowns render identically.
+
 ## [0.2.14] - 2026-06-27
 
 ### Changed

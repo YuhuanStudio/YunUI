@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, type ReactNode } from "react";
-import { Check, X, ChevronDown } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 
 export interface ComboboxOption {
@@ -193,7 +193,7 @@ export function Combobox({
 
             {/* Dropdown */}
             {isOpen && !disabled && (
-                <div className="absolute z-50 w-full mt-1 py-1 rounded-xl border border-(--border-default) bg-(--bg-elevated) shadow-lg overflow-hidden">
+                <div className="absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden animate-in fade-in-0 zoom-in-95 duration-200">
                     <div className="max-h-60 overflow-y-auto">
                         {filteredOptions.length === 0 && !canCreateNew ? (
                             <div className="px-3 py-2 text-sm text-muted-foreground">
@@ -209,13 +209,7 @@ export function Combobox({
                                             key={option.value}
                                             type="button"
                                             onClick={() => handleSelect(option.value)}
-                                            className={`
-                                                w-full px-3 py-2 text-left text-sm
-                                                flex items-center gap-2
-                                                hover:bg-(--bg-hover) transition-colors
-                                                outline-none focus-visible:ring-2 focus-visible:ring-ring
-                                                ${isSelected ? "bg-primary/10 text-primary" : ""}
-                                            `}
+                                            className={`dropdown-item w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring ${isSelected ? "active" : ""}`}
                                         >
                                             {optionIconPath && (
                                                 <div className="rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5 shrink-0" style={{ width: 16, height: 16 }}>
@@ -229,8 +223,7 @@ export function Combobox({
                                                     />
                                                 </div>
                                             )}
-                                            <span className="font-medium truncate">{option.label}</span>
-                                            {isSelected && <Check size={14} className="ml-auto shrink-0" />}
+                                            <span className="flex-1 truncate">{option.label}</span>
                                         </button>
                                     );
                                 })}
@@ -238,16 +231,10 @@ export function Combobox({
                                     <button
                                         type="button"
                                         onClick={() => handleSelect(inputValue)}
-                                        className="
-                                            w-full px-3 py-2 text-left text-sm
-                                            flex items-center gap-2
-                                            text-primary hover:bg-muted/50
-                                            transition-colors
-                                            outline-none focus-visible:ring-2 focus-visible:ring-ring
-                                        "
+                                        className="dropdown-item w-full text-left text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     >
-                                        <span className="text-lg">{creatableIcon ?? "+"}</span>
-                                        <span>{resolvedCreatableText.replace('{value}', inputValue)}</span>
+                                        <span className="text-lg leading-none">{creatableIcon ?? "+"}</span>
+                                        <span className="flex-1 truncate">{resolvedCreatableText.replace('{value}', inputValue)}</span>
                                     </button>
                                 )}
                             </>

@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-VXFEANVX.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-4LLY3WEK.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-GHO4RCDR.js';

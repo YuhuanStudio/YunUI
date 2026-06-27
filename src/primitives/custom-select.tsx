@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
-import { ChevronDown, Check, Search, X } from "lucide-react";
+import { ChevronDown, Search, X } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 
 export interface SelectOption {
@@ -192,9 +192,10 @@ export function CustomSelect({
             {/* Dropdown */}
             {isOpen && (
                 <div className="
-                    absolute z-50 w-full mt-1 py-1
-                    rounded-xl border border-(--border-default)
-                    bg-(--bg-elevated) shadow-lg
+                    absolute z-50 w-full mt-2
+                    rounded-2xl border border-border
+                    bg-background/60 backdrop-blur-2xl text-popover-foreground
+                    shadow-lg shadow-black/5
                     max-h-64 overflow-hidden
                     animate-in fade-in-0 zoom-in-95 duration-200
                 ">
@@ -238,7 +239,7 @@ export function CustomSelect({
                         ref={listRef}
                         role="listbox"
                         id={listboxId}
-                        className="max-h-52 overflow-y-auto overscroll-contain"
+                        className="max-h-52 overflow-y-auto overscroll-contain p-1"
                     >
                         {filteredOptions.length === 0 ? (
                             <div className="px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap">
@@ -255,13 +256,10 @@ export function CustomSelect({
                                         type="button"
                                         role="option"
                                         aria-selected={isSelected}
+                                        data-highlighted={isHigh ? "" : undefined}
                                         onClick={() => handleSelect(option.value)}
                                         onMouseEnter={() => setHighlighted(i)}
-                                        className={`
-                                            w-full flex items-center gap-2 px-3 py-2 text-sm text-left transition-colors
-                                            ${isHigh ? "bg-(--bg-hover)" : ""}
-                                            ${isSelected ? "bg-primary/10 text-primary" : ""}
-                                        `}
+                                        className={`dropdown-item w-full text-left outline-none ${isSelected ? "active" : ""}`}
                                     >
                                         {option.icon && (
                                             <span className="shrink-0 w-5 h-5 flex items-center justify-center">
@@ -271,12 +269,11 @@ export function CustomSelect({
                                         <div className="flex-1 min-w-0">
                                             <div className="truncate">{option.label}</div>
                                             {option.description && (
-                                                <div className="text-xs text-muted-foreground truncate">
+                                                <div className="text-xs font-normal text-muted-foreground truncate">
                                                     {option.description}
                                                 </div>
                                             )}
                                         </div>
-                                        {isSelected && <Check size={14} className="shrink-0 text-primary" />}
                                     </button>
                                 );
                             })

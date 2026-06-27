@@ -18,7 +18,7 @@ const PopoverContent = React.forwardRef<
       sideOffset={sideOffset}
       side="bottom"
       className={cn(
-        'z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-xl border border-border bg-popover/95 backdrop-blur-lg p-2 text-sm text-popover-foreground shadow-lg focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+        'z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-2xl border border-border bg-background/60 backdrop-blur-2xl p-2 text-sm text-popover-foreground shadow-lg shadow-black/5 focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
         className,
       )}
       {...props}

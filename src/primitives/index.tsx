@@ -996,7 +996,7 @@ export const SelectContent = React.forwardRef<
             ref={ref}
             position={position}
             className={cn(
-                "relative z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl shadow-lg",
+                "relative z-50 min-w-32 overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5",
                 "data-[state=open]:animate-in data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
                 "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -1026,17 +1026,13 @@ export const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
         ref={ref}
         className={cn(
-            "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-3 text-sm outline-none",
-            "focus:bg-muted data-disabled:pointer-events-none data-disabled:opacity-50",
+            // Shares the LanguageSwitcher row look: the left accent bar (via
+            // data-state=checked) marks the selection — no separate checkmark.
+            "dropdown-item w-full cursor-pointer select-none outline-none data-disabled:pointer-events-none data-disabled:opacity-50",
             className
         )}
         {...props}
     >
-        <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-            <SelectPrimitive.ItemIndicator>
-                <Check className="h-4 w-4" />
-            </SelectPrimitive.ItemIndicator>
-        </span>
         <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
 ));
@@ -1493,7 +1489,7 @@ export const DropdownMenuSubContent = React.forwardRef<
     <DropdownMenuPrimitive.SubContent
         ref={ref}
         className={cn(
-            "z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+            "z-50 min-w-32 overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl p-1 text-popover-foreground shadow-lg shadow-black/5 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
             className
         )}
         {...props}
@@ -1511,7 +1507,7 @@ export const DropdownMenuContent = React.forwardRef<
             ref={ref}
             sideOffset={sideOffset}
             className={cn(
-                "z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-md",
+                "z-50 min-w-32 overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl p-1 text-popover-foreground shadow-lg shadow-black/5",
                 "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
                 className
             )}

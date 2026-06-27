@@ -319,7 +319,7 @@ function ModelSelect({
           animate: { opacity: 1, y: 0, scale: 1 },
           transition: { duration: 0.16, ease: "easeOut" },
           style: { maxWidth: "calc(100vw - 1rem)" },
-          className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden",
+          className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden",
           children: [
             /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
               /* @__PURE__ */ jsxs("div", { className: "relative", children: [
@@ -1694,7 +1694,7 @@ function Navbar({
     ] }),
     variant === "public" && menuOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
       /* @__PURE__ */ jsx("div", { className: "md:hidden fixed inset-0 -z-10", onClick: () => setMenuOpen(false) }),
-      /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background/95 backdrop-blur-xl border border-border rounded-2xl shadow-lg flex flex-col gap-0.5", children: [
+      /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
         links.map((link) => /* @__PURE__ */ jsx(
           Link,
           {

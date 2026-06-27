@@ -272,7 +272,7 @@ export function ModelSelect({
                            missed it. The small-screen cap is an inline style (not an
                            arbitrary class) so it can't silently fail to generate. */
                         style={{ maxWidth: "calc(100vw - 1rem)" }}
-                        className="origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-popover/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-2xl overflow-hidden"
+                        className="origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden"
                     >
                         {/* Search + capability filters */}
                         <div className="p-2.5 border-b border-border/50">

@@ -752,7 +752,7 @@ function Combobox({
         }
       )
     ] }),
-    isOpen && !disabled && /* @__PURE__ */ jsx("div", { className: "absolute z-50 w-full mt-1 py-1 rounded-xl border border-(--border-default) bg-(--bg-elevated) shadow-lg overflow-hidden", children: /* @__PURE__ */ jsx("div", { className: "max-h-60 overflow-y-auto", children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+    isOpen && !disabled && /* @__PURE__ */ jsx("div", { className: "absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden animate-in fade-in-0 zoom-in-95 duration-200", children: /* @__PURE__ */ jsx("div", { className: "max-h-60 overflow-y-auto", children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
       filteredOptions.map((option) => {
         const isSelected = option.value === value;
         const optionIconPath = option.iconUrl ?? null;
@@ -761,13 +761,7 @@ function Combobox({
           {
             type: "button",
             onClick: () => handleSelect(option.value),
-            className: `
-                                                w-full px-3 py-2 text-left text-sm
-                                                flex items-center gap-2
-                                                hover:bg-(--bg-hover) transition-colors
-                                                outline-none focus-visible:ring-2 focus-visible:ring-ring
-                                                ${isSelected ? "bg-primary/10 text-primary" : ""}
-                                            `,
+            className: `dropdown-item w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring ${isSelected ? "active" : ""}`,
             children: [
               optionIconPath && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5 shrink-0", style: { width: 16, height: 16 }, children: /* @__PURE__ */ jsx(
                 Image2,
@@ -780,8 +774,7 @@ function Combobox({
                   unoptimized: true
                 }
               ) }),
-              /* @__PURE__ */ jsx("span", { className: "font-medium truncate", children: option.label }),
-              isSelected && /* @__PURE__ */ jsx(Check, { size: 14, className: "ml-auto shrink-0" })
+              /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: option.label })
             ]
           },
           option.value
@@ -792,10 +785,10 @@ function Combobox({
         {
           type: "button",
           onClick: () => handleSelect(inputValue),
-          className: "\n                                            w-full px-3 py-2 text-left text-sm\n                                            flex items-center gap-2\n                                            text-primary hover:bg-muted/50\n                                            transition-colors\n                                            outline-none focus-visible:ring-2 focus-visible:ring-ring\n                                        ",
+          className: "dropdown-item w-full text-left text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: [
-            /* @__PURE__ */ jsx("span", { className: "text-lg", children: creatableIcon ?? "+" }),
-            /* @__PURE__ */ jsx("span", { children: resolvedCreatableText.replace("{value}", inputValue) })
+            /* @__PURE__ */ jsx("span", { className: "text-lg leading-none", children: creatableIcon ?? "+" }),
+            /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: resolvedCreatableText.replace("{value}", inputValue) })
           ]
         }
       )
@@ -1965,7 +1958,7 @@ var SelectContent = React7.forwardRef(({ className, children, position = "popper
     ref,
     position,
     className: cn(
-      "relative z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl shadow-lg",
+      "relative z-50 min-w-32 overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -1986,20 +1979,18 @@ var SelectContent = React7.forwardRef(({ className, children, position = "popper
   }
 ) }));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
-var SelectItem = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var SelectItem = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
   SelectPrimitive.Item,
   {
     ref,
     className: cn(
-      "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-3 text-sm outline-none",
-      "focus:bg-muted data-disabled:pointer-events-none data-disabled:opacity-50",
+      // Shares the LanguageSwitcher row look: the left accent bar (via
+      // data-state=checked) marks the selection — no separate checkmark.
+      "dropdown-item w-full cursor-pointer select-none outline-none data-disabled:pointer-events-none data-disabled:opacity-50",
       className
     ),
     ...props,
-    children: [
-      /* @__PURE__ */ jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" }) }) }),
-      /* @__PURE__ */ jsx(SelectPrimitive.ItemText, { children })
-    ]
+    children: /* @__PURE__ */ jsx(SelectPrimitive.ItemText, { children })
   }
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
@@ -2270,7 +2261,7 @@ var DropdownMenuSubContent = React7.forwardRef(({ className, ...props }, ref) =>
   {
     ref,
     className: cn(
-      "z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      "z-50 min-w-32 overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl p-1 text-popover-foreground shadow-lg shadow-black/5 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
       className
     ),
     ...props
@@ -2283,7 +2274,7 @@ var DropdownMenuContent = React7.forwardRef(({ className, sideOffset = 4, ...pro
     ref,
     sideOffset,
     className: cn(
-      "z-50 min-w-32 overflow-hidden rounded-xl border border-border bg-popover/90 backdrop-blur-xl p-1 text-popover-foreground shadow-md",
+      "z-50 min-w-32 overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl p-1 text-popover-foreground shadow-lg shadow-black/5",
       "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
       className
     ),
@@ -2524,7 +2515,7 @@ function CustomSelect({
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsxs("div", { className: "\n                    absolute z-50 w-full mt-1 py-1\n                    rounded-xl border border-(--border-default)\n                    bg-(--bg-elevated) shadow-lg\n                    max-h-64 overflow-hidden\n                    animate-in fade-in-0 zoom-in-95 duration-200\n                ", children: [
+    isOpen && /* @__PURE__ */ jsxs("div", { className: "\n                    absolute z-50 w-full mt-2\n                    rounded-2xl border border-border\n                    bg-background/60 backdrop-blur-2xl text-popover-foreground\n                    shadow-lg shadow-black/5\n                    max-h-64 overflow-hidden\n                    animate-in fade-in-0 zoom-in-95 duration-200\n                ", children: [
       searchable && /* @__PURE__ */ jsx("div", { className: "px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)", children: /* @__PURE__ */ jsxs("div", { className: "relative", children: [
         /* @__PURE__ */ jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
         /* @__PURE__ */ jsx(
@@ -2561,7 +2552,7 @@ function CustomSelect({
           ref: listRef,
           role: "listbox",
           id: listboxId,
-          className: "max-h-52 overflow-y-auto overscroll-contain",
+          className: "max-h-52 overflow-y-auto overscroll-contain p-1",
           children: filteredOptions.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap", children: t("noOptions") }) : filteredOptions.map((option, i) => {
             const isSelected = option.value === value;
             const isHigh = i === highlighted;
@@ -2572,20 +2563,16 @@ function CustomSelect({
                 type: "button",
                 role: "option",
                 "aria-selected": isSelected,
+                "data-highlighted": isHigh ? "" : void 0,
                 onClick: () => handleSelect(option.value),
                 onMouseEnter: () => setHighlighted(i),
-                className: `
-                                            w-full flex items-center gap-2 px-3 py-2 text-sm text-left transition-colors
-                                            ${isHigh ? "bg-(--bg-hover)" : ""}
-                                            ${isSelected ? "bg-primary/10 text-primary" : ""}
-                                        `,
+                className: `dropdown-item w-full text-left outline-none ${isSelected ? "active" : ""}`,
                 children: [
                   option.icon && /* @__PURE__ */ jsx("span", { className: "shrink-0 w-5 h-5 flex items-center justify-center", children: option.icon }),
                   /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
                     /* @__PURE__ */ jsx("div", { className: "truncate", children: option.label }),
-                    option.description && /* @__PURE__ */ jsx("div", { className: "text-xs text-muted-foreground truncate", children: option.description })
-                  ] }),
-                  isSelected && /* @__PURE__ */ jsx(Check, { size: 14, className: "shrink-0 text-primary" })
+                    option.description && /* @__PURE__ */ jsx("div", { className: "text-xs font-normal text-muted-foreground truncate", children: option.description })
+                  ] })
                 ]
               },
               option.value
@@ -2783,7 +2770,7 @@ var PopoverContent = React7.forwardRef(({ className, align = "center", sideOffse
     sideOffset,
     side: "bottom",
     className: cn(
-      "z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-xl border border-border bg-popover/95 backdrop-blur-lg p-2 text-sm text-popover-foreground shadow-lg focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+      "z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-2xl border border-border bg-background/60 backdrop-blur-2xl p-2 text-sm text-popover-foreground shadow-lg shadow-black/5 focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
       className
     ),
     ...props
@@ -3018,5 +3005,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-VXFEANVX.js.map
-//# sourceMappingURL=chunk-VXFEANVX.js.map
+//# sourceMappingURL=chunk-4LLY3WEK.js.map
+//# sourceMappingURL=chunk-4LLY3WEK.js.map

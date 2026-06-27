@@ -184,7 +184,7 @@ export function Navbar({
             {variant === "public" && menuOpen && (
                 <>
                     <div className="md:hidden fixed inset-0 -z-10" onClick={() => setMenuOpen(false)} />
-                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background/95 backdrop-blur-xl border border-border rounded-2xl shadow-lg flex flex-col gap-0.5">
+                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
                         {links.map((link) => (
                             <Link
                                 key={link.href}
