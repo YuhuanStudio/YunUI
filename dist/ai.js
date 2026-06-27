@@ -371,7 +371,7 @@ function ModelSelect({
                 pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
               ] }),
               /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
-                /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover/95 backdrop-blur-sm py-1.5 z-10", children: [
+                /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 px-2 mb-1 sticky top-0 backdrop-blur-md py-1.5 z-10", children: [
                   groupIcon[g],
                   /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold", children: groupLabel[g] ?? g }),
                   /* @__PURE__ */ jsx("span", { className: "ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium", children: opts.length })

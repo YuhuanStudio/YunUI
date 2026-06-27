@@ -347,7 +347,12 @@ export function ModelSelect({
                             <div className="px-1.5 py-1.5">
                                 {Object.entries(grouped).map(([g, opts]) => (
                                     <div key={g} className="mb-3 last:mb-0">
-                                        <div className="flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover/95 backdrop-blur-sm py-1.5 z-10">
+                                        {/* Sticky group header: occlude scrolling rows with BLUR only —
+                                            no opaque fill. A `bg-popover/*` layer here stacks on top of the
+                                            already-translucent panel and renders as a brighter white box
+                                            (a hard seam, very visible over a tinted page). backdrop-blur
+                                            frosts the rows underneath without lightening the band. */}
+                                        <div className="flex items-center gap-2 px-2 mb-1 sticky top-0 backdrop-blur-md py-1.5 z-10">
                                             {groupIcon[g]}
                                             <span className="text-xs font-semibold">{groupLabel[g] ?? g}</span>
                                             <span className="ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium">{opts.length}</span>

@@ -20,6 +20,12 @@ patch = fixes, anything may change between 0.x releases).
   deliberately untouched (defining it there hijacks every `rounded-*` utility).
 
 ### Fixed
+- **`ModelSelect` provider group headers no longer render as a bright white box.**
+  The sticky header laid its own `bg-popover/95` fill on top of the already
+  translucent `bg-popover/90` panel, so the band stacked to a brighter/whiter
+  surface — a hard seam, very visible over a tinted page. It now occludes
+  scrolling rows with `backdrop-blur` alone (no opaque fill), so the header is
+  seamless with the panel in every theme.
 - **`ModelSelect` keyboard-highlight ring no longer sits on the top row by default.**
   The arrow-key highlight now starts at "no selection" (`-1`) instead of index `0`, so
   the white focus ring appears only once the user actually presses Up/Down — and clears
