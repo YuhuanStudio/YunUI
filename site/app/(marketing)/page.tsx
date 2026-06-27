@@ -40,6 +40,10 @@ import {
 import { GithubIcon } from "yunui/ai";
 import { LogoMark } from "@/components/logo";
 
+// Shown in the hero provenance badges. Bump on each npm release (kept manual
+// because the package's package.json isn't exported for a runtime import).
+const PKG_VERSION = "0.2.14";
+
 // ---------------------------------------------------------------------------
 // Section header — the centered pill-badge + gradient title + subcopy rhythm
 // that Yunxin's landing repeats above every band.
@@ -231,23 +235,17 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Provenance shields (kept from the prior landing) */}
+        {/* Provenance — dogfooding our own Badge instead of external shields. */}
         <div
           className="mt-8 flex flex-wrap items-center justify-center gap-2 animate-enter"
           style={{ animationDelay: "600ms" }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://img.shields.io/npm/v/@yuhuanowo/yunui?color=18181b&labelColor=18181b&label=npm"
-            alt="npm version"
-            height={20}
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://img.shields.io/npm/l/@yuhuanowo/yunui?color=18181b&labelColor=18181b&label=license"
-            alt="License"
-            height={20}
-          />
+          <Badge className="gap-1.5 font-mono">
+            <span className="text-muted-foreground">npm</span> v{PKG_VERSION}
+          </Badge>
+          <Badge className="gap-1.5 font-mono">
+            <span className="text-muted-foreground">license</span> Apache-2.0
+          </Badge>
         </div>
 
         {/* Bouncing scroll-down chevron */}

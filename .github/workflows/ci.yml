@@ -190,13 +190,23 @@ jobs:
               "image": "${{ env.SITE_IMAGE }}:${{ github.ref_name }}"
             }'
 
+      # Normalize SITE_DOMAIN into a scheme-prefixed URL — works whether the
+      # secret is stored as a bare domain (ui.example.com) or a full URL. The
+      # GitHub deployment API rejects environment_url without an http(s) scheme.
+      - name: Resolve site URL
+        id: siteurl
+        env:
+          RAW: ${{ secrets.SITE_DOMAIN }}
+        run: |
+          d="${RAW#http://}"; d="${d#https://}"
+          if [ -n "$d" ]; then echo "url=https://$d" >> "$GITHUB_OUTPUT"; else echo "url=" >> "$GITHUB_OUTPUT"; fi
+
       - name: Update GitHub Deployment (success)
         if: success()
         uses: chrnorm/deployment-status@v2
         with:
           token: "${{ github.token }}"
-          # SITE_DOMAIN holds the full URL (e.g. https://ui.yuhuanstudio.com).
-          environment-url: ${{ secrets.SITE_DOMAIN }}
+          environment-url: ${{ steps.siteurl.outputs.url }}
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
           state: "success"
 
