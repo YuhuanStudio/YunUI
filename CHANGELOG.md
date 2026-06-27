@@ -11,6 +11,14 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Changed
+- **Softer corner radii across the core surfaces.** Bumped the global component
+  classes a notch rounder — `.btn` 12→14, `.btn-sm` 9→11, `.btn-lg` 14→16,
+  `.card`/`.glass-card` 16→20, `.stat-card`/`.gradient-card`/`.glass-card-enhanced`
+  20→24, `.input`/`.code-block` 12→14, `.badge` 6→8, `.nav-item`/`.nav-tab`/
+  `.dropdown-item` 10→12. Literal px only — the Tailwind `--radius-*` namespace is
+  deliberately untouched (defining it there hijacks every `rounded-*` utility).
+
 ### Fixed
 - **`ModelSelect` keyboard-highlight ring no longer sits on the top row by default.**
   The arrow-key highlight now starts at "no selection" (`-1`) instead of index `0`, so
