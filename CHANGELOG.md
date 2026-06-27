@@ -20,6 +20,26 @@ patch = fixes, anything may change between 0.x releases).
   deliberately untouched (defining it there hijacks every `rounded-*` utility).
 
 ### Fixed
+- **True-black (OLED) surfaces are no longer invisible.** `--color-muted`/
+  `--color-card` map to `--bg-elevated`/`--bg-card`, which true-black set to pure
+  `#000` — so every `bg-muted`/`bg-card` fill (hover states, tiles, switch tracks,
+  sticky headers, cards) vanished into the black page. Lifted elevated→`#141414`
+  and card→`#0a0a0a` (page stays `#000`), so fills are visible while borders/rings
+  still delineate.
+- **`Switch` off-state is visible in true-black.** The unchecked track was
+  `bg-transparent` with only a faint `--border-strong` outline (≈invisible on
+  `#000`); it now carries a `bg-muted` fill so the track reads in every theme.
+- **White ink on colored fills stays white in true-black.** Added `.text-pure-white`
+  (immune to the true-black `.text-white`→`#d4d4d8` body-text dim) and used it for
+  the `NotificationBell` count badge and `AvatarUploader` overlay icons, which were
+  dropping to a low-contrast grey on their red / black fills.
+- **`ConnectedAccountRow` provider badge sits on the avatar edge.** It was pinned
+  to the bounding-box corner (`-bottom-1 -right-1`), floating off the circular
+  avatar; now `bottom-0 right-0` so it overlaps the ring cleanly.
+- **`ModelSelect` hover stutter (esp. Safari).** Each sticky group header added its
+  own `backdrop-blur` on top of the panel's — 5 stacked `backdrop-filter` layers,
+  which makes hover/scroll repaint janky. The header now uses a solid `bg-muted`
+  fill (1 filter layer total).
 - **`ModelSelect` provider group headers no longer render as a bright white box.**
   The sticky header laid its own `bg-popover/95` fill on top of the already
   translucent `bg-popover/90` panel, so the band stacked to a brighter/whiter

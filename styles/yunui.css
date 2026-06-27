@@ -162,12 +162,15 @@
 [data-theme="true-black"] {
   color-scheme: dark;
 
-  /* Core Colors - True Black */
+  /* Core Colors - True Black. The PAGE stays pure #000 (OLED), but elevated
+     surfaces lift a hair so fills that rely on a background — bg-muted (hover
+     states, tiles, switch tracks, sticky headers), bg-card — are actually
+     visible instead of vanishing into the black. Borders/rings still delineate. */
   --bg-base: #000000;
-  --bg-elevated: #000000;
+  --bg-elevated: #141414;
   --bg-glass: rgba(0, 0, 0, 0.8);
   --bg-glass-hover: rgba(20, 20, 20, 0.9);
-  --bg-card: #000000;
+  --bg-card: #0a0a0a;
 
   /* High Contrast Borders */
   --border-hairline: #1a1a1a;
@@ -1082,6 +1085,15 @@ select.input option,
 
 .text-info {
   color: var(--info);
+}
+
+/* White ink that STAYS white on a colored/dark fill — badges, icon overlays,
+   solid-button text. Distinct from `.text-white`, which true-black deliberately
+   dims to #d4d4d8 for body-text eye comfort (that dim wrecks contrast when the
+   white sits on red/primary). Defined as a real class so it always generates
+   (an arbitrary `text-[#fff]` can be dropped by a consumer's JIT). */
+.text-pure-white {
+  color: #ffffff;
 }
 
 /* Soft semantic-color backgrounds — the proven, themeable counterpart to the

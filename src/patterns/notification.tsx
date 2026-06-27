@@ -40,7 +40,7 @@ export function NotificationBell({ count = 0, max = 99, label, icon, onClick, cl
         >
             {icon ?? <Bell size={18} />}
             {count > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--error) text-[10px] font-bold text-white px-1">
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--error) text-[10px] font-bold text-pure-white px-1">
                     {count > max ? `${max}+` : count}
                 </span>
             )}

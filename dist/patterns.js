@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-G34JEN3Z.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-VXFEANVX.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-GHO4RCDR.js';
@@ -1232,7 +1232,7 @@ function NotificationBell({ count = 0, max = 99, label, icon, onClick, className
       ),
       children: [
         icon ?? /* @__PURE__ */ jsx(Bell, { size: 18 }),
-        count > 0 && /* @__PURE__ */ jsx("span", { className: "absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--error) text-[10px] font-bold text-white px-1", children: count > max ? `${max}+` : count })
+        count > 0 && /* @__PURE__ */ jsx("span", { className: "absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--error) text-[10px] font-bold text-pure-white px-1", children: count > max ? `${max}+` : count })
       ]
     }
   );
@@ -1365,7 +1365,7 @@ function ConnectedAccountRow({
         // eslint-disable-next-line @next/next/no-img-element
         /* @__PURE__ */ jsx("img", { src: avatarUrl, alt: "", className: "w-9 h-9 rounded-full object-cover ring-2 ring-border" })
       ) : /* @__PURE__ */ jsx("div", { className: "w-9 h-9 rounded-full bg-muted flex items-center justify-center ring-2 ring-border", children: icon }),
-      badge != null && /* @__PURE__ */ jsx("div", { className: "absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-(--bg-elevated) border border-border flex items-center justify-center", children: badge })
+      badge != null && /* @__PURE__ */ jsx("div", { className: "absolute bottom-0 right-0 w-5 h-5 rounded-full bg-(--bg-elevated) border border-border flex items-center justify-center", children: badge })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
@@ -1432,7 +1432,7 @@ function AvatarUploader({
           // eslint-disable-next-line @next/next/no-img-element
           /* @__PURE__ */ jsx("img", { src, alt: "", className: "w-full h-full rounded-full object-cover ring-2 ring-border group-hover:ring-primary transition-all" })
         ) : /* @__PURE__ */ jsx("div", { className: "w-full h-full rounded-full bg-linear-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold ring-2 ring-border group-hover:ring-primary transition-all", style: { fontSize: size * 0.36 }, children: fallback }),
-        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity flex items-center justify-center", children: uploading ? /* @__PURE__ */ jsx(Loader2, { size: Math.round(size / 3), className: "text-white animate-spin" }) : /* @__PURE__ */ jsx(Camera, { size: Math.round(size / 3), className: "text-white" }) })
+        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity flex items-center justify-center", children: uploading ? /* @__PURE__ */ jsx(Loader2, { size: Math.round(size / 3), className: "text-pure-white animate-spin" }) : /* @__PURE__ */ jsx(Camera, { size: Math.round(size / 3), className: "text-pure-white" }) })
       ]
     }
   );

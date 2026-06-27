@@ -67,9 +67,9 @@ export function AvatarUploader({
             )}
             <div className="absolute inset-0 rounded-full bg-black/50 sm:opacity-0 sm:group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity flex items-center justify-center">
                 {uploading ? (
-                    <Loader2 size={Math.round(size / 3)} className="text-white animate-spin" />
+                    <Loader2 size={Math.round(size / 3)} className="text-pure-white animate-spin" />
                 ) : (
-                    <Camera size={Math.round(size / 3)} className="text-white" />
+                    <Camera size={Math.round(size / 3)} className="text-pure-white" />
                 )}
             </div>
         </button>

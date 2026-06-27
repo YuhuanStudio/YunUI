@@ -55,7 +55,7 @@ export function ConnectedAccountRow({
                     <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center ring-2 ring-border">{icon}</div>
                 )}
                 {badge != null && (
-                    <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-(--bg-elevated) border border-border flex items-center justify-center">
+                    <div className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-(--bg-elevated) border border-border flex items-center justify-center">
                         {badge}
                     </div>
                 )}

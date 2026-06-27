@@ -34,25 +34,25 @@ const sizeClasses = {
 const variantClasses = {
     default: {
         checkedTrack: "border-primary bg-primary/10",
-        uncheckedTrack: "border-(--border-strong) bg-transparent",
+        uncheckedTrack: "border-(--border-strong) bg-muted",
         checkedThumb: "bg-primary",
         uncheckedThumb: "bg-(--border-strong)",
     },
     success: {
         checkedTrack: "border-(--success) bg-success-soft",
-        uncheckedTrack: "border-(--border-strong) bg-transparent",
+        uncheckedTrack: "border-(--border-strong) bg-muted",
         checkedThumb: "bg-(--success)",
         uncheckedThumb: "bg-(--border-strong)",
     },
     warning: {
         checkedTrack: "border-(--warning) bg-warning-soft",
-        uncheckedTrack: "border-(--border-strong) bg-transparent",
+        uncheckedTrack: "border-(--border-strong) bg-muted",
         checkedThumb: "bg-(--warning)",
         uncheckedThumb: "bg-(--border-strong)",
     },
     danger: {
         checkedTrack: "border-(--error) bg-error-soft",
-        uncheckedTrack: "border-(--border-strong) bg-transparent",
+        uncheckedTrack: "border-(--border-strong) bg-muted",
         checkedThumb: "bg-(--error)",
         uncheckedThumb: "bg-(--border-strong)",
     },

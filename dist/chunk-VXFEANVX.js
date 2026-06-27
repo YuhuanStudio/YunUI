@@ -2806,25 +2806,25 @@ var sizeClasses = {
 var variantClasses = {
   default: {
     checkedTrack: "border-primary bg-primary/10",
-    uncheckedTrack: "border-(--border-strong) bg-transparent",
+    uncheckedTrack: "border-(--border-strong) bg-muted",
     checkedThumb: "bg-primary",
     uncheckedThumb: "bg-(--border-strong)"
   },
   success: {
     checkedTrack: "border-(--success) bg-success-soft",
-    uncheckedTrack: "border-(--border-strong) bg-transparent",
+    uncheckedTrack: "border-(--border-strong) bg-muted",
     checkedThumb: "bg-(--success)",
     uncheckedThumb: "bg-(--border-strong)"
   },
   warning: {
     checkedTrack: "border-(--warning) bg-warning-soft",
-    uncheckedTrack: "border-(--border-strong) bg-transparent",
+    uncheckedTrack: "border-(--border-strong) bg-muted",
     checkedThumb: "bg-(--warning)",
     uncheckedThumb: "bg-(--border-strong)"
   },
   danger: {
     checkedTrack: "border-(--error) bg-error-soft",
-    uncheckedTrack: "border-(--border-strong) bg-transparent",
+    uncheckedTrack: "border-(--border-strong) bg-muted",
     checkedThumb: "bg-(--error)",
     uncheckedThumb: "bg-(--border-strong)"
   }
@@ -3018,5 +3018,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-G34JEN3Z.js.map
-//# sourceMappingURL=chunk-G34JEN3Z.js.map
+//# sourceMappingURL=chunk-VXFEANVX.js.map
+//# sourceMappingURL=chunk-VXFEANVX.js.map

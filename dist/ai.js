@@ -371,7 +371,7 @@ function ModelSelect({
                 pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
               ] }),
               /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
-                /* @__PURE__ */ jsx("div", { className: "sticky top-0 z-10 pt-1 pb-1.5", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 rounded-xl bg-muted/70 backdrop-blur-md px-3 py-2", children: [
+                /* @__PURE__ */ jsx("div", { className: "sticky top-0 z-10 pt-1 pb-1.5", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 rounded-xl bg-muted px-3 py-2", children: [
                   groupIcon[g],
                   /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold", children: groupLabel[g] ?? g }),
                   /* @__PURE__ */ jsx("span", { className: "ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-muted-foreground bg-foreground/10 px-1.5 py-0.5 rounded-md", children: opts.length })
