@@ -56,8 +56,11 @@ export function BlogCard({
   const isFeatured = variant === "featured";
 
   return (
-    <Link href={url} className="block h-full">
-      <Card hover className={`group overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`}>
+    <Card hover className={`group relative overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`}>
+      {/* Stretched link covers the whole card for the main navigation, so the
+          card body isn't an interactive element wrapping other interactive
+          elements (the tag chips below sit above it via z-10). */}
+      <Link href={url} aria-label={title} className="absolute inset-0 z-0 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-[inherit]" />
         {/* Cover Image - always render with fixed aspect ratio */}
         <div className="aspect-video w-full overflow-hidden bg-muted flex-shrink-0">
           {coverImage ? (
@@ -113,27 +116,22 @@ export function BlogCard({
             )}
           </div>
 
-          {/* Tags */}
+          {/* Tags — sit above the stretched link (z-10) and route through the
+              adapter Link instead of a full-page reload. */}
           {tags && tags.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-3">
+            <div className="relative z-10 flex flex-wrap gap-1 mt-3">
               {tags.slice(0, 3).map((tag) => (
-                <button
+                <Link
                   key={tag}
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.location.href = `/blog?tag=${tag}`;
-                  }}
+                  href={`/blog?tag=${tag}`}
                   className="text-xs bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   #{tag}
-                </button>
+                </Link>
               ))}
             </div>
           )}
         </div>
       </Card>
-    </Link>
   );
 }

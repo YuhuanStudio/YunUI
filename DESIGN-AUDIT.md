@@ -46,25 +46,34 @@ for an owner decision, so nothing is silently skipped.
   blog-card `group` so its hover-zoom actually fires, Alert `role` politeness.
 - **ConfirmModal** variant icon tints unified onto the soft/text helpers.
 
-## Flagged — needs an owner decision (NOT changed)
+## Fixed — a11y + structural follow-ups (commit ed9990d, blog-card)
 
-1. **Two parallel color systems disagree.** The legacy flat layer
-   (`--error #ef4444`, `--success #10b981` emerald, `--warning #f59e0b`) and the
-   generated layered layer in `tokens.css` (`--danger-solid-strong #FF5F53`,
-   `--success-solid-strong #08AC3A`, `--warning-solid-strong #E07B00`) assign
-   different values to the same role. Components keyed to one won't match the
-   other. Picking a canonical layer + bridging is an architecture decision
-   (per CLAUDE.md, the layered system is migrated incrementally with sign-off).
-2. **No radius tokens.** Nine ad-hoc radii (4–20px) across `.btn/.card/.badge/
-   .input/.dropdown-item/.nav-*`. Worth tokenizing as `--radius-sm/md/lg/xl`.
-3. **Dialog focus traps.** `Sheet`, `ConfirmModal`, `ConfirmCloseDialog` focus an
-   initial control but don't trap Tab (only `Modal` uses `useFocusTrap`). Adding
-   the trap changes initial-focus order, so it needs interaction testing — a
-   focused follow-up rather than a blind change.
-4. **ModelSelect result rows** are mouse-only (`<div onClick>`, no arrow-key
-   listbox). Trigger now has aria/focus; full roving-focus listbox is a feature.
-5. **BlogCard** tag buttons are nested inside the card-wrapping `<Link>` and
-   navigate via `window.location` — should move to the adapter router and lift the
-   chips out of the outer link (structural).
-6. **Duplicated capability color map** (`capability-selector` vs a stale copy in
-   `model-card`) — dedupe onto `CapabilityIcon`.
+- **Dialog focus traps.** `Sheet`, `ConfirmModal`, `ConfirmCloseDialog` now use
+  `useFocusTrap` (Tab containment + focus restore; Sheet also gains role=dialog /
+  aria-modal / aria-labelledby). The confirm dialogs keep their existing initial
+  focus. A new Sheet focus-trap test guards it (and caught a deferred-mount bug:
+  the trap flag must include `mounted` so the effect runs after the ref attaches).
+- **BlogCard** moved to the stretched-link a11y pattern: one overlay adapter
+  `Link` for the card, tag chips lifted above it (`z-10`) as their own adapter
+  `Link`s — no more `<button>`-in-`<a>` nesting or `window.location` full reload.
+
+## Decided / deferred — with rationale (NOT changed)
+
+1. **Two color systems — DECIDED: legacy flat is canonical for status.** Evidence:
+   the layered `*-{danger,success,warning,info}-*` status utilities are used by
+   **zero** components (only the legacy `.text-*` / `.bg-*-soft` / `.badge-*`
+   helpers are), so the `#ef4444`-vs-`#FF5F53` drift is purely latent. Components
+   must use the legacy helpers for status (see
+   `[[yunui-semantic-color-vocabulary]]`). Rewriting the generated once-ui ramps to
+   bridge unused tokens risks the brand/accent/neutral ramps that **are** used, so
+   the generator is intentionally left untouched; revisit only if a consumer needs
+   the layered status utilities.
+2. **Radius tokens — deferred.** Nine ad-hoc radii (4–20px) work and are visually
+   fine; tokenizing as `--radius-sm/md/lg/xl` is pure polish with broad churn and
+   no user-facing bug. Worth doing in a dedicated pass.
+3. **ModelSelect result rows** are mouse-only (`<div onClick>`). The trigger now
+   has aria-expanded/haspopup + a focus ring; a full roving-focus `role=listbox`
+   with arrow-key nav is a feature-sized change, deferred to its own task.
+4. **Duplicated capability color map** (`capability-selector` vs a copy in
+   `model-card`) — internal cleanliness with appearance-parity risk; no user-facing
+   bug. Deferred to a dedicated dedupe onto `CapabilityIcon`.

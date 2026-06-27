@@ -393,7 +393,8 @@ function BlogCard({
   const { Link } = useYunUI();
   const formattedDate = date ? formatDate(date, locale) : null;
   const isFeatured = variant === "featured";
-  return /* @__PURE__ */ jsx(Link, { href: url, className: "block h-full", children: /* @__PURE__ */ jsxs(Card, { hover: true, className: `group overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`, children: [
+  return /* @__PURE__ */ jsxs(Card, { hover: true, className: `group relative overflow-hidden h-full flex flex-col ${isFeatured ? "md:col-span-2" : ""}`, children: [
+    /* @__PURE__ */ jsx(Link, { href: url, "aria-label": title, className: "absolute inset-0 z-0 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-[inherit]" }),
     /* @__PURE__ */ jsx("div", { className: "aspect-video w-full overflow-hidden bg-muted flex-shrink-0", children: coverImage ? /* @__PURE__ */ jsx(
       "img",
       {
@@ -421,15 +422,10 @@ function BlogCard({
           author.name
         ] })
       ] }),
-      tags && tags.length > 0 && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-1 mt-3", children: tags.slice(0, 3).map((tag) => /* @__PURE__ */ jsxs(
-        "button",
+      tags && tags.length > 0 && /* @__PURE__ */ jsx("div", { className: "relative z-10 flex flex-wrap gap-1 mt-3", children: tags.slice(0, 3).map((tag) => /* @__PURE__ */ jsxs(
+        Link,
         {
-          type: "button",
-          onClick: (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.location.href = `/blog?tag=${tag}`;
-          },
+          href: `/blog?tag=${tag}`,
           className: "text-xs bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: [
             "#",
@@ -439,7 +435,7 @@ function BlogCard({
         tag
       )) })
     ] })
-  ] }) });
+  ] });
 }
 function BlogPostHeader({
   title,
