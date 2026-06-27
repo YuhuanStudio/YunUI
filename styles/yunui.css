@@ -91,15 +91,6 @@
   --bg-hover: var(--accent-subtle);
   --bg-muted: var(--bg-elevated);
 
-  /* Radius scale — the documented step ladder the global component classes use.
-     xs = chips/code, sm = rows/menu items, md = buttons/inputs, lg = cards,
-     xl = stat/feature cards. Keeps radii on one scale instead of ad-hoc px. */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-
   /* Semantic */
   --success: #10b981;
   --warning: #f59e0b;
@@ -508,7 +499,7 @@ summary {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   transition: all 0.2s ease;
 }
 
@@ -540,7 +531,7 @@ summary {
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   box-shadow: var(--shadow-xs);
   transition: all 0.15s ease;
 }
@@ -589,7 +580,7 @@ summary {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-xl);
+  border-radius: 20px;
 }
 
 /* =====================================================
@@ -652,7 +643,7 @@ summary {
   gap: 0.5rem;
   font-weight: 500;
   font-size: 0.875rem;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   padding: 0.625rem 1.125rem;
   transition: all 0.15s ease;
   cursor: pointer;
@@ -767,7 +758,7 @@ summary {
 .btn-sm {
   padding: 0.375rem 0.75rem;
   font-size: 0.8125rem;
-  border-radius: var(--radius-sm);
+  border-radius: 9px;
   gap: 0.375rem;
 }
 
@@ -1007,7 +998,7 @@ select.input option,
   padding: 0.5rem 0.75rem;
   background: var(--bg-glass);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   font-size: 0.875rem;
   color: var(--text-primary);
   outline: none;
@@ -1040,7 +1031,7 @@ select.input option,
   padding: 0.25rem 0.625rem;
   font-size: 0.6875rem;
   font-weight: 500;
-  border-radius: var(--radius-xs);
+  border-radius: 6px;
   background: var(--bg-glass-hover);
   color: var(--text-secondary);
   /* A badge is an atomic unit: icon + label stay on one line, and the badge
@@ -1144,7 +1135,7 @@ select.input option,
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-tertiary);
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   transition: all 0.12s ease;
   white-space: nowrap;
 }
@@ -1218,7 +1209,7 @@ select.input option,
   font-weight: 500;
   color: var(--text-tertiary);
   background: transparent;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   transition: color 0.15s ease, background 0.15s ease;
   white-space: nowrap;
   cursor: pointer;
@@ -1284,7 +1275,7 @@ select.input option,
 .code-block {
   background: var(--code-bg);
   border: 1px solid var(--code-border);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8125rem;
   overflow: hidden;
@@ -1579,7 +1570,7 @@ select.input option,
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-tertiary);
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   transition: all 0.12s ease;
   white-space: nowrap;
 }

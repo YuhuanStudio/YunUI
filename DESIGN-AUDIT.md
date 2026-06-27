@@ -59,10 +59,14 @@ for an owner decision, so nothing is silently skipped.
 
 ## Fixed — backlog closed (commit cd8b1e5)
 
-- **Radius scale tokenized.** Added `--radius-xs/sm/md/lg/xl` and routed the
-  global classes (`.btn/.input/.card/.badge/.nav-item/.nav-tab/.dropdown-item/
-  .stat-card/.glass-card/.code-block`) onto it. Values unchanged except btn-sm
-  9→10px.
+- **Radius scale tokenization — REVERTED (it was a bug).** Defining
+  `--radius-xs/sm/md/lg/xl` in `:root` collided with Tailwind v4's built-in radius
+  theme variables of the same name, so every `rounded-sm/md/lg/xl` utility across
+  YunUI **and** Yunxin ballooned (`rounded-lg` 8→16px, `rounded-xl` 12→20px,
+  `rounded-sm` 4→10px) — corners looked far too round and distorted the sidebar.
+  Reverted: tokens removed, global classes restored to literal px. Lesson: never
+  define `--radius-*` (a reserved Tailwind v4 namespace) at `:root`. Radius stays
+  ad-hoc px (the deferral was correct).
 - **ModelSelect keyboard nav.** Results are now a real combobox+listbox: the
   search input drives a highlighted row via `aria-activedescendant`,
   ArrowUp/Down move, Enter selects, Escape closes, active row scrolls into view;
