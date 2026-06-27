@@ -57,7 +57,18 @@ for an owner decision, so nothing is silently skipped.
   `Link` for the card, tag chips lifted above it (`z-10`) as their own adapter
   `Link`s — no more `<button>`-in-`<a>` nesting or `window.location` full reload.
 
-## Decided / deferred — with rationale (NOT changed)
+## Fixed — backlog closed (commit cd8b1e5)
+
+- **Radius scale tokenized.** Added `--radius-xs/sm/md/lg/xl` and routed the
+  global classes (`.btn/.input/.card/.badge/.nav-item/.nav-tab/.dropdown-item/
+  .stat-card/.glass-card/.code-block`) onto it. Values unchanged except btn-sm
+  9→10px.
+- **ModelSelect keyboard nav.** Results are now a real combobox+listbox: the
+  search input drives a highlighted row via `aria-activedescendant`,
+  ArrowUp/Down move, Enter selects, Escape closes, active row scrolls into view;
+  rows are `role=option` + `aria-selected`. (Verified live.)
+
+## Decided / won't-do — with rationale
 
 1. **Two color systems — DECIDED: legacy flat is canonical for status.** Evidence:
    the layered `*-{danger,success,warning,info}-*` status utilities are used by
@@ -68,12 +79,17 @@ for an owner decision, so nothing is silently skipped.
    bridge unused tokens risks the brand/accent/neutral ramps that **are** used, so
    the generator is intentionally left untouched; revisit only if a consumer needs
    the layered status utilities.
-2. **Radius tokens — deferred.** Nine ad-hoc radii (4–20px) work and are visually
-   fine; tokenizing as `--radius-sm/md/lg/xl` is pure polish with broad churn and
-   no user-facing bug. Worth doing in a dedicated pass.
-3. **ModelSelect result rows** are mouse-only (`<div onClick>`). The trigger now
-   has aria-expanded/haspopup + a focus ring; a full roving-focus `role=listbox`
-   with arrow-key nav is a feature-sized change, deferred to its own task.
-4. **Duplicated capability color map** (`capability-selector` vs a copy in
-   `model-card`) — internal cleanliness with appearance-parity risk; no user-facing
-   bug. Deferred to a dedicated dedupe onto `CapabilityIcon`.
+2. **Capability color map "duplication" — WON'T DEDUPE.** `model-card`'s
+   `CAPABILITY_ICONS` uses a different model-API capability vocabulary (`vision`,
+   `thinking`, `function_calling`, …) than `CapabilityIcon`'s `CAPABILITY_BY_KEY`;
+   merging would blank the glyphs for keys the shared map doesn't have. Not a true
+   duplicate.
+
+## Multi-device verification
+
+Checked the full showcase at 390 / 768 / 1280 in light **and** dark: zero
+horizontal overflow at every width; foundations, dashboard, buttons (new radius),
+overlays, forms, capability chips and AI components all render correctly. Spot-
+verified the fixes live: dark-mode dropdown highlight visible, Popover now has a
+solid background (was transparent), Sheet opens + traps focus, ModelSelect
+arrow-key nav highlights and selects.
