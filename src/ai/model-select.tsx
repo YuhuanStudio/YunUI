@@ -347,15 +347,17 @@ export function ModelSelect({
                             <div className="px-1.5 py-1.5">
                                 {Object.entries(grouped).map(([g, opts]) => (
                                     <div key={g} className="mb-3 last:mb-0">
-                                        {/* Sticky group header: occlude scrolling rows with BLUR only —
-                                            no opaque fill. A `bg-popover/*` layer here stacks on top of the
-                                            already-translucent panel and renders as a brighter white box
-                                            (a hard seam, very visible over a tinted page). backdrop-blur
-                                            frosts the rows underneath without lightening the band. */}
-                                        <div className="flex items-center gap-2 px-2 mb-1 sticky top-0 backdrop-blur-md py-1.5 z-10">
-                                            {groupIcon[g]}
-                                            <span className="text-xs font-semibold">{groupLabel[g] ?? g}</span>
-                                            <span className="ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium">{opts.length}</span>
+                                        {/* Sticky group header styled as a rounded bar that echoes the
+                                            model rows (rounded-xl, same gutter) — a deliberate on-brand
+                                            label, not a square full-bleed band. A *muted* fill (not
+                                            popover-white, so it never reads as a stray white box) + blur
+                                            occludes rows scrolling under it. */}
+                                        <div className="sticky top-0 z-10 pt-1 pb-1.5">
+                                            <div className="flex items-center gap-2 rounded-xl bg-muted/70 backdrop-blur-md px-3 py-2">
+                                                {groupIcon[g]}
+                                                <span className="text-xs font-semibold">{groupLabel[g] ?? g}</span>
+                                                <span className="ml-auto text-[10px] text-muted-foreground bg-background/70 px-2 py-0.5 rounded-full font-medium">{opts.length}</span>
+                                            </div>
                                         </div>
                                         {opts.map((o) => (
                                             <ModelRow key={o.id} domId={rowDomId(o.id)} active={o.id === activeId} option={o} selected={o.id === value} pinned={false} isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />

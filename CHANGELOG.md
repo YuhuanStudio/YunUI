@@ -12,15 +12,6 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Changed
-- **`ProviderIcon` / `ModelIcon` now render known brands as monochrome glyphs.**
-  The lobe **avatar** assets bake each brand's own background into the image
-  (OpenAI black, Anthropic cream, …), so side by side — and against the grayscale
-  UI — the tiles looked disjointed (a stray white/cream square). Known providers
-  now render an inline `currentColor` brand glyph (bundled from
-  `@lobehub/icons-static-svg`, 45 common brands): rounded → glyph on a uniform
-  neutral `bg-muted` tile, flat → a bare theme-coloured glyph. Provider and model
-  icons finally match, and adapt to light/dark. A model's own custom `iconUrl`
-  still wins, and unknown providers fall back to the avatar webp / letter.
 - **Softer corner radii across the core surfaces.** Bumped the global component
   classes a notch rounder — `.btn` 12→14, `.btn-sm` 9→11, `.btn-lg` 14→16,
   `.card`/`.glass-card` 16→20, `.stat-card`/`.gradient-card`/`.glass-card-enhanced`
@@ -32,9 +23,10 @@ patch = fixes, anything may change between 0.x releases).
 - **`ModelSelect` provider group headers no longer render as a bright white box.**
   The sticky header laid its own `bg-popover/95` fill on top of the already
   translucent `bg-popover/90` panel, so the band stacked to a brighter/whiter
-  surface — a hard seam, very visible over a tinted page. It now occludes
-  scrolling rows with `backdrop-blur` alone (no opaque fill), so the header is
-  seamless with the panel in every theme.
+  surface — a hard square seam, very visible over a tinted page. It's now a
+  rounded `rounded-xl` bar with a *muted* (not popover-white) fill that echoes
+  the model rows — a deliberate on-brand label that still occludes scrolling
+  rows, instead of a stray white box.
 - **`ModelSelect` keyboard-highlight ring no longer sits on the top row by default.**
   The arrow-key highlight now starts at "no selection" (`-1`) instead of index `0`, so
   the white focus ring appears only once the user actually presses Up/Down — and clears
