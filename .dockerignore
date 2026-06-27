@@ -1,0 +1,15 @@
+# Build context for site/Dockerfile (context = repo root). Keep it lean and
+# force a clean install/build inside the image rather than shipping host state.
+**/node_modules
+**/.next
+**/.turbo
+dist
+site/public/icons
+.git
+.github
+*.log
+.DS_Store
+.env*
+playwright-report
+test-results
+scratchpad

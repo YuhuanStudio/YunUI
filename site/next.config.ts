@@ -3,6 +3,15 @@ import { resolve } from "node:path";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle for Docker: emits `.next/standalone` (server.js +
+  // a minimal node_modules) so the runtime image needs neither pnpm nor a full
+  // install. See site/Dockerfile + .github/workflows/deploy-site.yml.
+  output: "standalone",
+  // The site lives in a monorepo and imports the parent library (`yunui` → repo
+  // root via symlink + dist/). Pin the trace root to the repo root so standalone
+  // follows the symlink and bundles the library files it actually uses; without
+  // this Next roots the trace at site/ and drops the parent's dist/styles.
+  outputFileTracingRoot: resolve(import.meta.dirname, ".."),
   // Allow phones/other devices on the LAN to use the dev server. Next 15+ blocks
   // cross-origin /_next/* requests by default, so visiting http://<lan-ip>:3939
   // loads the HTML but never hydrates → "only localhost is interactive". Permit
