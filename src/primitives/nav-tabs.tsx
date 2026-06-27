@@ -38,7 +38,7 @@ export function NavTabs({ tabs, activeKey, onChange, className = "", ariaLabel }
     const { Link } = useYunUI();
     return (
         <div className={className}>
-            <nav className="flex items-center gap-1 overflow-x-auto" aria-label={ariaLabel}>
+            <nav className="flex items-center gap-1 overflow-x-auto overflow-y-hidden overscroll-x-contain" aria-label={ariaLabel}>
                 {tabs.map((tab) => {
                     const active = tab.key === activeKey;
                     const cls = `nav-tab ${active ? "active" : ""}`;

@@ -12,6 +12,15 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **Horizontal scroll bars no longer scroll vertically on touch.** `overflow-x-auto`
+  with the default `overflow-y: visible` makes a browser compute `overflow-y` to
+  `auto` too, so the `ModelSelect` provider-filter row (and the `NavTabs` / `Tabs`
+  bars) could be dragged up/down a few px on a phone. Added explicit
+  `overflow-y-hidden overscroll-x-contain` to those single-row scrollers.
+- **Unbreakable text no longer widens its row/card.** Added `truncate` to the
+  `LinkRow` title, `SessionItem` detail, `ModelCard` developer label and the
+  `Navbar` app name (with `min-w-0` on the logo link), so long ids / device strings
+  / brand names ellipsize instead of pushing the layout past the viewport.
 - **Hand-rolled dropdown panels stay inside the viewport.** `ModelSelect`,
   `CustomSelect`, `Combobox`, `LanguageSwitcher` and `ThemeToggle` positioned
   their floating panel with a plain `absolute` and no collision handling, so on

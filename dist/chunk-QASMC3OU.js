@@ -2044,7 +2044,7 @@ var TabsList = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   {
     ref,
     className: cn(
-      "inline-flex h-11 items-center justify-center rounded-xl bg-muted p-1 flex-nowrap overflow-x-auto",
+      "inline-flex h-11 items-center justify-center rounded-xl bg-muted p-1 flex-nowrap overflow-x-auto overflow-y-hidden overscroll-x-contain",
       className
     ),
     ...props
@@ -2636,7 +2636,7 @@ function SegmentedSelect({
 }
 function NavTabs({ tabs, activeKey, onChange, className = "", ariaLabel }) {
   const { Link } = useYunUI();
-  return /* @__PURE__ */ jsx("div", { className, children: /* @__PURE__ */ jsx("nav", { className: "flex items-center gap-1 overflow-x-auto", "aria-label": ariaLabel, children: tabs.map((tab) => {
+  return /* @__PURE__ */ jsx("div", { className, children: /* @__PURE__ */ jsx("nav", { className: "flex items-center gap-1 overflow-x-auto overflow-y-hidden overscroll-x-contain", "aria-label": ariaLabel, children: tabs.map((tab) => {
     const active = tab.key === activeKey;
     const cls = `nav-tab ${active ? "active" : ""}`;
     return tab.href ? /* @__PURE__ */ jsx(Link, { href: tab.href, className: cls, "aria-current": active ? "page" : void 0, children: tab.label }, tab.key) : /* @__PURE__ */ jsx(
@@ -3025,5 +3025,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-EDG53MDN.js.map
-//# sourceMappingURL=chunk-EDG53MDN.js.map
+//# sourceMappingURL=chunk-QASMC3OU.js.map
+//# sourceMappingURL=chunk-QASMC3OU.js.map

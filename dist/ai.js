@@ -142,7 +142,7 @@ function ModelCard({
         /* @__PURE__ */ jsxs("div", { className: "mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 text-[11px] text-muted-foreground pt-3 border-t border-border", children: [
           /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-1.5 min-w-0", children: [
             developer?.iconUrl && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-muted", style: { width: 12, height: 12 }, children: /* @__PURE__ */ jsx(Image, { src: developer.iconUrl, alt: developer.label, width: 12, height: 12, className: "object-cover" }) }),
-            developer?.label && /* @__PURE__ */ jsx("span", { children: developer.label })
+            developer?.label && /* @__PURE__ */ jsx("span", { className: "truncate min-w-0", children: developer.label })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
             context && /* @__PURE__ */ jsx("span", { className: "bg-muted px-1.5 py-0.5 rounded-sm font-medium", children: context }),
@@ -352,7 +352,7 @@ function ModelSelect({
                 activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
               ] })
             ] }),
-            groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
+            groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto overflow-y-hidden overscroll-x-contain", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
               /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), "aria-pressed": !activeGroup, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
                 L.all,
                 " (",
@@ -1656,9 +1656,9 @@ function Navbar({
     return false;
   };
   return /* @__PURE__ */ jsxs("nav", { className: "fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between", children: [
-    /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex items-center gap-2 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: [
-      /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 28, height: 28, className: "w-7 h-7" }),
-      /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm tracking-tight", children: appName })
+    /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: [
+      /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 28, height: 28, className: "w-7 h-7 shrink-0" }),
+      /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm tracking-tight truncate", children: appName })
     ] }),
     variant === "public" && /* @__PURE__ */ jsx("div", { className: "hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2", children: links.map((link) => /* @__PURE__ */ jsxs(
       Link,

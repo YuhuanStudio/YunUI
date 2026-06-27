@@ -68,7 +68,7 @@ export function SessionItem({
                         </span>
                     )}
                 </div>
-                {detail && <div className="text-[10px] text-(--text-tertiary) mt-0.5">{detail}</div>}
+                {detail && <div className="text-[10px] text-(--text-tertiary) mt-0.5 truncate">{detail}</div>}
                 {(ip != null || time != null) && (
                     <div className="flex flex-wrap gap-2 mt-1 text-[10px] text-(--text-tertiary)">
                         {ip != null && (

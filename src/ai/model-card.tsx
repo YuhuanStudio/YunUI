@@ -148,7 +148,7 @@ export function ModelCard({
               <Image src={developer.iconUrl} alt={developer.label} width={12} height={12} className="object-cover" />
             </div>
           )}
-          {developer?.label && <span>{developer.label}</span>}
+          {developer?.label && <span className="truncate min-w-0">{developer.label}</span>}
         </span>
         <div className="flex items-center gap-2">
           {context && <span className="bg-muted px-1.5 py-0.5 rounded-sm font-medium">{context}</span>}

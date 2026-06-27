@@ -115,9 +115,9 @@ export function Navbar({
     return (
         <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between">
             {/* Logo */}
-            <Link href={homeHref} className="flex items-center gap-2 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200">
-                <Image src={logoSrc} alt={appName} width={28} height={28} className="w-7 h-7" />
-                <span className="font-semibold text-sm tracking-tight">{appName}</span>
+            <Link href={homeHref} className="flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200">
+                <Image src={logoSrc} alt={appName} width={28} height={28} className="w-7 h-7 shrink-0" />
+                <span className="font-semibold text-sm tracking-tight truncate">{appName}</span>
             </Link>
 
             {/* Nav Links */}

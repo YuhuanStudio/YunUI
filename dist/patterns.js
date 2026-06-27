@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-EDG53MDN.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-QASMC3OU.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-MQFC42TH.js';
@@ -1095,7 +1095,7 @@ function SessionItem({
         current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0", children: currentLabel }),
         inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0", children: inactiveLabel })
       ] }),
-      detail && /* @__PURE__ */ jsx("div", { className: "text-[10px] text-(--text-tertiary) mt-0.5", children: detail }),
+      detail && /* @__PURE__ */ jsx("div", { className: "text-[10px] text-(--text-tertiary) mt-0.5 truncate", children: detail }),
       (ip != null || time != null) && /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-2 mt-1 text-[10px] text-(--text-tertiary)", children: [
         ip != null && /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-0.5", children: [
           /* @__PURE__ */ jsx(Globe, { size: 8 }),
@@ -1332,7 +1332,7 @@ function LinkRow({ icon, title, description, href, external, className }) {
   const inner = /* @__PURE__ */ jsxs(Fragment, { children: [
     icon != null && /* @__PURE__ */ jsx("span", { className: "text-(--text-tertiary) shrink-0", children: icon }),
     /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-      /* @__PURE__ */ jsx("div", { className: "text-sm font-medium", children: title }),
+      /* @__PURE__ */ jsx("div", { className: "text-sm font-medium truncate", children: title }),
       description && /* @__PURE__ */ jsx("div", { className: "text-xs text-(--text-tertiary) truncate", children: description })
     ] }),
     /* @__PURE__ */ jsx(ChevronRight, { size: 16, className: "text-(--text-muted) shrink-0" })

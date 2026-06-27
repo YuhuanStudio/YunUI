@@ -31,7 +31,7 @@ export function LinkRow({ icon, title, description, href, external, className }:
         <>
             {icon != null && <span className="text-(--text-tertiary) shrink-0">{icon}</span>}
             <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium">{title}</div>
+                <div className="text-sm font-medium truncate">{title}</div>
                 {description && <div className="text-xs text-(--text-tertiary) truncate">{description}</div>}
             </div>
             <ChevronRight size={16} className="text-(--text-muted) shrink-0" />
