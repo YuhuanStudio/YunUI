@@ -327,10 +327,12 @@ function SidebarCollapseDemo() {
       ],
     },
   ];
-  // Drive the demo with `isOpen` (not `collapsed`) so the sidebar is visible at
-  // ALL widths — `collapsed`/`lg:translate-x-0` left it hidden on mobile (the
-  // stage showed an empty box). The toggle slides it in/out either way.
-  const [open, setOpen] = useState(true);
+  // Drive a single `collapsed` state and feed isOpen={!collapsed} so the sidebar
+  // genuinely slides in/out at ALL widths. Driving `isOpen` alone left the aside
+  // pinned by its own `lg:translate-x-0` on desktop, so the toggle did nothing —
+  // exactly the "doesn't actually collapse" report. The content area reflows to
+  // full width when collapsed, giving the toggle a visible purpose.
+  const [collapsed, setCollapsed] = useState(false);
   return (
     <Stage height={360}>
       <Sidebar
@@ -339,18 +341,44 @@ function SidebarCollapseDemo() {
         homeHref="#"
         sections={sections}
         currentPath="#overview"
-        isOpen={open}
-        onClose={() => setOpen(false)}
+        isOpen={!collapsed}
+        collapsed={collapsed}
+        onClose={() => setCollapsed(true)}
+        onToggleCollapse={() => setCollapsed((c) => !c)}
         onNavigate={() => {}}
       />
-      {/* Re-open affordance (lives in the app header normally) */}
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${open ? "left-[17rem]" : "left-3"}`}
-        aria-label={t("toggleSidebar")}
+      {/* Content area — offset by the sidebar width, reflowing to full width when
+          collapsed. Inline margin (not an `lg:ml-*` utility): the lg breakpoint
+          keys off the viewport, not this bounded stage. */}
+      <div
+        className="h-full flex flex-col transition-[margin] duration-200 ease-in-out"
+        style={{ marginLeft: collapsed ? 0 : 256 }}
       >
-        <PanelLeft size={16} />
-      </button>
+        <div className="flex items-center gap-3 px-4 h-14 border-b border-border shrink-0">
+          {/* Re-open button slides into the header once the sidebar (and its own
+              collapse button) goes off-canvas. */}
+          <button
+            onClick={() => setCollapsed(false)}
+            aria-label={t("toggleSidebar")}
+            className="h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all overflow-hidden"
+            style={{
+              width: collapsed ? 36 : 0,
+              opacity: collapsed ? 1 : 0,
+              marginRight: collapsed ? 0 : -12,
+              pointerEvents: collapsed ? "auto" : "none",
+            }}
+          >
+            <PanelLeft size={16} className="shrink-0" />
+          </button>
+          <div className="h-3.5 w-36 rounded-md bg-muted" />
+          <div className="ml-auto w-8 h-8 rounded-full bg-muted shrink-0" />
+        </div>
+        <div className="flex-1 p-4 grid grid-cols-2 sm:grid-cols-3 gap-3 content-start">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-20 rounded-xl bg-muted/60 border border-border" />
+          ))}
+        </div>
+      </div>
     </Stage>
   );
 }
