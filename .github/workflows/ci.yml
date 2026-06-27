@@ -87,7 +87,8 @@ jobs:
   site-build:
     name: Site (Build & Push)
     needs: [detect-changes, verify]
-    if: needs.detect-changes.outputs.site == 'true' && needs.verify.result == 'success'
+    # Site changed (push/PR) OR a manual run (workflow_dispatch = redeploy button).
+    if: (needs.detect-changes.outputs.site == 'true' || github.event_name == 'workflow_dispatch') && needs.verify.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -152,7 +153,7 @@ jobs:
   notify:
     name: Notify Dokploy
     needs: [site-build]
-    if: always() && !cancelled() && needs.site-build.result == 'success' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: always() && !cancelled() && needs.site-build.result == 'success' && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     runs-on: ubuntu-latest
     permissions:
       deployments: write
