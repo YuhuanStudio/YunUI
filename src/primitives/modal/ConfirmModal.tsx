@@ -22,7 +22,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { AlertTriangle, RefreshCw, Trash2, Info, CheckCircle, Loader2 } from "lucide-react";
 import { Button } from "../index";
-import { useEscapeKey, useBodyScrollLock } from "../../lib/hooks";
+import { useEscapeKey, useBodyScrollLock, useFocusTrap } from "../../lib/hooks";
 import { cn } from "../../lib/cn";
 import { Z_INDEX, ANIMATION_DURATION } from "./constants";
 import type { ConfirmModalProps, ConfirmModalVariant, DeleteConfirmModalProps, RegenerateConfirmModalProps } from "./types";
@@ -79,11 +79,18 @@ export function ConfirmModal({
 }: ConfirmModalProps) {
     const t = useYunUI().useT('components.confirmModal');
     const confirmButtonRef = useRef<HTMLButtonElement>(null);
+    const dialogRef = useRef<HTMLDivElement>(null);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const closeIdRef = useRef<number>(0);
     const [isClosing, setIsClosing] = useState(false);
     const [mounted, setMounted] = useState(false);
     const config = variantConfig[variant];
+
+    // a11y: keep Tab inside the dialog and restore focus to the opener on close.
+    // Declared before the explicit confirm-button focus effect below so that
+    // effect still wins the *initial* focus; this only adds Tab containment.
+    // `mounted` is in the flag so the effect runs once the portal/ref exists.
+    useFocusTrap(dialogRef, isOpen && !isClosing && mounted);
 
     // Default values with translations
     const _confirmText = confirmText ?? t('confirm');
@@ -193,6 +200,7 @@ export function ConfirmModal({
 
             {/* Modal Card */}
             <div
+                ref={dialogRef}
                 className={cn(
                     "card relative w-full max-w-sm shadow-2xl transition-all",
                     isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100",

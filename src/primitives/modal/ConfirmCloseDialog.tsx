@@ -17,7 +17,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { AlertTriangle } from "lucide-react";
 import { Button } from "../index";
-import { useEscapeKey, useBodyScrollLock } from "../../lib/hooks";
+import { useEscapeKey, useBodyScrollLock, useFocusTrap } from "../../lib/hooks";
 import { cn } from "../../lib/cn";
 import { Z_INDEX, ANIMATION_DURATION } from "./constants";
 import type { ConfirmCloseDialogProps } from "./types";
@@ -37,6 +37,7 @@ export function ConfirmCloseDialog({
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const closeIdRef = useRef<number>(0);
     const discardButtonRef = useRef<HTMLButtonElement>(null);
+    const dialogRef = useRef<HTMLDivElement>(null);
 
     // Track mounted state for SSR
     useEffect(() => {
@@ -96,6 +97,11 @@ export function ConfirmCloseDialog({
     }, []); // No dependencies - uses refs
 
     // Handle Escape key (enabled state checked inside useEscapeKey via refs)
+    // a11y: trap Tab inside the dialog; the explicit discard-button focus effect
+    // below still sets initial focus. `mounted` keeps the effect in sync with the
+    // portal so the ref is attached when it runs.
+    useFocusTrap(dialogRef, isOpen && !isClosing && mounted);
+
     useEscapeKey(handleKeepEditing, isOpen);
 
     // Body scroll lock
@@ -143,6 +149,7 @@ export function ConfirmCloseDialog({
             />
 
             <div
+                ref={dialogRef}
                 className={cn(
                     "card w-full max-w-sm p-6 shadow-2xl transition-all",
                     isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"

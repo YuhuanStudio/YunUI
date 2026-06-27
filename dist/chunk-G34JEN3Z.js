@@ -351,11 +351,13 @@ function ConfirmModal({
 }) {
   const t = useYunUI().useT("components.confirmModal");
   const confirmButtonRef = useRef(null);
+  const dialogRef = useRef(null);
   const timeoutRef = useRef(null);
   const closeIdRef = useRef(0);
   const [isClosing, setIsClosing] = useState(false);
   const [mounted, setMounted] = useState(false);
   const config = variantConfig[variant];
+  useFocusTrap(dialogRef, isOpen && !isClosing && mounted);
   const _confirmText = confirmText ?? t("confirm");
   const _cancelText = cancelText ?? t("cancel");
   useEffect(() => {
@@ -437,6 +439,7 @@ function ConfirmModal({
         /* @__PURE__ */ jsx(
           "div",
           {
+            ref: dialogRef,
             className: cn(
               "card relative w-full max-w-sm shadow-2xl transition-all",
               isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100",
@@ -537,11 +540,14 @@ function RegenerateConfirmModal({
 }
 function Sheet({ open, onClose, children, title, mobileOnly = false }) {
   const [mounted, setMounted] = useState(false);
+  const panelRef = useRef(null);
+  const titleId = useId();
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);
   }, []);
   useModalBehavior(open, onClose);
+  useFocusTrap(panelRef, open && mounted);
   if (!mounted) return null;
   return createPortal(
     /* @__PURE__ */ jsx(AnimatePresence, { children: open && /* @__PURE__ */ jsxs(Fragment, { children: [
@@ -562,6 +568,10 @@ function Sheet({ open, onClose, children, title, mobileOnly = false }) {
       /* @__PURE__ */ jsxs(
         motion.div,
         {
+          ref: panelRef,
+          role: "dialog",
+          "aria-modal": "true",
+          "aria-labelledby": title ? titleId : void 0,
           initial: { x: "100%" },
           animate: { x: 0 },
           exit: { x: "100%" },
@@ -571,7 +581,7 @@ function Sheet({ open, onClose, children, title, mobileOnly = false }) {
           onClick: (e) => e.stopPropagation(),
           children: [
             /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-5 py-4 border-b border-border/60 shrink-0", children: [
-              title && /* @__PURE__ */ jsx("h2", { className: "font-semibold text-sm tracking-tight", children: title }),
+              title && /* @__PURE__ */ jsx("h2", { id: titleId, className: "font-semibold text-sm tracking-tight", children: title }),
               /* @__PURE__ */ jsx(
                 "button",
                 {
@@ -3008,5 +3018,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-C33OSHGX.js.map
-//# sourceMappingURL=chunk-C33OSHGX.js.map
+//# sourceMappingURL=chunk-G34JEN3Z.js.map
+//# sourceMappingURL=chunk-G34JEN3Z.js.map

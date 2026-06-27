@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useId } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { useModalBehavior } from "../lib/hooks";
+import { useModalBehavior, useFocusTrap } from "../lib/hooks";
 import { cn } from "../lib/cn";
 
 interface SheetProps {
@@ -24,6 +24,8 @@ interface SheetProps {
  *  screen size; set `mobileOnly` to hide it on `lg`+ (a mobile-only drawer). */
 export function Sheet({ open, onClose, children, title, mobileOnly = false }: SheetProps) {
     const [mounted, setMounted] = useState(false);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const titleId = useId();
 
     useEffect(() => {
         setMounted(true);
@@ -31,6 +33,10 @@ export function Sheet({ open, onClose, children, title, mobileOnly = false }: Sh
     }, []);
 
     useModalBehavior(open, onClose);
+    // a11y: trap Tab inside the drawer and restore focus to the opener on close.
+    // `mounted` is part of the flag so the effect (re-)runs after the portal
+    // renders and the panel ref is actually attached.
+    useFocusTrap(panelRef, open && mounted);
 
     if (!mounted) return null;
 
@@ -53,6 +59,10 @@ export function Sheet({ open, onClose, children, title, mobileOnly = false }: Sh
                     {/* Panel */}
                     <motion.div
                         key="sheet-panel"
+                        ref={panelRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby={title ? titleId : undefined}
                         initial={{ x: "100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
@@ -67,7 +77,7 @@ export function Sheet({ open, onClose, children, title, mobileOnly = false }: Sh
                         {/* Header */}
                         <div className="flex items-center justify-between px-5 py-4 border-b border-border/60 shrink-0">
                             {title && (
-                                <h2 className="font-semibold text-sm tracking-tight">{title}</h2>
+                                <h2 id={titleId} className="font-semibold text-sm tracking-tight">{title}</h2>
                             )}
                             <button
                                 onClick={onClose}
