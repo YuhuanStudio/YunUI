@@ -35,7 +35,7 @@ describe("Card", () => {
 describe("Badge", () => {
   it("applies the semantic variant color", () => {
     render(<Badge variant="success">ok</Badge>);
-    expect(screen.getByText("ok").className).toContain("bg-green-50");
+    expect(screen.getByText("ok").className).toContain("bg-success-soft");
   });
 });
 

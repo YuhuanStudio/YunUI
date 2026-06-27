@@ -185,10 +185,10 @@ describe("FAQ", () => {
 describe("Badge (primitive)", () => {
   const variantClass: Record<string, string> = {
     default: "bg-muted",
-    success: "bg-green-50",
-    warning: "bg-amber-50",
-    error: "bg-red-50",
-    info: "bg-blue-50",
+    success: "bg-success-soft",
+    warning: "bg-warning-soft",
+    error: "bg-error-soft",
+    info: "bg-info-soft",
   };
 
   it("applies the shared base classes", () => {

@@ -154,7 +154,8 @@ describe("StatusIndicator", () => {
   it("renders a colored dot with a label", () => {
     const { container } = render(<StatusIndicator status="online">Online</StatusIndicator>);
     expect(screen.getByText("Online")).toBeInTheDocument();
-    expect(container.querySelector(".bg-green-500")).not.toBeNull();
+    // online dot uses the semantic success token (was bg-green-500)
+    expect(container.querySelector('[class*="bg-(--success)"]')).not.toBeNull();
   });
 });
 
