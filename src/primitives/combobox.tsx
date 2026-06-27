@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, type ReactNode } from "react";
+import { useState, useRef, useEffect, useId, type ReactNode } from "react";
 import { X, ChevronDown } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
@@ -62,10 +62,13 @@ export function Combobox({
     const resolvedCreatableText = creatableText || t("creatableText", { value: "" });
     const [isOpen, setIsOpen] = useState(false);
     const [inputValue, setInputValue] = useState(value || "");
+    const [highlighted, setHighlighted] = useState(-1);
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
+    const listboxId = useId();
+    const optionId = (i: number) => `${listboxId}-opt-${i}`;
 
     // 當 value 從外部變化時更新輸入值
     useEffect(() => {
@@ -83,6 +86,12 @@ export function Combobox({
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    // Reset the keyboard highlight when the list changes or the panel closes —
+    // start at "no highlight" (-1) so the ring only appears after an arrow press.
+    useEffect(() => {
+        setHighlighted(-1);
+    }, [inputValue, isOpen]);
 
     // 過濾選項
     const filteredOptions = inputValue
@@ -111,16 +120,37 @@ export function Combobox({
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            if (canCreateNew) {
-                handleSelect(inputValue);
-            } else if (filteredOptions.length > 0) {
-                handleSelect(filteredOptions[0].value);
-            }
-        } else if (e.key === "Escape") {
-            setIsOpen(false);
-            setInputValue(value || "");
+        switch (e.key) {
+            case "ArrowDown":
+                e.preventDefault();
+                if (!isOpen) return setIsOpen(true);
+                setHighlighted((h) => Math.min(h + 1, filteredOptions.length - 1));
+                break;
+            case "ArrowUp":
+                e.preventDefault();
+                if (!isOpen) return setIsOpen(true);
+                setHighlighted((h) => Math.max(h - 1, 0));
+                break;
+            case "Home":
+                if (isOpen) { e.preventDefault(); setHighlighted(0); }
+                break;
+            case "End":
+                if (isOpen) { e.preventDefault(); setHighlighted(filteredOptions.length - 1); }
+                break;
+            case "Enter":
+                e.preventDefault();
+                if (isOpen && highlighted >= 0 && filteredOptions[highlighted]) {
+                    handleSelect(filteredOptions[highlighted].value);
+                } else if (canCreateNew) {
+                    handleSelect(inputValue);
+                } else if (filteredOptions.length > 0) {
+                    handleSelect(filteredOptions[0].value);
+                }
+                break;
+            case "Escape":
+                setIsOpen(false);
+                setInputValue(value || "");
+                break;
         }
     };
 
@@ -160,6 +190,12 @@ export function Combobox({
                     onFocus={() => !disabled && setIsOpen(true)}
                     onKeyDown={handleKeyDown}
                     placeholder={resolvedPlaceholder}
+                    aria-label={resolvedPlaceholder}
+                    role="combobox"
+                    aria-expanded={isOpen}
+                    aria-controls={listboxId}
+                    aria-autocomplete="list"
+                    aria-activedescendant={isOpen && highlighted >= 0 ? optionId(highlighted) : undefined}
                     disabled={disabled}
                     className={`
                         w-full py-2
@@ -201,21 +237,27 @@ export function Combobox({
                     style={{ marginLeft: shift, maxHeight }}
                     className="absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200"
                 >
-                    <div className="flex-1 min-h-0 max-h-60 overflow-y-auto">
+                    <div className="flex-1 min-h-0 max-h-60 overflow-y-auto" role="listbox" id={listboxId}>
                         {filteredOptions.length === 0 && !canCreateNew ? (
                             <div className="px-3 py-2 text-sm text-muted-foreground">
                                 {t("noResults")}
                             </div>
                         ) : (
                             <>
-                                {filteredOptions.map((option) => {
+                                {filteredOptions.map((option, i) => {
                                     const isSelected = option.value === value;
+                                    const isHigh = i === highlighted;
                                     const optionIconPath = option.iconUrl ?? null;
                                     return (
                                         <button
                                             key={option.value}
+                                            id={optionId(i)}
                                             type="button"
+                                            role="option"
+                                            aria-selected={isSelected}
+                                            data-highlighted={isHigh ? "" : undefined}
                                             onClick={() => handleSelect(option.value)}
+                                            onMouseEnter={() => setHighlighted(i)}
                                             className={`dropdown-item w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring ${isSelected ? "active" : ""}`}
                                         >
                                             {optionIconPath && (

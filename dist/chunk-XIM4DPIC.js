@@ -1,5 +1,5 @@
 "use client";
-import { cn, useAnchoredPosition } from './chunk-MQFC42TH.js';
+import { cn, useAnchoredPosition } from './chunk-LLNTUA5K.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import * as React7 from 'react';
 import { forwardRef, useState, useEffect, useRef, useCallback, useId } from 'react';
@@ -646,10 +646,13 @@ function Combobox({
   const resolvedCreatableText = creatableText || t("creatableText", { value: "" });
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value || "");
+  const [highlighted, setHighlighted] = useState(-1);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
   const panelRef = useRef(null);
   const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
+  const listboxId = useId();
+  const optionId = (i) => `${listboxId}-opt-${i}`;
   useEffect(() => {
     const selectedOption2 = options.find((o) => o.value === value);
     setInputValue(selectedOption2?.label || value || "");
@@ -663,6 +666,9 @@ function Combobox({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  useEffect(() => {
+    setHighlighted(-1);
+  }, [inputValue, isOpen]);
   const filteredOptions = inputValue ? options.filter(
     (o) => o.label.toLowerCase().includes(inputValue.toLowerCase()) || o.value.toLowerCase().includes(inputValue.toLowerCase())
   ) : options;
@@ -678,16 +684,43 @@ function Combobox({
     setIsOpen(true);
   };
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (canCreateNew) {
-        handleSelect(inputValue);
-      } else if (filteredOptions.length > 0) {
-        handleSelect(filteredOptions[0].value);
-      }
-    } else if (e.key === "Escape") {
-      setIsOpen(false);
-      setInputValue(value || "");
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        if (!isOpen) return setIsOpen(true);
+        setHighlighted((h) => Math.min(h + 1, filteredOptions.length - 1));
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        if (!isOpen) return setIsOpen(true);
+        setHighlighted((h) => Math.max(h - 1, 0));
+        break;
+      case "Home":
+        if (isOpen) {
+          e.preventDefault();
+          setHighlighted(0);
+        }
+        break;
+      case "End":
+        if (isOpen) {
+          e.preventDefault();
+          setHighlighted(filteredOptions.length - 1);
+        }
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (isOpen && highlighted >= 0 && filteredOptions[highlighted]) {
+          handleSelect(filteredOptions[highlighted].value);
+        } else if (canCreateNew) {
+          handleSelect(inputValue);
+        } else if (filteredOptions.length > 0) {
+          handleSelect(filteredOptions[0].value);
+        }
+        break;
+      case "Escape":
+        setIsOpen(false);
+        setInputValue(value || "");
+        break;
     }
   };
   const clearValue = () => {
@@ -720,6 +753,12 @@ function Combobox({
           onFocus: () => !disabled && setIsOpen(true),
           onKeyDown: handleKeyDown,
           placeholder: resolvedPlaceholder,
+          "aria-label": resolvedPlaceholder,
+          role: "combobox",
+          "aria-expanded": isOpen,
+          "aria-controls": listboxId,
+          "aria-autocomplete": "list",
+          "aria-activedescendant": isOpen && highlighted >= 0 ? optionId(highlighted) : void 0,
           disabled,
           className: `
                         w-full py-2
@@ -760,15 +799,21 @@ function Combobox({
         ref: panelRef,
         style: { marginLeft: shift, maxHeight },
         className: "absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200",
-        children: /* @__PURE__ */ jsx("div", { className: "flex-1 min-h-0 max-h-60 overflow-y-auto", children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-          filteredOptions.map((option) => {
+        children: /* @__PURE__ */ jsx("div", { className: "flex-1 min-h-0 max-h-60 overflow-y-auto", role: "listbox", id: listboxId, children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+          filteredOptions.map((option, i) => {
             const isSelected = option.value === value;
+            const isHigh = i === highlighted;
             const optionIconPath = option.iconUrl ?? null;
             return /* @__PURE__ */ jsxs(
               "button",
               {
+                id: optionId(i),
                 type: "button",
+                role: "option",
+                "aria-selected": isSelected,
+                "data-highlighted": isHigh ? "" : void 0,
                 onClick: () => handleSelect(option.value),
+                onMouseEnter: () => setHighlighted(i),
                 className: `dropdown-item w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring ${isSelected ? "active" : ""}`,
                 children: [
                   optionIconPath && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5 shrink-0", style: { width: 16, height: 16 }, children: /* @__PURE__ */ jsx(
@@ -1626,6 +1671,7 @@ var SearchInput = React7.forwardRef(
           ref: setRef,
           type: "text",
           role: "searchbox",
+          "aria-label": props.placeholder,
           value,
           onChange: (e) => onChange?.(e.target.value),
           disabled,
@@ -2412,7 +2458,9 @@ function CustomSelect({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   useEffect(() => {
-    if (isOpen && searchable && inputRef.current) inputRef.current.focus();
+    if (!isOpen) return;
+    if (searchable && inputRef.current) inputRef.current.focus();
+    else triggerRef.current?.focus();
   }, [isOpen, searchable]);
   useEffect(() => {
     if (isOpen) {
@@ -2549,6 +2597,7 @@ function CustomSelect({
                 value: searchQuery,
                 onChange: (e) => setSearchQuery(e.target.value),
                 placeholder: t("search"),
+                "aria-label": t("search"),
                 className: "w-full pl-9 pr-8 py-1.5 text-sm rounded-lg\n                                        bg-(--bg-muted) border border-transparent\n                                        focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
               }
             ),
@@ -3025,5 +3074,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-QASMC3OU.js.map
-//# sourceMappingURL=chunk-QASMC3OU.js.map
+//# sourceMappingURL=chunk-XIM4DPIC.js.map
+//# sourceMappingURL=chunk-XIM4DPIC.js.map

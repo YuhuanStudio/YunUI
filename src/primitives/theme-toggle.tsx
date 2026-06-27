@@ -22,6 +22,7 @@ export function ThemeToggle({ variant = "icon", align = "right", className = "" 
     const [mounted, setMounted] = React.useState(false)
     const [isOpen, setIsOpen] = React.useState(false)
     const containerRef = React.useRef<HTMLDivElement>(null)
+    const triggerRef = React.useRef<HTMLButtonElement>(null)
     const panelRef = React.useRef<HTMLDivElement>(null)
     const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef)
 
@@ -39,6 +40,21 @@ export function ThemeToggle({ variant = "icon", align = "right", className = "" 
         document.addEventListener("mousedown", handleClickOutside)
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
+
+    // Close on Escape + restore focus to the trigger. Document-level (not a
+    // container onKeyDown): WebKit/Safari on macOS doesn't focus a <button> on
+    // click, so focus wouldn't be inside the container to bubble an Escape from.
+    React.useEffect(() => {
+        if (!isOpen) return
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setIsOpen(false)
+                triggerRef.current?.focus()
+            }
+        }
+        document.addEventListener("keydown", onKey)
+        return () => document.removeEventListener("keydown", onKey)
+    }, [isOpen])
 
     const themes = [
         { value: "light", label: t("light"), icon: <Sun size={14} /> },
@@ -64,18 +80,24 @@ export function ThemeToggle({ variant = "icon", align = "right", className = "" 
             {/* Trigger */}
             {variant === "pill" ? (
                 <button
+                    ref={triggerRef}
                     onClick={() => setIsOpen(!isOpen)}
                     className="flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     aria-label={t("toggle")}
+                    aria-expanded={isOpen}
+                    aria-haspopup="listbox"
                 >
                     <Sun size={14} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon size={14} className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 </button>
             ) : (
                 <button
+                    ref={triggerRef}
                     onClick={() => setIsOpen(!isOpen)}
                     className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     aria-label={t("toggle")}
+                    aria-expanded={isOpen}
+                    aria-haspopup="listbox"
                 >
                     <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 absolute" />
                     <Moon className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />

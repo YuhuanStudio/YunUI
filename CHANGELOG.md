@@ -12,6 +12,28 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **iOS Safari no longer zooms the page when focusing a field.** Mobile Safari
+  auto-zooms when a focused input/textarea/select has font-size < 16px (our fields
+  use `text-sm` = 14px). Added a touch-only (`hover:none` + `pointer:coarse`) rule
+  flooring form fields at 16px; desktop keeps the 14px look. Verified in WebKit and
+  Chromium under iPhone emulation.
+- **Escape closes the `LanguageSwitcher` / `ThemeToggle` dropdowns (cross-browser).**
+  They previously only closed on outside-click. Added Escape-to-close with focus
+  return to the trigger — via a **document-level** listener, because WebKit/Safari
+  on macOS doesn't focus a `<button>` on click, so a container `onKeyDown` would
+  never receive the key (caught by testing in the WebKit engine). `CustomSelect`
+  now focuses its trigger on mouse-open for the same reason, so its keyboard nav
+  works in Safari too.
+- **`Combobox` is keyboard-navigable.** Added ArrowUp/Down/Home/End/Enter listbox
+  navigation, `role="listbox"`/`role="option"`/`aria-selected`, and
+  `aria-activedescendant` — previously mouse-only.
+- **Accessible names + ARIA on the dropdowns.** `aria-label` on the `ModelSelect` /
+  `CustomSelect` / `Combobox` / `SearchInput` search fields (placeholder alone isn't
+  a label); `aria-expanded`/`aria-haspopup` on the `ThemeToggle` trigger; the Navbar
+  mobile-menu scrim is `aria-hidden`.
+- **Navbar respects the iPhone safe area.** The fixed top bar uses
+  `max(1.5rem, env(safe-area-inset-top))` so it clears the notch / Dynamic Island in
+  standalone Safari (no change on desktop, where the inset is 0).
 - **Horizontal scroll bars no longer scroll vertically on touch.** `overflow-x-auto`
   with the default `overflow-y: visible` makes a browser compute `overflow-y` to
   `auto` too, so the `ModelSelect` provider-filter row (and the `NavTabs` / `Tabs`

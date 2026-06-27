@@ -43,6 +43,7 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
 
@@ -57,6 +58,21 @@ export function LanguageSwitcher({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    // Close on Escape + restore focus to the trigger. A document-level listener
+    // (not a container onKeyDown) because WebKit/Safari on macOS doesn't focus a
+    // <button> on click, so focus wouldn't be inside the container to bubble from.
+    useEffect(() => {
+        if (!isOpen) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setIsOpen(false);
+                triggerRef.current?.focus();
+            }
+        };
+        document.addEventListener("keydown", onKey);
+        return () => document.removeEventListener("keydown", onKey);
+    }, [isOpen]);
+
     const handleLocaleChange = (newLocale: string) => {
         if (newLocale === currentLocale || pending) return;
         setIsOpen(false);
@@ -70,6 +86,7 @@ export function LanguageSwitcher({
             {/* Trigger */}
             {variant === "pill" ? (
                 <button
+                    ref={triggerRef}
                     onClick={() => setIsOpen(!isOpen)}
                     className="flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     disabled={pending}
@@ -84,6 +101,7 @@ export function LanguageSwitcher({
                 </button>
             ) : (
                 <button
+                    ref={triggerRef}
                     onClick={() => setIsOpen(!isOpen)}
                     className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     disabled={pending}

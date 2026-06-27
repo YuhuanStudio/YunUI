@@ -294,6 +294,7 @@ export function ModelSelect({
                                     onChange={(e) => setSearch(e.target.value)}
                                     onKeyDown={onSearchKeyDown}
                                     placeholder={L.search}
+                                    aria-label={L.search}
                                     role="combobox"
                                     aria-expanded={isOpen}
                                     aria-controls="yunui-ms-listbox"

@@ -461,6 +461,9 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                     ref={setRef}
                     type="text"
                     role="searchbox"
+                    // Fall back to the placeholder as the accessible name when the
+                    // host doesn't pass an explicit aria-label (spread below wins).
+                    aria-label={props.placeholder}
                     value={value}
                     onChange={(e) => onChange?.(e.target.value)}
                     disabled={disabled}

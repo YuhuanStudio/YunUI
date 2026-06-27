@@ -1,7 +1,7 @@
 "use client";
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-N53PNMPJ.js';
-import { cn, useAnchoredPosition, ThemeToggle } from './chunk-MQFC42TH.js';
+import { cn, useAnchoredPosition, ThemeToggle } from './chunk-LLNTUA5K.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { memo, useState, useRef, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -335,6 +335,7 @@ function ModelSelect({
                     onChange: (e) => setSearch(e.target.value),
                     onKeyDown: onSearchKeyDown,
                     placeholder: L.search,
+                    "aria-label": L.search,
                     role: "combobox",
                     "aria-expanded": isOpen,
                     "aria-controls": "yunui-ms-listbox",
@@ -1533,6 +1534,7 @@ function LanguageSwitcher({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
+  const triggerRef = useRef(null);
   const panelRef = useRef(null);
   const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
   useEffect(() => {
@@ -1544,6 +1546,17 @@ function LanguageSwitcher({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen]);
   const handleLocaleChange = (newLocale) => {
     if (newLocale === currentLocale || pending) return;
     setIsOpen(false);
@@ -1554,6 +1567,7 @@ function LanguageSwitcher({
     variant === "pill" ? /* @__PURE__ */ jsxs(
       "button",
       {
+        ref: triggerRef,
         onClick: () => setIsOpen(!isOpen),
         className: "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         disabled: pending,
@@ -1568,6 +1582,7 @@ function LanguageSwitcher({
     ) : /* @__PURE__ */ jsx(
       "button",
       {
+        ref: triggerRef,
         onClick: () => setIsOpen(!isOpen),
         className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         disabled: pending,
@@ -1655,92 +1670,99 @@ function Navbar({
     }
     return false;
   };
-  return /* @__PURE__ */ jsxs("nav", { className: "fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between", children: [
-    /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: [
-      /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 28, height: 28, className: "w-7 h-7 shrink-0" }),
-      /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm tracking-tight truncate", children: appName })
-    ] }),
-    variant === "public" && /* @__PURE__ */ jsx("div", { className: "hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2", children: links.map((link) => /* @__PURE__ */ jsxs(
-      Link,
-      {
-        href: link.href,
-        className: "group relative px-2 lg:px-3 py-2 whitespace-nowrap min-w-15 text-center",
-        children: [
-          /* @__PURE__ */ jsx("span", { className: `text-sm relative z-10 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`, children: link.label }),
-          /* @__PURE__ */ jsx("span", { className: `absolute bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 bg-foreground rounded-full transition-all duration-200 yunui-accent-bg ${isActive(link.href) ? "w-8" : "w-0 group-hover:w-8"}` })
-        ]
-      },
-      link.href
-    )) }),
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 shrink-0", children: [
-      /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
-      themeToggle ?? /* @__PURE__ */ jsx(ThemeToggle, { variant: "pill" }),
-      variant !== "minimal" && /* @__PURE__ */ jsxs(Fragment, { children: [
-        /* @__PURE__ */ jsx(
-          Link,
-          {
-            href: loginHref,
-            className: "hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center",
-            children: signIn
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          Link,
-          {
-            href: signupHref,
-            className: "hidden md:inline-block px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on",
-            children: signUp
-          }
-        )
-      ] }),
-      variant === "public" && /* @__PURE__ */ jsx(
-        "button",
-        {
-          type: "button",
-          onClick: () => setMenuOpen((o) => !o),
-          className: "md:hidden w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors",
-          "aria-label": menuLabel,
-          "aria-expanded": menuOpen,
-          children: menuOpen ? /* @__PURE__ */ jsx(X, { className: "w-5 h-5" }) : /* @__PURE__ */ jsx(Menu, { className: "w-5 h-5" })
-        }
-      )
-    ] }),
-    variant === "public" && menuOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsx("div", { className: "md:hidden fixed inset-0 -z-10", onClick: () => setMenuOpen(false) }),
-      /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
-        links.map((link) => /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxs(
+    "nav",
+    {
+      style: { top: "max(1.5rem, env(safe-area-inset-top))" },
+      className: "fixed left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between",
+      children: [
+        /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: [
+          /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 28, height: 28, className: "w-7 h-7 shrink-0" }),
+          /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm tracking-tight truncate", children: appName })
+        ] }),
+        variant === "public" && /* @__PURE__ */ jsx("div", { className: "hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2", children: links.map((link) => /* @__PURE__ */ jsxs(
           Link,
           {
             href: link.href,
-            onClick: () => setMenuOpen(false),
-            className: `px-4 py-2.5 rounded-xl text-sm transition-colors hover:bg-foreground/5 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`,
-            children: link.label
+            className: "group relative px-2 lg:px-3 py-2 whitespace-nowrap min-w-15 text-center",
+            children: [
+              /* @__PURE__ */ jsx("span", { className: `text-sm relative z-10 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`, children: link.label }),
+              /* @__PURE__ */ jsx("span", { className: `absolute bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 bg-foreground rounded-full transition-all duration-200 yunui-accent-bg ${isActive(link.href) ? "w-8" : "w-0 group-hover:w-8"}` })
+            ]
           },
           link.href
-        )),
-        /* @__PURE__ */ jsx("div", { className: "my-1 border-t border-border" }),
-        languageSwitcher && /* @__PURE__ */ jsx("div", { className: "px-2 py-1.5", children: languageSwitcher }),
-        /* @__PURE__ */ jsx(
-          Link,
-          {
-            href: loginHref,
-            onClick: () => setMenuOpen(false),
-            className: "px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5",
-            children: signIn
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          Link,
-          {
-            href: signupHref,
-            onClick: () => setMenuOpen(false),
-            className: "mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on",
-            children: signUp
-          }
-        )
-      ] })
-    ] })
-  ] });
+        )) }),
+        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 shrink-0", children: [
+          /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
+          themeToggle ?? /* @__PURE__ */ jsx(ThemeToggle, { variant: "pill" }),
+          variant !== "minimal" && /* @__PURE__ */ jsxs(Fragment, { children: [
+            /* @__PURE__ */ jsx(
+              Link,
+              {
+                href: loginHref,
+                className: "hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center",
+                children: signIn
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              Link,
+              {
+                href: signupHref,
+                className: "hidden md:inline-block px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on",
+                children: signUp
+              }
+            )
+          ] }),
+          variant === "public" && /* @__PURE__ */ jsx(
+            "button",
+            {
+              type: "button",
+              onClick: () => setMenuOpen((o) => !o),
+              className: "md:hidden w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors",
+              "aria-label": menuLabel,
+              "aria-expanded": menuOpen,
+              children: menuOpen ? /* @__PURE__ */ jsx(X, { className: "w-5 h-5" }) : /* @__PURE__ */ jsx(Menu, { className: "w-5 h-5" })
+            }
+          )
+        ] }),
+        variant === "public" && menuOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
+          /* @__PURE__ */ jsx("div", { className: "md:hidden fixed inset-0 -z-10", "aria-hidden": "true", onClick: () => setMenuOpen(false) }),
+          /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
+            links.map((link) => /* @__PURE__ */ jsx(
+              Link,
+              {
+                href: link.href,
+                onClick: () => setMenuOpen(false),
+                className: `px-4 py-2.5 rounded-xl text-sm transition-colors hover:bg-foreground/5 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`,
+                children: link.label
+              },
+              link.href
+            )),
+            /* @__PURE__ */ jsx("div", { className: "my-1 border-t border-border" }),
+            languageSwitcher && /* @__PURE__ */ jsx("div", { className: "px-2 py-1.5", children: languageSwitcher }),
+            /* @__PURE__ */ jsx(
+              Link,
+              {
+                href: loginHref,
+                onClick: () => setMenuOpen(false),
+                className: "px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5",
+                children: signIn
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              Link,
+              {
+                href: signupHref,
+                onClick: () => setMenuOpen(false),
+                className: "mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on",
+                children: signUp
+              }
+            )
+          ] })
+        ] })
+      ]
+    }
+  );
 }
 
 export { CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };

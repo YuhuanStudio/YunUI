@@ -1017,6 +1017,19 @@ select.input option,
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
 }
 
+/* iOS Safari auto-zooms the page when focusing a form field whose font-size is
+   < 16px (our inputs use text-sm = 14px). On touch devices only, floor text
+   fields at 16px so the page doesn't jump on focus. Desktop keeps the 14px look.
+   The stacked :not() attribute selectors out-specify the `text-sm` utility, so
+   no !important is needed; non-text controls are excluded. */
+@media (hover: none) and (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
 .input-glass {
   background: var(--bg-glass);
   backdrop-filter: blur(8px);

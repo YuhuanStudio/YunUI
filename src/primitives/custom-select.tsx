@@ -80,7 +80,13 @@ export function CustomSelect({
     }, []);
 
     useEffect(() => {
-        if (isOpen && searchable && inputRef.current) inputRef.current.focus();
+        if (!isOpen) return;
+        // Focus the search box (searchable) or the trigger (otherwise) so the
+        // container's key handler receives arrows/Escape. WebKit/Safari doesn't
+        // focus a <button> on click, so without this the keyboard would be dead
+        // after a mouse-open on a non-searchable select.
+        if (searchable && inputRef.current) inputRef.current.focus();
+        else triggerRef.current?.focus();
     }, [isOpen, searchable]);
 
     // On open, highlight the selected option (or the first); reset on close.
@@ -221,6 +227,7 @@ export function CustomSelect({
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder={t("search")}
+                                    aria-label={t("search")}
                                     className="w-full pl-9 pr-8 py-1.5 text-sm rounded-lg
                                         bg-(--bg-muted) border border-transparent
                                         focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"

@@ -58,6 +58,7 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   const [mounted, setMounted] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const containerRef = React.useRef(null);
+  const triggerRef = React.useRef(null);
   const panelRef = React.useRef(null);
   const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
   React.useEffect(() => {
@@ -72,6 +73,17 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen]);
   const themes = [
     { value: "light", label: t("light"), icon: /* @__PURE__ */ jsx(Sun, { size: 14 }) },
     { value: "dark", label: t("zincDark"), icon: /* @__PURE__ */ jsx(Moon, { size: 14 }) },
@@ -85,9 +97,12 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
     variant === "pill" ? /* @__PURE__ */ jsxs(
       "button",
       {
+        ref: triggerRef,
         onClick: () => setIsOpen(!isOpen),
         className: "flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "aria-label": t("toggle"),
+        "aria-expanded": isOpen,
+        "aria-haspopup": "listbox",
         children: [
           /* @__PURE__ */ jsx(Sun, { size: 14, className: "rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" }),
           /* @__PURE__ */ jsx(Moon, { size: 14, className: "absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" })
@@ -96,9 +111,12 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
     ) : /* @__PURE__ */ jsxs(
       "button",
       {
+        ref: triggerRef,
         onClick: () => setIsOpen(!isOpen),
         className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "aria-label": t("toggle"),
+        "aria-expanded": isOpen,
+        "aria-haspopup": "listbox",
         children: [
           /* @__PURE__ */ jsx(Sun, { className: "h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 absolute" }),
           /* @__PURE__ */ jsx(Moon, { className: "h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" }),
@@ -133,5 +151,5 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
 }
 
 export { ThemeToggle, cn, useAnchoredPosition };
-//# sourceMappingURL=chunk-MQFC42TH.js.map
-//# sourceMappingURL=chunk-MQFC42TH.js.map
+//# sourceMappingURL=chunk-LLNTUA5K.js.map
+//# sourceMappingURL=chunk-LLNTUA5K.js.map
