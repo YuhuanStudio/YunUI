@@ -356,7 +356,7 @@ export function ModelSelect({
                                             <div className="flex items-center gap-2 rounded-xl bg-muted/70 backdrop-blur-md px-3 py-2">
                                                 {groupIcon[g]}
                                                 <span className="text-xs font-semibold">{groupLabel[g] ?? g}</span>
-                                                <span className="ml-auto text-[10px] text-muted-foreground bg-background/70 px-2 py-0.5 rounded-full font-medium">{opts.length}</span>
+                                                <span className="ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-muted-foreground bg-foreground/10 px-1.5 py-0.5 rounded-md">{opts.length}</span>
                                             </div>
                                         </div>
                                         {opts.map((o) => (
