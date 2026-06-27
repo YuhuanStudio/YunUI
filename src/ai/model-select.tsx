@@ -186,6 +186,44 @@ export function ModelSelect({
 
     const select = (id: string) => { onChange(id); setIsOpen(false); };
 
+    // Keyboard navigation (combobox + listbox a11y): the search input keeps DOM
+    // focus and drives a highlighted row via aria-activedescendant, so Arrow keys
+    // move through results and Enter selects — without tabbing through every row.
+    const flatOptions = useMemo(() => {
+        const out: ModelSelectOption[] = [...pinnedList];
+        for (const opts of Object.values(grouped)) out.push(...opts);
+        return out;
+    }, [pinnedList, grouped]);
+    const [activeIndex, setActiveIndex] = useState(0);
+    // Reset the highlight whenever the visible set changes or the panel opens.
+    useEffect(() => { setActiveIndex(0); }, [isOpen, search, activeGroup, activeFilters]);
+    // Keep the highlighted row scrolled into view.
+    useEffect(() => {
+        const id = flatOptions[activeIndex]?.id;
+        if (!isOpen || !id || !listRef.current) return;
+        listRef.current
+            .querySelector<HTMLElement>(`[data-model-id="${CSS.escape(id)}"]`)
+            ?.scrollIntoView({ block: "nearest" });
+    }, [activeIndex, isOpen, flatOptions]);
+    const activeId = flatOptions[activeIndex]?.id;
+    const rowDomId = (id: string) => `yunui-ms-opt-${id.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+    const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setActiveIndex((i) => Math.min(i + 1, flatOptions.length - 1));
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setActiveIndex((i) => Math.max(i - 1, 0));
+        } else if (e.key === "Enter") {
+            e.preventDefault();
+            const o = flatOptions[activeIndex];
+            if (o) select(o.id);
+        } else if (e.key === "Escape") {
+            e.preventDefault();
+            setIsOpen(false);
+        }
+    };
+
     return (
         // Fixed-width root so the trigger doesn't grow/shrink as the selected
         // label changes; override the width via `className`.
@@ -236,7 +274,12 @@ export function ModelSelect({
                                     ref={inputRef}
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
+                                    onKeyDown={onSearchKeyDown}
                                     placeholder={L.search}
+                                    role="combobox"
+                                    aria-expanded={isOpen}
+                                    aria-controls="yunui-ms-listbox"
+                                    aria-activedescendant={activeId ? rowDomId(activeId) : undefined}
                                     className="w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                                 />
                                 {search && (
@@ -282,14 +325,14 @@ export function ModelSelect({
                         )}
 
                         {/* List */}
-                        <div ref={listRef} onWheel={onWheel} className="max-h-96 overflow-y-auto overscroll-contain">
+                        <div ref={listRef} onWheel={onWheel} id="yunui-ms-listbox" role="listbox" className="max-h-96 overflow-y-auto overscroll-contain">
                             {pinnedList.length > 0 && (
                                 <div className="px-1.5 py-1.5 border-b border-border/40">
                                     <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1">
                                         <Pin size={9} /> {L.pinned}
                                     </div>
                                     {pinnedList.map((o) => (
-                                        <ModelRow key={o.id} option={o} selected={o.id === value} pinned isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
+                                        <ModelRow key={o.id} domId={rowDomId(o.id)} active={o.id === activeId} option={o} selected={o.id === value} pinned isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
                                     ))}
                                 </div>
                             )}
@@ -302,7 +345,7 @@ export function ModelSelect({
                                             <span className="ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium">{opts.length}</span>
                                         </div>
                                         {opts.map((o) => (
-                                            <ModelRow key={o.id} option={o} selected={o.id === value} pinned={false} isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
+                                            <ModelRow key={o.id} domId={rowDomId(o.id)} active={o.id === activeId} option={o} selected={o.id === value} pinned={false} isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
                                         ))}
                                     </div>
                                 ))}
@@ -329,6 +372,8 @@ export function ModelSelect({
 const ModelRow = memo(function ModelRow({
     option,
     selected,
+    active,
+    domId,
     pinned,
     isPinnable,
     onSelect,
@@ -336,6 +381,9 @@ const ModelRow = memo(function ModelRow({
 }: {
     option: ModelSelectOption;
     selected: boolean;
+    /** Keyboard-highlighted row (aria-activedescendant target). */
+    active?: boolean;
+    domId?: string;
     pinned: boolean;
     isPinnable: boolean;
     onSelect: () => void;
@@ -343,13 +391,18 @@ const ModelRow = memo(function ModelRow({
 }) {
     return (
         <div
+            id={domId}
             data-model-id={option.id}
+            role="option"
+            aria-selected={selected}
             onClick={onSelect}
             className={cn(
                 "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
                 // A clear gray fill on both states (selected solid, hover lighter)
                 // — the bar's opacity then tells selected from merely-hovered.
                 selected ? "bg-muted" : "hover:bg-muted",
+                // keyboard highlight (arrow-key navigation)
+                active && "bg-muted ring-2 ring-ring/40",
             )}
         >
             {/* Left bar — YunUI's selection signature, mirroring the Sidebar nav

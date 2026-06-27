@@ -255,6 +255,38 @@ function ModelSelect({
     onChange(id);
     setIsOpen(false);
   };
+  const flatOptions = useMemo(() => {
+    const out = [...pinnedList];
+    for (const opts of Object.values(grouped)) out.push(...opts);
+    return out;
+  }, [pinnedList, grouped]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [isOpen, search, activeGroup, activeFilters]);
+  useEffect(() => {
+    const id = flatOptions[activeIndex]?.id;
+    if (!isOpen || !id || !listRef.current) return;
+    listRef.current.querySelector(`[data-model-id="${CSS.escape(id)}"]`)?.scrollIntoView({ block: "nearest" });
+  }, [activeIndex, isOpen, flatOptions]);
+  const activeId = flatOptions[activeIndex]?.id;
+  const rowDomId = (id) => `yunui-ms-opt-${id.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+  const onSearchKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.min(i + 1, flatOptions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const o = flatOptions[activeIndex];
+      if (o) select(o.id);
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setIsOpen(false);
+    }
+  };
   return (
     // Fixed-width root so the trigger doesn't grow/shrink as the selected
     // label changes; override the width via `className`.
@@ -297,7 +329,12 @@ function ModelSelect({
                     ref: inputRef,
                     value: search,
                     onChange: (e) => setSearch(e.target.value),
+                    onKeyDown: onSearchKeyDown,
                     placeholder: L.search,
+                    role: "combobox",
+                    "aria-expanded": isOpen,
+                    "aria-controls": "yunui-ms-listbox",
+                    "aria-activedescendant": activeId ? rowDomId(activeId) : void 0,
                     className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                   }
                 ),
@@ -323,14 +360,14 @@ function ModelSelect({
                 groupLabel[g] ?? g
               ] }, g))
             ] }) }),
-            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, className: "max-h-96 overflow-y-auto overscroll-contain", children: [
+            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, id: "yunui-ms-listbox", role: "listbox", className: "max-h-96 overflow-y-auto overscroll-contain", children: [
               pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
                 /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
                   /* @__PURE__ */ jsx(Pin, { size: 9 }),
                   " ",
                   L.pinned
                 ] }),
-                pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+                pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
               ] }),
               /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
                 /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 px-2 mb-1 sticky top-0 bg-popover/95 backdrop-blur-sm py-1.5 z-10", children: [
@@ -338,7 +375,7 @@ function ModelSelect({
                   /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold", children: groupLabel[g] ?? g }),
                   /* @__PURE__ */ jsx("span", { className: "ml-auto text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium", children: opts.length })
                 ] }),
-                opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+                opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
               ] }, g)) }),
               filtered.length === 0 && /* @__PURE__ */ jsxs("div", { className: "py-12 text-center text-muted-foreground", children: [
                 /* @__PURE__ */ jsx(Sparkles, { size: 28, className: "mx-auto mb-3 opacity-40" }),
@@ -355,6 +392,8 @@ function ModelSelect({
 var ModelRow = memo(function ModelRow2({
   option,
   selected,
+  active,
+  domId,
   pinned,
   isPinnable,
   onSelect,
@@ -363,13 +402,18 @@ var ModelRow = memo(function ModelRow2({
   return /* @__PURE__ */ jsxs(
     "div",
     {
+      id: domId,
       "data-model-id": option.id,
+      role: "option",
+      "aria-selected": selected,
       onClick: onSelect,
       className: cn(
         "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
         // A clear gray fill on both states (selected solid, hover lighter)
         // — the bar's opacity then tells selected from merely-hovered.
-        selected ? "bg-muted" : "hover:bg-muted"
+        selected ? "bg-muted" : "hover:bg-muted",
+        // keyboard highlight (arrow-key navigation)
+        active && "bg-muted ring-2 ring-ring/40"
       ),
       children: [
         /* @__PURE__ */ jsx(
