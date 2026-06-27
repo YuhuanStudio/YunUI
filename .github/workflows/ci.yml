@@ -1,14 +1,67 @@
-name: CI
+name: CI/CD
+
+# Single pipeline for the library + the showcase/docs site (Yunxin-style):
+#   detect-changes → verify (lib) → site-build (Docker→GHCR) → notify (Dokploy)
+# Release to npm is separate and tag-triggered (release.yml).
+#
+# Runner split per the owner's rule: jobs that upload nothing run on the
+# self-hosted runner; only the image push (→ GHCR) stays on ubuntu-latest.
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  SITE_IMAGE: ghcr.io/${{ github.repository }}-site
+
+# Cancel superseded runs on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # ----------------------------------------------------------------
+  # Detect which surface changed (gates the expensive image build).
+  # ----------------------------------------------------------------
+  detect-changes:
+    name: Detect Changes
+    runs-on: self-hosted
+    permissions:
+      contents: read
+    outputs:
+      site: ${{ steps.filter.outputs.site }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          # The deployed showcase embeds the built library, so library source
+          # (src/styles/icons/scripts) also triggers a site rebuild.
+          filters: |
+            site:
+              - 'site/**'
+              - 'src/**'
+              - 'styles/**'
+              - 'icons/**'
+              - 'scripts/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - '.github/workflows/ci.yml'
+
+  # ----------------------------------------------------------------
+  # Library gate: typecheck · test · build · publint. Uploads nothing
+  # → self-hosted. Runs on every push/PR (the package correctness gate).
+  # ----------------------------------------------------------------
+  verify:
+    name: Verify
+    runs-on: self-hosted
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4 # version comes from package.json "packageManager"
@@ -25,3 +78,131 @@ jobs:
         run: pnpm build
       - name: Lint package (publint)
         run: pnpm exec publint
+
+  # ----------------------------------------------------------------
+  # Site image: build + push to GHCR. Pushes an artifact (the image)
+  # → stays on ubuntu-latest. Only when the site surface changed and
+  # the library gate passed.
+  # ----------------------------------------------------------------
+  site-build:
+    name: Site (Build & Push)
+    needs: [detect-changes, verify]
+    if: needs.detect-changes.outputs.site == 'true' && needs.verify.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.SITE_IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate content hash for cache busting
+        id: content-hash
+        run: |
+          CONTENT_HASH=$(find ./site/content -type f -exec sha256sum {} \; | sha256sum | cut -d' ' -f1)
+          echo "hash=${CONTENT_HASH:0:16}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          # Context is the repo root: the site imports the parent library.
+          context: .
+          file: ./site/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            CONTENT_HASH=${{ steps.content-hash.outputs.hash }}
+
+      - name: Scan Docker image with Trivy
+        if: github.event_name != 'pull_request'
+        uses: aquasecurity/trivy-action@0.35.0
+        with:
+          image-ref: ${{ env.SITE_IMAGE }}:latest
+          format: "table"
+          exit-code: "1"
+          severity: "CRITICAL,HIGH"
+        continue-on-error: true
+
+  # ----------------------------------------------------------------
+  # Tell Dokploy to redeploy. Just a webhook POST → self-hosted.
+  # Push-to-main only.
+  # ----------------------------------------------------------------
+  notify:
+    name: Notify Dokploy
+    needs: [site-build]
+    if: always() && !cancelled() && needs.site-build.result == 'success' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    permissions:
+      deployments: write
+      contents: read
+    steps:
+      - name: Create GitHub Deployment
+        uses: chrnorm/deployment-action@v2
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          environment: "${{ github.ref_name }}"
+          initial-status: "in_progress"
+          auto-inactive: false
+
+      - name: Send deployment webhook
+        # No-op until DOKPLOY_WEBHOOK_URL_SITE is configured in repo secrets.
+        # (secrets aren't allowed in a step `if:`, so gate inside the script.)
+        env:
+          WEBHOOK: ${{ secrets.DOKPLOY_WEBHOOK_URL_SITE }}
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "DOKPLOY_WEBHOOK_URL_SITE not set — skipping Dokploy notify."
+            exit 0
+          fi
+          curl -fsS -X POST \
+            -H "Content-Type: application/json" \
+            "$WEBHOOK" \
+            -d '{
+              "event": "deploy",
+              "service": "site",
+              "repository": "${{ github.repository }}",
+              "branch": "${{ github.ref_name }}",
+              "commit": "${{ github.sha }}",
+              "image": "${{ env.SITE_IMAGE }}:${{ github.ref_name }}"
+            }'
+
+      - name: Update GitHub Deployment (success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: "${{ github.token }}"
+          environment-url: ${{ secrets.SITE_DOMAIN != '' && format('https://{0}', secrets.SITE_DOMAIN) || '' }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: "success"
+
+      - name: Update GitHub Deployment (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: "${{ github.token }}"
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: "failure"
