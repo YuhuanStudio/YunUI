@@ -90,6 +90,7 @@ import {
   toast,
   useYunUITheme,
   YUNUI_PALETTES,
+  YUNUI_THEME_PRESETS,
   Accordion,
   AccordionItem,
   AccordionTrigger,
@@ -231,7 +232,7 @@ function Section({ id, title, description, children }: { id: string; title: stri
   );
 }
 
-// once-ui-style documented example: framed live preview (dotted backdrop) with
+// documented example: framed live preview (dotted backdrop) with
 // an optional Preview / Code tab toggle.
 function Demo({ title, description, code, children }: { title: string; description?: string; code?: string; children: ReactNode }) {
   const t = useTranslations("showcase");
@@ -752,24 +753,31 @@ function AccountLockedDemo() {
   );
 }
 
-// Live brand-theming switcher — dogfoods YunUI's runtime theming API
-// (useYunUITheme). Flips data-accent-source/data-brand on <html> so the whole
-// page (accent utilities + primary/accent buttons) re-themes with no rebuild.
+// Live theming switcher — dogfoods YunUI's runtime theming API (useYunUITheme).
+// Curated multi-color presets + the full 24-palette brand picker + a row of
+// token-driven effects, all flipping data-brand/accent/neutral on <html> so the
+// whole page re-themes with no rebuild.
 function ThemeControls() {
   const [theme, setTheme] = useYunUITheme({ accentSource: "mono", brand: "blue" });
   const brandOn = theme.accentSource === "brand";
   const active = theme.brand ?? "blue";
+  const presets = Object.entries(YUNUI_THEME_PRESETS);
+  const activePreset = brandOn
+    ? presets.find(
+        ([, p]) => theme.brand === p.brand && theme.accent === p.accent && theme.neutral === p.neutral
+      )?.[0]
+    : undefined;
+
   return (
-    <div className="mt-6 rounded-2xl border border-border bg-(--bg-elevated) p-4">
+    <div className="mt-6 rounded-2xl border border-border bg-(--bg-elevated) p-4 space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <p className="text-sm font-medium">Live brand theming</p>
+          <p className="text-sm font-medium">Live theming</p>
           <p className="text-caption">
-            Flip the accent to a brand palette — the whole page re-themes, no
-            rebuild. Sets <code className="text-xs">data-accent-source</code> +{" "}
-            <code className="text-xs">data-brand</code> on{" "}
-            <code className="text-xs">&lt;html&gt;</code> via{" "}
-            <code className="text-xs">useYunUITheme()</code>.
+            Pick a preset or a single brand palette — the whole page re-themes
+            instantly, no rebuild. Drives <code className="text-xs">data-brand</code>/
+            <code className="text-xs">accent</code>/<code className="text-xs">neutral</code>{" "}
+            via <code className="text-xs">useYunUITheme()</code>.
           </p>
         </div>
         <div className="flex items-center gap-0.5 rounded-lg bg-card p-0.5 text-xs shrink-0">
@@ -789,8 +797,50 @@ function ThemeControls() {
           </button>
         </div>
       </div>
+
+      {/* Curated multi-color presets (brand + accent + neutral in one click). */}
+      <div className="flex flex-wrap gap-2">
+        {presets.map(([key, p]) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() =>
+              setTheme({ accentSource: "brand", brand: p.brand, accent: p.accent, neutral: p.neutral })
+            }
+            aria-pressed={activePreset === key}
+            className={`group flex items-center gap-2 rounded-full border pl-1.5 pr-3 py-1 text-xs transition-colors ${activePreset === key ? "border-foreground bg-card" : "border-border hover:bg-card"}`}
+          >
+            <span className="relative inline-block h-4 w-7 shrink-0">
+              <span
+                className="absolute left-0 top-0 h-4 w-4 rounded-full ring-1 ring-(--bg-elevated)"
+                style={{ background: `var(--scheme-${p.brand}-600)` }}
+              />
+              <span
+                className="absolute left-3 top-0 h-4 w-4 rounded-full ring-1 ring-(--bg-elevated)"
+                style={{ background: `var(--scheme-${p.accent}-600)` }}
+              />
+            </span>
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Token-driven effects — restyle with the active brand/accent. */}
+      <div className="flex items-center gap-3 flex-wrap">
+        <span className="text-2xl font-bold leading-none text-brand-gradient">Aa</span>
+        <span className="h-7 w-16 rounded-lg bg-brand-gradient" title="bg-brand-gradient" />
+        <span className="h-7 w-16 rounded-lg bg-brand-sheen" title="bg-brand-sheen" />
+        <span
+          className="h-7 w-16 rounded-lg border border-border glow-brand"
+          style={{ background: "var(--bg-card)" }}
+          title="glow-brand"
+        />
+        <span className="text-caption">.text-brand-gradient · .bg-brand-sheen · .glow-brand</span>
+      </div>
+
+      {/* Full 24-palette brand picker (fine control). */}
       {brandOn && (
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {YUNUI_PALETTES.map((p) => (
             <button
               key={p}

@@ -3000,18 +3000,37 @@ var YUNUI_PALETTES = [
   "dusk",
   "red",
   "orange",
+  "amber",
   "yellow",
+  "lime",
   "moss",
   "green",
   "emerald",
+  "teal",
   "aqua",
   "cyan",
   "blue",
   "indigo",
   "violet",
+  "plum",
   "magenta",
+  "fuchsia",
   "pink"
 ];
+var YUNUI_THEME_PRESETS = {
+  aurora: { label: "Aurora", brand: "blue", accent: "violet", neutral: "slate" },
+  sunset: { label: "Sunset", brand: "orange", accent: "pink", neutral: "sand" },
+  forest: { label: "Forest", brand: "green", accent: "lime", neutral: "gray" },
+  ocean: { label: "Ocean", brand: "cyan", accent: "teal", neutral: "slate" },
+  grape: { label: "Grape", brand: "violet", accent: "magenta", neutral: "dusk" },
+  ember: { label: "Ember", brand: "red", accent: "amber", neutral: "sand" },
+  lagoon: { label: "Lagoon", brand: "teal", accent: "emerald", neutral: "mint" },
+  blossom: { label: "Blossom", brand: "pink", accent: "fuchsia", neutral: "rose" },
+  royal: { label: "Royal", brand: "indigo", accent: "blue", neutral: "slate" },
+  citrus: { label: "Citrus", brand: "lime", accent: "yellow", neutral: "sand" },
+  orchid: { label: "Orchid", brand: "plum", accent: "violet", neutral: "dusk" },
+  mono: { label: "Mono", brand: "gray", accent: "gray", neutral: "gray" }
+};
 var ATTR = {
   brand: "data-brand",
   accent: "data-accent",
@@ -3073,6 +3092,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-XIM4DPIC.js.map
-//# sourceMappingURL=chunk-XIM4DPIC.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-6MZN3GOP.js.map
+//# sourceMappingURL=chunk-6MZN3GOP.js.map

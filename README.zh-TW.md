@@ -18,6 +18,10 @@
   <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/hero-dark.png" alt="YunUI 純黑主題" width="49%">
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/theming.png" alt="即時主題 — 12 套多色預設、24 套 OKLCH 色盤、權杖驅動特效" width="100%">
+</p>
+
 改 YunUI 一處 → 發版 → 各專案升級版本號即可同步取得統一的 **設計 token、動畫、元件**。已在 Yunxin 生產環境使用。
 
 ---

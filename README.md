@@ -18,6 +18,10 @@ A standalone, versioned React 19 + Tailwind v4 design system that doesn't shout 
   <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/hero-dark.png" alt="YunUI in the true-black theme" width="49%">
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/YuhuanStudio/YunUI/main/assets/theming.png" alt="Live theming — 12 multi-color presets, 24 OKLCH palettes, token-driven effects" width="100%">
+</p>
+
 Edit YunUI once → publish a new version → every project picks up the same **design tokens, animations, and components** on its next upgrade (`pnpm up`). Already running in production at Yunxin.
 
 ---

@@ -50,7 +50,7 @@ pnpm --filter yunui-site build   # build the docs/showcase site
 
 ## Design-token system (`styles/tokens.css`, generated)
 
-3 layers modelled on once-ui: scheme (primitives) → function (role→palette map,
+3 layers: scheme (primitives) → function (role→palette map,
 switchable at runtime via `data-brand`/`data-accent`/`data-neutral`) → theme
 (semantic `--{role}-{family}-{intensity}` for light/dark). Surfaced as Tailwind
 utilities (`bg-brand-solid-strong`, `text-accent-on-background-weak`, …) and

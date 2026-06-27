@@ -79,7 +79,7 @@ for an owner decision, so nothing is silently skipped.
    **zero** components (only the legacy `.text-*` / `.bg-*-soft` / `.badge-*`
    helpers are), so the `#ef4444`-vs-`#FF5F53` drift is purely latent. Components
    must use the legacy helpers for status (see
-   `[[yunui-semantic-color-vocabulary]]`). Rewriting the generated once-ui ramps to
+   `[[yunui-semantic-color-vocabulary]]`). Rewriting the generated scheme ramps to
    bridge unused tokens risks the brand/accent/neutral ramps that **are** used, so
    the generator is intentionally left untouched; revisit only if a consumer needs
    the layered status utilities.

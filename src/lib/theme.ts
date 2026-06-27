@@ -19,9 +19,10 @@ import * as React from "react";
  */
 
 export type YunUIPalette =
-  | "gray" | "sand" | "slate"
-  | "mint" | "rose" | "dusk" | "red" | "orange" | "yellow" | "moss" | "green"
-  | "emerald" | "aqua" | "cyan" | "blue" | "indigo" | "violet" | "magenta" | "pink";
+  | "gray" | "sand" | "slate" | "mint" | "rose" | "dusk"
+  | "red" | "orange" | "amber" | "yellow" | "lime" | "moss" | "green" | "emerald"
+  | "teal" | "aqua" | "cyan" | "blue" | "indigo" | "violet" | "plum" | "magenta"
+  | "fuchsia" | "pink";
 
 /** How solid (filled) surfaces derive their color. */
 export type YunUISolid = "color" | "contrast" | "inverse";
@@ -53,10 +54,43 @@ export type YunUIAccentSource = "brand" | "mono";
 
 /** All palettes available to the brand/accent/neutral roles (for building pickers). */
 export const YUNUI_PALETTES: YunUIPalette[] = [
-  "gray", "sand", "slate",
-  "mint", "rose", "dusk", "red", "orange", "yellow", "moss", "green",
-  "emerald", "aqua", "cyan", "blue", "indigo", "violet", "magenta", "pink",
+  "gray", "sand", "slate", "mint", "rose", "dusk",
+  "red", "orange", "amber", "yellow", "lime", "moss", "green", "emerald",
+  "teal", "aqua", "cyan", "blue", "indigo", "violet", "plum", "magenta",
+  "fuchsia", "pink",
 ];
+
+/**
+ * Curated multi-color theme presets — beautiful {brand, accent, neutral}
+ * combinations. Apply one with `applyTheme(YUNUI_THEME_PRESETS.aurora)` or feed
+ * them into a theme picker. Each pairs a brand with a complementary accent and a
+ * neutral tuned to the same temperature.
+ */
+export interface YunUIThemePreset {
+  /** Display name. */
+  label: string;
+  brand: YunUIPalette;
+  accent: YunUIPalette;
+  neutral: YunUIPalette;
+}
+
+export const YUNUI_THEME_PRESETS = {
+  aurora: { label: "Aurora", brand: "blue", accent: "violet", neutral: "slate" },
+  sunset: { label: "Sunset", brand: "orange", accent: "pink", neutral: "sand" },
+  forest: { label: "Forest", brand: "green", accent: "lime", neutral: "gray" },
+  ocean: { label: "Ocean", brand: "cyan", accent: "teal", neutral: "slate" },
+  grape: { label: "Grape", brand: "violet", accent: "magenta", neutral: "dusk" },
+  ember: { label: "Ember", brand: "red", accent: "amber", neutral: "sand" },
+  lagoon: { label: "Lagoon", brand: "teal", accent: "emerald", neutral: "mint" },
+  blossom: { label: "Blossom", brand: "pink", accent: "fuchsia", neutral: "rose" },
+  royal: { label: "Royal", brand: "indigo", accent: "blue", neutral: "slate" },
+  citrus: { label: "Citrus", brand: "lime", accent: "yellow", neutral: "sand" },
+  orchid: { label: "Orchid", brand: "plum", accent: "violet", neutral: "dusk" },
+  mono: { label: "Mono", brand: "gray", accent: "gray", neutral: "gray" },
+} satisfies Record<string, YunUIThemePreset>;
+
+/** Preset keys, e.g. for iterating in a picker. */
+export type YunUIThemePresetName = keyof typeof YUNUI_THEME_PRESETS;
 
 const ATTR: Record<keyof YunUITheme, string> = {
   brand: "data-brand",

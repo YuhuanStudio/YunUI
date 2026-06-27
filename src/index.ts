@@ -49,10 +49,13 @@ export {
   readTheme,
   useYunUITheme,
   YUNUI_PALETTES,
+  YUNUI_THEME_PRESETS,
   type YunUITheme,
   type YunUIPalette,
   type YunUISolid,
   type YunUISurface,
   type YunUIColorScheme,
   type YunUIAccentSource,
+  type YunUIThemePreset,
+  type YunUIThemePresetName,
 } from "./lib/theme";

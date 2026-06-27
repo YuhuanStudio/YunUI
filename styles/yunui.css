@@ -2623,6 +2623,45 @@ html {
   }
 }
 
+/* =====================================================
+   THEME EFFECTS — token-driven, so they restyle automatically with the active
+   brand/accent palette (and any YUNUI_THEME_PRESETS combo). Drive a whole hero
+   or CTA off the current theme with one class.
+   ===================================================== */
+
+/* Diagonal brand → accent gradient fill. */
+.bg-brand-gradient {
+  background-image: linear-gradient(135deg, var(--brand-solid-strong), var(--accent-solid-strong));
+}
+
+/* Same gradient, clipped to text — for headlines that pick up the theme. */
+.text-brand-gradient {
+  background-image: linear-gradient(120deg, var(--brand-solid-strong), var(--accent-solid-strong));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft brand glow (a hairline ring + diffuse shadow), tuned via alpha tokens. */
+.glow-brand {
+  box-shadow: 0 0 0 1px var(--brand-alpha-weak), 0 10px 34px -8px var(--brand-alpha-medium);
+}
+.glow-accent {
+  box-shadow: 0 0 0 1px var(--accent-alpha-weak), 0 10px 34px -8px var(--accent-alpha-medium);
+}
+
+/* Slowly drifting brand→accent sheen for hero surfaces (pauses on reduced-motion). */
+.bg-brand-sheen {
+  background-image: linear-gradient(110deg, var(--brand-solid-strong), var(--accent-solid-strong), var(--brand-solid-strong));
+  background-size: 200% 100%;
+  animation: yunui-sheen 6s linear infinite;
+}
+@keyframes yunui-sheen {
+  to {
+    background-position: -200% 0;
+  }
+}
+
 /* Reduced-motion reset — when the user asks for less motion, neutralize all
    animations/transitions (skeleton shimmer, marquee, shimmer buttons, pulses,
    typing cursors, particles, framer-motion, Radix data-state animations…).

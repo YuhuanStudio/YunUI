@@ -1,13 +1,12 @@
 // =====================================================================
 // YunUI token generator
 // ---------------------------------------------------------------------
-// Emits styles/tokens.css — a 3-layer, runtime-switchable design-token
-// system modelled on once-ui-system:
+// Emits styles/tokens.css — a 3-layer, runtime-switchable design-token system:
 //
 //   1. SCHEME (primitives)  --scheme-{palette}-{100..1200} + alpha
-//        Raw palette values, theme-independent. Vendored verbatim from
-//        once-ui (scripts/tokens/scheme.primitives.css) so the values are
-//        authoritative, not hand-transcribed.
+//        Raw palette values, theme-independent. ORIGINAL — every value is
+//        OKLCH-generated from the MODEL below (see generatePrimitives), not
+//        copied from any external palette.
 //   2. FUNCTION (role map)  --function-{role}-{step}
 //        Indirection that points a ROLE (brand/accent/neutral/…) at a
 //        chosen palette. Switchable at runtime via data-brand / data-accent
@@ -24,7 +23,7 @@
 // Regenerate:  node scripts/gen-tokens.mjs
 // =====================================================================
 
-import { readFile, writeFile } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -33,11 +32,14 @@ const repoRoot = resolve(__dirname, "..");
 
 // ---- model -----------------------------------------------------------
 
-// All palettes shipped in the scheme layer (3 neutral + 16 chromatic).
+// All palettes shipped in the scheme layer. 6 tinted-neutral + 18 chromatic,
+// every value OKLCH-generated below (MODEL). Names are generic; no external
+// palette is referenced.
 const PALETTES = [
-  "gray", "sand", "slate",
-  "mint", "rose", "dusk", "red", "orange", "yellow", "moss", "green",
-  "emerald", "aqua", "cyan", "blue", "indigo", "violet", "magenta", "pink",
+  "gray", "sand", "slate", "mint", "rose", "dusk",
+  "red", "orange", "amber", "yellow", "lime", "moss", "green", "emerald",
+  "teal", "aqua", "cyan", "blue", "indigo", "violet", "plum", "magenta",
+  "fuchsia", "pink",
 ];
 
 const STEPS = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200];
@@ -60,7 +62,83 @@ const ROLE_PALETTE = {
   success: "green",
 };
 
-// Semantic intensity → function step, per theme. Mirrors once-ui theme.scss.
+// ---- Layer 1 palette generation (original, OKLCH → sRGB) -------------
+// Every --scheme-* value is COMPUTED from this hue/chroma/lightness model —
+// nothing is transcribed from any external palette. OKLCH gives perceptually
+// even ramps: a shared lightness curve + a chroma envelope that peaks in the
+// mid-tones and tapers to soft tints, with a subtle hue torsion for richness.
+
+// Perceptual lightness + chroma-multiplier across the 12 steps (100 = darkest).
+const STEP_L = { 100: 0.18, 200: 0.255, 300: 0.36, 400: 0.46, 500: 0.55, 600: 0.65, 700: 0.74, 800: 0.83, 900: 0.885, 1000: 0.93, 1100: 0.96, 1200: 0.985 };
+const STEP_C = { 100: 0.32, 200: 0.52, 300: 0.85, 400: 1.0, 500: 1.0, 600: 0.92, 700: 0.70, 800: 0.48, 900: 0.38, 1000: 0.26, 1100: 0.16, 1200: 0.09 };
+
+// Per-palette { hue°, maxChroma, hueTorsion }. Neutrals carry a whisper of
+// chroma; chromatics span a deliberately even hue wheel.
+const MODEL = {
+  gray: { h: 0, c: 0, t: 0 }, sand: { h: 80, c: 0.014, t: 6 }, slate: { h: 264, c: 0.020, t: -8 },
+  mint: { h: 168, c: 0.018, t: 6 }, rose: { h: 18, c: 0.018, t: 8 }, dusk: { h: 318, c: 0.018, t: 8 },
+  red: { h: 27, c: 0.20, t: 6 }, orange: { h: 50, c: 0.19, t: 10 }, amber: { h: 66, c: 0.16, t: 12 },
+  yellow: { h: 82, c: 0.17, t: 14 }, lime: { h: 124, c: 0.18, t: 12 }, moss: { h: 138, c: 0.17, t: 8 },
+  green: { h: 150, c: 0.18, t: 6 }, emerald: { h: 165, c: 0.16, t: 6 }, teal: { h: 196, c: 0.13, t: -6 },
+  aqua: { h: 184, c: 0.13, t: 6 }, cyan: { h: 218, c: 0.15, t: -8 }, blue: { h: 256, c: 0.18, t: -10 },
+  indigo: { h: 278, c: 0.17, t: -8 }, violet: { h: 300, c: 0.20, t: -6 }, plum: { h: 312, c: 0.17, t: -6 },
+  magenta: { h: 330, c: 0.21, t: -6 }, fuchsia: { h: 342, c: 0.24, t: 0 }, pink: { h: 352, c: 0.20, t: 6 },
+};
+
+const _gamma = (x) => (x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055);
+function _oklab2lrgb(L, a, b) {
+  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
+  const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
+  const s = (L - 0.0894841775 * a - 1.2914855480 * b) ** 3;
+  return [
+    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
+  ];
+}
+// OKLCH → sRGB hex; reduce chroma until the color falls inside the sRGB gamut.
+function oklch2hex(L, C, Hdeg) {
+  const H = (Hdeg * Math.PI) / 180;
+  let c = C, rgb = _oklab2lrgb(L, c * Math.cos(H), c * Math.sin(H));
+  const inGamut = (v) => v.every((x) => x >= -1e-4 && x <= 1 + 1e-4);
+  while (!inGamut(rgb) && c > 0) { c *= 0.96; rgb = _oklab2lrgb(L, c * Math.cos(H), c * Math.sin(H)); }
+  return "#" + rgb.map((v) => Math.round(Math.min(1, Math.max(0, _gamma(v))) * 255).toString(16).padStart(2, "0")).join("").toUpperCase();
+}
+
+const ALPHA_HEX = { "600-15": "26", "600-30": "4D", "600-50": "80" };
+
+function paletteRamp(def) {
+  const r = {};
+  for (const s of STEPS) r[s] = oklch2hex(STEP_L[s], def.c * STEP_C[s], def.h + (def.t || 0) * (STEP_L[s] - 0.55));
+  return r;
+}
+
+// Emit the Layer-1 `:root { --scheme-* }` block (static colors + every ramp).
+function generatePrimitives() {
+  const out = [
+    ":root {",
+    "  /* STATIC */",
+    "  --static-transparent: #00000000;",
+    "",
+    "  --static-white:        #ffffff;",
+    "  --static-white-medium: #ffffff4D;",
+    "  --static-black:        #000000;",
+    "  --static-black-medium: #0000004D;",
+    "",
+    "  /* BASE — OKLCH-generated, 100 = darkest → 1200 = lightest */",
+  ];
+  for (const p of PALETTES) {
+    const r = paletteRamp(MODEL[p]);
+    out.push(`  /* ${p} */`);
+    for (const s of STEPS) out.push(`  --scheme-${p}-${s}: ${r[s]};`);
+    for (const a of ALPHAS) out.push(`  --scheme-${p}-${a}: ${r[600]}${ALPHA_HEX[a]};`);
+    out.push("");
+  }
+  out.push("}");
+  return out.join("\n");
+}
+
+// Semantic intensity → function step, per theme.
 // "white"/"black" resolve to --static-*, "NNN-NN" to the function alpha var.
 const SEMANTIC = {
   light: {
@@ -134,12 +212,12 @@ function semanticBlock(theme, indent = "  ") {
 
 // ---- assemble --------------------------------------------------------
 
-const primitives = (await readFile(resolve(__dirname, "tokens/scheme.primitives.css"), "utf8")).trim();
+const primitives = generatePrimitives();
 
 const header = `/* =====================================================================
  * YunUI design tokens — GENERATED FILE, do not edit by hand.
  * Source: scripts/gen-tokens.mjs  (run: node scripts/gen-tokens.mjs)
- * Palette values vendored from once-ui-system/core (Apache-2.0).
+ * Palette values are original, OKLCH-generated by that script.
  *
  * 3 layers: scheme (primitives) -> function (role map) -> theme (semantic).
  * Runtime theming via attributes on <html>:
@@ -148,7 +226,7 @@ const header = `/* =============================================================
  * Additive: does not modify YunUI's legacy flat vars; current look unchanged.
  * ===================================================================== */`;
 
-// 1. SCHEME (primitives) — vendored verbatim.
+// 1. SCHEME (primitives) — original, OKLCH-generated.
 const schemeSection = `/* ---------------------------------------------------------------------
  * Layer 1 — SCHEME (primitives): raw palette values, theme-independent.
  * ------------------------------------------------------------------- */

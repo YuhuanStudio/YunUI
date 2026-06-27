@@ -1049,7 +1049,7 @@ declare function useFocusTrap(containerRef: RefObject<HTMLElement | null>, enabl
  *   applyTheme({ brand: "emerald", accent: "violet" });   // imperative
  *   const [theme, setTheme] = useYunUITheme({ brand: "blue" }); // React, persisted
  */
-type YunUIPalette = "gray" | "sand" | "slate" | "mint" | "rose" | "dusk" | "red" | "orange" | "yellow" | "moss" | "green" | "emerald" | "aqua" | "cyan" | "blue" | "indigo" | "violet" | "magenta" | "pink";
+type YunUIPalette = "gray" | "sand" | "slate" | "mint" | "rose" | "dusk" | "red" | "orange" | "amber" | "yellow" | "lime" | "moss" | "green" | "emerald" | "teal" | "aqua" | "cyan" | "blue" | "indigo" | "violet" | "plum" | "magenta" | "fuchsia" | "pink";
 /** How solid (filled) surfaces derive their color. */
 type YunUISolid = "color" | "contrast" | "inverse";
 /** Whether elevated surfaces are opaque or frosted. */
@@ -1078,6 +1078,95 @@ type YunUIAccentSource = "brand" | "mono";
 /** All palettes available to the brand/accent/neutral roles (for building pickers). */
 declare const YUNUI_PALETTES: YunUIPalette[];
 /**
+ * Curated multi-color theme presets — beautiful {brand, accent, neutral}
+ * combinations. Apply one with `applyTheme(YUNUI_THEME_PRESETS.aurora)` or feed
+ * them into a theme picker. Each pairs a brand with a complementary accent and a
+ * neutral tuned to the same temperature.
+ */
+interface YunUIThemePreset {
+    /** Display name. */
+    label: string;
+    brand: YunUIPalette;
+    accent: YunUIPalette;
+    neutral: YunUIPalette;
+}
+declare const YUNUI_THEME_PRESETS: {
+    aurora: {
+        label: string;
+        brand: "blue";
+        accent: "violet";
+        neutral: "slate";
+    };
+    sunset: {
+        label: string;
+        brand: "orange";
+        accent: "pink";
+        neutral: "sand";
+    };
+    forest: {
+        label: string;
+        brand: "green";
+        accent: "lime";
+        neutral: "gray";
+    };
+    ocean: {
+        label: string;
+        brand: "cyan";
+        accent: "teal";
+        neutral: "slate";
+    };
+    grape: {
+        label: string;
+        brand: "violet";
+        accent: "magenta";
+        neutral: "dusk";
+    };
+    ember: {
+        label: string;
+        brand: "red";
+        accent: "amber";
+        neutral: "sand";
+    };
+    lagoon: {
+        label: string;
+        brand: "teal";
+        accent: "emerald";
+        neutral: "mint";
+    };
+    blossom: {
+        label: string;
+        brand: "pink";
+        accent: "fuchsia";
+        neutral: "rose";
+    };
+    royal: {
+        label: string;
+        brand: "indigo";
+        accent: "blue";
+        neutral: "slate";
+    };
+    citrus: {
+        label: string;
+        brand: "lime";
+        accent: "yellow";
+        neutral: "sand";
+    };
+    orchid: {
+        label: string;
+        brand: "plum";
+        accent: "violet";
+        neutral: "dusk";
+    };
+    mono: {
+        label: string;
+        brand: "gray";
+        accent: "gray";
+        neutral: "gray";
+    };
+};
+/** Preset keys, e.g. for iterating in a picker. */
+type YunUIThemePresetName = keyof typeof YUNUI_THEME_PRESETS;
+/**
  * Apply theme attributes to an element (defaults to <html>). Only the keys you
  * pass are written; pass `null` for a key to clear it. Safe to call on the
  * server (no-ops when there is no document and no explicit element).
@@ -1092,4 +1181,4 @@ declare function readTheme(el?: HTMLElement | null): YunUITheme;
  */
 declare function useYunUITheme(defaults?: YunUITheme): [YunUITheme, (patch: YunUITheme) => void];
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
