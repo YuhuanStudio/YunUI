@@ -4,8 +4,8 @@ name: CI/CD
 #   detect-changes → verify (lib) → site-build (Docker→GHCR) → notify (Dokploy)
 # Release to npm is separate and tag-triggered (release.yml).
 #
-# Runner split per the owner's rule: jobs that upload nothing run on the
-# self-hosted runner; only the image push (→ GHCR) stays on ubuntu-latest.
+# All jobs run on GitHub-hosted ubuntu-latest (YunUI isn't authorized for the
+# org self-hosted runner).
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
   # ----------------------------------------------------------------
   detect-changes:
     name: Detect Changes
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
@@ -54,12 +54,12 @@ jobs:
               - '.github/workflows/ci.yml'
 
   # ----------------------------------------------------------------
-  # Library gate: typecheck · test · build · publint. Uploads nothing
-  # → self-hosted. Runs on every push/PR (the package correctness gate).
+  # Library gate: typecheck · test · build · publint.
+  # Runs on every push/PR (the package correctness gate).
   # ----------------------------------------------------------------
   verify:
     name: Verify
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -147,14 +147,13 @@ jobs:
         continue-on-error: true
 
   # ----------------------------------------------------------------
-  # Tell Dokploy to redeploy. Just a webhook POST → self-hosted.
-  # Push-to-main only.
+  # Tell Dokploy to redeploy. Just a webhook POST. Push-to-main only.
   # ----------------------------------------------------------------
   notify:
     name: Notify Dokploy
     needs: [site-build]
     if: always() && !cancelled() && needs.site-build.result == 'success' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       deployments: write
       contents: read
