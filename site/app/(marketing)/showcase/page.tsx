@@ -174,6 +174,7 @@ import {
   ConnectedAccountRowDemo,
   AvatarUploaderDemo,
   PaginationDemo,
+  PageLayoutDemo,
 } from "@/components/docs/demos";
 import {
   Heart,
@@ -1039,6 +1040,9 @@ export default function Showcase() {
             <Card className="size-14 grid place-items-center font-mono">2</Card>
             <Card className="size-14 grid place-items-center font-mono">3</Card>
           </Flex>
+        </Demo>
+        <Demo title="PageLayout" description="Full-height page shell — navbar slot · offset main · footer slot.">
+          <PageLayoutDemo />
         </Demo>
       </Section>
 

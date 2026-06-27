@@ -1,0 +1,31 @@
+import { PageLayout } from "yunui/patterns";
+
+标准的全高页面外壳：一个**导航栏插槽**、一个 `flex-1` 的**主区域**（带偏移以避开固定导航栏），以及一个**页脚插槽**。导航栏与页脚以插槽形式传入（通常是 YunUI 的 `<Navbar/>` 与 `<Footer/>`），因此外壳与它们的具体属性解耦。`<main>` 默认的 `pt-28` 用于避开 YunUI 的固定导航栏 —— 若导航栏更高或更矮，可通过 `mainClassName` 覆盖。
+
+## Import
+
+```tsx
+import { PageLayout } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+将 `<Navbar/>` 与 `<Footer/>` 作为插槽传入；专注型页面可设 `hideFooter`，`transparentBg` 则让页面自绘背景。
+
+<ComponentPreview
+  title="PageLayout"
+  code={`import { PageLayout, Navbar, Footer } from "@yuhuanowo/yunui/patterns";
+
+<PageLayout
+  navbar={<Navbar appName="YunUI" currentPath="/" />}
+  footer={<Footer appName="YunUI" />}
+>
+  {children}
+</PageLayout>`}
+>
+  <PageLayoutDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="PageLayout" />

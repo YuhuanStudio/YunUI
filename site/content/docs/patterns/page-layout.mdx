@@ -1,0 +1,31 @@
+import { PageLayout } from "yunui/patterns";
+
+The standard full-height page shell: a **navbar slot**, a `flex-1` **main** area offset to clear the fixed navbar, and a **footer slot**. Navbar and footer are passed as slots (typically YunUI's `<Navbar/>` and `<Footer/>`), so the shell stays decoupled from their props. The default `pt-28` on `<main>` clears YunUI's fixed navbar — override it via `mainClassName` for a taller or shorter bar.
+
+## Import
+
+```tsx
+import { PageLayout } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+Pass `<Navbar/>` and `<Footer/>` as slots; set `hideFooter` for focused pages and `transparentBg` to paint your own backdrop.
+
+<ComponentPreview
+  title="PageLayout"
+  code={`import { PageLayout, Navbar, Footer } from "@yuhuanowo/yunui/patterns";
+
+<PageLayout
+  navbar={<Navbar appName="YunUI" currentPath="/" />}
+  footer={<Footer appName="YunUI" />}
+>
+  {children}
+</PageLayout>`}
+>
+  <PageLayoutDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="PageLayout" />

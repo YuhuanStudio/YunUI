@@ -28,6 +28,7 @@ export {
   type SidebarNavItem,
 } from "./sidebar";
 export { PageHeader } from "./page-header";
+export { PageLayout, type PageLayoutProps } from "./page-layout";
 // Footer also lives in yunui/ai, but it's a page-level chrome pattern consumers
 // reasonably reach for here too — re-export so both import paths resolve.
 export { Footer, type FooterProps, type FooterSection, type FooterLink, type FooterSocial } from "../ai/footer";

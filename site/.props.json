@@ -1933,6 +1933,57 @@
       "description": ""
     }
   ],
+  "PageLayout": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Page content, rendered inside `<main>`."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Extra classes on the outer wrapper."
+    },
+    {
+      "name": "footer",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Bottom slot — typically `<Footer/>`. Hidden when `hideFooter`."
+    },
+    {
+      "name": "hideFooter",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Drop the footer (e.g. focused/app pages)."
+    },
+    {
+      "name": "mainClassName",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Override the `<main>` classes — defaults to `flex-1 pt-28` (clears the\nfixed navbar). Pass your own offset for a taller/shorter bar."
+    },
+    {
+      "name": "navbar",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Top navigation slot — typically `<Navbar/>`. Rendered above `<main>`."
+    },
+    {
+      "name": "transparentBg",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Skip the default `bg-background` so a page can paint its own backdrop."
+    }
+  ],
   "PageLoadingState": [
     {
       "name": "message",

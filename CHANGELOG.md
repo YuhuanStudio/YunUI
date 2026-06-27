@@ -11,6 +11,13 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- **`PageLayout` (patterns)** — the standard full-height page shell: a navbar slot,
+  a `flex-1` `<main>` offset (`pt-28`) to clear the fixed navbar, and a footer slot.
+  Navbar/footer are passed as slots so the shell stays decoupled from their props;
+  `hideFooter`, `transparentBg` and `mainClassName` cover the common variations.
+  Extracted from Yunxin's hand-rolled shell (used by 8+ marketing pages).
+
 ### Fixed
 - **iOS Safari no longer zooms the page when focusing a field.** Mobile Safari
   auto-zooms when a focused input/textarea/select has font-size < 16px (our fields

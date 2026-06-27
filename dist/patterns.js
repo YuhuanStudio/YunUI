@@ -734,6 +734,21 @@ function PageHeader({ title, description, actions, className }) {
     actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-2 shrink-0", children: actions })
   ] });
 }
+function PageLayout({
+  children,
+  navbar,
+  footer,
+  hideFooter = false,
+  transparentBg = false,
+  mainClassName,
+  className
+}) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("min-h-dvh flex flex-col relative", !transparentBg && "bg-background", className), children: [
+    navbar,
+    /* @__PURE__ */ jsx("main", { className: cn("flex-1 pt-28", mainClassName), children }),
+    !hideFooter && footer
+  ] });
+}
 function PageLoadingState({ message }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-center py-16", children: [
     /* @__PURE__ */ jsx(Spinner, { size: "lg" }),
@@ -1438,6 +1453,6 @@ function AvatarUploader({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

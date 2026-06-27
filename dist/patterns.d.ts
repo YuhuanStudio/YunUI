@@ -209,6 +209,26 @@ interface PageHeaderProps {
 }
 declare function PageHeader({ title, description, actions, className }: PageHeaderProps): React$1.JSX.Element;
 
+interface PageLayoutProps {
+    /** Page content, rendered inside `<main>`. */
+    children: ReactNode;
+    /** Top navigation slot — typically `<Navbar/>`. Rendered above `<main>`. */
+    navbar?: ReactNode;
+    /** Bottom slot — typically `<Footer/>`. Hidden when `hideFooter`. */
+    footer?: ReactNode;
+    /** Drop the footer (e.g. focused/app pages). */
+    hideFooter?: boolean;
+    /** Skip the default `bg-background` so a page can paint its own backdrop. */
+    transparentBg?: boolean;
+    /** Override the `<main>` classes — defaults to `flex-1 pt-28` (clears the
+     *  fixed navbar). Pass your own offset for a taller/shorter bar. */
+    mainClassName?: string;
+    /** Extra classes on the outer wrapper. */
+    className?: string;
+}
+/** Full-height page shell: navbar slot · offset `<main>` · footer slot. */
+declare function PageLayout({ children, navbar, footer, hideFooter, transparentBg, mainClassName, className, }: PageLayoutProps): React$1.JSX.Element;
+
 interface PageLoadingStateProps {
     /** Optional text shown beside the spinner. */
     message?: string;
@@ -310,7 +330,7 @@ declare class ErrorBoundary extends React__default.Component<ErrorBoundaryProps,
     static getDerivedStateFromError(error: Error): ErrorBoundaryState;
     componentDidCatch(error: Error, errorInfo: React__default.ErrorInfo): void;
     handleRetry: () => void;
-    render(): string | number | bigint | boolean | Iterable<React__default.ReactNode> | Promise<string | number | bigint | boolean | React__default.ReactPortal | React__default.ReactElement<unknown, string | React__default.JSXElementConstructor<any>> | Iterable<React__default.ReactNode> | null | undefined> | React__default.JSX.Element | null | undefined;
+    render(): string | number | bigint | boolean | React__default.JSX.Element | Iterable<React__default.ReactNode> | Promise<string | number | bigint | boolean | React__default.ReactPortal | React__default.ReactElement<unknown, string | React__default.JSXElementConstructor<any>> | Iterable<React__default.ReactNode> | null | undefined> | null | undefined;
 }
 
 /**
@@ -594,4 +614,4 @@ interface AvatarUploaderProps {
 }
 declare function AvatarUploader({ src, fallback, size, uploading, onSelectFile, label, className, }: AvatarUploaderProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLoadingState, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

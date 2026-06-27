@@ -679,6 +679,16 @@ export const docs: DocEntry[] = [
     "page header title heading actions toolbar",
   ),
   pat(
+    "page-layout",
+    "PageLayout",
+    {
+      en: "Full-height page shell — navbar slot, offset main area, footer slot.",
+      "zh-CN": "全高页面外壳 — 导航栏插槽、偏移的主区域、页脚插槽。",
+      "zh-TW": "全高頁面外殼 — 導覽列插槽、偏移的主區域、頁尾插槽。",
+    },
+    "page layout shell navbar footer main scaffold marketing",
+  ),
+  pat(
     "sidebar",
     "Sidebar",
     {
@@ -1123,6 +1133,7 @@ export const groups: DocGroup[] = [
       "patterns/faq",
       "patterns/fellows-banner",
       "patterns/page-header",
+      "patterns/page-layout",
       "patterns/sidebar",
       "patterns/code-block",
       "patterns/error-boundary",

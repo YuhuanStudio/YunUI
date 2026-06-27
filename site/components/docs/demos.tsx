@@ -33,6 +33,7 @@ import {
   AvatarUploader,
   Sidebar,
   type SidebarSection,
+  PageLayout,
 } from "yunui/patterns";
 import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus } from "yunui";
 import {
@@ -783,5 +784,38 @@ export function LanguageSwitcherDemo() {
         { value: "zh-TW", label: "繁體中文" },
       ]}
     />
+  );
+}
+
+export function PageLayoutDemo() {
+  // PageLayout is min-h-dvh by design; cap it to the frame for the docs preview
+  // via `!min-h-0 h-full` and a bounded, transform-contained box.
+  return (
+    <div
+      className="w-full rounded-2xl border border-border overflow-hidden bg-(--bg-base)"
+      style={{ height: 260, transform: "translateZ(0)" }}
+    >
+      <PageLayout
+        className="!min-h-0 h-full"
+        transparentBg
+        mainClassName="flex-1 p-4 overflow-auto"
+        navbar={
+          <div className="h-12 shrink-0 border-b border-border flex items-center gap-2 px-4">
+            <div className="w-5 h-5 rounded-md bg-muted" />
+            <span className="text-sm font-semibold">navbar slot</span>
+            <div className="ml-auto h-3.5 w-24 rounded-md bg-muted" />
+          </div>
+        }
+        footer={
+          <div className="h-10 shrink-0 border-t border-border flex items-center px-4 text-xs text-muted-foreground">
+            footer slot
+          </div>
+        }
+      >
+        <div className="h-full min-h-32 rounded-xl bg-muted/50 border border-border grid place-items-center text-sm text-muted-foreground">
+          main content
+        </div>
+      </PageLayout>
+    </div>
   );
 }
