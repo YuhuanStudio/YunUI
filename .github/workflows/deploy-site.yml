@@ -122,11 +122,17 @@ jobs:
 
       - name: Send deployment webhook
         # No-op until DOKPLOY_WEBHOOK_URL_SITE is configured in repo secrets.
-        if: ${{ secrets.DOKPLOY_WEBHOOK_URL_SITE != '' }}
+        # (secrets aren't allowed in a step `if:`, so gate inside the script.)
+        env:
+          WEBHOOK: ${{ secrets.DOKPLOY_WEBHOOK_URL_SITE }}
         run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "DOKPLOY_WEBHOOK_URL_SITE not set — skipping Dokploy notify."
+            exit 0
+          fi
           curl -fsS -X POST \
             -H "Content-Type: application/json" \
-            "${{ secrets.DOKPLOY_WEBHOOK_URL_SITE }}" \
+            "$WEBHOOK" \
             -d '{
               "event": "deploy",
               "service": "site",
