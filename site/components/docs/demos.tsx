@@ -288,7 +288,7 @@ export function SidebarDemo() {
   ];
   return (
     <div
-      className="relative w-full rounded-2xl border border-border overflow-hidden bg-(--bg-elevated)"
+      className="relative w-full rounded-2xl border border-border overflow-hidden bg-(--bg-base)"
       style={{ height: 360, transform: "translateZ(0)" }}
     >
       <Sidebar
@@ -303,17 +303,39 @@ export function SidebarDemo() {
         onToggleCollapse={() => setCollapsed((c) => !c)}
         onNavigate={() => {}}
       />
-      {/* Re-open affordance — shown only once collapsed, since the in-sidebar
-          collapse button slides off-canvas with the panel. Inline `left` (not an
-          arbitrary left-[..] class, which the site JIT can silently drop). */}
-      <button
-        onClick={() => setCollapsed(false)}
-        className="absolute top-3 left-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all"
-        style={{ opacity: collapsed ? 1 : 0, pointerEvents: collapsed ? "auto" : "none" }}
-        aria-label="Expand sidebar"
+      {/* Content area — offset by the sidebar width, and reflowing to full width
+          when collapsed, so the toggle has a visible purpose (more room) instead
+          of leaving an empty box. Inline margin (not an `lg:ml-*` utility): the lg
+          breakpoint keys off the viewport, not this bounded demo box. */}
+      <div
+        className="h-full flex flex-col transition-[margin] duration-200 ease-in-out"
+        style={{ marginLeft: collapsed ? 0 : 256 }}
       >
-        <PanelLeft size={16} />
-      </button>
+        <div className="flex items-center gap-3 px-4 h-14 border-b border-border shrink-0">
+          {/* Re-open button: lives in the header and slides in once collapsed (the
+              in-sidebar collapse button went off-canvas with the panel). */}
+          <button
+            onClick={() => setCollapsed(false)}
+            aria-label="Expand sidebar"
+            className="h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all overflow-hidden"
+            style={{
+              width: collapsed ? 36 : 0,
+              opacity: collapsed ? 1 : 0,
+              marginRight: collapsed ? 0 : -12,
+              pointerEvents: collapsed ? "auto" : "none",
+            }}
+          >
+            <PanelLeft size={16} className="shrink-0" />
+          </button>
+          <div className="h-3.5 w-36 rounded-md bg-muted" />
+          <div className="ml-auto w-8 h-8 rounded-full bg-muted shrink-0" />
+        </div>
+        <div className="flex-1 p-4 grid grid-cols-2 sm:grid-cols-3 gap-3 content-start">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-20 rounded-xl bg-muted/60 border border-border" />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
