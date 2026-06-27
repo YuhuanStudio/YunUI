@@ -11,6 +11,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.14] - 2026-06-27
+
 ### Changed
 - **Softer corner radii across the core surfaces.** Bumped the global component
   classes a notch rounder — `.btn` 12→14, `.btn-sm` 9→11, `.btn-lg` 14→16,
