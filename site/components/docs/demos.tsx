@@ -263,9 +263,12 @@ export function StatCardVariantsDemo() {
 }
 
 export function SidebarDemo() {
-  // Drive with isOpen (not collapsed/lg:translate-x-0) so the sidebar is visible
-  // at all widths — collapsed left the preview empty on mobile.
-  const [open, setOpen] = useState(true);
+  // Drive a single `collapsed` state and feed isOpen={!collapsed} so the sidebar
+  // genuinely slides in/out at ALL widths: isOpen=true forces translate-x-0
+  // (visible), and collapsed=true forces -translate-x-full (off-canvas). This
+  // sidesteps the lg: breakpoint, which keys off the viewport — not this bounded
+  // demo box — and previously left the desktop preview unable to collapse.
+  const [collapsed, setCollapsed] = useState(false);
   const sections: SidebarSection[] = [
     {
       items: [
@@ -294,14 +297,20 @@ export function SidebarDemo() {
         homeHref="#"
         sections={sections}
         currentPath="#overview"
-        isOpen={open}
-        onClose={() => setOpen(false)}
+        isOpen={!collapsed}
+        collapsed={collapsed}
+        onClose={() => setCollapsed(true)}
+        onToggleCollapse={() => setCollapsed((c) => !c)}
         onNavigate={() => {}}
       />
+      {/* Re-open affordance — shown only once collapsed, since the in-sidebar
+          collapse button slides off-canvas with the panel. Inline `left` (not an
+          arbitrary left-[..] class, which the site JIT can silently drop). */}
       <button
-        onClick={() => setOpen((o) => !o)}
-        className={`absolute top-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all ${open ? "left-[17rem]" : "left-3"}`}
-        aria-label="Toggle sidebar"
+        onClick={() => setCollapsed(false)}
+        className="absolute top-3 left-3 z-50 w-9 h-9 rounded-lg flex items-center justify-center bg-card border border-border shadow-sm hover:bg-muted transition-all"
+        style={{ opacity: collapsed ? 1 : 0, pointerEvents: collapsed ? "auto" : "none" }}
+        aria-label="Expand sidebar"
       >
         <PanelLeft size={16} />
       </button>
