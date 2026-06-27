@@ -90,6 +90,21 @@ import {
   toast,
   useYunUITheme,
   YUNUI_PALETTES,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+  Flex,
+  Pagination,
+  RadioGroup,
+  RadioGroupItem,
+  ThemeToggle,
 } from "yunui";
 import {
   ThinkingBlock,
@@ -158,6 +173,7 @@ import {
   LinkRowDemo,
   ConnectedAccountRowDemo,
   AvatarUploaderDemo,
+  PaginationDemo,
 } from "@/components/docs/demos";
 import {
   Heart,
@@ -1017,6 +1033,13 @@ export default function Showcase() {
             />
           </div>
         </Demo>
+        <Demo title="Flex" description="Flexbox layout primitive — direction, gap, align/justify as props.">
+          <Flex direction="row" gap={4}>
+            <Card className="size-14 grid place-items-center font-mono">1</Card>
+            <Card className="size-14 grid place-items-center font-mono">2</Card>
+            <Card className="size-14 grid place-items-center font-mono">3</Card>
+          </Flex>
+        </Demo>
       </Section>
 
       {/* Buttons */}
@@ -1183,6 +1206,19 @@ export default function Showcase() {
               <ProviderIcon key={p} provider={p} size={28} rounded />
             ))}
           </div>
+        </Demo>
+        <Demo title="RadioGroup" description="Single-choice group — keyboard-navigable, label-wrapped items.">
+          <RadioGroup defaultValue="comfortable" className="text-left">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <RadioGroupItem value="compact" id="sc-r1" /> Compact
+            </label>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <RadioGroupItem value="comfortable" id="sc-r2" /> Comfortable
+            </label>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <RadioGroupItem value="spacious" id="sc-r3" /> Spacious
+            </label>
+          </RadioGroup>
         </Demo>
       </Section>
 
@@ -1498,6 +1534,22 @@ export default function Showcase() {
             ))}
           </Marquee>
         </Demo>
+        <Demo title="Accordion" description="Collapsible sections — single or multiple open.">
+          <Accordion type="single" collapsible className="w-full max-w-md space-y-2 text-left">
+            <AccordionItem value="a">
+              <AccordionTrigger>What is YunUI?</AccordionTrigger>
+              <AccordionContent>A versioned design system you build once and sync everywhere.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="b">
+              <AccordionTrigger>How do projects sync?</AccordionTrigger>
+              <AccordionContent>Bump the yunui version; the design follows on the next release.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="c">
+              <AccordionTrigger>Does it support theming?</AccordionTrigger>
+              <AccordionContent>Yes — light, zinc-dark and true-black.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Demo>
       </Section>
 
       {/* Feedback */}
@@ -1618,6 +1670,29 @@ export default function Showcase() {
               { value: "ja", label: "日本語" },
             ]}
           />
+        </Demo>
+        <Demo title="Breadcrumb" description="Accessible trail — nav landmark + aria-current.">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#">Docs</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </Demo>
+        <Demo title="Pagination" description="Numbered pager with sibling/boundary truncation.">
+          <PaginationDemo />
+        </Demo>
+        <Demo title="ThemeToggle" description="light / zinc-dark / true-black / system — backed by next-themes.">
+          <ThemeToggle variant="pill" />
         </Demo>
       </Section>
 
