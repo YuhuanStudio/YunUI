@@ -1,5 +1,5 @@
 "use client";
-import { cn } from './chunk-GHO4RCDR.js';
+import { cn, useAnchoredPosition } from './chunk-MQFC42TH.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import * as React7 from 'react';
 import { forwardRef, useState, useEffect, useRef, useCallback, useId } from 'react';
@@ -648,6 +648,8 @@ function Combobox({
   const [inputValue, setInputValue] = useState(value || "");
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+  const panelRef = useRef(null);
+  const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
   useEffect(() => {
     const selectedOption2 = options.find((o) => o.value === value);
     setInputValue(selectedOption2?.label || value || "");
@@ -752,47 +754,55 @@ function Combobox({
         }
       )
     ] }),
-    isOpen && !disabled && /* @__PURE__ */ jsx("div", { className: "absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden animate-in fade-in-0 zoom-in-95 duration-200", children: /* @__PURE__ */ jsx("div", { className: "max-h-60 overflow-y-auto", children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-      filteredOptions.map((option) => {
-        const isSelected = option.value === value;
-        const optionIconPath = option.iconUrl ?? null;
-        return /* @__PURE__ */ jsxs(
-          "button",
-          {
-            type: "button",
-            onClick: () => handleSelect(option.value),
-            className: `dropdown-item w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring ${isSelected ? "active" : ""}`,
-            children: [
-              optionIconPath && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5 shrink-0", style: { width: 16, height: 16 }, children: /* @__PURE__ */ jsx(
-                Image2,
-                {
-                  src: optionIconPath,
-                  alt: option.label,
-                  width: 16,
-                  height: 16,
-                  className: "object-cover",
-                  unoptimized: true
-                }
-              ) }),
-              /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: option.label })
-            ]
-          },
-          option.value
-        );
-      }),
-      canCreateNew && /* @__PURE__ */ jsxs(
-        "button",
-        {
-          type: "button",
-          onClick: () => handleSelect(inputValue),
-          className: "dropdown-item w-full text-left text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          children: [
-            /* @__PURE__ */ jsx("span", { className: "text-lg leading-none", children: creatableIcon ?? "+" }),
-            /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: resolvedCreatableText.replace("{value}", inputValue) })
-          ]
-        }
-      )
-    ] }) }) })
+    isOpen && !disabled && /* @__PURE__ */ jsx(
+      "div",
+      {
+        ref: panelRef,
+        style: { marginLeft: shift, maxHeight },
+        className: "absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200",
+        children: /* @__PURE__ */ jsx("div", { className: "flex-1 min-h-0 max-h-60 overflow-y-auto", children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+          filteredOptions.map((option) => {
+            const isSelected = option.value === value;
+            const optionIconPath = option.iconUrl ?? null;
+            return /* @__PURE__ */ jsxs(
+              "button",
+              {
+                type: "button",
+                onClick: () => handleSelect(option.value),
+                className: `dropdown-item w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-ring ${isSelected ? "active" : ""}`,
+                children: [
+                  optionIconPath && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5 shrink-0", style: { width: 16, height: 16 }, children: /* @__PURE__ */ jsx(
+                    Image2,
+                    {
+                      src: optionIconPath,
+                      alt: option.label,
+                      width: 16,
+                      height: 16,
+                      className: "object-cover",
+                      unoptimized: true
+                    }
+                  ) }),
+                  /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: option.label })
+                ]
+              },
+              option.value
+            );
+          }),
+          canCreateNew && /* @__PURE__ */ jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => handleSelect(inputValue),
+              className: "dropdown-item w-full text-left text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              children: [
+                /* @__PURE__ */ jsx("span", { className: "text-lg leading-none", children: creatableIcon ?? "+" }),
+                /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: resolvedCreatableText.replace("{value}", inputValue) })
+              ]
+            }
+          )
+        ] }) })
+      }
+    )
   ] });
 }
 var Accordion = AccordionPrimitive.Root;
@@ -2382,6 +2392,8 @@ function CustomSelect({
   const inputRef = useRef(null);
   const triggerRef = useRef(null);
   const listRef = useRef(null);
+  const panelRef = useRef(null);
+  const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
   const baseId = useId();
   const listboxId = `${baseId}-listbox`;
   const optionId = (i) => `${baseId}-opt-${i}`;
@@ -2515,72 +2527,80 @@ function CustomSelect({
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsxs("div", { className: "\n                    absolute z-50 w-full mt-2\n                    rounded-2xl border border-border\n                    bg-background/60 backdrop-blur-2xl text-popover-foreground\n                    shadow-lg shadow-black/5\n                    max-h-64 overflow-hidden\n                    animate-in fade-in-0 zoom-in-95 duration-200\n                ", children: [
-      searchable && /* @__PURE__ */ jsx("div", { className: "px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)", children: /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-        /* @__PURE__ */ jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
-        /* @__PURE__ */ jsx(
-          "input",
-          {
-            ref: inputRef,
-            type: "text",
-            role: "combobox",
-            "aria-expanded": isOpen,
-            "aria-controls": listboxId,
-            "aria-activedescendant": highlighted >= 0 ? optionId(highlighted) : void 0,
-            "aria-autocomplete": "list",
-            value: searchQuery,
-            onChange: (e) => setSearchQuery(e.target.value),
-            placeholder: t("search"),
-            className: "w-full pl-9 pr-8 py-1.5 text-sm rounded-lg\n                                        bg-(--bg-muted) border border-transparent\n                                        focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
-          }
-        ),
-        searchQuery && /* @__PURE__ */ jsx(
-          "button",
-          {
-            type: "button",
-            onClick: () => setSearchQuery(""),
-            "aria-label": t("clearSearch"),
-            className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-(--bg-hover)",
-            title: t("clearSearch"),
-            children: /* @__PURE__ */ jsx(X, { size: 12 })
-          }
-        )
-      ] }) }),
-      /* @__PURE__ */ jsx(
-        "div",
-        {
-          ref: listRef,
-          role: "listbox",
-          id: listboxId,
-          className: "max-h-52 overflow-y-auto overscroll-contain p-1",
-          children: filteredOptions.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap", children: t("noOptions") }) : filteredOptions.map((option, i) => {
-            const isSelected = option.value === value;
-            const isHigh = i === highlighted;
-            return /* @__PURE__ */ jsxs(
+    isOpen && /* @__PURE__ */ jsxs(
+      "div",
+      {
+        ref: panelRef,
+        style: { marginLeft: shift, maxHeight },
+        className: "\n                    absolute z-50 w-full mt-2\n                    rounded-2xl border border-border\n                    bg-background/60 backdrop-blur-2xl text-popover-foreground\n                    shadow-lg shadow-black/5\n                    max-h-64 overflow-hidden flex flex-col\n                    animate-in fade-in-0 zoom-in-95 duration-200\n                ",
+        children: [
+          searchable && /* @__PURE__ */ jsx("div", { className: "px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)", children: /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+            /* @__PURE__ */ jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
+            /* @__PURE__ */ jsx(
+              "input",
+              {
+                ref: inputRef,
+                type: "text",
+                role: "combobox",
+                "aria-expanded": isOpen,
+                "aria-controls": listboxId,
+                "aria-activedescendant": highlighted >= 0 ? optionId(highlighted) : void 0,
+                "aria-autocomplete": "list",
+                value: searchQuery,
+                onChange: (e) => setSearchQuery(e.target.value),
+                placeholder: t("search"),
+                className: "w-full pl-9 pr-8 py-1.5 text-sm rounded-lg\n                                        bg-(--bg-muted) border border-transparent\n                                        focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
+              }
+            ),
+            searchQuery && /* @__PURE__ */ jsx(
               "button",
               {
-                id: optionId(i),
                 type: "button",
-                role: "option",
-                "aria-selected": isSelected,
-                "data-highlighted": isHigh ? "" : void 0,
-                onClick: () => handleSelect(option.value),
-                onMouseEnter: () => setHighlighted(i),
-                className: `dropdown-item w-full text-left outline-none ${isSelected ? "active" : ""}`,
-                children: [
-                  option.icon && /* @__PURE__ */ jsx("span", { className: "shrink-0 w-5 h-5 flex items-center justify-center", children: option.icon }),
-                  /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-                    /* @__PURE__ */ jsx("div", { className: "truncate", children: option.label }),
-                    option.description && /* @__PURE__ */ jsx("div", { className: "text-xs font-normal text-muted-foreground truncate", children: option.description })
-                  ] })
-                ]
-              },
-              option.value
-            );
-          })
-        }
-      )
-    ] })
+                onClick: () => setSearchQuery(""),
+                "aria-label": t("clearSearch"),
+                className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-(--bg-hover)",
+                title: t("clearSearch"),
+                children: /* @__PURE__ */ jsx(X, { size: 12 })
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsx(
+            "div",
+            {
+              ref: listRef,
+              role: "listbox",
+              id: listboxId,
+              className: "flex-1 min-h-0 max-h-52 overflow-y-auto overscroll-contain p-1",
+              children: filteredOptions.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap", children: t("noOptions") }) : filteredOptions.map((option, i) => {
+                const isSelected = option.value === value;
+                const isHigh = i === highlighted;
+                return /* @__PURE__ */ jsxs(
+                  "button",
+                  {
+                    id: optionId(i),
+                    type: "button",
+                    role: "option",
+                    "aria-selected": isSelected,
+                    "data-highlighted": isHigh ? "" : void 0,
+                    onClick: () => handleSelect(option.value),
+                    onMouseEnter: () => setHighlighted(i),
+                    className: `dropdown-item w-full text-left outline-none ${isSelected ? "active" : ""}`,
+                    children: [
+                      option.icon && /* @__PURE__ */ jsx("span", { className: "shrink-0 w-5 h-5 flex items-center justify-center", children: option.icon }),
+                      /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+                        /* @__PURE__ */ jsx("div", { className: "truncate", children: option.label }),
+                        option.description && /* @__PURE__ */ jsx("div", { className: "text-xs font-normal text-muted-foreground truncate", children: option.description })
+                      ] })
+                    ]
+                  },
+                  option.value
+                );
+              })
+            }
+          )
+        ]
+      }
+    )
   ] });
 }
 function SegmentedSelect({
@@ -3005,5 +3025,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-4LLY3WEK.js.map
-//# sourceMappingURL=chunk-4LLY3WEK.js.map
+//# sourceMappingURL=chunk-EDG53MDN.js.map
+//# sourceMappingURL=chunk-EDG53MDN.js.map

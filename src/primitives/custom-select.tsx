@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
 import { ChevronDown, Search, X } from "lucide-react";
 import { useYunUI } from "../adapters/context";
+import { useAnchoredPosition } from "../lib/use-anchored-position";
 
 export interface SelectOption {
     /** The value reported to `onChange` when selected. */
@@ -51,6 +52,8 @@ export function CustomSelect({
     const inputRef = useRef<HTMLInputElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
     const baseId = useId();
     const listboxId = `${baseId}-listbox`;
     const optionId = (i: number) => `${baseId}-opt-${i}`;
@@ -191,12 +194,15 @@ export function CustomSelect({
 
             {/* Dropdown */}
             {isOpen && (
-                <div className="
+                <div
+                    ref={panelRef}
+                    style={{ marginLeft: shift, maxHeight }}
+                    className="
                     absolute z-50 w-full mt-2
                     rounded-2xl border border-border
                     bg-background/60 backdrop-blur-2xl text-popover-foreground
                     shadow-lg shadow-black/5
-                    max-h-64 overflow-hidden
+                    max-h-64 overflow-hidden flex flex-col
                     animate-in fade-in-0 zoom-in-95 duration-200
                 ">
                     {/* Search */}
@@ -239,7 +245,7 @@ export function CustomSelect({
                         ref={listRef}
                         role="listbox"
                         id={listboxId}
-                        className="max-h-52 overflow-y-auto overscroll-contain p-1"
+                        className="flex-1 min-h-0 max-h-52 overflow-y-auto overscroll-contain p-1"
                     >
                         {filteredOptions.length === 0 ? (
                             <div className="px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap">

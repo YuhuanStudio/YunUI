@@ -1,7 +1,7 @@
 "use client";
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-N53PNMPJ.js';
-import { cn, ThemeToggle } from './chunk-GHO4RCDR.js';
+import { cn, useAnchoredPosition, ThemeToggle } from './chunk-MQFC42TH.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { memo, useState, useRef, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -182,6 +182,8 @@ function ModelSelect({
   const rootRef = useRef(null);
   const inputRef = useRef(null);
   const listRef = useRef(null);
+  const panelRef = useRef(null);
+  const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
   const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
   useEffect(() => {
     const onDown = (e) => {
@@ -315,11 +317,12 @@ function ModelSelect({
       isOpen && /* @__PURE__ */ jsxs(
         motion.div,
         {
+          ref: panelRef,
           initial: { opacity: 0, y: -8, scale: 0.96 },
           animate: { opacity: 1, y: 0, scale: 1 },
           transition: { duration: 0.16, ease: "easeOut" },
-          style: { maxWidth: "calc(100vw - 1rem)" },
-          className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden",
+          style: { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight },
+          className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden",
           children: [
             /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
               /* @__PURE__ */ jsxs("div", { className: "relative", children: [
@@ -361,7 +364,7 @@ function ModelSelect({
                 groupLabel[g] ?? g
               ] }, g))
             ] }) }),
-            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, id: "yunui-ms-listbox", role: "listbox", className: "max-h-96 overflow-y-auto overscroll-contain", children: [
+            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, id: "yunui-ms-listbox", role: "listbox", className: "flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain", children: [
               pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
                 /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
                   /* @__PURE__ */ jsx(Pin, { size: 9 }),
@@ -1530,6 +1533,8 @@ function LanguageSwitcher({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
+  const panelRef = useRef(null);
+  const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -1572,15 +1577,23 @@ function LanguageSwitcher({
         children: /* @__PURE__ */ jsx(Globe, { className: "h-[1.2rem] w-[1.2rem]" })
       }
     ),
-    isOpen && /* @__PURE__ */ jsx("div", { className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`, children: /* @__PURE__ */ jsx("div", { className: "p-1", children: locales.map((lang) => /* @__PURE__ */ jsx(
-      "button",
+    isOpen && /* @__PURE__ */ jsx(
+      "div",
       {
-        onClick: () => handleLocaleChange(lang.value),
-        className: `dropdown-item w-full text-left ${currentLocale === lang.value ? "active" : ""}`,
-        children: /* @__PURE__ */ jsx("span", { className: "flex-1", children: lang.label })
-      },
-      lang.value
-    )) }) })
+        ref: panelRef,
+        style: { marginLeft: shift, maxHeight },
+        className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
+        children: /* @__PURE__ */ jsx("div", { className: "p-1 flex-1 min-h-0 overflow-y-auto", children: locales.map((lang) => /* @__PURE__ */ jsx(
+          "button",
+          {
+            onClick: () => handleLocaleChange(lang.value),
+            className: `dropdown-item w-full text-left ${currentLocale === lang.value ? "active" : ""}`,
+            children: /* @__PURE__ */ jsx("span", { className: "flex-1", children: lang.label })
+          },
+          lang.value
+        )) })
+      }
+    )
   ] });
 }
 function Navbar({

@@ -4,6 +4,7 @@ import * as React from "react"
 import { Moon, Sun, Monitor, Droplet } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useYunUI } from "../adapters/context"
+import { useAnchoredPosition } from "../lib/use-anchored-position"
 
 interface ThemeToggleProps {
     /** Visual variant: `icon` (default, icon-only) or `pill`. */
@@ -21,6 +22,8 @@ export function ThemeToggle({ variant = "icon", align = "right", className = "" 
     const [mounted, setMounted] = React.useState(false)
     const [isOpen, setIsOpen] = React.useState(false)
     const containerRef = React.useRef<HTMLDivElement>(null)
+    const panelRef = React.useRef<HTMLDivElement>(null)
+    const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef)
 
     React.useEffect(() => {
         setMounted(true)
@@ -82,8 +85,12 @@ export function ThemeToggle({ variant = "icon", align = "right", className = "" 
 
             {/* Dropdown */}
             {isOpen && (
-                <div className={`absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`}>
-                    <div className="p-1">
+                <div
+                    ref={panelRef}
+                    style={{ marginLeft: shift, maxHeight }}
+                    className={`absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`}
+                >
+                    <div className="p-1 flex-1 min-h-0 overflow-y-auto">
                         {themes.map((themeItem) => (
                             <button
                                 key={themeItem.value}

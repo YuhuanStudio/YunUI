@@ -11,6 +11,18 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Fixed
+- **Hand-rolled dropdown panels stay inside the viewport.** `ModelSelect`,
+  `CustomSelect`, `Combobox`, `LanguageSwitcher` and `ThemeToggle` positioned
+  their floating panel with a plain `absolute` and no collision handling, so on
+  narrow / mobile screens the panel (notably `ModelSelect`'s fixed `w-96`) spilled
+  off the right edge and could run past the bottom. New `useAnchoredPosition` hook
+  measures each panel against the viewport and applies a horizontal `marginLeft`
+  nudge (margin, so it never fights framer-motion / `animate-in` transforms) plus a
+  `maxHeight` cap paired with an internal `flex-1 min-h-0` scroll region. The Radix
+  panels (`Select`, `DropdownMenu`, `Popover`) already flip/shift via Popper and are
+  unchanged.
+
 ### Changed
 - **All dropdown / select panels share the LanguageSwitcher look.** Unified every
   floating menu panel onto one chrome — `rounded-2xl border border-border

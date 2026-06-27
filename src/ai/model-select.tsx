@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect, memo, type ReactNode } from "reac
 import { Search, Pin, ChevronDown, X, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "../lib/cn";
+import { useAnchoredPosition } from "../lib/use-anchored-position";
 
 // =====================================================
 // MODEL SELECT (generic, domain-agnostic)
@@ -104,6 +105,10 @@ export function ModelSelect({
     const rootRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    // Keep the floating panel inside the viewport (the Radix dropdowns flip/shift
+    // on their own; this hand-rolled one needs explicit collision handling).
+    const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
     const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
 
     // Close on outside pointer (mouse + touch).
@@ -259,6 +264,7 @@ export function ModelSelect({
 
             {isOpen && (
                     <motion.div
+                        ref={panelRef}
                         /* motion.div WITHOUT AnimatePresence: a reliable enter
                            animation on mount, and an immediate unmount on close
                            (no exit delay → close is synchronous). Fixed width so
@@ -270,9 +276,13 @@ export function ModelSelect({
                            panel can't fall back to a full-bleed width the way an
                            arbitrary `w-[24rem]` did when the consuming app's JIT scan
                            missed it. The small-screen cap is an inline style (not an
-                           arbitrary class) so it can't silently fail to generate. */
-                        style={{ maxWidth: "calc(100vw - 1rem)" }}
-                        className="origin-top absolute z-50 top-full left-0 mt-2 w-96 bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden"
+                           arbitrary class) so it can't silently fail to generate.
+                           `marginLeft`/`maxHeight` come from useAnchoredPosition so
+                           the panel never spills off the right/bottom of the screen —
+                           margin (not transform) so it doesn't fight the open
+                           animation; height paired with the flex-1 scroll list below. */
+                        style={{ maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight }}
+                        className="origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-background/60 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden"
                     >
                         {/* Search + capability filters */}
                         <div className="p-2.5 border-b border-border/50">
@@ -333,7 +343,7 @@ export function ModelSelect({
                         )}
 
                         {/* List */}
-                        <div ref={listRef} onWheel={onWheel} onMouseMove={clearActiveOnPointer} id="yunui-ms-listbox" role="listbox" className="max-h-96 overflow-y-auto overscroll-contain">
+                        <div ref={listRef} onWheel={onWheel} onMouseMove={clearActiveOnPointer} id="yunui-ms-listbox" role="listbox" className="flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain">
                             {pinnedList.length > 0 && (
                                 <div className="px-1.5 py-1.5 border-b border-border/40">
                                     <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1">

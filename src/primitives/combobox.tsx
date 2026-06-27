@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { X, ChevronDown } from "lucide-react";
 import { useYunUI } from "../adapters/context";
+import { useAnchoredPosition } from "../lib/use-anchored-position";
 
 export interface ComboboxOption {
     /** The value reported to `onChange` when selected. */
@@ -63,6 +64,8 @@ export function Combobox({
     const [inputValue, setInputValue] = useState(value || "");
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
 
     // 當 value 從外部變化時更新輸入值
     useEffect(() => {
@@ -193,8 +196,12 @@ export function Combobox({
 
             {/* Dropdown */}
             {isOpen && !disabled && (
-                <div className="absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden animate-in fade-in-0 zoom-in-95 duration-200">
-                    <div className="max-h-60 overflow-y-auto">
+                <div
+                    ref={panelRef}
+                    style={{ marginLeft: shift, maxHeight }}
+                    className="absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200"
+                >
+                    <div className="flex-1 min-h-0 max-h-60 overflow-y-auto">
                         {filteredOptions.length === 0 && !canCreateNew ? (
                             <div className="px-3 py-2 text-sm text-muted-foreground">
                                 {t("noResults")}

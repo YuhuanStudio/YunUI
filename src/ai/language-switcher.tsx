@@ -2,6 +2,7 @@
 
 import { Globe } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { useAnchoredPosition } from "../lib/use-anchored-position";
 
 export interface LanguageOption {
     /** Locale code (e.g. "en", "zh-TW"). */
@@ -42,6 +43,8 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
 
     // Close on outside click
     useEffect(() => {
@@ -94,8 +97,12 @@ export function LanguageSwitcher({
 
             {/* Dropdown */}
             {isOpen && (
-                <div className={`absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`}>
-                    <div className="p-1">
+                <div
+                    ref={panelRef}
+                    style={{ marginLeft: shift, maxHeight }}
+                    className={`absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`}
+                >
+                    <div className="p-1 flex-1 min-h-0 overflow-y-auto">
                         {locales.map((lang) => (
                             <button
                                 key={lang.value}

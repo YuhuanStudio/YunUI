@@ -3,6 +3,7 @@ import { useYunUI } from './chunk-U2LNRVMI.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import * as React from 'react';
+import { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { Sun, Moon, Droplet, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { jsx, jsxs } from 'react/jsx-runtime';
@@ -10,12 +11,55 @@ import { jsx, jsxs } from 'react/jsx-runtime';
 function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
+var useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+function useAnchoredPosition(open, panelRef, opts) {
+  const gutter = opts?.gutter ?? 8;
+  const minHeight = opts?.minHeight ?? 160;
+  const [pos, setPos] = useState({ shift: 0, maxHeight: void 0 });
+  const shiftRef = useRef(0);
+  useIsoLayoutEffect(() => {
+    if (!open) {
+      shiftRef.current = 0;
+      setPos({ shift: 0, maxHeight: void 0 });
+      return;
+    }
+    const compute = () => {
+      const el = panelRef.current;
+      const parent = el?.offsetParent;
+      if (!el || !parent) return;
+      const parentRect = parent.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const naturalLeft = parentRect.left + el.offsetLeft - shiftRef.current;
+      const naturalRight = naturalLeft + el.offsetWidth;
+      let dx = 0;
+      if (naturalRight > vw - gutter) dx = vw - gutter - naturalRight;
+      if (naturalLeft + dx < gutter) dx = gutter - naturalLeft;
+      dx = Math.round(dx);
+      const top = parentRect.top + el.offsetTop;
+      const space = Math.floor(vh - top - gutter);
+      const maxHeight = space < vh ? Math.max(space, minHeight) : void 0;
+      shiftRef.current = dx;
+      setPos({ shift: dx, maxHeight });
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    window.addEventListener("scroll", compute, true);
+    return () => {
+      window.removeEventListener("resize", compute);
+      window.removeEventListener("scroll", compute, true);
+    };
+  }, [open, gutter, minHeight, panelRef]);
+  return pos;
+}
 function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   const { theme, setTheme } = useTheme();
   const t = useYunUI().useT("common.theme");
   const [mounted, setMounted] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const containerRef = React.useRef(null);
+  const panelRef = React.useRef(null);
+  const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
   React.useEffect(() => {
     setMounted(true);
   }, []);
@@ -62,24 +106,32 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsx("div", { className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`, children: /* @__PURE__ */ jsx("div", { className: "p-1", children: themes.map((themeItem) => /* @__PURE__ */ jsxs(
-      "button",
+    isOpen && /* @__PURE__ */ jsx(
+      "div",
       {
-        onClick: () => {
-          setTheme(themeItem.value);
-          setIsOpen(false);
-        },
-        className: `dropdown-item w-full text-left ${theme === themeItem.value ? "active" : ""}`,
-        children: [
-          themeItem.icon,
-          /* @__PURE__ */ jsx("span", { className: "flex-1", children: themeItem.label })
-        ]
-      },
-      themeItem.value
-    )) }) })
+        ref: panelRef,
+        style: { marginLeft: shift, maxHeight },
+        className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
+        children: /* @__PURE__ */ jsx("div", { className: "p-1 flex-1 min-h-0 overflow-y-auto", children: themes.map((themeItem) => /* @__PURE__ */ jsxs(
+          "button",
+          {
+            onClick: () => {
+              setTheme(themeItem.value);
+              setIsOpen(false);
+            },
+            className: `dropdown-item w-full text-left ${theme === themeItem.value ? "active" : ""}`,
+            children: [
+              themeItem.icon,
+              /* @__PURE__ */ jsx("span", { className: "flex-1", children: themeItem.label })
+            ]
+          },
+          themeItem.value
+        )) })
+      }
+    )
   ] });
 }
 
-export { ThemeToggle, cn };
-//# sourceMappingURL=chunk-GHO4RCDR.js.map
-//# sourceMappingURL=chunk-GHO4RCDR.js.map
+export { ThemeToggle, cn, useAnchoredPosition };
+//# sourceMappingURL=chunk-MQFC42TH.js.map
+//# sourceMappingURL=chunk-MQFC42TH.js.map
