@@ -282,6 +282,65 @@ function MediaCard({
     </div>
   );
 
+  // Audio has no visual thumbnail — always render as a full-width player row
+  // (a 16×16 thumbnail box would squish the AudioPlayer), in both grid and list.
+  if (kind === "audio") {
+    const showError = status === "failed";
+    return (
+      <div className="card space-y-2.5 p-3">
+        <div className="flex items-start gap-2">
+          <div className="min-w-0 flex-1">
+            {item.prompt !== undefined && <div className="line-clamp-2 text-sm">{item.prompt}</div>}
+            {(modelShort || item.meta) && (
+              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                {modelShort && <span className="truncate">{modelShort}</span>}
+                {modelShort && item.meta && <span className="text-muted-foreground/40">&bull;</span>}
+                {item.meta}
+              </div>
+            )}
+          </div>
+          {(onDownload || onDelete) && (
+            <div className="flex shrink-0 items-center gap-1">
+              {onDownload && (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  disabled={!isDone}
+                  aria-label={labels.download}
+                  onClick={() => onDownload(item)}
+                >
+                  <Download size={16} />
+                </Button>
+              )}
+              {onDelete && (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  aria-label={labels.delete}
+                  onClick={() => onDelete(item)}
+                >
+                  <Trash2 size={16} className="text-error" />
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+        {isProcessing ? (
+          <div className="flex items-center gap-2 py-2 text-xs text-muted-foreground">
+            <Spinner size="sm" /> {status === "pending" ? labels.starting : labels.processing}
+          </div>
+        ) : showError ? (
+          <div className="flex items-center gap-1.5 py-2 text-xs text-error">
+            <AlertCircle size={14} /> {labels.failed}
+            {item.error ? `: ${item.error}` : ""}
+          </div>
+        ) : (
+          <AudioPlayer src={item.url} className="w-full" />
+        )}
+      </div>
+    );
+  }
+
   if (view === "list") {
     return (
       <div className="card flex items-center gap-3 p-3">
@@ -303,7 +362,8 @@ function MediaCard({
       style={{ animationDelay: `${Math.min(index, 10) * 50}ms` }}
       onClick={() => canPreview && onPreview?.(item)}
     >
-      <div className={cn("relative", kind === "audio" ? "h-24" : "aspect-square")}>
+      {/* audio is handled above; image/video use a square media area */}
+      <div className="relative aspect-square">
         <MediaBody item={item} labels={labels} />
         {!isProcessing && actions}
       </div>

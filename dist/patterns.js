@@ -1406,6 +1406,54 @@ function MediaCard({
       ]
     }
   );
+  if (kind === "audio") {
+    const showError = status === "failed";
+    return /* @__PURE__ */ jsxs("div", { className: "card space-y-2.5 p-3", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2", children: [
+        /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1", children: [
+          item.prompt !== void 0 && /* @__PURE__ */ jsx("div", { className: "line-clamp-2 text-sm", children: item.prompt }),
+          (modelShort || item.meta) && /* @__PURE__ */ jsxs("div", { className: "mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground", children: [
+            modelShort && /* @__PURE__ */ jsx("span", { className: "truncate", children: modelShort }),
+            modelShort && item.meta && /* @__PURE__ */ jsx("span", { className: "text-muted-foreground/40", children: "\u2022" }),
+            item.meta
+          ] })
+        ] }),
+        (onDownload || onDelete) && /* @__PURE__ */ jsxs("div", { className: "flex shrink-0 items-center gap-1", children: [
+          onDownload && /* @__PURE__ */ jsx(
+            Button,
+            {
+              size: "icon",
+              variant: "ghost",
+              disabled: !isDone,
+              "aria-label": labels.download,
+              onClick: () => onDownload(item),
+              children: /* @__PURE__ */ jsx(Download, { size: 16 })
+            }
+          ),
+          onDelete && /* @__PURE__ */ jsx(
+            Button,
+            {
+              size: "icon",
+              variant: "ghost",
+              "aria-label": labels.delete,
+              onClick: () => onDelete(item),
+              children: /* @__PURE__ */ jsx(Trash2, { size: 16, className: "text-error" })
+            }
+          )
+        ] })
+      ] }),
+      isProcessing ? /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 py-2 text-xs text-muted-foreground", children: [
+        /* @__PURE__ */ jsx(Spinner, { size: "sm" }),
+        " ",
+        status === "pending" ? labels.starting : labels.processing
+      ] }) : showError ? /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 py-2 text-xs text-error", children: [
+        /* @__PURE__ */ jsx(AlertCircle, { size: 14 }),
+        " ",
+        labels.failed,
+        item.error ? `: ${item.error}` : ""
+      ] }) : /* @__PURE__ */ jsx(AudioPlayer, { src: item.url, className: "w-full" })
+    ] });
+  }
   if (view === "list") {
     return /* @__PURE__ */ jsxs("div", { className: "card flex items-center gap-3 p-3", children: [
       /* @__PURE__ */ jsx("div", { className: "relative h-16 w-16 shrink-0 overflow-hidden rounded-md bg-muted", children: /* @__PURE__ */ jsx(MediaBody, { item, labels }) }),
@@ -1423,7 +1471,7 @@ function MediaCard({
       style: { animationDelay: `${Math.min(index, 10) * 50}ms` },
       onClick: () => canPreview && onPreview?.(item),
       children: [
-        /* @__PURE__ */ jsxs("div", { className: cn("relative", kind === "audio" ? "h-24" : "aspect-square"), children: [
+        /* @__PURE__ */ jsxs("div", { className: "relative aspect-square", children: [
           /* @__PURE__ */ jsx(MediaBody, { item, labels }),
           !isProcessing && actions
         ] }),
