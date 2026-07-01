@@ -1,0 +1,89 @@
+import { ScrollArea } from "yunui";
+
+包裹任意溢出内容的跨浏览器自定义滚动条。它封装 Radix `ScrollArea`，渲染一条纤细、柔和的垂直 `ScrollBar`，仅在悬停/滚动时出现。用固定高度（例如 `h-72`）包裹溢出内容，视口才能裁剪并滚动。
+
+## 导入
+
+```tsx
+import { ScrollArea, ScrollBar } from "@yuhuanowo/yunui";
+```
+
+## 基础
+
+通过 `className` 给 `ScrollArea` 一个固定高度；任何超出该盒子高度的内容都会以自定义滑块滚动。
+
+<ComponentPreview
+  title="Vertical list"
+  code={`<ScrollArea className="h-72 w-64 rounded-lg border border-border">
+  <div className="p-4">
+    {Array.from({ length: 30 }).map((_, i) => (
+      <div key={i} className="border-b border-border/50 py-2 text-sm last:border-0">
+        Item {i + 1}
+      </div>
+    ))}
+  </div>
+</ScrollArea>`}
+>
+  <ScrollArea className="h-72 w-64 rounded-lg border border-border">
+    <div className="p-4">
+      {Array.from({ length: 30 }).map((_, i) => (
+        <div key={i} className="border-b border-border/50 py-2 text-sm last:border-0">
+          Item {i + 1}
+        </div>
+      ))}
+    </div>
+  </ScrollArea>
+</ComponentPreview>
+
+## 横向
+
+`ScrollArea` 会自动为你渲染一条垂直 `ScrollBar`。若需要横向滚动条，在内容旁自行添加一条 `orientation="horizontal"` 的 `ScrollBar`。
+
+<ComponentPreview
+  title="Horizontal tags"
+  code={`<ScrollArea className="w-80 whitespace-nowrap rounded-lg border border-border">
+  <div className="flex gap-3 p-4">
+    {Array.from({ length: 20 }).map((_, i) => (
+      <div key={i} className="shrink-0 rounded-md bg-muted px-3 py-2 text-sm">
+        Tag {i + 1}
+      </div>
+    ))}
+  </div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>`}
+>
+  <ScrollArea className="w-80 whitespace-nowrap rounded-lg border border-border">
+    <div className="flex gap-3 p-4">
+      {Array.from({ length: 20 }).map((_, i) => (
+        <div key={i} className="shrink-0 rounded-md bg-muted px-3 py-2 text-sm">
+          Tag {i + 1}
+        </div>
+      ))}
+    </div>
+    <ScrollBar orientation="horizontal" />
+  </ScrollArea>
+</ComponentPreview>
+
+## 属性
+
+### ScrollArea
+
+封装 Radix `ScrollArea.Root`，接受所有标准 `<div>` 属性。通过 `className` 设置固定高度（以及可选宽度）。
+
+<PropsTable
+  rows={[
+    { name: "children", type: "React.ReactNode", description: "渲染在滚动视口内的溢出内容。" },
+    { name: "className", type: "string", description: "尺寸与外观——设置固定高度（例如 `h-72`）才能让视口滚动。" },
+  ]}
+/>
+
+### ScrollBar
+
+可拖动的滚动条滑块与轨道。垂直方向会自动渲染；横向滚动时需手动添加。
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "\"vertical\" | \"horizontal\"", defaultValue: "\"vertical\"", description: "滚动条控制的轴向。" },
+    { name: "className", type: "string", description: "覆盖滚动条轨道的样式。" },
+  ]}
+/>

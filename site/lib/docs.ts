@@ -401,6 +401,16 @@ export const docs: DocEntry[] = [
     },
     "bento grid card glass layout feature tiles span responsive",
   ),
+  comp(
+    "scroll-area",
+    { en: "Scroll Area", "zh-CN": "滚动区域", "zh-TW": "捲動區域" },
+    {
+      en: "A styled, cross-browser custom scrollbar around any overflowing content.",
+      "zh-CN": "包裹任意溢出内容的跨浏览器自定义滚动条。",
+      "zh-TW": "包裹任意溢出內容的跨瀏覽器自訂捲軸。",
+    },
+    "scroll area scrollbar overflow custom radix viewport vertical horizontal thumb",
+  ),
 
   // ---- Data Display -------------------------------------------------------
   comp(
@@ -1330,7 +1340,12 @@ export const groups: DocGroup[] = [
   },
   {
     title: { en: "Layout", "zh-CN": "布局", "zh-TW": "佈局" },
-    pages: ["components/flex", "components/grid", "components/bento-grid"],
+    pages: [
+      "components/flex",
+      "components/grid",
+      "components/bento-grid",
+      "components/scroll-area",
+    ],
   },
   {
     title: { en: "Data Display", "zh-CN": "数据展示", "zh-TW": "資料展示" },

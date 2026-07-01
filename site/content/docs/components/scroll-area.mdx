@@ -1,0 +1,89 @@
+import { ScrollArea } from "yunui";
+
+A styled, cross-browser custom scrollbar around any overflowing content. It wraps Radix `ScrollArea` and renders a thin, muted vertical `ScrollBar` that only appears on hover/scroll. Wrap the overflowing content and give it a fixed height (e.g. `h-72`) so the viewport can clip and scroll.
+
+## Import
+
+```tsx
+import { ScrollArea, ScrollBar } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+Give `ScrollArea` a fixed height with `className`; anything taller than that box scrolls with a custom thumb.
+
+<ComponentPreview
+  title="Vertical list"
+  code={`<ScrollArea className="h-72 w-64 rounded-lg border border-border">
+  <div className="p-4">
+    {Array.from({ length: 30 }).map((_, i) => (
+      <div key={i} className="border-b border-border/50 py-2 text-sm last:border-0">
+        Item {i + 1}
+      </div>
+    ))}
+  </div>
+</ScrollArea>`}
+>
+  <ScrollArea className="h-72 w-64 rounded-lg border border-border">
+    <div className="p-4">
+      {Array.from({ length: 30 }).map((_, i) => (
+        <div key={i} className="border-b border-border/50 py-2 text-sm last:border-0">
+          Item {i + 1}
+        </div>
+      ))}
+    </div>
+  </ScrollArea>
+</ComponentPreview>
+
+## Horizontal
+
+`ScrollArea` renders a vertical `ScrollBar` for you. For an x-axis bar, add your own `ScrollBar` with `orientation="horizontal"` next to the content.
+
+<ComponentPreview
+  title="Horizontal tags"
+  code={`<ScrollArea className="w-80 whitespace-nowrap rounded-lg border border-border">
+  <div className="flex gap-3 p-4">
+    {Array.from({ length: 20 }).map((_, i) => (
+      <div key={i} className="shrink-0 rounded-md bg-muted px-3 py-2 text-sm">
+        Tag {i + 1}
+      </div>
+    ))}
+  </div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>`}
+>
+  <ScrollArea className="w-80 whitespace-nowrap rounded-lg border border-border">
+    <div className="flex gap-3 p-4">
+      {Array.from({ length: 20 }).map((_, i) => (
+        <div key={i} className="shrink-0 rounded-md bg-muted px-3 py-2 text-sm">
+          Tag {i + 1}
+        </div>
+      ))}
+    </div>
+    <ScrollBar orientation="horizontal" />
+  </ScrollArea>
+</ComponentPreview>
+
+## Props
+
+### ScrollArea
+
+Wraps the Radix `ScrollArea.Root` and accepts every standard `<div>` attribute. Set a fixed height (and optional width) through `className`.
+
+<PropsTable
+  rows={[
+    { name: "children", type: "React.ReactNode", description: "The overflowing content rendered inside the scroll viewport." },
+    { name: "className", type: "string", description: "Sizing and appearance — set a fixed height (e.g. `h-72`) so the viewport can scroll." },
+  ]}
+/>
+
+### ScrollBar
+
+The draggable scrollbar thumb + track. Rendered automatically for the vertical axis; add one manually for horizontal scrolling.
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "\"vertical\" | \"horizontal\"", defaultValue: "\"vertical\"", description: "Which axis the scrollbar controls." },
+    { name: "className", type: "string", description: "Overrides for the scrollbar track styling." },
+  ]}
+/>

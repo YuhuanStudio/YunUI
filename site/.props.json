@@ -3571,10 +3571,10 @@
   "Badge": [
     {
       "name": "variant",
-      "type": "\"default\" | \"error\" | \"success\" | \"warning\" | \"info\"",
+      "type": "\"default\" | \"secondary\" | \"outline\" | \"destructive\" | \"error\" | \"success\" | \"warning\" | \"info\"",
       "required": false,
       "defaultValue": "default",
-      "description": "Semantic color: `default` (neutral), `success`, `warning`, `error`, or `info`."
+      "description": "Semantic colors: `default` (neutral), `success`, `warning`, `error`, `info`.\nPlus structural variants for shadcn-style call sites: `secondary`,\n`outline`, and `destructive` (alias of `error`)."
     }
   ],
   "Separator": [
