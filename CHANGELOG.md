@@ -12,6 +12,11 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- **`AreaChart` (primitive)** — an interactive line/area chart for a time series:
+  smooth bezier curve, gradient area fill, dashed grid, and a hover guide with a
+  value tooltip. Container-width (ResizeObserver), pure SVG. The "full" chart
+  counterpart to `Sparkline`. Extracted from Yunxin's analytics charts so both
+  apps (and Yunshu) share one canonical chart.
 - **`Sparkline` (primitive)** — a tiny inline SVG line/area chart for a single
   number series (throughput, GPU utilization, latency), tone-colored and
   container-width. No chart library.

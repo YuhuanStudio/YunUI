@@ -36,7 +36,7 @@ import {
   PageLayout,
   AudioPlayer,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone } from "yunui";
+import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart } from "yunui";
 import {
   CapabilitySelector,
   LanguageSwitcher,
@@ -886,6 +886,26 @@ export function AudioPlayerDemo() {
   return (
     <div className="w-80">
       <AudioPlayer src={SAMPLE_AUDIO} title="sample-tone.wav" downloadName="sample-tone.wav" />
+    </div>
+  );
+}
+
+const AREA_SERIES = [12, 19, 15, 24, 22, 30, 26, 34, 29, 38, 33, 41].map((value, i) => ({
+  value,
+  label: `${8 + i}:00`,
+}));
+
+export function AreaChartDemo() {
+  return (
+    <div className="w-full max-w-xl">
+      <AreaChart
+        data={AREA_SERIES}
+        tone="accent"
+        height={160}
+        showXAxis
+        formatValue={(v) => `$${v.toFixed(2)}`}
+        ariaLabel="Hourly cost"
+      />
     </div>
   );
 }

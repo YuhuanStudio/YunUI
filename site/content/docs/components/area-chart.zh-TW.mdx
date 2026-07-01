@@ -1,0 +1,32 @@
+import { AreaChart } from "yunui";
+
+用於單條時間序列的互動式折線/面積圖——流量、成本、Token 或延遲隨時間的變化。平滑貝茲曲線、漸層面積填充、虛線格線，以及帶數值提示的懸停參考線。它透過 `ResizeObserver` 撐滿容器寬度，純 SVG，不依賴圖表庫。`tone` 從設計權杖為線條與填充著色，`color` 可覆蓋它。
+
+若只需無座標軸、無提示的一目了然趨勢，請改用 [Sparkline](/docs/components/sparkline)。
+
+## 匯入
+
+```tsx
+import { AreaChart } from "@yuhuanowo/yunui";
+```
+
+## 範例
+
+傳入一組 `{ value, label }`（或純數字）。懸停即可顯示參考線與提示。
+
+<ComponentPreview
+  title="AreaChart"
+  code={`<AreaChart
+  data={hourly}                       // [{ value, label }]
+  tone="accent"
+  height={160}
+  showXAxis
+  formatValue={(v) => "$" + v.toFixed(2)}
+/>`}
+>
+  <AreaChartDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="AreaChart" />

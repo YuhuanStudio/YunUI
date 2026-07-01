@@ -1081,6 +1081,42 @@ interface FileDropzoneProps {
  */
 declare function FileDropzone({ onFiles, accept, multiple, disabled, icon, label, hint, children, className, }: FileDropzoneProps): React$1.JSX.Element;
 
+type AreaChartTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
+interface AreaChartPoint {
+    /** The plotted value. */
+    value: number;
+    /** X-axis + tooltip label for this point (e.g. a formatted time). */
+    label?: ReactNode;
+}
+interface AreaChartProps {
+    /** The series, oldest → newest. Accepts plain numbers or `{ value, label }`. */
+    data: Array<AreaChartPoint | number>;
+    /** Semantic stroke/fill color. Ignored when `color` is set. */
+    tone?: AreaChartTone;
+    /** Explicit CSS color, overriding `tone`. */
+    color?: string;
+    /** Chart height in px (the width fills the container). */
+    height?: number;
+    /** Format a value for the tooltip (e.g. `(v) => "$" + v.toFixed(2)`). */
+    formatValue?: (value: number) => ReactNode;
+    /** Draw the dashed horizontal grid. */
+    showGrid?: boolean;
+    /** Enable the hover guide line + value tooltip. */
+    showTooltip?: boolean;
+    /** Render the x-axis labels below the chart (needs point `label`s). */
+    showXAxis?: boolean;
+    /** Line thickness. */
+    strokeWidth?: number;
+    /** Accessible name for the chart. */
+    ariaLabel?: string;
+    className?: string;
+}
+/**
+ * A container-width interactive area chart. Hover to reveal a guide line and a
+ * tooltip with the point's label + formatted value.
+ */
+declare function AreaChart({ data, tone, color, height, formatValue, showGrid, showTooltip, showXAxis, strokeWidth, ariaLabel, className, }: AreaChartProps): React$1.JSX.Element;
+
 declare function Toaster(): React$1.JSX.Element;
 declare const toast: {
     success: (message: string, description?: string) => void;
@@ -1289,4 +1325,4 @@ declare function readTheme(el?: HTMLElement | null): YunUITheme;
  */
 declare function useYunUITheme(defaults?: YunUITheme): [YunUITheme, (patch: YunUITheme) => void];
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };

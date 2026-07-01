@@ -40,6 +40,7 @@ import {
   LanguageSwitcherDemo,
   FileDropzoneDemo,
   AudioPlayerDemo,
+  AreaChartDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -91,6 +92,7 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     LanguageSwitcherDemo,
     FileDropzoneDemo,
     AudioPlayerDemo,
+    AreaChartDemo,
     ...components,
   };
 }

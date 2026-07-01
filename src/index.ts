@@ -41,6 +41,12 @@ export {
   type SegmentTone,
 } from "./primitives/segmented-bar";
 export { FileDropzone, type FileDropzoneProps } from "./primitives/file-dropzone";
+export {
+  AreaChart,
+  type AreaChartProps,
+  type AreaChartPoint,
+  type AreaChartTone,
+} from "./primitives/area-chart";
 export { Toaster, toast } from "./primitives/toast";
 
 // Utilities

@@ -424,6 +424,16 @@ export const docs: DocEntry[] = [
     "marquee scroll ticker infinite loop reverse vertical pause hover",
   ),
   comp(
+    "area-chart",
+    { en: "Area Chart", "zh-CN": "面积图", "zh-TW": "面積圖" },
+    {
+      en: "Interactive line/area chart for a time series — grid, gradient fill, hover tooltip. Pure SVG.",
+      "zh-CN": "用于时间序列的交互式折线/面积图——网格、渐变填充、悬停提示。纯 SVG。",
+      "zh-TW": "用於時間序列的互動式折線/面積圖——格線、漸層填充、懸停提示。純 SVG。",
+    },
+    "area chart line graph time series trend interactive tooltip gradient grid analytics",
+  ),
+  comp(
     "sparkline",
     { en: "Sparkline", "zh-CN": "迷你折线图", "zh-TW": "迷你折線圖" },
     {
@@ -1137,6 +1147,7 @@ export const groups: DocGroup[] = [
       "components/table",
       "components/animated-number",
       "components/marquee",
+      "components/area-chart",
       "components/sparkline",
       "components/gauge",
       "components/segmented-bar",

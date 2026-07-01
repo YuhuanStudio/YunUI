@@ -106,6 +106,7 @@ import {
   RadioGroup,
   RadioGroupItem,
   ThemeToggle,
+  AreaChart,
   Sparkline,
   Gauge,
   SegmentedBar,
@@ -1612,6 +1613,18 @@ export default function Showcase() {
               <AccordionContent>Yes — light, zinc-dark and true-black.</AccordionContent>
             </AccordionItem>
           </Accordion>
+        </Demo>
+        <Demo title="AreaChart" description="Interactive line/area chart for a time series — smooth curve, gradient fill, dashed grid, and a hover tooltip. Fills its container.">
+          <div className="w-full max-w-xl">
+            <AreaChart
+              data={[12, 19, 15, 24, 22, 30, 26, 34, 29, 38, 33, 41].map((value, i) => ({ value, label: `${8 + i}:00` }))}
+              tone="accent"
+              height={160}
+              showXAxis
+              formatValue={(v) => `$${v.toFixed(2)}`}
+              ariaLabel="Hourly cost"
+            />
+          </div>
         </Demo>
         <Demo title="Sparkline" description="Tiny inline line/area charts for a rolling number series — throughput, GPU utilization, latency. Pure SVG, tone-colored.">
           <div className="flex flex-wrap items-center gap-8">

@@ -1,0 +1,32 @@
+import { AreaChart } from "yunui";
+
+An interactive line/area chart for a single time series — traffic, cost, tokens or latency over time. Smooth bezier curve, gradient area fill, a dashed grid, and a hover guide with a value tooltip. It fills its container width (via `ResizeObserver`) and is pure SVG — no chart library. `tone` colors the line + fill from the design tokens; `color` overrides it.
+
+For a tiny at-a-glance trend with no axes or tooltip, use [Sparkline](/docs/components/sparkline) instead.
+
+## Import
+
+```tsx
+import { AreaChart } from "@yuhuanowo/yunui";
+```
+
+## Example
+
+Pass a series of `{ value, label }` (or plain numbers). Hover to reveal the guide and tooltip.
+
+<ComponentPreview
+  title="AreaChart"
+  code={`<AreaChart
+  data={hourly}                       // [{ value, label }]
+  tone="accent"
+  height={160}
+  showXAxis
+  formatValue={(v) => "$" + v.toFixed(2)}
+/>`}
+>
+  <AreaChartDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="AreaChart" />

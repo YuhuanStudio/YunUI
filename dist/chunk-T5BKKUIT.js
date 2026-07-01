@@ -2,7 +2,7 @@
 import { cn, useAnchoredPosition } from './chunk-LLNTUA5K.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import * as React7 from 'react';
-import { forwardRef, useState, useEffect, useRef, useCallback, useId } from 'react';
+import { forwardRef, useState, useEffect, useRef, useCallback, useId, useMemo } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
@@ -3201,6 +3201,172 @@ function FileDropzone({
     }
   );
 }
+var TONE_VAR4 = {
+  accent: "var(--color-accent)",
+  success: "var(--success)",
+  warning: "var(--warning)",
+  error: "var(--error)",
+  info: "var(--info)",
+  neutral: "var(--color-muted-foreground)"
+};
+var VIEW_H = 140;
+function normalize(data) {
+  return data.map((d) => typeof d === "number" ? { value: d } : d);
+}
+function AreaChart({
+  data,
+  tone = "accent",
+  color,
+  height = VIEW_H,
+  formatValue,
+  showGrid = true,
+  showTooltip = true,
+  showXAxis = false,
+  strokeWidth = 2,
+  ariaLabel = "Area chart",
+  className
+}) {
+  const gradientId = useId();
+  const stroke = color ?? TONE_VAR4[tone];
+  const containerRef = useRef(null);
+  const [width, setWidth] = useState(0);
+  const [hovered, setHovered] = useState(null);
+  const points = useMemo(() => normalize(data), [data]);
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      if (entries[0]) setWidth(entries[0].contentRect.width);
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+  const values = points.map((p) => Number.isFinite(p.value) ? p.value : 0);
+  const maxVal = Math.max(...values, 1);
+  const minVal = Math.min(...values, 0);
+  const span = maxVal - minVal || 1;
+  const chartWidth = width || 600;
+  const getPoint = (i) => {
+    const x = i / Math.max(points.length - 1, 1) * chartWidth;
+    const normalized = (values[i] - minVal) / span;
+    const y = VIEW_H - normalized * VIEW_H * 0.85 - VIEW_H * 0.05;
+    return { x, y };
+  };
+  const linePath = useMemo(() => {
+    if (points.length === 0) return "";
+    const start = getPoint(0);
+    let path = `M ${start.x},${start.y}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const curr = getPoint(i);
+      const next = getPoint(i + 1);
+      const cpx = (curr.x + next.x) / 2;
+      path += ` C ${cpx},${curr.y} ${cpx},${next.y} ${next.x},${next.y}`;
+    }
+    return path;
+  }, [points, values, maxVal, minVal, chartWidth]);
+  const areaPath = linePath ? `${linePath} L ${chartWidth},${VIEW_H} L 0,${VIEW_H} Z` : "";
+  const hoveredCoords = hovered !== null ? getPoint(hovered) : null;
+  const fmt = formatValue ?? ((v) => String(v));
+  const xLabels = points.filter((p) => p.label != null);
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-col", className), children: [
+    /* @__PURE__ */ jsxs("div", { ref: containerRef, className: "relative w-full", style: { height }, children: [
+      points.length < 2 ? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-sm text-muted-foreground", children: "No data" }) : /* @__PURE__ */ jsxs(
+        "svg",
+        {
+          viewBox: `0 0 ${chartWidth} ${VIEW_H}`,
+          preserveAspectRatio: "none",
+          className: "h-full w-full overflow-visible",
+          role: "img",
+          "aria-label": ariaLabel,
+          onMouseMove: (e) => {
+            if (!showTooltip) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const idx = Math.min(
+              Math.max(0, Math.round(mouseX / rect.width * (points.length - 1))),
+              points.length - 1
+            );
+            setHovered(idx);
+          },
+          onMouseLeave: () => setHovered(null),
+          children: [
+            /* @__PURE__ */ jsx("defs", { children: /* @__PURE__ */ jsxs("linearGradient", { id: gradientId, x1: "0", y1: "0", x2: "0", y2: "1", children: [
+              /* @__PURE__ */ jsx("stop", { offset: "0%", stopColor: stroke, stopOpacity: 0.32 }),
+              /* @__PURE__ */ jsx("stop", { offset: "100%", stopColor: stroke, stopOpacity: 0 })
+            ] }) }),
+            showGrid && [0, 0.25, 0.5, 0.75, 1].map((tick) => /* @__PURE__ */ jsx(
+              "line",
+              {
+                x1: 0,
+                y1: VIEW_H * tick,
+                x2: chartWidth,
+                y2: VIEW_H * tick,
+                stroke: "currentColor",
+                strokeOpacity: 0.1,
+                strokeDasharray: "4 4",
+                className: "text-muted-foreground"
+              },
+              tick
+            )),
+            /* @__PURE__ */ jsx("path", { d: areaPath, fill: `url(#${gradientId})` }),
+            /* @__PURE__ */ jsx(
+              "path",
+              {
+                d: linePath,
+                fill: "none",
+                stroke,
+                strokeWidth,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                vectorEffect: "non-scaling-stroke"
+              }
+            ),
+            hoveredCoords && /* @__PURE__ */ jsxs(Fragment, { children: [
+              /* @__PURE__ */ jsx(
+                "line",
+                {
+                  x1: hoveredCoords.x,
+                  y1: 0,
+                  x2: hoveredCoords.x,
+                  y2: VIEW_H,
+                  stroke,
+                  strokeOpacity: 0.4,
+                  strokeDasharray: "4 4"
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "circle",
+                {
+                  cx: hoveredCoords.x,
+                  cy: hoveredCoords.y,
+                  r: 4,
+                  fill: stroke,
+                  stroke: "var(--color-background)",
+                  strokeWidth: 2,
+                  vectorEffect: "non-scaling-stroke"
+                }
+              )
+            ] })
+          ]
+        }
+      ),
+      showTooltip && hovered !== null && points[hovered] && chartWidth > 0 && /* @__PURE__ */ jsxs(
+        "div",
+        {
+          className: "pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded-lg border border-border bg-popover/95 p-2 text-xs shadow-lg backdrop-blur-sm",
+          style: {
+            left: `${Math.min(Math.max(getPoint(hovered).x / chartWidth * 100, 8), 92)}%`,
+            top: Math.max(getPoint(hovered).y / VIEW_H * height - 8, 0)
+          },
+          children: [
+            points[hovered].label != null && /* @__PURE__ */ jsx("div", { className: "mb-0.5 font-medium", children: points[hovered].label }),
+            /* @__PURE__ */ jsx("div", { className: "tabular-nums text-muted-foreground", children: fmt(values[hovered]) })
+          ]
+        }
+      )
+    ] }),
+    showXAxis && xLabels.length > 1 && /* @__PURE__ */ jsx("div", { className: "mt-1.5 flex justify-between px-1 text-xs text-muted-foreground", children: points.filter((p, i) => p.label != null && i % Math.ceil(points.length / 6) === 0).map((p, i) => /* @__PURE__ */ jsx("span", { className: "truncate", children: p.label }, i)) })
+  ] });
+}
 function Toaster() {
   return /* @__PURE__ */ jsx(
     Toaster$1,
@@ -3360,6 +3526,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, Flex, Gauge, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedBar, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Sparkline, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-6UFDV3EE.js.map
-//# sourceMappingURL=chunk-6UFDV3EE.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, AreaChart, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, Flex, Gauge, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedBar, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Sparkline, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-T5BKKUIT.js.map
+//# sourceMappingURL=chunk-T5BKKUIT.js.map

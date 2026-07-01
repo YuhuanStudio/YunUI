@@ -2452,6 +2452,85 @@
       "description": ""
     }
   ],
+  "AreaChart": [
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Area chart",
+      "description": "Accessible name for the chart."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Explicit CSS color, overriding `tone`."
+    },
+    {
+      "name": "data",
+      "type": "(number | AreaChartPoint)[]",
+      "required": true,
+      "defaultValue": null,
+      "description": "The series, oldest → newest. Accepts plain numbers or `{ value, label }`."
+    },
+    {
+      "name": "formatValue",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Format a value for the tooltip (e.g. `(v) => \"$\" + v.toFixed(2)`)."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "defaultValue": "140",
+      "description": "Chart height in px (the width fills the container)."
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Draw the dashed horizontal grid."
+    },
+    {
+      "name": "showTooltip",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Enable the hover guide line + value tooltip."
+    },
+    {
+      "name": "showXAxis",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Render the x-axis labels below the chart (needs point `label`s)."
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number",
+      "required": false,
+      "defaultValue": "2",
+      "description": "Line thickness."
+    },
+    {
+      "name": "tone",
+      "type": "\"accent\" | \"success\" | \"warning\" | \"error\" | \"info\" | \"neutral\"",
+      "required": false,
+      "defaultValue": "accent",
+      "description": "Semantic stroke/fill color. Ignored when `color` is set."
+    }
+  ],
   "BentoGrid": [
     {
       "name": "className",
