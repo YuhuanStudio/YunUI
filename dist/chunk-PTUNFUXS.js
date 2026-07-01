@@ -13,13 +13,14 @@ import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
-import { Minus, Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Plus, Search, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, ArrowRight, AlertTriangle } from 'lucide-react';
+import { Minus, Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Plus, Search, X, ChevronUp, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, ArrowRight, AlertTriangle } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as Primitive from '@radix-ui/react-collapsible';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { Toaster as Toaster$1, toast as toast$1 } from 'sonner';
 
 function useEscapeKey(onEscape, enabled = true) {
@@ -1724,13 +1725,27 @@ var Card = React7.forwardRef(
   }
 );
 Card.displayName = "Card";
+var CardHeader = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("flex flex-col space-y-1.5 p-6", className), ...props }));
+CardHeader.displayName = "CardHeader";
+var CardTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("h3", { ref, className: cn("text-lg font-semibold leading-none tracking-tight", className), ...props }));
+CardTitle.displayName = "CardTitle";
+var CardDescription = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("p", { ref, className: cn("text-sm text-muted-foreground", className), ...props }));
+CardDescription.displayName = "CardDescription";
+var CardContent = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("p-6 pt-0", className), ...props }));
+CardContent.displayName = "CardContent";
+var CardFooter = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("flex items-center p-6 pt-0", className), ...props }));
+CardFooter.displayName = "CardFooter";
 function Badge({ className, variant = "default", ...props }) {
   const variants = {
     default: "bg-muted text-foreground/80",
     success: "bg-success-soft text-success",
     warning: "bg-warning-soft text-warning",
     error: "bg-error-soft text-error",
-    info: "bg-info-soft text-info"
+    info: "bg-info-soft text-info",
+    // Structural (shadcn-compatible) variants:
+    secondary: "bg-secondary text-secondary-foreground",
+    outline: "border border-border text-foreground",
+    destructive: "bg-error-soft text-error"
   };
   return /* @__PURE__ */ jsx(
     "span",
@@ -1744,7 +1759,7 @@ function Badge({ className, variant = "default", ...props }) {
     }
   );
 }
-function Separator2({
+function Separator3({
   className,
   orientation = "horizontal",
   decorative = false,
@@ -2051,6 +2066,44 @@ var SelectItem = React7.forwardRef(({ className, children, ...props }, ref) => /
   }
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
+var SelectLabel = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.Label,
+  {
+    ref,
+    className: cn("px-2 py-1.5 text-xs font-medium text-muted-foreground", className),
+    ...props
+  }
+));
+SelectLabel.displayName = SelectPrimitive.Label.displayName;
+var SelectSeparator = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.Separator,
+  {
+    ref,
+    className: cn("-mx-1 my-1 h-px bg-border", className),
+    ...props
+  }
+));
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+var SelectScrollUpButton = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.ScrollUpButton,
+  {
+    ref,
+    className: cn("flex cursor-default items-center justify-center py-1", className),
+    ...props,
+    children: /* @__PURE__ */ jsx(ChevronUp, { className: "h-4 w-4" })
+  }
+));
+SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
+var SelectScrollDownButton = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.ScrollDownButton,
+  {
+    ref,
+    className: cn("flex cursor-default items-center justify-center py-1", className),
+    ...props,
+    children: /* @__PURE__ */ jsx(ChevronDown, { className: "h-4 w-4" })
+  }
+));
+SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
 var Slider = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxs(
   SliderPrimitive.Root,
   {
@@ -2278,7 +2331,7 @@ var IconButton = React7.forwardRef(
   }
 );
 IconButton.displayName = "IconButton";
-function Label2({ className, ...props }) {
+function Label3({ className, ...props }) {
   return /* @__PURE__ */ jsx(
     "label",
     {
@@ -2848,6 +2901,37 @@ var PopoverContent = React7.forwardRef(({ className, align = "center", sideOffse
 ) }));
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 var PopoverClose2 = PopoverPrimitive.PopoverClose;
+var PopoverAnchor = PopoverPrimitive.Anchor;
+var ScrollArea = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+  ScrollAreaPrimitive.Root,
+  {
+    ref,
+    className: cn("relative overflow-hidden", className),
+    ...props,
+    children: [
+      /* @__PURE__ */ jsx(ScrollAreaPrimitive.Viewport, { className: "h-full w-full rounded-[inherit]", children }),
+      /* @__PURE__ */ jsx(ScrollBar, {}),
+      /* @__PURE__ */ jsx(ScrollAreaPrimitive.Corner, {})
+    ]
+  }
+));
+ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
+var ScrollBar = React7.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ jsx(
+  ScrollAreaPrimitive.ScrollAreaScrollbar,
+  {
+    ref,
+    orientation,
+    className: cn(
+      "flex touch-none select-none transition-colors",
+      orientation === "vertical" && "h-full w-2.5 border-l border-l-transparent p-[1px]",
+      orientation === "horizontal" && "h-2.5 flex-col border-t border-t-transparent p-[1px]",
+      className
+    ),
+    ...props,
+    children: /* @__PURE__ */ jsx(ScrollAreaPrimitive.ScrollAreaThumb, { className: "relative flex-1 rounded-full bg-border" })
+  }
+));
+ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
 var sizeClasses = {
   sm: {
     track: "w-8 h-4",
@@ -3527,6 +3611,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, AreaChart, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, Flex, Gauge, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedBar, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Sparkline, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-TVO5HAAT.js.map
-//# sourceMappingURL=chunk-TVO5HAAT.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, AreaChart, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, Flex, Gauge, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, SegmentedBar, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, ShinyButton, Skeleton, Slider, Sparkline, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-PTUNFUXS.js.map
+//# sourceMappingURL=chunk-PTUNFUXS.js.map

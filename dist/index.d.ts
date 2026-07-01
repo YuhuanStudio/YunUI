@@ -12,6 +12,7 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { LucideIcon } from 'lucide-react';
 import * as Primitive from '@radix-ui/react-collapsible';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { ClassValue } from 'clsx';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
@@ -525,11 +526,25 @@ interface CardProps extends React$1.HTMLAttributes<HTMLDivElement> {
 }
 /** Surface container rendering the canonical `.card` style. */
 declare const Card: React$1.ForwardRefExoticComponent<CardProps & React$1.RefAttributes<HTMLDivElement>>;
+/** Header region of a Card — title + description live here. */
+declare const CardHeader: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLDivElement> & React$1.RefAttributes<HTMLDivElement>>;
+/** Card title (renders an <h3>). */
+declare const CardTitle: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLHeadingElement> & React$1.RefAttributes<HTMLHeadingElement>>;
+/** Muted supporting text under the title. */
+declare const CardDescription: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLParagraphElement> & React$1.RefAttributes<HTMLParagraphElement>>;
+/** Main content region of a Card. */
+declare const CardContent: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLDivElement> & React$1.RefAttributes<HTMLDivElement>>;
+/** Footer region of a Card (actions, meta). */
+declare const CardFooter: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLDivElement> & React$1.RefAttributes<HTMLDivElement>>;
 interface BadgeProps extends React$1.HTMLAttributes<HTMLSpanElement> {
-    /** Semantic color: `default` (neutral), `success`, `warning`, `error`, or `info`. */
-    variant?: "default" | "success" | "warning" | "error" | "info";
+    /**
+     * Semantic colors: `default` (neutral), `success`, `warning`, `error`, `info`.
+     * Plus structural variants for shadcn-style call sites: `secondary`,
+     * `outline`, and `destructive` (alias of `error`).
+     */
+    variant?: "default" | "success" | "warning" | "error" | "info" | "secondary" | "outline" | "destructive";
 }
-/** Small inline pill for status/labels, with semantic color variants. */
+/** Small inline pill for status/labels, with semantic + structural variants. */
 declare function Badge({ className, variant, ...props }: BadgeProps): React$1.JSX.Element;
 interface SeparatorProps extends React$1.HTMLAttributes<HTMLDivElement> {
     orientation?: "horizontal" | "vertical";
@@ -641,6 +656,14 @@ declare const SelectTrigger: React$1.ForwardRefExoticComponent<Omit<SelectPrimit
 declare const SelectContent: React$1.ForwardRefExoticComponent<Omit<SelectPrimitive.SelectContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 /** A selectable option in the dropdown (shows a check when selected). */
 declare const SelectItem: React$1.ForwardRefExoticComponent<Omit<SelectPrimitive.SelectItemProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+/** Non-selectable heading for a group of options. */
+declare const SelectLabel: React$1.ForwardRefExoticComponent<Omit<SelectPrimitive.SelectLabelProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+/** Divider between option groups. */
+declare const SelectSeparator: React$1.ForwardRefExoticComponent<Omit<SelectPrimitive.SelectSeparatorProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+/** Auto-scroll affordance shown at the top of a long, scrollable list. */
+declare const SelectScrollUpButton: React$1.ForwardRefExoticComponent<Omit<SelectPrimitive.SelectScrollUpButtonProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+/** Auto-scroll affordance shown at the bottom of a long, scrollable list. */
+declare const SelectScrollDownButton: React$1.ForwardRefExoticComponent<Omit<SelectPrimitive.SelectScrollDownButtonProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 /** Range slider with a track, filled range, and draggable thumb. */
 declare const Slider: React$1.ForwardRefExoticComponent<Omit<SliderPrimitive.SliderProps & React$1.RefAttributes<HTMLSpanElement>, "ref"> & React$1.RefAttributes<HTMLSpanElement>>;
 /** Horizontal progress bar; `value` is the percent complete (0–100). */
@@ -931,6 +954,7 @@ declare const Popover: React$1.FC<PopoverPrimitive.PopoverProps>;
 declare const PopoverTrigger: React$1.ForwardRefExoticComponent<PopoverPrimitive.PopoverTriggerProps & React$1.RefAttributes<HTMLButtonElement>>;
 declare const PopoverContent: React$1.ForwardRefExoticComponent<Omit<PopoverPrimitive.PopoverContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 declare const PopoverClose: React$1.ForwardRefExoticComponent<PopoverPrimitive.PopoverCloseProps & React$1.RefAttributes<HTMLButtonElement>>;
+declare const PopoverAnchor: React$1.ForwardRefExoticComponent<PopoverPrimitive.PopoverAnchorProps & React$1.RefAttributes<HTMLDivElement>>;
 
 interface ThemeToggleProps {
     /** Visual variant: `icon` (default, icon-only) or `pill`. */
@@ -942,6 +966,14 @@ interface ThemeToggleProps {
 }
 /** Theme switcher dropdown (light / dark / true-black / system) backed by next-themes. */
 declare function ThemeToggle({ variant, align, className }: ThemeToggleProps): React$1.JSX.Element;
+
+/**
+ * Styled, cross-browser custom scrollbar around any overflowing content.
+ * Wraps Radix ScrollArea; renders a vertical `ScrollBar` by default.
+ */
+declare const ScrollArea: React$1.ForwardRefExoticComponent<Omit<ScrollAreaPrimitive.ScrollAreaProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+/** The draggable scrollbar thumb + track. Use `orientation="horizontal"` for an x-axis bar. */
+declare const ScrollBar: React$1.ForwardRefExoticComponent<Omit<ScrollAreaPrimitive.ScrollAreaScrollbarProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 
 interface SwitchProps {
     /** Whether the switch is on (controlled). */
@@ -1325,4 +1357,4 @@ declare function readTheme(el?: HTMLElement | null): YunUITheme;
  */
 declare function useYunUITheme(defaults?: YunUITheme): [YunUITheme, (patch: YunUITheme) => void];
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, type SelectOption, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };

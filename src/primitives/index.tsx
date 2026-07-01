@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 import {
     Check,
     ChevronDown,
+    ChevronUp,
     ChevronRight,
     X,
     Loader2,
@@ -526,16 +527,73 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
 );
 Card.displayName = "Card";
 
+/** Header region of a Card — title + description live here. */
+export const CardHeader = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />
+));
+CardHeader.displayName = "CardHeader";
+
+/** Card title (renders an <h3>). */
+export const CardTitle = React.forwardRef<
+    HTMLHeadingElement,
+    React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+    <h3 ref={ref} className={cn("text-lg font-semibold leading-none tracking-tight", className)} {...props} />
+));
+CardTitle.displayName = "CardTitle";
+
+/** Muted supporting text under the title. */
+export const CardDescription = React.forwardRef<
+    HTMLParagraphElement,
+    React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+    <p ref={ref} className={cn("text-sm text-muted-foreground", className)} {...props} />
+));
+CardDescription.displayName = "CardDescription";
+
+/** Main content region of a Card. */
+export const CardContent = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+));
+CardContent.displayName = "CardContent";
+
+/** Footer region of a Card (actions, meta). */
+export const CardFooter = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("flex items-center p-6 pt-0", className)} {...props} />
+));
+CardFooter.displayName = "CardFooter";
+
 // =====================================================
 // BADGE
 // =====================================================
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-    /** Semantic color: `default` (neutral), `success`, `warning`, `error`, or `info`. */
-    variant?: "default" | "success" | "warning" | "error" | "info";
+    /**
+     * Semantic colors: `default` (neutral), `success`, `warning`, `error`, `info`.
+     * Plus structural variants for shadcn-style call sites: `secondary`,
+     * `outline`, and `destructive` (alias of `error`).
+     */
+    variant?:
+        | "default"
+        | "success"
+        | "warning"
+        | "error"
+        | "info"
+        | "secondary"
+        | "outline"
+        | "destructive";
 }
 
-/** Small inline pill for status/labels, with semantic color variants. */
+/** Small inline pill for status/labels, with semantic + structural variants. */
 export function Badge({ className, variant = "default", ...props }: BadgeProps) {
     // Token-driven semantic tints (see .bg-*-soft / .text-* helpers in yunui.css)
     // so a Badge, an Alert and a status dot all read the same red/green/amber.
@@ -545,6 +603,10 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
         warning: "bg-warning-soft text-warning",
         error: "bg-error-soft text-error",
         info: "bg-info-soft text-info",
+        // Structural (shadcn-compatible) variants:
+        secondary: "bg-secondary text-secondary-foreground",
+        outline: "border border-border text-foreground",
+        destructive: "bg-error-soft text-error",
     };
 
     return (
@@ -1040,6 +1102,62 @@ export const SelectItem = React.forwardRef<
     </SelectPrimitive.Item>
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
+
+/** Non-selectable heading for a group of options. */
+export const SelectLabel = React.forwardRef<
+    React.ComponentRef<typeof SelectPrimitive.Label>,
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+>(({ className, ...props }, ref) => (
+    <SelectPrimitive.Label
+        ref={ref}
+        className={cn("px-2 py-1.5 text-xs font-medium text-muted-foreground", className)}
+        {...props}
+    />
+));
+SelectLabel.displayName = SelectPrimitive.Label.displayName;
+
+/** Divider between option groups. */
+export const SelectSeparator = React.forwardRef<
+    React.ComponentRef<typeof SelectPrimitive.Separator>,
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+    <SelectPrimitive.Separator
+        ref={ref}
+        className={cn("-mx-1 my-1 h-px bg-border", className)}
+        {...props}
+    />
+));
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+
+/** Auto-scroll affordance shown at the top of a long, scrollable list. */
+export const SelectScrollUpButton = React.forwardRef<
+    React.ComponentRef<typeof SelectPrimitive.ScrollUpButton>,
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
+>(({ className, ...props }, ref) => (
+    <SelectPrimitive.ScrollUpButton
+        ref={ref}
+        className={cn("flex cursor-default items-center justify-center py-1", className)}
+        {...props}
+    >
+        <ChevronUp className="h-4 w-4" />
+    </SelectPrimitive.ScrollUpButton>
+));
+SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
+
+/** Auto-scroll affordance shown at the bottom of a long, scrollable list. */
+export const SelectScrollDownButton = React.forwardRef<
+    React.ComponentRef<typeof SelectPrimitive.ScrollDownButton>,
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
+>(({ className, ...props }, ref) => (
+    <SelectPrimitive.ScrollDownButton
+        ref={ref}
+        className={cn("flex cursor-default items-center justify-center py-1", className)}
+        {...props}
+    >
+        <ChevronDown className="h-4 w-4" />
+    </SelectPrimitive.ScrollDownButton>
+));
+SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
 
 // =====================================================
 // SLIDER

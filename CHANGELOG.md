@@ -12,6 +12,18 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- **`ScrollArea` / `ScrollBar` (primitives)** — a styled, cross-browser custom
+  scrollbar around any overflowing content (Radix-based). Adds
+  `@radix-ui/react-scroll-area`.
+- **`Card` sub-components** — `CardHeader`, `CardTitle`, `CardDescription`,
+  `CardContent`, `CardFooter` for composing structured cards (previously `Card`
+  was a single container).
+- **`Select` parts** — `SelectLabel`, `SelectSeparator`, `SelectScrollUpButton`,
+  `SelectScrollDownButton` (round out the Radix Select surface).
+- **`PopoverAnchor`** — position a Popover relative to a separate anchor element.
+- **`Badge` structural variants** — `secondary`, `outline`, and `destructive`
+  (alias of `error`) alongside the existing semantic variants, for
+  shadcn-style call sites.
 - **`@yuhuanowo/yunui/content` (new subpath) — the content-rendering stack.**
   Rich rendering for LLM/chat/doc content, extracted from the Agent (garvea)
   project (the most complete of our three apps) so all of them share one

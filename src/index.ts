@@ -28,8 +28,10 @@ export {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
+  PopoverAnchor,
 } from "./primitives/popover";
 export { ThemeToggle } from "./primitives/theme-toggle";
+export { ScrollArea, ScrollBar } from "./primitives/scroll-area";
 export { Switch, type SwitchProps } from "./primitives/switch";
 export { AnimatedNumber, type AnimatedNumberProps } from "./primitives/animated-number";
 export { Sparkline, type SparklineProps, type SparklineTone } from "./primitives/sparkline";
