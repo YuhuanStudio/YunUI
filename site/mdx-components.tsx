@@ -38,6 +38,8 @@ import {
   CapabilitySelectorDemo,
   ModelSelectDemo,
   LanguageSwitcherDemo,
+  FileDropzoneDemo,
+  AudioPlayerDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -87,6 +89,8 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     CapabilitySelectorDemo,
     ModelSelectDemo,
     LanguageSwitcherDemo,
+    FileDropzoneDemo,
+    AudioPlayerDemo,
     ...components,
   };
 }

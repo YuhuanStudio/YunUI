@@ -106,6 +106,9 @@ import {
   RadioGroup,
   RadioGroupItem,
   ThemeToggle,
+  Sparkline,
+  Gauge,
+  SegmentedBar,
 } from "yunui";
 import {
   ThinkingBlock,
@@ -162,6 +165,7 @@ import {
   MediaErrorState,
   LLMCopyButton,
   ViewOptions,
+  AudioPlayer,
 } from "yunui/patterns";
 import {
   NotificationDemo,
@@ -176,6 +180,8 @@ import {
   AvatarUploaderDemo,
   PaginationDemo,
   PageLayoutDemo,
+  FileDropzoneDemo,
+  AudioPlayerDemo,
 } from "@/components/docs/demos";
 import {
   Heart,
@@ -1274,6 +1280,9 @@ export default function Showcase() {
             </label>
           </RadioGroup>
         </Demo>
+        <Demo title="FileDropzone" description="Drag-and-drop (or click-to-browse) upload target. Reports files via onFiles; the host owns the upload.">
+          <FileDropzoneDemo />
+        </Demo>
       </Section>
 
       {/* Overlays */}
@@ -1603,6 +1612,45 @@ export default function Showcase() {
               <AccordionContent>Yes — light, zinc-dark and true-black.</AccordionContent>
             </AccordionItem>
           </Accordion>
+        </Demo>
+        <Demo title="Sparkline" description="Tiny inline line/area charts for a rolling number series — throughput, GPU utilization, latency. Pure SVG, tone-colored.">
+          <div className="flex flex-wrap items-center gap-8">
+            <Sparkline data={[4, 7, 5, 9, 6, 11, 8, 13, 10, 15]} className="w-40 h-8" />
+            <Sparkline area data={[8, 6, 9, 7, 12, 10, 14, 11, 16, 13]} className="w-40 h-10" />
+            <Sparkline tone="success" area data={[2, 4, 3, 6, 5, 8, 7, 10]} className="w-32 h-8" />
+            <Sparkline tone="error" area data={[10, 8, 9, 6, 7, 4, 5, 2]} className="w-32 h-8" />
+          </div>
+        </Demo>
+        <Demo title="Gauge" description="Circular percentage rings for GPU / cache / disk. The arc color follows a semantic tone (often a threshold).">
+          <div className="flex flex-wrap items-center gap-6">
+            <Gauge value={38} tone="success" />
+            <Gauge value={71} tone="warning" />
+            <Gauge value={94} tone="error" size={88} thickness={8} />
+            <Gauge value={64} tone="info" size={96} label={<div className="text-center"><div className="text-lg font-bold">64%</div><div className="text-[10px] text-muted-foreground">CACHE</div></div>} />
+          </div>
+        </Demo>
+        <Demo title="SegmentedBar" description="A proportional multi-segment bar for memory allocation or a request mix, with an optional legend.">
+          <div className="w-full max-w-md space-y-5">
+            <SegmentedBar
+              segments={[
+                { value: 42, tone: "accent", label: "Active" },
+                { value: 18, tone: "info", label: "Cache" },
+                { value: 9, tone: "warning", label: "Peak" },
+              ]}
+            />
+            <SegmentedBar
+              total={64}
+              legend
+              formatValue={(v) => `${v} GB`}
+              segments={[
+                { value: 22, tone: "accent", label: "Active" },
+                { value: 12, tone: "info", label: "Cache" },
+              ]}
+            />
+          </div>
+        </Demo>
+        <Demo title="AudioPlayer" description="A controls bar around an HTML5 audio element — play/pause, seek, time, download. For TTS output and ASR inputs.">
+          <AudioPlayerDemo />
         </Demo>
       </Section>
 

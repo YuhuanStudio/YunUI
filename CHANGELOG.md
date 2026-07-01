@@ -11,6 +11,22 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- **`Sparkline` (primitive)** — a tiny inline SVG line/area chart for a single
+  number series (throughput, GPU utilization, latency), tone-colored and
+  container-width. No chart library.
+- **`Gauge` (primitive)** — a circular 0–100 percentage ring with a centered
+  value or custom label; the arc color follows a semantic `tone`.
+- **`SegmentedBar` (primitive)** — a proportional multi-segment bar toward a
+  `total` (memory allocation, request mix) with an optional value legend.
+  Complements `MetricBar`'s single fill.
+- **`FileDropzone` (primitive)** — a drag-and-drop / click-to-browse upload
+  target that reports files via `onFiles`; presentation + interaction only.
+- **`AudioPlayer` (patterns)** — a compact controls bar around an HTML5
+  `<audio>`: play/pause, seek, time, and an optional download button.
+- Full docs (3 locales), showcase demos and prop tables for all five.
+  Motivated by the Yunshu webui rewrite onto YunUI.
+
 ## [0.2.15] - 2026-06-27
 
 ### Added

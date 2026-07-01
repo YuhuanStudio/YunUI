@@ -32,6 +32,15 @@ export {
 export { ThemeToggle } from "./primitives/theme-toggle";
 export { Switch, type SwitchProps } from "./primitives/switch";
 export { AnimatedNumber, type AnimatedNumberProps } from "./primitives/animated-number";
+export { Sparkline, type SparklineProps, type SparklineTone } from "./primitives/sparkline";
+export { Gauge, type GaugeProps, type GaugeTone } from "./primitives/gauge";
+export {
+  SegmentedBar,
+  type SegmentedBarProps,
+  type BarSegment,
+  type SegmentTone,
+} from "./primitives/segmented-bar";
+export { FileDropzone, type FileDropzoneProps } from "./primitives/file-dropzone";
 export { Toaster, toast } from "./primitives/toast";
 
 // Utilities

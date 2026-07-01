@@ -1,0 +1,44 @@
+import { FileDropzone } from "yunui";
+
+A drag-and-drop (and click-to-browse) upload target. It wraps a hidden `<input type="file">`, adds a drag-over affordance, and hands the chosen files back through `onFiles` — the host decides what to do with them (upload, attach, preview). Presentation and interaction only; no network. Pass `children` to fully replace the inner content.
+
+## Import
+
+```tsx
+import { FileDropzone } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`onFiles` receives a `File[]`. Style the label with `icon`, `label`, and `hint`:
+
+```tsx
+<FileDropzone
+  accept="image/*"
+  multiple
+  icon={<UploadCloud />}
+  label="Drop images here, or click to browse"
+  hint="PNG, JPG · up to 10MB"
+  onFiles={(files) => upload(files)}
+/>
+```
+
+## Example
+
+<ComponentPreview
+  title="Dropzone"
+  code={`<FileDropzone
+  accept="image/*"
+  multiple
+  icon={<UploadCloud />}
+  label="Drop images here, or click to browse"
+  hint="PNG, JPG · up to 10MB"
+  onFiles={(files) => setNames(files.map((f) => f.name))}
+/>`}
+>
+  <FileDropzoneDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="FileDropzone" />

@@ -1,0 +1,67 @@
+import { SegmentedBar } from "yunui";
+
+将单条水平条按比例拆分为多个彩色分段——内存分配（活跃 / 缓存 / 空闲）、按桶划分的磁盘占用、请求构成。与 [MetricBar](/docs/patterns/metric-bar)（单一填充）不同，它把多个分段堆叠到 `total`，剩余部分显示为轨道。开启 `legend` 可列出每个分段及其数值。
+
+## 导入
+
+```tsx
+import { SegmentedBar } from "@yuhuanowo/yunui";
+```
+
+## 基础
+
+传入分段；条形会按各分段之和的比例填充。
+
+<ComponentPreview
+  title="Segments"
+  code={`<SegmentedBar
+  className="w-72"
+  segments={[
+    { value: 42, tone: "accent", label: "Active" },
+    { value: 18, tone: "info", label: "Cache" },
+    { value: 9, tone: "warning", label: "Peak" },
+  ]}
+/>`}
+>
+  <SegmentedBar
+    className="w-72"
+    segments={[
+      { value: 42, tone: "accent", label: "Active" },
+      { value: 18, tone: "info", label: "Cache" },
+      { value: 9, tone: "warning", label: "Peak" },
+    ]}
+  />
+</ComponentPreview>
+
+## 总量与剩余
+
+传入大于分段之和的 `total`，可将空闲空间显示为轨道——非常适合“已用 X / 共 Y”。
+
+<ComponentPreview
+  title="Legend"
+  code={`<SegmentedBar
+  className="w-72"
+  total={64}
+  legend
+  formatValue={(v) => v + " GB"}
+  segments={[
+    { value: 22, tone: "accent", label: "Active" },
+    { value: 12, tone: "info", label: "Cache" },
+  ]}
+/>`}
+>
+  <SegmentedBar
+    className="w-72"
+    total={64}
+    legend
+    formatValue={(v) => v + " GB"}
+    segments={[
+      { value: 22, tone: "accent", label: "Active" },
+      { value: 12, tone: "info", label: "Cache" },
+    ]}
+  />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="SegmentedBar" />

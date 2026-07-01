@@ -1,12 +1,12 @@
 "use client";
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-6MZN3GOP.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-6UFDV3EE.js';
 import { copyToClipboard } from './chunk-N53PNMPJ.js';
 export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-LLNTUA5K.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1158,6 +1158,100 @@ function MetricBar({ icon, label, value, percentage, color, className }) {
     ] })
   ] });
 }
+var fmtTime = (s) => {
+  if (!Number.isFinite(s) || s < 0) return "0:00";
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+};
+function AudioPlayer({ src, title, downloadName, autoPlay = false, className }) {
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [duration, setDuration] = useState(0);
+  useEffect(() => {
+    setPlaying(false);
+    setCurrent(0);
+    setDuration(0);
+  }, [src]);
+  const toggle = () => {
+    const el = audioRef.current;
+    if (!el) return;
+    if (el.paused) {
+      void el.play();
+    } else {
+      el.pause();
+    }
+  };
+  const seek = (e) => {
+    const el = audioRef.current;
+    if (!el) return;
+    const t = Number(e.target.value);
+    el.currentTime = t;
+    setCurrent(t);
+  };
+  const pct = duration > 0 ? current / duration * 100 : 0;
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-col gap-2 rounded-xl border border-border bg-card p-3", className), children: [
+    title && /* @__PURE__ */ jsx("div", { className: "truncate text-sm font-medium", children: title }),
+    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3", children: [
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          onClick: toggle,
+          "aria-label": playing ? "Pause" : "Play",
+          className: "flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground transition-opacity hover:opacity-90",
+          children: playing ? /* @__PURE__ */ jsx(Pause, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx(Play, { className: "h-4 w-4 translate-x-px" })
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          type: "range",
+          min: 0,
+          max: duration || 0,
+          step: "any",
+          value: current,
+          onChange: seek,
+          "aria-label": "Seek",
+          className: "h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-muted accent-[var(--color-accent)]",
+          style: {
+            background: `linear-gradient(to right, var(--color-accent) ${pct}%, var(--color-muted) ${pct}%)`
+          }
+        }
+      ),
+      /* @__PURE__ */ jsxs("span", { className: "shrink-0 text-xs tabular-nums text-muted-foreground", children: [
+        fmtTime(current),
+        " / ",
+        fmtTime(duration)
+      ] }),
+      downloadName && /* @__PURE__ */ jsx(
+        "a",
+        {
+          href: src,
+          download: downloadName,
+          "aria-label": "Download audio",
+          className: "flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+          children: /* @__PURE__ */ jsx(Download, { className: "h-4 w-4" })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsx(
+      "audio",
+      {
+        ref: audioRef,
+        src,
+        autoPlay,
+        onPlay: () => setPlaying(true),
+        onPause: () => setPlaying(false),
+        onTimeUpdate: (e) => setCurrent(e.currentTarget.currentTime),
+        onLoadedMetadata: (e) => setDuration(e.currentTarget.duration),
+        onEnded: () => setPlaying(false),
+        className: "hidden"
+      }
+    )
+  ] });
+}
 var TONES2 = {
   info: {
     bg: "bg-linear-to-r from-blue-500/10 via-blue-500/5 to-blue-500/10",
@@ -1453,6 +1547,6 @@ function AvatarUploader({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

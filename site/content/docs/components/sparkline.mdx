@@ -1,0 +1,48 @@
+import { Sparkline } from "yunui";
+
+A tiny inline line (or area) chart for a single series of numbers — request throughput, GPU utilization, latency over a rolling window. Pure SVG, no chart library. It scales the data to fit and stretches to its container width, so it drops naturally into a stat card or a table cell. `tone` picks the stroke color from the design tokens; `color` overrides it.
+
+## Import
+
+```tsx
+import { Sparkline } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Line"
+  code={`<Sparkline data={[4, 7, 5, 9, 6, 11, 8, 13, 10, 15]} className="w-40 h-8" />`}
+>
+  <Sparkline data={[4, 7, 5, 9, 6, 11, 8, 13, 10, 15]} className="w-40 h-8" />
+</ComponentPreview>
+
+## Area fill
+
+Set `area` for a vertical gradient of the stroke color under the line.
+
+<ComponentPreview
+  title="Area"
+  code={`<Sparkline area data={[8, 6, 9, 7, 12, 10, 14, 11, 16, 13]} className="w-40 h-10" />`}
+>
+  <Sparkline area data={[8, 6, 9, 7, 12, 10, 14, 11, 16, 13]} className="w-40 h-10" />
+</ComponentPreview>
+
+## Tones
+
+`tone` maps to the semantic color roles (`accent`, `success`, `warning`, `error`, `info`, `neutral`).
+
+<ComponentPreview
+  title="Tones"
+  code={`<Sparkline tone="success" area data={[2, 4, 3, 6, 5, 8, 7, 10]} className="w-32 h-8" />
+<Sparkline tone="error" area data={[10, 8, 9, 6, 7, 4, 5, 2]} className="w-32 h-8" />`}
+>
+  <div className="flex items-center gap-6">
+    <Sparkline tone="success" area data={[2, 4, 3, 6, 5, 8, 7, 10]} className="w-32 h-8" />
+    <Sparkline tone="error" area data={[10, 8, 9, 6, 7, 4, 5, 2]} className="w-32 h-8" />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Sparkline" />

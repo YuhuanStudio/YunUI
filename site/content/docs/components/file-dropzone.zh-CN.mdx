@@ -1,0 +1,44 @@
+import { FileDropzone } from "yunui";
+
+一个拖放（以及点击浏览）的上传目标。它封装了隐藏的 `<input type="file">`，添加拖拽悬停反馈，并通过 `onFiles` 把选中的文件交回——由宿主决定如何处理（上传、附加、预览）。仅负责呈现与交互，不涉及网络。传入 `children` 可完全替换内部内容。
+
+## 导入
+
+```tsx
+import { FileDropzone } from "@yuhuanowo/yunui";
+```
+
+## 用法
+
+`onFiles` 接收一个 `File[]`。用 `icon`、`label`、`hint` 设置提示文案：
+
+```tsx
+<FileDropzone
+  accept="image/*"
+  multiple
+  icon={<UploadCloud />}
+  label="Drop images here, or click to browse"
+  hint="PNG, JPG · up to 10MB"
+  onFiles={(files) => upload(files)}
+/>
+```
+
+## 示例
+
+<ComponentPreview
+  title="Dropzone"
+  code={`<FileDropzone
+  accept="image/*"
+  multiple
+  icon={<UploadCloud />}
+  label="Drop images here, or click to browse"
+  hint="PNG, JPG · up to 10MB"
+  onFiles={(files) => setNames(files.map((f) => f.name))}
+/>`}
+>
+  <FileDropzoneDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="FileDropzone" />

@@ -1,0 +1,28 @@
+import { AudioPlayer } from "yunui/patterns";
+
+圍繞 HTML5 `<audio>` 元素的緊湊控制列：播放/暫停、可拖動的進度軌道、已播放/總時長，以及可選的下載按鈕。傳入 `src`（URL 或物件 URL）——宿主負責 blob 的生命週期（例如 `URL.createObjectURL(blob)`）。僅負責呈現，不涉及抓取。
+
+## 匯入
+
+```tsx
+import { AudioPlayer } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+<ComponentPreview
+  title="AudioPlayer"
+  code={`import { AudioPlayer } from "@yuhuanowo/yunui/patterns";
+
+<AudioPlayer
+  src={audioUrl}
+  title="sample-tone.wav"
+  downloadName="sample-tone.wav"
+/>`}
+>
+  <AudioPlayerDemo />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="AudioPlayer" />

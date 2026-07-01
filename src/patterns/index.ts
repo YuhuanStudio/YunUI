@@ -62,6 +62,7 @@ export { SessionItem, type SessionItemProps } from "./session-item";
 
 // Metric bar — a labelled row with a proportion bar (spend/usage breakdowns).
 export { MetricBar, type MetricBarProps } from "./metric-bar";
+export { AudioPlayer, type AudioPlayerProps } from "./audio-player";
 
 // Banner — tinted horizontal banner row (announcements / releases / verification).
 export { Banner, type BannerProps, type BannerTone } from "./banner";

@@ -1,0 +1,48 @@
+import { Sparkline } from "yunui";
+
+用于单条数值序列的迷你行内折线（或面积）图——请求吞吐、GPU 利用率、滚动窗口内的延迟。纯 SVG，不依赖图表库。它会把数据缩放到合适范围并撑满容器宽度，因此能自然嵌入统计卡片或表格单元格。`tone` 从设计令牌中选取描边颜色，`color` 可覆盖它。
+
+## 导入
+
+```tsx
+import { Sparkline } from "@yuhuanowo/yunui";
+```
+
+## 基础
+
+<ComponentPreview
+  title="Line"
+  code={`<Sparkline data={[4, 7, 5, 9, 6, 11, 8, 13, 10, 15]} className="w-40 h-8" />`}
+>
+  <Sparkline data={[4, 7, 5, 9, 6, 11, 8, 13, 10, 15]} className="w-40 h-8" />
+</ComponentPreview>
+
+## 面积填充
+
+设置 `area` 可在折线下方绘制描边色的垂直渐变。
+
+<ComponentPreview
+  title="Area"
+  code={`<Sparkline area data={[8, 6, 9, 7, 12, 10, 14, 11, 16, 13]} className="w-40 h-10" />`}
+>
+  <Sparkline area data={[8, 6, 9, 7, 12, 10, 14, 11, 16, 13]} className="w-40 h-10" />
+</ComponentPreview>
+
+## 语义色
+
+`tone` 映射到语义颜色角色（`accent`、`success`、`warning`、`error`、`info`、`neutral`）。
+
+<ComponentPreview
+  title="Tones"
+  code={`<Sparkline tone="success" area data={[2, 4, 3, 6, 5, 8, 7, 10]} className="w-32 h-8" />
+<Sparkline tone="error" area data={[10, 8, 9, 6, 7, 4, 5, 2]} className="w-32 h-8" />`}
+>
+  <div className="flex items-center gap-6">
+    <Sparkline tone="success" area data={[2, 4, 3, 6, 5, 8, 7, 10]} className="w-32 h-8" />
+    <Sparkline tone="error" area data={[10, 8, 9, 6, 7, 4, 5, 2]} className="w-32 h-8" />
+  </div>
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="Sparkline" />

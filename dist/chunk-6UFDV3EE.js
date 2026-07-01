@@ -2933,6 +2933,274 @@ function AnimatedNumber({ value, suffix = "", decimals = 0 }) {
   }, [animatedValue, value]);
   return /* @__PURE__ */ jsx(motion.span, { children: displayValue });
 }
+var TONE_VAR = {
+  accent: "var(--color-accent)",
+  success: "var(--success)",
+  warning: "var(--warning)",
+  error: "var(--error)",
+  info: "var(--info)",
+  neutral: "var(--color-muted-foreground)"
+};
+function Sparkline({
+  data,
+  width = 100,
+  height = 28,
+  tone = "accent",
+  color,
+  strokeWidth = 1.5,
+  area = false,
+  min,
+  max,
+  className,
+  ...props
+}) {
+  const gradientId = useId();
+  const stroke = color ?? TONE_VAR[tone];
+  if (!Array.isArray(data) || data.length < 2) {
+    return /* @__PURE__ */ jsx("svg", { width, height, className, "aria-hidden": true, ...props });
+  }
+  const lo = min ?? Math.min(...data);
+  const hi = max ?? Math.max(...data);
+  const span = hi - lo || 1;
+  const stepX = width / (data.length - 1);
+  const pad = strokeWidth;
+  const usableH = height - pad * 2;
+  const points = data.map((v, i) => {
+    const x = i * stepX;
+    const y = pad + usableH - (v - lo) / span * usableH;
+    return [x, y];
+  });
+  const line = points.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`).join(" ");
+  const areaPath = `${line} L${width} ${height} L0 ${height} Z`;
+  return /* @__PURE__ */ jsxs(
+    "svg",
+    {
+      viewBox: `0 0 ${width} ${height}`,
+      width,
+      height,
+      preserveAspectRatio: "none",
+      className: cn("overflow-visible", className),
+      role: "img",
+      ...props,
+      children: [
+        area && /* @__PURE__ */ jsxs(Fragment, { children: [
+          /* @__PURE__ */ jsx("defs", { children: /* @__PURE__ */ jsxs("linearGradient", { id: gradientId, x1: "0", y1: "0", x2: "0", y2: "1", children: [
+            /* @__PURE__ */ jsx("stop", { offset: "0%", stopColor: stroke, stopOpacity: 0.28 }),
+            /* @__PURE__ */ jsx("stop", { offset: "100%", stopColor: stroke, stopOpacity: 0 })
+          ] }) }),
+          /* @__PURE__ */ jsx("path", { d: areaPath, fill: `url(#${gradientId})`, stroke: "none" })
+        ] }),
+        /* @__PURE__ */ jsx(
+          "path",
+          {
+            d: line,
+            fill: "none",
+            stroke,
+            strokeWidth,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            vectorEffect: "non-scaling-stroke"
+          }
+        )
+      ]
+    }
+  );
+}
+var TONE_VAR2 = {
+  accent: "var(--color-accent)",
+  success: "var(--success)",
+  warning: "var(--warning)",
+  error: "var(--error)",
+  info: "var(--info)",
+  neutral: "var(--color-muted-foreground)"
+};
+function Gauge({
+  value,
+  size = 72,
+  thickness = 6,
+  tone = "accent",
+  color,
+  label,
+  counterClockwise = false,
+  className
+}) {
+  const pct = Math.max(0, Math.min(100, Number.isFinite(value) ? value : 0));
+  const stroke = color ?? TONE_VAR2[tone];
+  const r = (size - thickness) / 2;
+  const c = 2 * Math.PI * r;
+  const dash = pct / 100 * c;
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn("relative inline-flex items-center justify-center", className),
+      style: { width: size, height: size },
+      role: "progressbar",
+      "aria-valuenow": Math.round(pct),
+      "aria-valuemin": 0,
+      "aria-valuemax": 100,
+      children: [
+        /* @__PURE__ */ jsxs("svg", { width: size, height: size, className: "-rotate-90", children: [
+          /* @__PURE__ */ jsx(
+            "circle",
+            {
+              cx: size / 2,
+              cy: size / 2,
+              r,
+              fill: "none",
+              stroke: "var(--color-muted)",
+              strokeWidth: thickness
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            "circle",
+            {
+              cx: size / 2,
+              cy: size / 2,
+              r,
+              fill: "none",
+              stroke,
+              strokeWidth: thickness,
+              strokeLinecap: "round",
+              strokeDasharray: `${dash} ${c}`,
+              className: "transition-[stroke-dasharray] duration-500 ease-out",
+              transform: counterClockwise ? `scale(1,-1) translate(0,${-size})` : void 0
+            }
+          )
+        ] }),
+        label !== null && /* @__PURE__ */ jsx("span", { className: "absolute inset-0 flex items-center justify-center text-sm font-semibold tabular-nums", children: label ?? `${Math.round(pct)}%` })
+      ]
+    }
+  );
+}
+var TONE_VAR3 = {
+  accent: "var(--color-accent)",
+  success: "var(--success)",
+  warning: "var(--warning)",
+  error: "var(--error)",
+  info: "var(--info)",
+  neutral: "var(--color-muted-foreground)"
+};
+var segColor = (s) => s.color ?? TONE_VAR3[s.tone ?? "accent"];
+function SegmentedBar({
+  segments,
+  total,
+  height = 8,
+  legend = false,
+  formatValue,
+  className
+}) {
+  const sum = segments.reduce((a, s) => a + Math.max(0, s.value), 0);
+  const axis = total ?? (sum || 1);
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-col gap-2", className), children: [
+    /* @__PURE__ */ jsx(
+      "div",
+      {
+        className: "flex w-full overflow-hidden rounded-full bg-muted",
+        style: { height },
+        role: "img",
+        children: segments.map((s, i) => {
+          const w = Math.max(0, s.value) / axis * 100;
+          if (w <= 0) return null;
+          return /* @__PURE__ */ jsx(
+            "div",
+            {
+              className: "h-full transition-[width] duration-300 first:rounded-l-full last:rounded-r-full",
+              style: { width: `${w}%`, backgroundColor: segColor(s) },
+              title: typeof s.label === "string" ? s.label : void 0
+            },
+            i
+          );
+        })
+      }
+    ),
+    legend && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-x-4 gap-y-1", children: segments.map((s, i) => /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 text-xs text-muted-foreground", children: [
+      /* @__PURE__ */ jsx(
+        "span",
+        {
+          className: "h-2 w-2 shrink-0 rounded-full",
+          style: { backgroundColor: segColor(s) }
+        }
+      ),
+      s.label != null && /* @__PURE__ */ jsx("span", { children: s.label }),
+      /* @__PURE__ */ jsx("span", { className: "font-medium tabular-nums text-foreground/80", children: formatValue ? formatValue(s.value) : s.value })
+    ] }, i)) })
+  ] });
+}
+function FileDropzone({
+  onFiles,
+  accept,
+  multiple = false,
+  disabled = false,
+  icon,
+  label = "Drop a file here, or click to browse",
+  hint,
+  children,
+  className
+}) {
+  const inputRef = useRef(null);
+  const [dragging, setDragging] = useState(false);
+  const emit = (list) => {
+    if (!list || list.length === 0) return;
+    onFiles(Array.from(list));
+  };
+  const onDrop = (e) => {
+    e.preventDefault();
+    setDragging(false);
+    if (disabled) return;
+    emit(e.dataTransfer.files);
+  };
+  const onDragOver = (e) => {
+    e.preventDefault();
+    if (!disabled) setDragging(true);
+  };
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      onClick: () => !disabled && inputRef.current?.click(),
+      onDrop,
+      onDragOver,
+      onDragLeave: () => setDragging(false),
+      role: "button",
+      tabIndex: disabled ? -1 : 0,
+      "aria-disabled": disabled,
+      onKeyDown: (e) => {
+        if (disabled) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          inputRef.current?.click();
+        }
+      },
+      className: cn(
+        "flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-8 text-center transition-colors",
+        disabled ? "cursor-not-allowed opacity-50 border-border" : "cursor-pointer border-border hover:border-accent hover:bg-muted/40",
+        dragging && !disabled && "border-accent bg-accent/10",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsx(
+          "input",
+          {
+            ref: inputRef,
+            type: "file",
+            accept,
+            multiple,
+            disabled,
+            className: "hidden",
+            onChange: (e) => {
+              emit(e.target.files);
+              e.target.value = "";
+            }
+          }
+        ),
+        children ?? /* @__PURE__ */ jsxs(Fragment, { children: [
+          icon && /* @__PURE__ */ jsx("div", { className: "text-muted-foreground", children: icon }),
+          /* @__PURE__ */ jsx("div", { className: "text-sm font-medium", children: label }),
+          hint && /* @__PURE__ */ jsx("div", { className: "text-xs text-muted-foreground", children: hint })
+        ] })
+      ]
+    }
+  );
+}
 function Toaster() {
   return /* @__PURE__ */ jsx(
     Toaster$1,
@@ -3092,6 +3360,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-6MZN3GOP.js.map
-//# sourceMappingURL=chunk-6MZN3GOP.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, Flex, Gauge, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label2 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, SegmentedBar, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Separator2 as Separator, Sheet, ShinyButton, Skeleton, Slider, Sparkline, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+//# sourceMappingURL=chunk-6UFDV3EE.js.map
+//# sourceMappingURL=chunk-6UFDV3EE.js.map

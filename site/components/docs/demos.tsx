@@ -34,8 +34,9 @@ import {
   Sidebar,
   type SidebarSection,
   PageLayout,
+  AudioPlayer,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus } from "yunui";
+import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone } from "yunui";
 import {
   CapabilitySelector,
   LanguageSwitcher,
@@ -47,7 +48,7 @@ import {
   ModelIcon,
   ProviderIcon,
 } from "yunui/ai";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe } from "lucide-react";
+import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -816,6 +817,75 @@ export function PageLayoutDemo() {
           main content
         </div>
       </PageLayout>
+    </div>
+  );
+}
+
+export function FileDropzoneDemo() {
+  const [files, setFiles] = useState<string[]>([]);
+  return (
+    <div className="w-80 space-y-3">
+      <FileDropzone
+        accept="image/*"
+        multiple
+        icon={<UploadCloud className="h-7 w-7" />}
+        label="Drop images here, or click to browse"
+        hint="PNG, JPG · up to 10MB"
+        onFiles={(f) => setFiles(f.map((x) => x.name))}
+      />
+      {files.length > 0 && (
+        <div className="text-xs text-muted-foreground">
+          Selected: <span className="text-foreground">{files.join(", ")}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * A deterministic ~0.6s 440Hz sine WAV as a data URI — a real, playable source
+ * for the AudioPlayer demo with no bundled asset and no network request.
+ */
+function toneWavDataUri(): string {
+  const sampleRate = 8000;
+  const seconds = 0.6;
+  const n = Math.floor(sampleRate * seconds);
+  const bytes = new Uint8Array(44 + n * 2);
+  const view = new DataView(bytes.buffer);
+  const writeStr = (off: number, s: string) => {
+    for (let i = 0; i < s.length; i++) view.setUint8(off + i, s.charCodeAt(i));
+  };
+  writeStr(0, "RIFF");
+  view.setUint32(4, 36 + n * 2, true);
+  writeStr(8, "WAVE");
+  writeStr(12, "fmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true); // PCM
+  view.setUint16(22, 1, true); // mono
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  writeStr(36, "data");
+  view.setUint32(40, n * 2, true);
+  for (let i = 0; i < n; i++) {
+    const t = i / sampleRate;
+    // fade out to avoid a click at the end
+    const env = 1 - i / n;
+    const sample = Math.sin(2 * Math.PI * 440 * t) * 0.3 * env;
+    view.setInt16(44 + i * 2, Math.round(sample * 32767), true);
+  }
+  let bin = "";
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return "data:audio/wav;base64," + btoa(bin);
+}
+
+const SAMPLE_AUDIO = toneWavDataUri();
+
+export function AudioPlayerDemo() {
+  return (
+    <div className="w-80">
+      <AudioPlayer src={SAMPLE_AUDIO} title="sample-tone.wav" downloadName="sample-tone.wav" />
     </div>
   );
 }

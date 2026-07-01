@@ -830,6 +830,43 @@
       "description": ""
     }
   ],
+  "AudioPlayer": [
+    {
+      "name": "autoPlay",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Begin playing as soon as the source is ready."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "downloadName",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Show a download button linking to `src`; the value is the download filename."
+    },
+    {
+      "name": "src",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Audio source URL or object URL."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional title shown above the controls."
+    }
+  ],
   "AvatarUploader": [
     {
       "name": "className",
@@ -2872,6 +2909,129 @@
       "required": true,
       "defaultValue": null,
       "description": "Currently selected value (controlled)."
+    }
+  ],
+  "FileDropzone": [
+    {
+      "name": "accept",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "`accept` attribute forwarded to the input (e.g. \"image/*,.wav\")."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Replace the entire inner content."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Disable interaction and dim the zone."
+    },
+    {
+      "name": "hint",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Secondary hint under the label (e.g. \"PNG, JPG up to 10MB\")."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Leading icon shown above the label (ignored when `children` is set)."
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": "Drop a file here, or click to browse",
+      "description": "Primary call-to-action text (ignored when `children` is set)."
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Allow selecting more than one file."
+    },
+    {
+      "name": "onFiles",
+      "type": "(files: File[]) => void",
+      "required": true,
+      "defaultValue": null,
+      "description": "Called with the selected/dropped files (already filtered to a File[])."
+    }
+  ],
+  "Gauge": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Explicit CSS color for the arc, overriding `tone`."
+    },
+    {
+      "name": "counterClockwise",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Start the arc from the top and sweep clockwise (default) or counter-clockwise."
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Center content. Defaults to the rounded percentage; pass `null` to hide."
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "defaultValue": "72",
+      "description": "Diameter in px."
+    },
+    {
+      "name": "thickness",
+      "type": "number",
+      "required": false,
+      "defaultValue": "6",
+      "description": "Ring thickness in px."
+    },
+    {
+      "name": "tone",
+      "type": "\"accent\" | \"success\" | \"warning\" | \"error\" | \"info\" | \"neutral\"",
+      "required": false,
+      "defaultValue": "accent",
+      "description": "Semantic arc color. Ignored when `color` is set."
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "required": true,
+      "defaultValue": null,
+      "description": "Progress, 0–100 (clamped)."
     }
   ],
   "Badge": [
@@ -7687,6 +7847,50 @@
       "description": "The tabs to render."
     }
   ],
+  "SegmentedBar": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "formatValue",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Format a segment value for the legend (e.g. bytes → \"1.2 GB\")."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "defaultValue": "8",
+      "description": "Bar thickness in px."
+    },
+    {
+      "name": "legend",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Show a legend of segments with their values below the bar."
+    },
+    {
+      "name": "segments",
+      "type": "BarSegment[]",
+      "required": true,
+      "defaultValue": null,
+      "description": "The segments, drawn left → right."
+    },
+    {
+      "name": "total",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Axis total. Defaults to the sum of segment values; the remainder shows as track."
+    }
+  ],
   "SegmentedSelect": [
     {
       "name": "className",
@@ -7745,6 +7949,78 @@
       "required": false,
       "defaultValue": null,
       "description": ""
+    }
+  ],
+  "Sparkline": [
+    {
+      "name": "area",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Fill the area under the line with a vertical gradient of the stroke color."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Explicit CSS color for the stroke (and area fill), overriding `tone`."
+    },
+    {
+      "name": "data",
+      "type": "number[]",
+      "required": true,
+      "defaultValue": null,
+      "description": "The series to plot, oldest → newest. Fewer than 2 points renders nothing."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "defaultValue": "28",
+      "description": "Intrinsic viewBox height."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Upper bound of the value axis. Defaults to the data maximum."
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Lower bound of the value axis. Defaults to the data minimum."
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number",
+      "required": false,
+      "defaultValue": "1.5",
+      "description": "Stroke width in viewBox units."
+    },
+    {
+      "name": "tone",
+      "type": "\"accent\" | \"success\" | \"warning\" | \"error\" | \"info\" | \"neutral\"",
+      "required": false,
+      "defaultValue": "accent",
+      "description": "Semantic stroke color. Ignored when `color` is set."
+    },
+    {
+      "name": "width",
+      "type": "number",
+      "required": false,
+      "defaultValue": "100",
+      "description": "Intrinsic viewBox width; the SVG still scales to its container."
     }
   ],
   "Switch": [

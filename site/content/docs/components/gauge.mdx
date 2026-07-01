@@ -1,0 +1,55 @@
+import { Gauge } from "yunui";
+
+A circular progress ring for a single 0–100 percentage — GPU utilization, cache hit rate, disk usage. Pure SVG, with the value rendered in the center (or your own `label`). `tone` colors the arc from the design tokens; `color` overrides it. Pair a few of them for a compact hardware dashboard.
+
+## Import
+
+```tsx
+import { Gauge } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview
+  title="Gauge"
+  code={`<Gauge value={72} />`}
+>
+  <Gauge value={72} />
+</ComponentPreview>
+
+## Tones and size
+
+Drive the arc color with `tone` (typically from a threshold) and scale with `size` / `thickness`.
+
+<ComponentPreview
+  title="Tones"
+  code={`<Gauge value={38} tone="success" />
+<Gauge value={71} tone="warning" />
+<Gauge value={94} tone="error" size={88} thickness={8} />`}
+>
+  <div className="flex items-center gap-6">
+    <Gauge value={38} tone="success" />
+    <Gauge value={71} tone="warning" />
+    <Gauge value={94} tone="error" size={88} thickness={8} />
+  </div>
+</ComponentPreview>
+
+## Custom label
+
+Pass any node as `label` to replace the percentage, or `null` to hide it.
+
+<ComponentPreview
+  title="Label"
+  code={`<Gauge value={64} tone="info" size={96} label={<div className="text-center"><div className="text-lg font-bold">64%</div><div className="text-[10px] text-muted-foreground">CACHE</div></div>} />`}
+>
+  <Gauge
+    value={64}
+    tone="info"
+    size={96}
+    label={<div className="text-center"><div className="text-lg font-bold">64%</div><div className="text-[10px] text-muted-foreground">CACHE</div></div>}
+  />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Gauge" />

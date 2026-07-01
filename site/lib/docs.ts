@@ -319,6 +319,16 @@ export const docs: DocEntry[] = [
     },
     "segmented control toggle group view switcher button group filter",
   ),
+  comp(
+    "file-dropzone",
+    { en: "File Dropzone", "zh-CN": "文件拖放区", "zh-TW": "檔案拖放區" },
+    {
+      en: "Drag-and-drop (and click-to-browse) upload target that reports files via onFiles.",
+      "zh-CN": "拖放（及点击浏览）上传目标，通过 onFiles 回传所选文件。",
+      "zh-TW": "拖放（及點擊瀏覽）上傳目標，透過 onFiles 回傳所選檔案。",
+    },
+    "file dropzone upload drag drop input browse attachment files",
+  ),
 
   // ---- Layout -------------------------------------------------------------
   comp(
@@ -412,6 +422,36 @@ export const docs: DocEntry[] = [
       "zh-TW": "無限捲動的行或列,支援反向、垂直和懸停暫停。",
     },
     "marquee scroll ticker infinite loop reverse vertical pause hover",
+  ),
+  comp(
+    "sparkline",
+    { en: "Sparkline", "zh-CN": "迷你折线图", "zh-TW": "迷你折線圖" },
+    {
+      en: "Tiny inline line/area chart for a single number series; pure SVG, no chart library.",
+      "zh-CN": "用于单条数值序列的迷你行内折线/面积图；纯 SVG，无需图表库。",
+      "zh-TW": "用於單條數值序列的迷你行內折線/面積圖；純 SVG，無需圖表庫。",
+    },
+    "sparkline chart line area trend graph metric svg mini series",
+  ),
+  comp(
+    "gauge",
+    { en: "Gauge", "zh-CN": "仪表环", "zh-TW": "儀表環" },
+    {
+      en: "Circular progress ring for a single 0–100 percentage; value or custom label in the center.",
+      "zh-CN": "用于单个 0–100 百分比的圆形进度环；中心显示数值或自定义标签。",
+      "zh-TW": "用於單個 0–100 百分比的圓形進度環；中心顯示數值或自訂標籤。",
+    },
+    "gauge ring circular progress percentage dial radial meter utilization",
+  ),
+  comp(
+    "segmented-bar",
+    { en: "Segmented Bar", "zh-CN": "分段条", "zh-TW": "分段條" },
+    {
+      en: "Horizontal bar split into proportional colored segments toward a total, with optional legend.",
+      "zh-CN": "按比例拆分为多个彩色分段并汇总到 total 的水平条，可选图例。",
+      "zh-TW": "按比例拆分為多個彩色分段並彙總到 total 的水平條，可選圖例。",
+    },
+    "segmented bar stacked proportion allocation memory usage breakdown legend",
   ),
 
   // ---- Navigation ---------------------------------------------------------
@@ -829,6 +869,16 @@ export const docs: DocEntry[] = [
     "metric bar usage breakdown proportion progress spend provider category top analytics",
   ),
   pat(
+    "audio-player",
+    { en: "Audio Player", "zh-CN": "音频播放器", "zh-TW": "音訊播放器" },
+    {
+      en: "Compact controls bar around an HTML5 audio element — play/pause, seek, time, and download.",
+      "zh-CN": "围绕 HTML5 音频元素的紧凑控制条——播放/暂停、拖动、时长与下载。",
+      "zh-TW": "圍繞 HTML5 音訊元素的緊湊控制列——播放/暫停、拖動、時長與下載。",
+    },
+    "audio player sound playback play pause seek waveform download tts asr media",
+  ),
+  pat(
     "feature-locked-state",
     { en: "Feature Locked State", "zh-CN": "功能锁定状态", "zh-TW": "功能鎖定狀態" },
     {
@@ -1071,6 +1121,7 @@ export const groups: DocGroup[] = [
       "components/combobox",
       "components/custom-select",
       "components/segmented-select",
+      "components/file-dropzone",
     ],
   },
   {
@@ -1086,6 +1137,9 @@ export const groups: DocGroup[] = [
       "components/table",
       "components/animated-number",
       "components/marquee",
+      "components/sparkline",
+      "components/gauge",
+      "components/segmented-bar",
     ],
   },
   {
@@ -1150,6 +1204,7 @@ export const groups: DocGroup[] = [
       "patterns/feature-locked-state",
       "patterns/session-item",
       "patterns/metric-bar",
+      "patterns/audio-player",
       "patterns/notification",
       "patterns/setting-row",
       "patterns/link-row",

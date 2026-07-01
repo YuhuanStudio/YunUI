@@ -1,0 +1,28 @@
+import { AudioPlayer } from "yunui/patterns";
+
+A compact controls bar around an HTML5 `<audio>` element: play/pause, a seekable progress track, elapsed/total time, and an optional download button. Give it a `src` (a URL or object URL) — the host owns the blob lifecycle (e.g. `URL.createObjectURL(blob)`). Presentation only; no fetching.
+
+## Import
+
+```tsx
+import { AudioPlayer } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+<ComponentPreview
+  title="AudioPlayer"
+  code={`import { AudioPlayer } from "@yuhuanowo/yunui/patterns";
+
+<AudioPlayer
+  src={audioUrl}
+  title="sample-tone.wav"
+  downloadName="sample-tone.wav"
+/>`}
+>
+  <AudioPlayerDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="AudioPlayer" />

@@ -1,0 +1,55 @@
+import { Gauge } from "yunui";
+
+用于单个 0–100 百分比的圆形进度环——GPU 利用率、缓存命中率、磁盘占用。纯 SVG，数值渲染在圆环中心（或使用自定义 `label`）。`tone` 从设计令牌中为圆弧着色，`color` 可覆盖它。排几个在一起即可组成紧凑的硬件仪表盘。
+
+## 导入
+
+```tsx
+import { Gauge } from "@yuhuanowo/yunui";
+```
+
+## 基础
+
+<ComponentPreview
+  title="Gauge"
+  code={`<Gauge value={72} />`}
+>
+  <Gauge value={72} />
+</ComponentPreview>
+
+## 语义色与尺寸
+
+用 `tone`（通常由阈值决定）驱动圆弧颜色，用 `size` / `thickness` 调整大小。
+
+<ComponentPreview
+  title="Tones"
+  code={`<Gauge value={38} tone="success" />
+<Gauge value={71} tone="warning" />
+<Gauge value={94} tone="error" size={88} thickness={8} />`}
+>
+  <div className="flex items-center gap-6">
+    <Gauge value={38} tone="success" />
+    <Gauge value={71} tone="warning" />
+    <Gauge value={94} tone="error" size={88} thickness={8} />
+  </div>
+</ComponentPreview>
+
+## 自定义标签
+
+将任意节点作为 `label` 传入以替换百分比，或传 `null` 隐藏它。
+
+<ComponentPreview
+  title="Label"
+  code={`<Gauge value={64} tone="info" size={96} label={<div className="text-center"><div className="text-lg font-bold">64%</div><div className="text-[10px] text-muted-foreground">CACHE</div></div>} />`}
+>
+  <Gauge
+    value={64}
+    tone="info"
+    size={96}
+    label={<div className="text-center"><div className="text-lg font-bold">64%</div><div className="text-[10px] text-muted-foreground">CACHE</div></div>}
+  />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="Gauge" />

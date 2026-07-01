@@ -473,6 +473,23 @@ interface MetricBarProps {
 }
 declare function MetricBar({ icon, label, value, percentage, color, className }: MetricBarProps): React$1.JSX.Element;
 
+interface AudioPlayerProps {
+    /** Audio source URL or object URL. */
+    src: string;
+    /** Optional title shown above the controls. */
+    title?: string;
+    /** Show a download button linking to `src`; the value is the download filename. */
+    downloadName?: string;
+    /** Begin playing as soon as the source is ready. */
+    autoPlay?: boolean;
+    className?: string;
+}
+/**
+ * A styled wrapper over `<audio>`: play/pause, a seekable progress bar, time
+ * readout, and an optional download button. Presentation only — no fetching.
+ */
+declare function AudioPlayer({ src, title, downloadName, autoPlay, className }: AudioPlayerProps): React$1.JSX.Element;
+
 type BannerTone = "info" | "warning" | "critical" | "success" | "neutral";
 interface BannerProps {
     /** Tone — drives the gradient, border, text and icon color. */
@@ -614,4 +631,4 @@ interface AvatarUploaderProps {
 }
 declare function AvatarUploader({ src, fallback, size, uploading, onSelectFile, label, className, }: AvatarUploaderProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

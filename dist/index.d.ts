@@ -973,6 +973,114 @@ interface AnimatedNumberProps {
  */
 declare function AnimatedNumber({ value, suffix, decimals }: AnimatedNumberProps): React$1.JSX.Element;
 
+type SparklineTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
+interface SparklineProps extends Omit<React.SVGProps<SVGSVGElement>, "color"> {
+    /** The series to plot, oldest → newest. Fewer than 2 points renders nothing. */
+    data: number[];
+    /** Intrinsic viewBox width; the SVG still scales to its container. */
+    width?: number;
+    /** Intrinsic viewBox height. */
+    height?: number;
+    /** Semantic stroke color. Ignored when `color` is set. */
+    tone?: SparklineTone;
+    /** Explicit CSS color for the stroke (and area fill), overriding `tone`. */
+    color?: string;
+    /** Stroke width in viewBox units. */
+    strokeWidth?: number;
+    /** Fill the area under the line with a vertical gradient of the stroke color. */
+    area?: boolean;
+    /** Lower bound of the value axis. Defaults to the data minimum. */
+    min?: number;
+    /** Upper bound of the value axis. Defaults to the data maximum. */
+    max?: number;
+    className?: string;
+}
+/**
+ * A minimal inline line chart. Give it a rolling window of numbers and it draws
+ * a smooth, container-width sparkline; set `area` for a gradient fill.
+ */
+declare function Sparkline({ data, width, height, tone, color, strokeWidth, area, min, max, className, ...props }: SparklineProps): React$1.JSX.Element;
+
+type GaugeTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
+interface GaugeProps {
+    /** Progress, 0–100 (clamped). */
+    value: number;
+    /** Diameter in px. */
+    size?: number;
+    /** Ring thickness in px. */
+    thickness?: number;
+    /** Semantic arc color. Ignored when `color` is set. */
+    tone?: GaugeTone;
+    /** Explicit CSS color for the arc, overriding `tone`. */
+    color?: string;
+    /** Center content. Defaults to the rounded percentage; pass `null` to hide. */
+    label?: ReactNode;
+    /** Start the arc from the top and sweep clockwise (default) or counter-clockwise. */
+    counterClockwise?: boolean;
+    className?: string;
+}
+/**
+ * A circular percentage gauge. Feed it a `value` (0–100) and it fills the ring
+ * proportionally; the center renders the value unless you pass a custom `label`.
+ */
+declare function Gauge({ value, size, thickness, tone, color, label, counterClockwise, className, }: GaugeProps): React$1.JSX.Element;
+
+type SegmentTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
+interface BarSegment {
+    /** Segment magnitude, in the same unit as `total`. */
+    value: number;
+    /** Semantic color. Ignored when `color` is set. */
+    tone?: SegmentTone;
+    /** Explicit CSS color, overriding `tone`. */
+    color?: string;
+    /** Legend label and segment title (tooltip). */
+    label?: ReactNode;
+}
+interface SegmentedBarProps {
+    /** The segments, drawn left → right. */
+    segments: BarSegment[];
+    /** Axis total. Defaults to the sum of segment values; the remainder shows as track. */
+    total?: number;
+    /** Bar thickness in px. */
+    height?: number;
+    /** Show a legend of segments with their values below the bar. */
+    legend?: boolean;
+    /** Format a segment value for the legend (e.g. bytes → "1.2 GB"). */
+    formatValue?: (value: number) => ReactNode;
+    className?: string;
+}
+/**
+ * A proportional multi-segment bar. Give it segments and (optionally) a `total`;
+ * each segment takes a slice of the width, with any leftover shown as track.
+ */
+declare function SegmentedBar({ segments, total, height, legend, formatValue, className, }: SegmentedBarProps): React$1.JSX.Element;
+
+interface FileDropzoneProps {
+    /** Called with the selected/dropped files (already filtered to a File[]). */
+    onFiles: (files: File[]) => void;
+    /** `accept` attribute forwarded to the input (e.g. "image/*,.wav"). */
+    accept?: string;
+    /** Allow selecting more than one file. */
+    multiple?: boolean;
+    /** Disable interaction and dim the zone. */
+    disabled?: boolean;
+    /** Leading icon shown above the label (ignored when `children` is set). */
+    icon?: ReactNode;
+    /** Primary call-to-action text (ignored when `children` is set). */
+    label?: ReactNode;
+    /** Secondary hint under the label (e.g. "PNG, JPG up to 10MB"). */
+    hint?: ReactNode;
+    /** Replace the entire inner content. */
+    children?: ReactNode;
+    className?: string;
+}
+/**
+ * A dashed drop target that accepts files by drag-and-drop or click. Reports
+ * selections through `onFiles`; style it via `className` or replace its body
+ * with `children`.
+ */
+declare function FileDropzone({ onFiles, accept, multiple, disabled, icon, label, hint, children, className, }: FileDropzoneProps): React$1.JSX.Element;
+
 declare function Toaster(): React$1.JSX.Element;
 declare const toast: {
     success: (message: string, description?: string) => void;
@@ -1181,4 +1289,4 @@ declare function readTheme(el?: HTMLElement | null): YunUITheme;
  */
 declare function useYunUITheme(defaults?: YunUITheme): [YunUITheme, (patch: YunUITheme) => void];
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, type FlexProps, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, type SelectOption, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
