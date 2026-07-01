@@ -184,7 +184,15 @@ import {
   FileDropzoneDemo,
   AudioPlayerDemo,
   MediaGalleryDemo,
+  MarkdownRendererDemo,
+  ChatDemo,
 } from "@/components/docs/demos";
+import {
+  CodeBlock as ContentCodeBlock,
+  CalloutBlock,
+  MathRenderer,
+  MermaidDiagram,
+} from "yunui/content";
 import {
   Heart,
   Settings,
@@ -895,6 +903,8 @@ export default function Showcase() {
     { label: t("nav.feedback"), href: "#feedback" },
     { label: t("nav.navigation"), href: "#navigation" },
     { label: t("nav.patterns"), href: "#patterns" },
+    { label: "Content", href: "#content" },
+    { label: "Chat", href: "#chat" },
   ];
   const [checked, setChecked] = useState(true);
   const [sw, setSw] = useState(true);
@@ -2029,6 +2039,63 @@ export default function Showcase() {
               <p className="text-caption mt-1">{t("demos.backgroundEffects.behindIt")}</p>
             </div>
           </div>
+        </Demo>
+      </Section>
+
+      {/* Content-rendering stack (@yuhuanowo/yunui/content) */}
+      <Section
+        id="content"
+        title="Content"
+        description="The content-rendering stack — markdown, code, math, diagrams and callouts for LLM / chat / doc output. Lives on @yuhuanowo/yunui/content with on-demand shiki + mermaid."
+      >
+        <Demo title="MarkdownRenderer" description="Full GFM markdown with math, Shiki code, Mermaid diagrams, GitHub callouts and lazy zoomable images — one string in, rich UI out.">
+          <MarkdownRendererDemo />
+        </Demo>
+        <Demo title="CodeBlock" description="Shiki-highlighted code with a filename header, line numbers, highlighted lines and copy. The highlighter loads on demand.">
+          <div className="w-full max-w-xl text-left">
+            <ContentCodeBlock language="tsx" filename="button.tsx" showLineNumbers highlightLines={[2]}>{`export function Button({ label }: { label: string }) {
+  return <button className="btn btn-primary">{label}</button>;
+}`}</ContentCodeBlock>
+          </div>
+        </Demo>
+        <Demo title="CalloutBlock" description="GitHub-style admonitions — note, tip, important, warning, caution, success.">
+          <div className="w-full max-w-xl text-left space-y-3">
+            <CalloutBlock type="note">Useful information the user should know.</CalloutBlock>
+            <CalloutBlock type="tip">A helpful suggestion for doing things better.</CalloutBlock>
+            <CalloutBlock type="warning">Urgent info that needs immediate attention.</CalloutBlock>
+            <CalloutBlock type="success" title="Deployed">The operation completed successfully.</CalloutBlock>
+          </div>
+        </Demo>
+        <Demo title="MathRenderer" description="LaTeX via KaTeX — inline or centered block.">
+          <div className="w-full max-w-xl text-left space-y-4">
+            <p>
+              Inline: the quadratic formula is <MathRenderer math="x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}" /> for <MathRenderer math="ax^2 + bx + c = 0" />.
+            </p>
+            <MathRenderer block math="\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}" />
+          </div>
+        </Demo>
+        <Demo title="MermaidDiagram" description="On-demand Mermaid diagrams that re-theme for light / dark.">
+          <div className="w-full max-w-xl">
+            <MermaidDiagram chart={`sequenceDiagram
+  participant U as User
+  participant A as App
+  participant M as Model
+  U->>A: Prompt
+  A->>M: Request
+  M-->>A: Stream tokens
+  A-->>U: Rendered markdown`} />
+          </div>
+        </Demo>
+      </Section>
+
+      {/* Chat pattern (@yuhuanowo/yunui/chat) */}
+      <Section
+        id="chat"
+        title="Chat"
+        description="Presentational, slot-based building blocks for AI chat UIs — a message row, a smart-scroll list, an auto-growing composer and a header shell. Lives on @yuhuanowo/yunui/chat and pairs with the content subpath for markdown bodies."
+      >
+        <Demo title="Chat" description="A ChatHeader, a ChatMessageList of ChatMessage rows (assistant body via MarkdownRenderer), and a controlled ChatComposer. Type a message and press Enter.">
+          <ChatDemo />
         </Demo>
       </Section>
     </div>

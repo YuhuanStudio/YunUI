@@ -1,0 +1,29 @@
+import { MathRenderer } from "yunui/content";
+
+Render a LaTeX expression with [KaTeX](https://katex.org). Pass the expression as `math`; set `block` for a centered, display-style equation, or leave it off for inline math that flows with the surrounding text. `InlineMath` and `BlockMath` are thin convenience wrappers that take a `value` prop. Inside `MarkdownRenderer`, `$…$` and `$$…$$` are rendered through this component automatically.
+
+## Import
+
+```tsx
+import { MathRenderer, InlineMath, BlockMath } from "@yuhuanowo/yunui/content";
+```
+
+Requires `katex/dist/katex.min.css` to be imported by the host app.
+
+## Example
+
+<ComponentPreview
+  title="MathRenderer"
+  code={`import { MathRenderer } from "@yuhuanowo/yunui/content";`}
+>
+  <div className="w-full max-w-xl text-left space-y-4">
+    <p>
+      Inline: the quadratic formula is <MathRenderer math="x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}" /> for <MathRenderer math="ax^2 + bx + c = 0" />.
+    </p>
+    <MathRenderer block math="\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}" />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="MathRenderer" />

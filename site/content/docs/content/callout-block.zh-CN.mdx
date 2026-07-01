@@ -1,0 +1,38 @@
+import { CalloutBlock } from "yunui/content";
+
+GitHub 风格的提示框——一个带语义化图标与标题、彩色左边框的面板。六种类型覆盖 GitHub 的告示集合：`note`、`tip`、`important`、`warning`、`caution`，外加 YunUI 的 `success`。在 `MarkdownRenderer` 内，它们会由 `> [!NOTE]` 引用块语法自动生成；当你组合自己的布局时可直接使用 `CalloutBlock`。配套的 `parseCalloutType()` 辅助函数会检测引用块首行的 `[!TYPE]` 标记。
+
+## 导入
+
+```tsx
+import { CalloutBlock, parseCalloutType } from "@yuhuanowo/yunui/content";
+```
+
+## 类型
+
+<ComponentPreview
+  title="CalloutBlock"
+  code={`import { CalloutBlock } from "@yuhuanowo/yunui/content";`}
+>
+  <div className="w-full max-w-xl text-left space-y-3">
+    <CalloutBlock type="note">Useful information the user should know.</CalloutBlock>
+    <CalloutBlock type="tip">A helpful suggestion for doing things better.</CalloutBlock>
+    <CalloutBlock type="important">Key information the user needs to know.</CalloutBlock>
+    <CalloutBlock type="warning">Urgent info that needs immediate attention.</CalloutBlock>
+    <CalloutBlock type="caution">Advises about risks or negative outcomes.</CalloutBlock>
+    <CalloutBlock type="success" title="Deployed">The operation completed successfully.</CalloutBlock>
+  </div>
+</ComponentPreview>
+
+## 在 markdown 中
+
+在 `MarkdownRenderer` 内，提示框来自标准的 GitHub 引用块语法：
+
+```md
+> [!WARNING]
+> This action cannot be undone.
+```
+
+## 属性
+
+<PropsTable name="CalloutBlock" />

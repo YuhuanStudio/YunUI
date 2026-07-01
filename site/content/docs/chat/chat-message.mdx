@@ -1,0 +1,61 @@
+import { ChatMessage } from "yunui/chat";
+import { Badge } from "yunui";
+import { Copy, RefreshCw } from "lucide-react";
+
+A single chat message row: an avatar, a header (name + badges + timestamp), the body passed as `children`, an optional `footer` slot for reasoning / tool details, and hover-revealed `actions`. It's fully presentational — the `role` (`user` / `assistant` / `system`) drives the default avatar and name, and every other part is a slot. Feed the body as plain text, or as a rendered `MarkdownRenderer` from `@yuhuanowo/yunui/content`.
+
+## Import
+
+```tsx
+import { ChatMessage } from "@yuhuanowo/yunui/chat";
+```
+
+## Example
+
+The assistant row carries a model badge and hover-revealed actions; hover it to reveal the Copy / Regenerate controls.
+
+<ComponentPreview
+  title="ChatMessage"
+  code={`import { ChatMessage } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-xl text-left">
+    <ChatMessage role="user" name="You" timestamp="9:41 AM">
+      How do I render markdown inside a message?
+    </ChatMessage>
+    <ChatMessage
+      role="assistant"
+      name="Assistant"
+      timestamp="9:41 AM"
+      badges={<Badge>gpt-4o</Badge>}
+      actions={
+        <>
+          <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <Copy className="w-3.5 h-3.5" /> Copy
+          </button>
+          <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <RefreshCw className="w-3.5 h-3.5" /> Regenerate
+          </button>
+        </>
+      }
+    >
+      Feed the body as children — plain text, or a rendered markdown component from the content subpath.
+    </ChatMessage>
+  </div>
+</ComponentPreview>
+
+## Markdown bodies
+
+Pair it with `@yuhuanowo/yunui/content` to render a full markdown message body:
+
+```tsx
+import { ChatMessage } from "@yuhuanowo/yunui/chat";
+import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
+
+<ChatMessage role="assistant" name="Assistant" badges={<Badge>gpt-4o</Badge>}>
+  <MarkdownRenderer content={message.content} />
+</ChatMessage>
+```
+
+## Props
+
+<PropsTable name="ChatMessage" />

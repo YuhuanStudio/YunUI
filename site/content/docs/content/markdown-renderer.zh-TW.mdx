@@ -1,0 +1,34 @@
+完整的內容渲染器。給它一段 markdown 字串，它就會渲染 GitHub 風格 markdown（表格、任務清單、刪除線）、KaTeX 數學（行內 `$…$` 與區塊 `$$…$$`）、Shiki 高亮的圍欄程式碼區塊、` ```mermaid ` 圖表、GitHub 風格 `> [!NOTE]` 提示框、標題錨點，以及惰性、可縮放的圖片——全都在一個元件裡。用 `urlTransform` 改寫圖片/連結 URL，用 `onCodeEdit` 在程式碼區塊上顯示「編輯」按鈕。
+
+## 匯入
+
+```tsx
+import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
+```
+
+需要主端應用引入 `@yuhuanowo/yunui/content.css` 與 `katex/dist/katex.min.css`，並安裝內容對等相依（見[內容概覽](/docs/content)）。
+
+## 範例
+
+下面的範例餵入單一 markdown 字串，涵蓋標題、表格、任務清單、圍欄程式碼區塊、Mermaid 圖表、數學公式與提示框。
+
+<ComponentPreview
+  title="MarkdownRenderer"
+  code={`import { MarkdownRenderer } from "@yuhuanowo/yunui/content";`}
+>
+  <MarkdownRendererDemo />
+</ComponentPreview>
+
+## 用法
+
+```tsx
+<MarkdownRenderer
+  content={message.content}
+  urlTransform={(url) => (url.startsWith("/") ? `${API_HOST}${url}` : url)}
+  onCodeEdit={({ code, language, filename }) => openInEditor({ code, language, filename })}
+/>
+```
+
+## 屬性
+
+<PropsTable name="MarkdownRenderer" />

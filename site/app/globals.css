@@ -8,6 +8,11 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 @import "yunui/css";
+/* Content-rendering stack (MarkdownRenderer, CodeBlock, CalloutBlock, math, …).
+   The content subpath ships its own stylesheet; KaTeX ships the math CSS. Both
+   must be imported by the host app — see docs/content. */
+@import "yunui/content.css";
+@import "katex/dist/katex.min.css";
 
 /* Tailwind v4 must scan YunUI's compiled components so their inline utility
    classes (incl. sm:*, w-8, rounded-l-2xl, …) get generated. Use the real dist

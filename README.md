@@ -112,6 +112,8 @@ Without a provider, YunUI uses zero-dependency defaults (`<a>` / `<img>` / ident
 | `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` and the adapter interfaces |
 | `@yuhuanowo/yunui/patterns` | Page-level components: FAQ, StatCard (`tone` / `inline` / `valueFirst` variants), BlogCard, CodeBlock, Sidebar, PageHeader, BackgroundEffects, and more |
 | `@yuhuanowo/yunui/ai` | AI product-domain components (prop-driven, no direct API calls): ProviderIcon / ModelIcon / ModelTypeIcon, ModelCard, CapabilitySelector, Navbar, Footer, LanguageSwitcher, ThinkingBlock, IDBadge, … |
+| `@yuhuanowo/yunui/content` | Content-rendering stack: `MarkdownRenderer` (GFM + KaTeX + Shiki + Mermaid + callouts + lazy zoomable images), `CodeBlock` / `InlineCode`, `CalloutBlock`, `MathRenderer`, `MermaidDiagram`, `ContentImage`, `ImageLightbox`. Heavy engines are **optional peer deps** (Shiki/Mermaid load on demand). Also import `@yuhuanowo/yunui/content.css` + `katex/dist/katex.min.css` |
+| `@yuhuanowo/yunui/chat` | Slot-based chat UI blocks (presentational, no data types): `ChatMessage`, `ChatMessageList` (stick-to-bottom), `ChatComposer`, `ChatHeader`. Pairs with `@yuhuanowo/yunui/content` |
 
 **Utilities / hooks** (exported from `@yuhuanowo/yunui`): `cn`, `toast` / `Toaster` (sonner-based), `MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`, `useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`.
 

@@ -1,0 +1,50 @@
+import { CodeBlock, InlineCode } from "yunui/content";
+
+由 [Shiki](https://shiki.style) 驅動的語法高亮程式碼區塊。高亮器在首次渲染程式碼區塊時按需載入，因此不會打進初始套件。可顯示可選的 `filename` 標頭、行號、高亮行、複製按鈕，以及——在你傳入 `onEdit` 時——回傳程式碼載荷的「編輯」操作。把程式碼作為子字串傳入。
+
+## 匯入
+
+```tsx
+import { CodeBlock, InlineCode } from "@yuhuanowo/yunui/content";
+```
+
+## 範例
+
+<ComponentPreview
+  title="CodeBlock"
+  code={`import { CodeBlock } from "@yuhuanowo/yunui/content";`}
+>
+  <div className="w-full max-w-xl text-left">
+    <CodeBlock language="tsx" filename="button.tsx" showLineNumbers highlightLines={[2]}>{`export function Button({ label }: { label: string }) {
+  return <button className="btn btn-primary">{label}</button>;
+}`}</CodeBlock>
+  </div>
+</ComponentPreview>
+
+## 行內程式碼
+
+`InlineCode` 在內文中渲染單一程式碼標記。
+
+<ComponentPreview
+  title="InlineCode"
+  code={`import { InlineCode } from "@yuhuanowo/yunui/content";`}
+>
+  <p className="text-left">
+    Run <InlineCode>pnpm build</InlineCode> then restart the dev server.
+  </p>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable
+  name="CodeBlock"
+  rows={[
+    { name: "children", type: "string", required: true, description: "The code to render, as a string." },
+    { name: "language", type: "string", description: "Language id for highlighting (e.g. tsx, python, bash)." },
+    { name: "filename", type: "string", description: "Shown in the block header; also passed to onEdit." },
+    { name: "showLineNumbers", type: "boolean", defaultValue: "false", description: "Render a line-number gutter." },
+    { name: "highlightLines", type: "number[]", description: "1-based line numbers to emphasize." },
+    { name: "onEdit", type: "(payload: CodeBlockEditPayload) => void", description: "When set, shows an Edit button that calls this with { code, language, filename }." },
+    { name: "className", type: "string", description: "Extra classes on the wrapper." },
+  ]}
+/>

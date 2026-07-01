@@ -1,0 +1,34 @@
+import { ChatHeader } from "yunui/chat";
+import { Button } from "yunui";
+
+聊天標頭外殼：一條半透明、帶背景模糊的橫條，含 `left`、`status` 與 `actions` 插槽。把標題、模型選擇器（如 YunUI 的 `ModelSelect`）、模式膠囊或開關組合進插槽——或者傳入 `children` 完全覆蓋插槽版面。
+
+## 匯入
+
+```tsx
+import { ChatHeader } from "@yuhuanowo/yunui/chat";
+```
+
+## 範例
+
+<ComponentPreview
+  title="ChatHeader"
+  code={`import { ChatHeader } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-2xl rounded-xl border overflow-hidden">
+    <ChatHeader
+      left={<span className="text-sm font-medium">New chat</span>}
+      status={
+        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          gpt-4o
+        </span>
+      }
+      actions={<Button variant="ghost" size="sm">Share</Button>}
+    />
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="ChatHeader" />

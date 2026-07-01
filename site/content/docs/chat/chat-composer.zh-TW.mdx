@@ -1,0 +1,39 @@
+聊天輸入框：自動增高的 textarea、Enter 送出（Shift+Enter 換行）、送出/停止按鈕，以及附件預覽和左側工具列的插槽。它是展示型且**受控**的——`value`、送出/停止的副作用以及任何載入狀態都由主端負責。處於 `loading` 時，送出按鈕變為停止按鈕並呼叫 `onStop`。
+
+## 匯入
+
+```tsx
+import { ChatComposer } from "@yuhuanowo/yunui/chat";
+```
+
+## 範例
+
+輸入並按 Enter（或點送出按鈕）。它會記錄每一則訊息，然後模擬 1.4 秒的「生成中」狀態，此時按鈕變為停止。
+
+<ComponentPreview
+  title="ChatComposer"
+  code={`import { ChatComposer } from "@yuhuanowo/yunui/chat";`}
+>
+  <ChatComposerDemo />
+</ComponentPreview>
+
+## 用法
+
+```tsx
+const [value, setValue] = useState("");
+const [loading, setLoading] = useState(false);
+
+<ChatComposer
+  value={value}
+  onChange={setValue}
+  onSend={() => send(value)}
+  onStop={() => abort()}
+  loading={loading}
+  attachments={files.map((f) => <AttachmentChip key={f.id} file={f} />)}
+  toolbar={<AttachButton onPick={addFile} />}
+/>
+```
+
+## 屬性
+
+<PropsTable name="ChatComposer" />

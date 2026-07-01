@@ -1,0 +1,39 @@
+A chat input composer: an auto-growing textarea, Enter-to-send (Shift+Enter for a newline), a send/stop button, and slots for attachment previews and a left toolbar. It's presentational and **controlled** — the host owns the `value`, the send/stop side effects, and any loading state. While `loading`, the send button becomes a stop button that calls `onStop`.
+
+## Import
+
+```tsx
+import { ChatComposer } from "@yuhuanowo/yunui/chat";
+```
+
+## Example
+
+Type and press Enter (or the send button). It logs each message, then simulates a 1.4s "generating" state where the button becomes Stop.
+
+<ComponentPreview
+  title="ChatComposer"
+  code={`import { ChatComposer } from "@yuhuanowo/yunui/chat";`}
+>
+  <ChatComposerDemo />
+</ComponentPreview>
+
+## Usage
+
+```tsx
+const [value, setValue] = useState("");
+const [loading, setLoading] = useState(false);
+
+<ChatComposer
+  value={value}
+  onChange={setValue}
+  onSend={() => send(value)}
+  onStop={() => abort()}
+  loading={loading}
+  attachments={files.map((f) => <AttachmentChip key={f.id} file={f} />)}
+  toolbar={<AttachButton onPick={addFile} />}
+/>
+```
+
+## Props
+
+<PropsTable name="ChatComposer" />

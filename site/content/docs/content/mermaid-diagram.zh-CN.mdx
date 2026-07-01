@@ -1,0 +1,31 @@
+import { MermaidDiagram } from "yunui/content";
+
+从图表定义字符串渲染 [Mermaid](https://mermaid.js.org) 图表——流程图、时序图、甘特图、类图、状态图等。`mermaid` 库在首次渲染图表时按需加载，因此不会打进初始包，并会随浅色/深色自动重新配色。在 `MarkdownRenderer` 内，` ```mermaid ` 围栏块会通过本组件渲染。
+
+## 导入
+
+```tsx
+import { MermaidDiagram } from "@yuhuanowo/yunui/content";
+```
+
+## 示例
+
+<ComponentPreview
+  title="MermaidDiagram"
+  code={`import { MermaidDiagram } from "@yuhuanowo/yunui/content";`}
+>
+  <div className="w-full max-w-xl">
+    <MermaidDiagram chart={`sequenceDiagram
+  participant U as User
+  participant A as App
+  participant M as Model
+  U->>A: Prompt
+  A->>M: Request
+  M-->>A: Stream tokens
+  A-->>U: Rendered markdown`} />
+  </div>
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="MermaidDiagram" />

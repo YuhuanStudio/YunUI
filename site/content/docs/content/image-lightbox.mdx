@@ -1,0 +1,34 @@
+A controlled, full-screen image viewer rendered into a portal on `document.body`. It supports zoom, rotate, download and keyboard shortcuts (`Esc` to close, `+` / `-` to zoom, `R` to rotate). It's the viewer that [`ContentImage`](/docs/content/content-image) opens on click, but you can drive it yourself for any image: hold the open state and pass `isOpen` / `onClose`.
+
+## Import
+
+```tsx
+import { ImageLightbox } from "@yuhuanowo/yunui/content";
+```
+
+## Example
+
+<ComponentPreview
+  title="ImageLightbox"
+  code={`import { ImageLightbox } from "@yuhuanowo/yunui/content";`}
+>
+  <ImageLightboxDemo />
+</ComponentPreview>
+
+## Usage
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<button onClick={() => setOpen(true)}>View</button>
+<ImageLightbox
+  src={imageUrl}
+  alt="Generated image"
+  isOpen={open}
+  onClose={() => setOpen(false)}
+/>
+```
+
+## Props
+
+<PropsTable name="ImageLightbox" />

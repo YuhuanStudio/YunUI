@@ -1,0 +1,113 @@
+/* =====================================================
+ * YunUI — content stack styles (@yuhuanowo/yunui/content)
+ * Import once in the host app alongside `katex/dist/katex.min.css`:
+ *   import "@yuhuanowo/yunui/content.css";
+ *   import "katex/dist/katex.min.css";
+ * Structural styles for Shiki code blocks, line numbers, KaTeX and Mermaid.
+ * Token-independent so it renders the same in any host.
+ * ===================================================== */
+
+/* Highlighted lines in code blocks */
+.highlighted-line {
+  background-color: rgba(99, 102, 241, 0.1);
+  border-left: 3px solid rgb(99, 102, 241);
+  margin-left: -16px;
+  padding-left: 13px;
+  display: block;
+}
+
+.dark .highlighted-line {
+  background-color: rgba(99, 102, 241, 0.2);
+}
+
+/* Line numbers */
+.code-with-line-numbers code {
+  counter-reset: line;
+}
+
+.code-with-line-numbers code > span[data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: color-mix(in oklab, currentColor 45%, transparent);
+  font-size: 0.75rem;
+}
+
+/* Shiki wrapper — strip Shiki's own <pre> chrome so it inherits our container */
+.shiki-wrapper pre {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.shiki-wrapper code {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.shiki-wrapper .line {
+  display: block;
+  min-height: 1.5rem;
+}
+
+/* Diff decorations */
+.shiki-wrapper .line.diff.add {
+  background-color: rgba(46, 160, 67, 0.15);
+}
+
+.shiki-wrapper .line.diff.remove {
+  background-color: rgba(248, 81, 73, 0.15);
+}
+
+.shiki-wrapper .line.diff.add::before {
+  content: "+";
+  color: rgb(46, 160, 67);
+  margin-right: 0.5rem;
+}
+
+.shiki-wrapper .line.diff.remove::before {
+  content: "-";
+  color: rgb(248, 81, 73);
+  margin-right: 0.5rem;
+}
+
+/* KaTeX */
+.katex-display {
+  margin: 1rem 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.katex {
+  font-size: 1.1em;
+}
+
+/* Mermaid */
+.mermaid-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Footnotes (GFM) — not covered by inline element styles */
+.footnotes {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in oklab, currentColor 15%, transparent);
+  font-size: 0.875rem;
+}
+
+.footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+}

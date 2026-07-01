@@ -1,0 +1,34 @@
+The full content renderer. Give it a markdown string and it renders GitHub-flavored markdown (tables, task lists, strikethrough), KaTeX math (inline `$…$` and block `$$…$$`), Shiki-highlighted fenced code blocks, ` ```mermaid ` diagrams, GitHub-style `> [!NOTE]` callouts, heading anchors, and lazy, zoomable images — all in one component. Rewrite image/link URLs with `urlTransform`, and pass `onCodeEdit` to surface an "Edit" button on code blocks.
+
+## Import
+
+```tsx
+import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
+```
+
+Requires `@yuhuanowo/yunui/content.css` and `katex/dist/katex.min.css` to be imported by the host app, plus the content peer dependencies (see [Content overview](/docs/content)).
+
+## Example
+
+The demo below feeds a single markdown string exercising headings, a table, a task list, a fenced code block, a Mermaid diagram, math, and a callout.
+
+<ComponentPreview
+  title="MarkdownRenderer"
+  code={`import { MarkdownRenderer } from "@yuhuanowo/yunui/content";`}
+>
+  <MarkdownRendererDemo />
+</ComponentPreview>
+
+## Usage
+
+```tsx
+<MarkdownRenderer
+  content={message.content}
+  urlTransform={(url) => (url.startsWith("/") ? `${API_HOST}${url}` : url)}
+  onCodeEdit={({ code, language, filename }) => openInEditor({ code, language, filename })}
+/>
+```
+
+## Props
+
+<PropsTable name="MarkdownRenderer" />

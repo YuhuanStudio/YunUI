@@ -1,0 +1,40 @@
+聊天模式是一組用於 AI 聊天介面的展示型、以插槽為基礎的構件：訊息**列**、智慧捲動的訊息**清單**、自動增高的**輸入框**，以及半透明的**標頭**外殼。它不含任何資料或模型型別，也不綁定 i18n——你透過 children 傳入內容（搭配 `@yuhuanowo/yunui/content` 渲染 markdown 訊息主體），並透過插槽注入應用相關的部分。它位於獨立的子路徑 `@yuhuanowo/yunui/chat` 上。
+
+## 安裝
+
+聊天子路徑隨 YunUI 一同發布——除了 YunUI 已內建的依賴（framer-motion、lucide-react）外，無需額外的對等依賴：
+
+```bash
+pnpm add @yuhuanowo/yunui
+```
+
+## 匯入
+
+```tsx
+import {
+  ChatMessage,
+  ChatMessageList,
+  ChatComposer,
+  ChatHeader,
+} from "@yuhuanowo/yunui/chat";
+```
+
+## 組合到一起
+
+一個 `ChatHeader`、一個裝著 `ChatMessage` 列的 `ChatMessageList`（助理主體用 `@yuhuanowo/yunui/content` 的 `MarkdownRenderer` 渲染），以及一個受控的 `ChatComposer`。輸入一則訊息並按 Enter——清單會隨內容增長自動貼到底部。
+
+<ComponentPreview
+  title="Chat"
+  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";`}
+>
+  <ChatDemo />
+</ComponentPreview>
+
+## 各個部件
+
+每個構件都單獨匯出，你也可以自行拼裝版面：
+
+- [聊天訊息](/docs/chat/chat-message) —— 單列：頭像、標頭、主體、頁尾與懸停操作。
+- [聊天訊息清單](/docs/chat/chat-message-list) —— 帶智慧貼底的捲動容器。
+- [聊天輸入框](/docs/chat/chat-composer) —— 自動增高、Enter 送出的輸入框。
+- [聊天標頭](/docs/chat/chat-header) —— 帶插槽的半透明標頭外殼。

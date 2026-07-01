@@ -7,6 +7,8 @@ export default defineConfig({
     adapters: "src/adapters/index.ts",
     patterns: "src/patterns/index.ts",
     ai: "src/ai/index.ts",
+    content: "src/content/index.ts",
+    chat: "src/chat/index.ts",
   },
   format: ["esm"],
   dts: true,

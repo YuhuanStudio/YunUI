@@ -758,6 +758,440 @@
       "description": "Render the reasoning content (e.g. with a Markdown renderer). Defaults to\nplain pre-wrapped text so YunUI carries no markdown dependency."
     }
   ],
+  "ChatComposer": [
+    {
+      "name": "attachments",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Attachment chips / previews, rendered above the textarea."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": ""
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": ""
+    },
+    {
+      "name": "maxRows",
+      "type": "number",
+      "required": false,
+      "defaultValue": "8",
+      "description": "Max rows before the textarea scrolls."
+    },
+    {
+      "name": "onChange",
+      "type": "(value: string) => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onSend",
+      "type": "() => void",
+      "required": true,
+      "defaultValue": null,
+      "description": "Called when the user sends (Enter or the send button)."
+    },
+    {
+      "name": "onStop",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Called when the stop button is pressed while `loading`."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Send a message…",
+      "description": ""
+    },
+    {
+      "name": "sendDisabled",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Force-disable the send button even with text (e.g. invalid state)."
+    },
+    {
+      "name": "toolbar",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Left-aligned toolbar (attach, mode, feature toggles, …)."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "ChatHeader": [
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Right cluster — theme toggle, workspace toggle, actions, …"
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Overrides the slot layout entirely when provided."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "left",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Left cluster — sidebar toggle, title, model selector, …"
+    },
+    {
+      "name": "status",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Center status cluster — mode indicator, feature chips, … (optional)."
+    }
+  ],
+  "ChatMessageList": [
+    {
+      "name": "autoScroll",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Auto-stick to the bottom as content grows — but only while the user is\nalready near the bottom, so scrolling up to read isn't interrupted."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "The message rows (e.g. <ChatMessage/> elements)."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "empty",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Shown centered when there are no messages."
+    },
+    {
+      "name": "stickThreshold",
+      "type": "number",
+      "required": false,
+      "defaultValue": "120",
+      "description": "Distance (px) from the bottom still considered \"at the bottom\"."
+    }
+  ],
+  "ChatMessage": [
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Actions revealed on hover below the content (copy, regenerate, …)."
+    },
+    {
+      "name": "avatar",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Avatar node. Defaults to a role icon in a themed circle."
+    },
+    {
+      "name": "badges",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Inline chips next to the name (model, latency, mode, …)."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "The message body (plain text, or a rendered <MarkdownRenderer/>)."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "footer",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Extra content below the body — reasoning steps, tool details, JSON, …"
+    },
+    {
+      "name": "name",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Display name in the header. Defaults to a role label."
+    },
+    {
+      "name": "role",
+      "type": "\"user\" | \"assistant\" | \"system\"",
+      "required": true,
+      "defaultValue": null,
+      "description": "Who sent the message. Drives the default avatar and name."
+    },
+    {
+      "name": "timestamp",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Right-aligned timestamp (or any node) in the header."
+    }
+  ],
+  "CalloutBlock": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "type",
+      "type": "\"note\" | \"tip\" | \"important\" | \"warning\" | \"caution\" | \"success\"",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "CodeBlock": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "The code to display (ignored when `tabs` are provided)."
+    },
+    {
+      "name": "copyable",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Show the copy-to-clipboard button."
+    },
+    {
+      "name": "filename",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Filename shown in the header instead of the language badge."
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "required": false,
+      "defaultValue": "text",
+      "description": "Language label, also used by the lightweight highlighter."
+    },
+    {
+      "name": "showLineNumbers",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Show line numbers in the gutter."
+    },
+    {
+      "name": "tabs",
+      "type": "Tab[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Render multiple switchable code tabs instead of a single `code` block."
+    }
+  ],
+  "InlineCode": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "ContentImage": [
+    {
+      "name": "enableLightbox",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Open a zoom/rotate/download lightbox on click."
+    }
+  ],
+  "ImageLightbox": [
+    {
+      "name": "alt",
+      "type": "string",
+      "required": false,
+      "defaultValue": "",
+      "description": ""
+    },
+    {
+      "name": "isOpen",
+      "type": "boolean",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onClose",
+      "type": "() => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "src",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "MarkdownRenderer": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onCodeEdit",
+      "type": "((payload: CodeBlockEditPayload) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "When provided, code blocks show an \"Edit\" button that calls this with the\ncode payload (e.g. open it in an editor). Hidden if unset."
+    },
+    {
+      "name": "urlTransform",
+      "type": "((url: string) => string)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Rewrite image/link URLs before rendering (e.g. prefix a backend host or\nproxy). Defaults to identity."
+    }
+  ],
+  "MathRenderer": [
+    {
+      "name": "block",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": ""
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "math",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "InlineMath": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "BlockMath": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "MermaidDiagram": [
+    {
+      "name": "chart",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
   "AccountLockedCard": [
     {
       "name": "appeal",
@@ -1267,57 +1701,6 @@
       "required": false,
       "defaultValue": null,
       "description": ""
-    }
-  ],
-  "CodeBlock": [
-    {
-      "name": "className",
-      "type": "string",
-      "required": false,
-      "defaultValue": null,
-      "description": ""
-    },
-    {
-      "name": "code",
-      "type": "string",
-      "required": true,
-      "defaultValue": null,
-      "description": "The code to display (ignored when `tabs` are provided)."
-    },
-    {
-      "name": "copyable",
-      "type": "boolean",
-      "required": false,
-      "defaultValue": "true",
-      "description": "Show the copy-to-clipboard button."
-    },
-    {
-      "name": "filename",
-      "type": "string",
-      "required": false,
-      "defaultValue": null,
-      "description": "Filename shown in the header instead of the language badge."
-    },
-    {
-      "name": "language",
-      "type": "string",
-      "required": false,
-      "defaultValue": "text",
-      "description": "Language label, also used by the lightweight highlighter."
-    },
-    {
-      "name": "showLineNumbers",
-      "type": "boolean",
-      "required": false,
-      "defaultValue": "true",
-      "description": "Show line numbers in the gutter."
-    },
-    {
-      "name": "tabs",
-      "type": "Tab[]",
-      "required": false,
-      "defaultValue": null,
-      "description": "Render multiple switchable code tabs instead of a single `code` block."
     }
   ],
   "ConnectedAccountRow": [

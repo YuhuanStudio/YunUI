@@ -1,0 +1,34 @@
+一個受控的全螢幕圖片檢視器，透過 portal 渲染到 `document.body`。它支援縮放、旋轉、下載與鍵盤快捷鍵（`Esc` 關閉、`+` / `-` 縮放、`R` 旋轉）。它就是 [`ContentImage`](/docs/content/content-image) 點擊時開啟的檢視器，但你也可以為任意圖片自行驅動它：持有開啟狀態並傳入 `isOpen` / `onClose`。
+
+## 匯入
+
+```tsx
+import { ImageLightbox } from "@yuhuanowo/yunui/content";
+```
+
+## 範例
+
+<ComponentPreview
+  title="ImageLightbox"
+  code={`import { ImageLightbox } from "@yuhuanowo/yunui/content";`}
+>
+  <ImageLightboxDemo />
+</ComponentPreview>
+
+## 用法
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<button onClick={() => setOpen(true)}>View</button>
+<ImageLightbox
+  src={imageUrl}
+  alt="Generated image"
+  isOpen={open}
+  onClose={() => setOpen(false)}
+/>
+```
+
+## 屬性
+
+<PropsTable name="ImageLightbox" />

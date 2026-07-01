@@ -134,6 +134,46 @@ function aiDoc(
   };
 }
 
+/** Helper to declare a content page entry (slug under /docs/content). */
+function contentDoc(
+  slug: string,
+  title: Localized<string>,
+  description: Localized<string>,
+  keywords: string,
+): DocEntry {
+  return {
+    slugs: ["content", slug],
+    title,
+    description,
+    load: {
+      en: () => import(`@/content/docs/content/${slug}.mdx`),
+      "zh-CN": () => import(`@/content/docs/content/${slug}.zh-CN.mdx`),
+      "zh-TW": () => import(`@/content/docs/content/${slug}.zh-TW.mdx`),
+    },
+    keywords,
+  };
+}
+
+/** Helper to declare a chat page entry (slug under /docs/chat). */
+function chatDoc(
+  slug: string,
+  title: Localized<string>,
+  description: Localized<string>,
+  keywords: string,
+): DocEntry {
+  return {
+    slugs: ["chat", slug],
+    title,
+    description,
+    load: {
+      en: () => import(`@/content/docs/chat/${slug}.mdx`),
+      "zh-CN": () => import(`@/content/docs/chat/${slug}.zh-CN.mdx`),
+      "zh-TW": () => import(`@/content/docs/chat/${slug}.zh-TW.mdx`),
+    },
+    keywords,
+  };
+}
+
 export const docs: DocEntry[] = [
   {
     slugs: [],
@@ -1110,6 +1150,150 @@ export const docs: DocEntry[] = [
     },
     "language switcher locale i18n dropdown translation",
   ),
+
+  // ---- Content ------------------------------------------------------------
+  {
+    slugs: ["content"],
+    title: { en: "Content", "zh-CN": "内容渲染", "zh-TW": "內容渲染" },
+    description: {
+      en: "The content-rendering stack — markdown, code, math, diagrams, callouts and images for LLM/chat/doc output.",
+      "zh-CN": "内容渲染栈——用于 LLM/聊天/文档输出的 markdown、代码、数学、图表、提示框与图片。",
+      "zh-TW": "內容渲染堆疊——用於 LLM/聊天/文件輸出的 markdown、程式碼、數學、圖表、提示框與圖片。",
+    },
+    load: {
+      en: () => import("@/content/docs/content/index.mdx"),
+      "zh-CN": () => import("@/content/docs/content/index.zh-CN.mdx"),
+      "zh-TW": () => import("@/content/docs/content/index.zh-TW.mdx"),
+    },
+    keywords: "content markdown code math mermaid callout image subpath peer dependencies install",
+  },
+  contentDoc(
+    "markdown-renderer",
+    { en: "Markdown Renderer", "zh-CN": "Markdown 渲染器", "zh-TW": "Markdown 渲染器" },
+    {
+      en: "Full GFM markdown with math, Shiki code, Mermaid diagrams, GitHub callouts and lazy zoomable images.",
+      "zh-CN": "完整的 GFM markdown，含数学公式、Shiki 代码、Mermaid 图表、GitHub 提示框与惰性可缩放图片。",
+      "zh-TW": "完整的 GFM markdown，含數學公式、Shiki 程式碼、Mermaid 圖表、GitHub 提示框與惰性可縮放圖片。",
+    },
+    "markdown renderer gfm tables task list math katex shiki code mermaid callout image llm chat",
+  ),
+  contentDoc(
+    "code-block",
+    { en: "Code Block", "zh-CN": "代码块", "zh-TW": "程式碼區塊" },
+    {
+      en: "Shiki-highlighted code block with a filename header, line numbers, line highlighting, copy and an optional edit action.",
+      "zh-CN": "由 Shiki 高亮的代码块，含文件名标头、行号、行高亮、复制与可选的编辑操作。",
+      "zh-TW": "由 Shiki 高亮的程式碼區塊，含檔名標頭、行號、行高亮、複製與可選的編輯操作。",
+    },
+    "code block shiki syntax highlight line numbers filename copy edit inline code content",
+  ),
+  contentDoc(
+    "callout-block",
+    { en: "Callout Block", "zh-CN": "提示框", "zh-TW": "提示框" },
+    {
+      en: "GitHub-style callout panels — note, tip, important, warning, caution and success — with a semantic icon and color.",
+      "zh-CN": "GitHub 风格的提示框——note、tip、important、warning、caution 与 success——带语义化图标与配色。",
+      "zh-TW": "GitHub 風格的提示框——note、tip、important、warning、caution 與 success——帶語義化圖示與配色。",
+    },
+    "callout block admonition note tip important warning caution success github blockquote alert",
+  ),
+  contentDoc(
+    "math-renderer",
+    { en: "Math Renderer", "zh-CN": "数学渲染器", "zh-TW": "數學渲染器" },
+    {
+      en: "Render LaTeX with KaTeX, inline or as a centered block; requires the KaTeX stylesheet.",
+      "zh-CN": "使用 KaTeX 渲染 LaTeX，支持行内或居中块级；需引入 KaTeX 样式表。",
+      "zh-TW": "使用 KaTeX 渲染 LaTeX，支援行內或置中區塊；需引入 KaTeX 樣式表。",
+    },
+    "math renderer latex katex inline block equation formula tex",
+  ),
+  contentDoc(
+    "mermaid-diagram",
+    { en: "Mermaid Diagram", "zh-CN": "Mermaid 图表", "zh-TW": "Mermaid 圖表" },
+    {
+      en: "Render Mermaid diagrams (flowchart, sequence, gantt…); the engine loads on demand and re-themes for light/dark.",
+      "zh-CN": "渲染 Mermaid 图表（流程图、时序图、甘特图……）；引擎按需加载并随浅色/深色重新配色。",
+      "zh-TW": "渲染 Mermaid 圖表（流程圖、時序圖、甘特圖……）；引擎按需載入並隨淺色/深色重新配色。",
+    },
+    "mermaid diagram flowchart sequence gantt graph chart on demand lazy theme dark",
+  ),
+  contentDoc(
+    "content-image",
+    { en: "Content Image", "zh-CN": "内容图片", "zh-TW": "內容圖片" },
+    {
+      en: "A lazy, fade-in image that defers loading until near the viewport and opens a zoomable lightbox on click.",
+      "zh-CN": "惰性、淡入的图片，接近视口前不加载，点击可打开可缩放的灯箱。",
+      "zh-TW": "惰性、淡入的圖片，接近視口前不載入，點擊可開啟可縮放的燈箱。",
+    },
+    "content image lazy intersection observer fade lightbox zoom placeholder img",
+  ),
+  contentDoc(
+    "image-lightbox",
+    { en: "Image Lightbox", "zh-CN": "图片灯箱", "zh-TW": "圖片燈箱" },
+    {
+      en: "A full-screen image viewer with zoom, rotate, download and keyboard shortcuts, rendered into a portal.",
+      "zh-CN": "全屏图片查看器，支持缩放、旋转、下载与键盘快捷键，通过 portal 渲染。",
+      "zh-TW": "全螢幕圖片檢視器，支援縮放、旋轉、下載與鍵盤快捷鍵，透過 portal 渲染。",
+    },
+    "image lightbox viewer zoom rotate download fullscreen portal keyboard esc modal",
+  ),
+
+  // ---- Chat ---------------------------------------------------------------
+  {
+    slugs: ["chat"],
+    title: { en: "Chat", "zh-CN": "聊天", "zh-TW": "聊天" },
+    description: {
+      en: "Presentational, slot-based building blocks for AI chat UIs — message row, smart-scroll list, composer and header.",
+      "zh-CN": "用于 AI 聊天界面的展示型、基于插槽的构件——消息行、智能滚动列表、输入框与头部。",
+      "zh-TW": "用於 AI 聊天介面的展示型、以插槽為基礎的構件——訊息列、智慧捲動清單、輸入框與標頭。",
+    },
+    load: {
+      en: () => import("@/content/docs/chat/index.mdx"),
+      "zh-CN": () => import("@/content/docs/chat/index.zh-CN.mdx"),
+      "zh-TW": () => import("@/content/docs/chat/index.zh-TW.mdx"),
+    },
+    keywords: "chat message composer header list ai llm subpath slots presentational conversation",
+  },
+  chatDoc(
+    "chat-message",
+    { en: "Chat Message", "zh-CN": "聊天消息", "zh-TW": "聊天訊息" },
+    {
+      en: "A single message row — avatar, header (name + badges + timestamp), body, footer slot and hover-revealed actions.",
+      "zh-CN": "单条消息行——头像、标头（名称 + 徽章 + 时间戳）、主体、页脚插槽与悬停显示的操作。",
+      "zh-TW": "單則訊息列——頭像、標頭（名稱 + 徽章 + 時間戳）、主體、頁尾插槽與懸停顯示的操作。",
+    },
+    "chat message row avatar role user assistant system badges actions footer timestamp markdown bubble",
+  ),
+  chatDoc(
+    "chat-message-list",
+    { en: "Chat Message List", "zh-CN": "聊天消息列表", "zh-TW": "聊天訊息清單" },
+    {
+      en: "A scroll container with smart stick-to-bottom and an empty-state slot; the IntersectionObserver root for lazy content images.",
+      "zh-CN": "带智能贴底与空状态插槽的滚动容器；惰性内容图片的 IntersectionObserver 根。",
+      "zh-TW": "帶智慧貼底與空狀態插槽的捲動容器；惰性內容圖片的 IntersectionObserver 根。",
+    },
+    "chat message list scroll container stick to bottom auto scroll empty state conversation feed",
+  ),
+  chatDoc(
+    "chat-composer",
+    { en: "Chat Composer", "zh-CN": "聊天输入框", "zh-TW": "聊天輸入框" },
+    {
+      en: "A controlled, auto-growing textarea with Enter-to-send, a send/stop button, and attachment + toolbar slots.",
+      "zh-CN": "受控、自动增高的 textarea，支持 Enter 发送、发送/停止按钮，以及附件 + 工具栏插槽。",
+      "zh-TW": "受控、自動增高的 textarea，支援 Enter 送出、送出/停止按鈕，以及附件 + 工具列插槽。",
+    },
+    "chat composer input textarea send enter shift stop loading attachments toolbar controlled prompt",
+  ),
+  chatDoc(
+    "chat-header",
+    { en: "Chat Header", "zh-CN": "聊天头部", "zh-TW": "聊天標頭" },
+    {
+      en: "A translucent, backdrop-blurred header shell with left / status / actions slots.",
+      "zh-CN": "半透明、带背景模糊的头部外壳，含 left / status / actions 插槽。",
+      "zh-TW": "半透明、帶背景模糊的標頭外殼，含 left / status / actions 插槽。",
+    },
+    "chat header bar translucent backdrop blur slots left status actions model selector title toggle",
+  ),
 ];
 
 /** Sidebar grouping, in display order. Slugs reference the manifest by key. */
@@ -1251,6 +1435,29 @@ export const groups: DocGroup[] = [
       "ai/navbar",
       "ai/footer",
       "ai/language-switcher",
+    ],
+  },
+  {
+    title: { en: "Content", "zh-CN": "内容渲染", "zh-TW": "內容渲染" },
+    pages: [
+      "content",
+      "content/markdown-renderer",
+      "content/code-block",
+      "content/callout-block",
+      "content/math-renderer",
+      "content/mermaid-diagram",
+      "content/content-image",
+      "content/image-lightbox",
+    ],
+  },
+  {
+    title: { en: "Chat", "zh-CN": "聊天", "zh-TW": "聊天" },
+    pages: [
+      "chat",
+      "chat/chat-message",
+      "chat/chat-message-list",
+      "chat/chat-composer",
+      "chat/chat-header",
     ],
   },
 ];

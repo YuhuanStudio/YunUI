@@ -1,0 +1,44 @@
+import { ChatMessage, ChatMessageList } from "yunui/chat";
+
+A scrollable message container with smart stick-to-bottom. As content grows it auto-scrolls to the newest message — but only while the user is already near the bottom, so scrolling up to re-read is never interrupted. It marks itself with `data-scroll-container="true"` so lazy content images (from `@yuhuanowo/yunui/content`) use it as their IntersectionObserver root. Place it as the flexible middle of a `flex flex-col` shell, between a header and a composer.
+
+## Import
+
+```tsx
+import { ChatMessageList } from "@yuhuanowo/yunui/chat";
+```
+
+## Example
+
+Scroll up and the list stays put; it only re-sticks to the bottom when you're already there.
+
+<ComponentPreview
+  title="ChatMessageList"
+  code={`import { ChatMessageList, ChatMessage } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-xl flex flex-col" style={{ height: 280 }}>
+    <ChatMessageList className="px-4">
+      <ChatMessage role="user" name="You">What is YunUI?</ChatMessage>
+      <ChatMessage role="assistant" name="Assistant">A versioned React 19 + Tailwind v4 design system.</ChatMessage>
+      <ChatMessage role="user" name="You">Does it help with chat UIs?</ChatMessage>
+      <ChatMessage role="assistant" name="Assistant">Yes — the chat subpath ships message rows, a smart list, a composer and a header.</ChatMessage>
+    </ChatMessageList>
+  </div>
+</ComponentPreview>
+
+## Empty state
+
+Pass an `empty` node to show a centered placeholder when there are no messages.
+
+<ComponentPreview
+  title="ChatMessageList empty"
+  code={`import { ChatMessageList } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-xl flex flex-col" style={{ height: 180 }}>
+    <ChatMessageList empty={<p className="text-sm text-muted-foreground">No messages yet — say hello.</p>} />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ChatMessageList" />

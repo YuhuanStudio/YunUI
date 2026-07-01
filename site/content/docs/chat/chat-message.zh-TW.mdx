@@ -1,0 +1,61 @@
+import { ChatMessage } from "yunui/chat";
+import { Badge } from "yunui";
+import { Copy, RefreshCw } from "lucide-react";
+
+單則聊天訊息列：頭像、標頭（名稱 + 徽章 + 時間戳）、透過 `children` 傳入的主體、用於推理 / 工具詳情的可選 `footer` 插槽，以及懸停顯示的 `actions`。它完全是展示型的——`role`（`user` / `assistant` / `system`）決定預設頭像與名稱，其餘每一部分都是插槽。主體可傳純文字，也可傳來自 `@yuhuanowo/yunui/content` 的 `MarkdownRenderer`。
+
+## 匯入
+
+```tsx
+import { ChatMessage } from "@yuhuanowo/yunui/chat";
+```
+
+## 範例
+
+助理列帶有一個模型徽章與懸停顯示的操作；將滑鼠懸停其上即可顯示複製 / 重新生成控制項。
+
+<ComponentPreview
+  title="ChatMessage"
+  code={`import { ChatMessage } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-xl text-left">
+    <ChatMessage role="user" name="You" timestamp="9:41 AM">
+      How do I render markdown inside a message?
+    </ChatMessage>
+    <ChatMessage
+      role="assistant"
+      name="Assistant"
+      timestamp="9:41 AM"
+      badges={<Badge>gpt-4o</Badge>}
+      actions={
+        <>
+          <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <Copy className="w-3.5 h-3.5" /> Copy
+          </button>
+          <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <RefreshCw className="w-3.5 h-3.5" /> Regenerate
+          </button>
+        </>
+      }
+    >
+      Feed the body as children — plain text, or a rendered markdown component from the content subpath.
+    </ChatMessage>
+  </div>
+</ComponentPreview>
+
+## Markdown 主體
+
+搭配 `@yuhuanowo/yunui/content` 渲染完整的 markdown 訊息主體：
+
+```tsx
+import { ChatMessage } from "@yuhuanowo/yunui/chat";
+import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
+
+<ChatMessage role="assistant" name="Assistant" badges={<Badge>gpt-4o</Badge>}>
+  <MarkdownRenderer content={message.content} />
+</ChatMessage>
+```
+
+## 屬性
+
+<PropsTable name="ChatMessage" />

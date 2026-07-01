@@ -1,0 +1,44 @@
+import { ChatMessage, ChatMessageList } from "yunui/chat";
+
+带智能贴底的可滚动消息容器。内容增长时会自动滚动到最新消息——但仅当用户已经靠近底部时才滚动，因此向上翻阅时不会被打断。它给自己标记 `data-scroll-container="true"`，让惰性内容图片（来自 `@yuhuanowo/yunui/content`）以它作为 IntersectionObserver 的根。把它作为 `flex flex-col` 外壳中可伸缩的中间部分，夹在头部与输入框之间。
+
+## 导入
+
+```tsx
+import { ChatMessageList } from "@yuhuanowo/yunui/chat";
+```
+
+## 示例
+
+向上滚动，列表会停在原处；只有当你已经在底部时它才会重新贴底。
+
+<ComponentPreview
+  title="ChatMessageList"
+  code={`import { ChatMessageList, ChatMessage } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-xl flex flex-col" style={{ height: 280 }}>
+    <ChatMessageList className="px-4">
+      <ChatMessage role="user" name="You">What is YunUI?</ChatMessage>
+      <ChatMessage role="assistant" name="Assistant">A versioned React 19 + Tailwind v4 design system.</ChatMessage>
+      <ChatMessage role="user" name="You">Does it help with chat UIs?</ChatMessage>
+      <ChatMessage role="assistant" name="Assistant">Yes — the chat subpath ships message rows, a smart list, a composer and a header.</ChatMessage>
+    </ChatMessageList>
+  </div>
+</ComponentPreview>
+
+## 空状态
+
+传入 `empty` 节点，可在没有消息时显示居中占位。
+
+<ComponentPreview
+  title="ChatMessageList empty"
+  code={`import { ChatMessageList } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-xl flex flex-col" style={{ height: 180 }}>
+    <ChatMessageList empty={<p className="text-sm text-muted-foreground">No messages yet — say hello.</p>} />
+  </div>
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="ChatMessageList" />

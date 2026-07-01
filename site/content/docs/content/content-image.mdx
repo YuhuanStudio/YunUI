@@ -1,0 +1,30 @@
+import { ContentImage } from "yunui/content";
+
+A lazy, flicker-free image for rendered content. It defers loading until it scrolls near the viewport (via `IntersectionObserver`), shows a spinner placeholder, fades in on load, and — by default — opens a full-screen, zoomable [lightbox](/docs/content/image-lightbox) on click. It extends the native `<img>` props, so `src`, `alt`, `className`, `loading`, etc. all pass straight through; URLs are used as-is (rewrite them upstream, e.g. with the markdown renderer's `urlTransform`). Inside `MarkdownRenderer`, every image is rendered through this component.
+
+## Import
+
+```tsx
+import { ContentImage } from "@yuhuanowo/yunui/content";
+```
+
+## Example
+
+Click the image to open the lightbox.
+
+<ComponentPreview
+  title="ContentImage"
+  code={`import { ContentImage } from "@yuhuanowo/yunui/content";`}
+>
+  <ContentImage
+    src="https://picsum.photos/seed/yunui/640/360"
+    alt="A random placeholder photo"
+    className="w-80 rounded-xl"
+  />
+</ComponentPreview>
+
+## Props
+
+Beyond the prop below, `ContentImage` forwards all native `<img>` attributes (`src`, `alt`, `className`, `loading`, `onLoad`, `onError`, …).
+
+<PropsTable name="ContentImage" />

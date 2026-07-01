@@ -12,6 +12,26 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- **`@yuhuanowo/yunui/content` (new subpath) — the content-rendering stack.**
+  Rich rendering for LLM/chat/doc content, extracted from the Agent (garvea)
+  project (the most complete of our three apps) so all of them share one
+  canonical implementation: `MarkdownRenderer` (GFM tables/task-lists, KaTeX
+  math, Shiki code, Mermaid diagrams, GitHub-style callouts, heading anchors,
+  lazy zoomable images), plus standalone `CodeBlock`/`InlineCode` (Shiki),
+  `CalloutBlock`, `MathRenderer`/`InlineMath`/`BlockMath`, `MermaidDiagram`,
+  `ContentImage` and `ImageLightbox`. Decoupled via props: `urlTransform`
+  (rewrite image/link URLs) and `onCodeEdit` (open code in an editor). The heavy
+  engines are **optional `peerDependencies`** (`react-markdown`, `remark-gfm`,
+  `remark-math`, `rehype-raw`/`-katex`/`-slug`, `katex`, `shiki`, `mermaid`) and
+  Shiki/Mermaid load on demand, so `content.js` itself stays ~36 KB. Ships
+  `@yuhuanowo/yunui/content.css`; consumers also import `katex/dist/katex.min.css`.
+- **`@yuhuanowo/yunui/chat` (new subpath) — the chat pattern.** Presentational,
+  slot-based building blocks for AI chat UIs (no data/model types, no i18n):
+  `ChatMessage` (avatar + header/badges + body + footer + hover actions),
+  `ChatMessageList` (smart stick-to-bottom scroller), `ChatComposer`
+  (auto-growing textarea, Enter-to-send, send/stop, attachment + toolbar slots)
+  and `ChatHeader` (backdrop-blur shell with slots). Pairs with
+  `@yuhuanowo/yunui/content`. No new dependencies.
 - **`AreaChart` (primitive)** — an interactive line/area chart for a time series:
   smooth bezier curve, gradient area fill, dashed grid, and a hover guide with a
   value tooltip. Container-width (ResizeObserver), pure SVG. The "full" chart

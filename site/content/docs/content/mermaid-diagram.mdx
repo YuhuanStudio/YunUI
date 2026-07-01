@@ -1,0 +1,31 @@
+import { MermaidDiagram } from "yunui/content";
+
+Render a [Mermaid](https://mermaid.js.org) diagram — flowchart, sequence, gantt, class, state and more — from a diagram-definition string. The `mermaid` library is loaded on demand the first time a diagram renders, so it never ships in the initial bundle, and it re-themes automatically for light and dark. Inside `MarkdownRenderer`, ` ```mermaid ` fenced blocks are rendered through this component.
+
+## Import
+
+```tsx
+import { MermaidDiagram } from "@yuhuanowo/yunui/content";
+```
+
+## Example
+
+<ComponentPreview
+  title="MermaidDiagram"
+  code={`import { MermaidDiagram } from "@yuhuanowo/yunui/content";`}
+>
+  <div className="w-full max-w-xl">
+    <MermaidDiagram chart={`sequenceDiagram
+  participant U as User
+  participant A as App
+  participant M as Model
+  U->>A: Prompt
+  A->>M: Request
+  M-->>A: Stream tokens
+  A-->>U: Rendered markdown`} />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="MermaidDiagram" />

@@ -1,0 +1,40 @@
+The chat pattern is a set of presentational, slot-based building blocks for AI chat UIs: a message **row**, a smart-scrolling message **list**, an auto-growing **composer**, and a translucent **header** shell. It carries no data or model types and binds no i18n — you feed content through children (pair it with `@yuhuanowo/yunui/content` to render markdown message bodies) and inject app specifics through slots. It lives on its own subpath, `@yuhuanowo/yunui/chat`.
+
+## Install
+
+The chat subpath ships with YunUI — there are no extra peer dependencies beyond what YunUI already bundles (framer-motion, lucide-react):
+
+```bash
+pnpm add @yuhuanowo/yunui
+```
+
+## Import
+
+```tsx
+import {
+  ChatMessage,
+  ChatMessageList,
+  ChatComposer,
+  ChatHeader,
+} from "@yuhuanowo/yunui/chat";
+```
+
+## Everything together
+
+A `ChatHeader`, a `ChatMessageList` holding `ChatMessage` rows (the assistant's body rendered with `MarkdownRenderer` from `@yuhuanowo/yunui/content`), and a controlled `ChatComposer`. Type a message and press Enter — the list sticks to the bottom as it grows.
+
+<ComponentPreview
+  title="Chat"
+  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";`}
+>
+  <ChatDemo />
+</ComponentPreview>
+
+## The pieces
+
+Each block is exported standalone so you can assemble your own layout:
+
+- [Chat Message](/docs/chat/chat-message) — a single row: avatar, header, body, footer and hover actions.
+- [Chat Message List](/docs/chat/chat-message-list) — the scroll container with smart stick-to-bottom.
+- [Chat Composer](/docs/chat/chat-composer) — the auto-growing input with Enter-to-send.
+- [Chat Header](/docs/chat/chat-header) — the translucent header shell with slots.

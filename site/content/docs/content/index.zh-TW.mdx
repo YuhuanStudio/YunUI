@@ -1,0 +1,59 @@
+內容渲染堆疊把 LLM / 聊天 / 文件輸出變成豐富且安全的 UI：完整的 GitHub 風格 **markdown**、**KaTeX** 數學公式、**Shiki** 高亮程式碼、**Mermaid** 圖表、GitHub 風格**提示框**，以及惰性、可縮放的**圖片**。它位於獨立的子路徑 `@yuhuanowo/yunui/content` 上，因此沉重的渲染引擎（shiki、mermaid）不會影響不需要它們的應用。
+
+## 安裝
+
+內容子路徑把渲染函式庫宣告為**可選的對等相依**——在你的應用中與 YunUI 一起安裝：
+
+```bash
+pnpm add @yuhuanowo/yunui react-markdown remark-gfm remark-math \
+  rehype-raw rehype-katex rehype-slug katex shiki mermaid
+```
+
+## 樣式
+
+在載入全域 CSS 的地方，各引入一次內容樣式表與 KaTeX 樣式表：
+
+```css
+@import "@yuhuanowo/yunui/content.css";
+@import "katex/dist/katex.min.css";
+```
+
+## 匯入
+
+```tsx
+import {
+  MarkdownRenderer,
+  CodeBlock,
+  InlineCode,
+  CalloutBlock,
+  MathRenderer,
+  InlineMath,
+  BlockMath,
+  MermaidDiagram,
+  ContentImage,
+  ImageLightbox,
+} from "@yuhuanowo/yunui/content";
+```
+
+## 一次渲染全部
+
+`MarkdownRenderer` 組合了整個堆疊。給它一段包含標題、表格、任務清單、圍欄程式碼區塊、` ```mermaid ` 圖表、`$math$` 與 `> [!NOTE]` 提示框的 markdown 字串，它會用對應的元件分別渲染每一部分。
+
+<ComponentPreview
+  title="MarkdownRenderer"
+  code={`import { MarkdownRenderer } from "@yuhuanowo/yunui/content";`}
+>
+  <MarkdownRendererDemo />
+</ComponentPreview>
+
+## 各個部件
+
+每個渲染器都單獨匯出，你也可以只把某一項能力放進自己的版面裡：
+
+- [Markdown 渲染器](/docs/content/markdown-renderer) —— 完整的 GFM 管線。
+- [程式碼區塊](/docs/content/code-block) —— 帶檔名標頭、行號與複製的 Shiki 高亮。
+- [提示框](/docs/content/callout-block) —— GitHub 風格的 note / tip / warning 面板。
+- [數學渲染器](/docs/content/math-renderer) —— KaTeX，行內或區塊。
+- [Mermaid 圖表](/docs/content/mermaid-diagram) —— 按需載入的圖表。
+- [內容圖片](/docs/content/content-image) —— 惰性、淡入、點擊縮放的圖片。
+- [圖片燈箱](/docs/content/image-lightbox) —— 它們背後的全螢幕檢視器。

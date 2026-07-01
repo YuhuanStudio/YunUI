@@ -38,7 +38,8 @@ import {
   MediaGallery,
   type MediaResult,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart } from "yunui";
+import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, Badge } from "yunui";
+import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "yunui/chat";
 import {
   CapabilitySelector,
   LanguageSwitcher,
@@ -50,7 +51,8 @@ import {
   ModelIcon,
   ProviderIcon,
 } from "yunui/ai";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud } from "lucide-react";
+import { MarkdownRenderer, ImageLightbox } from "yunui/content";
+import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -959,6 +961,231 @@ export function AreaChartDemo() {
         showXAxis
         formatValue={(v) => `$${v.toFixed(2)}`}
         ariaLabel="Hourly cost"
+      />
+    </div>
+  );
+}
+
+// ---- Content-rendering stack (yunui/content) ------------------------------
+
+const SAMPLE_MARKDOWN = `# Markdown renderer
+
+Full **GFM** with _emphasis_, ~~strikethrough~~, [links](https://github.com/YuhuanStudio/YunUI) and \`inline code\`.
+
+> [!NOTE]
+> Callouts use GitHub's \`> [!TYPE]\` blockquote syntax — note, tip, important, warning, caution.
+
+## Table
+
+| Feature   | Supported | Notes                    |
+| --------- | :-------: | ------------------------ |
+| Tables    |     ✅     | GitHub-flavored          |
+| Task list |     ✅     | Interactive checkboxes   |
+| Math      |     ✅     | KaTeX inline & block     |
+
+## Task list
+
+- [x] Render headings, tables and lists
+- [x] Highlight code with Shiki
+- [ ] Ship to production
+
+## Code
+
+\`\`\`ts
+export function greet(name: string): string {
+  return \`Hello, \${name}!\`;
+}
+\`\`\`
+
+## Math
+
+The Gaussian integral is $\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx = \\sqrt{\\pi}$, and in block form:
+
+$$
+E = mc^2
+$$
+
+## Diagram
+
+\`\`\`mermaid
+graph LR
+  A[Markdown] --> B{Renderer}
+  B --> C[HTML]
+  B --> D[Code]
+  B --> E[Math]
+  B --> F[Diagram]
+\`\`\`
+`;
+
+export function MarkdownRendererDemo() {
+  return (
+    <div className="w-full max-w-2xl text-left">
+      <MarkdownRenderer content={SAMPLE_MARKDOWN} />
+    </div>
+  );
+}
+
+export function ImageLightboxDemo() {
+  const [open, setOpen] = useState(false);
+  const src = "https://picsum.photos/seed/yunui-lightbox/1280/720";
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <button type="button" onClick={() => setOpen(true)} className="group">
+        <img src={src} alt="Preview" className="w-64 rounded-xl transition-opacity group-hover:opacity-90" />
+      </button>
+      <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>
+        <Maximize2 className="w-4 h-4" />
+        Open lightbox
+      </Button>
+      <ImageLightbox src={src} alt="Preview" isOpen={open} onClose={() => setOpen(false)} />
+    </div>
+  );
+}
+
+// ---- Chat pattern (yunui/chat) --------------------------------------------
+
+const CHAT_ASSISTANT_MD = `Here's a quick plan:
+
+1. **Install** \`@yuhuanowo/yunui\` and wrap your app in \`YunUIProvider\`.
+2. Compose \`ChatMessage\` rows inside a \`ChatMessageList\`.
+3. Render markdown bodies with \`MarkdownRenderer\` from the content subpath.
+
+\`\`\`tsx
+<ChatMessageList>
+  <ChatMessage role="user">Hi!</ChatMessage>
+</ChatMessageList>
+\`\`\`
+
+Ready when you are.`;
+
+const chatActions = (
+  <>
+    <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+      <Copy className="w-3.5 h-3.5" /> Copy
+    </button>
+    <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+      <RefreshCw className="w-3.5 h-3.5" /> Regenerate
+    </button>
+  </>
+);
+
+/** Realistic mini chat: header + smart-scroll list + stateful composer. */
+export function ChatDemo() {
+  const [value, setValue] = useState("");
+  const [extra, setExtra] = useState<string[]>([]);
+
+  const send = () => {
+    const text = value.trim();
+    if (!text) return;
+    setExtra((e) => [...e, text]);
+    setValue("");
+  };
+
+  return (
+    <div
+      className="w-full max-w-2xl flex flex-col rounded-2xl border bg-card overflow-hidden"
+      style={{ height: 480 }}
+    >
+      <ChatHeader
+        className="border-b"
+        left={
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 rounded-full bg-muted border flex items-center justify-center">
+              <Bot className="w-4 h-4 text-muted-foreground" />
+            </div>
+            <span className="text-sm font-medium truncate">Assistant</span>
+          </div>
+        }
+        status={
+          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            Online
+          </span>
+        }
+        actions={
+          <Button variant="ghost" size="sm" onClick={() => setExtra([])}>
+            Clear
+          </Button>
+        }
+      />
+
+      <ChatMessageList className="px-4">
+        <ChatMessage role="user" name="You" timestamp="9:41 AM">
+          How do I compose a chat UI with YunUI?
+        </ChatMessage>
+        <ChatMessage
+          role="assistant"
+          name="Assistant"
+          timestamp="9:41 AM"
+          badges={<Badge>gpt-4o</Badge>}
+          actions={chatActions}
+        >
+          <MarkdownRenderer content={CHAT_ASSISTANT_MD} />
+        </ChatMessage>
+        {extra.map((m, i) => (
+          <ChatMessage key={i} role="user" name="You" timestamp="now">
+            {m}
+          </ChatMessage>
+        ))}
+      </ChatMessageList>
+
+      <div className="p-3 border-t">
+        <ChatComposer
+          value={value}
+          onChange={setValue}
+          onSend={send}
+          placeholder="Send a message…"
+          toolbar={
+            <Button variant="ghost" size="sm">
+              <Paperclip className="w-4 h-4" />
+              Attach
+            </Button>
+          }
+        />
+      </div>
+    </div>
+  );
+}
+
+/** Standalone controlled composer with a send log and a stop/loading cycle. */
+export function ChatComposerDemo() {
+  const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [log, setLog] = useState<string[]>([]);
+
+  const send = () => {
+    const text = value.trim();
+    if (!text) return;
+    setLog((l) => [...l, text]);
+    setValue("");
+    setLoading(true);
+    setTimeout(() => setLoading(false), 1400);
+  };
+
+  return (
+    <div className="w-full max-w-xl space-y-3 text-left">
+      {log.length > 0 && (
+        <div className="space-y-1 text-sm text-muted-foreground">
+          {log.map((m, i) => (
+            <div key={i} className="truncate">
+              Sent: {m}
+            </div>
+          ))}
+        </div>
+      )}
+      <ChatComposer
+        value={value}
+        onChange={setValue}
+        onSend={send}
+        onStop={() => setLoading(false)}
+        loading={loading}
+        placeholder="Send a message… (Enter to send, Shift+Enter for a newline)"
+        toolbar={
+          <Button variant="ghost" size="sm">
+            <Paperclip className="w-4 h-4" />
+            Attach
+          </Button>
+        }
       />
     </div>
   );

@@ -1,0 +1,59 @@
+The content-rendering stack turns LLM / chat / documentation output into rich, safe UI: full GitHub-flavored **markdown**, **KaTeX** math, **Shiki**-highlighted code, **Mermaid** diagrams, GitHub-style **callouts**, and lazy, zoomable **images**. It lives on its own subpath, `@yuhuanowo/yunui/content`, so the heavy rendering engines (shiki, mermaid) never touch apps that don't need them.
+
+## Install
+
+The content subpath declares its rendering libraries as **optional peer dependencies** — install them in your app alongside YunUI:
+
+```bash
+pnpm add @yuhuanowo/yunui react-markdown remark-gfm remark-math \
+  rehype-raw rehype-katex rehype-slug katex shiki mermaid
+```
+
+## Styles
+
+Import the content stylesheet and the KaTeX stylesheet once, wherever you load global CSS:
+
+```css
+@import "@yuhuanowo/yunui/content.css";
+@import "katex/dist/katex.min.css";
+```
+
+## Import
+
+```tsx
+import {
+  MarkdownRenderer,
+  CodeBlock,
+  InlineCode,
+  CalloutBlock,
+  MathRenderer,
+  InlineMath,
+  BlockMath,
+  MermaidDiagram,
+  ContentImage,
+  ImageLightbox,
+} from "@yuhuanowo/yunui/content";
+```
+
+## Everything at once
+
+`MarkdownRenderer` composes the whole stack. Feed it a markdown string with headings, a table, a task list, a fenced code block, a ` ```mermaid ` diagram, `$math$`, and a `> [!NOTE]` callout, and it renders each with the matching component.
+
+<ComponentPreview
+  title="MarkdownRenderer"
+  code={`import { MarkdownRenderer } from "@yuhuanowo/yunui/content";`}
+>
+  <MarkdownRendererDemo />
+</ComponentPreview>
+
+## The pieces
+
+Each renderer is also exported standalone so you can drop a single capability into your own layout:
+
+- [Markdown Renderer](/docs/content/markdown-renderer) — the full GFM pipeline.
+- [Code Block](/docs/content/code-block) — Shiki highlighting with a filename header, line numbers and copy.
+- [Callout Block](/docs/content/callout-block) — GitHub-style note / tip / warning panels.
+- [Math Renderer](/docs/content/math-renderer) — KaTeX, inline or block.
+- [Mermaid Diagram](/docs/content/mermaid-diagram) — on-demand diagrams.
+- [Content Image](/docs/content/content-image) — lazy, fade-in, click-to-zoom images.
+- [Image Lightbox](/docs/content/image-lightbox) — the full-screen viewer behind them.

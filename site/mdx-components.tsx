@@ -42,6 +42,10 @@ import {
   AudioPlayerDemo,
   MediaGalleryDemo,
   AreaChartDemo,
+  MarkdownRendererDemo,
+  ImageLightboxDemo,
+  ChatDemo,
+  ChatComposerDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -95,6 +99,10 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     AudioPlayerDemo,
     MediaGalleryDemo,
     AreaChartDemo,
+    MarkdownRendererDemo,
+    ImageLightboxDemo,
+    ChatDemo,
+    ChatComposerDemo,
     ...components,
   };
 }

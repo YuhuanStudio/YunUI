@@ -1,16 +1,11 @@
 "use client";
 import { useYunUI } from './chunk-U2LNRVMI.js';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 import * as React from 'react';
 import { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { Sun, Moon, Droplet, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { jsx, jsxs } from 'react/jsx-runtime';
 
-function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
 var useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 function useAnchoredPosition(open, panelRef, opts) {
   const gutter = opts?.gutter ?? 8;
@@ -150,6 +145,6 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   ] });
 }
 
-export { ThemeToggle, cn, useAnchoredPosition };
-//# sourceMappingURL=chunk-LLNTUA5K.js.map
-//# sourceMappingURL=chunk-LLNTUA5K.js.map
+export { ThemeToggle, useAnchoredPosition };
+//# sourceMappingURL=chunk-QJJ5LFAL.js.map
+//# sourceMappingURL=chunk-QJJ5LFAL.js.map

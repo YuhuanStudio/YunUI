@@ -1,0 +1,30 @@
+import { ContentImage } from "yunui/content";
+
+用於渲染內容的惰性、無閃爍圖片。它會在捲動到接近視口時才載入（透過 `IntersectionObserver`），顯示旋轉佔位符，載入完成後淡入，並——預設——在點擊時開啟全螢幕、可縮放的[燈箱](/docs/content/image-lightbox)。它擴充原生 `<img>` 屬性，因此 `src`、`alt`、`className`、`loading` 等都會直接透傳；URL 按原樣使用（請在上游改寫，例如用 markdown 渲染器的 `urlTransform`）。在 `MarkdownRenderer` 內，每張圖片都透過本元件渲染。
+
+## 匯入
+
+```tsx
+import { ContentImage } from "@yuhuanowo/yunui/content";
+```
+
+## 範例
+
+點擊圖片開啟燈箱。
+
+<ComponentPreview
+  title="ContentImage"
+  code={`import { ContentImage } from "@yuhuanowo/yunui/content";`}
+>
+  <ContentImage
+    src="https://picsum.photos/seed/yunui/640/360"
+    alt="A random placeholder photo"
+    className="w-80 rounded-xl"
+  />
+</ComponentPreview>
+
+## 屬性
+
+除了下面的屬性，`ContentImage` 還會透傳所有原生 `<img>` 屬性（`src`、`alt`、`className`、`loading`、`onLoad`、`onError`……）。
+
+<PropsTable name="ContentImage" />

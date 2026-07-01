@@ -1,0 +1,29 @@
+import { MathRenderer } from "yunui/content";
+
+用 [KaTeX](https://katex.org) 渲染 LaTeX 運算式。把運算式作為 `math` 傳入；設定 `block` 得到置中的展示式，或不設定以獲得隨上下文排版的行內公式。`InlineMath` 與 `BlockMath` 是接收 `value` 屬性的便捷封裝。在 `MarkdownRenderer` 內，`$…$` 與 `$$…$$` 會自動透過本元件渲染。
+
+## 匯入
+
+```tsx
+import { MathRenderer, InlineMath, BlockMath } from "@yuhuanowo/yunui/content";
+```
+
+需要主端應用引入 `katex/dist/katex.min.css`。
+
+## 範例
+
+<ComponentPreview
+  title="MathRenderer"
+  code={`import { MathRenderer } from "@yuhuanowo/yunui/content";`}
+>
+  <div className="w-full max-w-xl text-left space-y-4">
+    <p>
+      Inline: the quadratic formula is <MathRenderer math="x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}" /> for <MathRenderer math="ax^2 + bx + c = 0" />.
+    </p>
+    <MathRenderer block math="\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}" />
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="MathRenderer" />

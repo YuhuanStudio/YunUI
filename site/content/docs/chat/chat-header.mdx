@@ -1,0 +1,34 @@
+import { ChatHeader } from "yunui/chat";
+import { Button } from "yunui";
+
+A chat header shell: a translucent, backdrop-blurred bar with `left`, `status` and `actions` slots. Compose a title, a model selector (e.g. YunUI `ModelSelect`), mode chips or toggles into the slots — or pass `children` to override the slot layout entirely.
+
+## Import
+
+```tsx
+import { ChatHeader } from "@yuhuanowo/yunui/chat";
+```
+
+## Example
+
+<ComponentPreview
+  title="ChatHeader"
+  code={`import { ChatHeader } from "@yuhuanowo/yunui/chat";`}
+>
+  <div className="w-full max-w-2xl rounded-xl border overflow-hidden">
+    <ChatHeader
+      left={<span className="text-sm font-medium">New chat</span>}
+      status={
+        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          gpt-4o
+        </span>
+      }
+      actions={<Button variant="ghost" size="sm">Share</Button>}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="ChatHeader" />

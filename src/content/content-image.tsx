@@ -1,0 +1,125 @@
+"use client";
+
+import * as React from "react";
+import { useState, useRef, useEffect } from "react";
+import { cn } from "../lib/cn";
+import { useContentT } from "./use-content-t";
+import { ImageLightbox } from "./image-lightbox";
+
+export interface ContentImageProps
+  extends React.ImgHTMLAttributes<HTMLImageElement> {
+  /** Open a zoom/rotate/download lightbox on click. @defaultValue true */
+  enableLightbox?: boolean;
+}
+
+/**
+ * Lazy, flicker-free image for rendered content. Defers loading until the image
+ * scrolls near the viewport (IntersectionObserver), fades in on load, shows a
+ * spinner placeholder, and (by default) opens a full-screen lightbox on click.
+ *
+ * URLs are used as-is — resolve/rewrite them upstream (e.g. via the markdown
+ * renderer's `urlTransform`).
+ */
+export const ContentImage = React.memo(function ContentImage({
+  enableLightbox = true,
+  className,
+  alt = "",
+  src,
+  onError,
+  onLoad,
+  ...rest
+}: ContentImageProps) {
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const wrapperRef = useRef<HTMLSpanElement>(null);
+  const t = useContentT();
+
+  const srcString = typeof src === "string" ? src : "";
+  const valid = srcString && srcString !== "#" && srcString !== "undefined" && srcString !== "null";
+
+  useEffect(() => {
+    if (!wrapperRef.current || !valid) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && imgRef.current) {
+            imgRef.current.src = srcString;
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: document.querySelector('[data-scroll-container="true"]'),
+        rootMargin: "300px 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(wrapperRef.current);
+    return () => observer.disconnect();
+  }, [srcString, valid]);
+
+  if (!valid) return null;
+
+  if (failed) {
+    return (
+      <span className="inline-block">
+        <span className="bg-muted px-3 py-2 rounded-lg border border-destructive/20 text-center">
+          <span className="text-destructive text-sm">
+            🖼️ {t("imageLoadingFailed", "Image failed to load")}
+          </span>
+        </span>
+      </span>
+    );
+  }
+
+  return (
+    <span
+      ref={wrapperRef}
+      className="inline-block max-w-full overflow-hidden relative"
+      style={{
+        minHeight: loaded ? "auto" : "200px",
+        minWidth: loaded ? "auto" : "200px",
+      }}
+    >
+      {!loaded && (
+        <span className="absolute inset-0 flex items-center justify-center bg-muted/30 rounded-lg">
+          <span className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin block" />
+        </span>
+      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={imgRef}
+        alt={alt}
+        className={cn(
+          "max-w-full h-auto rounded-lg shadow-sm border transition-opacity duration-300",
+          loaded ? "opacity-100" : "opacity-0",
+          enableLightbox && loaded && "cursor-zoom-in",
+          className,
+        )}
+        style={{ maxHeight: "80vh" }}
+        onLoad={(e) => {
+          setLoaded(true);
+          onLoad?.(e);
+        }}
+        onError={(e) => {
+          setFailed(true);
+          onError?.(e);
+        }}
+        onClick={enableLightbox ? () => setLightboxOpen(true) : undefined}
+        {...rest}
+      />
+      {enableLightbox && (
+        <ImageLightbox
+          src={srcString}
+          alt={alt}
+          isOpen={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+    </span>
+  );
+});
