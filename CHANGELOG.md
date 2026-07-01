@@ -29,8 +29,13 @@ patch = fixes, anything may change between 0.x releases).
   target that reports files via `onFiles`; presentation + interaction only.
 - **`AudioPlayer` (patterns)** — a compact controls bar around an HTML5
   `<audio>`: play/pause, seek, time, and an optional download button.
-- Full docs (3 locales), showcase demos and prop tables for all five.
-  Motivated by the Yunshu webui rewrite onto YunUI.
+- **`MediaGallery` (patterns)** — one canonical result surface for generation
+  pages: a grid/list of media results (image · video · audio) with per-item
+  status (pending/processing/completed/failed), a progress bar, signed-URL
+  expiry detection, and hover download/delete/preview. Extracted so Yunxin's
+  image/video/audio galleries and Yunshu's generation pages share one component.
+- Full docs (3 locales), showcase demos and prop tables for all of the above.
+  Motivated by the Yunshu webui rewrite onto YunUI and the tri-repo unification.
 
 ## [0.2.15] - 2026-06-27
 

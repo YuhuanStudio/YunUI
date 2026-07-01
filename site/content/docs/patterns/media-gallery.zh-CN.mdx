@@ -1,0 +1,29 @@
+import { MediaGallery } from "yunui/patterns";
+
+用于展示生成媒体结果（图像、视频、音频）的统一网格/列表界面，支持逐项状态处理（等待 / 处理中 / 已完成 / 失败）、进度条、签名 URL 过期检测，以及悬停时的下载/删除/预览操作。一个跨所有生成页面共享的标准结果界面，而非为每种模态手写一套画廊。仅负责呈现——数据以及下载/删除/预览的副作用由宿主负责；接好回调即可，未提供的回调对应的控件会隐藏。
+
+## 导入
+
+```tsx
+import { MediaGallery } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+<ComponentPreview
+  title="MediaGallery"
+  code={`import { MediaGallery } from "@yuhuanowo/yunui/patterns";
+
+<MediaGallery
+  items={items}
+  onDownload={(item) => download(item)}
+  onDelete={(item) => remove(item)}
+  onPreview={(item) => openLightbox(item)}
+/>`}
+>
+  <MediaGalleryDemo />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="MediaGallery" />

@@ -1595,6 +1595,78 @@
       "description": ""
     }
   ],
+  "MediaGallery": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "empty",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Rendered in place of the grid when `items` is empty."
+    },
+    {
+      "name": "items",
+      "type": "MediaResult[]",
+      "required": true,
+      "defaultValue": null,
+      "description": "The results to display, newest-first is conventional."
+    },
+    {
+      "name": "labels",
+      "type": "MediaGalleryLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": "Localized copy for status/aria strings."
+    },
+    {
+      "name": "onDelete",
+      "type": "((item: MediaResult) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Show a delete control per item."
+    },
+    {
+      "name": "onDownload",
+      "type": "((item: MediaResult) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Show a download control per completed item."
+    },
+    {
+      "name": "onPreview",
+      "type": "((item: MediaResult) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Make completed items clickable (e.g. open a lightbox)."
+    },
+    {
+      "name": "onViewModeChange",
+      "type": "((mode: \"grid\" | \"list\") => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Called when the built-in grid/list toggle is used (renders the toggle)."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional heading rendered above the gallery."
+    },
+    {
+      "name": "viewMode",
+      "type": "\"grid\" | \"list\"",
+      "required": false,
+      "defaultValue": null,
+      "description": "Controlled view mode. Omit for uncontrolled (defaults to grid)."
+    }
+  ],
   "MediaPageHeader": [
     {
       "name": "description",

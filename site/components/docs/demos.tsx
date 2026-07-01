@@ -35,6 +35,8 @@ import {
   type SidebarSection,
   PageLayout,
   AudioPlayer,
+  MediaGallery,
+  type MediaResult,
 } from "yunui/patterns";
 import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart } from "yunui";
 import {
@@ -887,6 +889,58 @@ export function AudioPlayerDemo() {
     <div className="w-80">
       <AudioPlayer src={SAMPLE_AUDIO} title="sample-tone.wav" downloadName="sample-tone.wav" />
     </div>
+  );
+}
+
+const MEDIA_GALLERY_ITEMS: MediaResult[] = [
+  {
+    id: "m1",
+    url: "https://picsum.photos/seed/yunui-a/400",
+    kind: "image",
+    prompt: "A misty pine forest at dawn, volumetric light",
+    model: "black-forest-labs/flux-schnell",
+    meta: "1024×1024",
+    status: "completed",
+  },
+  {
+    id: "m2",
+    url: "https://picsum.photos/seed/yunui-b/400",
+    kind: "image",
+    prompt: "Retro-futuristic city skyline, neon reflections",
+    model: "black-forest-labs/flux-schnell",
+    meta: "1024×1024",
+    status: "completed",
+  },
+  {
+    id: "m3",
+    url: "",
+    kind: "image",
+    prompt: "Isometric cozy reading nook, soft afternoon light",
+    model: "black-forest-labs/flux-schnell",
+    meta: "1024×1024",
+    status: "processing",
+    progress: 60,
+  },
+  {
+    id: "m4",
+    url: "",
+    kind: "image",
+    prompt: "Abstract fluid gradient wallpaper",
+    model: "black-forest-labs/flux-schnell",
+    meta: "1024×1024",
+    status: "failed",
+    error: "Content policy violation",
+  },
+];
+
+export function MediaGalleryDemo() {
+  return (
+    <MediaGallery
+      items={MEDIA_GALLERY_ITEMS}
+      onDownload={(item) => console.log("download", item.id)}
+      onDelete={(item) => console.log("delete", item.id)}
+      onPreview={(item) => console.log("preview", item.id)}
+    />
   );
 }
 

@@ -490,6 +490,66 @@ interface AudioPlayerProps {
  */
 declare function AudioPlayer({ src, title, downloadName, autoPlay, className }: AudioPlayerProps): React$1.JSX.Element;
 
+type MediaStatus = "pending" | "processing" | "completed" | "failed";
+interface MediaResult {
+    /** Stable id (used as React key and passed back to callbacks). */
+    id: string;
+    /** Source URL of the finished media (may be a signed URL that can expire). */
+    url: string;
+    /** How to render the media. Defaults to `"image"`. */
+    kind?: "image" | "video" | "audio";
+    /** Prompt / caption shown under the media (clamped to 2 lines). */
+    prompt?: ReactNode;
+    /** Model id — the last path segment is shown in the meta row. */
+    model?: string;
+    /** Extra meta node appended to the caption row (e.g. size, duration, seed). */
+    meta?: ReactNode;
+    /** Generation lifecycle. Absent is treated as `"completed"`. */
+    status?: MediaStatus;
+    /** 0–100 progress while `pending`/`processing`. */
+    progress?: number;
+    /** Failure message shown in the error state. */
+    error?: string;
+}
+/** Copy overrides so hosts can localize the built-in status/aria strings. */
+interface MediaGalleryLabels {
+    starting?: string;
+    processing?: string;
+    failed?: string;
+    expired?: string;
+    download?: string;
+    delete?: string;
+    gridView?: string;
+    listView?: string;
+}
+interface MediaGalleryProps {
+    /** The results to display, newest-first is conventional. */
+    items: MediaResult[];
+    /** Controlled view mode. Omit for uncontrolled (defaults to grid). */
+    viewMode?: "grid" | "list";
+    /** Called when the built-in grid/list toggle is used (renders the toggle). */
+    onViewModeChange?: (mode: "grid" | "list") => void;
+    /** Show a download control per completed item. */
+    onDownload?: (item: MediaResult) => void;
+    /** Show a delete control per item. */
+    onDelete?: (item: MediaResult) => void;
+    /** Make completed items clickable (e.g. open a lightbox). */
+    onPreview?: (item: MediaResult) => void;
+    /** Optional heading rendered above the gallery. */
+    title?: ReactNode;
+    /** Rendered in place of the grid when `items` is empty. */
+    empty?: ReactNode;
+    /** Localized copy for status/aria strings. */
+    labels?: MediaGalleryLabels;
+    className?: string;
+}
+/**
+ * A unified grid/list of generated media results (image · video · audio) with
+ * status, progress, expiry handling, and download/delete/preview controls.
+ * Shared across generation pages so every modality renders results identically.
+ */
+declare function MediaGallery({ items, viewMode, onViewModeChange, onDownload, onDelete, onPreview, title, empty, labels, className, }: MediaGalleryProps): React$1.JSX.Element;
+
 type BannerTone = "info" | "warning" | "critical" | "success" | "neutral";
 interface BannerProps {
     /** Tone — drives the gradient, border, text and icon color. */
@@ -631,4 +691,4 @@ interface AvatarUploaderProps {
 }
 declare function AvatarUploader({ src, fallback, size, uploading, onSelectFile, label, className, }: AvatarUploaderProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

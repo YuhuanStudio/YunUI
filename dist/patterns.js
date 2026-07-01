@@ -5,8 +5,8 @@ export { Footer } from './chunk-N53PNMPJ.js';
 import { cn } from './chunk-LLNTUA5K.js';
 import { useYunUI } from './chunk-U2LNRVMI.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1252,6 +1252,264 @@ function AudioPlayer({ src, title, downloadName, autoPlay = false, className }) 
     )
   ] });
 }
+var DEFAULT_LABELS = {
+  starting: "Starting\u2026",
+  processing: "Processing\u2026",
+  failed: "Generation failed",
+  expired: "Media expired",
+  download: "Download",
+  delete: "Delete",
+  gridView: "Grid view",
+  listView: "List view"
+};
+function isUrlExpired(url) {
+  try {
+    const expires = new URL(url).searchParams.get("Expires");
+    if (expires) {
+      const ts = parseInt(expires, 10);
+      return Date.now() / 1e3 > ts - 60;
+    }
+  } catch {
+    return true;
+  }
+  return false;
+}
+function MediaBody({
+  item,
+  labels
+}) {
+  const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const kind = item.kind ?? "image";
+  const status = item.status ?? "completed";
+  const isExpired = useMemo(() => {
+    if (!item.url || item.url.startsWith("data:") || item.url.startsWith("blob:")) return false;
+    return isUrlExpired(item.url);
+  }, [item.url]);
+  const isProcessing = status === "pending" || status === "processing";
+  const showError = isExpired || loadFailed || status === "failed";
+  if (isProcessing) {
+    return /* @__PURE__ */ jsxs("div", { className: "flex h-full w-full flex-col items-center justify-center gap-2 bg-muted", children: [
+      /* @__PURE__ */ jsx(Spinner, { size: "lg" }),
+      /* @__PURE__ */ jsx("span", { className: "text-xs text-muted-foreground", children: status === "pending" ? labels.starting : labels.processing }),
+      item.progress !== void 0 && item.progress > 0 && /* @__PURE__ */ jsx("div", { className: "mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-muted-foreground/20", children: /* @__PURE__ */ jsx(
+        "div",
+        {
+          className: "h-full bg-primary transition-all duration-300",
+          style: { width: `${Math.min(item.progress, 95)}%` }
+        }
+      ) })
+    ] });
+  }
+  if (showError) {
+    return /* @__PURE__ */ jsxs("div", { className: "flex h-full w-full flex-col items-center justify-center gap-1 bg-muted px-3 text-center", children: [
+      /* @__PURE__ */ jsx(AlertCircle, { size: 22, className: "text-error" }),
+      /* @__PURE__ */ jsx("span", { className: "text-xs text-error", children: status === "failed" ? labels.failed : labels.expired }),
+      item.error && /* @__PURE__ */ jsx("span", { className: "mt-0.5 max-w-[85%] truncate text-xs text-error/70", children: item.error })
+    ] });
+  }
+  if (kind === "audio") {
+    return /* @__PURE__ */ jsx("div", { className: "flex h-full w-full items-center bg-muted/40 px-3", children: /* @__PURE__ */ jsx(AudioPlayer, { src: item.url, className: "w-full" }) });
+  }
+  if (kind === "video") {
+    return (
+      // eslint-disable-next-line jsx-a11y/media-has-caption
+      /* @__PURE__ */ jsx(
+        "video",
+        {
+          src: item.url,
+          controls: true,
+          className: "h-full w-full bg-black object-contain",
+          onLoadedData: () => setLoading(false),
+          onError: () => {
+            setLoading(false);
+            setLoadFailed(true);
+          }
+        }
+      )
+    );
+  }
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    loading && /* @__PURE__ */ jsx("div", { className: "absolute inset-0 animate-pulse bg-muted" }),
+    /* @__PURE__ */ jsx(
+      "img",
+      {
+        src: item.url,
+        alt: typeof item.prompt === "string" ? item.prompt : "",
+        className: cn("h-full w-full object-cover", loading && "opacity-0"),
+        onLoad: () => setLoading(false),
+        onError: () => {
+          setLoading(false);
+          setLoadFailed(true);
+        }
+      }
+    )
+  ] });
+}
+function MediaCard({
+  item,
+  index,
+  view,
+  onDownload,
+  onDelete,
+  onPreview,
+  labels
+}) {
+  const status = item.status ?? "completed";
+  const kind = item.kind ?? "image";
+  const isProcessing = status === "pending" || status === "processing";
+  const isDone = status === "completed";
+  const canPreview = Boolean(onPreview) && isDone && kind === "image";
+  const modelShort = item.model?.split("/").pop();
+  const caption = /* @__PURE__ */ jsxs("div", { className: cn(view === "list" ? "min-w-0 flex-1" : "p-3"), children: [
+    item.prompt !== void 0 && /* @__PURE__ */ jsx("div", { className: "line-clamp-2 text-sm", children: item.prompt }),
+    (modelShort || item.meta) && /* @__PURE__ */ jsxs("div", { className: "mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground", children: [
+      modelShort && /* @__PURE__ */ jsx("span", { className: "truncate", children: modelShort }),
+      modelShort && item.meta && /* @__PURE__ */ jsx("span", { className: "text-muted-foreground/40", children: "\u2022" }),
+      item.meta
+    ] })
+  ] });
+  const actions = (onDownload || onDelete) && /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        view === "grid" ? "absolute inset-0 flex items-center justify-center gap-2 bg-foreground/0 opacity-0 transition-all group-hover:bg-foreground/40 group-hover:opacity-100" : "flex items-center gap-1.5"
+      ),
+      children: [
+        onDownload && /* @__PURE__ */ jsx(
+          Button,
+          {
+            size: "icon",
+            variant: view === "grid" ? "primary" : "ghost",
+            disabled: !isDone,
+            "aria-label": labels.download,
+            onClick: (e) => {
+              e.stopPropagation();
+              onDownload(item);
+            },
+            children: /* @__PURE__ */ jsx(Download, { size: 16 })
+          }
+        ),
+        onDelete && /* @__PURE__ */ jsx(
+          Button,
+          {
+            size: "icon",
+            variant: view === "grid" ? "destructive" : "ghost",
+            "aria-label": labels.delete,
+            onClick: (e) => {
+              e.stopPropagation();
+              onDelete(item);
+            },
+            children: /* @__PURE__ */ jsx(Trash2, { size: 16, className: view === "list" ? "text-error" : void 0 })
+          }
+        )
+      ]
+    }
+  );
+  if (view === "list") {
+    return /* @__PURE__ */ jsxs("div", { className: "card flex items-center gap-3 p-3", children: [
+      /* @__PURE__ */ jsx("div", { className: "relative h-16 w-16 shrink-0 overflow-hidden rounded-md bg-muted", children: /* @__PURE__ */ jsx(MediaBody, { item, labels }) }),
+      caption,
+      actions
+    ] });
+  }
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "card group animate-enter overflow-hidden",
+        canPreview && "cursor-pointer"
+      ),
+      style: { animationDelay: `${Math.min(index, 10) * 50}ms` },
+      onClick: () => canPreview && onPreview?.(item),
+      children: [
+        /* @__PURE__ */ jsxs("div", { className: cn("relative", kind === "audio" ? "h-24" : "aspect-square"), children: [
+          /* @__PURE__ */ jsx(MediaBody, { item, labels }),
+          !isProcessing && actions
+        ] }),
+        caption
+      ]
+    }
+  );
+}
+function MediaGallery({
+  items,
+  viewMode,
+  onViewModeChange,
+  onDownload,
+  onDelete,
+  onPreview,
+  title,
+  empty,
+  labels,
+  className
+}) {
+  const [internalView, setInternalView] = useState("grid");
+  const view = viewMode ?? internalView;
+  const setView = onViewModeChange ?? setInternalView;
+  const showToggle = Boolean(onViewModeChange) || items.length > 0;
+  const l = { ...DEFAULT_LABELS, ...labels };
+  return /* @__PURE__ */ jsxs("div", { className, children: [
+    (title || showToggle) && /* @__PURE__ */ jsxs("div", { className: "mb-4 flex items-center justify-between gap-3", children: [
+      title ? /* @__PURE__ */ jsx("h2", { className: "heading-md", children: title }) : /* @__PURE__ */ jsx("span", {}),
+      showToggle && /* @__PURE__ */ jsxs("div", { className: "flex gap-1", children: [
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            type: "button",
+            onClick: () => setView("grid"),
+            "aria-label": l.gridView,
+            "aria-pressed": view === "grid",
+            className: cn(
+              "rounded-lg p-2 transition-colors",
+              view === "grid" ? "bg-muted" : "hover:bg-muted/50"
+            ),
+            children: /* @__PURE__ */ jsx(Grid, { size: 16 })
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            type: "button",
+            onClick: () => setView("list"),
+            "aria-label": l.listView,
+            "aria-pressed": view === "list",
+            className: cn(
+              "rounded-lg p-2 transition-colors",
+              view === "list" ? "bg-muted" : "hover:bg-muted/50"
+            ),
+            children: /* @__PURE__ */ jsx(List, { size: 16 })
+          }
+        )
+      ] })
+    ] }),
+    items.length === 0 ? empty ?? null : view === "grid" ? /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4", children: items.map((item, i) => /* @__PURE__ */ jsx(
+      MediaCard,
+      {
+        item,
+        index: i,
+        view: "grid",
+        onDownload,
+        onDelete,
+        onPreview,
+        labels: l
+      },
+      item.id
+    )) }) : /* @__PURE__ */ jsx("div", { className: "space-y-2", children: items.map((item, i) => /* @__PURE__ */ jsx(
+      MediaCard,
+      {
+        item,
+        index: i,
+        view: "list",
+        onDownload,
+        onDelete,
+        onPreview,
+        labels: l
+      },
+      item.id
+    )) })
+  ] });
+}
 var TONES2 = {
   info: {
     bg: "bg-linear-to-r from-blue-500/10 via-blue-500/5 to-blue-500/10",
@@ -1547,6 +1805,6 @@ function AvatarUploader({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

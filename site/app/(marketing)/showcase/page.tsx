@@ -183,6 +183,7 @@ import {
   PageLayoutDemo,
   FileDropzoneDemo,
   AudioPlayerDemo,
+  MediaGalleryDemo,
 } from "@/components/docs/demos";
 import {
   Heart,
@@ -1664,6 +1665,9 @@ export default function Showcase() {
         </Demo>
         <Demo title="AudioPlayer" description="A controls bar around an HTML5 audio element — play/pause, seek, time, download. For TTS output and ASR inputs.">
           <AudioPlayerDemo />
+        </Demo>
+        <Demo title="Media Gallery" description="A unified grid/list of generated media results with per-item status, progress, expiry handling, and download/delete/preview controls.">
+          <MediaGalleryDemo />
         </Demo>
       </Section>
 

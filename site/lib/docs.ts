@@ -889,6 +889,16 @@ export const docs: DocEntry[] = [
     "audio player sound playback play pause seek waveform download tts asr media",
   ),
   pat(
+    "media-gallery",
+    { en: "Media Gallery", "zh-CN": "媒体画廊", "zh-TW": "媒體畫廊" },
+    {
+      en: "A unified grid/list of generated media results (image · video · audio) with status, progress, expiry handling, and download/delete/preview controls.",
+      "zh-CN": "统一展示生成媒体结果（图像·视频·音频）的网格/列表，含状态、进度、过期处理与下载/删除/预览操作。",
+      "zh-TW": "統一展示生成媒體結果（圖像·影片·音訊）的網格/列表，含狀態、進度、過期處理與下載/刪除/預覽操作。",
+    },
+    "media gallery grid list image video audio results status progress download delete preview generation",
+  ),
+  pat(
     "feature-locked-state",
     { en: "Feature Locked State", "zh-CN": "功能锁定状态", "zh-TW": "功能鎖定狀態" },
     {
@@ -1216,6 +1226,7 @@ export const groups: DocGroup[] = [
       "patterns/session-item",
       "patterns/metric-bar",
       "patterns/audio-player",
+      "patterns/media-gallery",
       "patterns/notification",
       "patterns/setting-row",
       "patterns/link-row",

@@ -1,0 +1,29 @@
+import { MediaGallery } from "yunui/patterns";
+
+A unified grid/list surface for generated media results (images, video, audio) with per-item status handling (pending / processing / completed / failed), a progress bar, signed-URL expiry detection, and hover download/delete/preview affordances. One canonical result surface shared across every generation page instead of a hand-rolled gallery per modality. Presentation only — the host owns the data and the download/delete/preview side effects; wire the callbacks, and leave a callback undefined to hide its control.
+
+## Import
+
+```tsx
+import { MediaGallery } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+<ComponentPreview
+  title="MediaGallery"
+  code={`import { MediaGallery } from "@yuhuanowo/yunui/patterns";
+
+<MediaGallery
+  items={items}
+  onDownload={(item) => download(item)}
+  onDelete={(item) => remove(item)}
+  onPreview={(item) => openLightbox(item)}
+/>`}
+>
+  <MediaGalleryDemo />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="MediaGallery" />
