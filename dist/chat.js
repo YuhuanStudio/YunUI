@@ -73,7 +73,6 @@ function ChatMessageList({
   className
 }) {
   const scrollRef = useRef(null);
-  const endRef = useRef(null);
   const stickRef = useRef(true);
   const atBottom = useCallback(() => {
     const el = scrollRef.current;
@@ -88,7 +87,7 @@ function ChatMessageList({
     const el = scrollRef.current;
     if (!el) return;
     const scrollToEnd = () => {
-      if (stickRef.current) endRef.current?.scrollIntoView({ block: "end" });
+      if (stickRef.current && el) el.scrollTop = el.scrollHeight;
     };
     scrollToEnd();
     const observer = new ResizeObserver(scrollToEnd);
@@ -105,10 +104,7 @@ function ChatMessageList({
       "data-scroll-container": "true",
       onScroll: handleScroll,
       className: cn("relative flex-1 overflow-y-auto", className),
-      children: hasChildren ? /* @__PURE__ */ jsxs("div", { children: [
-        children,
-        /* @__PURE__ */ jsx("div", { ref: endRef })
-      ] }) : empty && /* @__PURE__ */ jsx("div", { className: "h-full flex items-center justify-center", children: empty })
+      children: hasChildren ? /* @__PURE__ */ jsx("div", { children }) : empty && /* @__PURE__ */ jsx("div", { className: "h-full flex items-center justify-center", children: empty })
     }
   );
 }

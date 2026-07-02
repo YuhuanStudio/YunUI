@@ -33,7 +33,6 @@ export function ChatMessageList({
   className,
 }: ChatMessageListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const endRef = useRef<HTMLDivElement>(null);
   const stickRef = useRef(true);
 
   const atBottom = useCallback(() => {
@@ -51,8 +50,12 @@ export function ChatMessageList({
     const el = scrollRef.current;
     if (!el) return;
 
+    // Pin the list's OWN scroll container to the bottom. Never use
+    // `scrollIntoView` here: it scrolls every scrollable ancestor including the
+    // document, so on a long page (e.g. the showcase) the whole window jumps
+    // down to this chat instead of only the chat scrolling internally.
     const scrollToEnd = () => {
-      if (stickRef.current) endRef.current?.scrollIntoView({ block: "end" });
+      if (stickRef.current && el) el.scrollTop = el.scrollHeight;
     };
 
     scrollToEnd();
@@ -74,10 +77,7 @@ export function ChatMessageList({
       className={cn("relative flex-1 overflow-y-auto", className)}
     >
       {hasChildren ? (
-        <div>
-          {children}
-          <div ref={endRef} />
-        </div>
+        <div>{children}</div>
       ) : (
         empty && (
           <div className="h-full flex items-center justify-center">{empty}</div>

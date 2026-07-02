@@ -12,6 +12,13 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **`ChatMessageList` auto-scroll hijacked the whole document.** Its
+  stick-to-bottom used `endRef.scrollIntoView()`, which scrolls *every*
+  scrollable ancestor — including the window. On a full-height chat page it was
+  invisible, but when the list is one section of a long page (e.g. the showcase)
+  the entire window jumped down to the chat on mount. Now it pins only its own
+  overflow container (`scrollTop = scrollHeight`) and never touches the document
+  scroll; internal stick-to-bottom is unchanged.
 - **`MediaGallery` grid hover actions were near-invisible, and images had no
   built-in zoom.** The download/delete controls used page-level outline button
   variants (`primary` = near-black icon on a transparent fill, `destructive` =
