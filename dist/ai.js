@@ -425,8 +425,9 @@ var ModelRow = memo(function ModelRow2({
         /* @__PURE__ */ jsx(
           "div",
           {
+            style: { left: "5px" },
             className: cn(
-              "absolute left-1.5 top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
+              "absolute top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
               selected ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1.5 group-hover:opacity-50 group-hover:translate-x-0"
             )
           }

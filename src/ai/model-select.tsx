@@ -436,8 +436,11 @@ const ModelRow = memo(function ModelRow({
                 item: a faint full-height bar slides in on hover, and a solid bar
                 marks the selected row. */}
             <div
+                // 5px inset (Tailwind's 1.25 step isn't core; inline keeps it from
+                // being dropped by a consumer's JIT scan of dist).
+                style={{ left: "5px" }}
                 className={cn(
-                    "absolute left-1.5 top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
+                    "absolute top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
                     selected
                         ? "opacity-100 translate-x-0"
                         : "opacity-0 -translate-x-1.5 group-hover:opacity-50 group-hover:translate-x-0",

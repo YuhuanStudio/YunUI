@@ -11,6 +11,11 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Changed
+- **`ModelSelect` selection bar inset refined to 5px** (from `left-1.5`/6px),
+  set as an inline style since Tailwind's `1.25` step isn't core and could be
+  dropped by a consumer's JIT scan.
+
 ## [0.2.16] - 2026-07-02
 
 ### Fixed
