@@ -184,7 +184,7 @@ function CodeBlock({
     {
       className: cn(
         "group relative my-4 rounded-lg border overflow-hidden",
-        "bg-[#f6f8fa] dark:bg-[#161b22]",
+        "bg-muted/30",
         className
       ),
       children: [
@@ -214,7 +214,7 @@ function CodeBlock({
                 onClick: handleCopy,
                 className: cn(
                   "flex items-center gap-1.5 px-2 py-1 rounded text-xs",
-                  copied ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300" : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                  copied ? "bg-success-soft text-success" : "hover:bg-muted text-muted-foreground hover:text-foreground"
                 ),
                 children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
                   /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5" }),
@@ -375,45 +375,38 @@ function MermaidDiagram({ chart, className }) {
 var calloutStyles = {
   note: {
     icon: Info,
-    bgColor: "bg-blue-50 dark:bg-blue-950/30",
-    borderColor: "border-blue-200 dark:border-blue-800",
-    iconColor: "text-blue-500",
-    titleColor: "text-blue-700 dark:text-blue-300"
+    surface: "bg-info-soft border-info-soft",
+    accent: "text-info"
   },
   tip: {
     icon: Lightbulb,
-    bgColor: "bg-green-50 dark:bg-green-950/30",
-    borderColor: "border-green-200 dark:border-green-800",
-    iconColor: "text-green-500",
-    titleColor: "text-green-700 dark:text-green-300"
+    surface: "bg-success-soft border-success-soft",
+    accent: "text-success"
   },
   important: {
     icon: AlertCircle,
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-    borderColor: "border-purple-200 dark:border-purple-800",
-    iconColor: "text-purple-500",
-    titleColor: "text-purple-700 dark:text-purple-300"
+    surface: "",
+    accent: "",
+    surfaceStyle: {
+      background: "var(--accent-subtle)",
+      borderColor: "var(--accent)"
+    },
+    accentStyle: { color: "var(--accent)" }
   },
   warning: {
     icon: AlertTriangle,
-    bgColor: "bg-yellow-50 dark:bg-yellow-950/30",
-    borderColor: "border-yellow-200 dark:border-yellow-800",
-    iconColor: "text-yellow-600 dark:text-yellow-400",
-    titleColor: "text-yellow-700 dark:text-yellow-300"
+    surface: "bg-warning-soft border-warning-soft",
+    accent: "text-warning"
   },
   caution: {
     icon: XOctagon,
-    bgColor: "bg-red-50 dark:bg-red-950/30",
-    borderColor: "border-red-200 dark:border-red-800",
-    iconColor: "text-red-500",
-    titleColor: "text-red-700 dark:text-red-300"
+    surface: "bg-error-soft border-error-soft",
+    accent: "text-error"
   },
   success: {
     icon: CheckCircle2,
-    bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-    borderColor: "border-emerald-200 dark:border-emerald-800",
-    iconColor: "text-emerald-500",
-    titleColor: "text-emerald-700 dark:text-emerald-300"
+    surface: "bg-success-soft border-success-soft",
+    accent: "text-success"
   }
 };
 var defaultTitles = {
@@ -437,16 +430,25 @@ function CalloutBlock({
   return /* @__PURE__ */ jsx(
     "div",
     {
-      className: cn(
-        "my-4 rounded-lg border-l-4 p-4",
-        config.bgColor,
-        config.borderColor,
-        className
-      ),
+      className: cn("my-4 rounded-lg border-l-4 p-4", config.surface, className),
+      style: config.surfaceStyle,
       children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
-        /* @__PURE__ */ jsx(Icon, { className: cn("w-5 h-5 mt-0.5 shrink-0", config.iconColor) }),
+        /* @__PURE__ */ jsx(
+          Icon,
+          {
+            className: cn("w-5 h-5 mt-0.5 shrink-0", config.accent),
+            style: config.accentStyle
+          }
+        ),
         /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-          /* @__PURE__ */ jsx("p", { className: cn("font-semibold text-sm mb-1", config.titleColor), children: displayTitle }),
+          /* @__PURE__ */ jsx(
+            "p",
+            {
+              className: cn("font-semibold text-sm mb-1", config.accent),
+              style: config.accentStyle,
+              children: displayTitle
+            }
+          ),
           /* @__PURE__ */ jsx("div", { className: "text-sm text-foreground/80 [&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0", children })
         ] })
       ] })
@@ -892,7 +894,7 @@ function MarkdownRenderer({
       },
       hr: () => /* @__PURE__ */ jsx("hr", { className: "my-6 border-t border-border" }),
       kbd: ({ children }) => /* @__PURE__ */ jsx("kbd", { className: "px-1.5 py-0.5 text-xs font-mono bg-muted border border-b-2 border-muted-foreground/20 rounded shadow-sm", children }),
-      mark: ({ children }) => /* @__PURE__ */ jsx("mark", { className: "bg-yellow-200 dark:bg-yellow-800/50 px-0.5 rounded", children }),
+      mark: ({ children }) => /* @__PURE__ */ jsx("mark", { className: "bg-warning-soft text-foreground px-0.5 rounded", children }),
       details: ({ children }) => /* @__PURE__ */ jsx("details", { className: "my-4 rounded-lg border bg-card overflow-hidden group", children }),
       summary: ({ children }) => /* @__PURE__ */ jsx("summary", { className: "px-4 py-3 cursor-pointer select-none font-medium hover:bg-muted/50 transition-colors", children }),
       abbr: ({ children, title }) => /* @__PURE__ */ jsx(
@@ -954,7 +956,7 @@ function HeadingAnchor({ id }) {
       className: cn(
         "opacity-0 group-hover:opacity-100 transition-opacity",
         "text-muted-foreground hover:text-foreground",
-        copied && "text-green-500"
+        copied && "text-success"
       ),
       "aria-label": t("linkToHeading", "Copy link to this heading"),
       children: /* @__PURE__ */ jsx(Link2, { className: "w-4 h-4" })

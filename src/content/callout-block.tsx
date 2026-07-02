@@ -27,57 +27,55 @@ export interface CalloutBlockProps {
   className?: string;
 }
 
+// Callout tones map onto YunUI's semantic token vocabulary (`.bg-*-soft` /
+// `.text-*` / `.border-*-soft` are real shipped classes, so they re-theme with
+// the design system instead of hard-coding raw palette colors). "important" has
+// no direct semantic role, so it borrows the accent tokens.
 const calloutStyles: Record<
   CalloutType,
   {
-    icon: React.ComponentType<{ className?: string }>;
-    bgColor: string;
-    borderColor: string;
-    iconColor: string;
-    titleColor: string;
+    icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+    surface: string;
+    accent: string;
+    /** For tones with no utility class (accent) — inline token styles. */
+    surfaceStyle?: React.CSSProperties;
+    accentStyle?: React.CSSProperties;
   }
 > = {
   note: {
     icon: Info,
-    bgColor: "bg-blue-50 dark:bg-blue-950/30",
-    borderColor: "border-blue-200 dark:border-blue-800",
-    iconColor: "text-blue-500",
-    titleColor: "text-blue-700 dark:text-blue-300",
+    surface: "bg-info-soft border-info-soft",
+    accent: "text-info",
   },
   tip: {
     icon: Lightbulb,
-    bgColor: "bg-green-50 dark:bg-green-950/30",
-    borderColor: "border-green-200 dark:border-green-800",
-    iconColor: "text-green-500",
-    titleColor: "text-green-700 dark:text-green-300",
+    surface: "bg-success-soft border-success-soft",
+    accent: "text-success",
   },
   important: {
     icon: AlertCircle,
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-    borderColor: "border-purple-200 dark:border-purple-800",
-    iconColor: "text-purple-500",
-    titleColor: "text-purple-700 dark:text-purple-300",
+    surface: "",
+    accent: "",
+    surfaceStyle: {
+      background: "var(--accent-subtle)",
+      borderColor: "var(--accent)",
+    },
+    accentStyle: { color: "var(--accent)" },
   },
   warning: {
     icon: AlertTriangle,
-    bgColor: "bg-yellow-50 dark:bg-yellow-950/30",
-    borderColor: "border-yellow-200 dark:border-yellow-800",
-    iconColor: "text-yellow-600 dark:text-yellow-400",
-    titleColor: "text-yellow-700 dark:text-yellow-300",
+    surface: "bg-warning-soft border-warning-soft",
+    accent: "text-warning",
   },
   caution: {
     icon: XOctagon,
-    bgColor: "bg-red-50 dark:bg-red-950/30",
-    borderColor: "border-red-200 dark:border-red-800",
-    iconColor: "text-red-500",
-    titleColor: "text-red-700 dark:text-red-300",
+    surface: "bg-error-soft border-error-soft",
+    accent: "text-error",
   },
   success: {
     icon: CheckCircle2,
-    bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-    borderColor: "border-emerald-200 dark:border-emerald-800",
-    iconColor: "text-emerald-500",
-    titleColor: "text-emerald-700 dark:text-emerald-300",
+    surface: "bg-success-soft border-success-soft",
+    accent: "text-success",
   },
 };
 
@@ -107,17 +105,19 @@ export function CalloutBlock({
 
   return (
     <div
-      className={cn(
-        "my-4 rounded-lg border-l-4 p-4",
-        config.bgColor,
-        config.borderColor,
-        className,
-      )}
+      className={cn("my-4 rounded-lg border-l-4 p-4", config.surface, className)}
+      style={config.surfaceStyle}
     >
       <div className="flex items-start gap-3">
-        <Icon className={cn("w-5 h-5 mt-0.5 shrink-0", config.iconColor)} />
+        <Icon
+          className={cn("w-5 h-5 mt-0.5 shrink-0", config.accent)}
+          style={config.accentStyle}
+        />
         <div className="flex-1 min-w-0">
-          <p className={cn("font-semibold text-sm mb-1", config.titleColor)}>
+          <p
+            className={cn("font-semibold text-sm mb-1", config.accent)}
+            style={config.accentStyle}
+          >
             {displayTitle}
           </p>
           <div className="text-sm text-foreground/80 [&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">

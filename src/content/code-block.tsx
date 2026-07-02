@@ -206,7 +206,7 @@ export function CodeBlock({
     <div
       className={cn(
         "group relative my-4 rounded-lg border overflow-hidden",
-        "bg-[#f6f8fa] dark:bg-[#161b22]",
+        "bg-muted/30",
         className,
       )}
     >
@@ -239,7 +239,7 @@ export function CodeBlock({
             className={cn(
               "flex items-center gap-1.5 px-2 py-1 rounded text-xs",
               copied
-                ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                ? "bg-success-soft text-success"
                 : "hover:bg-muted text-muted-foreground hover:text-foreground",
             )}
           >

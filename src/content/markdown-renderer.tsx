@@ -270,7 +270,7 @@ export function MarkdownRenderer({
       ),
 
       mark: ({ children }) => (
-        <mark className="bg-yellow-200 dark:bg-yellow-800/50 px-0.5 rounded">
+        <mark className="bg-warning-soft text-foreground px-0.5 rounded">
           {children}
         </mark>
       ),
@@ -350,7 +350,7 @@ function HeadingAnchor({ id }: { id: string }) {
       className={cn(
         "opacity-0 group-hover:opacity-100 transition-opacity",
         "text-muted-foreground hover:text-foreground",
-        copied && "text-green-500",
+        copied && "text-success",
       )}
       aria-label={t("linkToHeading", "Copy link to this heading")}
     >

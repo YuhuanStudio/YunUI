@@ -11,6 +11,14 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Changed
+- **Content stack now speaks YunUI's design language.** `CalloutBlock` maps its
+  GitHub admonition tones onto the semantic token utilities (`bg-info-soft` /
+  `text-success` / `border-error-soft`, "important" → accent tokens) instead of
+  hard-coded palette colors, so callouts re-theme with the design system.
+  `CodeBlock` and `MarkdownRenderer` drop raw `bg-[#f6f8fa]` / `bg-green-100` /
+  `bg-yellow-200` for `bg-muted` / `bg-success-soft` / `bg-warning-soft`.
+
 ### Fixed
 - **Content stack infinite render loop** — `MermaidDiagram` (stuck on
   "Rendering diagram…") and `MathRenderer` (CPU thrash) looped forever because
