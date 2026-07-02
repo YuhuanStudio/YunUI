@@ -164,41 +164,38 @@ export function MarkdownRenderer({
 
       blockquote: ({ children }) => {
         const childArray = React.Children.toArray(children);
-        const firstChild = childArray[0];
+        // react-markdown emits whitespace ("\n") text nodes between blocks, so the
+        // first child is often NOT the paragraph — find the first real element.
+        const firstEl = childArray.find((c) => React.isValidElement(c));
 
-        if (React.isValidElement(firstChild)) {
-          const firstChildProps = firstChild.props as {
-            children?: React.ReactNode;
-          };
-          const firstChildContent = firstChildProps?.children;
-          if (
-            typeof firstChildContent === "string" ||
-            Array.isArray(firstChildContent)
-          ) {
-            const textContent = Array.isArray(firstChildContent)
-              ? firstChildContent.find((c) => typeof c === "string")
-              : firstChildContent;
+        if (React.isValidElement<{ children?: React.ReactNode }>(firstEl)) {
+          const paraKids = React.Children.toArray(firstEl.props.children);
+          // The callout marker lives in the leading text run, before the first
+          // newline (GitHub puts `[!TYPE]` on its own line inside the quote).
+          const leadStr = typeof paraKids[0] === "string" ? paraKids[0] : "";
+          const { type: calloutType, title } = parseCalloutType(
+            leadStr.split("\n")[0].trim(),
+          );
 
-            if (typeof textContent === "string") {
-              const { type: calloutType, title } = parseCalloutType(
-                textContent.trim().split("\n")[0],
-              );
+          if (calloutType) {
+            // Keep every non-marker node (inline code, emphasis, links…) intact:
+            // strip only the marker's line from the leading string, preserve the rest.
+            const rest = leadStr.includes("\n")
+              ? leadStr.slice(leadStr.indexOf("\n") + 1)
+              : "";
+            const body = [rest, ...paraKids.slice(1)];
+            const hasFirstPara = rest !== "" || paraKids.length > 1;
+            // Any further paragraphs/blocks in the quote (marker-only first line case).
+            const otherBlocks = childArray.filter(
+              (c) => c !== firstEl && React.isValidElement(c),
+            );
 
-              if (calloutType) {
-                const remainingContent = textContent.replace(
-                  /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|SUCCESS)\](?:\s+[^\n]*)?\n?/i,
-                  "",
-                );
-                const otherChildren = childArray.slice(1);
-
-                return (
-                  <CalloutBlock type={calloutType} title={title || undefined}>
-                    {remainingContent && <p>{remainingContent}</p>}
-                    {otherChildren}
-                  </CalloutBlock>
-                );
-              }
-            }
+            return (
+              <CalloutBlock type={calloutType} title={title || undefined}>
+                {hasFirstPara && <p>{body}</p>}
+                {otherBlocks}
+              </CalloutBlock>
+            );
           }
         }
 

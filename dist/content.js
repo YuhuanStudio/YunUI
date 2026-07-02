@@ -394,7 +394,7 @@ function CalloutBlock({
       variant: c.variant,
       title: displayTitle,
       icon: /* @__PURE__ */ jsx(Icon, { className: "h-4 w-4" }),
-      className: cn("my-4", className),
+      className: cn("my-4 not-prose", className),
       children: /* @__PURE__ */ jsx("div", { className: "[&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0", children })
     }
   );
@@ -776,28 +776,24 @@ function MarkdownRenderer({
       },
       blockquote: ({ children }) => {
         const childArray = React2.Children.toArray(children);
-        const firstChild = childArray[0];
-        if (React2.isValidElement(firstChild)) {
-          const firstChildProps = firstChild.props;
-          const firstChildContent = firstChildProps?.children;
-          if (typeof firstChildContent === "string" || Array.isArray(firstChildContent)) {
-            const textContent = Array.isArray(firstChildContent) ? firstChildContent.find((c) => typeof c === "string") : firstChildContent;
-            if (typeof textContent === "string") {
-              const { type: calloutType, title } = parseCalloutType(
-                textContent.trim().split("\n")[0]
-              );
-              if (calloutType) {
-                const remainingContent = textContent.replace(
-                  /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|SUCCESS)\](?:\s+[^\n]*)?\n?/i,
-                  ""
-                );
-                const otherChildren = childArray.slice(1);
-                return /* @__PURE__ */ jsxs(CalloutBlock, { type: calloutType, title: title || void 0, children: [
-                  remainingContent && /* @__PURE__ */ jsx("p", { children: remainingContent }),
-                  otherChildren
-                ] });
-              }
-            }
+        const firstEl = childArray.find((c) => React2.isValidElement(c));
+        if (React2.isValidElement(firstEl)) {
+          const paraKids = React2.Children.toArray(firstEl.props.children);
+          const leadStr = typeof paraKids[0] === "string" ? paraKids[0] : "";
+          const { type: calloutType, title } = parseCalloutType(
+            leadStr.split("\n")[0].trim()
+          );
+          if (calloutType) {
+            const rest = leadStr.includes("\n") ? leadStr.slice(leadStr.indexOf("\n") + 1) : "";
+            const body = [rest, ...paraKids.slice(1)];
+            const hasFirstPara = rest !== "" || paraKids.length > 1;
+            const otherBlocks = childArray.filter(
+              (c) => c !== firstEl && React2.isValidElement(c)
+            );
+            return /* @__PURE__ */ jsxs(CalloutBlock, { type: calloutType, title: title || void 0, children: [
+              hasFirstPara && /* @__PURE__ */ jsx("p", { children: body }),
+              otherBlocks
+            ] });
           }
         }
         return /* @__PURE__ */ jsx("blockquote", { className: "border-l-4 border-muted-foreground/30 pl-4 my-4 italic text-muted-foreground", children });

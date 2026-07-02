@@ -77,7 +77,10 @@ export function CalloutBlock({
       variant={c.variant}
       title={displayTitle}
       icon={<Icon className="h-4 w-4" />}
-      className={cn("my-4", className)}
+      // `not-prose` so the host MarkdownRenderer's prose styles don't inject
+      // margins into the Alert's title/body paragraphs (which shoved the title
+      // away from the icon). The callout owns its own spacing.
+      className={cn("my-4 not-prose", className)}
     >
       <div className="[&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
         {children}

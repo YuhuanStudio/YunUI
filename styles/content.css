@@ -48,6 +48,11 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.875rem;
   line-height: 1.7;
+  /* Shiki separates its block-level `.line` spans with literal "\n" text nodes.
+   * Under `white-space: pre` those newlines render as an EXTRA empty line after
+   * every line (double-spacing). Collapse them here; each `.line` re-enables
+   * `pre` below so its own indentation is preserved. */
+  white-space: normal;
   /* Neutralize any host/prose `code` chrome (border, radius, chip background)
    * that would otherwise draw a nested box inside the code block. */
   background: transparent !important;
@@ -58,6 +63,7 @@
 
 .shiki-wrapper .line {
   display: block;
+  white-space: pre;
   min-height: 1.5rem;
 }
 
