@@ -481,16 +481,19 @@ function ModelManagerCard({
         className
       ),
       children: [
-        (selectSlot || actions) && /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2 -mt-2 mb-3 min-h-7", children: [
+        selectSlot && /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2 -mt-2 mb-3 min-h-7", children: [
           /* @__PURE__ */ jsx("div", { className: "flex items-center", children: selectSlot }),
           actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5 -mr-1.5 text-muted-foreground", children: actions })
         ] }),
         /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
           icon && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: icon }),
           /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-            /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap", children: [
-              /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight min-w-0 break-words", children: name }),
-              nameBadges
+            /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-2", children: [
+              /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 flex-wrap min-w-0", children: [
+                /* @__PURE__ */ jsx("span", { className: "font-semibold leading-tight min-w-0 break-words", children: name }),
+                nameBadges
+              ] }),
+              !selectSlot && actions && /* @__PURE__ */ jsx("div", { className: "shrink-0 -mr-1.5 -mt-1 flex items-center gap-0.5 text-muted-foreground", children: actions })
             ] }),
             ids && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1 mt-1.5", children: ids })
           ] })

@@ -12,6 +12,14 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **`ModelManagerCard` no longer looks top-heavy when it has actions but no
+  row-select control.** The top control bar (`min-h-7 mb-3`) rendered whenever
+  `selectSlot` OR `actions` existed, so a card with only `actions` (no
+  multi-select checkbox) floated the action button alone top-right above a dead
+  band, with the icon/name pushed to a second row. The bar now renders only for
+  `selectSlot`; without it the actions ride on the identity row (right-aligned,
+  aligned with the name). Multi-select admin mode (with `selectSlot`) is
+  unchanged.
 - **`Sheet` body now has default padding (`px-5 py-4`, matching its header).**
   Without it every consumer's sheet content sat flush against the panel edges
   (e.g. settings drawers with sliders touching the border).

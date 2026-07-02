@@ -65,22 +65,31 @@ export function ModelManagerCard({
                 className,
             )}
         >
-            {/* Top control bar: select (left) · actions (right). Keeps both off the
-                content so the icon stays flush-left and nothing crowds the bottom. */}
-            {(selectSlot || actions) && (
+            {/* Top control bar — ONLY when a row-select control is present
+                (multi-select admin mode): checkbox left, actions right. Without a
+                select control this band would be empty on the left with the actions
+                floating alone top-right, leaving a dead gap above the icon/name —
+                so in that case the actions ride on the identity row instead. */}
+            {selectSlot && (
                 <div className="flex items-center justify-between gap-2 -mt-2 mb-3 min-h-7">
                     <div className="flex items-center">{selectSlot}</div>
                     {actions && <div className="flex items-center gap-0.5 -mr-1.5 text-muted-foreground">{actions}</div>}
                 </div>
             )}
 
-            {/* Identity: icon · name + status badges · id chips */}
+            {/* Identity: icon · name + status badges · id chips (+ actions, right,
+                when there's no select bar to host them). */}
             <div className="flex items-start gap-3">
                 {icon && <div className="shrink-0">{icon}</div>}
                 <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">
-                        <span className="font-semibold leading-tight min-w-0 break-words">{name}</span>
-                        {nameBadges}
+                    <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-x-2 gap-y-1 flex-wrap min-w-0">
+                            <span className="font-semibold leading-tight min-w-0 break-words">{name}</span>
+                            {nameBadges}
+                        </div>
+                        {!selectSlot && actions && (
+                            <div className="shrink-0 -mr-1.5 -mt-1 flex items-center gap-0.5 text-muted-foreground">{actions}</div>
+                        )}
                     </div>
                     {ids && <div className="flex flex-wrap items-center gap-1 mt-1.5">{ids}</div>}
                 </div>
