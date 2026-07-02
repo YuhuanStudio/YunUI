@@ -183,12 +183,12 @@ function CodeBlock({
     "div",
     {
       className: cn(
-        "group relative my-4 rounded-xl border overflow-hidden",
+        "group relative my-4 rounded-xl border border-border overflow-hidden",
         "bg-muted/30",
         className
       ),
       children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2 border-b bg-muted/50", children: [
+        /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50", children: [
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
             /* @__PURE__ */ jsx(Terminal, { className: "w-4 h-4 text-muted-foreground" }),
             filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-foreground", children: filename }) : /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-muted-foreground", children: displayLanguage })
@@ -256,7 +256,7 @@ function InlineCode({
     {
       className: cn(
         "px-1.5 py-0.5 mx-0.5 rounded text-sm font-mono",
-        "bg-muted/80 text-foreground border",
+        "bg-muted/80 text-foreground border border-border",
         "wrap-break-word",
         className
       ),
@@ -348,7 +348,7 @@ function MermaidDiagram({ chart, className }) {
       "div",
       {
         className: cn(
-          "my-4 p-8 rounded-xl border bg-muted/30 flex items-center justify-center",
+          "my-4 p-8 rounded-xl border border-border bg-muted/30 flex items-center justify-center",
           className
         ),
         children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-muted-foreground", children: [
@@ -363,7 +363,7 @@ function MermaidDiagram({ chart, className }) {
     {
       ref: containerRef,
       className: cn(
-        "my-4 p-4 rounded-xl border bg-card overflow-x-auto",
+        "my-4 p-4 rounded-xl border border-border bg-card overflow-x-auto",
         "flex items-center justify-center",
         "[&_svg]:max-w-full [&_svg]:h-auto",
         className
@@ -678,7 +678,7 @@ var ContentImage = React2.memo(function ContentImage2({
             ref: imgRef,
             alt,
             className: cn(
-              "max-w-full h-auto rounded-xl shadow-sm border transition-opacity duration-300",
+              "max-w-full h-auto rounded-xl shadow-sm border border-border transition-opacity duration-300",
               loaded ? "opacity-100" : "opacity-0",
               enableLightbox && loaded && "cursor-zoom-in",
               className
@@ -858,10 +858,10 @@ function MarkdownRenderer({
         }
         return /* @__PURE__ */ jsx("blockquote", { className: "border-l-4 border-muted-foreground/30 pl-4 my-4 italic text-muted-foreground", children });
       },
-      table: ({ children }) => /* @__PURE__ */ jsx("div", { className: "my-4 overflow-x-auto rounded-xl border", children: /* @__PURE__ */ jsx("table", { className: "min-w-full divide-y divide-border", children }) }),
+      table: ({ children }) => /* @__PURE__ */ jsx("div", { className: "my-4 overflow-x-auto rounded-xl border border-border", children: /* @__PURE__ */ jsx("table", { className: "min-w-full divide-y divide-border", children }) }),
       thead: ({ children }) => /* @__PURE__ */ jsx("thead", { className: "bg-muted/50", children }),
       th: ({ children }) => /* @__PURE__ */ jsx("th", { className: "px-4 py-2 text-left text-sm font-semibold text-foreground", children }),
-      td: ({ children }) => /* @__PURE__ */ jsx("td", { className: "px-4 py-2 text-sm border-t", children }),
+      td: ({ children }) => /* @__PURE__ */ jsx("td", { className: "px-4 py-2 text-sm border-t border-border", children }),
       ul: ({ children }) => /* @__PURE__ */ jsx("ul", { className: "my-3 ml-6 list-disc space-y-1 [&>li]:pl-1", children }),
       ol: ({ children }) => /* @__PURE__ */ jsx("ol", { className: "my-3 ml-6 list-decimal space-y-1 [&>li]:pl-1", children }),
       li: ({ children, className: liClass }) => {
@@ -895,7 +895,7 @@ function MarkdownRenderer({
       hr: () => /* @__PURE__ */ jsx("hr", { className: "my-6 border-t border-border" }),
       kbd: ({ children }) => /* @__PURE__ */ jsx("kbd", { className: "px-1.5 py-0.5 text-xs font-mono bg-muted border border-b-2 border-muted-foreground/20 rounded shadow-sm", children }),
       mark: ({ children }) => /* @__PURE__ */ jsx("mark", { className: "bg-warning-soft text-foreground px-0.5 rounded", children }),
-      details: ({ children }) => /* @__PURE__ */ jsx("details", { className: "my-4 rounded-xl border bg-card overflow-hidden group", children }),
+      details: ({ children }) => /* @__PURE__ */ jsx("details", { className: "my-4 rounded-xl border border-border bg-card overflow-hidden group", children }),
       summary: ({ children }) => /* @__PURE__ */ jsx("summary", { className: "px-4 py-3 cursor-pointer select-none font-medium hover:bg-muted/50 transition-colors", children }),
       abbr: ({ children, title }) => /* @__PURE__ */ jsx(
         "abbr",

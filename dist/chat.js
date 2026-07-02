@@ -15,13 +15,13 @@ var roleDefaults = {
   assistant: {
     label: "Assistant",
     icon: Bot,
-    wrap: "bg-muted border",
+    wrap: "bg-muted border border-border",
     icn: "text-muted-foreground"
   },
   system: {
     label: "System",
     icon: Sparkles,
-    wrap: "bg-muted border",
+    wrap: "bg-muted border border-border",
     icn: "text-muted-foreground"
   }
 };
@@ -150,7 +150,7 @@ function ChatComposer({
     "div",
     {
       className: cn(
-        "rounded-2xl border bg-background shadow-sm transition-colors",
+        "rounded-2xl border border-border bg-background shadow-sm transition-colors",
         "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
         disabled && "opacity-60",
         className

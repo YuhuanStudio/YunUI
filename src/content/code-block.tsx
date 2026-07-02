@@ -205,12 +205,12 @@ export function CodeBlock({
   return (
     <div
       className={cn(
-        "group relative my-4 rounded-xl border overflow-hidden",
+        "group relative my-4 rounded-xl border border-border overflow-hidden",
         "bg-muted/30",
         className,
       )}
     >
-      <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/50">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
         <div className="flex items-center gap-2">
           <Terminal className="w-4 h-4 text-muted-foreground" />
           {filename ? (
@@ -291,7 +291,7 @@ export function InlineCode({
     <code
       className={cn(
         "px-1.5 py-0.5 mx-0.5 rounded text-sm font-mono",
-        "bg-muted/80 text-foreground border",
+        "bg-muted/80 text-foreground border border-border",
         "wrap-break-word",
         className,
       )}

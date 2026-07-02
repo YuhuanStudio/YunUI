@@ -1444,7 +1444,7 @@ var Input = React7.forwardRef(
           "aria-invalid": error ? true : void 0,
           "aria-describedby": describedByIds,
           className: cn(
-            "w-full h-10 px-4 bg-background border rounded-xl text-sm outline-none transition-colors",
+            "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -1478,7 +1478,7 @@ var Textarea = React7.forwardRef(
           "aria-invalid": error ? true : void 0,
           "aria-describedby": describedByIds,
           className: cn(
-            "w-full px-4 py-3 bg-background border rounded-xl text-sm outline-none transition-colors resize-none",
+            "w-full px-4 py-3 bg-background border border-border rounded-xl text-sm outline-none transition-colors resize-none",
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -1508,7 +1508,7 @@ var PasswordInput = React7.forwardRef(
         "div",
         {
           className: cn(
-            "flex items-center h-10 rounded-xl border bg-background transition-colors",
+            "flex items-center h-10 rounded-xl border border-border bg-background transition-colors",
             "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
             error ? "border-(--error) focus:border-(--error)" : "border-border",
             disabled && "opacity-50",
@@ -1569,7 +1569,7 @@ var NumberInput = React7.forwardRef(
         "div",
         {
           className: cn(
-            "relative flex items-stretch rounded-xl border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+            "relative flex items-stretch rounded-xl border border-border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
             error ? "border-(--error) focus:border-(--error)" : "border-border",
             disabled && "opacity-50",
             className
@@ -1798,7 +1798,7 @@ function Alert({ className, variant = "info", title, icon, children, ...props })
     "div",
     {
       role,
-      className: cn("flex gap-3 rounded-xl border p-3 text-sm", styles[variant], className),
+      className: cn("flex gap-3 rounded-xl border border-border p-3 text-sm", styles[variant], className),
       ...props,
       children: [
         resolvedIcon && /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "mt-0.5 shrink-0", children: resolvedIcon }),
@@ -1901,7 +1901,7 @@ function Steps({ steps, current = 0, className, ...props }) {
           {
             "aria-hidden": "true",
             className: cn(
-              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium",
+              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-xs font-medium",
               state === "done" && "border-transparent bg-primary text-primary-foreground",
               state === "active" && "border-primary text-primary",
               state === "upcoming" && "border-border text-muted-foreground"
@@ -3612,5 +3612,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, AreaChart, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, Column, Combobox, ConfirmModal, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, Flex, Gauge, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Marquee, Modal, MotionDiv, MotionSpan, NavTabs, NumberInput, PageLoader, Pagination, PasswordInput, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, SegmentedBar, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, ShinyButton, Skeleton, Slider, Sparkline, Spinner, Stack, StatusIndicator, Steps, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
-//# sourceMappingURL=chunk-NGEWLZPQ.js.map
-//# sourceMappingURL=chunk-NGEWLZPQ.js.map
+//# sourceMappingURL=chunk-2OMXROXQ.js.map
+//# sourceMappingURL=chunk-2OMXROXQ.js.map

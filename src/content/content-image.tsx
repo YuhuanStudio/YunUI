@@ -95,7 +95,7 @@ export const ContentImage = React.memo(function ContentImage({
         ref={imgRef}
         alt={alt}
         className={cn(
-          "max-w-full h-auto rounded-xl shadow-sm border transition-opacity duration-300",
+          "max-w-full h-auto rounded-xl shadow-sm border border-border transition-opacity duration-300",
           loaded ? "opacity-100" : "opacity-0",
           enableLightbox && loaded && "cursor-zoom-in",
           className,

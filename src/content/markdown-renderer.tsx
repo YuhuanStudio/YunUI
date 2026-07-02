@@ -210,7 +210,7 @@ export function MarkdownRenderer({
       },
 
       table: ({ children }) => (
-        <div className="my-4 overflow-x-auto rounded-xl border">
+        <div className="my-4 overflow-x-auto rounded-xl border border-border">
           <table className="min-w-full divide-y divide-border">{children}</table>
         </div>
       ),
@@ -221,7 +221,7 @@ export function MarkdownRenderer({
         </th>
       ),
       td: ({ children }) => (
-        <td className="px-4 py-2 text-sm border-t">{children}</td>
+        <td className="px-4 py-2 text-sm border-t border-border">{children}</td>
       ),
 
       ul: ({ children }) => (
@@ -276,7 +276,7 @@ export function MarkdownRenderer({
       ),
 
       details: ({ children }) => (
-        <details className="my-4 rounded-xl border bg-card overflow-hidden group">
+        <details className="my-4 rounded-xl border border-border bg-card overflow-hidden group">
           {children}
         </details>
       ),

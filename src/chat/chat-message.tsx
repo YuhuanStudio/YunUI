@@ -39,13 +39,13 @@ const roleDefaults: Record<
   assistant: {
     label: "Assistant",
     icon: Bot,
-    wrap: "bg-muted border",
+    wrap: "bg-muted border border-border",
     icn: "text-muted-foreground",
   },
   system: {
     label: "System",
     icon: Sparkles,
-    wrap: "bg-muted border",
+    wrap: "bg-muted border border-border",
     icn: "text-muted-foreground",
   },
 };

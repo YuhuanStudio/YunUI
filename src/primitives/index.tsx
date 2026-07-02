@@ -165,7 +165,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     aria-invalid={error ? true : undefined}
                     aria-describedby={describedByIds}
                     className={cn(
-                        "w-full h-10 px-4 bg-background border rounded-xl text-sm outline-none transition-colors",
+                        "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -211,7 +211,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
                     aria-invalid={error ? true : undefined}
                     aria-describedby={describedByIds}
                     className={cn(
-                        "w-full px-4 py-3 bg-background border rounded-xl text-sm outline-none transition-colors resize-none",
+                        "w-full px-4 py-3 bg-background border border-border rounded-xl text-sm outline-none transition-colors resize-none",
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -256,7 +256,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
                     mis-placed the absolute button outside the input). */}
                 <div
                     className={cn(
-                        "flex items-center h-10 rounded-xl border bg-background transition-colors",
+                        "flex items-center h-10 rounded-xl border border-border bg-background transition-colors",
                         "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
                         error ? "border-(--error) focus:border-(--error)" : "border-border",
                         disabled && "opacity-50",
@@ -334,7 +334,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             <div>
                 <div
                     className={cn(
-                        "relative flex items-stretch rounded-xl border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+                        "relative flex items-stretch rounded-xl border border-border bg-background transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
                         error ? "border-(--error) focus:border-(--error)" : "border-border",
                         disabled && "opacity-50",
                         className
@@ -686,7 +686,7 @@ export function Alert({ className, variant = "info", title, icon, children, ...p
     return (
         <div
             role={role}
-            className={cn("flex gap-3 rounded-xl border p-3 text-sm", styles[variant], className)}
+            className={cn("flex gap-3 rounded-xl border border-border p-3 text-sm", styles[variant], className)}
             {...props}
         >
             {resolvedIcon && (
@@ -863,7 +863,7 @@ export function Steps({ steps, current = 0, className, ...props }: StepsProps) {
                             <span
                                 aria-hidden="true"
                                 className={cn(
-                                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium",
+                                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-xs font-medium",
                                     state === "done" && "border-transparent bg-primary text-primary-foreground",
                                     state === "active" && "border-primary text-primary",
                                     state === "upcoming" && "border-border text-muted-foreground"
