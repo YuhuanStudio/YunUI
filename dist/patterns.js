@@ -3,6 +3,7 @@ import './chunk-5E3O6ANF.js';
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { Footer } from './chunk-UYYG4XDW.js';
 import './chunk-GSPJ5YI6.js';
+import { ImageLightbox } from './chunk-QEIBYOG2.js';
 import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-5TOGZTAO.js';
 import { cn } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
@@ -1371,43 +1372,64 @@ function MediaCard({
       item.meta
     ] })
   ] });
-  const actions = (onDownload || onDelete) && /* @__PURE__ */ jsxs(
-    "div",
-    {
-      className: cn(
-        view === "grid" ? "absolute inset-0 flex items-center justify-center gap-2 bg-foreground/0 opacity-0 transition-all group-hover:bg-foreground/40 group-hover:opacity-100" : "flex items-center gap-1.5"
-      ),
-      children: [
-        onDownload && /* @__PURE__ */ jsx(
-          Button,
-          {
-            size: "icon",
-            variant: view === "grid" ? "primary" : "ghost",
-            disabled: !isDone,
-            "aria-label": labels.download,
-            onClick: (e) => {
-              e.stopPropagation();
-              onDownload(item);
-            },
-            children: /* @__PURE__ */ jsx(Download, { size: 16 })
-          }
-        ),
-        onDelete && /* @__PURE__ */ jsx(
-          Button,
-          {
-            size: "icon",
-            variant: view === "grid" ? "destructive" : "ghost",
-            "aria-label": labels.delete,
-            onClick: (e) => {
-              e.stopPropagation();
-              onDelete(item);
-            },
-            children: /* @__PURE__ */ jsx(Trash2, { size: 16, className: view === "list" ? "text-error" : void 0 })
-          }
-        )
-      ]
-    }
-  );
+  const overlayBtn = "flex h-9 w-9 items-center justify-center rounded-full bg-card text-foreground shadow-md ring-1 ring-border backdrop-blur transition hover:scale-105 disabled:pointer-events-none disabled:opacity-40";
+  const actions = (onDownload || onDelete) && (view === "grid" ? /* @__PURE__ */ jsxs("div", { className: "absolute inset-0 flex items-center justify-center gap-2.5 bg-foreground/0 opacity-0 transition-all group-hover:bg-foreground/30 group-hover:opacity-100", children: [
+    onDownload && /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        className: overlayBtn,
+        disabled: !isDone,
+        "aria-label": labels.download,
+        onClick: (e) => {
+          e.stopPropagation();
+          onDownload(item);
+        },
+        children: /* @__PURE__ */ jsx(Download, { size: 18 })
+      }
+    ),
+    onDelete && /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        className: cn(overlayBtn, "text-error"),
+        "aria-label": labels.delete,
+        onClick: (e) => {
+          e.stopPropagation();
+          onDelete(item);
+        },
+        children: /* @__PURE__ */ jsx(Trash2, { size: 18 })
+      }
+    )
+  ] }) : /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
+    onDownload && /* @__PURE__ */ jsx(
+      Button,
+      {
+        size: "icon",
+        variant: "ghost",
+        disabled: !isDone,
+        "aria-label": labels.download,
+        onClick: (e) => {
+          e.stopPropagation();
+          onDownload(item);
+        },
+        children: /* @__PURE__ */ jsx(Download, { size: 16 })
+      }
+    ),
+    onDelete && /* @__PURE__ */ jsx(
+      Button,
+      {
+        size: "icon",
+        variant: "ghost",
+        "aria-label": labels.delete,
+        onClick: (e) => {
+          e.stopPropagation();
+          onDelete(item);
+        },
+        children: /* @__PURE__ */ jsx(Trash2, { size: 16, className: "text-error" })
+      }
+    )
+  ] }));
   if (kind === "audio") {
     const showError = status === "failed";
     return /* @__PURE__ */ jsxs("div", { className: "card space-y-2.5 p-3", children: [
@@ -1499,7 +1521,21 @@ function MediaGallery({
   const setView = onViewModeChange ?? setInternalView;
   const showToggle = Boolean(onViewModeChange) || items.length > 0;
   const l = { ...DEFAULT_LABELS, ...labels };
+  const [lightbox, setLightbox] = useState(null);
+  const handlePreview = (item) => {
+    if (onPreview) onPreview(item);
+    else setLightbox(item);
+  };
   return /* @__PURE__ */ jsxs("div", { className, children: [
+    /* @__PURE__ */ jsx(
+      ImageLightbox,
+      {
+        src: lightbox?.url,
+        alt: typeof lightbox?.prompt === "string" ? lightbox.prompt : "",
+        isOpen: lightbox !== null,
+        onClose: () => setLightbox(null)
+      }
+    ),
     (title || showToggle) && /* @__PURE__ */ jsxs("div", { className: "mb-4 flex items-center justify-between gap-3", children: [
       title ? /* @__PURE__ */ jsx("h2", { className: "heading-md", children: title }) : /* @__PURE__ */ jsx("span", {}),
       showToggle && /* @__PURE__ */ jsxs("div", { className: "flex gap-1", children: [
@@ -1541,7 +1577,7 @@ function MediaGallery({
         view: "grid",
         onDownload,
         onDelete,
-        onPreview,
+        onPreview: handlePreview,
         labels: l
       },
       item.id
@@ -1553,7 +1589,7 @@ function MediaGallery({
         view: "list",
         onDownload,
         onDelete,
-        onPreview,
+        onPreview: handlePreview,
         labels: l
       },
       item.id

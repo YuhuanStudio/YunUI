@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "../lib/cn";
 import { Button, Spinner } from "../primitives";
+import { ImageLightbox } from "../content/image-lightbox";
 import { AudioPlayer } from "./audio-player";
 
 // =====================================================
@@ -244,43 +245,75 @@ function MediaCard({
     </div>
   );
 
-  const actions = (onDownload || onDelete) && (
-    <div
-      className={cn(
-        view === "grid"
-          ? "absolute inset-0 flex items-center justify-center gap-2 bg-foreground/0 opacity-0 transition-all group-hover:bg-foreground/40 group-hover:opacity-100"
-          : "flex items-center gap-1.5",
-      )}
-    >
-      {onDownload && (
-        <Button
-          size="icon"
-          variant={view === "grid" ? "primary" : "ghost"}
-          disabled={!isDone}
-          aria-label={labels.download}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDownload(item);
-          }}
-        >
-          <Download size={16} />
-        </Button>
-      )}
-      {onDelete && (
-        <Button
-          size="icon"
-          variant={view === "grid" ? "destructive" : "ghost"}
-          aria-label={labels.delete}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(item);
-          }}
-        >
-          <Trash2 size={16} className={view === "list" ? "text-error" : undefined} />
-        </Button>
-      )}
-    </div>
-  );
+  // Grid actions sit ON TOP of the image (over a hover scrim), so page-level
+  // outline button variants (near-black icon on a transparent fill) would be
+  // invisible against arbitrary photo content. Use solid, theme-aware circular
+  // controls with a border + shadow that read on any image in light OR dark.
+  const overlayBtn =
+    "flex h-9 w-9 items-center justify-center rounded-full bg-card text-foreground shadow-md ring-1 ring-border backdrop-blur transition hover:scale-105 disabled:pointer-events-none disabled:opacity-40";
+
+  const actions = (onDownload || onDelete) &&
+    (view === "grid" ? (
+      <div className="absolute inset-0 flex items-center justify-center gap-2.5 bg-foreground/0 opacity-0 transition-all group-hover:bg-foreground/30 group-hover:opacity-100">
+        {onDownload && (
+          <button
+            type="button"
+            className={overlayBtn}
+            disabled={!isDone}
+            aria-label={labels.download}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDownload(item);
+            }}
+          >
+            <Download size={18} />
+          </button>
+        )}
+        {onDelete && (
+          <button
+            type="button"
+            className={cn(overlayBtn, "text-error")}
+            aria-label={labels.delete}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(item);
+            }}
+          >
+            <Trash2 size={18} />
+          </button>
+        )}
+      </div>
+    ) : (
+      <div className="flex items-center gap-1.5">
+        {onDownload && (
+          <Button
+            size="icon"
+            variant="ghost"
+            disabled={!isDone}
+            aria-label={labels.download}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDownload(item);
+            }}
+          >
+            <Download size={16} />
+          </Button>
+        )}
+        {onDelete && (
+          <Button
+            size="icon"
+            variant="ghost"
+            aria-label={labels.delete}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(item);
+            }}
+          >
+            <Trash2 size={16} className="text-error" />
+          </Button>
+        )}
+      </div>
+    ));
 
   // Audio has no visual thumbnail — always render as a full-width player row
   // (a 16×16 thumbnail box would squish the AudioPlayer), in both grid and list.
@@ -395,8 +428,23 @@ export function MediaGallery({
   const showToggle = Boolean(onViewModeChange) || items.length > 0;
   const l = { ...DEFAULT_LABELS, ...labels };
 
+  // Completed images are click-to-zoom by default via the SAME lightbox that
+  // `ContentImage` uses (zoom / rotate / download / keyboard). A host `onPreview`
+  // overrides this to run its own behaviour instead.
+  const [lightbox, setLightbox] = useState<MediaResult | null>(null);
+  const handlePreview = (item: MediaResult) => {
+    if (onPreview) onPreview(item);
+    else setLightbox(item);
+  };
+
   return (
     <div className={className}>
+      <ImageLightbox
+        src={lightbox?.url}
+        alt={typeof lightbox?.prompt === "string" ? lightbox.prompt : ""}
+        isOpen={lightbox !== null}
+        onClose={() => setLightbox(null)}
+      />
       {(title || showToggle) && (
         <div className="mb-4 flex items-center justify-between gap-3">
           {title ? <h2 className="heading-md">{title}</h2> : <span />}
@@ -444,7 +492,7 @@ export function MediaGallery({
                   view="grid"
                   onDownload={onDownload}
                   onDelete={onDelete}
-                  onPreview={onPreview}
+                  onPreview={handlePreview}
                   labels={l}
                 />
               ))}
@@ -460,7 +508,7 @@ export function MediaGallery({
                   view="list"
                   onDownload={onDownload}
                   onDelete={onDelete}
-                  onPreview={onPreview}
+                  onPreview={handlePreview}
                   labels={l}
                 />
               ))}

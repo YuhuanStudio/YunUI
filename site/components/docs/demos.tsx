@@ -941,7 +941,6 @@ export function MediaGalleryDemo() {
       items={MEDIA_GALLERY_ITEMS}
       onDownload={(item) => console.log("download", item.id)}
       onDelete={(item) => console.log("delete", item.id)}
-      onPreview={(item) => console.log("preview", item.id)}
     />
   );
 }

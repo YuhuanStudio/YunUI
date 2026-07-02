@@ -12,6 +12,15 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **`MediaGallery` grid hover actions were near-invisible, and images had no
+  built-in zoom.** The download/delete controls used page-level outline button
+  variants (`primary` = near-black icon on a transparent fill, `destructive` =
+  coral outline) rendered on top of the image + hover scrim, so they read as
+  empty outlines with no visible glyph. They are now solid, theme-aware circular
+  controls (card fill + ring + shadow, foreground/error icon) that stay legible
+  on any image in light and dark. Completed images are also click-to-zoom by
+  default via the **same `ImageLightbox`** that `ContentImage` uses (zoom /
+  rotate / download / keyboard); a host `onPreview` still overrides it.
 - **`ModelManagerCard` no longer looks top-heavy when it has actions but no
   row-select control.** The top control bar (`min-h-7 mb-3`) rendered whenever
   `selectSlot` OR `actions` existed, so a card with only `actions` (no
