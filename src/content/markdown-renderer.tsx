@@ -305,10 +305,13 @@ export function MarkdownRenderer({
   return (
     <div
       className={cn(
-        "prose prose-sm max-w-none dark:prose-invert",
-        "prose-headings:font-semibold",
-        "prose-p:leading-relaxed",
-        "prose-li:my-0.5",
+        // NOT prose. This renderer styles every element itself via the component
+        // map below, so Tailwind Typography would double-style everything — the
+        // table got a second frame + 28px dead-space margin, callout titles got
+        // shoved off their icon, and code blocks looked different inside prose vs
+        // out. `not-prose` makes our mappings the single source of truth, even
+        // when a host app wraps the output in `.prose`.
+        "not-prose text-sm leading-relaxed text-foreground",
         className,
       )}
     >
