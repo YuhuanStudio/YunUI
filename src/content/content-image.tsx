@@ -67,7 +67,7 @@ export const ContentImage = React.memo(function ContentImage({
   if (failed) {
     return (
       <span className="inline-block">
-        <span className="bg-muted px-3 py-2 rounded-lg border border-destructive/20 text-center">
+        <span className="bg-muted px-3 py-2 rounded-xl border border-destructive/20 text-center">
           <span className="text-destructive text-sm">
             🖼️ {t("imageLoadingFailed", "Image failed to load")}
           </span>
@@ -86,7 +86,7 @@ export const ContentImage = React.memo(function ContentImage({
       }}
     >
       {!loaded && (
-        <span className="absolute inset-0 flex items-center justify-center bg-muted/30 rounded-lg">
+        <span className="absolute inset-0 flex items-center justify-center bg-muted/30 rounded-xl">
           <span className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin block" />
         </span>
       )}
@@ -95,7 +95,7 @@ export const ContentImage = React.memo(function ContentImage({
         ref={imgRef}
         alt={alt}
         className={cn(
-          "max-w-full h-auto rounded-lg shadow-sm border transition-opacity duration-300",
+          "max-w-full h-auto rounded-xl shadow-sm border transition-opacity duration-300",
           loaded ? "opacity-100" : "opacity-0",
           enableLightbox && loaded && "cursor-zoom-in",
           className,

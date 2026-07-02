@@ -210,7 +210,7 @@ export function MarkdownRenderer({
       },
 
       table: ({ children }) => (
-        <div className="my-4 overflow-x-auto rounded-lg border">
+        <div className="my-4 overflow-x-auto rounded-xl border">
           <table className="min-w-full divide-y divide-border">{children}</table>
         </div>
       ),
@@ -253,7 +253,7 @@ export function MarkdownRenderer({
               type="checkbox"
               checked={checked}
               readOnly
-              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+              className="mt-1 h-4 w-4 rounded border-border text-primary focus:ring-primary"
               {...props}
             />
           );
@@ -276,7 +276,7 @@ export function MarkdownRenderer({
       ),
 
       details: ({ children }) => (
-        <details className="my-4 rounded-lg border bg-card overflow-hidden group">
+        <details className="my-4 rounded-xl border bg-card overflow-hidden group">
           {children}
         </details>
       ),

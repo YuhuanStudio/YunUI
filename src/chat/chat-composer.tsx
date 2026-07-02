@@ -81,7 +81,8 @@ export function ChatComposer({
   return (
     <div
       className={cn(
-        "rounded-2xl border bg-background shadow-sm focus-within:border-primary/50 transition-colors",
+        "rounded-2xl border bg-background shadow-sm transition-colors",
+        "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
         disabled && "opacity-60",
         className,
       )}
@@ -100,7 +101,8 @@ export function ChatComposer({
           disabled={disabled}
           placeholder={placeholder}
           className={cn(
-            "flex-1 resize-none bg-transparent py-2 text-sm leading-5",
+            // 16px on mobile avoids iOS Safari's focus-zoom; compact on desktop.
+            "flex-1 resize-none bg-transparent py-2 text-base leading-5 md:text-sm",
             "placeholder:text-muted-foreground focus:outline-none",
             "max-h-[40vh]",
           )}

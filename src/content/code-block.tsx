@@ -205,7 +205,7 @@ export function CodeBlock({
   return (
     <div
       className={cn(
-        "group relative my-4 rounded-lg border overflow-hidden",
+        "group relative my-4 rounded-xl border overflow-hidden",
         "bg-muted/30",
         className,
       )}
@@ -221,7 +221,7 @@ export function CodeBlock({
             </span>
           )}
         </div>
-        <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200">
+        <div className="flex items-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-all duration-200">
           {onEdit && (
             <button
               onClick={handleEdit}

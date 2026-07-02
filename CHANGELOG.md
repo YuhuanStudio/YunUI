@@ -20,6 +20,18 @@ patch = fixes, anything may change between 0.x releases).
   `bg-yellow-200` for `bg-muted` / `bg-success-soft` / `bg-warning-soft`.
 
 ### Fixed
+- **Code blocks drew a nested "box-in-box"** — a leaked host/prose `code` style
+  (border + radius + chip background) bled into Shiki's `<code>`. `content.css`
+  now neutralizes it, so code sits flat on one clean surface.
+- **Touch a11y** — code-block copy/edit buttons and `ChatMessage` hover actions
+  were `opacity-0 group-hover` (invisible/unreachable on touch); now visible on
+  coarse pointers (`opacity-100 md:opacity-0 md:group-hover:opacity-100`).
+- **iOS focus-zoom** — `ChatComposer`'s textarea was `text-sm` (<16px); now
+  `text-base md:text-sm` so mobile Safari doesn't zoom on focus.
+- Aligned content surfaces to YunUI's radius language (`rounded-lg`→`rounded-xl`
+  on callouts, code blocks, tables, details, mermaid, images), the composer focus
+  state to the ring convention, and the last raw colors (`border-gray-300`,
+  `bg-destructive/10`) to semantic utilities.
 - **Content stack infinite render loop** — `MermaidDiagram` (stuck on
   "Rendering diagram…") and `MathRenderer` (CPU thrash) looped forever because
   `useContentT()` and the default adapter's `useT` returned a fresh function on

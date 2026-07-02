@@ -73,7 +73,7 @@ export function ChatMessage({
   const Icon = cfg.icon;
 
   return (
-    <div className={cn("group py-6 last:border-0", className)}>
+    <div className={cn("group py-6", className)}>
       <div className="flex gap-4">
         <div className="shrink-0">
           {avatar ?? (
@@ -112,7 +112,7 @@ export function ChatMessage({
           {footer}
 
           {actions && (
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pt-1">
+            <div className="flex items-center gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-opacity pt-1">
               {actions}
             </div>
           )}

@@ -30,7 +30,7 @@ export function ChatHeader({
   return (
     <div
       className={cn(
-        "h-14 flex items-center justify-between gap-3 px-4",
+        "h-14 flex items-center justify-between gap-3 px-4 border-b border-border",
         "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
         className,
       )}

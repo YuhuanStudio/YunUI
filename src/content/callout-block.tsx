@@ -105,7 +105,7 @@ export function CalloutBlock({
 
   return (
     <div
-      className={cn("my-4 rounded-lg border-l-4 p-4", config.surface, className)}
+      className={cn("my-4 rounded-xl border-l-4 p-4", config.surface, className)}
       style={config.surfaceStyle}
     >
       <div className="flex items-start gap-3">

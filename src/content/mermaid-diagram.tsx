@@ -97,7 +97,7 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
     return (
       <div
         className={cn(
-          "my-4 p-4 rounded-lg border border-destructive/30 bg-destructive/5",
+          "my-4 p-4 rounded-xl border border-destructive/30 bg-destructive/5",
           className,
         )}
       >
@@ -126,7 +126,7 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
     return (
       <div
         className={cn(
-          "my-4 p-8 rounded-lg border bg-muted/30 flex items-center justify-center",
+          "my-4 p-8 rounded-xl border bg-muted/30 flex items-center justify-center",
           className,
         )}
       >
@@ -142,7 +142,7 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
     <div
       ref={containerRef}
       className={cn(
-        "my-4 p-4 rounded-lg border bg-card overflow-x-auto",
+        "my-4 p-4 rounded-xl border bg-card overflow-x-auto",
         "flex items-center justify-center",
         "[&_svg]:max-w-full [&_svg]:h-auto",
         className,

@@ -56,7 +56,7 @@ export function MathRenderer({ math, block = false, className }: MathRendererPro
     return (
       <span
         className={cn(
-          "text-destructive bg-destructive/10 px-1 rounded",
+          "text-error bg-error-soft px-1 rounded",
           block ? "block my-2 p-2 text-center" : "inline",
           className,
         )}

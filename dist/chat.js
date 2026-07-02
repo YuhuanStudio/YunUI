@@ -38,7 +38,7 @@ function ChatMessage({
 }) {
   const cfg = roleDefaults[role] ?? roleDefaults.assistant;
   const Icon = cfg.icon;
-  return /* @__PURE__ */ jsx("div", { className: cn("group py-6 last:border-0", className), children: /* @__PURE__ */ jsxs("div", { className: "flex gap-4", children: [
+  return /* @__PURE__ */ jsx("div", { className: cn("group py-6", className), children: /* @__PURE__ */ jsxs("div", { className: "flex gap-4", children: [
     /* @__PURE__ */ jsx("div", { className: "shrink-0", children: avatar ?? /* @__PURE__ */ jsx(
       "div",
       {
@@ -59,7 +59,7 @@ function ChatMessage({
       ] }),
       children && /* @__PURE__ */ jsx("div", { className: "min-w-0", children }),
       footer,
-      actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pt-1", children: actions })
+      actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-opacity pt-1", children: actions })
     ] })
   ] }) });
 }
@@ -150,7 +150,8 @@ function ChatComposer({
     "div",
     {
       className: cn(
-        "rounded-2xl border bg-background shadow-sm focus-within:border-primary/50 transition-colors",
+        "rounded-2xl border bg-background shadow-sm transition-colors",
+        "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
         disabled && "opacity-60",
         className
       ),
@@ -168,7 +169,8 @@ function ChatComposer({
               disabled,
               placeholder,
               className: cn(
-                "flex-1 resize-none bg-transparent py-2 text-sm leading-5",
+                // 16px on mobile avoids iOS Safari's focus-zoom; compact on desktop.
+                "flex-1 resize-none bg-transparent py-2 text-base leading-5 md:text-sm",
                 "placeholder:text-muted-foreground focus:outline-none",
                 "max-h-[40vh]"
               )
@@ -214,7 +216,7 @@ function ChatHeader({
     "div",
     {
       className: cn(
-        "h-14 flex items-center justify-between gap-3 px-4",
+        "h-14 flex items-center justify-between gap-3 px-4 border-b border-border",
         "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
         className
       ),
