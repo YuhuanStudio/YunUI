@@ -104,7 +104,11 @@ function defaultUseRouter(): YunUIRouter {
 }
 
 /** Identity translator: returns the key. Consumers inject real i18n. */
-const defaultUseT: TranslateFactory = () => (key) => key;
+// Stable identity translator. Returning a fresh function per render would make
+// it an unstable value in consumers' effect deps (e.g. the content stack),
+// which can loop ("Maximum update depth"). Keep one shared reference.
+const identityTranslate: TranslateFn = (key) => key;
+const defaultUseT: TranslateFactory = () => identityTranslate;
 
 export const DEFAULT_ADAPTERS: YunUIAdapters = {
   Link: DefaultLink,

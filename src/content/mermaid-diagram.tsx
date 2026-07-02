@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/cn";
 import { useContentT } from "./use-content-t";
 
@@ -25,15 +25,17 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
   const [themeTick, setThemeTick] = useState(0);
   const t = useContentT();
 
-  // Stable, SSR-safe unique id (no Math.random during render).
-  const diagramId = useMemo(() => `yunui-mermaid-${(mermaidSeq += 1)}`, []);
-
   useEffect(() => {
     let cancelled = false;
 
     async function renderDiagram() {
       setIsLoading(true);
       setError("");
+
+      // Fresh id per attempt — reusing an id across re-renders (e.g. the
+      // theme observer firing) can make mermaid v11's render() hang on the
+      // stale temp element it left in the DOM.
+      const diagramId = `yunui-mermaid-${(mermaidSeq += 1)}`;
 
       try {
         const mermaid = (await import("mermaid")).default;
@@ -74,7 +76,11 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
     return () => {
       cancelled = true;
     };
-  }, [chart, diagramId, themeTick, t]);
+    // `t` is intentionally omitted: it's only read in the catch fallback, and a
+    // host adapter that returns a fresh translator each render would otherwise
+    // retrigger this effect endlessly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chart, themeTick]);
 
   // Re-render when the light/dark class on <html> changes.
   useEffect(() => {

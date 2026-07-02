@@ -42,7 +42,8 @@ function defaultUseRouter() {
     }
   };
 }
-var defaultUseT = () => (key) => key;
+var identityTranslate = (key) => key;
+var defaultUseT = () => identityTranslate;
 var DEFAULT_ADAPTERS = {
   Link: DefaultLink,
   Image: DefaultImage,
@@ -66,5 +67,5 @@ function useYunUI() {
 }
 
 export { YunUIContext, YunUIProvider, useYunUI };
-//# sourceMappingURL=chunk-U2LNRVMI.js.map
-//# sourceMappingURL=chunk-U2LNRVMI.js.map
+//# sourceMappingURL=chunk-3RT24MSH.js.map
+//# sourceMappingURL=chunk-3RT24MSH.js.map

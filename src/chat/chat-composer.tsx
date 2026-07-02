@@ -21,6 +21,11 @@ export interface ChatComposerProps {
   toolbar?: React.ReactNode;
   /** Force-disable the send button even with text (e.g. invalid state). */
   sendDisabled?: boolean;
+  /**
+   * Allow sending with empty text — e.g. when attachments alone make a valid
+   * message. @defaultValue false
+   */
+  allowSendEmpty?: boolean;
   /** Max rows before the textarea scrolls. @defaultValue 8 */
   maxRows?: number;
   className?: string;
@@ -42,6 +47,7 @@ export function ChatComposer({
   attachments,
   toolbar,
   sendDisabled = false,
+  allowSendEmpty = false,
   maxRows = 8,
   className,
 }: ChatComposerProps) {
@@ -61,7 +67,8 @@ export function ChatComposer({
     resize();
   }, [value, resize]);
 
-  const canSend = !disabled && !sendDisabled && value.trim().length > 0;
+  const canSend =
+    !disabled && !sendDisabled && (allowSendEmpty || value.trim().length > 0);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {

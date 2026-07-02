@@ -11,7 +11,17 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Fixed
+- **Content stack infinite render loop** — `MermaidDiagram` (stuck on
+  "Rendering diagram…") and `MathRenderer` (CPU thrash) looped forever because
+  `useContentT()` and the default adapter's `useT` returned a fresh function on
+  every render, which was in those components' effect deps. `useT`/`useContentT`
+  now return stable references, and the async effects no longer depend on the
+  translator. Only surfaced under real rendering — caught by screenshot QA.
+
 ### Added
+- **`ChatComposer` `allowSendEmpty`** — allow sending with an empty textarea
+  (e.g. when attachments alone form a valid message).
 - **`ScrollArea` / `ScrollBar` (primitives)** — a styled, cross-browser custom
   scrollbar around any overflowing content (Radix-based). Adds
   `@radix-ui/react-scroll-area`.

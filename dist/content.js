@@ -1,8 +1,8 @@
 "use client";
-import { useYunUI } from './chunk-U2LNRVMI.js';
+import { useYunUI } from './chunk-3RT24MSH.js';
 import { cn } from './chunk-VSS7ASN2.js';
 import * as React2 from 'react';
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -14,18 +14,20 @@ import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { createPortal } from 'react-dom';
 import katex from 'katex';
 
-// src/content/use-content-t.ts
 function useContentT() {
   const t = useYunUI().useT("content");
-  return (key, fallback) => {
-    try {
-      const value = t(key);
-      if (!value || value === key || value.endsWith(`.${key}`)) return fallback;
-      return value;
-    } catch {
-      return fallback;
-    }
-  };
+  return useCallback(
+    (key, fallback) => {
+      try {
+        const value = t(key);
+        if (!value || value === key || value.endsWith(`.${key}`)) return fallback;
+        return value;
+      } catch {
+        return fallback;
+      }
+    },
+    [t]
+  );
 }
 var languageNames = {
   js: "JavaScript",
@@ -273,12 +275,12 @@ function MermaidDiagram({ chart, className }) {
   const [isLoading, setIsLoading] = useState(true);
   const [themeTick, setThemeTick] = useState(0);
   const t = useContentT();
-  const diagramId = useMemo(() => `yunui-mermaid-${mermaidSeq += 1}`, []);
   useEffect(() => {
     let cancelled = false;
     async function renderDiagram() {
       setIsLoading(true);
       setError("");
+      const diagramId = `yunui-mermaid-${mermaidSeq += 1}`;
       try {
         const mermaid = (await import('mermaid')).default;
         const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
@@ -309,7 +311,7 @@ function MermaidDiagram({ chart, className }) {
     return () => {
       cancelled = true;
     };
-  }, [chart, diagramId, themeTick, t]);
+  }, [chart, themeTick]);
   useEffect(() => {
     if (typeof document === "undefined") return;
     const observer = new MutationObserver(() => setThemeTick((n) => n + 1));
@@ -1002,7 +1004,7 @@ function MathRenderer({ math, block = false, className }) {
         err instanceof Error ? err.message : t("formulaRenderFailed", "Formula render failed")
       );
     }
-  }, [math, block, t]);
+  }, [math, block]);
   if (error) {
     return /* @__PURE__ */ jsx(
       "span",

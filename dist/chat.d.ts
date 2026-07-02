@@ -68,6 +68,11 @@ interface ChatComposerProps {
     toolbar?: React.ReactNode;
     /** Force-disable the send button even with text (e.g. invalid state). */
     sendDisabled?: boolean;
+    /**
+     * Allow sending with empty text — e.g. when attachments alone make a valid
+     * message. @defaultValue false
+     */
+    allowSendEmpty?: boolean;
     /** Max rows before the textarea scrolls. @defaultValue 8 */
     maxRows?: number;
     className?: string;
@@ -77,7 +82,7 @@ interface ChatComposerProps {
  * newline), a send/stop button, and slots for attachment previews and a left
  * toolbar. Presentational and controlled — the host owns state and side effects.
  */
-declare function ChatComposer({ value, onChange, onSend, onStop, loading, disabled, placeholder, attachments, toolbar, sendDisabled, maxRows, className, }: ChatComposerProps): React.JSX.Element;
+declare function ChatComposer({ value, onChange, onSend, onStop, loading, disabled, placeholder, attachments, toolbar, sendDisabled, allowSendEmpty, maxRows, className, }: ChatComposerProps): React.JSX.Element;
 
 interface ChatHeaderProps {
     /** Left cluster — sidebar toggle, title, model selector, … */

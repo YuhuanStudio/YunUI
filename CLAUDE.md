@@ -71,6 +71,31 @@ driven from JS via `applyTheme()` / `useYunUITheme()`.
   auto-derived from that source by `site/lib/mdx-plugins/remark-demo-source.mjs`.
   **Do not hand-write `code` strings** — they would drift and are overwritten anyway.
 
+## Frontend verification (MANDATORY — no "looks-done" without pixels)
+
+**Any frontend change — in YunUI or in a consumer (Agent / Yunshu / Yunxin) — is
+NOT done until it has passed real-render screenshot verification.** A green
+`typecheck` / `build` / test run is necessary but **not sufficient**: it proves the
+code compiles, not that the component renders correctly. Do not claim a UI change
+works from reading the code — look at the pixels.
+
+Every UI change must be screenshotted and visually inspected across the full matrix:
+
+- **Two engines: Chromium (Chrome) AND WebKit (Safari).** WebKit has real, shipping
+  differences (focus-on-click, `<16px` input zoom, backdrop-filter, flex/grid quirks —
+  see [[yunui-safari-cross-browser-gotchas]]). Chrome-only verification misses them.
+- **Multiple device sizes:** at least mobile (~390px), tablet (~768px), desktop (~1440px).
+- **Both themes:** light and dark (and, when the change touches palettes, an opt-in brand).
+
+How: drive the built site / app with Playwright (`site/visual/` already has the config,
+`capture.mjs`, and the `chromium`+`webkit` projects). Start the target (`pnpm build && pnpm
+start`, or the consumer's server), capture the changed sections/pages across the matrix,
+then **actually open the PNGs and inspect them** — don't just confirm the files exist.
+Install browsers once with `npx playwright install chromium webkit`.
+
+Report findings honestly: if a diagram is stuck loading, a layout breaks at mobile, or
+dark mode has contrast issues, say so and fix it — that's the whole point of looking.
+
 ## Releasing (only when asked)
 
 Tag-triggered: bump version → `git tag vX.Y.Z` → push tag → GitHub Actions runs

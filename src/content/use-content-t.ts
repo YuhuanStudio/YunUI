@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { useYunUI } from "../adapters/context";
 
 /**
@@ -10,15 +11,21 @@ import { useYunUI } from "../adapters/context";
  */
 export function useContentT() {
   const t = useYunUI().useT("content");
-  return (key: string, fallback: string): string => {
-    try {
-      const value = t(key);
-      // Identity translator returns the key; next-intl returns a namespaced
-      // "content.key" miss marker. Treat both as "not translated".
-      if (!value || value === key || value.endsWith(`.${key}`)) return fallback;
-      return value;
-    } catch {
-      return fallback;
-    }
-  };
+  // Stable identity — consumers put this in effect deps (e.g. MermaidDiagram).
+  // A fresh function each render would retrigger those effects on every render
+  // and, when the effect setStates, loop forever ("Maximum update depth").
+  return useCallback(
+    (key: string, fallback: string): string => {
+      try {
+        const value = t(key);
+        // Identity translator returns the key; next-intl returns a namespaced
+        // "content.key" miss marker. Treat both as "not translated".
+        if (!value || value === key || value.endsWith(`.${key}`)) return fallback;
+        return value;
+      } catch {
+        return fallback;
+      }
+    },
+    [t],
+  );
 }

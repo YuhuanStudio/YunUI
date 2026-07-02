@@ -121,6 +121,7 @@ function ChatComposer({
   attachments,
   toolbar,
   sendDisabled = false,
+  allowSendEmpty = false,
   maxRows = 8,
   className
 }) {
@@ -137,7 +138,7 @@ function ChatComposer({
   useEffect(() => {
     resize();
   }, [value, resize]);
-  const canSend = !disabled && !sendDisabled && value.trim().length > 0;
+  const canSend = !disabled && !sendDisabled && (allowSendEmpty || value.trim().length > 0);
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
       e.preventDefault();

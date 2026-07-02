@@ -47,7 +47,10 @@ export function MathRenderer({ math, block = false, className }: MathRendererPro
           : t("formulaRenderFailed", "Formula render failed"),
       );
     }
-  }, [math, block, t]);
+    // `t` omitted on purpose — only read in the catch fallback; an unstable
+    // host translator would otherwise retrigger this effect every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [math, block]);
 
   if (error) {
     return (

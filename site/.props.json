@@ -760,6 +760,13 @@
   ],
   "ChatComposer": [
     {
+      "name": "allowSendEmpty",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Allow sending with empty text — e.g. when attachments alone make a valid\nmessage."
+    },
+    {
       "name": "attachments",
       "type": "ReactNode",
       "required": false,
