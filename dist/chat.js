@@ -230,7 +230,49 @@ function ChatHeader({
     }
   );
 }
+function compact(n) {
+  if (n >= 1e6) return `${(n / 1e6).toFixed(2)}M`;
+  if (n >= 1e3) return `${(n / 1e3).toFixed(2)}K`;
+  return `${n}`;
+}
+var pill = "inline-flex items-center whitespace-nowrap rounded-full bg-muted px-2 py-0.5";
+function GenerationStats({
+  tokens,
+  tokensPerSecond,
+  latencyMs,
+  labels,
+  className
+}) {
+  const speed = tokensPerSecond ?? (tokens && latencyMs && latencyMs > 0 ? tokens / latencyMs * 1e3 : void 0);
+  if (tokens == null && speed == null && latencyMs == null) return null;
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground",
+        className
+      ),
+      children: [
+        tokens != null && /* @__PURE__ */ jsxs("span", { className: pill, children: [
+          compact(tokens),
+          " ",
+          labels?.tokens ?? "tokens"
+        ] }),
+        speed != null && /* @__PURE__ */ jsxs("span", { className: pill, children: [
+          speed.toFixed(1),
+          " ",
+          labels?.speed ?? "tok/s"
+        ] }),
+        latencyMs != null && /* @__PURE__ */ jsxs("span", { className: pill, children: [
+          latencyMs,
+          " ",
+          labels?.latency ?? "ms"
+        ] })
+      ]
+    }
+  );
+}
 
-export { ChatComposer, ChatHeader, ChatMessage, ChatMessageList };
+export { ChatComposer, ChatHeader, ChatMessage, ChatMessageList, GenerationStats };
 //# sourceMappingURL=chat.js.map
 //# sourceMappingURL=chat.js.map

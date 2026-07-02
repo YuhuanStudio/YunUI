@@ -25,3 +25,8 @@ export {
   ChatHeader,
   type ChatHeaderProps,
 } from "./chat-header";
+
+export {
+  GenerationStats,
+  type GenerationStatsProps,
+} from "./generation-stats";
