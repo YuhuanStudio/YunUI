@@ -554,7 +554,7 @@ interface SeparatorProps extends React$1.HTMLAttributes<HTMLDivElement> {
 /** A thin divider line. Horizontal by default; set `orientation="vertical"` inside a flex row. */
 declare function Separator({ className, orientation, decorative, ...props }: SeparatorProps): React$1.JSX.Element;
 interface AlertProps extends Omit<React$1.HTMLAttributes<HTMLDivElement>, "title"> {
-    variant?: "info" | "success" | "warning" | "error";
+    variant?: "info" | "success" | "warning" | "error" | "accent";
     /** Optional bold title above the body. */
     title?: React$1.ReactNode;
     /** Leading icon. Defaults to a variant-appropriate icon; pass `null` to hide. */

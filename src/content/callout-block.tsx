@@ -10,6 +10,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { cn } from "../lib/cn";
+import { Alert } from "../primitives";
 import { useContentT } from "./use-content-t";
 
 export type CalloutType =
@@ -27,56 +28,22 @@ export interface CalloutBlockProps {
   className?: string;
 }
 
-// Callout tones map onto YunUI's semantic token vocabulary (`.bg-*-soft` /
-// `.text-*` / `.border-*-soft` are real shipped classes, so they re-theme with
-// the design system instead of hard-coding raw palette colors). "important" has
-// no direct semantic role, so it borrows the accent tokens.
-const calloutStyles: Record<
+// Each callout tone maps onto a YunUI Alert variant + a tone-specific icon, so a
+// callout IS an Alert — same soft-tint box, border, icon and title treatment —
+// rather than a look-alike. "important" uses the accent tone.
+const config: Record<
   CalloutType,
   {
-    icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
-    surface: string;
-    accent: string;
-    /** For tones with no utility class (accent) — inline token styles. */
-    surfaceStyle?: React.CSSProperties;
-    accentStyle?: React.CSSProperties;
+    variant: "info" | "success" | "warning" | "error" | "accent";
+    icon: React.ComponentType<{ className?: string }>;
   }
 > = {
-  note: {
-    icon: Info,
-    surface: "bg-info-soft border-info-soft",
-    accent: "text-info",
-  },
-  tip: {
-    icon: Lightbulb,
-    surface: "bg-success-soft border-success-soft",
-    accent: "text-success",
-  },
-  important: {
-    icon: AlertCircle,
-    surface: "",
-    accent: "",
-    surfaceStyle: {
-      background: "var(--accent-subtle)",
-      borderColor: "var(--accent)",
-    },
-    accentStyle: { color: "var(--accent)" },
-  },
-  warning: {
-    icon: AlertTriangle,
-    surface: "bg-warning-soft border-warning-soft",
-    accent: "text-warning",
-  },
-  caution: {
-    icon: XOctagon,
-    surface: "bg-error-soft border-error-soft",
-    accent: "text-error",
-  },
-  success: {
-    icon: CheckCircle2,
-    surface: "bg-success-soft border-success-soft",
-    accent: "text-success",
-  },
+  note: { variant: "info", icon: Info },
+  tip: { variant: "success", icon: Lightbulb },
+  important: { variant: "accent", icon: AlertCircle },
+  warning: { variant: "warning", icon: AlertTriangle },
+  caution: { variant: "error", icon: XOctagon },
+  success: { variant: "success", icon: CheckCircle2 },
 };
 
 const defaultTitles: Record<CalloutType, string> = {
@@ -89,10 +56,10 @@ const defaultTitles: Record<CalloutType, string> = {
 };
 
 /**
- * Callout box (note / tip / important / warning / caution / success), styled to
- * match YunUI's `Alert` primitive: a full soft-tint panel with an all-side soft
- * border and a leading semantic icon — the same visual language as Alert, Badge
- * and the status dots, rather than a GitHub-style left bar.
+ * Callout box (note / tip / important / warning / caution / success). Composes
+ * YunUI's `Alert` primitive, so it shares the exact soft-tint panel, all-side
+ * soft border, leading semantic icon and title of every other Alert in the
+ * system — the callout is literally an Alert, not a re-implementation.
  */
 export function CalloutBlock({
   type,
@@ -101,33 +68,21 @@ export function CalloutBlock({
   className,
 }: CalloutBlockProps) {
   const t = useContentT();
-  const config = calloutStyles[type] || calloutStyles.note;
-  const Icon = config.icon;
+  const c = config[type] || config.note;
+  const Icon = c.icon;
   const displayTitle = title || t(type, defaultTitles[type] || defaultTitles.note);
 
   return (
-    <div
-      className={cn("my-4 rounded-xl border p-4", config.surface, className)}
-      style={config.surfaceStyle}
+    <Alert
+      variant={c.variant}
+      title={displayTitle}
+      icon={<Icon className="h-4 w-4" />}
+      className={cn("my-4", className)}
     >
-      <div className="flex items-start gap-3">
-        <Icon
-          className={cn("w-5 h-5 mt-0.5 shrink-0", config.accent)}
-          style={config.accentStyle}
-        />
-        <div className="flex-1 min-w-0">
-          <p
-            className={cn("font-medium text-sm mb-1", config.accent)}
-            style={config.accentStyle}
-          >
-            {displayTitle}
-          </p>
-          <div className="text-sm text-foreground/80 [&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
-            {children}
-          </div>
-        </div>
+      <div className="[&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
+        {children}
       </div>
-    </div>
+    </Alert>
   );
 }
 

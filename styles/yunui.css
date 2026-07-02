@@ -1141,6 +1141,16 @@ select.input option,
   border-color: color-mix(in srgb, var(--info) 30%, transparent);
 }
 
+/* Accent tone — neutral/brand emphasis (e.g. GitHub "important" callouts). Uses
+   the accent-subtle fill so it stays legible in every theme, unlike a 10% mix of
+   the near-black / near-white --accent. Pairs with the text-accent utility. */
+.bg-accent-soft {
+  background-color: var(--accent-subtle);
+}
+.border-accent-soft {
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
 .badge-neutral {
   background: var(--bg-glass-hover);
   color: var(--text-secondary);

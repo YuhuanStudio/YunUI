@@ -119,9 +119,10 @@ interface GenerationStatsProps {
     className?: string;
 }
 /**
- * A row of small metric pills for an assistant turn — token count, throughput
- * and latency. Presentational and data-driven; pass unit labels for i18n
- * (defaults are English). Render nothing when there's no data.
+ * A row of metric chips for an assistant turn — token count, throughput and
+ * latency. Each metric is a YunUI `Badge`, so a generation stat reads as a peer
+ * of every other chip in the system. Presentational and data-driven; pass unit
+ * labels for i18n (defaults are English). Renders nothing when there's no data.
  */
 declare function GenerationStats({ tokens, tokensPerSecond, latencyMs, labels, className, }: GenerationStatsProps): React.JSX.Element | null;
 

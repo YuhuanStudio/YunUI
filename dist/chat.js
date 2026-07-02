@@ -1,5 +1,7 @@
 "use client";
-import { cn } from './chunk-VSS7ASN2.js';
+import { Badge } from './chunk-3AY3LSIG.js';
+import { cn } from './chunk-AV5TGEJS.js';
+import './chunk-3RT24MSH.js';
 import { Sparkles, Bot, User, Square, ArrowUp } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as React from 'react';
@@ -235,7 +237,6 @@ function compact(n) {
   if (n >= 1e3) return `${(n / 1e3).toFixed(2)}K`;
   return `${n}`;
 }
-var pill = "inline-flex items-center whitespace-nowrap rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground";
 function GenerationStats({
   tokens,
   tokensPerSecond,
@@ -245,32 +246,23 @@ function GenerationStats({
 }) {
   const speed = tokensPerSecond ?? (tokens && latencyMs && latencyMs > 0 ? tokens / latencyMs * 1e3 : void 0);
   if (tokens == null && speed == null && latencyMs == null) return null;
-  return /* @__PURE__ */ jsxs(
-    "div",
-    {
-      className: cn(
-        "flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground",
-        className
-      ),
-      children: [
-        tokens != null && /* @__PURE__ */ jsxs("span", { className: pill, children: [
-          compact(tokens),
-          " ",
-          labels?.tokens ?? "tokens"
-        ] }),
-        speed != null && /* @__PURE__ */ jsxs("span", { className: pill, children: [
-          speed.toFixed(1),
-          " ",
-          labels?.speed ?? "tok/s"
-        ] }),
-        latencyMs != null && /* @__PURE__ */ jsxs("span", { className: pill, children: [
-          latencyMs,
-          " ",
-          labels?.latency ?? "ms"
-        ] })
-      ]
-    }
-  );
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-wrap items-center gap-1.5", className), children: [
+    tokens != null && /* @__PURE__ */ jsxs(Badge, { children: [
+      compact(tokens),
+      " ",
+      labels?.tokens ?? "tokens"
+    ] }),
+    speed != null && /* @__PURE__ */ jsxs(Badge, { children: [
+      speed.toFixed(1),
+      " ",
+      labels?.speed ?? "tok/s"
+    ] }),
+    latencyMs != null && /* @__PURE__ */ jsxs(Badge, { children: [
+      latencyMs,
+      " ",
+      labels?.latency ?? "ms"
+    ] })
+  ] });
 }
 
 export { ChatComposer, ChatHeader, ChatMessage, ChatMessageList, GenerationStats };

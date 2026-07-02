@@ -1,6 +1,7 @@
 "use client";
+import { Button, Alert } from './chunk-3AY3LSIG.js';
+import { cn } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
-import { cn } from './chunk-VSS7ASN2.js';
 import * as React2 from 'react';
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -194,36 +195,23 @@ function CodeBlock({
             filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-foreground", children: filename }) : /* @__PURE__ */ jsx("span", { className: "text-[11px] font-semibold uppercase tracking-wide text-muted-foreground", children: displayLanguage })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-all duration-200", children: [
-            onEdit && /* @__PURE__ */ jsxs(
-              "button",
-              {
-                onClick: handleEdit,
-                className: cn(
-                  "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
-                  "bg-primary text-primary-foreground hover:bg-primary/90",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                ),
-                children: [
-                  /* @__PURE__ */ jsx(Edit3, { className: "w-3.5 h-3.5" }),
-                  /* @__PURE__ */ jsx("span", { children: t("edit", "Edit") })
-                ]
-              }
-            ),
+            onEdit && /* @__PURE__ */ jsxs(Button, { variant: "primary", size: "sm", onClick: handleEdit, children: [
+              /* @__PURE__ */ jsx(Edit3, { className: "w-3.5 h-3.5" }),
+              t("edit", "Edit")
+            ] }),
             /* @__PURE__ */ jsx(
-              "button",
+              Button,
               {
+                variant: "ghost",
+                size: "sm",
                 onClick: handleCopy,
-                className: cn(
-                  "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                  copied ? "bg-success-soft text-success" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                ),
+                style: copied ? { color: "var(--success)" } : void 0,
                 children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
                   /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5" }),
-                  /* @__PURE__ */ jsx("span", { children: t("copied", "Copied") })
+                  t("copied", "Copied")
                 ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
                   /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5" }),
-                  /* @__PURE__ */ jsx("span", { children: t("copy", "Copy") })
+                  t("copy", "Copy")
                 ] })
               }
             )
@@ -374,42 +362,13 @@ function MermaidDiagram({ chart, className }) {
     }
   );
 }
-var calloutStyles = {
-  note: {
-    icon: Info,
-    surface: "bg-info-soft border-info-soft",
-    accent: "text-info"
-  },
-  tip: {
-    icon: Lightbulb,
-    surface: "bg-success-soft border-success-soft",
-    accent: "text-success"
-  },
-  important: {
-    icon: AlertCircle,
-    surface: "",
-    accent: "",
-    surfaceStyle: {
-      background: "var(--accent-subtle)",
-      borderColor: "var(--accent)"
-    },
-    accentStyle: { color: "var(--accent)" }
-  },
-  warning: {
-    icon: AlertTriangle,
-    surface: "bg-warning-soft border-warning-soft",
-    accent: "text-warning"
-  },
-  caution: {
-    icon: XOctagon,
-    surface: "bg-error-soft border-error-soft",
-    accent: "text-error"
-  },
-  success: {
-    icon: CheckCircle2,
-    surface: "bg-success-soft border-success-soft",
-    accent: "text-success"
-  }
+var config = {
+  note: { variant: "info", icon: Info },
+  tip: { variant: "success", icon: Lightbulb },
+  important: { variant: "accent", icon: AlertCircle },
+  warning: { variant: "warning", icon: AlertTriangle },
+  caution: { variant: "error", icon: XOctagon },
+  success: { variant: "success", icon: CheckCircle2 }
 };
 var defaultTitles = {
   note: "Note",
@@ -426,34 +385,17 @@ function CalloutBlock({
   className
 }) {
   const t = useContentT();
-  const config = calloutStyles[type] || calloutStyles.note;
-  const Icon = config.icon;
+  const c = config[type] || config.note;
+  const Icon = c.icon;
   const displayTitle = title || t(type, defaultTitles[type] || defaultTitles.note);
   return /* @__PURE__ */ jsx(
-    "div",
+    Alert,
     {
-      className: cn("my-4 rounded-xl border p-4", config.surface, className),
-      style: config.surfaceStyle,
-      children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
-        /* @__PURE__ */ jsx(
-          Icon,
-          {
-            className: cn("w-5 h-5 mt-0.5 shrink-0", config.accent),
-            style: config.accentStyle
-          }
-        ),
-        /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-          /* @__PURE__ */ jsx(
-            "p",
-            {
-              className: cn("font-medium text-sm mb-1", config.accent),
-              style: config.accentStyle,
-              children: displayTitle
-            }
-          ),
-          /* @__PURE__ */ jsx("div", { className: "text-sm text-foreground/80 [&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0", children })
-        ] })
-      ] })
+      variant: c.variant,
+      title: displayTitle,
+      icon: /* @__PURE__ */ jsx(Icon, { className: "h-4 w-4" }),
+      className: cn("my-4", className),
+      children: /* @__PURE__ */ jsx("div", { className: "[&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0", children })
     }
   );
 }

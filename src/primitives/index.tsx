@@ -657,7 +657,7 @@ export function Separator({
 // =====================================================
 
 interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-    variant?: "info" | "success" | "warning" | "error";
+    variant?: "info" | "success" | "warning" | "error" | "accent";
     /** Optional bold title above the body. */
     title?: React.ReactNode;
     /** Leading icon. Defaults to a variant-appropriate icon; pass `null` to hide. */
@@ -673,12 +673,14 @@ export function Alert({ className, variant = "info", title, icon, children, ...p
         success: "bg-success-soft text-success border-success-soft",
         warning: "bg-warning-soft text-warning border-warning-soft",
         error: "bg-error-soft text-error border-error-soft",
+        accent: "bg-accent-soft text-accent border-accent-soft",
     };
     const defaultIcon = {
         info: <Info className="h-4 w-4" />,
         success: <CheckCircle2 className="h-4 w-4" />,
         warning: <AlertTriangle className="h-4 w-4" />,
         error: <AlertCircle className="h-4 w-4" />,
+        accent: <AlertCircle className="h-4 w-4" />,
     };
     const resolvedIcon = icon === undefined ? defaultIcon[variant] : icon;
     // Urgent variants assert; info/success are polite status messages.

@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Check, Copy, Terminal, Edit3 } from "lucide-react";
 import type { BundledLanguage, BundledTheme } from "shiki";
 import { cn } from "../lib/cn";
+import { Button } from "../primitives";
 import { useContentT } from "./use-content-t";
 
 export interface CodeBlockEditPayload {
@@ -223,40 +224,29 @@ export function CodeBlock({
         </div>
         <div className="flex items-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-all duration-200">
           {onEdit && (
-            <button
-              onClick={handleEdit}
-              className={cn(
-                "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
-                "bg-primary text-primary-foreground hover:bg-primary/90",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              )}
-            >
+            <Button variant="primary" size="sm" onClick={handleEdit}>
               <Edit3 className="w-3.5 h-3.5" />
-              <span>{t("edit", "Edit")}</span>
-            </button>
+              {t("edit", "Edit")}
+            </Button>
           )}
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={handleCopy}
-            className={cn(
-              "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              copied
-                ? "bg-success-soft text-success"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
-            )}
+            style={copied ? { color: "var(--success)" } : undefined}
           >
             {copied ? (
               <>
                 <Check className="w-3.5 h-3.5" />
-                <span>{t("copied", "Copied")}</span>
+                {t("copied", "Copied")}
               </>
             ) : (
               <>
                 <Copy className="w-3.5 h-3.5" />
-                <span>{t("copy", "Copy")}</span>
+                {t("copy", "Copy")}
               </>
             )}
-          </button>
+          </Button>
         </div>
       </div>
 

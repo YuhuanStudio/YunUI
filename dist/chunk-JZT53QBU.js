@@ -1,52 +1,11 @@
 "use client";
+import { useAnchoredPosition } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React from 'react';
-import { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { Sun, Moon, Droplet, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { jsx, jsxs } from 'react/jsx-runtime';
 
-var useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
-function useAnchoredPosition(open, panelRef, opts) {
-  const gutter = opts?.gutter ?? 8;
-  const minHeight = opts?.minHeight ?? 160;
-  const [pos, setPos] = useState({ shift: 0, maxHeight: void 0 });
-  const shiftRef = useRef(0);
-  useIsoLayoutEffect(() => {
-    if (!open) {
-      shiftRef.current = 0;
-      setPos({ shift: 0, maxHeight: void 0 });
-      return;
-    }
-    const compute = () => {
-      const el = panelRef.current;
-      const parent = el?.offsetParent;
-      if (!el || !parent) return;
-      const parentRect = parent.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const naturalLeft = parentRect.left + el.offsetLeft - shiftRef.current;
-      const naturalRight = naturalLeft + el.offsetWidth;
-      let dx = 0;
-      if (naturalRight > vw - gutter) dx = vw - gutter - naturalRight;
-      if (naturalLeft + dx < gutter) dx = gutter - naturalLeft;
-      dx = Math.round(dx);
-      const top = parentRect.top + el.offsetTop;
-      const space = Math.floor(vh - top - gutter);
-      const maxHeight = space < vh ? Math.max(space, minHeight) : void 0;
-      shiftRef.current = dx;
-      setPos({ shift: dx, maxHeight });
-    };
-    compute();
-    window.addEventListener("resize", compute);
-    window.addEventListener("scroll", compute, true);
-    return () => {
-      window.removeEventListener("resize", compute);
-      window.removeEventListener("scroll", compute, true);
-    };
-  }, [open, gutter, minHeight, panelRef]);
-  return pos;
-}
 function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   const { theme, setTheme } = useTheme();
   const t = useYunUI().useT("common.theme");
@@ -145,6 +104,6 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   ] });
 }
 
-export { ThemeToggle, useAnchoredPosition };
-//# sourceMappingURL=chunk-EBRNN5G7.js.map
-//# sourceMappingURL=chunk-EBRNN5G7.js.map
+export { ThemeToggle };
+//# sourceMappingURL=chunk-JZT53QBU.js.map
+//# sourceMappingURL=chunk-JZT53QBU.js.map
