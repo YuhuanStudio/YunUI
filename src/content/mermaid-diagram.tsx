@@ -12,6 +12,77 @@ export interface MermaidDiagramProps {
 
 let mermaidSeq = 0;
 
+// Diagram types mermaid's `look: "handDrawn"` does NOT roughen — these render
+// perfectly straight, so we post-process them ourselves (roughenSvg). Everything
+// else (flowchart, state, class, ER, requirement, C4, block…) is left to native
+// handDrawn, which looks better and must NOT be filtered on top.
+const NEEDS_MANUAL_ROUGHENING = new Set([
+  "sequenceDiagram",
+  "gantt",
+  "pie",
+  "journey",
+  "gitGraph",
+  "timeline",
+  "mindmap",
+  "quadrantChart",
+  "xychart-beta",
+  "sankey-beta",
+  "packet-beta",
+]);
+
+/** First diagram-type keyword of a chart, skipping frontmatter and `%%` directives. */
+function diagramType(chart: string): string {
+  const lines = chart.trim().split("\n");
+  let i = 0;
+  if (lines[0]?.trim() === "---") {
+    i = 1;
+    while (i < lines.length && lines[i].trim() !== "---") i++;
+    i++;
+  }
+  for (; i < lines.length; i++) {
+    const l = lines[i].trim();
+    if (!l || l.startsWith("%%")) continue;
+    return l.split(/[\s:({]/)[0];
+  }
+  return "";
+}
+
+function needsManualRoughening(chart: string): boolean {
+  return NEEDS_MANUAL_ROUGHENING.has(diagramType(chart));
+}
+
+/**
+ * Give EVERY diagram a hand-drawn (Excalidraw-like) feel. Mermaid's native
+ * `look: "handDrawn"` only roughens some diagram types (flowchart, state, class,
+ * ER) and leaves sequence / gantt / pie / journey perfectly straight. So we also
+ * inject an SVG turbulence-displacement filter and apply it to the stroke/shape
+ * elements only — never `<text>` — so lines and boxes wobble like a sketch while
+ * labels stay crisp. Scoped to this diagram's id so filters never leak across
+ * diagrams, and self-contained (ships in the SVG) so it works in any host.
+ */
+function roughenSvg(svg: string, id: string): string {
+  // The filter region must be in userSpaceOnUse: thin `<line>`/lifeline elements
+  // have a zero-area bounding box, so an objectBoundingBox region collapses and
+  // they render blank. Derive a tight whole-diagram region from the viewBox.
+  const vb = svg.match(/viewBox="([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)"/);
+  if (!vb) return svg;
+  const [, mx, my, w, h] = vb.map(Number) as unknown as number[];
+  const pad = 12;
+  const fid = `${id}-rough`;
+  const defs =
+    `<defs><filter id="${fid}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" ` +
+    `x="${mx - pad}" y="${my - pad}" width="${w + pad * 2}" height="${h + pad * 2}">` +
+    `<feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="7" result="n"/>` +
+    `<feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>` +
+    `</filter></defs>` +
+    `<style>` +
+    `#${id} path,#${id} rect,#${id} circle,#${id} ellipse,#${id} line,#${id} polygon,#${id} polyline{filter:url(#${fid})}` +
+    `#${id} text,#${id} tspan{filter:none}` +
+    `</style>`;
+  // Insert right after the opening <svg …> tag.
+  return svg.replace(/(<svg\b[^>]*>)/, `$1${defs}`);
+}
+
 /**
  * Render a Mermaid diagram (flowchart, sequence, gantt, …). The `mermaid`
  * library is loaded on demand the first time a diagram renders, so it never
@@ -46,8 +117,8 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "default",
-          // Excalidraw-style hand-drawn shapes/edges (rough.js under the hood).
-          // Deterministic seed so a diagram looks identical across re-renders.
+          // Native rough.js hand-drawn look — clean output for the types it
+          // supports (flowchart, state, class, ER, requirement, C4, block…).
           look: "handDrawn",
           handDrawnSeed: 1,
           securityLevel: "loose",
@@ -60,7 +131,15 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
         const { svg: renderedSvg } = await mermaid.render(diagramId, chart.trim());
 
         if (!cancelled) {
-          setSvg(renderedSvg);
+          // Native `handDrawn` already roughens the supported types cleanly;
+          // applying our displacement filter on top would double-distort them
+          // (tear fills off borders). Only roughen the types mermaid leaves
+          // perfectly straight, so EVERY diagram ends up hand-drawn.
+          setSvg(
+            needsManualRoughening(chart)
+              ? roughenSvg(renderedSvg, diagramId)
+              : renderedSvg,
+          );
           setIsLoading(false);
         }
       } catch (err) {

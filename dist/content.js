@@ -253,6 +253,46 @@ function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 var mermaidSeq = 0;
+var NEEDS_MANUAL_ROUGHENING = /* @__PURE__ */ new Set([
+  "sequenceDiagram",
+  "gantt",
+  "pie",
+  "journey",
+  "gitGraph",
+  "timeline",
+  "mindmap",
+  "quadrantChart",
+  "xychart-beta",
+  "sankey-beta",
+  "packet-beta"
+]);
+function diagramType(chart) {
+  const lines = chart.trim().split("\n");
+  let i = 0;
+  if (lines[0]?.trim() === "---") {
+    i = 1;
+    while (i < lines.length && lines[i].trim() !== "---") i++;
+    i++;
+  }
+  for (; i < lines.length; i++) {
+    const l = lines[i].trim();
+    if (!l || l.startsWith("%%")) continue;
+    return l.split(/[\s:({]/)[0];
+  }
+  return "";
+}
+function needsManualRoughening(chart) {
+  return NEEDS_MANUAL_ROUGHENING.has(diagramType(chart));
+}
+function roughenSvg(svg, id) {
+  const vb = svg.match(/viewBox="([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)"/);
+  if (!vb) return svg;
+  const [, mx, my, w, h] = vb.map(Number);
+  const pad = 12;
+  const fid = `${id}-rough`;
+  const defs = `<defs><filter id="${fid}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="${mx - pad}" y="${my - pad}" width="${w + pad * 2}" height="${h + pad * 2}"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter></defs><style>#${id} path,#${id} rect,#${id} circle,#${id} ellipse,#${id} line,#${id} polygon,#${id} polyline{filter:url(#${fid})}#${id} text,#${id} tspan{filter:none}</style>`;
+  return svg.replace(/(<svg\b[^>]*>)/, `$1${defs}`);
+}
 function MermaidDiagram({ chart, className }) {
   const containerRef = useRef(null);
   const [svg, setSvg] = useState("");
@@ -272,8 +312,8 @@ function MermaidDiagram({ chart, className }) {
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "default",
-          // Excalidraw-style hand-drawn shapes/edges (rough.js under the hood).
-          // Deterministic seed so a diagram looks identical across re-renders.
+          // Native rough.js hand-drawn look — clean output for the types it
+          // supports (flowchart, state, class, ER, requirement, C4, block…).
           look: "handDrawn",
           handDrawnSeed: 1,
           securityLevel: "loose",
@@ -284,7 +324,9 @@ function MermaidDiagram({ chart, className }) {
         });
         const { svg: renderedSvg } = await mermaid.render(diagramId, chart.trim());
         if (!cancelled) {
-          setSvg(renderedSvg);
+          setSvg(
+            needsManualRoughening(chart) ? roughenSvg(renderedSvg, diagramId) : renderedSvg
+          );
           setIsLoading(false);
         }
       } catch (err) {
