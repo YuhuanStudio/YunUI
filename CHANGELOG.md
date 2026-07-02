@@ -11,6 +11,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.16] - 2026-07-02
+
 ### Fixed
 - **`ChatMessageList` auto-scroll hijacked the whole document.** Its
   stick-to-bottom used `endRef.scrollIntoView()`, which scrolls *every*
