@@ -2,13 +2,13 @@ import { Combobox } from "yunui";
 
 一个可搜索、可选地支持创建新项的组合框。输入即可按标签或值过滤 `options`，按 Enter 选中最匹配的一项 —— 当 `allowCustom` 开启时（默认开启），还能创建列表中不存在的全新值。它是受控的：传入 `value` 和 `onChange`。若需要无自由输入的固定列表，请参阅 [CustomSelect](/docs/components/custom-select)；若需要基于 Radix 的列表框，请参阅 [Select](/docs/components/select)。
 
-## Import
+## 导入
 
 ```tsx
 import { Combobox } from "@yuhuanowo/yunui";
 ```
 
-## Usage
+## 用法
 
 `Combobox` 是受控组件 —— 将 `value` 和 `onChange` 与状态绑定：
 
@@ -28,12 +28,12 @@ const [value, setValue] = useState("next");
 />
 ```
 
-## Example
+## 示例
 
-<ComponentPreview title="Searchable & creatable">
+<ComponentPreview title="可搜索、可创建">
   <ComboboxDemo />
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="Combobox" />

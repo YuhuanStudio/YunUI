@@ -2,16 +2,16 @@ import { ThinkingBlock } from "yunui/ai";
 
 用于展示模型推理/"思考"过程的可折叠面板。它自行管理展开状态，带有展开/折叠动画，并在 `isStreaming` 时显示实时指示。内容默认以保留换行的纯文本渲染；传入 `renderContent` 可接入 Markdown 渲染器。
 
-## Import
+## 导入
 
 ```tsx
 import { ThinkingBlock } from "@yuhuanowo/yunui/ai";
 ```
 
-## Basic
+## 基础用法
 
 <ComponentPreview
-  title="Basic"
+  title="基础用法"
   code={`<ThinkingBlock
   content="The user is asking for the capital of France. That is Paris. I'll answer directly and concisely."
   defaultOpen
@@ -25,12 +25,12 @@ import { ThinkingBlock } from "@yuhuanowo/yunui/ai";
   </div>
 </ComponentPreview>
 
-## Streaming
+## 流式输出
 
 当 `isStreaming` 为 true 时，标题会显示活跃徽章，并有一个闪烁光标跟随文本。
 
 <ComponentPreview
-  title="Streaming"
+  title="流式"
   code={`<ThinkingBlock
   content="Let me work through the steps one by one"
   isStreaming
@@ -46,6 +46,6 @@ import { ThinkingBlock } from "@yuhuanowo/yunui/ai";
   </div>
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="ThinkingBlock" />

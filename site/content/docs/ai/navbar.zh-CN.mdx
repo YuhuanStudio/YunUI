@@ -2,18 +2,18 @@ import { Navbar } from "yunui/ai";
 
 悬浮式顶部导航栏：包含徽标、带滚动监听与活跃链接样式的居中链接、主题/语言控件插槽，以及内置移动端菜单的认证按钮。链接为纯数据（`NavLink[]`），导航通过配置的 `Link` 适配器进行。它自行管理移动端菜单状态。
 
-## Import
+## 导入
 
 ```tsx
 import { Navbar } from "@yuhuanowo/yunui/ai";
 ```
 
-## Basic
+## 基础用法
 
 导航栏固定在视口顶部。提供 `links` 和 `appName`；宿主通过适配器提供路由。
 
 <ComponentPreview
-  title="Basic"
+  title="基础用法"
   code={`import { Navbar } from "@yuhuanowo/yunui/ai";
 
 <Navbar
@@ -39,17 +39,17 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
   />
 </ComponentPreview>
 
-## Minimal variant
+## 极简变体
 
 使用 `variant="minimal"` 可去掉居中链接与认证按钮——适用于认证或引导流程。
 
 <ComponentPreview
-  title="Minimal variant"
+  title="极简变体"
   code={`<Navbar appName="Acme AI" variant="minimal" />`}
 >
   <Navbar appName="Acme AI" variant="minimal" />
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="Navbar" />

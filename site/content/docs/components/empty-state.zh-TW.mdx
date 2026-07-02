@@ -12,18 +12,18 @@ import { EmptyState } from "@yuhuanowo/yunui";
 ## 基礎
 
 <ComponentPreview
-  title="Empty list"
+  title="空清單"
   code={`import { Inbox } from "lucide-react";
 
 <EmptyState
   icon={<Inbox className="w-8 h-8" />}
-  title="No messages"
+  title="尚無訊息"
   description="When you receive messages they'll show up here."
 />`}
 >
   <EmptyState
     icon={<Inbox className="w-8 h-8" />}
-    title="No messages"
+    title="尚無訊息"
     description="When you receive messages they'll show up here."
   />
 </ComponentPreview>
@@ -31,20 +31,20 @@ import { EmptyState } from "@yuhuanowo/yunui";
 ## 帶操作
 
 <ComponentPreview
-  title="With a button"
+  title="帶按鈕"
   code={`import { SearchX } from "lucide-react";
 import { Button } from "@yuhuanowo/yunui";
 
 <EmptyState
   icon={<SearchX className="w-8 h-8" />}
-  title="No results"
+  title="無結果"
   description="Try a different search term or clear your filters."
   action={<Button variant="primary">Clear filters</Button>}
 />`}
 >
   <EmptyState
     icon={<SearchX className="w-8 h-8" />}
-    title="No results"
+    title="無結果"
     description="Try a different search term or clear your filters."
     action={<Button variant="primary">Clear filters</Button>}
   />

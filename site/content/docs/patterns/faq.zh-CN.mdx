@@ -2,13 +2,13 @@ import { FAQ } from "yunui/patterns";
 
 一个手风琴式的问题列表，每次只展开一项。它接收一个简单的 `items` 数组（`{ question, answer }`）并自行管理展开状态，因此宿主应用只需提供（并翻译）内容即可。使用 `defaultOpenIndex` 选择初始展开的项，或传入 `null` 让其初始全部折叠。
 
-## Import
+## 导入
 
 ```tsx
 import { FAQ } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Basic
+## 基础用法
 
 <ComponentPreview
   title="FAQ"
@@ -31,12 +31,12 @@ import { FAQ } from "@yuhuanowo/yunui/patterns";
   </div>
 </ComponentPreview>
 
-## Start collapsed
+## 初始折叠
 
 传入 `defaultOpenIndex={null}`，让每一项初始都处于折叠状态。
 
 <ComponentPreview
-  title="All collapsed"
+  title="全部折叠"
   code={`<FAQ
   defaultOpenIndex={null}
   items={[
@@ -56,6 +56,6 @@ import { FAQ } from "@yuhuanowo/yunui/patterns";
   </div>
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="FAQ" />

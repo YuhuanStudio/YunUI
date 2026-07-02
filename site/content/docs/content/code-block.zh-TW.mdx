@@ -39,12 +39,12 @@ import { CodeBlock, InlineCode } from "@yuhuanowo/yunui/content";
 <PropsTable
   name="CodeBlock"
   rows={[
-    { name: "children", type: "string", required: true, description: "The code to render, as a string." },
-    { name: "language", type: "string", description: "Language id for highlighting (e.g. tsx, python, bash)." },
-    { name: "filename", type: "string", description: "Shown in the block header; also passed to onEdit." },
-    { name: "showLineNumbers", type: "boolean", defaultValue: "false", description: "Render a line-number gutter." },
-    { name: "highlightLines", type: "number[]", description: "1-based line numbers to emphasize." },
-    { name: "onEdit", type: "(payload: CodeBlockEditPayload) => void", description: "When set, shows an Edit button that calls this with { code, language, filename }." },
-    { name: "className", type: "string", description: "Extra classes on the wrapper." },
+    { name: "children", type: "string", required: true, description: "要渲染的程式碼（字串形式）。" },
+    { name: "language", type: "string", description: "用於語法高亮的語言識別碼（例如 tsx、python、bash）。" },
+    { name: "filename", type: "string", description: "顯示在程式碼區塊標頭；同時會傳遞給 onEdit。" },
+    { name: "showLineNumbers", type: "boolean", defaultValue: "false", description: "渲染行號欄。" },
+    { name: "highlightLines", type: "number[]", description: "要強調的行號（從 1 開始）。" },
+    { name: "onEdit", type: "(payload: CodeBlockEditPayload) => void", description: "設定後，會顯示一個編輯按鈕，點擊時以 { code, language, filename } 呼叫此回呼。" },
+    { name: "className", type: "string", description: "外層容器的額外類名。" },
   ]}
 />

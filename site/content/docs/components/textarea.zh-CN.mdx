@@ -2,16 +2,16 @@ import { Textarea } from "yunui";
 
 多行文本输入框。与 `Input` 使用相同的样式语言，内联的 `error` 错误信息同样会将边框切换为错误样式。所有原生 `<textarea>` 属性都会透传。
 
-## Import
+## 导入
 
 ```tsx
 import { Textarea } from "@yuhuanowo/yunui";
 ```
 
-## Basic
+## 基础用法
 
 <ComponentPreview
-  title="Basic"
+  title="基础用法"
   code={`<Textarea placeholder="Leave a comment…" rows={4} />`}
 >
   <div className="w-full max-w-sm">
@@ -19,10 +19,10 @@ import { Textarea } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
-## Error state
+## 错误状态
 
 <ComponentPreview
-  title="With an error message"
+  title="带错误信息"
   code={`<Textarea
   defaultValue="Too short"
   error="Please write at least 20 characters."
@@ -38,10 +38,10 @@ import { Textarea } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
-## Disabled
+## 禁用
 
 <ComponentPreview
-  title="Disabled"
+  title="禁用"
   code={`<Textarea placeholder="Disabled" disabled rows={3} />`}
 >
   <div className="w-full max-w-sm">
@@ -49,6 +49,6 @@ import { Textarea } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="Textarea" />

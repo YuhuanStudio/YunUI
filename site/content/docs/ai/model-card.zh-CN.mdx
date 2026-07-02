@@ -2,18 +2,18 @@ import { ModelCard, ProviderIcon } from "yunui/ai";
 
 用于概览某个 AI 模型的卡片：提供商/模型图标、显示名称、能力标签、可复制的 id 徽章、简短描述，以及包含开发者、上下文窗口、等级和价格的页脚。传入 `onClick` 可让整张卡片成为可用键盘激活的按钮。
 
-## Import
+## 导入
 
 ```tsx
 import { ModelCard } from "@yuhuanowo/yunui/ai";
 ```
 
-## Basic
+## 基础用法
 
 `icon` 插槽由宿主渲染——传入 `<ProviderIcon>`（或 `<ModelIcon>`），让卡片保持与框架无关。
 
 <ComponentPreview
-  title="Basic"
+  title="基础用法"
   code={`import { ModelCard, ProviderIcon } from "@yuhuanowo/yunui/ai";
 
 <ModelCard
@@ -41,12 +41,12 @@ import { ModelCard } from "@yuhuanowo/yunui/ai";
   </div>
 </ComponentPreview>
 
-## Status badges
+## 状态徽章
 
 使用 `nonofficial` 和 `suspended` 标记模型的可用状态。除非 `tier` 为 `"free"`，否则都会显示等级标签。
 
 <ComponentPreview
-  title="Status badges"
+  title="状态徽章"
   code={`<ModelCard
   name="Claude Opus 4"
   icon={<ProviderIcon provider="anthropic" size={32} rounded />}
@@ -74,6 +74,6 @@ import { ModelCard } from "@yuhuanowo/yunui/ai";
   </div>
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="ModelCard" />

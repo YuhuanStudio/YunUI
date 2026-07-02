@@ -3,7 +3,7 @@ import { Button } from "yunui";
 
 三个居中、占满区块的占位组件，对应常见的页面生命周期：加载中、错误和空状态。它们共享一致的间距与排版，因此页面在数据加载过程中可以干净地在它们之间切换。
 
-## Import
+## 导入
 
 ```tsx
 import { PageLoadingState, PageErrorState, PageEmptyState } from "@yuhuanowo/yunui/patterns";
@@ -42,21 +42,21 @@ import { PageLoadingState, PageErrorState, PageEmptyState } from "@yuhuanowo/yun
 <ComponentPreview
   title="PageEmptyState"
   code={`<PageEmptyState
-  title="No projects yet"
+  title="暂无项目"
   description="Create your first project to get started."
   action={<Button variant="primary">New project</Button>}
 />`}
 >
   <div className="w-full max-w-xl">
     <PageEmptyState
-      title="No projects yet"
+      title="暂无项目"
       description="Create your first project to get started."
       action={<Button variant="primary">New project</Button>}
     />
   </div>
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="PageLoadingState" />
 

@@ -2,18 +2,18 @@ import { FellowsBanner } from "yunui/patterns";
 
 一個精簡、可點擊的推廣橫幅——帶圖示、標題、描述、可選 `features` 清單（以「·」連接成一行）以及行動呼籲的漸層卡片。整張卡片透過注入的路由轉接器作為連結，點擊時會導向 `href`。
 
-## Import
+## 匯入
 
 ```tsx
 import { FellowsBanner } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Basic
+## 基礎用法
 
 <ComponentPreview
   title="FellowsBanner"
   code={`<FellowsBanner
-  title="Join the Fellows program"
+  title="加入 Fellows 計畫"
   description="Selective access for builders and researchers."
   ctaText="Apply"
   features={["Pro-level limits", "Priority support", "Early features"]}
@@ -22,7 +22,7 @@ import { FellowsBanner } from "@yuhuanowo/yunui/patterns";
 >
   <div className="w-full max-w-xl">
     <FellowsBanner
-      title="Join the Fellows program"
+      title="加入 Fellows 計畫"
       description="Selective access for builders and researchers."
       ctaText="Apply"
       features={["Pro-level limits", "Priority support", "Early features"]}
@@ -31,14 +31,14 @@ import { FellowsBanner } from "@yuhuanowo/yunui/patterns";
   </div>
 </ComponentPreview>
 
-## Without features
+## 無附加功能
 
 `features` 清單是可選的——省略它即可得到一個極簡橫幅。
 
 <ComponentPreview
-  title="Minimal"
+  title="極簡"
   code={`<FellowsBanner
-  title="Upgrade to Pro"
+  title="升級到 Pro"
   description="Unlock higher limits and priority support."
   ctaText="Learn more"
   href="#"
@@ -46,7 +46,7 @@ import { FellowsBanner } from "@yuhuanowo/yunui/patterns";
 >
   <div className="w-full max-w-xl">
     <FellowsBanner
-      title="Upgrade to Pro"
+      title="升級到 Pro"
       description="Unlock higher limits and priority support."
       ctaText="Learn more"
       href="#"
@@ -54,6 +54,6 @@ import { FellowsBanner } from "@yuhuanowo/yunui/patterns";
   </div>
 </ComponentPreview>
 
-## Props
+## 屬性
 
 <PropsTable name="FellowsBanner" />

@@ -2,7 +2,7 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, Button } from
 
 懸停或聚焦時出現的小型浮動標籤，基於 Radix `Tooltip` 構建。請將觸發元素包裹在 `TooltipProvider` 中（在靠近應用根部放置一個，以共享開關時序），然後將 `TooltipTrigger` 與 `TooltipContent` 氣泡配對。
 
-## Import
+## 匯入
 
 ```tsx
 import {
@@ -13,7 +13,7 @@ import {
 } from "@yuhuanowo/yunui";
 ```
 
-## Basic
+## 基礎用法
 
 <ComponentPreview
   title="Tooltip"
@@ -36,12 +36,12 @@ import {
   </TooltipProvider>
 </ComponentPreview>
 
-## Sides
+## 彈出方向
 
 `TooltipContent` 接受 Radix 的 `side`（`top` / `right` / `bottom` / `left`）和 `sideOffset` 屬性，用於控制氣泡出現的位置。
 
 <ComponentPreview
-  title="Placed on the right"
+  title="置於右側"
   code={`<TooltipProvider>
   <Tooltip>
     <TooltipTrigger asChild>
@@ -61,7 +61,7 @@ import {
   </TooltipProvider>
 </ComponentPreview>
 
-## Parts
+## 組成部分
 
 | 部件 | 作用 |
 | --- | --- |

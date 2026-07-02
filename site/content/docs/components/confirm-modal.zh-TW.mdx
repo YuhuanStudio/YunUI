@@ -2,17 +2,17 @@ import { ConfirmModal, Button } from "yunui";
 
 針對破壞性或不可逆操作的精簡確認對話框。它會顯示一個按變體著色的圖示、`title`、`message` 以及取消 / 確認按鈕，並支援 `isLoading` 狀態——在操作執行期間停用按鈕並顯示載入指示器。與 [Modal](/docs/components/modal) 一樣，它透過 `isOpen` + `onClose` 受控，外加一個 `onConfirm` 回呼。此外還匯出了便捷預設 `DeleteConfirmModal` 和 `RegenerateConfirmModal`。
 
-## Import
+## 匯入
 
 ```tsx
 import { ConfirmModal } from "@yuhuanowo/yunui";
 ```
 
-## Basic
+## 基礎用法
 
 將 `isOpen` 保存在 state 中，在 `onConfirm` 裡執行你的操作，並透過 `onClose` 關閉。`variant`（`danger` / `warning` / `info` / `success`）決定圖示和確認按鈕的顏色。
 
-<ComponentPreview title="Confirm an action">
+<ComponentPreview title="確認操作">
   <ConfirmModalDemo />
 </ComponentPreview>
 
@@ -32,7 +32,7 @@ export function ConfirmModalDemo() {
         onClose={() => setOpen(false)}
         onConfirm={() => setOpen(false)}
         variant="danger"
-        title="Delete project?"
+        title="刪除專案？"
         message="This permanently removes the project and all of its data. This action cannot be undone."
         confirmText="Delete"
       />
@@ -41,6 +41,6 @@ export function ConfirmModalDemo() {
 }
 ```
 
-## Props
+## 屬性
 
 <PropsTable name="ConfirmModal" />

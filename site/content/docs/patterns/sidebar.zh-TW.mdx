@@ -4,13 +4,13 @@ import { Sidebar } from "yunui/patterns";
 
 側邊欄使用了 `position: fixed`，因此預覽將其放在一個帶 `transform` 的框架舞台內（這會讓固定定位的子元素相對於該框架而非視窗進行定位）。
 
-## Import
+## 匯入
 
 ```tsx
 import { Sidebar } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Basic
+## 基礎用法
 
 <ComponentPreview
   title="Sidebar"
@@ -51,14 +51,14 @@ import { Sidebar } from "@yuhuanowo/yunui/patterns";
   </div>
 </ComponentPreview>
 
-## Collapsible
+## 可摺疊
 
 傳入 `collapsed` 與 `onToggleCollapse` 以渲染桌面端收合按鈕並把側邊欄滑出畫布。由於這需要 React 狀態與函式屬性，本範例由一個客戶端包裝器渲染。
 
-<ComponentPreview title="Collapse">
+<ComponentPreview title="摺疊">
   <SidebarDemo />
 </ComponentPreview>
 
-## Props
+## 屬性
 
 <PropsTable name="Sidebar" />

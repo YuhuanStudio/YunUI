@@ -2,7 +2,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 
 一个基于 Radix 的上下文操作菜单。`DropdownMenu` 将 `DropdownMenuTrigger` 与一个传送到 portal、带动画的 `DropdownMenuContent`（容纳各个 `DropdownMenuItem`）配对。用 `DropdownMenuLabel` 和 `DropdownMenuSeparator` 对菜单项分组，用 `DropdownMenuShortcut` 提示键盘快捷键，并可使用复选框/单选/子菜单部分构建更丰富的菜单。完整的键盘无障碍支持由 Radix 提供。
 
-## Import
+## 导入
 
 ```tsx
 import {
@@ -17,7 +17,7 @@ import {
 该示例用 `defaultOpen` 打开菜单，以便你直接看到其内容：
 
 <ComponentPreview
-  title="Dropdown menu"
+  title="下拉菜单"
   code={`<DropdownMenu>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">Open menu</Button>
@@ -54,7 +54,7 @@ import {
 `DropdownMenuShortcut` 会在菜单项内右对齐一个键盘提示：
 
 <ComponentPreview
-  title="Keyboard shortcuts"
+  title="键盘快捷键"
   code={`<DropdownMenuContent>
   <DropdownMenuItem>
     New file<DropdownMenuShortcut>⌘N</DropdownMenuShortcut>

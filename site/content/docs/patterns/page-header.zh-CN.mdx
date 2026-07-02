@@ -3,50 +3,50 @@ import { Button } from "yunui";
 
 一致的页面标题区块：一个大号标题、可选的 `description`，以及固定在右侧的可选 `actions` 插槽（按钮、菜单等）。把它放在任意页面顶部，即可获得统一的间距与排版。
 
-## Import
+## 导入
 
 ```tsx
 import { PageHeader } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Basic
+## 基础用法
 
 <ComponentPreview
   title="PageHeader"
   code={`<PageHeader
-  title="Dashboard"
+  title="仪表盘"
   description="An overview of your account activity."
 />`}
 >
   <div className="w-full max-w-xl">
     <PageHeader
-      title="Dashboard"
+      title="仪表盘"
       description="An overview of your account activity."
     />
   </div>
 </ComponentPreview>
 
-## With actions
+## 带操作按钮
 
 `actions` 插槽可接收任意节点——通常是一个或多个按钮。
 
 <ComponentPreview
-  title="With actions"
+  title="带操作"
   code={`<PageHeader
-  title="Projects"
+  title="项目"
   description="Manage your active projects."
   actions={<Button variant="primary">New project</Button>}
 />`}
 >
   <div className="w-full max-w-xl">
     <PageHeader
-      title="Projects"
+      title="项目"
       description="Manage your active projects."
       actions={<Button variant="primary">New project</Button>}
     />
   </div>
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="PageHeader" />

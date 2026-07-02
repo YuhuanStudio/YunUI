@@ -11,7 +11,7 @@ import { Grid } from "@yuhuanowo/yunui";
 ## 列
 
 <ComponentPreview
-  title="3 columns"
+  title="三列"
   code={`<Grid columns={3} gap={3}>
   <Card>1</Card><Card>2</Card><Card>3</Card>
   <Card>4</Card><Card>5</Card><Card>6</Card>
@@ -27,7 +27,7 @@ import { Grid } from "@yuhuanowo/yunui";
 ## 间距
 
 <ComponentPreview
-  title="2 columns, wider gap"
+  title="两列、更宽间距"
   code={`<Grid columns={2} gap={6}>
   <Card>A</Card><Card>B</Card>
 </Grid>`}
@@ -43,7 +43,7 @@ import { Grid } from "@yuhuanowo/yunui";
 `Grid` 设置固定的列数；如需响应式布局，可通过 `className` 结合 Tailwind 的响应式工具类，或改用原始的 `grid-cols-*` 类。
 
 <ComponentPreview
-  title="Stat tiles"
+  title="统计磁贴"
   code={`<Grid columns={4} gap={4}>
   {stats.map((v) => <Card key={v}>{v}</Card>)}
 </Grid>`}

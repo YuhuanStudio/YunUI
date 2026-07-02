@@ -3,13 +3,13 @@ import { Coins } from "lucide-react";
 
 标准的仪表盘指标卡片——一个组件涵盖所有统计场景。它支持可选的前置 `icon`、`trend` 趋势指示（向上/绿色或向下/红色）、语义化的 `tone` 色调，以及 `inline` / `valueFirst` 布局变体，因此紧凑的彩色色块和丰富的趋势卡片都共用同一个来源。
 
-## Import
+## 导入
 
 ```tsx
 import { StatCard } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Basic
+## 基础用法
 
 `icon` 属性接收的是一个 Lucide *组件*（即函数），它无法在 MDX 中跨越服务端到客户端的边界，因此下面的示例由一个小型客户端包装器渲染。
 
@@ -23,12 +23,12 @@ import { Coins } from "lucide-react";
   <StatCardDemo />
 </ComponentPreview>
 
-## Layout variants
+## 布局变体
 
 `inline` 把图标和标签放在同一行、数值显示在下方，而 `valueFirst` 则以大数字开头。两者都可以接收 `tone` 以获得语义化的颜色色调。
 
 <ComponentPreview
-  title="Variants"
+  title="变体"
   code={`<StatCard inline icon={Coins} label="Pending" value="12" tone="amber" />
 <StatCard valueFirst label="Approved" value="248" tone="emerald" />
 <StatCard label="Rejected" value="3" subtext="Last 24h" tone="red" />`}
@@ -36,6 +36,6 @@ import { Coins } from "lucide-react";
   <StatCardVariantsDemo />
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="StatCard" />

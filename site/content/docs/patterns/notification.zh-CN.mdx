@@ -15,7 +15,7 @@ import { NotificationBell, NotificationItem, NotificationPanel } from "@yuhuanow
 铃铛的 `count` 驱动徽章；面板渲染 `NotificationItem` 子项并带加载 / 空状态；每条可以是链接（适配器 `Link`），也可带悬停删除按钮。
 
 <ComponentPreview
-  title="Notification center"
+  title="通知中心"
   code={`import { NotificationBell, NotificationItem, NotificationPanel } from "@yuhuanowo/yunui/patterns";
 import { MessageSquare, CreditCard, ShieldAlert } from "lucide-react";
 import { useState } from "react";
@@ -27,7 +27,7 @@ function Example() {
     <>
       <NotificationBell count={unread} label="Notifications" />
       <NotificationPanel
-        title="Notifications"
+        title="通知"
         unreadCount={unread}
         unreadLabel="unread"
         empty={items.length === 0}

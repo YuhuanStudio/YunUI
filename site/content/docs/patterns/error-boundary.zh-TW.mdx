@@ -2,13 +2,13 @@ import { ErrorBoundary } from "yunui/patterns";
 
 一個 React 錯誤邊界，能捕捉其子樹中的渲染錯誤並顯示友善的後備介面——圖示、訊息，以及一個用於重設邊界的「Try again」按鈕。可用 `labels` 覆寫文案、提供完全自訂的 `fallback`，或透過 `onError` 接入記錄功能。
 
-## Import
+## 匯入
 
 ```tsx
 import { ErrorBoundary } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Basic
+## 基礎用法
 
 包裹任意子樹。在未拋出錯誤時，它會透明地渲染其子元件。
 
@@ -25,7 +25,7 @@ import { ErrorBoundary } from "@yuhuanowo/yunui/patterns";
   </div>
 </ComponentPreview>
 
-## Custom labels
+## 自訂標籤
 
 傳入 `labels` 以在地化後備介面的標題、訊息與重試按鈕。
 
@@ -38,6 +38,6 @@ import { ErrorBoundary } from "@yuhuanowo/yunui/patterns";
 </ErrorBoundary>
 ```
 
-## Props
+## 屬性
 
 <PropsTable name="ErrorBoundary" />

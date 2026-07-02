@@ -2,17 +2,17 @@ import { Modal, Button } from "yunui";
 
 YunUI 自帶的受控模態框——一個傳送到 body、置中的卡片，包含標頭（`title` + 可選 `subtitle`）、可捲動的主體，以及可選的 `footer`。它會鎖定 body 捲動，點擊背景或按 Escape 鍵即可關閉，帶進出動畫，且對 SSR 安全。與 Radix `Dialog` 不同，你需要透過 `isOpen` + `onClose` 自行掌控開啟狀態。
 
-## Import
+## 匯入
 
 ```tsx
 import { Modal } from "@yuhuanowo/yunui";
 ```
 
-## Basic
+## 基礎用法
 
 `Modal` 完全受控：將它的 `isOpen` 保存在 state 中，並傳入 `onClose` 將其翻回。下面的範例把觸發按鈕接到了本地 state。
 
-<ComponentPreview title="Controlled modal">
+<ComponentPreview title="受控對話框">
   <ModalDemo />
 </ComponentPreview>
 
@@ -30,8 +30,8 @@ export function ModalDemo() {
       <Modal
         isOpen={open}
         onClose={() => setOpen(false)}
-        title="Invite your team"
-        subtitle="They'll get an email with a join link."
+        title="邀請你的團隊"
+        subtitle="他們會收到一封含加入連結的郵件。"
         size="md"
         footer={
           <div className="flex justify-end gap-3">
@@ -49,6 +49,6 @@ export function ModalDemo() {
 }
 ```
 
-## Props
+## 屬性
 
 <PropsTable name="Modal" />

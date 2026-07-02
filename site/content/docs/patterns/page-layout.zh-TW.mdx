@@ -2,13 +2,13 @@ import { PageLayout } from "yunui/patterns";
 
 標準的全高頁面外殼：一個**導覽列插槽**、一個 `flex-1` 的**主區域**（帶偏移以避開固定導覽列），以及一個**頁尾插槽**。導覽列與頁尾以插槽形式傳入（通常是 YunUI 的 `<Navbar/>` 與 `<Footer/>`），因此外殼與它們的具體屬性解耦。`<main>` 預設的 `pt-28` 用於避開 YunUI 的固定導覽列 —— 若導覽列更高或更矮，可透過 `mainClassName` 覆寫。
 
-## Import
+## 匯入
 
 ```tsx
 import { PageLayout } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Example
+## 範例
 
 將 `<Navbar/>` 與 `<Footer/>` 作為插槽傳入；專注型頁面可設 `hideFooter`，`transparentBg` 則讓頁面自繪背景。
 
@@ -26,6 +26,6 @@ import { PageLayout } from "@yuhuanowo/yunui/patterns";
   <PageLayoutDemo />
 </ComponentPreview>
 
-## Props
+## 屬性
 
 <PropsTable name="PageLayout" />

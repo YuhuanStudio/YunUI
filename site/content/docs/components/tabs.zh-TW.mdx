@@ -2,7 +2,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "yunui";
 
 一組以 Radix 為基礎的頁籤面板。`Tabs` 管理目前作用中的頁籤；透過 `TabsList`（觸發器列）、`TabsTrigger`（單個可點擊頁籤）與 `TabsContent`（對應頁籤作用時顯示的面板）組合使用。完整的鍵盤無障礙支援（方向鍵、Home/End）由 Radix 提供。使用 `defaultValue` 實現非受控頁籤，或用 `value`/`onValueChange` 進行受控。
 
-## Import
+## 匯入
 
 ```tsx
 import {
@@ -13,7 +13,7 @@ import {
 ## 基礎用法
 
 <ComponentPreview
-  title="Tabs"
+  title="分頁"
   code={`<Tabs defaultValue="account">
   <TabsList>
     <TabsTrigger value="account">Account</TabsTrigger>
@@ -36,7 +36,7 @@ import {
 ## 多個頁籤
 
 <ComponentPreview
-  title="Three tabs"
+  title="三個分頁"
   code={`<Tabs defaultValue="overview">
   <TabsList>
     <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -63,7 +63,7 @@ import {
 ## 停用頁籤
 
 <ComponentPreview
-  title="Disabled trigger"
+  title="停用觸發器"
   code={`<Tabs defaultValue="general">
   <TabsList>
     <TabsTrigger value="general">General</TabsTrigger>

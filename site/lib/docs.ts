@@ -740,7 +740,7 @@ export const docs: DocEntry[] = [
   },
   pat(
     "stat-card",
-    "StatCard",
+    { en: "Stat Card", "zh-CN": "统计卡片", "zh-TW": "統計卡片" },
     {
       en: "Canonical dashboard metric tile with icon, trend, tone, and layout variants.",
       "zh-CN": "标准仪表盘指标卡片，支持图标、趋势、色调和布局变体。",
@@ -750,7 +750,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "faq",
-    "FAQ",
+    { en: "FAQ", "zh-CN": "常见问题", "zh-TW": "常見問題" },
     {
       en: "Accordion list of questions where one item expands at a time.",
       "zh-CN": "手风琴式问题列表，每次展开一项。",
@@ -760,7 +760,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "fellows-banner",
-    "FellowsBanner",
+    { en: "Fellows Banner", "zh-CN": "Fellows 横幅", "zh-TW": "Fellows 橫幅" },
     {
       en: "Clickable gradient promo banner with title, features, and a CTA.",
       "zh-CN": "可点击的渐变推广横幅，含标题、特性列表和行动号召。",
@@ -770,7 +770,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "page-header",
-    "PageHeader",
+    { en: "Page Header", "zh-CN": "页头", "zh-TW": "頁首" },
     {
       en: "Page title block with heading, description, and an actions slot.",
       "zh-CN": "页面标题区块，含标题、描述和操作插槽。",
@@ -780,7 +780,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "page-layout",
-    "PageLayout",
+    { en: "Page Layout", "zh-CN": "页面布局", "zh-TW": "頁面版面" },
     {
       en: "Full-height page shell — navbar slot, offset main area, footer slot.",
       "zh-CN": "全高页面外壳 — 导航栏插槽、偏移的主区域、页脚插槽。",
@@ -790,7 +790,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "sidebar",
-    "Sidebar",
+    { en: "Sidebar", "zh-CN": "侧边栏", "zh-TW": "側邊欄" },
     {
       en: "App navigation sidebar with grouped sections, mobile drawer, and collapse.",
       "zh-CN": "应用导航侧边栏，含分组导航、移动端抽屉和折叠。",
@@ -800,7 +800,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "code-block",
-    "CodeBlock",
+    { en: "Code Block", "zh-CN": "代码块", "zh-TW": "程式碼區塊" },
     {
       en: "Styled code block with header, line numbers, tabs, and copy.",
       "zh-CN": "带样式的代码块，含标题、行号、标签页和复制。",
@@ -810,7 +810,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "error-boundary",
-    "ErrorBoundary",
+    { en: "Error Boundary", "zh-CN": "错误边界", "zh-TW": "錯誤邊界" },
     {
       en: "React error boundary with a friendly retry fallback.",
       "zh-CN": "React 错误边界，提供友好的重试回退界面。",
@@ -820,7 +820,7 @@ export const docs: DocEntry[] = [
   ),
   pat(
     "badges",
-    "Badges",
+    { en: "Badges", "zh-CN": "徽章组", "zh-TW": "徽章組" },
     {
       en: "Self-labeling status badges: fellow, capability, status, source, active, deprecated.",
       "zh-CN": "自带标签的状态徽章：会员、能力、状态、来源、激活、弃用。",

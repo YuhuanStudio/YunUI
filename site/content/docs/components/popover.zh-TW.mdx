@@ -2,7 +2,7 @@ import { Popover, PopoverTrigger, PopoverContent, PopoverClose, Button } from "y
 
 錨定在觸發元素上的浮動面板，基於 Radix `Popover` 構建。`PopoverContent` 會傳送到 body、定位在觸發元素下方，呈現模糊半透明的表面，並帶有進出動畫。適合承載豐富的非模態溢出內容——表單、選單或詳情卡片。
 
-## Import
+## 匯入
 
 ```tsx
 import {
@@ -13,7 +13,7 @@ import {
 } from "@yuhuanowo/yunui";
 ```
 
-## Basic
+## 基礎用法
 
 <ComponentPreview
   title="Popover"
@@ -46,12 +46,12 @@ import {
   </Popover>
 </ComponentPreview>
 
-## Alignment
+## 對齊方式
 
 `PopoverContent` 接受 Radix 的 `align`（`start` / `center` / `end`）和 `sideOffset` 屬性，用於微調面板相對觸發元素的位置。
 
 <ComponentPreview
-  title="Aligned to the start"
+  title="靠起始對齊"
   code={`<Popover>
   <PopoverTrigger asChild>
     <Button variant="outline">Aligned start</Button>
@@ -71,7 +71,7 @@ import {
   </Popover>
 </ComponentPreview>
 
-## Parts
+## 組成部分
 
 | 部件 | 作用 |
 | --- | --- |

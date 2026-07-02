@@ -11,7 +11,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@yuhuanowo/yunui";
 ## 基本用法
 
 <ComponentPreview
-  title="Image with fallback"
+  title="带回退的图片"
   code={`<Avatar>
   <AvatarImage src="https://github.com/yuhuanowo.png" alt="@yuhuanowo" />
   <AvatarFallback>YH</AvatarFallback>
@@ -28,7 +28,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@yuhuanowo/yunui";
 当没有图片（或 URL 无效）时，只渲染后备内容。
 
 <ComponentPreview
-  title="Initials fallback"
+  title="首字母回退"
   code={`<Avatar>
   <AvatarImage src="" alt="" />
   <AvatarFallback>AI</AvatarFallback>
@@ -45,7 +45,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@yuhuanowo/yunui";
 通过 `className` 设置头像尺寸（默认为 40×40）。
 
 <ComponentPreview
-  title="Custom sizes"
+  title="自定义尺寸"
   code={`<Avatar className="h-8 w-8">
   <AvatarFallback>SM</AvatarFallback>
 </Avatar>

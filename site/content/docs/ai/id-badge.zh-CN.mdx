@@ -2,16 +2,16 @@ import { IDBadge } from "yunui/ai";
 
 用于 id、密钥及其他可复制令牌的紧凑等宽徽章。点击即可将 `text` 复制到剪贴板，并短暂显示对勾图标。过长的值默认会被截断；设置 `truncate={false}` 可在一行内保留完整值。
 
-## Import
+## 导入
 
 ```tsx
 import { IDBadge } from "@yuhuanowo/yunui/ai";
 ```
 
-## Basic
+## 基础用法
 
 <ComponentPreview
-  title="Basic"
+  title="基础用法"
   code={`<IDBadge text="gpt-4o" />
 <IDBadge text="claude-opus-4-latest" />`}
 >
@@ -21,15 +21,15 @@ import { IDBadge } from "@yuhuanowo/yunui/ai";
   </div>
 </ComponentPreview>
 
-## Without truncation
+## 不截断
 
 <ComponentPreview
-  title="Without truncation"
+  title="不截断"
   code={`<IDBadge text="sk-proj-1a2b3c4d5e6f7g8h9i0j" truncate={false} />`}
 >
   <IDBadge text="sk-proj-1a2b3c4d5e6f7g8h9i0j" truncate={false} />
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="IDBadge" />

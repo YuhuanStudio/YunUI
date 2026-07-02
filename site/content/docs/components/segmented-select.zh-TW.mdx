@@ -2,13 +2,13 @@ import { SegmentedSelect } from "yunui";
 
 一個內嵌的分段控制項 —— 一排按鈕，任何時刻只有一個選項處於啟用狀態。適用於簡短、互斥的選擇，例如檢視切換器或篩選模式。它是受控的：傳入 `value`、`onChange` 以及一個 `options` 陣列。每個選項都可以攜帶一個可選的 Lucide `icon` 圖示與一個原生提示 `desc`。
 
-## Import
+## 匯入
 
 ```tsx
 import { SegmentedSelect } from "@yuhuanowo/yunui";
 ```
 
-## Usage
+## 用法
 
 `SegmentedSelect` 是受控元件 —— 將 `value` 與 `onChange` 與狀態繫結：
 
@@ -28,12 +28,12 @@ const [value, setValue] = useState("grid");
 />
 ```
 
-## Example
+## 範例
 
-<ComponentPreview title="View switcher">
+<ComponentPreview title="檢視切換">
   <SegmentedSelectDemo />
 </ComponentPreview>
 
-## Props
+## 屬性
 
 <PropsTable name="SegmentedSelect" />

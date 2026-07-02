@@ -2,16 +2,16 @@ import { Label, Input } from "yunui";
 
 带样式的表单标签。它渲染一个原生 `<label>`，采用设计系统的排版样式，因此可以通过 `htmlFor` 将其与任意控件配对，实现点击聚焦和屏幕阅读器关联。所有原生 `<label>` 属性都会透传。
 
-## Import
+## 导入
 
 ```tsx
 import { Label } from "@yuhuanowo/yunui";
 ```
 
-## With a field
+## 搭配字段
 
 <ComponentPreview
-  title="Label + Input"
+  title="标签 + 输入框"
   code={`<Label htmlFor="email">Email</Label>
 <Input id="email" placeholder="you@example.com" />`}
 >

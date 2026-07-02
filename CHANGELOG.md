@@ -206,6 +206,10 @@ patch = fixes, anything may change between 0.x releases).
   (auto-growing textarea, Enter-to-send, send/stop, attachment + toolbar slots)
   and `ChatHeader` (backdrop-blur shell with slots). Pairs with
   `@yuhuanowo/yunui/content`. No new dependencies.
+- **`GenerationStats` (chat)** — a compact metric-pill row for an assistant
+  message (tokens, throughput tok/s, latency, and any custom pills), sitting
+  beside the model badge in a `ChatMessage` header. Presentational; the host
+  formats and supplies the values.
 - **`AreaChart` (primitive)** — an interactive line/area chart for a time series:
   smooth bezier curve, gradient area fill, dashed grid, and a hover guide with a
   value tooltip. Container-width (ResizeObserver), pure SVG. The "full" chart

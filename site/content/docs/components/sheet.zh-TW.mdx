@@ -2,17 +2,17 @@ import { Sheet, Button } from "yunui";
 
 僅在行動端使用的面板，從右側滑入並疊加在背景之上（在 `lg` 及更大螢幕上隱藏）。它是受控的 YunUI 浮層：透過 `open` + `onClose` 驅動。它會渲染可選的標頭 `title` 和關閉按鈕，鎖定 body 捲動，點擊背景或按 Escape 鍵即可關閉。
 
-## Import
+## 匯入
 
 ```tsx
 import { Sheet } from "@yuhuanowo/yunui";
 ```
 
-## Basic
+## 基礎用法
 
 `Sheet` 完全受控：將它的 `open` 保存在 state 中，並傳入 `onClose` 關閉它。由於它只在 `lg` 斷點以下顯示，請將視窗收窄才能看到它滑入。
 
-<ComponentPreview title="Slide-in sheet">
+<ComponentPreview title="滑入式面板">
   <SheetDemo />
 </ComponentPreview>
 
@@ -27,7 +27,7 @@ export function SheetDemo() {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open sheet</Button>
-      <Sheet open={open} onClose={() => setOpen(false)} title="Menu">
+      <Sheet open={open} onClose={() => setOpen(false)} title="選單">
         <nav className="flex flex-col p-2">
           <a className="px-3 py-2 rounded-lg hover:bg-muted text-sm" href="#">Dashboard</a>
           <a className="px-3 py-2 rounded-lg hover:bg-muted text-sm" href="#">Projects</a>
@@ -39,6 +39,6 @@ export function SheetDemo() {
 }
 ```
 
-## Props
+## 屬性
 
 <PropsTable name="Sheet" />

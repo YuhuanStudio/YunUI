@@ -2,13 +2,13 @@ import { CodeBlock } from "yunui/patterns";
 
 带窗口装饰圆点的代码块，头部显示 `language` 徽章或 `filename`，可选行号、轻量语法高亮，以及复制到剪贴板按钮。传入 `tabs` 可渲染多个可切换的代码面板，而非单一代码块。
 
-## Import
+## 导入
 
 ```tsx
 import { CodeBlock } from "@yuhuanowo/yunui/patterns";
 ```
 
-## Basic
+## 基础用法
 
 <ComponentPreview
   title="CodeBlock"
@@ -33,12 +33,12 @@ export function App() {
   </div>
 </ComponentPreview>
 
-## With a filename
+## 带文件名
 
 设置 `filename` 以显示文件标签而非语言徽章，并设置 `showLineNumbers={false}` 来隐藏行号槽。
 
 <ComponentPreview
-  title="Filename"
+  title="带文件名"
   code={`<CodeBlock
   filename="app.tsx"
   showLineNumbers={false}
@@ -54,12 +54,12 @@ export function App() {
   </div>
 </ComponentPreview>
 
-## Tabs
+## 标签页
 
 提供一个 `tabs` 数组，即可在一个代码块中切换相关片段。
 
 <ComponentPreview
-  title="Tabs"
+  title="标签页"
   code={`<CodeBlock
   code=""
   tabs={[
@@ -79,6 +79,6 @@ export function App() {
   </div>
 </ComponentPreview>
 
-## Props
+## 属性
 
 <PropsTable name="CodeBlock" />

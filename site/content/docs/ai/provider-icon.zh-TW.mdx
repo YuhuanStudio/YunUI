@@ -2,7 +2,7 @@ import { ProviderIcon, ProviderAvatar, ModelIcon, ModelAvatar, ModelTypeIcon } f
 
 一組用於 AI 提供商與模型的圖示元件。圖示會根據 id 從內建的 `/icons` 資源中解析，並帶有合理的回退。`ProviderIcon`/`ModelIcon` 預設為扁平樣式；`*Avatar` 預設一律為圓角圖塊。`ModelIcon` 按 模型圖示 → 開發者圖示 → 提供商圖示 的優先順序進行解析。
 
-## Import
+## 匯入
 
 ```tsx
 import {
@@ -14,12 +14,12 @@ import {
 } from "@yuhuanowo/yunui/ai";
 ```
 
-## Provider icons
+## 供應商圖示
 
 傳入 `provider` id（例如 `openai`、`anthropic`、`google`、`deepseek`、`mistral`）。設定 `rounded` 可得到圓角圖塊，或直接使用預設圓角的 `ProviderAvatar`。
 
 <ComponentPreview
-  title="Provider icons"
+  title="供應商圖示"
   code={`<ProviderIcon provider="openai" size={32} />
 <ProviderIcon provider="anthropic" size={32} />
 <ProviderIcon provider="google" size={32} rounded />
@@ -35,12 +35,12 @@ import {
   </div>
 </ComponentPreview>
 
-## Model icons
+## 模型圖示
 
 `ModelIcon` 會按 模型 → 開發者 → 提供商 的順序回退。此處的 `developer` id 解析出專屬的模型家族圖示。`ModelAvatar` 是圓角預設。
 
 <ComponentPreview
-  title="Model icons"
+  title="模型圖示"
   code={`<ModelIcon provider="anthropic" developer="claude" size={32} />
 <ModelAvatar provider="google" developer="gemini" size={32} />
 <ModelAvatar provider="deepseek" developer="deepseek" size={32} />`}
@@ -52,12 +52,12 @@ import {
   </div>
 </ComponentPreview>
 
-## Model type icons
+## 模型類型圖示
 
 `ModelTypeIcon` 為模型的模態（`chat`、`embedding`、`image_generation`、`tts`、`video` 等）算繪帶色字形，未匹配時回退到通用的機器人圖示。
 
 <ComponentPreview
-  title="Model type icons"
+  title="模型類型圖示"
   code={`<ModelTypeIcon type="chat" size={20} />
 <ModelTypeIcon type="embedding" size={20} />
 <ModelTypeIcon type="image_generation" size={20} />
@@ -73,22 +73,22 @@ import {
   </div>
 </ComponentPreview>
 
-## ProviderIcon props
+## ProviderIcon 屬性
 
 <PropsTable name="ProviderIcon" />
 
-## ProviderAvatar props
+## ProviderAvatar 屬性
 
 <PropsTable name="ProviderAvatar" />
 
-## ModelIcon props
+## ModelIcon 屬性
 
 <PropsTable name="ModelIcon" />
 
-## ModelAvatar props
+## ModelAvatar 屬性
 
 <PropsTable name="ModelAvatar" />
 
-## ModelTypeIcon props
+## ModelTypeIcon 屬性
 
 <PropsTable name="ModelTypeIcon" />

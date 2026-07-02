@@ -2,7 +2,7 @@ import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbS
 
 一个无障碍的面包屑导航。`Breadcrumb` 是包裹有序 `BreadcrumbList` 的 `<nav>` 地标；每个 `BreadcrumbItem` 可容纳 `BreadcrumbLink`（通过 YunUI 的 `Link` 适配器路由）、当前的 `BreadcrumbPage` 或 `BreadcrumbSeparator`。使用 `BreadcrumbEllipsis` 折叠较长的路径。
 
-## Import
+## 导入
 
 ```tsx
 import {
@@ -53,7 +53,7 @@ import {
 对于较深的路径，用 `BreadcrumbEllipsis` 替换中间的项：
 
 <ComponentPreview
-  title="With an ellipsis"
+  title="带省略号"
   code={`<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>

@@ -13,7 +13,7 @@ import { ScrollArea, ScrollBar } from "@yuhuanowo/yunui";
 透過 `className` 給 `ScrollArea` 一個固定高度；任何超出該盒子高度的內容都會以自訂滑塊捲動。
 
 <ComponentPreview
-  title="Vertical list"
+  title="垂直清單"
   code={`<ScrollArea className="h-72 w-64 rounded-lg border border-border">
   <div className="p-4">
     {Array.from({ length: 30 }).map((_, i) => (
@@ -40,7 +40,7 @@ import { ScrollArea, ScrollBar } from "@yuhuanowo/yunui";
 `ScrollArea` 會自動為你渲染一條垂直 `ScrollBar`。若需要橫向捲軸，在內容旁自行加入一條 `orientation="horizontal"` 的 `ScrollBar`。
 
 <ComponentPreview
-  title="Horizontal tags"
+  title="橫向標籤"
   code={`<ScrollArea className="w-80 whitespace-nowrap rounded-lg border border-border">
   <div className="flex gap-3 p-4">
     {Array.from({ length: 20 }).map((_, i) => (

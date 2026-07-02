@@ -3,16 +3,16 @@ import { Search, Mail } from "lucide-react";
 
 單行文字輸入框。它呈現標準的輸入框樣式，支援可選的前置 `icon`，並顯示內聯的 `error` 錯誤訊息（同時會將邊框切換為錯誤樣式）。所有原生 `<input>` 屬性都會透傳。
 
-## Import
+## 匯入
 
 ```tsx
 import { Input } from "@yuhuanowo/yunui";
 ```
 
-## Basic
+## 基礎用法
 
 <ComponentPreview
-  title="Basic"
+  title="基礎用法"
   code={`<Input placeholder="you@example.com" />`}
 >
   <div className="w-full max-w-xs">
@@ -20,10 +20,10 @@ import { Input } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
-## With icon
+## 帶圖示
 
 <ComponentPreview
-  title="With a leading icon"
+  title="帶前置圖示"
   code={`import { Search } from "lucide-react";
 
 <Input icon={<Search className="w-4 h-4" />} placeholder="Search…" />`}
@@ -33,10 +33,10 @@ import { Input } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
-## Error state
+## 錯誤狀態
 
 <ComponentPreview
-  title="With an error message"
+  title="帶錯誤訊息"
   code={`<Input
   icon={<Mail className="w-4 h-4" />}
   defaultValue="not-an-email"
@@ -52,10 +52,10 @@ import { Input } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
-## Disabled
+## 停用
 
 <ComponentPreview
-  title="Disabled"
+  title="停用"
   code={`<Input placeholder="Disabled" disabled />`}
 >
   <div className="w-full max-w-xs">
@@ -63,6 +63,6 @@ import { Input } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
-## Props
+## 屬性
 
 <PropsTable name="Input" />

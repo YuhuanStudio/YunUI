@@ -2,18 +2,18 @@ import { LanguageSwitcher } from "yunui/ai";
 
 語言切換下拉選單。它是受控元件——由你提供可用的 `locales`、`currentLocale` 以及 `onChange` 處理函式。實際的語言切換（cookie、重新整理或路由跳轉）由宿主負責。點擊外部即可關閉，並提供 `icon` 與 `pill` 兩種變體。
 
-## Import
+## 匯入
 
 ```tsx
 import { LanguageSwitcher } from "@yuhuanowo/yunui/ai";
 ```
 
-## Basic
+## 基礎用法
 
 在 state 中保存目前語言；在真實應用中，`onChange` 會設定 cookie 並重新整理頁面。
 
 <ComponentPreview
-  title="Basic"
+  title="基礎用法"
   code={`import { useState } from "react";
 import { LanguageSwitcher } from "@yuhuanowo/yunui/ai";
 
@@ -36,6 +36,6 @@ function Example() {
   <LanguageSwitcherDemo />
 </ComponentPreview>
 
-## Props
+## 屬性
 
 <PropsTable name="LanguageSwitcher" />

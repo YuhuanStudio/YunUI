@@ -2,13 +2,13 @@ import { toast, Toaster, Button } from "yunui";
 
 簡短、非阻塞的通知，由 [Sonner](https://sonner.emilkowal.ski/) 提供支援。在任意位置呼叫 `toast.success(...)`、`toast.error(...)`、`toast.info(...)`、`toast.warning(...)`、`toast.loading(...)` 或 `toast.promise(...)`，即可推送一條帶樣式、帶圖示前綴的訊息。請在應用根部**只渲染一次** `<Toaster />`，讓 toast 有掛載的位置。
 
-## Import
+## 匯入
 
 ```tsx
 import { toast, Toaster } from "@yuhuanowo/yunui";
 ```
 
-## Setup
+## 設定
 
 在應用根部（例如根佈局中）只掛載一次 `Toaster`。它會自動定位在右下角，並用設計系統權杖為每條 toast 設定樣式。
 
@@ -28,11 +28,11 @@ export default function RootLayout({ children }) {
 }
 ```
 
-## Basic
+## 基礎用法
 
 由於 `toast(...)` 是命令式的，請在客戶端元件的事件處理函式中觸發它。
 
-<ComponentPreview title="Fire a toast">
+<ComponentPreview title="觸發一個 Toast">
   <ToastDemo />
 </ComponentPreview>
 
@@ -53,7 +53,7 @@ export function ToastDemo() {
 }
 ```
 
-## Methods
+## 方法
 
 | 方法 | 簽章 | 描述 |
 | --- | --- | --- |

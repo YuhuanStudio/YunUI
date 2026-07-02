@@ -2,7 +2,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "yunui";
 
 一组基于 Radix 的选项卡面板。`Tabs` 管理当前激活的选项卡；通过 `TabsList`（触发器行）、`TabsTrigger`（单个可点击选项卡）和 `TabsContent`（对应选项卡激活时显示的面板）组合使用。完整的键盘无障碍支持（方向键、Home/End）由 Radix 提供。使用 `defaultValue` 实现非受控选项卡，或用 `value`/`onValueChange` 进行受控。
 
-## Import
+## 导入
 
 ```tsx
 import {
@@ -13,7 +13,7 @@ import {
 ## 基础用法
 
 <ComponentPreview
-  title="Tabs"
+  title="标签页"
   code={`<Tabs defaultValue="account">
   <TabsList>
     <TabsTrigger value="account">Account</TabsTrigger>
@@ -36,7 +36,7 @@ import {
 ## 多个选项卡
 
 <ComponentPreview
-  title="Three tabs"
+  title="三个标签页"
   code={`<Tabs defaultValue="overview">
   <TabsList>
     <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -63,7 +63,7 @@ import {
 ## 禁用选项卡
 
 <ComponentPreview
-  title="Disabled trigger"
+  title="禁用触发器"
   code={`<Tabs defaultValue="general">
   <TabsList>
     <TabsTrigger value="general">General</TabsTrigger>
