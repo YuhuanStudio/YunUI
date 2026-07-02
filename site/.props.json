@@ -1128,6 +1128,13 @@
       "description": ""
     },
     {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Custom zoomable content instead of an `<img src>` — e.g. an inline SVG\ndiagram. Download is only offered when `src` is set."
+    },
+    {
       "name": "isOpen",
       "type": "boolean",
       "required": true,
@@ -1144,9 +1151,9 @@
     {
       "name": "src",
       "type": "string",
-      "required": true,
+      "required": false,
       "defaultValue": null,
-      "description": ""
+      "description": "Image URL to view. Omit when providing custom `children` (e.g. an SVG)."
     }
   ],
   "MarkdownRenderer": [
@@ -1234,6 +1241,13 @@
       "required": false,
       "defaultValue": null,
       "description": ""
+    },
+    {
+      "name": "enableZoom",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Click the diagram to open a full-screen zoomable view."
     }
   ],
   "AccountLockedCard": [
@@ -3654,7 +3668,7 @@
     },
     {
       "name": "variant",
-      "type": "\"error\" | \"success\" | \"warning\" | \"info\"",
+      "type": "\"accent\" | \"error\" | \"success\" | \"warning\" | \"info\"",
       "required": false,
       "defaultValue": "default",
       "description": ""

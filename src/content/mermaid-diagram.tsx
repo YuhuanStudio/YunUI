@@ -4,10 +4,13 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/cn";
 import { useContentT } from "./use-content-t";
+import { ImageLightbox } from "./image-lightbox";
 
 export interface MermaidDiagramProps {
   chart: string;
   className?: string;
+  /** Click the diagram to open a full-screen zoomable view. @defaultValue true */
+  enableZoom?: boolean;
 }
 
 let mermaidSeq = 0;
@@ -88,12 +91,17 @@ function roughenSvg(svg: string, id: string): string {
  * library is loaded on demand the first time a diagram renders, so it never
  * ships in the initial bundle. Re-themes automatically for light/dark.
  */
-export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
+export function MermaidDiagram({
+  chart,
+  className,
+  enableZoom = true,
+}: MermaidDiagramProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [svg, setSvg] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [themeTick, setThemeTick] = useState(0);
+  const [zoomOpen, setZoomOpen] = useState(false);
   const t = useContentT();
 
   useEffect(() => {
@@ -222,15 +230,31 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        "card my-4 p-4 overflow-x-auto",
-        "flex items-center justify-center",
-        "[&_svg]:max-w-full [&_svg]:h-auto",
-        className,
+    <>
+      <div
+        ref={containerRef}
+        onClick={enableZoom ? () => setZoomOpen(true) : undefined}
+        role={enableZoom ? "button" : undefined}
+        aria-label={enableZoom ? t("zoomDiagram", "Zoom diagram") : undefined}
+        className={cn(
+          "card my-4 p-4 overflow-x-auto",
+          "flex items-center justify-center",
+          "[&_svg]:max-w-full [&_svg]:h-auto",
+          enableZoom && "cursor-zoom-in",
+          className,
+        )}
+        dangerouslySetInnerHTML={{ __html: svg }}
+      />
+      {enableZoom && (
+        <ImageLightbox isOpen={zoomOpen} onClose={() => setZoomOpen(false)}>
+          {/* Theme-matched panel so a light-theme diagram (dark strokes) stays
+              readable on the lightbox's dark backdrop, and vice-versa. */}
+          <div
+            className="bg-(--bg-card) rounded-2xl p-6 shadow-2xl border border-white/10 w-[86vw] max-w-[1100px] [&_svg]:!max-w-none [&_svg]:w-full [&_svg]:h-auto [&_svg]:max-h-[80vh]"
+            dangerouslySetInnerHTML={{ __html: svg }}
+          />
+        </ImageLightbox>
       )}
-      dangerouslySetInnerHTML={{ __html: svg }}
-    />
+    </>
   );
 }

@@ -98,25 +98,34 @@ declare function BlockMath({ value }: {
 interface MermaidDiagramProps {
     chart: string;
     className?: string;
+    /** Click the diagram to open a full-screen zoomable view. @defaultValue true */
+    enableZoom?: boolean;
 }
 /**
  * Render a Mermaid diagram (flowchart, sequence, gantt, …). The `mermaid`
  * library is loaded on demand the first time a diagram renders, so it never
  * ships in the initial bundle. Re-themes automatically for light/dark.
  */
-declare function MermaidDiagram({ chart, className }: MermaidDiagramProps): React.JSX.Element;
+declare function MermaidDiagram({ chart, className, enableZoom, }: MermaidDiagramProps): React.JSX.Element;
 
 interface ImageLightboxProps {
-    src: string;
+    /** Image URL to view. Omit when providing custom `children` (e.g. an SVG). */
+    src?: string;
     alt?: string;
     isOpen: boolean;
     onClose: () => void;
+    /**
+     * Custom zoomable content instead of an `<img src>` — e.g. an inline SVG
+     * diagram. Download is only offered when `src` is set.
+     */
+    children?: React.ReactNode;
 }
 /**
- * Full-screen image viewer with zoom, rotate, download and keyboard shortcuts
- * (Esc / +/- / R). Rendered into a portal on `document.body`.
+ * Full-screen viewer with zoom, rotate, download and keyboard shortcuts
+ * (Esc / +/- / R). Views an image (`src`) or any custom `children` (e.g. an
+ * inline SVG diagram). Rendered into a portal on `document.body`.
  */
-declare function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps): React.ReactPortal | null;
+declare function ImageLightbox({ src, alt, isOpen, onClose, children }: ImageLightboxProps): React.ReactPortal | null;
 
 interface ContentImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     /** Open a zoom/rotate/download lightbox on click. @defaultValue true */

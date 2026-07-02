@@ -4,21 +4,27 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X, ZoomIn, ZoomOut, RotateCw, Download } from "lucide-react";
-import { cn } from "../lib/cn";
 import { useContentT } from "./use-content-t";
 
 export interface ImageLightboxProps {
-  src: string;
+  /** Image URL to view. Omit when providing custom `children` (e.g. an SVG). */
+  src?: string;
   alt?: string;
   isOpen: boolean;
   onClose: () => void;
+  /**
+   * Custom zoomable content instead of an `<img src>` — e.g. an inline SVG
+   * diagram. Download is only offered when `src` is set.
+   */
+  children?: React.ReactNode;
 }
 
 /**
- * Full-screen image viewer with zoom, rotate, download and keyboard shortcuts
- * (Esc / +/- / R). Rendered into a portal on `document.body`.
+ * Full-screen viewer with zoom, rotate, download and keyboard shortcuts
+ * (Esc / +/- / R). Views an image (`src`) or any custom `children` (e.g. an
+ * inline SVG diagram). Rendered into a portal on `document.body`.
  */
-export function ImageLightbox({ src, alt = "", isOpen, onClose }: ImageLightboxProps) {
+export function ImageLightbox({ src, alt = "", isOpen, onClose, children }: ImageLightboxProps) {
   const [scale, setScale] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -72,6 +78,7 @@ export function ImageLightbox({ src, alt = "", isOpen, onClose }: ImageLightboxP
   const handleRotate = () => setRotation((r) => (r + 90) % 360);
 
   const handleDownload = async () => {
+    if (!src) return;
     try {
       const response = await fetch(src);
       const blob = await response.blob();
@@ -131,16 +138,18 @@ export function ImageLightbox({ src, alt = "", isOpen, onClose }: ImageLightboxP
         >
           <RotateCw className="w-5 h-5" />
         </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDownload();
-          }}
-          className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-          title={t("download", "Download")}
-        >
-          <Download className="w-5 h-5" />
-        </button>
+        {src && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDownload();
+            }}
+            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            title={t("download", "Download")}
+          >
+            <Download className="w-5 h-5" />
+          </button>
+        )}
         <button
           onClick={onClose}
           className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors ml-2"
@@ -150,14 +159,24 @@ export function ImageLightbox({ src, alt = "", isOpen, onClose }: ImageLightboxP
         </button>
       </div>
 
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        onClick={(e) => e.stopPropagation()}
-        className="max-w-[90vw] max-h-[90vh] object-contain transition-transform duration-200 cursor-default"
-        style={{ transform: `scale(${scale}) rotate(${rotation}deg)` }}
-      />
+      {children ? (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="max-w-[92vw] max-h-[90vh] overflow-auto transition-transform duration-200 cursor-default"
+          style={{ transform: `scale(${scale}) rotate(${rotation}deg)` }}
+        >
+          {children}
+        </div>
+      ) : (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={src}
+          alt={alt}
+          onClick={(e) => e.stopPropagation()}
+          className="max-w-[90vw] max-h-[90vh] object-contain transition-transform duration-200 cursor-default"
+          style={{ transform: `scale(${scale}) rotate(${rotation}deg)` }}
+        />
+      )}
 
       {alt && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/50 rounded-full text-white text-sm">
