@@ -1304,6 +1304,16 @@ export const docs: DocEntry[] = [
     },
     "chat header bar translucent backdrop blur slots left status actions model selector title toggle",
   ),
+  chatDoc(
+    "generation-stats",
+    { en: "Generation Stats", "zh-CN": "生成统计", "zh-TW": "生成統計" },
+    {
+      en: "Metric pills for an assistant turn — token count, throughput (tok/s) and latency, data-driven with i18n unit labels.",
+      "zh-CN": "助手回复的指标胶囊 —— token 数、吞吐量(tok/s)与延迟，由数据驱动、单位文字可本地化。",
+      "zh-TW": "助手回覆的指標膠囊 —— token 數、吞吐量(tok/s)與延遲，由資料驅動、單位文字可本地化。",
+    },
+    "generation stats tokens per second throughput latency metrics pills usage completion assistant thinking",
+  ),
 ];
 
 /** Sidebar grouping, in display order. Slugs reference the manifest by key. */
@@ -1473,6 +1483,7 @@ export const groups: DocGroup[] = [
       "chat/chat-message-list",
       "chat/chat-composer",
       "chat/chat-header",
+      "chat/generation-stats",
     ],
   },
 ];

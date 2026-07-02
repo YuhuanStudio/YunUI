@@ -990,6 +990,43 @@
       "description": "Right-aligned timestamp (or any node) in the header."
     }
   ],
+  "GenerationStats": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "{ tokens?: string; speed?: string; latency?: string | undefined; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Localized unit labels — components carry no copy of their own."
+    },
+    {
+      "name": "latencyMs",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Total generation latency in milliseconds."
+    },
+    {
+      "name": "tokens",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Output token count (e.g. `completion_tokens` from an OpenAI-style usage)."
+    },
+    {
+      "name": "tokensPerSecond",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Throughput in tokens/second. If omitted but `tokens` + `latencyMs` are\ngiven, it's derived as `tokens / (latencyMs / 1000)`."
+    }
+  ],
   "CalloutBlock": [
     {
       "name": "className",

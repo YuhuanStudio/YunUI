@@ -1,0 +1,38 @@
+A row of small metric pills for an assistant turn — output token count, throughput (tokens/second) and latency. It's purely presentational and data-driven: pass the numbers you have and it renders only those, in a compact `bg-muted` pill row that matches the rest of the chat chrome. When there's no data at all, it renders nothing.
+
+Throughput is derived from `tokens` + `latencyMs` when you don't pass `tokensPerSecond` explicitly. Unit labels are configurable (`labels`) so the component carries no copy of its own — the defaults are English (`tokens` / `tok/s` / `ms`).
+
+## Import
+
+```tsx
+import { GenerationStats } from "@yuhuanowo/yunui/chat";
+```
+
+## Example
+
+The first row passes `tokens` + `latencyMs` (throughput is derived); the second overrides the labels for a localized look and passes an explicit `tokensPerSecond`.
+
+<ComponentPreview
+  title="GenerationStats"
+  code={`import { GenerationStats } from "@yuhuanowo/yunui/chat";`}
+>
+  <GenerationStatsDemo />
+</ComponentPreview>
+
+## Usage
+
+```tsx
+<GenerationStats
+  tokens={message.tokens?.output}
+  latencyMs={message.latencyMs}
+  labels={{ tokens: t("tokens"), speed: t("tokensPerSecond"), latency: t("ms") }}
+/>
+```
+
+Pair it with the assistant name/model chip in a `ChatMessage` `badges` slot, and with
+[`ThinkingBlock`](/docs/ai/thinking-block) (`isStreaming` renders the "thinking…" state) for
+the reasoning indicator.
+
+## Props
+
+<PropsTable name="GenerationStats" />

@@ -46,6 +46,7 @@ import {
   ImageLightboxDemo,
   ChatDemo,
   ChatComposerDemo,
+  GenerationStatsDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -103,6 +104,7 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     ImageLightboxDemo,
     ChatDemo,
     ChatComposerDemo,
+    GenerationStatsDemo,
     ...components,
   };
 }

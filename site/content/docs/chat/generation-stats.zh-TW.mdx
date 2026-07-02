@@ -1,0 +1,37 @@
+助手一則回覆的一排指標膠囊 —— 輸出 token 數、吞吐量(token/秒)與延遲。純展示、由資料驅動:傳入你手上有的數值,它只渲染那些,排成一排與其餘聊天外觀一致的 `bg-muted` 膠囊。完全沒有資料時,不渲染任何東西。
+
+未明確傳入 `tokensPerSecond` 時,吞吐量會由 `tokens` + `latencyMs` 推導。單位文字可透過 `labels` 設定,元件本身不內建任何文案 —— 預設為英文(`tokens` / `tok/s` / `ms`)。
+
+## 匯入
+
+```tsx
+import { GenerationStats } from "@yuhuanowo/yunui/chat";
+```
+
+## 範例
+
+第一列傳入 `tokens` + `latencyMs`(吞吐量自動推導);第二列覆寫 labels 以呈現本地化外觀,並明確傳入 `tokensPerSecond`。
+
+<ComponentPreview
+  title="GenerationStats"
+  code={`import { GenerationStats } from "@yuhuanowo/yunui/chat";`}
+>
+  <GenerationStatsDemo />
+</ComponentPreview>
+
+## 用法
+
+```tsx
+<GenerationStats
+  tokens={message.tokens?.output}
+  latencyMs={message.latencyMs}
+  labels={{ tokens: t("tokens"), speed: t("tokensPerSecond"), latency: t("ms") }}
+/>
+```
+
+搭配 `ChatMessage` 的 `badges` 插槽放在助手名稱/模型 chip 旁,並與
+[`ThinkingBlock`](/docs/ai/thinking-block)(`isStreaming` 呈現「思考中…」狀態)一起用於推理指示。
+
+## 屬性
+
+<PropsTable name="GenerationStats" />

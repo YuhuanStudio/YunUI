@@ -39,7 +39,7 @@ import {
   type MediaResult,
 } from "yunui/patterns";
 import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, Badge } from "yunui";
-import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "yunui/chat";
+import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
 import {
   CapabilitySelector,
   LanguageSwitcher,
@@ -1148,6 +1148,29 @@ export function ChatDemo() {
 }
 
 /** Standalone controlled composer with a send log and a stop/loading cycle. */
+export function GenerationStatsDemo() {
+  return (
+    <div className="w-full max-w-xl space-y-4 text-left">
+      <div className="flex items-center gap-2">
+        <div className="text-sm font-medium text-foreground">Assistant</div>
+        <span className="rounded bg-muted/50 px-2 py-0.5 font-mono text-xs text-muted-foreground">
+          zai/glm-5.2
+        </span>
+        <GenerationStats tokens={2570} latencyMs={51611} />
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="text-sm font-medium text-foreground">Assistant</div>
+        <GenerationStats
+          tokens={840}
+          tokensPerSecond={62.4}
+          latencyMs={13500}
+          labels={{ tokens: "Token", speed: "Token/秒", latency: "毫秒" }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export function ChatComposerDemo() {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
