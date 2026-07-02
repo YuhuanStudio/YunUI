@@ -33,7 +33,13 @@
   --color-destructive-foreground: #ffffff;
 
   --color-muted: var(--bg-elevated);
-  --color-muted-foreground: var(--text-muted);
+  /* Consumer-facing "muted" text (shadcn convention: readable secondary text —
+     descriptions, captions, section labels). Maps to --text-tertiary, NOT the
+     dimmest --text-muted: in dark, --text-muted (#52525b) is only 2.57:1 and
+     washes out. --text-tertiary (#71717a) reads at ~4:1 while staying muted.
+     YunUI's own components still use --text-muted directly where a fainter hint
+     is wanted; this only affects the `text-muted-foreground` bridge class. */
+  --color-muted-foreground: var(--text-tertiary);
 
   --color-accent: var(--accent);
   --color-accent-foreground: #ffffff;
@@ -628,7 +634,9 @@ summary {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  /* --text-tertiary, not --text-muted: uppercase section/stat labels must stay
+     legible. In dark, --text-muted (#52525b) is only 2.57:1 and washes out. */
+  color: var(--text-tertiary);
 }
 
 .font-mono {

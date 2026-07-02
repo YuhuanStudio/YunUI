@@ -11,6 +11,25 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Fixed
+- **Dark-mode readability of the shadcn `muted` bridge.** `--color-muted-foreground`
+  and the `.text-label` utility mapped to `--text-muted` (#52525b in dark) —
+  only 2.57:1, so every consumer label/caption/section-header that used
+  `text-muted-foreground` (the shadcn convention for readable secondary text)
+  washed out. Both now map to `--text-tertiary` (#71717a, ~4:1). Light mode is
+  unchanged (its `--text-muted` already equals `--text-tertiary`). Fixes the
+  app-wide "washed-out details" seen across consumer surfaces.
+- **`Gauge` / `Slider` tracks were invisible in dark mode.** Both used
+  `--color-muted` (= `--bg-elevated`) for the unfilled track, which blends into
+  dark cards — the gauge ring and slider trough effectively disappeared. Now use
+  `--color-border`.
+- **`Slider` thumb no longer clips at the track extremes.** The Root gained
+  `px-2.5` (half the 20px thumb) so a thumb at min/max stays inside its box
+  instead of overflowing/clipping past the panel edge — very visible in narrow
+  containers (e.g. a settings drawer on mobile).
+- **`TabsTrigger` icon + label spacing.** Added `gap-1.5` so an icon child no
+  longer sits flush against the label text.
+
 ### Changed
 - **Content + chat stacks fully restyled in YunUI's flat design vocabulary.**
   Follow-up to the earlier token pass: every `src/content/*` and `src/chat/*`

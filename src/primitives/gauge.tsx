@@ -76,7 +76,7 @@ export function Gauge({
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="var(--color-muted)"
+          stroke="var(--color-border)"
           strokeWidth={thickness}
         />
         <circle

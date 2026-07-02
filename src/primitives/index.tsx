@@ -1172,10 +1172,13 @@ export const Slider = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <SliderPrimitive.Root
         ref={ref}
-        className={cn("relative flex w-full touch-none select-none items-center", className)}
+        // px-2.5 (half the 20px thumb) keeps the thumb inside the Root box at both
+        // extremes instead of clipping past the track ends — very visible in narrow
+        // containers like the chat settings drawer.
+        className={cn("relative flex w-full touch-none select-none items-center px-2.5", className)}
         {...props}
     >
-        <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted">
+        <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-border">
             <SliderPrimitive.Range className="absolute h-full bg-foreground yunui-accent-bg" />
         </SliderPrimitive.Track>
         <SliderPrimitive.Thumb
@@ -1241,7 +1244,7 @@ export const TabsTrigger = React.forwardRef<
     <TabsPrimitive.Trigger
         ref={ref}
         className={cn(
-            "inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-all",
+            "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-all",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             "disabled:pointer-events-none disabled:opacity-50",
             "data-[state=active]:bg-card data-[state=active]:shadow-sm",

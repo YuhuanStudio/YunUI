@@ -669,7 +669,7 @@ function Gauge({
               cy: size / 2,
               r,
               fill: "none",
-              stroke: "var(--color-muted)",
+              stroke: "var(--color-border)",
               strokeWidth: thickness
             }
           ),
@@ -1150,5 +1150,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-TEIOP7C7.js.map
-//# sourceMappingURL=chunk-TEIOP7C7.js.map
+//# sourceMappingURL=chunk-5E3O6ANF.js.map
+//# sourceMappingURL=chunk-5E3O6ANF.js.map

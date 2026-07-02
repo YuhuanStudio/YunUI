@@ -1948,10 +1948,10 @@ var Slider = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */
   SliderPrimitive.Root,
   {
     ref,
-    className: cn("relative flex w-full touch-none select-none items-center", className),
+    className: cn("relative flex w-full touch-none select-none items-center px-2.5", className),
     ...props,
     children: [
-      /* @__PURE__ */ jsx(SliderPrimitive.Track, { className: "relative h-2 w-full grow overflow-hidden rounded-full bg-muted", children: /* @__PURE__ */ jsx(SliderPrimitive.Range, { className: "absolute h-full bg-foreground yunui-accent-bg" }) }),
+      /* @__PURE__ */ jsx(SliderPrimitive.Track, { className: "relative h-2 w-full grow overflow-hidden rounded-full bg-border", children: /* @__PURE__ */ jsx(SliderPrimitive.Range, { className: "absolute h-full bg-foreground yunui-accent-bg" }) }),
       /* @__PURE__ */ jsx(
         SliderPrimitive.Thumb,
         {
@@ -1996,7 +1996,7 @@ var TabsTrigger = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE
   {
     ref,
     className: cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-all",
+      "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-all",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
       "disabled:pointer-events-none disabled:opacity-50",
       "data-[state=active]:bg-card data-[state=active]:shadow-sm",
@@ -2473,5 +2473,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-3AY3LSIG.js.map
-//# sourceMappingURL=chunk-3AY3LSIG.js.map
+//# sourceMappingURL=chunk-XHUDDUIG.js.map
+//# sourceMappingURL=chunk-XHUDDUIG.js.map
