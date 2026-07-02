@@ -33,20 +33,20 @@ const roleDefaults: Record<
   user: {
     label: "You",
     icon: User,
-    wrap: "bg-primary",
-    icn: "text-primary-foreground",
+    wrap: "bg-(--accent)",
+    icn: "text-(--bg-base)",
   },
   assistant: {
     label: "Assistant",
     icon: Bot,
-    wrap: "bg-muted border border-border",
-    icn: "text-muted-foreground",
+    wrap: "bg-(--bg-elevated) border border-(--border-hairline)",
+    icn: "text-(--text-tertiary)",
   },
   system: {
     label: "System",
     icon: Sparkles,
-    wrap: "bg-muted border border-border",
-    icn: "text-muted-foreground",
+    wrap: "bg-(--bg-elevated) border border-(--border-hairline)",
+    icn: "text-(--text-tertiary)",
   },
 };
 
@@ -91,7 +91,7 @@ export function ChatMessage({
         <div className="flex-1 min-w-0 space-y-2">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
-              <div className="text-sm font-medium text-foreground">
+              <div className="text-sm font-medium text-(--text-primary)">
                 {name ?? cfg.label}
               </div>
               {badges && (
@@ -101,7 +101,7 @@ export function ChatMessage({
               )}
             </div>
             {timestamp && (
-              <span className="text-xs text-muted-foreground shrink-0">
+              <span className="text-xs text-(--text-tertiary) shrink-0">
                 {timestamp}
               </span>
             )}

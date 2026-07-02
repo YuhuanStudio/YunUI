@@ -760,7 +760,7 @@ function MarkdownRenderer({
             href,
             target: isExternal ? "_blank" : void 0,
             rel: isExternal ? "noopener noreferrer" : void 0,
-            className: "text-primary hover:underline inline-flex items-center gap-0.5",
+            className: "text-(--text-primary) underline decoration-(--border-default) underline-offset-2 hover:decoration-(--text-primary) inline-flex items-center gap-0.5",
             ...props,
             children: [
               children,
@@ -820,7 +820,7 @@ function MarkdownRenderer({
               type: "checkbox",
               checked,
               readOnly: true,
-              className: "mt-1 h-4 w-4 rounded border-(--border-hairline) accent-primary focus:ring-ring",
+              className: "mt-1 h-4 w-4 rounded border-(--border-hairline) accent-(--accent) focus:ring-ring",
               ...props
             }
           );

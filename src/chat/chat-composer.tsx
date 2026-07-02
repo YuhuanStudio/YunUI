@@ -81,8 +81,8 @@ export function ChatComposer({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border bg-background shadow-sm transition-colors",
-        "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+        "rounded-2xl border border-(--border-default) bg-(--bg-card) shadow-sm transition-colors",
+        "focus-within:border-(--border-strong) focus-within:ring-2 focus-within:ring-(--border-strong)/30",
         disabled && "opacity-60",
         className,
       )}
@@ -103,7 +103,7 @@ export function ChatComposer({
           className={cn(
             // 16px on mobile avoids iOS Safari's focus-zoom; compact on desktop.
             "flex-1 resize-none bg-transparent py-2 text-base leading-5 md:text-sm",
-            "placeholder:text-muted-foreground focus:outline-none",
+            "placeholder:text-(--text-muted) focus:outline-none",
             "max-h-[40vh]",
           )}
         />
@@ -113,7 +113,7 @@ export function ChatComposer({
             type="button"
             onClick={onStop}
             aria-label="Stop"
-            className="shrink-0 mb-0.5 h-8 w-8 rounded-full bg-foreground text-background flex items-center justify-center hover:opacity-90 transition-opacity"
+            className="shrink-0 mb-0.5 h-8 w-8 rounded-full bg-(--text-primary) text-(--bg-base) flex items-center justify-center hover:opacity-90 transition-opacity"
           >
             <Square className="w-3.5 h-3.5 fill-current" />
           </button>
@@ -126,8 +126,8 @@ export function ChatComposer({
             className={cn(
               "shrink-0 mb-0.5 h-8 w-8 rounded-full flex items-center justify-center transition-colors",
               canSend
-                ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                : "bg-muted text-muted-foreground cursor-not-allowed",
+                ? "bg-(--accent) text-(--bg-base) hover:opacity-90"
+                : "bg-(--bg-elevated) text-(--text-muted) cursor-not-allowed",
             )}
           >
             <ArrowUp className="w-4 h-4" />

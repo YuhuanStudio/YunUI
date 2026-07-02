@@ -151,7 +151,7 @@ export function MarkdownRenderer({
             href={href}
             target={isExternal ? "_blank" : undefined}
             rel={isExternal ? "noopener noreferrer" : undefined}
-            className="text-primary hover:underline inline-flex items-center gap-0.5"
+            className="text-(--text-primary) underline decoration-(--border-default) underline-offset-2 hover:decoration-(--text-primary) inline-flex items-center gap-0.5"
             {...props}
           >
             {children}
@@ -251,7 +251,7 @@ export function MarkdownRenderer({
               checked={checked}
               readOnly
               // `accent-*` colours the native checkbox tick (text-* does not).
-              className="mt-1 h-4 w-4 rounded border-(--border-hairline) accent-primary focus:ring-ring"
+              className="mt-1 h-4 w-4 rounded border-(--border-hairline) accent-(--accent) focus:ring-ring"
               {...props}
             />
           );

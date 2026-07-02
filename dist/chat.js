@@ -11,20 +11,20 @@ var roleDefaults = {
   user: {
     label: "You",
     icon: User,
-    wrap: "bg-primary",
-    icn: "text-primary-foreground"
+    wrap: "bg-(--accent)",
+    icn: "text-(--bg-base)"
   },
   assistant: {
     label: "Assistant",
     icon: Bot,
-    wrap: "bg-muted border border-border",
-    icn: "text-muted-foreground"
+    wrap: "bg-(--bg-elevated) border border-(--border-hairline)",
+    icn: "text-(--text-tertiary)"
   },
   system: {
     label: "System",
     icon: Sparkles,
-    wrap: "bg-muted border border-border",
-    icn: "text-muted-foreground"
+    wrap: "bg-(--bg-elevated) border border-(--border-hairline)",
+    icn: "text-(--text-tertiary)"
   }
 };
 function ChatMessage({
@@ -54,10 +54,10 @@ function ChatMessage({
     /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0 space-y-2", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2", children: [
         /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 min-w-0", children: [
-          /* @__PURE__ */ jsx("div", { className: "text-sm font-medium text-foreground", children: name ?? cfg.label }),
+          /* @__PURE__ */ jsx("div", { className: "text-sm font-medium text-(--text-primary)", children: name ?? cfg.label }),
           badges && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1 text-xs min-w-0", children: badges })
         ] }),
-        timestamp && /* @__PURE__ */ jsx("span", { className: "text-xs text-muted-foreground shrink-0", children: timestamp })
+        timestamp && /* @__PURE__ */ jsx("span", { className: "text-xs text-(--text-tertiary) shrink-0", children: timestamp })
       ] }),
       children && /* @__PURE__ */ jsx("div", { className: "min-w-0", children }),
       footer,
@@ -152,8 +152,8 @@ function ChatComposer({
     "div",
     {
       className: cn(
-        "rounded-2xl border border-border bg-background shadow-sm transition-colors",
-        "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20",
+        "rounded-2xl border border-(--border-default) bg-(--bg-card) shadow-sm transition-colors",
+        "focus-within:border-(--border-strong) focus-within:ring-2 focus-within:ring-(--border-strong)/30",
         disabled && "opacity-60",
         className
       ),
@@ -173,7 +173,7 @@ function ChatComposer({
               className: cn(
                 // 16px on mobile avoids iOS Safari's focus-zoom; compact on desktop.
                 "flex-1 resize-none bg-transparent py-2 text-base leading-5 md:text-sm",
-                "placeholder:text-muted-foreground focus:outline-none",
+                "placeholder:text-(--text-muted) focus:outline-none",
                 "max-h-[40vh]"
               )
             }
@@ -184,7 +184,7 @@ function ChatComposer({
               type: "button",
               onClick: onStop,
               "aria-label": "Stop",
-              className: "shrink-0 mb-0.5 h-8 w-8 rounded-full bg-foreground text-background flex items-center justify-center hover:opacity-90 transition-opacity",
+              className: "shrink-0 mb-0.5 h-8 w-8 rounded-full bg-(--text-primary) text-(--bg-base) flex items-center justify-center hover:opacity-90 transition-opacity",
               children: /* @__PURE__ */ jsx(Square, { className: "w-3.5 h-3.5 fill-current" })
             }
           ) : /* @__PURE__ */ jsx(
@@ -196,7 +196,7 @@ function ChatComposer({
               "aria-label": "Send",
               className: cn(
                 "shrink-0 mb-0.5 h-8 w-8 rounded-full flex items-center justify-center transition-colors",
-                canSend ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-muted text-muted-foreground cursor-not-allowed"
+                canSend ? "bg-(--accent) text-(--bg-base) hover:opacity-90" : "bg-(--bg-elevated) text-(--text-muted) cursor-not-allowed"
               ),
               children: /* @__PURE__ */ jsx(ArrowUp, { className: "w-4 h-4" })
             }
@@ -218,8 +218,8 @@ function ChatHeader({
     "div",
     {
       className: cn(
-        "h-14 flex items-center justify-between gap-3 px-4 border-b border-border",
-        "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        "h-14 flex items-center justify-between gap-3 px-4 border-b border-(--border-hairline)",
+        "bg-(--bg-card)/95 backdrop-blur supports-[backdrop-filter]:bg-(--bg-card)/60",
         className
       ),
       children: children ?? /* @__PURE__ */ jsxs(Fragment, { children: [
