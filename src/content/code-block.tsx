@@ -2,10 +2,9 @@
 
 import * as React from "react";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Check, Copy, Terminal, Edit3 } from "lucide-react";
+import { Check, Copy, Edit3 } from "lucide-react";
 import type { BundledLanguage, BundledTheme } from "shiki";
 import { cn } from "../lib/cn";
-import { Button } from "../primitives";
 import { useContentT } from "./use-content-t";
 
 export interface CodeBlockEditPayload {
@@ -203,56 +202,59 @@ export function CodeBlock({
     }
   };
 
+  const btnBase =
+    "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
   return (
     <div
       className={cn(
-        "group relative my-4 rounded-xl border border-border overflow-hidden",
-        "bg-muted/30",
+        "card group my-4 overflow-hidden max-w-full min-w-0",
         className,
       )}
     >
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
-        <div className="flex items-center gap-2">
-          <Terminal className="w-4 h-4 text-muted-foreground" />
+      {/* Window-chrome header — matches YunUI's original patterns/CodeBlock:
+          traffic-light dots + a language `.badge` (or filename) + copy/edit. */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-(--border-hairline) bg-(--bg-elevated)">
+        <div className="flex items-center gap-2.5">
+          <div className="flex gap-1">
+            <div className="w-2 h-2 rounded-full bg-(--error) opacity-80" />
+            <div className="w-2 h-2 rounded-full bg-(--warning) opacity-80" />
+            <div className="w-2 h-2 rounded-full bg-(--success) opacity-80" />
+          </div>
           {filename ? (
-            <span className="text-xs font-medium text-foreground">{filename}</span>
-          ) : (
-            <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              {displayLanguage}
+            <span className="text-xs font-medium text-(--text-secondary) font-mono">
+              {filename}
             </span>
+          ) : (
+            <span className="badge text-xs">{displayLanguage}</span>
           )}
         </div>
-        <div className="flex items-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-all duration-200">
+        <div className="flex items-center gap-1.5">
           {onEdit && (
-            <Button variant="primary" size="sm" onClick={handleEdit}>
+            <button onClick={handleEdit} className={cn(btnBase, "text-(--text-tertiary)")}>
               <Edit3 className="w-3.5 h-3.5" />
               {t("edit", "Edit")}
-            </Button>
+            </button>
           )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleCopy}
-            style={copied ? { color: "var(--success)" } : undefined}
-          >
+          <button onClick={handleCopy} className={btnBase}>
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5" />
-                {t("copied", "Copied")}
+                <Check className="w-3.5 h-3.5 text-(--success)" />
+                <span className="text-(--success)">{t("copied", "Copied")}</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5" />
-                {t("copy", "Copy")}
+                <Copy className="w-3.5 h-3.5 text-(--text-tertiary)" />
+                <span className="text-(--text-tertiary)">{t("copy", "Copy")}</span>
               </>
             )}
-          </Button>
+          </button>
         </div>
       </div>
 
       <div
         className={cn(
-          "overflow-x-auto overflow-y-auto p-4 max-h-100",
+          "overflow-x-auto overflow-y-auto p-4 max-h-100 bg-(--bg-base)",
           showLineNumbers && "code-with-line-numbers",
         )}
       >
@@ -283,7 +285,7 @@ export function InlineCode({
     <code
       className={cn(
         "px-1.5 py-0.5 mx-0.5 rounded text-sm font-mono",
-        "bg-muted/80 text-foreground border border-border",
+        "bg-(--accent-subtle) text-(--text-primary) border border-(--border-hairline)",
         "wrap-break-word",
         className,
       )}

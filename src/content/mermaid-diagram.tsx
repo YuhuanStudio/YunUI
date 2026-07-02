@@ -97,22 +97,22 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
     return (
       <div
         className={cn(
-          "my-4 p-4 rounded-xl border border-destructive/30 bg-destructive/5",
+          "my-4 p-4 rounded-xl border bg-error-soft border-error-soft",
           className,
         )}
       >
         <div className="flex items-start gap-2">
-          <span className="text-destructive">⚠️</span>
+          <span className="text-error">⚠️</span>
           <div>
-            <p className="text-sm font-medium text-destructive">
+            <p className="text-sm font-medium text-error">
               {t("mermaidError", "Diagram error")}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">{error}</p>
+            <p className="text-xs text-(--text-tertiary) mt-1">{error}</p>
             <details className="mt-2">
-              <summary className="text-xs text-muted-foreground cursor-pointer hover:text-foreground">
+              <summary className="text-xs text-(--text-tertiary) cursor-pointer hover:text-(--text-primary)">
                 {t("viewSource", "View source")}
               </summary>
-              <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-auto">
+              <pre className="mt-2 p-2 bg-(--bg-elevated) rounded text-xs overflow-auto">
                 {chart}
               </pre>
             </details>
@@ -126,11 +126,11 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
     return (
       <div
         className={cn(
-          "my-4 p-8 rounded-xl border border-border bg-muted/30 flex items-center justify-center",
+          "card my-4 p-8 flex items-center justify-center",
           className,
         )}
       >
-        <div className="flex items-center gap-2 text-muted-foreground">
+        <div className="flex items-center gap-2 text-(--text-tertiary)">
           <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
           <span className="text-sm">{t("renderingDiagram", "Rendering diagram…")}</span>
         </div>
@@ -142,7 +142,7 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
     <div
       ref={containerRef}
       className={cn(
-        "my-4 p-4 rounded-xl border border-border bg-card overflow-x-auto",
+        "card my-4 p-4 overflow-x-auto",
         "flex items-center justify-center",
         "[&_svg]:max-w-full [&_svg]:h-auto",
         className,

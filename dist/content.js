@@ -1,5 +1,5 @@
 "use client";
-import { Button, Alert } from './chunk-3AY3LSIG.js';
+import { Alert } from './chunk-3AY3LSIG.js';
 import { cn } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React2 from 'react';
@@ -10,7 +10,7 @@ import remarkMath from 'remark-math';
 import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
-import { ZoomOut, ZoomIn, RotateCw, Download, X, Terminal, Edit3, Check, Copy, CheckCircle2, XOctagon, AlertTriangle, AlertCircle, Lightbulb, Info, ExternalLink, Link2 } from 'lucide-react';
+import { ZoomOut, ZoomIn, RotateCw, Download, X, Edit3, Check, Copy, CheckCircle2, XOctagon, AlertTriangle, AlertCircle, Lightbulb, Info, ExternalLink, Link2 } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { createPortal } from 'react-dom';
 import katex from 'katex';
@@ -180,48 +180,43 @@ function CodeBlock({
     } catch {
     }
   };
+  const btnBase = "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring";
   return /* @__PURE__ */ jsxs(
     "div",
     {
       className: cn(
-        "group relative my-4 rounded-xl border border-border overflow-hidden",
-        "bg-muted/30",
+        "card group my-4 overflow-hidden max-w-full min-w-0",
         className
       ),
       children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50", children: [
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
-            /* @__PURE__ */ jsx(Terminal, { className: "w-4 h-4 text-muted-foreground" }),
-            filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-foreground", children: filename }) : /* @__PURE__ */ jsx("span", { className: "text-[11px] font-semibold uppercase tracking-wide text-muted-foreground", children: displayLanguage })
+        /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2.5 border-b border-(--border-hairline) bg-(--bg-elevated)", children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5", children: [
+            /* @__PURE__ */ jsxs("div", { className: "flex gap-1", children: [
+              /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--error) opacity-80" }),
+              /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--warning) opacity-80" }),
+              /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--success) opacity-80" })
+            ] }),
+            filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-(--text-secondary) font-mono", children: filename }) : /* @__PURE__ */ jsx("span", { className: "badge text-xs", children: displayLanguage })
           ] }),
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-all duration-200", children: [
-            onEdit && /* @__PURE__ */ jsxs(Button, { variant: "primary", size: "sm", onClick: handleEdit, children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
+            onEdit && /* @__PURE__ */ jsxs("button", { onClick: handleEdit, className: cn(btnBase, "text-(--text-tertiary)"), children: [
               /* @__PURE__ */ jsx(Edit3, { className: "w-3.5 h-3.5" }),
               t("edit", "Edit")
             ] }),
-            /* @__PURE__ */ jsx(
-              Button,
-              {
-                variant: "ghost",
-                size: "sm",
-                onClick: handleCopy,
-                style: copied ? { color: "var(--success)" } : void 0,
-                children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
-                  /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5" }),
-                  t("copied", "Copied")
-                ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-                  /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5" }),
-                  t("copy", "Copy")
-                ] })
-              }
-            )
+            /* @__PURE__ */ jsx("button", { onClick: handleCopy, className: btnBase, children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
+              /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5 text-(--success)" }),
+              /* @__PURE__ */ jsx("span", { className: "text-(--success)", children: t("copied", "Copied") })
+            ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+              /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5 text-(--text-tertiary)" }),
+              /* @__PURE__ */ jsx("span", { className: "text-(--text-tertiary)", children: t("copy", "Copy") })
+            ] }) })
           ] })
         ] }),
         /* @__PURE__ */ jsx(
           "div",
           {
             className: cn(
-              "overflow-x-auto overflow-y-auto p-4 max-h-100",
+              "overflow-x-auto overflow-y-auto p-4 max-h-100 bg-(--bg-base)",
               showLineNumbers && "code-with-line-numbers"
             ),
             children: isLoading ? /* @__PURE__ */ jsx("pre", { className: "text-sm font-mono", children: /* @__PURE__ */ jsx("code", { children: code }) }) : /* @__PURE__ */ jsx(
@@ -246,7 +241,7 @@ function InlineCode({
     {
       className: cn(
         "px-1.5 py-0.5 mx-0.5 rounded text-sm font-mono",
-        "bg-muted/80 text-foreground border border-border",
+        "bg-(--accent-subtle) text-(--text-primary) border border-(--border-hairline)",
         "wrap-break-word",
         className
       ),
@@ -316,17 +311,17 @@ function MermaidDiagram({ chart, className }) {
       "div",
       {
         className: cn(
-          "my-4 p-4 rounded-xl border border-destructive/30 bg-destructive/5",
+          "my-4 p-4 rounded-xl border bg-error-soft border-error-soft",
           className
         ),
         children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2", children: [
-          /* @__PURE__ */ jsx("span", { className: "text-destructive", children: "\u26A0\uFE0F" }),
+          /* @__PURE__ */ jsx("span", { className: "text-error", children: "\u26A0\uFE0F" }),
           /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsx("p", { className: "text-sm font-medium text-destructive", children: t("mermaidError", "Diagram error") }),
-            /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground mt-1", children: error }),
+            /* @__PURE__ */ jsx("p", { className: "text-sm font-medium text-error", children: t("mermaidError", "Diagram error") }),
+            /* @__PURE__ */ jsx("p", { className: "text-xs text-(--text-tertiary) mt-1", children: error }),
             /* @__PURE__ */ jsxs("details", { className: "mt-2", children: [
-              /* @__PURE__ */ jsx("summary", { className: "text-xs text-muted-foreground cursor-pointer hover:text-foreground", children: t("viewSource", "View source") }),
-              /* @__PURE__ */ jsx("pre", { className: "mt-2 p-2 bg-muted rounded text-xs overflow-auto", children: chart })
+              /* @__PURE__ */ jsx("summary", { className: "text-xs text-(--text-tertiary) cursor-pointer hover:text-(--text-primary)", children: t("viewSource", "View source") }),
+              /* @__PURE__ */ jsx("pre", { className: "mt-2 p-2 bg-(--bg-elevated) rounded text-xs overflow-auto", children: chart })
             ] })
           ] })
         ] })
@@ -338,10 +333,10 @@ function MermaidDiagram({ chart, className }) {
       "div",
       {
         className: cn(
-          "my-4 p-8 rounded-xl border border-border bg-muted/30 flex items-center justify-center",
+          "card my-4 p-8 flex items-center justify-center",
           className
         ),
-        children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-muted-foreground", children: [
+        children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-(--text-tertiary)", children: [
           /* @__PURE__ */ jsx("div", { className: "w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" }),
           /* @__PURE__ */ jsx("span", { className: "text-sm", children: t("renderingDiagram", "Rendering diagram\u2026") })
         ] })
@@ -353,7 +348,7 @@ function MermaidDiagram({ chart, className }) {
     {
       ref: containerRef,
       className: cn(
-        "my-4 p-4 rounded-xl border border-border bg-card overflow-x-auto",
+        "card my-4 p-4 overflow-x-auto",
         "flex items-center justify-center",
         "[&_svg]:max-w-full [&_svg]:h-auto",
         className
@@ -600,7 +595,7 @@ var ContentImage = React2.memo(function ContentImage2({
   }, [srcString, valid]);
   if (!valid) return null;
   if (failed) {
-    return /* @__PURE__ */ jsx("span", { className: "inline-block", children: /* @__PURE__ */ jsx("span", { className: "bg-muted px-3 py-2 rounded-xl border border-destructive/20 text-center", children: /* @__PURE__ */ jsxs("span", { className: "text-destructive text-sm", children: [
+    return /* @__PURE__ */ jsx("span", { className: "inline-block", children: /* @__PURE__ */ jsx("span", { className: "bg-error-soft px-3 py-2 rounded-xl border border-error-soft text-center", children: /* @__PURE__ */ jsxs("span", { className: "text-error text-sm", children: [
       "\u{1F5BC}\uFE0F ",
       t("imageLoadingFailed", "Image failed to load")
     ] }) }) });
@@ -615,14 +610,14 @@ var ContentImage = React2.memo(function ContentImage2({
         minWidth: loaded ? "auto" : "200px"
       },
       children: [
-        !loaded && /* @__PURE__ */ jsx("span", { className: "absolute inset-0 flex items-center justify-center bg-muted/30 rounded-xl", children: /* @__PURE__ */ jsx("span", { className: "w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin block" }) }),
+        !loaded && /* @__PURE__ */ jsx("span", { className: "absolute inset-0 flex items-center justify-center bg-(--bg-elevated) rounded-xl", children: /* @__PURE__ */ jsx("span", { className: "w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin block" }) }),
         /* @__PURE__ */ jsx(
           "img",
           {
             ref: imgRef,
             alt,
             className: cn(
-              "max-w-full h-auto rounded-xl shadow-sm border border-border transition-opacity duration-300",
+              "max-w-full h-auto rounded-xl shadow-sm border border-(--border-hairline) transition-opacity duration-300",
               loaded ? "opacity-100" : "opacity-0",
               enableLightbox && loaded && "cursor-zoom-in",
               className
@@ -796,12 +791,12 @@ function MarkdownRenderer({
             ] });
           }
         }
-        return /* @__PURE__ */ jsx("blockquote", { className: "border-l-4 border-muted-foreground/30 pl-4 my-4 italic text-muted-foreground", children });
+        return /* @__PURE__ */ jsx("blockquote", { className: "border-l-4 border-(--border-default) pl-4 my-4 italic text-(--text-secondary)", children });
       },
-      table: ({ children }) => /* @__PURE__ */ jsx("div", { className: "my-4 overflow-x-auto rounded-xl border border-border", children: /* @__PURE__ */ jsx("table", { className: "min-w-full divide-y divide-border", children }) }),
-      thead: ({ children }) => /* @__PURE__ */ jsx("thead", { className: "bg-muted/50", children }),
-      th: ({ children }) => /* @__PURE__ */ jsx("th", { className: "px-4 py-2 text-left text-sm font-semibold text-foreground", children }),
-      td: ({ children }) => /* @__PURE__ */ jsx("td", { className: "px-4 py-2 text-sm border-t border-border", children }),
+      table: ({ children }) => /* @__PURE__ */ jsx("div", { className: "card my-4 overflow-x-auto", children: /* @__PURE__ */ jsx("table", { className: "min-w-full divide-y divide-(--border-hairline)", children }) }),
+      thead: ({ children }) => /* @__PURE__ */ jsx("thead", { className: "bg-(--bg-elevated)", children }),
+      th: ({ children }) => /* @__PURE__ */ jsx("th", { className: "px-4 py-2 text-left text-sm font-semibold text-(--text-primary)", children }),
+      td: ({ children }) => /* @__PURE__ */ jsx("td", { className: "px-4 py-2 text-sm border-t border-(--border-hairline)", children }),
       ul: ({ children }) => /* @__PURE__ */ jsx("ul", { className: "my-3 ml-6 list-disc space-y-1 [&>li]:pl-1", children }),
       ol: ({ children }) => /* @__PURE__ */ jsx("ol", { className: "my-3 ml-6 list-decimal space-y-1 [&>li]:pl-1", children }),
       li: ({ children, className: liClass }) => {
@@ -825,29 +820,29 @@ function MarkdownRenderer({
               type: "checkbox",
               checked,
               readOnly: true,
-              className: "mt-1 h-4 w-4 rounded border-border accent-primary focus:ring-ring",
+              className: "mt-1 h-4 w-4 rounded border-(--border-hairline) accent-primary focus:ring-ring",
               ...props
             }
           );
         }
         return /* @__PURE__ */ jsx("input", { type, ...props });
       },
-      hr: () => /* @__PURE__ */ jsx("hr", { className: "my-6 border-t border-border" }),
-      kbd: ({ children }) => /* @__PURE__ */ jsx("kbd", { className: "px-1.5 py-0.5 text-xs font-mono bg-muted border border-b-2 border-muted-foreground/20 rounded shadow-sm", children }),
-      mark: ({ children }) => /* @__PURE__ */ jsx("mark", { className: "bg-warning-soft text-foreground px-0.5 rounded", children }),
-      details: ({ children }) => /* @__PURE__ */ jsx("details", { className: "my-4 rounded-xl border border-border bg-card overflow-hidden group", children }),
-      summary: ({ children }) => /* @__PURE__ */ jsx("summary", { className: "px-4 py-3 cursor-pointer select-none font-medium hover:bg-muted/50 transition-colors", children }),
+      hr: () => /* @__PURE__ */ jsx("hr", { className: "my-6 border-t border-(--border-hairline)" }),
+      kbd: ({ children }) => /* @__PURE__ */ jsx("kbd", { className: "px-1.5 py-0.5 text-xs font-mono bg-(--bg-elevated) border border-(--border-default) rounded shadow-sm", children }),
+      mark: ({ children }) => /* @__PURE__ */ jsx("mark", { className: "bg-warning-soft text-(--text-primary) px-0.5 rounded", children }),
+      details: ({ children }) => /* @__PURE__ */ jsx("details", { className: "card my-4 overflow-hidden group", children }),
+      summary: ({ children }) => /* @__PURE__ */ jsx("summary", { className: "px-4 py-3 cursor-pointer select-none font-medium hover:bg-(--accent-subtle) transition-colors", children }),
       abbr: ({ children, title }) => /* @__PURE__ */ jsx(
         "abbr",
         {
           title,
-          className: "border-b border-dotted border-muted-foreground cursor-help",
+          className: "border-b border-dotted border-(--text-tertiary) cursor-help",
           children
         }
       ),
       sub: ({ children }) => /* @__PURE__ */ jsx("sub", { className: "text-xs", children }),
       sup: ({ children }) => /* @__PURE__ */ jsx("sup", { className: "text-xs", children }),
-      del: ({ children }) => /* @__PURE__ */ jsx("del", { className: "text-muted-foreground line-through", children })
+      del: ({ children }) => /* @__PURE__ */ jsx("del", { className: "text-(--text-tertiary) line-through", children })
     }),
     [onCodeEdit]
   );
@@ -861,7 +856,7 @@ function MarkdownRenderer({
         // shoved off their icon, and code blocks looked different inside prose vs
         // out. `not-prose` makes our mappings the single source of truth, even
         // when a host app wraps the output in `.prose`.
-        "not-prose text-sm leading-relaxed text-foreground",
+        "not-prose text-sm leading-relaxed text-(--text-primary)",
         className
       ),
       children: /* @__PURE__ */ jsx(
@@ -898,7 +893,7 @@ function HeadingAnchor({ id }) {
       onClick: handleClick,
       className: cn(
         "opacity-0 group-hover:opacity-100 transition-opacity",
-        "text-muted-foreground hover:text-foreground",
+        "text-(--text-tertiary) hover:text-(--text-primary)",
         copied && "text-success"
       ),
       "aria-label": t("linkToHeading", "Copy link to this heading"),

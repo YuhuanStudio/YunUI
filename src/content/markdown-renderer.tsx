@@ -200,25 +200,25 @@ export function MarkdownRenderer({
         }
 
         return (
-          <blockquote className="border-l-4 border-muted-foreground/30 pl-4 my-4 italic text-muted-foreground">
+          <blockquote className="border-l-4 border-(--border-default) pl-4 my-4 italic text-(--text-secondary)">
             {children}
           </blockquote>
         );
       },
 
       table: ({ children }) => (
-        <div className="my-4 overflow-x-auto rounded-xl border border-border">
-          <table className="min-w-full divide-y divide-border">{children}</table>
+        <div className="card my-4 overflow-x-auto">
+          <table className="min-w-full divide-y divide-(--border-hairline)">{children}</table>
         </div>
       ),
-      thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
+      thead: ({ children }) => <thead className="bg-(--bg-elevated)">{children}</thead>,
       th: ({ children }) => (
-        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">
+        <th className="px-4 py-2 text-left text-sm font-semibold text-(--text-primary)">
           {children}
         </th>
       ),
       td: ({ children }) => (
-        <td className="px-4 py-2 text-sm border-t border-border">{children}</td>
+        <td className="px-4 py-2 text-sm border-t border-(--border-hairline)">{children}</td>
       ),
 
       ul: ({ children }) => (
@@ -251,7 +251,7 @@ export function MarkdownRenderer({
               checked={checked}
               readOnly
               // `accent-*` colours the native checkbox tick (text-* does not).
-              className="mt-1 h-4 w-4 rounded border-border accent-primary focus:ring-ring"
+              className="mt-1 h-4 w-4 rounded border-(--border-hairline) accent-primary focus:ring-ring"
               {...props}
             />
           );
@@ -259,27 +259,27 @@ export function MarkdownRenderer({
         return <input type={type} {...props} />;
       },
 
-      hr: () => <hr className="my-6 border-t border-border" />,
+      hr: () => <hr className="my-6 border-t border-(--border-hairline)" />,
 
       kbd: ({ children }) => (
-        <kbd className="px-1.5 py-0.5 text-xs font-mono bg-muted border border-b-2 border-muted-foreground/20 rounded shadow-sm">
+        <kbd className="px-1.5 py-0.5 text-xs font-mono bg-(--bg-elevated) border border-(--border-default) rounded shadow-sm">
           {children}
         </kbd>
       ),
 
       mark: ({ children }) => (
-        <mark className="bg-warning-soft text-foreground px-0.5 rounded">
+        <mark className="bg-warning-soft text-(--text-primary) px-0.5 rounded">
           {children}
         </mark>
       ),
 
       details: ({ children }) => (
-        <details className="my-4 rounded-xl border border-border bg-card overflow-hidden group">
+        <details className="card my-4 overflow-hidden group">
           {children}
         </details>
       ),
       summary: ({ children }) => (
-        <summary className="px-4 py-3 cursor-pointer select-none font-medium hover:bg-muted/50 transition-colors">
+        <summary className="px-4 py-3 cursor-pointer select-none font-medium hover:bg-(--accent-subtle) transition-colors">
           {children}
         </summary>
       ),
@@ -287,7 +287,7 @@ export function MarkdownRenderer({
       abbr: ({ children, title }) => (
         <abbr
           title={title}
-          className="border-b border-dotted border-muted-foreground cursor-help"
+          className="border-b border-dotted border-(--text-tertiary) cursor-help"
         >
           {children}
         </abbr>
@@ -297,7 +297,7 @@ export function MarkdownRenderer({
       sup: ({ children }) => <sup className="text-xs">{children}</sup>,
 
       del: ({ children }) => (
-        <del className="text-muted-foreground line-through">{children}</del>
+        <del className="text-(--text-tertiary) line-through">{children}</del>
       ),
     }),
     [onCodeEdit],
@@ -312,7 +312,7 @@ export function MarkdownRenderer({
         // shoved off their icon, and code blocks looked different inside prose vs
         // out. `not-prose` makes our mappings the single source of truth, even
         // when a host app wraps the output in `.prose`.
-        "not-prose text-sm leading-relaxed text-foreground",
+        "not-prose text-sm leading-relaxed text-(--text-primary)",
         className,
       )}
     >
@@ -350,7 +350,7 @@ function HeadingAnchor({ id }: { id: string }) {
       onClick={handleClick}
       className={cn(
         "opacity-0 group-hover:opacity-100 transition-opacity",
-        "text-muted-foreground hover:text-foreground",
+        "text-(--text-tertiary) hover:text-(--text-primary)",
         copied && "text-success",
       )}
       aria-label={t("linkToHeading", "Copy link to this heading")}
