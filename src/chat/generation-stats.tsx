@@ -23,8 +23,10 @@ function compact(n: number): string {
   return `${n}`;
 }
 
+// Matches the YunUI Badge primitive's shape (rounded-md · text-xs · font-medium)
+// so a generation stat reads as a peer of every other chip in the chat header.
 const pill =
-  "inline-flex items-center whitespace-nowrap rounded-full bg-muted px-2 py-0.5";
+  "inline-flex items-center whitespace-nowrap rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground";
 
 /**
  * A row of small metric pills for an assistant turn — token count, throughput

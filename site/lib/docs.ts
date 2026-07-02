@@ -1201,9 +1201,9 @@ export const docs: DocEntry[] = [
     "callout-block",
     { en: "Callout Block", "zh-CN": "提示框", "zh-TW": "提示框" },
     {
-      en: "GitHub-style callout panels — note, tip, important, warning, caution and success — with a semantic icon and color.",
-      "zh-CN": "GitHub 风格的提示框——note、tip、important、warning、caution 与 success——带语义化图标与配色。",
-      "zh-TW": "GitHub 風格的提示框——note、tip、important、warning、caution 與 success——帶語義化圖示與配色。",
+      en: "Alert-style callout panels — note, tip, important, warning, caution and success — a full soft-tint box with a leading semantic icon.",
+      "zh-CN": "Alert 风格的提示框——note、tip、important、warning、caution 与 success——整块柔和色底、前置语义图标。",
+      "zh-TW": "Alert 風格的提示框——note、tip、important、warning、caution 與 success——整塊柔和色底、前置語義圖示。",
     },
     "callout block admonition note tip important warning caution success github blockquote alert",
   ),

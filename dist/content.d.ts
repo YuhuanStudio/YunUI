@@ -61,8 +61,10 @@ interface CalloutBlockProps {
     className?: string;
 }
 /**
- * GitHub-style callout box (note / tip / important / warning / caution /
- * success). Renders a colored, left-bordered panel with a semantic icon.
+ * Callout box (note / tip / important / warning / caution / success), styled to
+ * match YunUI's `Alert` primitive: a full soft-tint panel with an all-side soft
+ * border and a leading semantic icon — the same visual language as Alert, Badge
+ * and the status dots, rather than a GitHub-style left bar.
  */
 declare function CalloutBlock({ type, title, children, className, }: CalloutBlockProps): React.JSX.Element;
 /**

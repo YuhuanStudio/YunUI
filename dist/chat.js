@@ -235,7 +235,7 @@ function compact(n) {
   if (n >= 1e3) return `${(n / 1e3).toFixed(2)}K`;
   return `${n}`;
 }
-var pill = "inline-flex items-center whitespace-nowrap rounded-full bg-muted px-2 py-0.5";
+var pill = "inline-flex items-center whitespace-nowrap rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground";
 function GenerationStats({
   tokens,
   tokensPerSecond,

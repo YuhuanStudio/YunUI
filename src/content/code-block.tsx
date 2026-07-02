@@ -216,7 +216,7 @@ export function CodeBlock({
           {filename ? (
             <span className="text-xs font-medium text-foreground">{filename}</span>
           ) : (
-            <span className="text-xs font-medium text-muted-foreground">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
               {displayLanguage}
             </span>
           )}
@@ -226,8 +226,9 @@ export function CodeBlock({
             <button
               onClick={handleEdit}
               className={cn(
-                "flex items-center gap-1.5 px-2 py-1 rounded text-xs",
-                "bg-primary/90 text-primary-foreground hover:bg-primary",
+                "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
+                "bg-primary text-primary-foreground hover:bg-primary/90",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               )}
             >
               <Edit3 className="w-3.5 h-3.5" />
@@ -237,10 +238,11 @@ export function CodeBlock({
           <button
             onClick={handleCopy}
             className={cn(
-              "flex items-center gap-1.5 px-2 py-1 rounded text-xs",
+              "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               copied
                 ? "bg-success-soft text-success"
-                : "hover:bg-muted text-muted-foreground hover:text-foreground",
+                : "text-muted-foreground hover:bg-muted hover:text-foreground",
             )}
           >
             {copied ? (

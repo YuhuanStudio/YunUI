@@ -89,8 +89,10 @@ const defaultTitles: Record<CalloutType, string> = {
 };
 
 /**
- * GitHub-style callout box (note / tip / important / warning / caution /
- * success). Renders a colored, left-bordered panel with a semantic icon.
+ * Callout box (note / tip / important / warning / caution / success), styled to
+ * match YunUI's `Alert` primitive: a full soft-tint panel with an all-side soft
+ * border and a leading semantic icon — the same visual language as Alert, Badge
+ * and the status dots, rather than a GitHub-style left bar.
  */
 export function CalloutBlock({
   type,
@@ -105,7 +107,7 @@ export function CalloutBlock({
 
   return (
     <div
-      className={cn("my-4 rounded-xl border-l-4 p-4", config.surface, className)}
+      className={cn("my-4 rounded-xl border p-4", config.surface, className)}
       style={config.surfaceStyle}
     >
       <div className="flex items-start gap-3">
@@ -115,7 +117,7 @@ export function CalloutBlock({
         />
         <div className="flex-1 min-w-0">
           <p
-            className={cn("font-semibold text-sm mb-1", config.accent)}
+            className={cn("font-medium text-sm mb-1", config.accent)}
             style={config.accentStyle}
           >
             {displayTitle}

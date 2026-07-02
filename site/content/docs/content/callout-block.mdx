@@ -1,6 +1,6 @@
 import { CalloutBlock } from "yunui/content";
 
-GitHub-style callout panels — a colored, left-bordered box with a semantic icon and title. Six types cover the GitHub admonition set: `note`, `tip`, `important`, `warning`, `caution`, plus a YunUI `success`. Inside `MarkdownRenderer` these are produced automatically from `> [!NOTE]` blockquote syntax; use `CalloutBlock` directly when you compose your own layout. The companion `parseCalloutType()` helper detects the `[!TYPE]` marker in a blockquote's first line.
+Callout panels styled to match YunUI's `Alert` primitive — a full soft-tint box with an all-side soft border, a leading semantic icon and a title, sharing the same red/green/amber vocabulary as Alert, Badge and the status dots. Six types cover the GitHub admonition set: `note`, `tip`, `important`, `warning`, `caution`, plus a YunUI `success`. Inside `MarkdownRenderer` these are produced automatically from `> [!NOTE]` blockquote syntax; use `CalloutBlock` directly when you compose your own layout. The companion `parseCalloutType()` helper detects the `[!TYPE]` marker in a blockquote's first line.
 
 ## Import
 

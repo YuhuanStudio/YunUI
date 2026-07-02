@@ -191,7 +191,7 @@ function CodeBlock({
         /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50", children: [
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
             /* @__PURE__ */ jsx(Terminal, { className: "w-4 h-4 text-muted-foreground" }),
-            filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-foreground", children: filename }) : /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-muted-foreground", children: displayLanguage })
+            filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-foreground", children: filename }) : /* @__PURE__ */ jsx("span", { className: "text-[11px] font-semibold uppercase tracking-wide text-muted-foreground", children: displayLanguage })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-all duration-200", children: [
             onEdit && /* @__PURE__ */ jsxs(
@@ -199,8 +199,9 @@ function CodeBlock({
               {
                 onClick: handleEdit,
                 className: cn(
-                  "flex items-center gap-1.5 px-2 py-1 rounded text-xs",
-                  "bg-primary/90 text-primary-foreground hover:bg-primary"
+                  "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
+                  "bg-primary text-primary-foreground hover:bg-primary/90",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 ),
                 children: [
                   /* @__PURE__ */ jsx(Edit3, { className: "w-3.5 h-3.5" }),
@@ -213,8 +214,9 @@ function CodeBlock({
               {
                 onClick: handleCopy,
                 className: cn(
-                  "flex items-center gap-1.5 px-2 py-1 rounded text-xs",
-                  copied ? "bg-success-soft text-success" : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                  "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  copied ? "bg-success-soft text-success" : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 ),
                 children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
                   /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5" }),
@@ -430,7 +432,7 @@ function CalloutBlock({
   return /* @__PURE__ */ jsx(
     "div",
     {
-      className: cn("my-4 rounded-xl border-l-4 p-4", config.surface, className),
+      className: cn("my-4 rounded-xl border p-4", config.surface, className),
       style: config.surfaceStyle,
       children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
         /* @__PURE__ */ jsx(
@@ -444,7 +446,7 @@ function CalloutBlock({
           /* @__PURE__ */ jsx(
             "p",
             {
-              className: cn("font-semibold text-sm mb-1", config.accent),
+              className: cn("font-medium text-sm mb-1", config.accent),
               style: config.accentStyle,
               children: displayTitle
             }
