@@ -7,17 +7,16 @@
  * Token-independent so it renders the same in any host.
  * ===================================================== */
 
-/* Highlighted lines in code blocks */
+/* Highlighted lines in code blocks — tinted with the host's YunUI accent (falls
+ * back to indigo where no token is defined). The full-bleed left bar sits in the
+ * container's left padding; `code` is sized to its widest line (below) so this
+ * background spans the whole line even when the block scrolls horizontally. */
 .highlighted-line {
-  background-color: rgba(99, 102, 241, 0.1);
-  border-left: 3px solid rgb(99, 102, 241);
+  background-color: color-mix(in oklab, var(--accent, #6366f1) 12%, transparent);
+  border-left: 3px solid var(--accent, #6366f1);
   margin-left: -16px;
   padding-left: 13px;
   display: block;
-}
-
-.dark .highlighted-line {
-  background-color: rgba(99, 102, 241, 0.2);
 }
 
 /* Line numbers */
@@ -53,6 +52,11 @@
    * every line (double-spacing). Collapse them here; each `.line` re-enables
    * `pre` below so its own indentation is preserved. */
   white-space: normal;
+  /* Size to the widest line (not the scroll container) so block-level `.line`
+   * highlights span the ENTIRE line under horizontal scroll instead of getting
+   * clipped at the visible edge; `min-width: 100%` keeps short code full-bleed. */
+  width: max-content;
+  min-width: 100%;
   /* Neutralize any host/prose `code` chrome (border, radius, chip background)
    * that would otherwise draw a nested box inside the code block. */
   background: transparent !important;

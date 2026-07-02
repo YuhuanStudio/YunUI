@@ -272,8 +272,12 @@ function MermaidDiagram({ chart, className }) {
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "default",
+          // Excalidraw-style hand-drawn shapes/edges (rough.js under the hood).
+          // Deterministic seed so a diagram looks identical across re-renders.
+          look: "handDrawn",
+          handDrawnSeed: 1,
           securityLevel: "loose",
-          fontFamily: "ui-sans-serif, system-ui, sans-serif",
+          fontFamily: '"Comic Sans MS", "Segoe Print", ui-rounded, system-ui, sans-serif',
           flowchart: { curve: "basis", padding: 20 },
           sequence: { diagramMarginX: 20, diagramMarginY: 20 },
           gantt: { barHeight: 20, barGap: 4 }
