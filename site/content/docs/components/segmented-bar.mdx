@@ -50,16 +50,7 @@ Pass a `total` larger than the segment sum to show free space as track — ideal
   ]}
 />`}
 >
-  <SegmentedBar
-    className="w-72"
-    total={64}
-    legend
-    formatValue={(v) => v + " GB"}
-    segments={[
-      { value: 22, tone: "accent", label: "Active" },
-      { value: 12, tone: "info", label: "Cache" },
-    ]}
-  />
+  <SegmentedBarLegendDemo />
 </ComponentPreview>
 
 ## Props

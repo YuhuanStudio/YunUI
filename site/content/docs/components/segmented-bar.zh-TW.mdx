@@ -50,16 +50,7 @@ import { SegmentedBar } from "@yuhuanowo/yunui";
   ]}
 />`}
 >
-  <SegmentedBar
-    className="w-72"
-    total={64}
-    legend
-    formatValue={(v) => v + " GB"}
-    segments={[
-      { value: 22, tone: "accent", label: "Active" },
-      { value: 12, tone: "info", label: "Cache" },
-    ]}
-  />
+  <SegmentedBarLegendDemo />
 </ComponentPreview>
 
 ## 屬性

@@ -38,7 +38,7 @@ import {
   MediaGallery,
   type MediaResult,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, Badge } from "yunui";
+import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge } from "yunui";
 import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
 import {
   CapabilitySelector,
@@ -963,6 +963,23 @@ export function AreaChartDemo() {
         ariaLabel="Hourly cost"
       />
     </div>
+  );
+}
+
+// Client wrapper: the `formatValue` function prop can't be passed from the
+// (server-rendered) MDX directly, so the demo lives here.
+export function SegmentedBarLegendDemo() {
+  return (
+    <SegmentedBar
+      className="w-72"
+      total={64}
+      legend
+      formatValue={(v) => v + " GB"}
+      segments={[
+        { value: 22, tone: "accent", label: "Active" },
+        { value: 12, tone: "info", label: "Cache" },
+      ]}
+    />
   );
 }
 
