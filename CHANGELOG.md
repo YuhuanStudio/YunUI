@@ -73,6 +73,13 @@ patch = fixes, anything may change between 0.x releases).
   every render, which was in those components' effect deps. `useT`/`useContentT`
   now return stable references, and the async effects no longer depend on the
   translator. Only surfaced under real rendering — caught by screenshot QA.
+- **`ContentImage` spun forever when a `ChatMessageList` shared the page** — the
+  lazy-load `IntersectionObserver` rooted itself at the first
+  `[data-scroll-container="true"]` element (which `ChatMessageList` sets). If the
+  image sat *outside* that list (the normal content + chat page), it never
+  intersected, so the `src` was never assigned and the spinner never resolved.
+  The observer now only uses that container as root when it actually contains the
+  image, else falls back to the viewport. Caught by screenshot QA on the showcase.
 
 ### Added
 - **`MermaidDiagram` is hand-drawn (Excalidraw-style) for every diagram type.**
@@ -97,6 +104,20 @@ patch = fixes, anything may change between 0.x releases).
 - **`Card` sub-components** — `CardHeader`, `CardTitle`, `CardDescription`,
   `CardContent`, `CardFooter` for composing structured cards (previously `Card`
   was a single container).
+
+### Docs / site
+- **Showcase Content + Chat sections are now localized.** They were the only
+  sections with hardcoded English section/demo titles + descriptions and nav
+  labels; every string now flows through the `showcase` message namespace
+  (en / zh-CN / zh-TW), matching every other section.
+- **Showcase gained the missing demos** — a `GenerationStats` metric row in the
+  chat assistant message (tokens / throughput / latency, beside the model badge)
+  and a standalone `ContentImage` (a self-contained local SVG scene, so the
+  lazy-loaded, click-to-zoom frame always renders without an external fetch).
+- **SegmentedBar docs page no longer 500s** — its "Total and remainder" demo
+  passed a live `formatValue` function inline from the (server-rendered) MDX,
+  which React Server Components reject. Moved to a client demo component
+  (`SegmentedBarLegendDemo`), matching the AreaChart pattern.
 - **`Select` parts** — `SelectLabel`, `SelectSeparator`, `SelectScrollUpButton`,
   `SelectScrollDownButton` (round out the Radix Select surface).
 - **`PopoverAnchor`** — position a Popover relative to a separate anchor element.

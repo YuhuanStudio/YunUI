@@ -651,6 +651,8 @@ var ContentImage = React2.memo(function ContentImage2({
   const valid = srcString && srcString !== "#" && srcString !== "undefined" && srcString !== "null";
   useEffect(() => {
     if (!wrapperRef.current || !valid) return;
+    const container = document.querySelector('[data-scroll-container="true"]');
+    const root = container && container.contains(wrapperRef.current) ? container : null;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -661,7 +663,7 @@ var ContentImage = React2.memo(function ContentImage2({
         });
       },
       {
-        root: document.querySelector('[data-scroll-container="true"]'),
+        root,
         rootMargin: "300px 0px",
         threshold: 0.01
       }

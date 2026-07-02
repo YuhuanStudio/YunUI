@@ -1134,7 +1134,12 @@ export function ChatDemo() {
           role="assistant"
           name="Assistant"
           timestamp="9:41 AM"
-          badges={<Badge>gpt-4o</Badge>}
+          badges={
+            <>
+              <Badge>gpt-4o</Badge>
+              <GenerationStats tokens={2570} latencyMs={51611} />
+            </>
+          }
           actions={chatActions}
         >
           <MarkdownRenderer content={CHAT_ASSISTANT_MD} />

@@ -164,7 +164,9 @@
       "dataDisplay": "数据展示",
       "feedback": "反馈",
       "navigation": "导航",
-      "patterns": "模式"
+      "patterns": "模式",
+      "content": "内容渲染",
+      "chat": "聊天"
     },
     "foundations": {
       "title": "基础",
@@ -601,7 +603,47 @@
         "description": "一层淡淡的点状径向背景——它位于页面内容之后（刻意做得很轻）。",
         "yourContent": "你的内容放这里",
         "behindIt": "BackgroundEffects 在其后方渲染"
+      },
+      "markdownRenderer": {
+        "title": "MarkdownRenderer",
+        "description": "完整 GFM markdown,支持数学、Shiki 代码、Mermaid 图表、GitHub 提示框与懒加载的可缩放图片——一段字符串进,丰富 UI 出。"
+      },
+      "contentCodeBlock": {
+        "title": "CodeBlock",
+        "description": "Shiki 高亮的代码,含文件名标头、行号、高亮行与复制。高亮器按需加载。"
+      },
+      "calloutBlock": {
+        "title": "CalloutBlock",
+        "description": "GitHub 风格的提示框——note、tip、important、warning、caution、success。"
+      },
+      "mathRenderer": {
+        "title": "MathRenderer",
+        "description": "以 KaTeX 渲染 LaTeX——行内或居中区块。"
+      },
+      "mermaidDiagram": {
+        "title": "MermaidDiagram",
+        "description": "按需加载的 Mermaid 图表,会随浅色 / 深色重新配色。"
+      },
+      "contentImage": {
+        "title": "ContentImage",
+        "description": "为 markdown / LLM 输出设计的懒加载、点击放大图片——圆角、带边框、内置灯箱。"
+      },
+      "chatDemo": {
+        "title": "聊天",
+        "description": "一个 ChatHeader、由 ChatMessage 行组成的 ChatMessageList(助手主体通过 MarkdownRenderer 渲染),以及受控的 ChatComposer。输入消息并按 Enter。"
+      },
+      "generationStats": {
+        "title": "GenerationStats",
+        "description": "助手回复的一排指标胶囊——输出 token 数、吞吐量与延迟。可通过 labels 本地化。"
       }
+    },
+    "content": {
+      "title": "内容渲染",
+      "description": "内容渲染堆栈——为 LLM / 聊天 / 文档输出处理 markdown、代码、数学、图表与提示框。位于 @yuhuanowo/yunui/content,按需加载 shiki + mermaid。"
+    },
+    "chat": {
+      "title": "聊天",
+      "description": "面向 AI 聊天界面的展示型、插槽式构建组件——消息行、智能滚动列表、自动增高的输入框与标头外壳。位于 @yuhuanowo/yunui/chat,并与 content 子路径搭配渲染 markdown 主体。"
     }
   },
   "capabilities": {

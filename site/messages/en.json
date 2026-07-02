@@ -164,7 +164,9 @@
       "dataDisplay": "Data display",
       "feedback": "Feedback",
       "navigation": "Navigation",
-      "patterns": "Patterns"
+      "patterns": "Patterns",
+      "content": "Content",
+      "chat": "Chat"
     },
     "foundations": {
       "title": "Foundations",
@@ -601,7 +603,47 @@
         "description": "A subtle dotted radial backdrop — it sits behind your page content (intentionally faint).",
         "yourContent": "Your content here",
         "behindIt": "BackgroundEffects renders behind it"
+      },
+      "markdownRenderer": {
+        "title": "MarkdownRenderer",
+        "description": "Full GFM markdown with math, Shiki code, Mermaid diagrams, GitHub callouts and lazy zoomable images — one string in, rich UI out."
+      },
+      "contentCodeBlock": {
+        "title": "CodeBlock",
+        "description": "Shiki-highlighted code with a filename header, line numbers, highlighted lines and copy. The highlighter loads on demand."
+      },
+      "calloutBlock": {
+        "title": "CalloutBlock",
+        "description": "GitHub-style admonitions — note, tip, important, warning, caution, success."
+      },
+      "mathRenderer": {
+        "title": "MathRenderer",
+        "description": "LaTeX via KaTeX — inline or centered block."
+      },
+      "mermaidDiagram": {
+        "title": "MermaidDiagram",
+        "description": "On-demand Mermaid diagrams that re-theme for light / dark."
+      },
+      "contentImage": {
+        "title": "ContentImage",
+        "description": "A lazy-loaded, click-to-zoom image for markdown / LLM output — rounded, bordered and lightbox-ready."
+      },
+      "chatDemo": {
+        "title": "Chat",
+        "description": "A ChatHeader, a ChatMessageList of ChatMessage rows (assistant body via MarkdownRenderer), and a controlled ChatComposer. Type a message and press Enter."
+      },
+      "generationStats": {
+        "title": "GenerationStats",
+        "description": "A row of metric pills for an assistant reply — output tokens, throughput and latency. Localizable via labels."
       }
+    },
+    "content": {
+      "title": "Content",
+      "description": "The content-rendering stack — markdown, code, math, diagrams and callouts for LLM / chat / doc output. Lives on @yuhuanowo/yunui/content with on-demand shiki + mermaid."
+    },
+    "chat": {
+      "title": "Chat",
+      "description": "Presentational, slot-based building blocks for AI chat UIs — a message row, a smart-scroll list, an auto-growing composer and a header shell. Lives on @yuhuanowo/yunui/chat and pairs with the content subpath for markdown bodies."
     }
   },
   "capabilities": {

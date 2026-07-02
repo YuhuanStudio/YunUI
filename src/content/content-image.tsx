@@ -42,6 +42,14 @@ export const ContentImage = React.memo(function ContentImage({
   useEffect(() => {
     if (!wrapperRef.current || !valid) return;
 
+    // Root the observer at the nearest scrollable content container, but only
+    // if it actually contains this image. A page can have a `data-scroll-container`
+    // (e.g. a ChatMessageList) that this image sits *outside* of — rooting to it
+    // then means the image never intersects and stays stuck on the spinner.
+    // Fall back to the viewport (`null`) in that case.
+    const container = document.querySelector('[data-scroll-container="true"]');
+    const root = container && container.contains(wrapperRef.current) ? container : null;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -52,7 +60,7 @@ export const ContentImage = React.memo(function ContentImage({
         });
       },
       {
-        root: document.querySelector('[data-scroll-container="true"]'),
+        root,
         rootMargin: "300px 0px",
         threshold: 0.01,
       },

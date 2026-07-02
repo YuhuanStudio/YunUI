@@ -192,6 +192,7 @@ import {
   CalloutBlock,
   MathRenderer,
   MermaidDiagram,
+  ContentImage,
 } from "yunui/content";
 import {
   Heart,
@@ -903,8 +904,8 @@ export default function Showcase() {
     { label: t("nav.feedback"), href: "#feedback" },
     { label: t("nav.navigation"), href: "#navigation" },
     { label: t("nav.patterns"), href: "#patterns" },
-    { label: "Content", href: "#content" },
-    { label: "Chat", href: "#chat" },
+    { label: t("nav.content"), href: "#content" },
+    { label: t("nav.chat"), href: "#chat" },
   ];
   const [checked, setChecked] = useState(true);
   const [sw, setSw] = useState(true);
@@ -2045,20 +2046,20 @@ export default function Showcase() {
       {/* Content-rendering stack (@yuhuanowo/yunui/content) */}
       <Section
         id="content"
-        title="Content"
-        description="The content-rendering stack — markdown, code, math, diagrams and callouts for LLM / chat / doc output. Lives on @yuhuanowo/yunui/content with on-demand shiki + mermaid."
+        title={t("content.title")}
+        description={t("content.description")}
       >
-        <Demo title="MarkdownRenderer" description="Full GFM markdown with math, Shiki code, Mermaid diagrams, GitHub callouts and lazy zoomable images — one string in, rich UI out.">
+        <Demo title={t("demos.markdownRenderer.title")} description={t("demos.markdownRenderer.description")}>
           <MarkdownRendererDemo />
         </Demo>
-        <Demo title="CodeBlock" description="Shiki-highlighted code with a filename header, line numbers, highlighted lines and copy. The highlighter loads on demand.">
+        <Demo title={t("demos.contentCodeBlock.title")} description={t("demos.contentCodeBlock.description")}>
           <div className="w-full max-w-xl text-left">
             <ContentCodeBlock language="tsx" filename="button.tsx" showLineNumbers highlightLines={[2]}>{`export function Button({ label }: { label: string }) {
   return <button className="btn btn-primary">{label}</button>;
 }`}</ContentCodeBlock>
           </div>
         </Demo>
-        <Demo title="CalloutBlock" description="GitHub-style admonitions — note, tip, important, warning, caution, success.">
+        <Demo title={t("demos.calloutBlock.title")} description={t("demos.calloutBlock.description")}>
           <div className="w-full max-w-xl text-left space-y-3">
             <CalloutBlock type="note">Useful information the user should know.</CalloutBlock>
             <CalloutBlock type="tip">A helpful suggestion for doing things better.</CalloutBlock>
@@ -2066,7 +2067,7 @@ export default function Showcase() {
             <CalloutBlock type="success" title="Deployed">The operation completed successfully.</CalloutBlock>
           </div>
         </Demo>
-        <Demo title="MathRenderer" description="LaTeX via KaTeX — inline or centered block.">
+        <Demo title={t("demos.mathRenderer.title")} description={t("demos.mathRenderer.description")}>
           <div className="w-full max-w-xl text-left space-y-4">
             <p>
               Inline: the quadratic formula is <MathRenderer math="x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}" /> for <MathRenderer math="ax^2 + bx + c = 0" />.
@@ -2074,7 +2075,7 @@ export default function Showcase() {
             <MathRenderer block math="\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}" />
           </div>
         </Demo>
-        <Demo title="MermaidDiagram" description="On-demand Mermaid diagrams that re-theme for light / dark.">
+        <Demo title={t("demos.mermaidDiagram.title")} description={t("demos.mermaidDiagram.description")}>
           <div className="w-full max-w-xl">
             <MermaidDiagram chart={`sequenceDiagram
   participant U as User
@@ -2086,15 +2087,23 @@ export default function Showcase() {
   A-->>U: Rendered markdown`} />
           </div>
         </Demo>
+        <Demo title={t("demos.contentImage.title")} description={t("demos.contentImage.description")}>
+          <div className="w-full max-w-md">
+            <ContentImage
+              src="/sample-scene.svg"
+              alt="Stylized night landscape with a full moon over mountain ridges"
+            />
+          </div>
+        </Demo>
       </Section>
 
       {/* Chat pattern (@yuhuanowo/yunui/chat) */}
       <Section
         id="chat"
-        title="Chat"
-        description="Presentational, slot-based building blocks for AI chat UIs — a message row, a smart-scroll list, an auto-growing composer and a header shell. Lives on @yuhuanowo/yunui/chat and pairs with the content subpath for markdown bodies."
+        title={t("chat.title")}
+        description={t("chat.description")}
       >
-        <Demo title="Chat" description="A ChatHeader, a ChatMessageList of ChatMessage rows (assistant body via MarkdownRenderer), and a controlled ChatComposer. Type a message and press Enter.">
+        <Demo title={t("demos.chatDemo.title")} description={t("demos.chatDemo.description")}>
           <ChatDemo />
         </Demo>
       </Section>
