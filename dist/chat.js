@@ -52,12 +52,12 @@ function ChatMessage({
       }
     ) }),
     /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0 space-y-2", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2", children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 min-w-0", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-2", children: [
+        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-x-2 gap-y-1 min-w-0 flex-wrap", children: [
           /* @__PURE__ */ jsx("div", { className: "text-sm font-medium text-(--text-primary)", children: name ?? cfg.label }),
-          badges && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1 text-xs min-w-0", children: badges })
+          badges && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1 gap-y-1 text-xs min-w-0 flex-wrap", children: badges })
         ] }),
-        timestamp && /* @__PURE__ */ jsx("span", { className: "text-xs text-(--text-tertiary) shrink-0", children: timestamp })
+        timestamp && /* @__PURE__ */ jsx("span", { className: "text-xs text-(--text-tertiary) shrink-0 whitespace-nowrap leading-6", children: timestamp })
       ] }),
       children && /* @__PURE__ */ jsx("div", { className: "min-w-0", children }),
       footer,

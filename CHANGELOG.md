@@ -73,6 +73,11 @@ patch = fixes, anything may change between 0.x releases).
   every render, which was in those components' effect deps. `useT`/`useContentT`
   now return stable references, and the async effects no longer depend on the
   translator. Only surfaced under real rendering — caught by screenshot QA.
+- **`ChatMessage` header collided badges with the timestamp on narrow widths** —
+  a `flex items-center` header meant wrapping badges (e.g. a model chip plus a
+  `GenerationStats` token/throughput/latency row) overlapped the right-aligned
+  timestamp on mobile. The header now aligns to the top, wraps the name/badges
+  group, and keeps the timestamp on the first line — clean at every width.
 - **`ContentImage` spun forever when a `ChatMessageList` shared the page** — the
   lazy-load `IntersectionObserver` rooted itself at the first
   `[data-scroll-container="true"]` element (which `ChatMessageList` sets). If the

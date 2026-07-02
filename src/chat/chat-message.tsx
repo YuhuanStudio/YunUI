@@ -89,19 +89,19 @@ export function ChatMessage({
         </div>
 
         <div className="flex-1 min-w-0 space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-center gap-x-2 gap-y-1 min-w-0 flex-wrap">
               <div className="text-sm font-medium text-(--text-primary)">
                 {name ?? cfg.label}
               </div>
               {badges && (
-                <div className="flex items-center gap-1 text-xs min-w-0">
+                <div className="flex items-center gap-1 gap-y-1 text-xs min-w-0 flex-wrap">
                   {badges}
                 </div>
               )}
             </div>
             {timestamp && (
-              <span className="text-xs text-(--text-tertiary) shrink-0">
+              <span className="text-xs text-(--text-tertiary) shrink-0 whitespace-nowrap leading-6">
                 {timestamp}
               </span>
             )}
