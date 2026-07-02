@@ -1228,7 +1228,10 @@ export const TabsList = React.forwardRef<
     <TabsPrimitive.List
         ref={ref}
         className={cn(
-            "inline-flex h-11 items-center justify-center rounded-xl bg-muted p-1 flex-nowrap overflow-x-auto overflow-y-hidden overscroll-x-contain",
+            // max-w-full: inline-flex sizes to content, so without it a long tab
+            // strip grows past its parent and drags the page sideways on narrow
+            // screens instead of engaging its own overflow-x-auto.
+            "inline-flex h-11 max-w-full items-center justify-center rounded-xl bg-muted p-1 flex-nowrap overflow-x-auto overflow-y-hidden overscroll-x-contain",
             className
         )}
         {...props}

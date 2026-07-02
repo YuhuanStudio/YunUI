@@ -432,7 +432,7 @@ function Sheet({ open, onClose, children, title, mobileOnly = false }) {
                 }
               )
             ] }),
-            /* @__PURE__ */ jsx("div", { className: "flex-1 overflow-y-auto", children })
+            /* @__PURE__ */ jsx("div", { className: "flex-1 overflow-y-auto px-5 py-4", children })
           ]
         },
         "sheet-panel"
@@ -1984,7 +1984,10 @@ var TabsList = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   {
     ref,
     className: cn(
-      "inline-flex h-11 items-center justify-center rounded-xl bg-muted p-1 flex-nowrap overflow-x-auto overflow-y-hidden overscroll-x-contain",
+      // max-w-full: inline-flex sizes to content, so without it a long tab
+      // strip grows past its parent and drags the page sideways on narrow
+      // screens instead of engaging its own overflow-x-auto.
+      "inline-flex h-11 max-w-full items-center justify-center rounded-xl bg-muted p-1 flex-nowrap overflow-x-auto overflow-y-hidden overscroll-x-contain",
       className
     ),
     ...props
@@ -2473,5 +2476,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-XHUDDUIG.js.map
-//# sourceMappingURL=chunk-XHUDDUIG.js.map
+//# sourceMappingURL=chunk-5TOGZTAO.js.map
+//# sourceMappingURL=chunk-5TOGZTAO.js.map

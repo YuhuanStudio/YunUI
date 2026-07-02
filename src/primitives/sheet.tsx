@@ -87,8 +87,10 @@ export function Sheet({ open, onClose, children, title, mobileOnly = false }: Sh
                                 <X size={18} />
                             </button>
                         </div>
-                        {/* Body */}
-                        <div className="flex-1 overflow-y-auto">
+                        {/* Body — px-5 matches the header. Without default padding
+                            every consumer's content sat flush against the panel
+                            edges (e.g. settings drawers). */}
+                        <div className="flex-1 overflow-y-auto px-5 py-4">
                             {children}
                         </div>
                     </motion.div>

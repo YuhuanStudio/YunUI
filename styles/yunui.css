@@ -475,13 +475,15 @@ summary {
   background: transparent;
 }
 
+/* Token-based thumb, not rgba(0,0,0,…): a black-alpha thumb is invisible on
+   dark/true-black backgrounds. */
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--border-default);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--border-strong);
 }
 
 /* =====================================================

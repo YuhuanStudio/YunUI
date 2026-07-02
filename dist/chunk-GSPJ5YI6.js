@@ -45,10 +45,15 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
     { value: "system", label: t("system"), icon: /* @__PURE__ */ jsx(Monitor, { size: 14 }) }
   ];
   if (!mounted) {
-    return /* @__PURE__ */ jsx("div", { className, children: variant === "pill" ? /* @__PURE__ */ jsx("div", { className: "h-8 w-16 rounded-full bg-(--bg-elevated) border border-(--border-hairline)" }) : /* @__PURE__ */ jsx("div", { className: "w-9 h-9 rounded-lg" }) });
+    return /* @__PURE__ */ jsx("div", { className, children: variant === "pill" ? (
+      /* Must match the mounted trigger's footprint (h-9, px-3 + one
+         14px icon ≈ w-10) — a wider skeleton reads as a stray blank
+         pill strip before hydration. */
+      /* @__PURE__ */ jsx("div", { className: "h-9 w-10 rounded-full bg-(--bg-elevated) border border-(--border-hairline)" })
+    ) : /* @__PURE__ */ jsx("div", { className: "w-9 h-9 rounded-lg" }) });
   }
   return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: `relative ${className}`, children: [
-    variant === "pill" ? /* @__PURE__ */ jsxs(
+    variant === "pill" ? /* @__PURE__ */ jsx(
       "button",
       {
         ref: triggerRef,
@@ -57,10 +62,10 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
         "aria-label": t("toggle"),
         "aria-expanded": isOpen,
         "aria-haspopup": "listbox",
-        children: [
+        children: /* @__PURE__ */ jsxs("span", { className: "relative flex h-3.5 w-3.5 items-center justify-center", children: [
           /* @__PURE__ */ jsx(Sun, { size: 14, className: "rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" }),
-          /* @__PURE__ */ jsx(Moon, { size: 14, className: "absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" })
-        ]
+          /* @__PURE__ */ jsx(Moon, { size: 14, className: "absolute inset-0 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" })
+        ] })
       }
     ) : /* @__PURE__ */ jsxs(
       "button",
@@ -105,5 +110,5 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
 }
 
 export { ThemeToggle };
-//# sourceMappingURL=chunk-JZT53QBU.js.map
-//# sourceMappingURL=chunk-JZT53QBU.js.map
+//# sourceMappingURL=chunk-GSPJ5YI6.js.map
+//# sourceMappingURL=chunk-GSPJ5YI6.js.map

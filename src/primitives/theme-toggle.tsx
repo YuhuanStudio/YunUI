@@ -67,7 +67,10 @@ export function ThemeToggle({ variant = "icon", align = "right", className = "" 
         return (
             <div className={className}>
                 {variant === "pill" ? (
-                    <div className="h-8 w-16 rounded-full bg-(--bg-elevated) border border-(--border-hairline)" />
+                    /* Must match the mounted trigger's footprint (h-9, px-3 + one
+                       14px icon ≈ w-10) — a wider skeleton reads as a stray blank
+                       pill strip before hydration. */
+                    <div className="h-9 w-10 rounded-full bg-(--bg-elevated) border border-(--border-hairline)" />
                 ) : (
                     <div className="w-9 h-9 rounded-lg" />
                 )}
@@ -87,8 +90,14 @@ export function ThemeToggle({ variant = "icon", align = "right", className = "" 
                     aria-expanded={isOpen}
                     aria-haspopup="listbox"
                 >
-                    <Sun size={14} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon size={14} className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    {/* Stack both icons in one 14px slot. With the Sun in-flow and
+                        the Moon absolutely positioned against the button, dark mode
+                        showed the Moon off-center next to the invisible Sun's empty
+                        layout slot — a lopsided pill with a blank stretch. */}
+                    <span className="relative flex h-3.5 w-3.5 items-center justify-center">
+                        <Sun size={14} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <Moon size={14} className="absolute inset-0 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    </span>
                 </button>
             ) : (
                 <button

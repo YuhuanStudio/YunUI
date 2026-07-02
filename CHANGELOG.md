@@ -12,6 +12,20 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **`Sheet` body now has default padding (`px-5 py-4`, matching its header).**
+  Without it every consumer's sheet content sat flush against the panel edges
+  (e.g. settings drawers with sliders touching the border).
+- **`ThemeToggle` pill no longer shows a lopsided blank stretch in dark mode.**
+  The Sun stayed in-flow while `scale-0` (still occupying layout) and the Moon
+  was absolutely positioned against the button, so dark mode rendered the icon
+  off-center beside an empty slot. Both icons now stack in one 14px slot; the
+  pre-mount skeleton also shrank from `w-16` to the trigger's real footprint.
+- **`TabsList` gained `max-w-full`** — as an `inline-flex` it sized to content,
+  so a long tab strip dragged the page sideways on narrow screens instead of
+  engaging its own `overflow-x-auto`.
+- **Scrollbar thumb is token-based** (`--border-default`, hover
+  `--border-strong`) instead of black-alpha, which was invisible on dark and
+  true-black backgrounds.
 - **Dark-mode readability of the shadcn `muted` bridge.** `--color-muted-foreground`
   and the `.text-label` utility mapped to `--text-muted` (#52525b in dark) —
   only 2.57:1, so every consumer label/caption/section-header that used
