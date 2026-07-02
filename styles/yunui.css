@@ -59,6 +59,13 @@
 
 @custom-variant dark (&:where(.dark, .dark *, .true-black, .true-black *));
 
+/* Component classes, tokens and animations live in the `components` cascade
+   layer so that consumer-side Tailwind utilities (which sit in the later
+   `utilities` layer) can override them via className — e.g. a `bg-accent`
+   passed to a `.btn-ghost` now wins. `@theme` and `@custom-variant` above stay
+   at the top level (they cannot live inside a layer). */
+@layer components {
+
 /* =====================================================
    YUNXIN DESIGN SYSTEM v3 (Zinc)
    ===================================================== */
@@ -2697,3 +2704,5 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+} /* end @layer components */
