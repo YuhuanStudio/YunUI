@@ -14,6 +14,9 @@ patch = fixes, anything may change between 0.x releases).
 ## [0.2.16] - 2026-07-02
 
 ### Fixed
+- **`ModelSelect` selection bar sat flush against the row edge.** The selected /
+  hover accent bar was `left-0`; inset to `left-1.5` so it no longer crowds the
+  panel edge next to the model icon.
 - **`ChatMessageList` auto-scroll hijacked the whole document.** Its
   stick-to-bottom used `endRef.scrollIntoView()`, which scrolls *every*
   scrollable ancestor — including the window. On a full-height chat page it was
