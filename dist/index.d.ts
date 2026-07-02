@@ -1141,13 +1141,15 @@ interface AreaChartProps {
     strokeWidth?: number;
     /** Accessible name for the chart. */
     ariaLabel?: string;
+    /** Text shown when there are fewer than two points. @defaultValue "No data" */
+    noDataLabel?: string;
     className?: string;
 }
 /**
  * A container-width interactive area chart. Hover to reveal a guide line and a
  * tooltip with the point's label + formatted value.
  */
-declare function AreaChart({ data, tone, color, height, formatValue, showGrid, showTooltip, showXAxis, strokeWidth, ariaLabel, className, }: AreaChartProps): React$1.JSX.Element;
+declare function AreaChart({ data, tone, color, height, formatValue, showGrid, showTooltip, showXAxis, strokeWidth, ariaLabel, noDataLabel, className, }: AreaChartProps): React$1.JSX.Element;
 
 declare function Toaster(): React$1.JSX.Element;
 declare const toast: {

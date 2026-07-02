@@ -1,4 +1,22 @@
 {
+  "content": {
+    "copy": "複製",
+    "copied": "已複製",
+    "edit": "編輯",
+    "linkToHeading": "複製此標題的連結",
+    "renderingDiagram": "正在繪製圖表…",
+    "mermaidError": "圖表錯誤",
+    "diagramRenderFailed": "圖表繪製失敗",
+    "viewSource": "檢視原始碼",
+    "zoomDiagram": "放大圖表",
+    "imageLoadingFailed": "圖片載入失敗",
+    "zoomIn": "放大",
+    "zoomOut": "縮小",
+    "rotate": "旋轉",
+    "download": "下載",
+    "close": "關閉",
+    "formulaRenderFailed": "公式繪製失敗"
+  },
   "common": {
     "copy": "複製",
     "copied": "已複製！",

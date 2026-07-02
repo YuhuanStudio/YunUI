@@ -1,4 +1,22 @@
 {
+  "content": {
+    "copy": "Copy",
+    "copied": "Copied",
+    "edit": "Edit",
+    "linkToHeading": "Copy link to this heading",
+    "renderingDiagram": "Rendering diagram…",
+    "mermaidError": "Diagram error",
+    "diagramRenderFailed": "Failed to render diagram",
+    "viewSource": "View source",
+    "zoomDiagram": "Zoom diagram",
+    "imageLoadingFailed": "Image failed to load",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "rotate": "Rotate",
+    "download": "Download",
+    "close": "Close",
+    "formulaRenderFailed": "Formula render failed"
+  },
   "common": {
     "copy": "Copy",
     "copied": "Copied!",

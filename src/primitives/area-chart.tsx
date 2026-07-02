@@ -55,6 +55,8 @@ export interface AreaChartProps {
   strokeWidth?: number;
   /** Accessible name for the chart. */
   ariaLabel?: string;
+  /** Text shown when there are fewer than two points. @defaultValue "No data" */
+  noDataLabel?: string;
   className?: string;
 }
 
@@ -79,6 +81,7 @@ export function AreaChart({
   showXAxis = false,
   strokeWidth = 2,
   ariaLabel = "Area chart",
+  noDataLabel = "No data",
   className,
 }: AreaChartProps) {
   const gradientId = useId();
@@ -135,7 +138,7 @@ export function AreaChart({
     <div className={cn("flex flex-col", className)}>
       <div ref={containerRef} className="relative w-full" style={{ height }}>
         {points.length < 2 ? (
-          <div className="flex h-full items-center justify-center text-sm text-muted-foreground">No data</div>
+          <div className="flex h-full items-center justify-center text-sm text-muted-foreground">{noDataLabel}</div>
         ) : (
           <svg
             viewBox={`0 0 ${chartWidth} ${VIEW_H}`}

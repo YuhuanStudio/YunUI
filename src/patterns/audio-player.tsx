@@ -11,6 +11,14 @@ import { cn } from "../lib/cn";
 // Give it a `src` (a URL or object URL); the host owns the blob lifecycle.
 // =====================================================
 
+/** Localized accessible labels for the audio controls. */
+export interface AudioPlayerLabels {
+  play?: string;
+  pause?: string;
+  seek?: string;
+  download?: string;
+}
+
 export interface AudioPlayerProps {
   /** Audio source URL or object URL. */
   src: string;
@@ -20,6 +28,8 @@ export interface AudioPlayerProps {
   downloadName?: string;
   /** Begin playing as soon as the source is ready. */
   autoPlay?: boolean;
+  /** Localized `aria-label`s for the controls (defaults are English). */
+  labels?: AudioPlayerLabels;
   className?: string;
 }
 
@@ -34,7 +44,7 @@ const fmtTime = (s: number) => {
  * A styled wrapper over `<audio>`: play/pause, a seekable progress bar, time
  * readout, and an optional download button. Presentation only — no fetching.
  */
-export function AudioPlayer({ src, title, downloadName, autoPlay = false, className }: AudioPlayerProps) {
+export function AudioPlayer({ src, title, downloadName, autoPlay = false, labels, className }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
@@ -74,7 +84,7 @@ export function AudioPlayer({ src, title, downloadName, autoPlay = false, classN
         <button
           type="button"
           onClick={toggle}
-          aria-label={playing ? "Pause" : "Play"}
+          aria-label={playing ? (labels?.pause ?? "Pause") : (labels?.play ?? "Play")}
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground transition-opacity hover:opacity-90"
         >
           {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 translate-x-px" />}
@@ -87,7 +97,7 @@ export function AudioPlayer({ src, title, downloadName, autoPlay = false, classN
           step="any"
           value={current}
           onChange={seek}
-          aria-label="Seek"
+          aria-label={labels?.seek ?? "Seek"}
           className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-muted accent-[var(--color-accent)]"
           style={{
             background: `linear-gradient(to right, var(--color-accent) ${pct}%, var(--color-muted) ${pct}%)`,
@@ -102,7 +112,7 @@ export function AudioPlayer({ src, title, downloadName, autoPlay = false, classN
           <a
             href={src}
             download={downloadName}
-            aria-label="Download audio"
+            aria-label={labels?.download ?? "Download audio"}
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <Download className="h-4 w-4" />

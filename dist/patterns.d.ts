@@ -473,6 +473,13 @@ interface MetricBarProps {
 }
 declare function MetricBar({ icon, label, value, percentage, color, className }: MetricBarProps): React$1.JSX.Element;
 
+/** Localized accessible labels for the audio controls. */
+interface AudioPlayerLabels {
+    play?: string;
+    pause?: string;
+    seek?: string;
+    download?: string;
+}
 interface AudioPlayerProps {
     /** Audio source URL or object URL. */
     src: string;
@@ -482,13 +489,15 @@ interface AudioPlayerProps {
     downloadName?: string;
     /** Begin playing as soon as the source is ready. */
     autoPlay?: boolean;
+    /** Localized `aria-label`s for the controls (defaults are English). */
+    labels?: AudioPlayerLabels;
     className?: string;
 }
 /**
  * A styled wrapper over `<audio>`: play/pause, a seekable progress bar, time
  * readout, and an optional download button. Presentation only — no fetching.
  */
-declare function AudioPlayer({ src, title, downloadName, autoPlay, className }: AudioPlayerProps): React$1.JSX.Element;
+declare function AudioPlayer({ src, title, downloadName, autoPlay, labels, className }: AudioPlayerProps): React$1.JSX.Element;
 
 type MediaStatus = "pending" | "processing" | "completed" | "failed";
 interface MediaResult {

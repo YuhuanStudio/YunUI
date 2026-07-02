@@ -837,6 +837,20 @@
       "description": "Force-disable the send button even with text (e.g. invalid state)."
     },
     {
+      "name": "sendLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Send",
+      "description": "Accessible label for the send button."
+    },
+    {
+      "name": "stopLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Stop",
+      "description": "Accessible label for the stop button."
+    },
+    {
       "name": "toolbar",
       "type": "ReactNode",
       "required": false,
@@ -1343,6 +1357,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Show a download button linking to `src`; the value is the download filename."
+    },
+    {
+      "name": "labels",
+      "type": "AudioPlayerLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": "Localized `aria-label`s for the controls (defaults are English)."
     },
     {
       "name": "src",
@@ -3007,6 +3028,13 @@
       "required": false,
       "defaultValue": "140",
       "description": "Chart height in px (the width fills the container)."
+    },
+    {
+      "name": "noDataLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": "No data",
+      "description": "Text shown when there are fewer than two points."
     },
     {
       "name": "showGrid",

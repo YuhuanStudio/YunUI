@@ -846,6 +846,7 @@ function AreaChart({
   showXAxis = false,
   strokeWidth = 2,
   ariaLabel = "Area chart",
+  noDataLabel = "No data",
   className
 }) {
   const gradientId = useId();
@@ -891,7 +892,7 @@ function AreaChart({
   const xLabels = points.filter((p) => p.label != null);
   return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-col", className), children: [
     /* @__PURE__ */ jsxs("div", { ref: containerRef, className: "relative w-full", style: { height }, children: [
-      points.length < 2 ? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-sm text-muted-foreground", children: "No data" }) : /* @__PURE__ */ jsxs(
+      points.length < 2 ? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-sm text-muted-foreground", children: noDataLabel }) : /* @__PURE__ */ jsxs(
         "svg",
         {
           viewBox: `0 0 ${chartWidth} ${VIEW_H}`,
@@ -1149,5 +1150,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-3GSZJAPP.js.map
-//# sourceMappingURL=chunk-3GSZJAPP.js.map
+//# sourceMappingURL=chunk-TEIOP7C7.js.map
+//# sourceMappingURL=chunk-TEIOP7C7.js.map

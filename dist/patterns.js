@@ -1,5 +1,5 @@
 "use client";
-import './chunk-3GSZJAPP.js';
+import './chunk-TEIOP7C7.js';
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { Footer } from './chunk-UYYG4XDW.js';
 import './chunk-JZT53QBU.js';
@@ -1166,7 +1166,7 @@ var fmtTime = (s) => {
   const sec = Math.floor(s % 60);
   return `${m}:${sec.toString().padStart(2, "0")}`;
 };
-function AudioPlayer({ src, title, downloadName, autoPlay = false, className }) {
+function AudioPlayer({ src, title, downloadName, autoPlay = false, labels, className }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
@@ -1201,7 +1201,7 @@ function AudioPlayer({ src, title, downloadName, autoPlay = false, className }) 
         {
           type: "button",
           onClick: toggle,
-          "aria-label": playing ? "Pause" : "Play",
+          "aria-label": playing ? labels?.pause ?? "Pause" : labels?.play ?? "Play",
           className: "flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground transition-opacity hover:opacity-90",
           children: playing ? /* @__PURE__ */ jsx(Pause, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx(Play, { className: "h-4 w-4 translate-x-px" })
         }
@@ -1215,7 +1215,7 @@ function AudioPlayer({ src, title, downloadName, autoPlay = false, className }) 
           step: "any",
           value: current,
           onChange: seek,
-          "aria-label": "Seek",
+          "aria-label": labels?.seek ?? "Seek",
           className: "h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-muted accent-[var(--color-accent)]",
           style: {
             background: `linear-gradient(to right, var(--color-accent) ${pct}%, var(--color-muted) ${pct}%)`
@@ -1232,7 +1232,7 @@ function AudioPlayer({ src, title, downloadName, autoPlay = false, className }) 
         {
           href: src,
           download: downloadName,
-          "aria-label": "Download audio",
+          "aria-label": labels?.download ?? "Download audio",
           className: "flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
           children: /* @__PURE__ */ jsx(Download, { className: "h-4 w-4" })
         }

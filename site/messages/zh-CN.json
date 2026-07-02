@@ -1,4 +1,22 @@
 {
+  "content": {
+    "copy": "复制",
+    "copied": "已复制",
+    "edit": "编辑",
+    "linkToHeading": "复制此标题的链接",
+    "renderingDiagram": "正在渲染图表…",
+    "mermaidError": "图表错误",
+    "diagramRenderFailed": "图表渲染失败",
+    "viewSource": "查看源码",
+    "zoomDiagram": "放大图表",
+    "imageLoadingFailed": "图片加载失败",
+    "zoomIn": "放大",
+    "zoomOut": "缩小",
+    "rotate": "旋转",
+    "download": "下载",
+    "close": "关闭",
+    "formulaRenderFailed": "公式渲染失败"
+  },
   "common": {
     "copy": "复制",
     "copied": "已复制！",

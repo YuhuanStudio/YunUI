@@ -28,6 +28,10 @@ export interface ChatComposerProps {
   allowSendEmpty?: boolean;
   /** Max rows before the textarea scrolls. @defaultValue 8 */
   maxRows?: number;
+  /** Accessible label for the send button. @defaultValue "Send" */
+  sendLabel?: string;
+  /** Accessible label for the stop button. @defaultValue "Stop" */
+  stopLabel?: string;
   className?: string;
 }
 
@@ -49,6 +53,8 @@ export function ChatComposer({
   sendDisabled = false,
   allowSendEmpty = false,
   maxRows = 8,
+  sendLabel = "Send",
+  stopLabel = "Stop",
   className,
 }: ChatComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -112,7 +118,7 @@ export function ChatComposer({
           <button
             type="button"
             onClick={onStop}
-            aria-label="Stop"
+            aria-label={stopLabel}
             className="shrink-0 mb-0.5 h-8 w-8 rounded-full bg-(--text-primary) text-(--bg-base) flex items-center justify-center hover:opacity-90 transition-opacity"
           >
             <Square className="w-3.5 h-3.5 fill-current" />
@@ -122,7 +128,7 @@ export function ChatComposer({
             type="button"
             onClick={() => canSend && onSend()}
             disabled={!canSend}
-            aria-label="Send"
+            aria-label={sendLabel}
             className={cn(
               "shrink-0 mb-0.5 h-8 w-8 rounded-full flex items-center justify-center transition-colors",
               canSend

@@ -12,6 +12,27 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Changed
+- **Content + chat stacks fully restyled in YunUI's flat design vocabulary.**
+  Follow-up to the earlier token pass: every `src/content/*` and `src/chat/*`
+  component now uses the flat design tokens and class API that the rest of YunUI
+  (patterns / ai) uses — `--bg-elevated` / `--bg-card` / `--border-hairline` /
+  `--border-default` / `--text-primary·secondary·tertiary` / `--accent` and the
+  `.card` / `.badge` / `*-soft` classes — instead of the shadcn `@theme` aliases
+  (`bg-muted` / `border-border` / `text-muted-foreground` / `bg-primary`) it was
+  lifted from Agent with. This guarantees the content/chat surfaces match YunUI
+  even inside consumer apps that define their own shadcn tokens.
+- **`CodeBlock` rewritten to YunUI's original code-block design** — the `.card`
+  container, window-chrome traffic-light dots, a language `.badge`,
+  `--bg-elevated` header / `--bg-base` body and `--accent-subtle` hover buttons,
+  matching `patterns/CodeBlock` (keeps Shiki highlighting). Was a divergent
+  terminal-header design lifted from Agent.
+- **`MarkdownRenderer` root is `not-prose`** — it styles every element itself, so
+  a host `.prose` (Tailwind Typography) was double-styling the output (a second
+  table frame + dead margins, shoved callout titles, code that looked different
+  inside vs outside prose). The custom component map is now the single source of
+  truth, immune to host prose.
+- **Markdown links carry a persistent underline** (subtle `--border-default`,
+  darkening on hover) so links read as links, not body text.
 - **Content stack now speaks YunUI's design language.** `CalloutBlock` maps its
   GitHub admonition tones onto the semantic token utilities (`bg-info-soft` /
   `text-success` / `border-error-soft`, "important" → accent tokens) instead of
@@ -20,6 +41,20 @@ patch = fixes, anything may change between 0.x releases).
   `bg-yellow-200` for `bg-muted` / `bg-success-soft` / `bg-warning-soft`.
 
 ### Fixed
+- **Markdown callouts (`> [!NOTE]`) rendered as a raw blockquote** with the
+  marker text showing — react-markdown emits a leading `"\n"` text node so the
+  paragraph was never the first child. The blockquote handler now finds the first
+  real element and preserves inline nodes, so callouts become `CalloutBlock`
+  (which composes `Alert`).
+- **Shiki code was double-spaced** — block `.line` spans separated by literal
+  `"\n"` text nodes rendered an extra empty line under `white-space: pre`.
+  `content.css` collapses the inter-line newlines while each `.line` keeps `pre`.
+- **Emphasized code lines (`highlightLines`) were clipped and off-brand** — the
+  highlight used indigo and, on horizontal scroll, only spanned the visible width
+  (cutting mid-token). Now tinted with the host `--accent` (indigo fallback) and
+  `code` is sized to its widest line so the highlight covers the whole row.
+- **Task-list checkboxes rendered browser-grey** — a native checkbox tick is
+  colored by CSS `accent-color`, not `text-*`; switched to `accent-(--accent)`.
 - **Code blocks drew a nested "box-in-box"** — a leaked host/prose `code` style
   (border + radius + chip background) bled into Shiki's `<code>`. `content.css`
   now neutralizes it, so code sits flat on one clean surface.
@@ -40,6 +75,20 @@ patch = fixes, anything may change between 0.x releases).
   translator. Only surfaced under real rendering — caught by screenshot QA.
 
 ### Added
+- **`MermaidDiagram` is hand-drawn (Excalidraw-style) for every diagram type.**
+  Uses Mermaid 11's native `look: "handDrawn"` for the types it supports
+  (flowchart, state, class, ER…) and, for the ones it leaves straight (sequence,
+  gantt, pie, journey, gitGraph, timeline, mindmap…), post-processes the SVG with
+  a turbulence-displacement filter applied to strokes/shapes only (text stays
+  crisp), so all diagrams read as a sketch.
+- **`MermaidDiagram` click-to-zoom** — new `enableZoom` (default `true`) opens the
+  diagram in a full-screen lightbox on a theme-matched panel (readable in light
+  and dark). `ImageLightbox` now accepts arbitrary `children` (not just an
+  `<img src>`), so any inline SVG can reuse its zoom/rotate/close controls.
+- **Localizable labels for the last hardcoded strings** — `AreaChart`
+  `noDataLabel`, `AudioPlayer` `labels` (play/pause/seek/download aria), and
+  `ChatComposer` `sendLabel` / `stopLabel`, so every user-facing string in the
+  new components is host-overridable.
 - **`ChatComposer` `allowSendEmpty`** — allow sending with an empty textarea
   (e.g. when attachments alone form a valid message).
 - **`ScrollArea` / `ScrollBar` (primitives)** — a styled, cross-browser custom
