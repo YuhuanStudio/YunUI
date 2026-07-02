@@ -250,7 +250,8 @@ export function MarkdownRenderer({
               type="checkbox"
               checked={checked}
               readOnly
-              className="mt-1 h-4 w-4 rounded border-border text-primary focus:ring-primary"
+              // `accent-*` colours the native checkbox tick (text-* does not).
+              className="mt-1 h-4 w-4 rounded border-border accent-primary focus:ring-ring"
               {...props}
             />
           );

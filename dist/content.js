@@ -825,7 +825,7 @@ function MarkdownRenderer({
               type: "checkbox",
               checked,
               readOnly: true,
-              className: "mt-1 h-4 w-4 rounded border-border text-primary focus:ring-primary",
+              className: "mt-1 h-4 w-4 rounded border-border accent-primary focus:ring-ring",
               ...props
             }
           );
