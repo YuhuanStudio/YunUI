@@ -323,7 +323,7 @@ function ModelSelect({
           animate: { opacity: 1, y: 0, scale: 1 },
           transition: { duration: 0.16, ease: "easeOut" },
           style: { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight },
-          className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-background/95 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden",
+          className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-background backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden",
           children: [
             /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
               /* @__PURE__ */ jsxs("div", { className: "relative", children: [
