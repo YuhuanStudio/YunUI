@@ -24,6 +24,15 @@ A standalone, versioned React 19 + Tailwind v4 design system that doesn't shout 
 
 Edit YunUI once → publish a new version → every project picks up the same **design tokens, animations, and components** on its next upgrade (`pnpm up`). Already running in production at Yunxin.
 
+## Used by
+
+YunUI isn't a demo — it ships real products, end to end:
+
+- **[Yunxin](https://api.yuhuanstudio.com)** — a unified LLM API gateway aggregating 24+ providers behind one API key. YunUI was extracted from it; every screen runs on these components.
+- **[Yunshu](https://github.com/YuhuanStudio/Yunshu)** — an open-source, fast, local multimodal inference engine for Apple Silicon (native speech-to-speech, all on-device). Its web UI is built on YunUI.
+
+Building something on YunUI? Open a PR adding it here.
+
 ---
 
 ## Install

@@ -24,6 +24,15 @@
 
 改 YunUI 一處 → 發版 → 各專案升級版本號即可同步取得統一的 **設計 token、動畫、元件**。已在 Yunxin 生產環境使用。
 
+## 誰在使用
+
+YunUI 不是演示專案——它驅動著真實產品：
+
+- **[Yunxin](https://api.yuhuanstudio.com)** —— 統一的 LLM API 閘道，一把金鑰聚合 24+ 家供應商。YunUI 正是從中提取而來，每一個畫面都跑在這些元件上。
+- **[Yunshu](https://github.com/YuhuanStudio/Yunshu)** —— 開源的、面向 Apple Silicon 的快速本地多模態推理引擎（原生語音對語音，全部在裝置上運行）。其 web UI 基於 YunUI 打造。
+
+在用 YunUI 打造產品？歡迎提 PR 加到這裡。
+
 ---
 
 ## 安裝

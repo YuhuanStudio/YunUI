@@ -36,6 +36,7 @@ import {
   Check,
   ChevronDown,
   BookOpen,
+  ArrowUpRight,
 } from "lucide-react";
 import { GithubIcon } from "yunui/ai";
 import { LogoMark } from "@/components/logo";
@@ -336,6 +337,87 @@ export default function Home() {
             description={t("why.productionDesc")}
           />
         </BentoGrid>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Used by — open-source products shipping on YunUI                  */}
+      {/* ----------------------------------------------------------------- */}
+      <section id="used-by" className="scroll-mt-20 py-16">
+        <SectionHeading
+          badge={t("usedBy.badge")}
+          icon={<Boxes className="w-4 h-4" />}
+          title={t("usedBy.title")}
+          subtitle={t("usedBy.subtitle")}
+        />
+        {/* One entry per consuming project. Same LogoMark on each reads as a
+            "runs on YunUI" mark; `live` is null for on-device projects that
+            have no hosted URL (only a repo). */}
+        <div className="max-w-2xl mx-auto space-y-4">
+          {[
+            {
+              name: "Yunxin",
+              desc: t("usedBy.yunxinDesc"),
+              badge: t("usedBy.live"),
+              badgeVariant: "info" as const,
+              live: "https://api.yuhuanstudio.com",
+              repo: null,
+            },
+            {
+              name: "Yunshu",
+              desc: t("usedBy.yunshuDesc"),
+              badge: t("usedBy.openSource"),
+              badgeVariant: "success" as const,
+              live: null,
+              repo: "https://github.com/YuhuanStudio/Yunshu",
+            },
+          ].map((p) => (
+            <Card
+              key={p.name}
+              className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-5"
+            >
+              <div className="flex items-start gap-4 flex-1 min-w-0">
+                <div className="feature-icon shrink-0">
+                  <LogoMark size={22} />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-lg">{p.name}</span>
+                    <Badge variant={p.badgeVariant}>{p.badge}</Badge>
+                  </div>
+                  <p className="text-caption mt-1">{p.desc}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                {p.live && (
+                  <Button variant="secondary" size="sm" asChild>
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="inline-flex items-center gap-1.5 whitespace-nowrap"
+                    >
+                      {t("usedBy.visit")}
+                      <ArrowUpRight className="w-4 h-4" />
+                    </a>
+                  </Button>
+                )}
+                {p.repo && (
+                  <Button variant="ghost" size="sm" asChild>
+                    <a
+                      href={p.repo}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="inline-flex items-center gap-1.5 whitespace-nowrap"
+                    >
+                      <GithubIcon />
+                      {t("usedBy.code")}
+                    </a>
+                  </Button>
+                )}
+              </div>
+            </Card>
+          ))}
+        </div>
       </section>
 
       {/* ----------------------------------------------------------------- */}

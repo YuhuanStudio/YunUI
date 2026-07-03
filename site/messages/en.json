@@ -70,7 +70,10 @@
     "showcase": "Showcase",
     "docs": "Docs",
     "patterns": "Patterns",
-    "utilityClasses": "Utility Classes"
+    "utilityClasses": "Utility Classes",
+    "ecosystem": "Ecosystem",
+    "yunxin": "Yunxin",
+    "yunshu": "Yunshu"
   },
   "landing": {
     "heroBadge": "New: Flex · Grid · Table · Accordion",
@@ -115,6 +118,17 @@
       "testsDesc": "Strict TypeScript, JSDoc on the public surface, and a test suite that guards every primitive.",
       "productionTitle": "In production at Yunxin",
       "productionDesc": "Quietly running in a real, shipping app — Yunxin, end to end."
+    },
+    "usedBy": {
+      "badge": "Used by",
+      "openSource": "Open source",
+      "live": "Live",
+      "title": "Powering real products.",
+      "subtitle": "YunUI was extracted from Yunxin and now ships across YuhuanStudio's products — every screen you see runs on these components.",
+      "yunxinDesc": "Unified LLM API gateway — 24+ providers behind one API key.",
+      "yunshuDesc": "Local multimodal inference engine for Apple Silicon — native speech-to-speech, all on-device.",
+      "visit": "Visit",
+      "code": "Code"
     },
     "livePreview": {
       "badge": "Theming, live",

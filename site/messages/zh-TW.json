@@ -70,7 +70,10 @@
     "showcase": "元件展示",
     "docs": "文件",
     "patterns": "模式",
-    "utilityClasses": "工具類別"
+    "utilityClasses": "工具類別",
+    "ecosystem": "生態系",
+    "yunxin": "Yunxin",
+    "yunshu": "Yunshu"
   },
   "landing": {
     "heroBadge": "新增：Flex · Grid · Table · Accordion",
@@ -115,6 +118,17 @@
       "testsDesc": "嚴格的 TypeScript、公開介面上的 JSDoc，以及守護每個基礎元件的測試套件。",
       "productionTitle": "已在 Yunxin 生產環境運行",
       "productionDesc": "靜靜地跑在一個真實上線的應用裡——Yunxin，從頭到尾。"
+    },
+    "usedBy": {
+      "badge": "誰在使用",
+      "openSource": "開源",
+      "live": "線上",
+      "title": "驅動真實產品。",
+      "subtitle": "YunUI 從 Yunxin 中提取而來，如今驅動著 YuhuanStudio 旗下的多個產品——你看到的每一個畫面都跑在這些元件上。",
+      "yunxinDesc": "統一的 LLM API 閘道——一把金鑰，串接 24+ 家供應商。",
+      "yunshuDesc": "面向 Apple Silicon 的本地多模態推理引擎——原生語音對語音，全部在裝置上運行。",
+      "visit": "前往",
+      "code": "原始碼"
     },
     "livePreview": {
       "badge": "即時主題",

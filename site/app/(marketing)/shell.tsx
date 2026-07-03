@@ -163,6 +163,7 @@ export function Shell({ children }: { children: ReactNode }) {
         sections={[
           { title: tf("product"), links: [{ label: tf("overview"), href: "/#overview" }, { label: tf("whyYunUI"), href: "/#why" }, { label: tf("showcase"), href: "/showcase" }] },
           { title: tf("resources"), links: [{ label: tf("docs"), href: "/docs" }, { label: tf("patterns"), href: "/showcase#patterns" }, { label: tf("utilityClasses"), href: "/showcase#design" }] },
+          { title: tf("ecosystem"), links: [{ label: tf("yunxin"), href: "https://api.yuhuanstudio.com" }, { label: tf("yunshu"), href: "https://github.com/YuhuanStudio/Yunshu" }] },
         ]}
         social={[{ icon: <GithubIcon />, href: "https://github.com/YuhuanStudio/YunUI", label: "GitHub" }]}
         copyright={tf("copyright")}
