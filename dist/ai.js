@@ -61,93 +61,139 @@ var ICONS = {
   file: FileText,
   tool: Wrench
 };
-function Disclosure({ text, renderContent }) {
-  return /* @__PURE__ */ jsx("div", { className: "mt-1 pl-[34px] pr-1 text-[12.5px] leading-relaxed text-muted-foreground", children: renderContent ? renderContent(text) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: text }) });
-}
-function ReasoningRow({ block, renderContent }) {
-  const [open, setOpen] = useState(false);
-  return /* @__PURE__ */ jsxs("div", { children: [
-    /* @__PURE__ */ jsxs(
-      "button",
+function Rail({ children, tone = "muted", isLast }) {
+  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center self-stretch", children: [
+    /* @__PURE__ */ jsx(
+      "span",
       {
-        type: "button",
-        onClick: () => setOpen(!open),
-        "aria-expanded": open,
-        className: "flex w-full items-center gap-2.5 rounded-lg px-1 py-1 text-left outline-none transition-colors hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-        children: [
-          /* @__PURE__ */ jsx("span", { className: "flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground", children: /* @__PURE__ */ jsx(Brain, { size: 13, strokeWidth: 1.5 }) }),
-          /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
-          /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("shrink-0 text-muted-foreground/50 transition-transform", open && "rotate-180") })
-        ]
+        className: cn(
+          "relative z-10 mt-0.5 flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-background ring-1 transition-colors",
+          tone === "muted" && "text-muted-foreground ring-border",
+          tone === "running" && "text-primary ring-primary/40",
+          tone === "error" && "text-red-500 ring-red-500/40 dark:text-red-400",
+          tone === "warn" && "text-amber-500 ring-amber-500/40",
+          tone === "answer" && "bg-primary text-primary-foreground ring-0"
+        ),
+        children
       }
     ),
-    open && /* @__PURE__ */ jsx(Disclosure, { text: block.content, renderContent })
+    !isLast && /* @__PURE__ */ jsx("span", { className: "mt-1 w-px flex-1 bg-gradient-to-b from-border/70 to-border/25" })
   ] });
 }
-function ToolRow({ block }) {
+function Collapse({ open, children }) {
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      className: cn(
+        "grid transition-[grid-template-rows,opacity] duration-200 ease-out motion-reduce:transition-none",
+        open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+      ),
+      children: /* @__PURE__ */ jsx("div", { className: "min-h-0 overflow-hidden", children })
+    }
+  );
+}
+function Chevron({ open }) {
+  return /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("shrink-0 text-muted-foreground/50 transition-transform duration-200", open && "rotate-180") });
+}
+function ReasoningRow({ block, isLast, renderContent }) {
+  const [open, setOpen] = useState(false);
+  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
+    /* @__PURE__ */ jsx(Rail, { tone: "muted", isLast, children: /* @__PURE__ */ jsx(Brain, { size: 13, strokeWidth: 1.75 }) }),
+    /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1 pb-2", children: [
+      /* @__PURE__ */ jsxs(
+        "button",
+        {
+          type: "button",
+          onClick: () => setOpen(!open),
+          "aria-expanded": open,
+          className: "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+          children: [
+            /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
+            /* @__PURE__ */ jsx(Chevron, { open })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx("div", { className: "mt-1.5 rounded-lg border-l-2 border-primary/30 bg-muted/40 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground", children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content }) }) })
+    ] })
+  ] });
+}
+function ToolRow({ block, isLast }) {
   const [open, setOpen] = useState(false);
   const Icon = ICONS[block.icon ?? "tool"];
   const error = block.status === "error";
   const expandable = !!block.output || !!block.command;
-  return /* @__PURE__ */ jsxs("div", { children: [
-    /* @__PURE__ */ jsxs(
-      "button",
-      {
-        type: "button",
-        onClick: () => expandable && setOpen(!open),
-        "aria-expanded": open,
-        className: cn(
-          "flex w-full items-center gap-2.5 rounded-lg px-1 py-1 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-          expandable && "hover:bg-muted/40"
-        ),
-        children: [
-          /* @__PURE__ */ jsx("span", { className: "flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground", children: block.status === "running" ? /* @__PURE__ */ jsx(Loader2, { size: 13, className: "animate-spin" }) : /* @__PURE__ */ jsx(Icon, { size: 13, strokeWidth: 1.5 }) }),
-          /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[13px] font-medium text-foreground", children: block.verb }),
-          block.summary && /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate font-mono text-[11.5px] text-muted-foreground", children: block.summary }),
-          /* @__PURE__ */ jsxs("span", { className: cn("flex shrink-0 items-center gap-2", !block.summary && "ml-auto"), children: [
-            block.status === "done" && /* @__PURE__ */ jsx(Check, { size: 14, className: "text-emerald-500" }),
-            error && /* @__PURE__ */ jsx("span", { className: "font-mono text-[11px] font-semibold text-red-600 dark:text-red-400", children: "error" }),
-            expandable && /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("text-muted-foreground/50 transition-transform", open && "rotate-180") })
-          ] })
-        ]
-      }
-    ),
-    open && expandable && /* @__PURE__ */ jsx("div", { className: "mt-1 pl-[34px] pr-1", children: /* @__PURE__ */ jsxs("div", { className: cn("overflow-hidden rounded-xl border font-mono text-xs", error ? "border-red-500/20 bg-red-500/5" : "border-border/60 bg-muted/50"), children: [
-      block.command && /* @__PURE__ */ jsxs("div", { className: cn("border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/50"), children: [
-        /* @__PURE__ */ jsx("span", { className: "mr-1.5 select-none text-muted-foreground/50", children: "$" }),
-        block.command
+  const tone = block.status === "running" ? "running" : error ? "error" : "muted";
+  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
+    /* @__PURE__ */ jsx(Rail, { tone, isLast, children: block.status === "running" ? /* @__PURE__ */ jsx(Loader2, { size: 13, className: "animate-spin" }) : /* @__PURE__ */ jsx(Icon, { size: 13, strokeWidth: 1.75 }) }),
+    /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1 pb-2", children: [
+      /* @__PURE__ */ jsxs(
+        "button",
+        {
+          type: "button",
+          onClick: () => expandable && setOpen(!open),
+          "aria-expanded": open,
+          className: cn(
+            "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+            expandable ? "hover:bg-muted/50 cursor-pointer" : "cursor-default"
+          ),
+          children: [
+            /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[13px] font-medium text-foreground", children: block.verb }),
+            block.summary && /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate font-mono text-[11.5px] text-muted-foreground", children: block.summary }),
+            /* @__PURE__ */ jsxs("span", { className: cn("flex shrink-0 items-center gap-2", !block.summary && "ml-auto"), children: [
+              block.status === "done" && /* @__PURE__ */ jsx(Check, { size: 14, className: "text-emerald-500" }),
+              error && /* @__PURE__ */ jsx("span", { className: "rounded bg-red-500/10 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-wide text-red-600 dark:text-red-400", children: "error" }),
+              expandable && /* @__PURE__ */ jsx(Chevron, { open })
+            ] })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsxs("div", { className: cn("mt-1.5 overflow-hidden rounded-xl border font-mono text-xs shadow-sm", error ? "border-red-500/20 bg-red-500/5" : "border-border/60 bg-muted/40"), children: [
+        block.command && /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/50"), children: [
+          /* @__PURE__ */ jsx("span", { className: "select-none text-muted-foreground/40", children: "$" }),
+          /* @__PURE__ */ jsx("span", { className: "truncate", children: block.command })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/85"), children: block.output || "\u2014" })
+      ] }) })
+    ] })
+  ] });
+}
+function ApprovalRow({ block, isLast, onApprove, onReject }) {
+  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
+    /* @__PURE__ */ jsx(Rail, { tone: "warn", isLast, children: /* @__PURE__ */ jsx(ShieldAlert, { size: 13, strokeWidth: 1.75 }) }),
+    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs("div", { className: "rounded-xl border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2.5", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-[13px] font-medium text-foreground", children: [
+        /* @__PURE__ */ jsx("span", { children: block.title }),
+        /* @__PURE__ */ jsx("span", { className: "font-mono text-xs text-muted-foreground", children: block.verb })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: cn("max-h-64 overflow-auto whitespace-pre-wrap break-words px-3 py-2 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/85"), children: block.output || "\u2014" })
+      block.message && /* @__PURE__ */ jsx("p", { className: "mt-1.5 text-[12.5px] text-muted-foreground", children: block.message }),
+      block.argsText && /* @__PURE__ */ jsx("pre", { className: "mt-1.5 max-h-40 overflow-auto rounded-lg border border-border/60 bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground", children: block.argsText }),
+      /* @__PURE__ */ jsx("div", { className: "mt-2.5 flex items-center gap-2", children: block.decision ? /* @__PURE__ */ jsx("span", { className: cn("text-xs font-medium", block.decision === "approved" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"), children: block.decidedLabel }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onApprove?.(block.id), className: "rounded-lg bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring", children: block.allowLabel }),
+        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onReject?.(block.id), className: "rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring", children: block.denyLabel })
+      ] }) })
     ] }) })
   ] });
 }
-function ApprovalCard({ block, onApprove, onReject }) {
-  return /* @__PURE__ */ jsxs("div", { className: "rounded-xl border border-amber-500/25 bg-amber-500/5 px-3 py-2.5", children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-[13px] font-medium text-foreground", children: [
-      /* @__PURE__ */ jsx(ShieldAlert, { size: 15, className: "text-amber-500" }),
-      /* @__PURE__ */ jsx("span", { children: block.title }),
-      /* @__PURE__ */ jsx("span", { className: "font-mono text-xs text-muted-foreground", children: block.verb })
-    ] }),
-    block.message && /* @__PURE__ */ jsx("p", { className: "mt-1.5 pl-[23px] text-[12.5px] text-muted-foreground", children: block.message }),
-    block.argsText && /* @__PURE__ */ jsx("pre", { className: "mt-1.5 ml-[23px] max-h-40 overflow-auto rounded-lg border border-border/60 bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground", children: block.argsText }),
-    /* @__PURE__ */ jsx("div", { className: "mt-2 flex items-center gap-2 pl-[23px]", children: block.decision ? /* @__PURE__ */ jsx("span", { className: cn("text-xs font-medium", block.decision === "approved" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"), children: block.decidedLabel }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onApprove?.(block.id), className: "rounded-lg bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring", children: block.allowLabel }),
-      /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onReject?.(block.id), className: "rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring", children: block.denyLabel })
-    ] }) })
+function TextRow({ block, isLast, renderContent }) {
+  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
+    /* @__PURE__ */ jsx(Rail, { tone: "answer", isLast, children: /* @__PURE__ */ jsx(Sparkles, { size: 13, strokeWidth: 2 }) }),
+    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-1 pt-0.5 text-[13.5px] leading-relaxed text-foreground", children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content }) })
   ] });
 }
 function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }) {
-  if (!blocks.length) return null;
-  return /* @__PURE__ */ jsx("div", { className: cn("flex flex-col gap-1.5", className), children: blocks.map((b) => {
+  const visible = blocks.filter((b) => !(b.kind === "reasoning" && !b.content.trim()));
+  if (!visible.length) return null;
+  return /* @__PURE__ */ jsx("div", { className: cn("flex flex-col", className), children: visible.map((b, i) => {
+    const isLast = i === visible.length - 1;
     switch (b.kind) {
       case "reasoning":
-        return b.content.trim() ? /* @__PURE__ */ jsx(ReasoningRow, { block: b, renderContent }, b.id) : null;
+        return /* @__PURE__ */ jsx(ReasoningRow, { block: b, isLast, renderContent }, b.id);
       case "tool":
-        return /* @__PURE__ */ jsx(ToolRow, { block: b }, b.id);
+        return /* @__PURE__ */ jsx(ToolRow, { block: b, isLast }, b.id);
       case "approval":
-        return /* @__PURE__ */ jsx(ApprovalCard, { block: b, onApprove, onReject }, b.id);
+        return /* @__PURE__ */ jsx(ApprovalRow, { block: b, isLast, onApprove, onReject }, b.id);
       case "text":
-        return /* @__PURE__ */ jsx("div", { className: "px-1 text-[13.5px] leading-relaxed text-foreground", children: renderContent ? renderContent(b.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: b.content }) }, b.id);
+        return /* @__PURE__ */ jsx(TextRow, { block: b, isLast, renderContent }, b.id);
       default:
         return null;
     }

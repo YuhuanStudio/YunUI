@@ -18,12 +18,11 @@ declare function ThinkingBlock({ content, isStreaming, defaultOpen, renderConten
 
 /**
  * AgentTimeline — an agent turn rendered as an ordered, inline sequence of typed
- * blocks (reasoning / tool call+result / assistant text / approval) in YunUI's
- * neutral .card language. Replaces the result-on-top / steps-panel-below split:
- * the answer is a `text` block among the tool and reasoning blocks, in order.
- * Purely presentational, prop-driven and copy-free — the consumer maps its own
- * records onto {@link AgentTimelineBlock}, localizes every label, and supplies a
- * markdown renderer.
+ * blocks (reasoning / tool call+result / assistant text / approval) drawn as a
+ * connected vertical timeline: a node per step, a rail linking them, and smooth
+ * height-animated disclosures. Purely presentational, prop-driven and copy-free
+ * — the consumer maps its own records onto {@link AgentTimelineBlock}, localizes
+ * every label, and supplies a markdown renderer.
  */
 type AgentTimelineIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
 type AgentTimelineToolStatus = "running" | "done" | "error";
