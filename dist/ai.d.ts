@@ -17,24 +17,23 @@ interface ThinkingBlockProps {
 declare function ThinkingBlock({ content, isStreaming, defaultOpen, renderContent }: ThinkingBlockProps): React.JSX.Element;
 
 /**
- * AgentSteps — a Codex-style execution timeline for an agent turn.
- *
- * A thin vertical rail threads the steps; each node's color *is* the status
- * (success / error / warning / running / thinking), so state reads at a glance
- * without heavy chips. Tool steps expand into terminal-style blocks; reasoning
- * folds into a low-weight "thinking" row. Purely presentational and data-driven
- * — it carries NO copy: the consumer localizes every string (verbs, status
- * labels, units) and maps its own step records onto {@link AgentStep}.
+ * AgentSteps — an execution log for one agent turn, in YunUI's neutral `.card`
+ * language (elevated card surface, refined icon tiles, a `bg-primary` accent
+ * bar for the in-flight step, and semantic `red-500/5` tinted blocks for
+ * failures). Deliberately monochrome — status is the only color. Purely
+ * presentational and data-driven; it carries NO copy: the consumer localizes
+ * every string (verbs, status labels, units) and maps its own step records onto
+ * {@link AgentStep}.
  */
 type AgentStepStatus = "success" | "error" | "warning" | "running";
 type AgentStepIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
-/** A terminal-style detail block revealed when a tool step is expanded. */
+/** A monospace detail block revealed when a tool step is expanded. */
 interface AgentStepBlock {
     /** Echoed command / query shown as a `$ …` line above the body. */
     command?: string;
     /** The body — tool output, error text, etc. */
     content: string;
-    /** Body tone. `error` colors it destructive; `muted` dims it. */
+    /** Body tone. `error` tints the whole block; `muted` dims the text. */
     tone?: "default" | "error" | "muted";
     /** Localized "output truncated" hint shown under the body. */
     truncatedLabel?: string;
@@ -49,7 +48,7 @@ interface AgentToolStep {
     /** Small trailing status label, e.g. "401" / "無輸出". */
     statusTag?: string;
     icon?: AgentStepIconName;
-    /** Expandable terminal blocks; when empty the row is not expandable. */
+    /** Expandable detail blocks; when empty the row is not expandable. */
     blocks?: AgentStepBlock[];
 }
 interface AgentThoughtStep {

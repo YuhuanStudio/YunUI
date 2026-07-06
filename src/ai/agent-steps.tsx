@@ -10,32 +10,32 @@ import {
     FileText,
     Wrench,
     Brain,
-    ChevronRight,
+    ChevronDown,
+    Check,
     Loader2,
 } from "lucide-react";
 import { cn } from "../lib/cn";
 
 /**
- * AgentSteps — a Codex-style execution timeline for an agent turn.
- *
- * A thin vertical rail threads the steps; each node's color *is* the status
- * (success / error / warning / running / thinking), so state reads at a glance
- * without heavy chips. Tool steps expand into terminal-style blocks; reasoning
- * folds into a low-weight "thinking" row. Purely presentational and data-driven
- * — it carries NO copy: the consumer localizes every string (verbs, status
- * labels, units) and maps its own step records onto {@link AgentStep}.
+ * AgentSteps — an execution log for one agent turn, in YunUI's neutral `.card`
+ * language (elevated card surface, refined icon tiles, a `bg-primary` accent
+ * bar for the in-flight step, and semantic `red-500/5` tinted blocks for
+ * failures). Deliberately monochrome — status is the only color. Purely
+ * presentational and data-driven; it carries NO copy: the consumer localizes
+ * every string (verbs, status labels, units) and maps its own step records onto
+ * {@link AgentStep}.
  */
 
 export type AgentStepStatus = "success" | "error" | "warning" | "running";
 export type AgentStepIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
 
-/** A terminal-style detail block revealed when a tool step is expanded. */
+/** A monospace detail block revealed when a tool step is expanded. */
 export interface AgentStepBlock {
     /** Echoed command / query shown as a `$ …` line above the body. */
     command?: string;
     /** The body — tool output, error text, etc. */
     content: string;
-    /** Body tone. `error` colors it destructive; `muted` dims it. */
+    /** Body tone. `error` tints the whole block; `muted` dims the text. */
     tone?: "default" | "error" | "muted";
     /** Localized "output truncated" hint shown under the body. */
     truncatedLabel?: string;
@@ -51,7 +51,7 @@ export interface AgentToolStep {
     /** Small trailing status label, e.g. "401" / "無輸出". */
     statusTag?: string;
     icon?: AgentStepIconName;
-    /** Expandable terminal blocks; when empty the row is not expandable. */
+    /** Expandable detail blocks; when empty the row is not expandable. */
     blocks?: AgentStepBlock[];
 }
 
@@ -108,79 +108,48 @@ function isThought(step: AgentStep): step is AgentThoughtStep {
     return step.kind === "thought";
 }
 
-/** Solid node color for a status (rail markers cut the line with a bg ring). */
-const NODE_BG: Record<AgentStepStatus, string> = {
-    success: "bg-[var(--success)]",
-    error: "bg-destructive",
-    warning: "bg-[var(--warning)]",
-    running: "",
-};
-
+/** Trailing status-tag color (StatCard's `-600 / dark:-400` tone convention). */
 const TAG_COLOR: Record<AgentStepStatus, string> = {
-    success: "text-success",
-    error: "text-destructive",
-    warning: "text-warning",
+    success: "text-emerald-600 dark:text-emerald-400",
+    error: "text-red-600 dark:text-red-400",
+    warning: "text-amber-600 dark:text-amber-400",
     running: "text-muted-foreground",
 };
 
-const BLOCK_ACCENT: Record<AgentStepStatus, string> = {
-    success: "border-l-[var(--success)]",
-    error: "border-l-destructive",
-    warning: "border-l-[var(--warning)]",
-    running: "border-l-border",
-};
-
-function TerminalBlock({ block, status }: { block: AgentStepBlock; status: AgentStepStatus }) {
+function DetailBlock({ block }: { block: AgentStepBlock }) {
+    const error = block.tone === "error";
     return (
         <div
             className={cn(
-                "overflow-hidden rounded-lg border border-border/60 border-l-2 bg-muted/40 font-mono text-xs",
-                BLOCK_ACCENT[status],
+                "overflow-hidden rounded-xl border font-mono text-xs",
+                error ? "border-red-500/20 bg-red-500/5" : "border-border/60 bg-muted/50",
             )}
         >
             {block.command != null && (
-                <div className="whitespace-pre-wrap break-words border-b border-border/40 px-3 py-2 text-muted-foreground">
+                <div
+                    className={cn(
+                        "whitespace-pre-wrap break-words border-b px-3 py-1.5 text-muted-foreground",
+                        error ? "border-red-500/20" : "border-border/50",
+                    )}
+                >
                     <span className="mr-1.5 select-none text-muted-foreground/50">$</span>
                     {block.command}
                 </div>
             )}
             <div
                 className={cn(
-                    "overflow-x-auto whitespace-pre px-3 py-2 leading-relaxed",
-                    block.tone === "error" && "text-destructive",
+                    "overflow-x-auto whitespace-pre-wrap break-words px-3 py-2 leading-relaxed",
+                    error && "text-red-600 dark:text-red-400",
                     block.tone === "muted" && "text-muted-foreground/70",
                     (!block.tone || block.tone === "default") && "text-foreground",
                 )}
             >
                 {block.content}
                 {block.truncatedLabel && (
-                    <span className="mt-1 block text-[11px] text-muted-foreground/60">{block.truncatedLabel}</span>
+                    <span className="mt-1 block text-[11px] not-italic text-muted-foreground/60">{block.truncatedLabel}</span>
                 )}
             </div>
         </div>
-    );
-}
-
-function StepNode({ step }: { step: AgentStep }) {
-    if (isThought(step)) {
-        return (
-            <span className="absolute left-[5px] top-3 h-[9px] w-[9px] rounded-full border border-border bg-background ring-[3px] ring-background" />
-        );
-    }
-    if (step.status === "running") {
-        return (
-            <span className="absolute left-[3px] top-[9px] flex h-[15px] w-[15px] items-center justify-center rounded-full bg-background ring-[3px] ring-background">
-                <Loader2 size={13} className="animate-spin text-[var(--warning)]" />
-            </span>
-        );
-    }
-    return (
-        <span
-            className={cn(
-                "absolute left-[3px] top-3 h-[11px] w-[11px] rounded-full ring-[3px] ring-background",
-                NODE_BG[step.status],
-            )}
-        />
     );
 }
 
@@ -196,22 +165,36 @@ function StepRow({
     renderContent?: (content: string) => ReactNode;
 }) {
     const thought = isThought(step);
-    const expandable = thought ? true : !!step.blocks?.length;
-    const Icon = thought ? Brain : ICONS[step.icon ?? "tool"];
+    const running = !thought && step.status === "running";
+    const hasContent = thought ? !!step.content || !!step.emptyLabel : !!step.blocks?.length;
+    const expandable = hasContent && !running;
+    const Icon = running ? Loader2 : thought ? Brain : ICONS[step.icon ?? "tool"];
 
     const row = (
         <>
-            <Icon size={15} className="shrink-0 text-muted-foreground/70" />
             <span
                 className={cn(
-                    "shrink-0 text-[13px] font-medium tracking-[-0.005em]",
+                    "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground",
+                    thought && step.isStreaming && "animate-pulse",
+                )}
+            >
+                <Icon size={15} strokeWidth={1.5} className={cn(running && "animate-spin")} />
+            </span>
+            <span
+                className={cn(
+                    "shrink-0 text-[13px] font-medium",
                     thought ? "text-muted-foreground" : "text-foreground",
                 )}
             >
                 {step.verb}
             </span>
             {step.summary && (
-                <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
+                <span
+                    className={cn(
+                        "min-w-0 flex-1 truncate text-xs text-muted-foreground",
+                        !thought && "font-mono text-[11.5px]",
+                    )}
+                >
                     {step.summary}
                     {thought && step.isStreaming && (
                         <motion.span
@@ -222,36 +205,44 @@ function StepRow({
                     )}
                 </span>
             )}
-            {!thought && step.statusTag && (
-                <span className={cn("shrink-0 font-mono text-[11px] font-semibold", TAG_COLOR[step.status])}>
-                    {step.statusTag}
-                </span>
-            )}
-            {expandable && (
-                <ChevronRight
-                    size={14}
-                    className={cn(
-                        "shrink-0 text-muted-foreground/50 transition-transform duration-200",
-                        open && "rotate-90",
-                    )}
-                />
-            )}
+            <span className={cn("flex shrink-0 items-center gap-2", !step.summary && "ml-auto")}>
+                {!thought && step.status === "success" && !step.statusTag && (
+                    <Check size={14} className="text-emerald-500" />
+                )}
+                {!thought && step.statusTag && (
+                    <span className={cn("font-mono text-[11px] font-semibold", TAG_COLOR[step.status])}>
+                        {step.statusTag}
+                    </span>
+                )}
+                {expandable && (
+                    <ChevronDown
+                        size={15}
+                        className={cn(
+                            "text-muted-foreground/50 transition-transform duration-200",
+                            open && "rotate-180",
+                        )}
+                    />
+                )}
+            </span>
         </>
     );
 
     return (
-        <>
+        <div className="relative">
+            {running && (
+                <span className="absolute left-0 top-[15px] h-5 w-[3px] rounded-full bg-primary" />
+            )}
             {expandable ? (
                 <button
                     type="button"
                     onClick={onToggle}
                     aria-expanded={open}
-                    className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left outline-none transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+                    className="flex w-full items-center gap-2.5 px-4 py-2 text-left outline-none transition-colors hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
                 >
                     {row}
                 </button>
             ) : (
-                <div className="flex w-full items-center gap-2 rounded-md px-2 py-2">{row}</div>
+                <div className="flex w-full items-center gap-2.5 px-4 py-2">{row}</div>
             )}
 
             <AnimatePresence initial={false}>
@@ -263,31 +254,31 @@ function StepRow({
                         transition={{ duration: 0.18, ease: "easeInOut" }}
                         className="overflow-hidden"
                     >
-                        {thought ? (
-                            <div className="pb-2.5 pr-2 pt-0.5">
-                                {step.content ? (
-                                    <div className="rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5 text-[12.5px] leading-relaxed text-muted-foreground">
+                        <div className="pb-3 pl-[54px] pr-4 pt-0.5">
+                            {thought ? (
+                                step.content ? (
+                                    <div className="text-[12.5px] leading-relaxed text-muted-foreground">
                                         {renderContent ? renderContent(step.content) : (
                                             <div className="whitespace-pre-wrap">{step.content}</div>
                                         )}
                                     </div>
                                 ) : (
-                                    <div className="rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5 text-[12.5px] italic leading-relaxed text-muted-foreground/60">
+                                    <div className="text-[12.5px] italic leading-relaxed text-muted-foreground/50">
                                         {step.emptyLabel}
                                     </div>
-                                )}
-                            </div>
-                        ) : (
-                            <div className="flex flex-col gap-1.5 pb-2.5 pr-2 pt-0.5">
-                                {step.blocks?.map((b, i) => (
-                                    <TerminalBlock key={i} block={b} status={step.status} />
-                                ))}
-                            </div>
-                        )}
+                                )
+                            ) : (
+                                <div className="flex flex-col gap-1.5">
+                                    {step.blocks?.map((b, i) => (
+                                        <DetailBlock key={i} block={b} />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+        </div>
     );
 }
 
@@ -295,9 +286,14 @@ export function AgentSteps({ steps, header, defaultOpenIndex = null, renderConte
     const [openIndex, setOpenIndex] = useState<number | null>(defaultOpenIndex);
 
     return (
-        <div className={cn("overflow-hidden rounded-xl border border-border bg-background", className)}>
+        <div
+            className={cn(
+                "overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-card shadow-[var(--shadow-xs)]",
+                className,
+            )}
+        >
             {header && (
-                <div className="flex items-center gap-2.5 px-4 py-3">
+                <div className="flex items-center gap-2.5 px-4 py-2.5">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-muted py-1 pl-2 pr-2.5 text-xs font-medium text-foreground">
                         <span
                             className={cn(
@@ -308,7 +304,7 @@ export function AgentSteps({ steps, header, defaultOpenIndex = null, renderConte
                         {header.statusLabel}
                     </span>
                     {header.eyebrow && (
-                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                        <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground/60">
                             {header.eyebrow}
                         </span>
                     )}
@@ -322,17 +318,15 @@ export function AgentSteps({ steps, header, defaultOpenIndex = null, renderConte
                 </div>
             )}
 
-            <div className="relative px-4 pb-2.5 pt-0.5 before:absolute before:bottom-3.5 before:left-[26px] before:top-1.5 before:w-px before:bg-border before:content-['']">
+            <div className="divide-y divide-[var(--border-hairline)] pb-1">
                 {steps.map((step, i) => (
-                    <div key={i} className="relative pl-6">
-                        <StepNode step={step} />
-                        <StepRow
-                            step={step}
-                            open={openIndex === i}
-                            onToggle={() => setOpenIndex(openIndex === i ? null : i)}
-                            renderContent={renderContent}
-                        />
-                    </div>
+                    <StepRow
+                        key={i}
+                        step={step}
+                        open={openIndex === i}
+                        onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+                        renderContent={renderContent}
+                    />
                 ))}
             </div>
         </div>

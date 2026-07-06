@@ -12,11 +12,13 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
-- **`AgentSteps` (`@yuhuanowo/yunui/ai`)** — a Codex-style execution timeline for
-  an agent turn. A thin rail threads the steps and each node's color *is* the
-  status (success / error / warning / running / thinking); tool steps expand into
-  terminal-style blocks with a status-colored left accent, reasoning folds into a
-  low-weight "thinking" row. Fully data-driven and copy-free — the consumer
+- **`AgentSteps` (`@yuhuanowo/yunui/ai`)** — an execution log for an agent turn,
+  in the neutral `.card` language (elevated `bg-card` + `shadow-xs`, refined
+  `rounded-lg bg-muted` icon tiles with `strokeWidth={1.5}` glyphs, a `bg-primary`
+  accent bar on the in-flight step, and semantic `red-500/5` tinted blocks for
+  failures — deliberately monochrome, status is the only color). Tool steps
+  expand into `$`-prefixed monospace detail blocks; reasoning folds into a
+  low-weight thinking row. Fully data-driven and copy-free — the consumer
   localizes verbs/labels and maps its own records onto the `AgentStep` union.
 
 ### Changed
