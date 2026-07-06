@@ -27,6 +27,13 @@ export {
     type AgentStepStatus,
     type AgentStepIconName,
 } from "./agent-steps";
+export {
+    AgentTimeline,
+    type AgentTimelineProps,
+    type AgentTimelineBlock,
+    type AgentTimelineIconName,
+    type AgentTimelineToolStatus,
+} from "./agent-timeline";
 export { ModelCard, type ModelCardProps } from "./model-card";
 export {
     ModelSelect,

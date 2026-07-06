@@ -12,6 +12,16 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- **`AgentTimeline` (`@yuhuanowo/yunui/ai`)** — an agent turn rendered as an
+  ordered, INLINE sequence of typed blocks (reasoning / tool call+result /
+  assistant text / approval), in the neutral `.card` language. Unlike the
+  `AgentSteps` panel, the answer is a `text` block among the tool/reasoning
+  blocks in conversation order (no result-on-top / steps-below split); tool
+  rows expand into `$`-prefixed monospace output, failures use semantic
+  `red-500/5` tints, and an `approval` block renders an amber allow/deny gate.
+  Prop-driven and copy-free — the consumer maps records onto `AgentTimelineBlock`,
+  localizes every label, and supplies a markdown renderer. Verified on Chrome +
+  Safari/WebKit, desktop + mobile.
 - **`AgentSteps` (`@yuhuanowo/yunui/ai`)** — an execution log for an agent turn,
   in the neutral `.card` language (elevated `bg-card` + `shadow-xs`, refined
   `rounded-lg bg-muted` icon tiles with `strokeWidth={1.5}` glyphs, a `bg-primary`

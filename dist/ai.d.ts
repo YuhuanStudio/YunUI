@@ -89,6 +89,57 @@ interface AgentStepsProps {
 }
 declare function AgentSteps({ steps, header, defaultOpenIndex, renderContent, className }: AgentStepsProps): React.JSX.Element;
 
+/**
+ * AgentTimeline — an agent turn rendered as an ordered, inline sequence of typed
+ * blocks (reasoning / tool call+result / assistant text / approval) in YunUI's
+ * neutral .card language. Replaces the result-on-top / steps-panel-below split:
+ * the answer is a `text` block among the tool and reasoning blocks, in order.
+ * Purely presentational, prop-driven and copy-free — the consumer maps its own
+ * records onto {@link AgentTimelineBlock}, localizes every label, and supplies a
+ * markdown renderer.
+ */
+type AgentTimelineIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
+type AgentTimelineToolStatus = "running" | "done" | "error";
+type AgentTimelineBlock = {
+    kind: "reasoning";
+    id: string;
+    label: string;
+    content: string;
+} | {
+    kind: "text";
+    id: string;
+    content: string;
+} | {
+    kind: "tool";
+    id: string;
+    verb: string;
+    summary?: string;
+    status: AgentTimelineToolStatus;
+    icon?: AgentTimelineIconName;
+    command?: string;
+    output?: string;
+} | {
+    kind: "approval";
+    id: string;
+    title: string;
+    verb: string;
+    message?: string;
+    argsText?: string;
+    allowLabel: string;
+    denyLabel: string;
+    decision?: "approved" | "rejected";
+    decidedLabel?: string;
+};
+interface AgentTimelineProps {
+    blocks: AgentTimelineBlock[];
+    /** Render reasoning/answer text (e.g. markdown). Plain text by default. */
+    renderContent?: (text: string) => ReactNode;
+    onApprove?: (id: string) => void;
+    onReject?: (id: string) => void;
+    className?: string;
+}
+declare function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }: AgentTimelineProps): React.JSX.Element | null;
+
 interface ModelCardProps {
     /** Model display name. */
     name: string;
@@ -411,4 +462,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { type AgentStep, type AgentStepBlock, type AgentStepIconName, type AgentStepStatus, AgentSteps, type AgentStepsHeader, type AgentStepsProps, type AgentThoughtStep, type AgentToolStep, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { type AgentStep, type AgentStepBlock, type AgentStepIconName, type AgentStepStatus, AgentSteps, type AgentStepsHeader, type AgentStepsProps, type AgentThoughtStep, AgentTimeline, type AgentTimelineBlock, type AgentTimelineIconName, type AgentTimelineProps, type AgentTimelineToolStatus, type AgentToolStep, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
