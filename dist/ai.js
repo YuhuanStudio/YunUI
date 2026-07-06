@@ -6,7 +6,7 @@ import { cn, useAnchoredPosition } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useRef, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, Shield, Shuffle, Volume2, Headphones, Palette, Hash, FileText } from 'lucide-react';
+import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, Loader2, Wrench, FileText, Terminal, ChevronRight, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 
@@ -51,6 +51,191 @@ function ThinkingBlock({ content, isStreaming, defaultOpen = false, renderConten
         ] }) : /* @__PURE__ */ jsx("span", { className: "italic opacity-50", children: t("inProgress") }) })
       }
     ) })
+  ] });
+}
+var ICONS = {
+  terminal: Terminal,
+  search: Search,
+  globe: Globe,
+  image: Image,
+  file: FileText,
+  tool: Wrench
+};
+function isThought(step) {
+  return step.kind === "thought";
+}
+var NODE_BG = {
+  success: "bg-[var(--success)]",
+  error: "bg-destructive",
+  warning: "bg-[var(--warning)]",
+  running: ""
+};
+var TAG_COLOR = {
+  success: "text-success",
+  error: "text-destructive",
+  warning: "text-warning",
+  running: "text-muted-foreground"
+};
+var BLOCK_ACCENT = {
+  success: "border-l-[var(--success)]",
+  error: "border-l-destructive",
+  warning: "border-l-[var(--warning)]",
+  running: "border-l-border"
+};
+function TerminalBlock({ block, status }) {
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "overflow-hidden rounded-lg border border-border/60 border-l-2 bg-muted/40 font-mono text-xs",
+        BLOCK_ACCENT[status]
+      ),
+      children: [
+        block.command != null && /* @__PURE__ */ jsxs("div", { className: "whitespace-pre-wrap break-words border-b border-border/40 px-3 py-2 text-muted-foreground", children: [
+          /* @__PURE__ */ jsx("span", { className: "mr-1.5 select-none text-muted-foreground/50", children: "$" }),
+          block.command
+        ] }),
+        /* @__PURE__ */ jsxs(
+          "div",
+          {
+            className: cn(
+              "overflow-x-auto whitespace-pre px-3 py-2 leading-relaxed",
+              block.tone === "error" && "text-destructive",
+              block.tone === "muted" && "text-muted-foreground/70",
+              (!block.tone || block.tone === "default") && "text-foreground"
+            ),
+            children: [
+              block.content,
+              block.truncatedLabel && /* @__PURE__ */ jsx("span", { className: "mt-1 block text-[11px] text-muted-foreground/60", children: block.truncatedLabel })
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
+function StepNode({ step }) {
+  if (isThought(step)) {
+    return /* @__PURE__ */ jsx("span", { className: "absolute left-[5px] top-3 h-[9px] w-[9px] rounded-full border border-border bg-background ring-[3px] ring-background" });
+  }
+  if (step.status === "running") {
+    return /* @__PURE__ */ jsx("span", { className: "absolute left-[3px] top-[9px] flex h-[15px] w-[15px] items-center justify-center rounded-full bg-background ring-[3px] ring-background", children: /* @__PURE__ */ jsx(Loader2, { size: 13, className: "animate-spin text-[var(--warning)]" }) });
+  }
+  return /* @__PURE__ */ jsx(
+    "span",
+    {
+      className: cn(
+        "absolute left-[3px] top-3 h-[11px] w-[11px] rounded-full ring-[3px] ring-background",
+        NODE_BG[step.status]
+      )
+    }
+  );
+}
+function StepRow({
+  step,
+  open,
+  onToggle,
+  renderContent
+}) {
+  const thought = isThought(step);
+  const expandable = thought ? true : !!step.blocks?.length;
+  const Icon = thought ? Brain : ICONS[step.icon ?? "tool"];
+  const row = /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(Icon, { size: 15, className: "shrink-0 text-muted-foreground/70" }),
+    /* @__PURE__ */ jsx(
+      "span",
+      {
+        className: cn(
+          "shrink-0 text-[13px] font-medium tracking-[-0.005em]",
+          thought ? "text-muted-foreground" : "text-foreground"
+        ),
+        children: step.verb
+      }
+    ),
+    step.summary && /* @__PURE__ */ jsxs("span", { className: "min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground", children: [
+      step.summary,
+      thought && step.isStreaming && /* @__PURE__ */ jsx(
+        motion.span,
+        {
+          animate: { opacity: [0.3, 1, 0.3] },
+          transition: { duration: 1.2, repeat: Infinity },
+          className: "ml-1 inline-block h-2.5 w-0.5 bg-muted-foreground/50 align-middle"
+        }
+      )
+    ] }),
+    !thought && step.statusTag && /* @__PURE__ */ jsx("span", { className: cn("shrink-0 font-mono text-[11px] font-semibold", TAG_COLOR[step.status]), children: step.statusTag }),
+    expandable && /* @__PURE__ */ jsx(
+      ChevronRight,
+      {
+        size: 14,
+        className: cn(
+          "shrink-0 text-muted-foreground/50 transition-transform duration-200",
+          open && "rotate-90"
+        )
+      }
+    )
+  ] });
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    expandable ? /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        onClick: onToggle,
+        "aria-expanded": open,
+        className: "flex w-full items-center gap-2 rounded-md px-2 py-2 text-left outline-none transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+        children: row
+      }
+    ) : /* @__PURE__ */ jsx("div", { className: "flex w-full items-center gap-2 rounded-md px-2 py-2", children: row }),
+    /* @__PURE__ */ jsx(AnimatePresence, { initial: false, children: open && expandable && /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        initial: { height: 0, opacity: 0 },
+        animate: { height: "auto", opacity: 1 },
+        exit: { height: 0, opacity: 0 },
+        transition: { duration: 0.18, ease: "easeInOut" },
+        className: "overflow-hidden",
+        children: thought ? /* @__PURE__ */ jsx("div", { className: "pb-2.5 pr-2 pt-0.5", children: step.content ? /* @__PURE__ */ jsx("div", { className: "rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5 text-[12.5px] leading-relaxed text-muted-foreground", children: renderContent ? renderContent(step.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: step.content }) }) : /* @__PURE__ */ jsx("div", { className: "rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5 text-[12.5px] italic leading-relaxed text-muted-foreground/60", children: step.emptyLabel }) }) : /* @__PURE__ */ jsx("div", { className: "flex flex-col gap-1.5 pb-2.5 pr-2 pt-0.5", children: step.blocks?.map((b, i) => /* @__PURE__ */ jsx(TerminalBlock, { block: b, status: step.status }, i)) })
+      }
+    ) })
+  ] });
+}
+function AgentSteps({ steps, header, defaultOpenIndex = null, renderContent, className }) {
+  const [openIndex, setOpenIndex] = useState(defaultOpenIndex);
+  return /* @__PURE__ */ jsxs("div", { className: cn("overflow-hidden rounded-xl border border-border bg-background", className), children: [
+    header && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5 px-4 py-3", children: [
+      /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-1.5 rounded-full bg-muted py-1 pl-2 pr-2.5 text-xs font-medium text-foreground", children: [
+        /* @__PURE__ */ jsx(
+          "span",
+          {
+            className: cn(
+              "h-1.5 w-1.5 rounded-full",
+              header.running ? "animate-pulse bg-[var(--warning)]" : "bg-[var(--success)]"
+            )
+          }
+        ),
+        header.statusLabel
+      ] }),
+      header.eyebrow && /* @__PURE__ */ jsx("span", { className: "text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60", children: header.eyebrow }),
+      /* @__PURE__ */ jsxs("div", { className: "ml-auto flex items-center gap-3 text-xs tabular-nums text-muted-foreground", children: [
+        /* @__PURE__ */ jsxs("span", { children: [
+          /* @__PURE__ */ jsx("b", { className: "font-semibold text-foreground", children: header.count ?? steps.length }),
+          header.countLabel ? ` ${header.countLabel}` : null
+        ] }),
+        header.elapsedLabel && /* @__PURE__ */ jsx("span", { children: header.elapsedLabel })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "relative px-4 pb-2.5 pt-0.5 before:absolute before:bottom-3.5 before:left-[26px] before:top-1.5 before:w-px before:bg-border before:content-['']", children: steps.map((step, i) => /* @__PURE__ */ jsxs("div", { className: "relative pl-6", children: [
+      /* @__PURE__ */ jsx(StepNode, { step }),
+      /* @__PURE__ */ jsx(
+        StepRow,
+        {
+          step,
+          open: openIndex === i,
+          onToggle: () => setOpenIndex(openIndex === i ? null : i),
+          renderContent
+        }
+      )
+    ] }, i)) })
   ] });
 }
 function IDBadge({ text, truncate = true }) {
@@ -1770,6 +1955,6 @@ function Navbar({
   );
 }
 
-export { CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { AgentSteps, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

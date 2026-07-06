@@ -16,6 +16,80 @@ interface ThinkingBlockProps {
 }
 declare function ThinkingBlock({ content, isStreaming, defaultOpen, renderContent }: ThinkingBlockProps): React.JSX.Element;
 
+/**
+ * AgentSteps — a Codex-style execution timeline for an agent turn.
+ *
+ * A thin vertical rail threads the steps; each node's color *is* the status
+ * (success / error / warning / running / thinking), so state reads at a glance
+ * without heavy chips. Tool steps expand into terminal-style blocks; reasoning
+ * folds into a low-weight "thinking" row. Purely presentational and data-driven
+ * — it carries NO copy: the consumer localizes every string (verbs, status
+ * labels, units) and maps its own step records onto {@link AgentStep}.
+ */
+type AgentStepStatus = "success" | "error" | "warning" | "running";
+type AgentStepIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
+/** A terminal-style detail block revealed when a tool step is expanded. */
+interface AgentStepBlock {
+    /** Echoed command / query shown as a `$ …` line above the body. */
+    command?: string;
+    /** The body — tool output, error text, etc. */
+    content: string;
+    /** Body tone. `error` colors it destructive; `muted` dims it. */
+    tone?: "default" | "error" | "muted";
+    /** Localized "output truncated" hint shown under the body. */
+    truncatedLabel?: string;
+}
+interface AgentToolStep {
+    kind?: "tool";
+    /** Humanized action, e.g. "終端指令" / "網路搜尋" (consumer-localized). */
+    verb: string;
+    /** One-line argument summary shown after the verb (monospace). */
+    summary?: string;
+    status: AgentStepStatus;
+    /** Small trailing status label, e.g. "401" / "無輸出". */
+    statusTag?: string;
+    icon?: AgentStepIconName;
+    /** Expandable terminal blocks; when empty the row is not expandable. */
+    blocks?: AgentStepBlock[];
+}
+interface AgentThoughtStep {
+    kind: "thought";
+    /** Label, e.g. "思考" (consumer-localized). */
+    verb: string;
+    /** One-line summary shown after the verb. */
+    summary?: string;
+    /** Reasoning text; empty content shows {@link emptyLabel}. */
+    content?: string;
+    /** Shown when content is empty (e.g. "此次反思沒有內容"). */
+    emptyLabel?: string;
+    isStreaming?: boolean;
+}
+type AgentStep = AgentToolStep | AgentThoughtStep;
+interface AgentStepsHeader {
+    /** e.g. "已完成" / "執行中" (consumer-localized). */
+    statusLabel?: string;
+    running?: boolean;
+    /** Small uppercase eyebrow, e.g. "Agent". */
+    eyebrow?: string;
+    /** Step count; falls back to `steps.length`. */
+    count?: number;
+    /** Unit after the count, e.g. "步" / "steps". */
+    countLabel?: string;
+    /** Elapsed label, e.g. "44s". */
+    elapsedLabel?: string;
+}
+interface AgentStepsProps {
+    steps: AgentStep[];
+    /** Optional header strip (status pill + count + elapsed). Omit to hide it. */
+    header?: AgentStepsHeader;
+    /** Index expanded by default (e.g. the last tool step). */
+    defaultOpenIndex?: number | null;
+    /** Render reasoning content (e.g. with markdown). Plain text by default. */
+    renderContent?: (content: string) => ReactNode;
+    className?: string;
+}
+declare function AgentSteps({ steps, header, defaultOpenIndex, renderContent, className }: AgentStepsProps): React.JSX.Element;
+
 interface ModelCardProps {
     /** Model display name. */
     name: string;
@@ -338,4 +412,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { type AgentStep, type AgentStepBlock, type AgentStepIconName, type AgentStepStatus, AgentSteps, type AgentStepsHeader, type AgentStepsProps, type AgentThoughtStep, type AgentToolStep, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };

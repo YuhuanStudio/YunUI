@@ -11,6 +11,14 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- **`AgentSteps` (`@yuhuanowo/yunui/ai`)** — a Codex-style execution timeline for
+  an agent turn. A thin rail threads the steps and each node's color *is* the
+  status (success / error / warning / running / thinking); tool steps expand into
+  terminal-style blocks with a status-colored left accent, reasoning folds into a
+  low-weight "thinking" row. Fully data-driven and copy-free — the consumer
+  localizes verbs/labels and maps its own records onto the `AgentStep` union.
+
 ### Changed
 - **`ModelSelect` selection bar inset refined to 5px** (from `left-1.5`/6px),
   set as an inline style since Tailwind's `1.25` step isn't core and could be

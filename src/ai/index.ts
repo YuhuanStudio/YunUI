@@ -16,6 +16,17 @@
 // Intentionally kept out of the package.
 
 export { ThinkingBlock } from "./thinking-block";
+export {
+    AgentSteps,
+    type AgentStepsProps,
+    type AgentStep,
+    type AgentToolStep,
+    type AgentThoughtStep,
+    type AgentStepBlock,
+    type AgentStepsHeader,
+    type AgentStepStatus,
+    type AgentStepIconName,
+} from "./agent-steps";
 export { ModelCard, type ModelCardProps } from "./model-card";
 export {
     ModelSelect,
