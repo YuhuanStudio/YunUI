@@ -17,17 +17,6 @@
 
 export { ThinkingBlock } from "./thinking-block";
 export {
-    AgentSteps,
-    type AgentStepsProps,
-    type AgentStep,
-    type AgentToolStep,
-    type AgentThoughtStep,
-    type AgentStepBlock,
-    type AgentStepsHeader,
-    type AgentStepStatus,
-    type AgentStepIconName,
-} from "./agent-steps";
-export {
     AgentTimeline,
     type AgentTimelineProps,
     type AgentTimelineBlock,

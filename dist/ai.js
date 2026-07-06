@@ -6,7 +6,7 @@ import { cn, useAnchoredPosition } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useRef, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, Loader2, Wrench, FileText, Terminal, ShieldAlert, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
+import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, ShieldAlert, Wrench, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 
@@ -61,203 +61,6 @@ var ICONS = {
   file: FileText,
   tool: Wrench
 };
-function isThought(step) {
-  return step.kind === "thought";
-}
-var TAG_COLOR = {
-  success: "text-emerald-600 dark:text-emerald-400",
-  error: "text-red-600 dark:text-red-400",
-  warning: "text-amber-600 dark:text-amber-400",
-  running: "text-muted-foreground"
-};
-function DetailBlock({ block }) {
-  const error = block.tone === "error";
-  return /* @__PURE__ */ jsxs(
-    "div",
-    {
-      className: cn(
-        "overflow-hidden rounded-xl border font-mono text-xs",
-        error ? "border-red-500/20 bg-red-500/5" : "border-border/60 bg-muted/50"
-      ),
-      children: [
-        block.command != null && /* @__PURE__ */ jsxs(
-          "div",
-          {
-            className: cn(
-              "whitespace-pre-wrap break-words border-b px-3 py-1.5 text-muted-foreground",
-              error ? "border-red-500/20" : "border-border/50"
-            ),
-            children: [
-              /* @__PURE__ */ jsx("span", { className: "mr-1.5 select-none text-muted-foreground/50", children: "$" }),
-              block.command
-            ]
-          }
-        ),
-        /* @__PURE__ */ jsxs(
-          "div",
-          {
-            className: cn(
-              "overflow-x-auto whitespace-pre-wrap break-words px-3 py-2 leading-relaxed",
-              error && "text-red-600 dark:text-red-400",
-              block.tone === "muted" && "text-muted-foreground/70",
-              (!block.tone || block.tone === "default") && "text-foreground"
-            ),
-            children: [
-              block.content,
-              block.truncatedLabel && /* @__PURE__ */ jsx("span", { className: "mt-1 block text-[11px] not-italic text-muted-foreground/60", children: block.truncatedLabel })
-            ]
-          }
-        )
-      ]
-    }
-  );
-}
-function StepRow({
-  step,
-  open,
-  onToggle,
-  renderContent
-}) {
-  const thought = isThought(step);
-  const running = !thought && step.status === "running";
-  const hasContent = thought ? !!step.content || !!step.emptyLabel : !!step.blocks?.length;
-  const expandable = hasContent && !running;
-  const Icon = running ? Loader2 : thought ? Brain : ICONS[step.icon ?? "tool"];
-  const row = /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(
-      "span",
-      {
-        className: cn(
-          "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground",
-          thought && step.isStreaming && "animate-pulse"
-        ),
-        children: /* @__PURE__ */ jsx(Icon, { size: 15, strokeWidth: 1.5, className: cn(running && "animate-spin") })
-      }
-    ),
-    /* @__PURE__ */ jsx(
-      "span",
-      {
-        className: cn(
-          "shrink-0 text-[13px] font-medium",
-          thought ? "text-muted-foreground" : "text-foreground"
-        ),
-        children: step.verb
-      }
-    ),
-    step.summary && /* @__PURE__ */ jsxs(
-      "span",
-      {
-        className: cn(
-          "min-w-0 flex-1 truncate text-xs text-muted-foreground",
-          !thought && "font-mono text-[11.5px]"
-        ),
-        children: [
-          step.summary,
-          thought && step.isStreaming && /* @__PURE__ */ jsx(
-            motion.span,
-            {
-              animate: { opacity: [0.3, 1, 0.3] },
-              transition: { duration: 1.2, repeat: Infinity },
-              className: "ml-1 inline-block h-2.5 w-0.5 bg-muted-foreground/50 align-middle"
-            }
-          )
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsxs("span", { className: cn("flex shrink-0 items-center gap-2", !step.summary && "ml-auto"), children: [
-      !thought && step.status === "success" && !step.statusTag && /* @__PURE__ */ jsx(Check, { size: 14, className: "text-emerald-500" }),
-      !thought && step.statusTag && /* @__PURE__ */ jsx("span", { className: cn("font-mono text-[11px] font-semibold", TAG_COLOR[step.status]), children: step.statusTag }),
-      expandable && /* @__PURE__ */ jsx(
-        ChevronDown,
-        {
-          size: 15,
-          className: cn(
-            "text-muted-foreground/50 transition-transform duration-200",
-            open && "rotate-180"
-          )
-        }
-      )
-    ] })
-  ] });
-  return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-    running && /* @__PURE__ */ jsx("span", { className: "absolute left-0 top-[15px] h-5 w-[3px] rounded-full bg-primary" }),
-    expandable ? /* @__PURE__ */ jsx(
-      "button",
-      {
-        type: "button",
-        onClick: onToggle,
-        "aria-expanded": open,
-        className: "flex w-full items-center gap-2.5 px-4 py-2 text-left outline-none transition-colors hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-        children: row
-      }
-    ) : /* @__PURE__ */ jsx("div", { className: "flex w-full items-center gap-2.5 px-4 py-2", children: row }),
-    /* @__PURE__ */ jsx(AnimatePresence, { initial: false, children: open && expandable && /* @__PURE__ */ jsx(
-      motion.div,
-      {
-        initial: { height: 0, opacity: 0 },
-        animate: { height: "auto", opacity: 1 },
-        exit: { height: 0, opacity: 0 },
-        transition: { duration: 0.18, ease: "easeInOut" },
-        className: "overflow-hidden",
-        children: /* @__PURE__ */ jsx("div", { className: "pb-3 pl-[54px] pr-4 pt-0.5", children: thought ? step.content ? /* @__PURE__ */ jsx("div", { className: "text-[12.5px] leading-relaxed text-muted-foreground", children: renderContent ? renderContent(step.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: step.content }) }) : /* @__PURE__ */ jsx("div", { className: "text-[12.5px] italic leading-relaxed text-muted-foreground/50", children: step.emptyLabel }) : /* @__PURE__ */ jsx("div", { className: "flex flex-col gap-1.5", children: step.blocks?.map((b, i) => /* @__PURE__ */ jsx(DetailBlock, { block: b }, i)) }) })
-      }
-    ) })
-  ] });
-}
-function AgentSteps({ steps, header, defaultOpenIndex = null, renderContent, className }) {
-  const [openIndex, setOpenIndex] = useState(defaultOpenIndex);
-  return /* @__PURE__ */ jsxs(
-    "div",
-    {
-      className: cn(
-        "overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-card shadow-[var(--shadow-xs)]",
-        className
-      ),
-      children: [
-        header && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5 px-4 py-2.5", children: [
-          /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-1.5 rounded-full bg-muted py-1 pl-2 pr-2.5 text-xs font-medium text-foreground", children: [
-            /* @__PURE__ */ jsx(
-              "span",
-              {
-                className: cn(
-                  "h-1.5 w-1.5 rounded-full",
-                  header.running ? "animate-pulse bg-[var(--warning)]" : "bg-[var(--success)]"
-                )
-              }
-            ),
-            header.statusLabel
-          ] }),
-          header.eyebrow && /* @__PURE__ */ jsx("span", { className: "text-[11px] font-semibold uppercase tracking-wide text-muted-foreground/60", children: header.eyebrow }),
-          /* @__PURE__ */ jsxs("div", { className: "ml-auto flex items-center gap-3 text-xs tabular-nums text-muted-foreground", children: [
-            /* @__PURE__ */ jsxs("span", { children: [
-              /* @__PURE__ */ jsx("b", { className: "font-semibold text-foreground", children: header.count ?? steps.length }),
-              header.countLabel ? ` ${header.countLabel}` : null
-            ] }),
-            header.elapsedLabel && /* @__PURE__ */ jsx("span", { children: header.elapsedLabel })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsx("div", { className: "divide-y divide-[var(--border-hairline)] pb-1", children: steps.map((step, i) => /* @__PURE__ */ jsx(
-          StepRow,
-          {
-            step,
-            open: openIndex === i,
-            onToggle: () => setOpenIndex(openIndex === i ? null : i),
-            renderContent
-          },
-          i
-        )) })
-      ]
-    }
-  );
-}
-var ICONS2 = {
-  terminal: Terminal,
-  search: Search,
-  globe: Globe,
-  image: Image,
-  file: FileText,
-  tool: Wrench
-};
 function Disclosure({ text, renderContent }) {
   return /* @__PURE__ */ jsx("div", { className: "mt-1 pl-[34px] pr-1 text-[12.5px] leading-relaxed text-muted-foreground", children: renderContent ? renderContent(text) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: text }) });
 }
@@ -283,7 +86,7 @@ function ReasoningRow({ block, renderContent }) {
 }
 function ToolRow({ block }) {
   const [open, setOpen] = useState(false);
-  const Icon = ICONS2[block.icon ?? "tool"];
+  const Icon = ICONS[block.icon ?? "tool"];
   const error = block.status === "error";
   const expandable = !!block.output || !!block.command;
   return /* @__PURE__ */ jsxs("div", { children: [
@@ -2067,6 +1870,6 @@ function Navbar({
   );
 }
 
-export { AgentSteps, AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

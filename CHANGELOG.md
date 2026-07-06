@@ -22,14 +22,12 @@ patch = fixes, anything may change between 0.x releases).
   Prop-driven and copy-free — the consumer maps records onto `AgentTimelineBlock`,
   localizes every label, and supplies a markdown renderer. Verified on Chrome +
   Safari/WebKit, desktop + mobile.
-- **`AgentSteps` (`@yuhuanowo/yunui/ai`)** — an execution log for an agent turn,
-  in the neutral `.card` language (elevated `bg-card` + `shadow-xs`, refined
-  `rounded-lg bg-muted` icon tiles with `strokeWidth={1.5}` glyphs, a `bg-primary`
-  accent bar on the in-flight step, and semantic `red-500/5` tinted blocks for
-  failures — deliberately monochrome, status is the only color). Tool steps
-  expand into `$`-prefixed monospace detail blocks; reasoning folds into a
-  low-weight thinking row. Fully data-driven and copy-free — the consumer
-  localizes verbs/labels and maps its own records onto the `AgentStep` union.
+
+### Removed
+- **`AgentSteps` (`@yuhuanowo/yunui/ai`)** — the earlier Codex-style execution
+  panel (result-on-top / steps-below split) is removed, superseded by
+  `AgentTimeline`, which renders the same agent-turn data as an inline ordered
+  sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
 ### Changed
 - **`ModelSelect` selection bar inset refined to 5px** (from `left-1.5`/6px),
