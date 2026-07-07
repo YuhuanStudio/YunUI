@@ -42,6 +42,7 @@ type AgentTimelineBlock = {
     icon?: AgentTimelineIconName;
     command?: string;
     output?: string;
+    indent?: boolean;
 } | {
     kind: "approval";
     id: string;

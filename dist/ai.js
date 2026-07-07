@@ -122,7 +122,7 @@ function ToolRow({ block, isLast }) {
   const error = block.status === "error";
   const expandable = !!block.output || !!block.command;
   const tone = block.status === "running" ? "running" : error ? "error" : "muted";
-  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex gap-2.5", block.indent && "pl-6"), children: [
     /* @__PURE__ */ jsx(Rail, { tone, isLast, children: block.status === "running" ? /* @__PURE__ */ jsx(Loader2, { size: 13, className: "animate-spin" }) : /* @__PURE__ */ jsx(Icon, { size: 13, strokeWidth: 1.75 }) }),
     /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1 pb-2", children: [
       /* @__PURE__ */ jsxs(
