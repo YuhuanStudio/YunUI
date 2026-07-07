@@ -64,7 +64,7 @@ function Rail({ children, tone = "muted", isLast }: { children: ReactNode; tone?
             >
                 {children}
             </span>
-            {!isLast && <span className="mt-1 w-px flex-1 bg-gradient-to-b from-border/70 to-border/25" />}
+            {!isLast && <span className="my-1 w-0.5 flex-1 rounded-full bg-border" />}
         </div>
     );
 }
