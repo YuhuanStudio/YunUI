@@ -27,6 +27,8 @@ export type AgentTimelineBlock =
           kind: "tool"; id: string; verb: string; summary?: string
           status: AgentTimelineToolStatus; icon?: AgentTimelineIconName
           command?: string; output?: string
+          // Nest this row one level in (e.g. a subagent under its dispatch call).
+          indent?: boolean
       }
     | {
           kind: "approval"; id: string; title: string; verb: string; message?: string
@@ -117,7 +119,7 @@ function ToolRow({ block, isLast }: { block: Extract<AgentTimelineBlock, { kind:
     const expandable = !!block.output || !!block.command;
     const tone: NodeTone = block.status === "running" ? "running" : error ? "error" : "muted";
     return (
-        <div className="flex gap-2.5">
+        <div className={cn("flex gap-2.5", block.indent && "pl-6")}>
             <Rail tone={tone} isLast={isLast}>
                 {block.status === "running" ? <Loader2 size={13} className="animate-spin" /> : <Icon size={13} strokeWidth={1.75} />}
             </Rail>
