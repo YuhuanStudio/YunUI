@@ -17,12 +17,14 @@ interface ThinkingBlockProps {
 declare function ThinkingBlock({ content, isStreaming, defaultOpen, renderContent }: ThinkingBlockProps): React.JSX.Element;
 
 /**
- * AgentTimeline — an agent turn rendered as an ordered, inline sequence of typed
- * blocks (reasoning / tool call+result / assistant text / approval) drawn as a
- * connected vertical timeline: a node per step, a rail linking them, and smooth
- * height-animated disclosures. Purely presentational, prop-driven and copy-free
- * — the consumer maps its own records onto {@link AgentTimelineBlock}, localizes
- * every label, and supplies a markdown renderer.
+ * AgentTimeline — the *process* lane of an agent turn: the reasoning traces,
+ * tool call+result, and approval prompts, drawn as a connected vertical timeline
+ * (a node per step linked by a rail, with smooth height-animated disclosures).
+ * It deliberately does NOT render the assistant's own prose — interim narration
+ * and the final answer belong to the *communication* lane and are rendered as
+ * plain markdown by the consumer, outside the timeline. Purely presentational,
+ * prop-driven and copy-free: the consumer maps its records onto
+ * {@link AgentTimelineBlock}, localizes every label, and supplies a renderer.
  */
 type AgentTimelineIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
 type AgentTimelineToolStatus = "running" | "done" | "error";
@@ -30,10 +32,6 @@ type AgentTimelineBlock = {
     kind: "reasoning";
     id: string;
     label: string;
-    content: string;
-} | {
-    kind: "text";
-    id: string;
     content: string;
 } | {
     kind: "tool";
@@ -58,7 +56,7 @@ type AgentTimelineBlock = {
 };
 interface AgentTimelineProps {
     blocks: AgentTimelineBlock[];
-    /** Render reasoning/answer text (e.g. markdown). Plain text by default. */
+    /** Render reasoning text (e.g. markdown). Plain text by default. */
     renderContent?: (text: string) => ReactNode;
     onApprove?: (id: string) => void;
     onReject?: (id: string) => void;

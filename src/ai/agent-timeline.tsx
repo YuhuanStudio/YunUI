@@ -3,17 +3,19 @@
 import { useState, type ReactNode } from "react";
 import {
     Brain, Terminal, Search, Globe, Image as ImageIcon, FileText, Wrench,
-    ChevronDown, Check, Loader2, ShieldAlert, Sparkles,
+    ChevronDown, Check, Loader2, ShieldAlert,
 } from "lucide-react";
 import { cn } from "../lib/cn";
 
 /**
- * AgentTimeline — an agent turn rendered as an ordered, inline sequence of typed
- * blocks (reasoning / tool call+result / assistant text / approval) drawn as a
- * connected vertical timeline: a node per step, a rail linking them, and smooth
- * height-animated disclosures. Purely presentational, prop-driven and copy-free
- * — the consumer maps its own records onto {@link AgentTimelineBlock}, localizes
- * every label, and supplies a markdown renderer.
+ * AgentTimeline — the *process* lane of an agent turn: the reasoning traces,
+ * tool call+result, and approval prompts, drawn as a connected vertical timeline
+ * (a node per step linked by a rail, with smooth height-animated disclosures).
+ * It deliberately does NOT render the assistant's own prose — interim narration
+ * and the final answer belong to the *communication* lane and are rendered as
+ * plain markdown by the consumer, outside the timeline. Purely presentational,
+ * prop-driven and copy-free: the consumer maps its records onto
+ * {@link AgentTimelineBlock}, localizes every label, and supplies a renderer.
  */
 
 export type AgentTimelineIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
@@ -21,7 +23,6 @@ export type AgentTimelineToolStatus = "running" | "done" | "error";
 
 export type AgentTimelineBlock =
     | { kind: "reasoning"; id: string; label: string; content: string }
-    | { kind: "text"; id: string; content: string }
     | {
           kind: "tool"; id: string; verb: string; summary?: string
           status: AgentTimelineToolStatus; icon?: AgentTimelineIconName
@@ -35,7 +36,7 @@ export type AgentTimelineBlock =
 
 export interface AgentTimelineProps {
     blocks: AgentTimelineBlock[];
-    /** Render reasoning/answer text (e.g. markdown). Plain text by default. */
+    /** Render reasoning text (e.g. markdown). Plain text by default. */
     renderContent?: (text: string) => ReactNode;
     onApprove?: (id: string) => void;
     onReject?: (id: string) => void;
@@ -46,7 +47,7 @@ const ICONS: Record<AgentTimelineIconName, typeof Terminal> = {
     terminal: Terminal, search: Search, globe: Globe, image: ImageIcon, file: FileText, tool: Wrench,
 };
 
-type NodeTone = "muted" | "running" | "error" | "answer" | "warn";
+type NodeTone = "muted" | "running" | "error" | "warn";
 
 /** A timeline node (the dot on the rail) + the connector line down to the next row. */
 function Rail({ children, tone = "muted", isLast }: { children: ReactNode; tone?: NodeTone; isLast: boolean }) {
@@ -59,7 +60,6 @@ function Rail({ children, tone = "muted", isLast }: { children: ReactNode; tone?
                     tone === "running" && "text-primary ring-primary/40",
                     tone === "error" && "text-red-500 ring-red-500/40 dark:text-red-400",
                     tone === "warn" && "text-amber-500 ring-amber-500/40",
-                    tone === "answer" && "bg-primary text-primary-foreground ring-0",
                 )}
             >
                 {children}
@@ -101,7 +101,7 @@ function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTi
                     <Chevron open={open} />
                 </button>
                 <Collapse open={open}>
-                    <div className="mt-1.5 rounded-lg border-l-2 border-primary/30 bg-muted/40 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground">
+                    <div className="mt-1.5 rounded-md border-l-2 border-border bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground">
                         {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
                     </div>
                 </Collapse>
@@ -138,14 +138,14 @@ function ToolRow({ block, isLast }: { block: Extract<AgentTimelineBlock, { kind:
                     </span>
                 </button>
                 <Collapse open={open}>
-                    <div className={cn("mt-1.5 overflow-hidden rounded-xl border font-mono text-xs shadow-sm", error ? "border-red-500/20 bg-red-500/5" : "border-border/60 bg-muted/40")}>
+                    <div className={cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-red-500/20 bg-red-500/5" : "border-border bg-muted/40")}>
                         {block.command && (
-                            <div className={cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/50")}>
+                            <div className={cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/60")}>
                                 <span className="select-none text-muted-foreground/40">$</span>
                                 <span className="truncate">{block.command}</span>
                             </div>
                         )}
-                        <div className={cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/85")}>
+                        <div className={cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/80")}>
                             {block.output || "—"}
                         </div>
                     </div>
@@ -160,14 +160,14 @@ function ApprovalRow({ block, isLast, onApprove, onReject }: { block: Extract<Ag
         <div className="flex gap-2.5">
             <Rail tone="warn" isLast={isLast}><ShieldAlert size={13} strokeWidth={1.75} /></Rail>
             <div className="min-w-0 flex-1 pb-2">
-                <div className="rounded-xl border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2.5">
+                <div className="rounded-lg border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2.5">
                     <div className="flex items-center gap-2 text-[13px] font-medium text-foreground">
                         <span>{block.title}</span>
                         <span className="font-mono text-xs text-muted-foreground">{block.verb}</span>
                     </div>
                     {block.message && <p className="mt-1.5 text-[12.5px] text-muted-foreground">{block.message}</p>}
                     {block.argsText && (
-                        <pre className="mt-1.5 max-h-40 overflow-auto rounded-lg border border-border/60 bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground">{block.argsText}</pre>
+                        <pre className="mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground">{block.argsText}</pre>
                     )}
                     <div className="mt-2.5 flex items-center gap-2">
                         {block.decision ? (
@@ -176,27 +176,16 @@ function ApprovalRow({ block, isLast, onApprove, onReject }: { block: Extract<Ag
                             </span>
                         ) : (
                             <>
-                                <button type="button" onClick={() => onApprove?.(block.id)} className="rounded-lg bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring">
+                                <button type="button" onClick={() => onApprove?.(block.id)} className="rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring">
                                     {block.allowLabel}
                                 </button>
-                                <button type="button" onClick={() => onReject?.(block.id)} className="rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
+                                <button type="button" onClick={() => onReject?.(block.id)} className="rounded-md border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
                                     {block.denyLabel}
                                 </button>
                             </>
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
-    );
-}
-
-function TextRow({ block, isLast, renderContent }: { block: Extract<AgentTimelineBlock, { kind: "text" }>; isLast: boolean; renderContent?: (t: string) => ReactNode }) {
-    return (
-        <div className="flex gap-2.5">
-            <Rail tone="answer" isLast={isLast}><Sparkles size={13} strokeWidth={2} /></Rail>
-            <div className="min-w-0 flex-1 pb-1 pt-0.5 text-[13.5px] leading-relaxed text-foreground">
-                {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
             </div>
         </div>
     );
@@ -217,8 +206,6 @@ export function AgentTimeline({ blocks, renderContent, onApprove, onReject, clas
                         return <ToolRow key={b.id} block={b} isLast={isLast} />;
                     case "approval":
                         return <ApprovalRow key={b.id} block={b} isLast={isLast} onApprove={onApprove} onReject={onReject} />;
-                    case "text":
-                        return <TextRow key={b.id} block={b} isLast={isLast} renderContent={renderContent} />;
                     default:
                         return null;
                 }

@@ -71,8 +71,7 @@ function Rail({ children, tone = "muted", isLast }) {
           tone === "muted" && "text-muted-foreground ring-border",
           tone === "running" && "text-primary ring-primary/40",
           tone === "error" && "text-red-500 ring-red-500/40 dark:text-red-400",
-          tone === "warn" && "text-amber-500 ring-amber-500/40",
-          tone === "answer" && "bg-primary text-primary-foreground ring-0"
+          tone === "warn" && "text-amber-500 ring-amber-500/40"
         ),
         children
       }
@@ -113,7 +112,7 @@ function ReasoningRow({ block, isLast, renderContent }) {
           ]
         }
       ),
-      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx("div", { className: "mt-1.5 rounded-lg border-l-2 border-primary/30 bg-muted/40 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground", children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content }) }) })
+      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx("div", { className: "mt-1.5 rounded-md border-l-2 border-border bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground", children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content }) }) })
     ] })
   ] });
 }
@@ -147,12 +146,12 @@ function ToolRow({ block, isLast }) {
           ]
         }
       ),
-      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsxs("div", { className: cn("mt-1.5 overflow-hidden rounded-xl border font-mono text-xs shadow-sm", error ? "border-red-500/20 bg-red-500/5" : "border-border/60 bg-muted/40"), children: [
-        block.command && /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/50"), children: [
+      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsxs("div", { className: cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-red-500/20 bg-red-500/5" : "border-border bg-muted/40"), children: [
+        block.command && /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/60"), children: [
           /* @__PURE__ */ jsx("span", { className: "select-none text-muted-foreground/40", children: "$" }),
           /* @__PURE__ */ jsx("span", { className: "truncate", children: block.command })
         ] }),
-        /* @__PURE__ */ jsx("div", { className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/85"), children: block.output || "\u2014" })
+        /* @__PURE__ */ jsx("div", { className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/80"), children: block.output || "\u2014" })
       ] }) })
     ] })
   ] });
@@ -160,24 +159,18 @@ function ToolRow({ block, isLast }) {
 function ApprovalRow({ block, isLast, onApprove, onReject }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
     /* @__PURE__ */ jsx(Rail, { tone: "warn", isLast, children: /* @__PURE__ */ jsx(ShieldAlert, { size: 13, strokeWidth: 1.75 }) }),
-    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs("div", { className: "rounded-xl border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2.5", children: [
+    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs("div", { className: "rounded-lg border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2.5", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-[13px] font-medium text-foreground", children: [
         /* @__PURE__ */ jsx("span", { children: block.title }),
         /* @__PURE__ */ jsx("span", { className: "font-mono text-xs text-muted-foreground", children: block.verb })
       ] }),
       block.message && /* @__PURE__ */ jsx("p", { className: "mt-1.5 text-[12.5px] text-muted-foreground", children: block.message }),
-      block.argsText && /* @__PURE__ */ jsx("pre", { className: "mt-1.5 max-h-40 overflow-auto rounded-lg border border-border/60 bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground", children: block.argsText }),
+      block.argsText && /* @__PURE__ */ jsx("pre", { className: "mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground", children: block.argsText }),
       /* @__PURE__ */ jsx("div", { className: "mt-2.5 flex items-center gap-2", children: block.decision ? /* @__PURE__ */ jsx("span", { className: cn("text-xs font-medium", block.decision === "approved" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"), children: block.decidedLabel }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onApprove?.(block.id), className: "rounded-lg bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring", children: block.allowLabel }),
-        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onReject?.(block.id), className: "rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring", children: block.denyLabel })
+        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onApprove?.(block.id), className: "rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring", children: block.allowLabel }),
+        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onReject?.(block.id), className: "rounded-md border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring", children: block.denyLabel })
       ] }) })
     ] }) })
-  ] });
-}
-function TextRow({ block, isLast, renderContent }) {
-  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
-    /* @__PURE__ */ jsx(Rail, { tone: "answer", isLast, children: /* @__PURE__ */ jsx(Sparkles, { size: 13, strokeWidth: 2 }) }),
-    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-1 pt-0.5 text-[13.5px] leading-relaxed text-foreground", children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content }) })
   ] });
 }
 function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }) {
@@ -192,8 +185,6 @@ function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }
         return /* @__PURE__ */ jsx(ToolRow, { block: b, isLast }, b.id);
       case "approval":
         return /* @__PURE__ */ jsx(ApprovalRow, { block: b, isLast, onApprove, onReject }, b.id);
-      case "text":
-        return /* @__PURE__ */ jsx(TextRow, { block: b, isLast, renderContent }, b.id);
       default:
         return null;
     }
