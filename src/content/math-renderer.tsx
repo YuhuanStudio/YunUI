@@ -30,7 +30,9 @@ export function MathRenderer({ math, block = false, className }: MathRendererPro
         throwOnError: false,
         errorColor: "#cc0000",
         strict: false,
-        trust: true,
+        // trust:false — untrusted math must not enable \href{javascript:...},
+        // \includegraphics, \htmlData etc. (KaTeX XSS surface).
+        trust: false,
         macros: {
           "\\RR": "\\mathbb{R}",
           "\\NN": "\\mathbb{N}",

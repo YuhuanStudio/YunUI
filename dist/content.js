@@ -307,7 +307,11 @@ function MermaidDiagram({
           // supports (flowchart, state, class, ER, requirement, C4, block…).
           look: "handDrawn",
           handDrawnSeed: 1,
-          securityLevel: "loose",
+          // "strict" (not "loose"): diagram source here is untrusted LLM/chat output.
+          // "loose" enables HTML labels + relaxes Mermaid's internal DOMPurify, so a
+          // label like <img src=x onerror=...> executes when the SVG is injected via
+          // dangerouslySetInnerHTML. "strict" sanitizes labels and disables htmlLabels.
+          securityLevel: "strict",
           fontFamily: '"Comic Sans MS", "Segoe Print", ui-rounded, system-ui, sans-serif',
           flowchart: { curve: "basis", padding: 20 },
           sequence: { diagramMarginX: 20, diagramMarginY: 20 },
@@ -831,7 +835,9 @@ function MathRenderer({ math, block = false, className }) {
         throwOnError: false,
         errorColor: "#cc0000",
         strict: false,
-        trust: true,
+        // trust:false — untrusted math must not enable \href{javascript:...},
+        // \includegraphics, \htmlData etc. (KaTeX XSS surface).
+        trust: false,
         macros: {
           "\\RR": "\\mathbb{R}",
           "\\NN": "\\mathbb{N}",
