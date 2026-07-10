@@ -1121,6 +1121,16 @@ export const docs: DocEntry[] = [
     "thinking block reasoning chain of thought streaming collapsible",
   ),
   aiDoc(
+    "agent-timeline",
+    { en: "Agent Timeline", "zh-CN": "代理时间轴", "zh-TW": "代理時間軸" },
+    {
+      en: "The process lane of an agent turn — reasoning traces, tool calls with output, and approval prompts on a connected vertical rail.",
+      "zh-CN": "代理回合的处理轨道——推理过程、带输出的工具调用与授权提示，绘制在相连的垂直时间轴上。",
+      "zh-TW": "代理回合的處理軌道——推理過程、帶輸出的工具呼叫與授權提示，繪製在相連的垂直時間軸上。",
+    },
+    "agent timeline steps tool call reasoning approval process rail codex chain of thought",
+  ),
+  aiDoc(
     "id-badge",
     { en: "ID Badge", "zh-CN": "ID 徽章", "zh-TW": "ID 徽章" },
     {
@@ -1456,6 +1466,7 @@ export const groups: DocGroup[] = [
       "ai/capability-selector",
       "ai/capability-badge",
       "ai/thinking-block",
+      "ai/agent-timeline",
       "ai/id-badge",
       "ai/navbar",
       "ai/footer",

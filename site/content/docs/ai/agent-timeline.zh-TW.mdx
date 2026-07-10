@@ -1,0 +1,75 @@
+import { AgentTimeline } from "yunui/ai";
+
+代理回合的*處理*軌道，以一條相連的垂直時間軸呈現：推理過程、帶有指令與輸出的工具呼叫，以及授權提示——每一項都是軌道上的一個節點，並帶有平滑的高度動畫展開。它刻意**不**算繪助理本身的文字;過程中的敘述與最終答案屬於*溝通*軌道，由你在時間軸之外以 Markdown 算繪。純呈現、不含任何文案——將你的紀錄對映到 `AgentTimelineBlock[]`，並自行本地化每一個標籤。
+
+## 匯入
+
+```tsx
+import { AgentTimeline } from "@yuhuanowo/yunui/ai";
+```
+
+## 基礎用法
+
+每個區塊都是以 `kind` 區分的聯合型別。`reasoning` 區塊會將推理過程收合在一行標籤之後;`tool` 區塊顯示動詞、可選的等寬 `summary`、狀態符號，並在設定 `command`／`output` 時提供可展開的主控台。
+
+<ComponentPreview title="基礎用法">
+  <div className="w-full max-w-xl">
+    <AgentTimeline
+      blocks={[
+        { kind: "reasoning", id: "r1", label: "Thought for 3s", content: "The user wants the failing test isolated. I'll grep for the assertion, run only that file, then read the traceback." },
+        { kind: "tool", id: "t1", verb: "Search", summary: "expect(sum).toBe", status: "done", icon: "search" },
+        { kind: "tool", id: "t2", verb: "Run", summary: "pnpm test sum.test.ts", status: "done", icon: "terminal", command: "pnpm test sum.test.ts", output: "✓ adds positives\n✗ adds negatives\n\n1 failed, 1 passed" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## 工具狀態與巢狀
+
+`status` 決定節點外觀：`running` 以品牌色旋轉載入符號、`done` 顯示勾選、`error` 會將該列與主控台改為紅色。設定 `indent` 可將一列往內縮排一層——例如將子代理步驟置於派發它的呼叫之下。
+
+<ComponentPreview title="工具狀態與巢狀">
+  <div className="w-full max-w-xl">
+    <AgentTimeline
+      blocks={[
+        { kind: "tool", id: "t1", verb: "Dispatch", summary: "code-reviewer", status: "done", icon: "tool" },
+        { kind: "tool", id: "t2", verb: "Read", summary: "src/agent-timeline.tsx", status: "done", icon: "file", indent: true },
+        { kind: "tool", id: "t3", verb: "Fetch", summary: "https://api.example.com/models", status: "running", icon: "globe" },
+        { kind: "tool", id: "t4", verb: "Run", summary: "pnpm typecheck", status: "error", icon: "terminal", command: "pnpm typecheck", output: "error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## 授權提示
+
+`approval` 區塊會算繪內嵌的允許／拒絕面板，並以區塊 `id` 觸發 `onApprove` / `onReject`。決定之後，傳入 `decision`（與 `decidedLabel`）即可將其凍結為已解析狀態。
+
+<ComponentPreview title="授權提示">
+  <div className="w-full max-w-xl">
+    <AgentTimeline
+      blocks={[
+        { kind: "reasoning", id: "r1", label: "Planned the migration", content: "I need to delete the legacy table before recreating it." },
+        { kind: "approval", id: "a1", title: "Run command", verb: "bash", message: "This will drop the staging database. Continue?", argsText: "$ dropdb yunui_staging", allowLabel: "Allow", denyLabel: "Deny" },
+        { kind: "approval", id: "a2", title: "Write file", verb: "fs.write", message: "Overwrite migrations/003.sql", decision: "approved", decidedLabel: "Approved", allowLabel: "Allow", denyLabel: "Deny" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## 將推理算繪為 Markdown
+
+推理內容預設以保留換行的純文字算繪。傳入 `renderContent` 即可接入 Markdown 算繪器（例如來自 `@yuhuanowo/yunui/content` 的 `MarkdownRenderer`），讓清單、程式碼與強調正確排版。
+
+```tsx
+import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
+
+<AgentTimeline
+  blocks={blocks}
+  renderContent={(text) => <MarkdownRenderer content={text} />}
+/>
+```
+
+## 屬性
+
+<PropsTable name="AgentTimeline" />

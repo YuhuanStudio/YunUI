@@ -1,0 +1,75 @@
+import { AgentTimeline } from "yunui/ai";
+
+The *process* lane of an agent turn, drawn as a connected vertical timeline: reasoning traces, tool calls with their command and output, and approval prompts — each a node on a rail with a smooth height-animated disclosure. It deliberately does **not** render the assistant's own prose; interim narration and the final answer belong to the *communication* lane and are rendered as markdown by you, outside the timeline. Purely presentational and copy-free — map your records onto `AgentTimelineBlock[]` and localize every label yourself.
+
+## Import
+
+```tsx
+import { AgentTimeline } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+Each block is a discriminated union on `kind`. A `reasoning` block collapses its trace behind a one-line label; a `tool` block shows the verb, an optional mono `summary`, a status glyph, and — when `command`/`output` are set — an expandable console.
+
+<ComponentPreview title="Basic">
+  <div className="w-full max-w-xl">
+    <AgentTimeline
+      blocks={[
+        { kind: "reasoning", id: "r1", label: "Thought for 3s", content: "The user wants the failing test isolated. I'll grep for the assertion, run only that file, then read the traceback." },
+        { kind: "tool", id: "t1", verb: "Search", summary: "expect(sum).toBe", status: "done", icon: "search" },
+        { kind: "tool", id: "t2", verb: "Run", summary: "pnpm test sum.test.ts", status: "done", icon: "terminal", command: "pnpm test sum.test.ts", output: "✓ adds positives\n✗ adds negatives\n\n1 failed, 1 passed" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Tool states & nesting
+
+`status` drives the node: `running` spins a loader in the brand tone, `done` shows a check, `error` recolors the row and console red. Set `indent` to nest a row one level in — e.g. a subagent step under the call that dispatched it.
+
+<ComponentPreview title="Tool states & nesting">
+  <div className="w-full max-w-xl">
+    <AgentTimeline
+      blocks={[
+        { kind: "tool", id: "t1", verb: "Dispatch", summary: "code-reviewer", status: "done", icon: "tool" },
+        { kind: "tool", id: "t2", verb: "Read", summary: "src/agent-timeline.tsx", status: "done", icon: "file", indent: true },
+        { kind: "tool", id: "t3", verb: "Fetch", summary: "https://api.example.com/models", status: "running", icon: "globe" },
+        { kind: "tool", id: "t4", verb: "Run", summary: "pnpm typecheck", status: "error", icon: "terminal", command: "pnpm typecheck", output: "error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Approval prompts
+
+An `approval` block renders an inline allow/deny panel and fires `onApprove` / `onReject` with the block `id`. Once decided, pass `decision` (and `decidedLabel`) to freeze it into a resolved state.
+
+<ComponentPreview title="Approval prompts">
+  <div className="w-full max-w-xl">
+    <AgentTimeline
+      blocks={[
+        { kind: "reasoning", id: "r1", label: "Planned the migration", content: "I need to delete the legacy table before recreating it." },
+        { kind: "approval", id: "a1", title: "Run command", verb: "bash", message: "This will drop the staging database. Continue?", argsText: "$ dropdb yunui_staging", allowLabel: "Allow", denyLabel: "Deny" },
+        { kind: "approval", id: "a2", title: "Write file", verb: "fs.write", message: "Overwrite migrations/003.sql", decision: "approved", decidedLabel: "Approved", allowLabel: "Allow", denyLabel: "Deny" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Rendering reasoning as markdown
+
+By default reasoning content renders as pre-wrapped plain text. Pass `renderContent` to plug in a Markdown renderer (e.g. `MarkdownRenderer` from `@yuhuanowo/yunui/content`) so lists, code and emphasis format correctly.
+
+```tsx
+import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
+
+<AgentTimeline
+  blocks={blocks}
+  renderContent={(text) => <MarkdownRenderer content={text} />}
+/>
+```
+
+## Props
+
+<PropsTable name="AgentTimeline" />

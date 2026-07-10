@@ -24,6 +24,43 @@
       "description": ""
     }
   ],
+  "AgentTimeline": [
+    {
+      "name": "blocks",
+      "type": "AgentTimelineBlock[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onApprove",
+      "type": "((id: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onReject",
+      "type": "((id: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "renderContent",
+      "type": "((text: string) => ReactNode)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Render reasoning text (e.g. markdown). Plain text by default."
+    }
+  ],
   "CapabilityIcon": [
     {
       "name": "capability",

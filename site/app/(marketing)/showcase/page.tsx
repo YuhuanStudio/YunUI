@@ -113,6 +113,7 @@ import {
 } from "yunui";
 import {
   ThinkingBlock,
+  AgentTimeline,
   LanguageSwitcher,
   Navbar,
   Footer,
@@ -1718,6 +1719,18 @@ export default function Showcase() {
         <Demo title={t("demos.thinkingBlock.title")}>
           <div className="w-full max-w-lg">
             <ThinkingBlock content={"Let me reason about this step by step…\n1. Parse the request\n2. Plan the answer"} isStreaming defaultOpen />
+          </div>
+        </Demo>
+        <Demo title="Agent Timeline">
+          <div className="w-full max-w-xl">
+            <AgentTimeline
+              blocks={[
+                { kind: "reasoning", id: "r1", label: "Thought for 3s", content: "Isolate the failing test, then read the traceback." },
+                { kind: "tool", id: "t1", verb: "Search", summary: "expect(sum).toBe", status: "done", icon: "search" },
+                { kind: "tool", id: "t2", verb: "Run", summary: "pnpm test sum.test.ts", status: "done", icon: "terminal", command: "pnpm test sum.test.ts", output: "✓ adds positives\n✗ adds negatives\n\n1 failed, 1 passed" },
+                { kind: "tool", id: "t3", verb: "Fetch", summary: "api.example.com/models", status: "running", icon: "globe" },
+              ]}
+            />
           </div>
         </Demo>
         <Demo title={t("demos.toast.title")} description={t("demos.toast.description")}>
