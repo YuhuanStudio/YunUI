@@ -116,7 +116,9 @@ export const TableHead = React.forwardRef<
     const alignClass =
         align === "right" ? "text-right" : align === "center" ? "text-center" : "text-left";
     const head = cn(
-        "h-10 px-4 align-middle text-[11px] font-medium uppercase tracking-wider text-muted-foreground [&:has([role=checkbox])]:pr-0",
+        // whitespace-nowrap: header labels are short and must never wrap — CJK labels in
+        // particular would otherwise break mid-word (能力 → 能/力) in narrow columns / WebKit.
+        "h-10 whitespace-nowrap px-4 align-middle text-[11px] font-medium uppercase tracking-wider text-muted-foreground [&:has([role=checkbox])]:pr-0",
         alignClass,
         className
     );

@@ -18,7 +18,9 @@ patch = fixes, anything may change between 0.x releases).
   (`"asc" | "desc" | false`) is the column's current state, and `align`
   (`"left" | "right" | "center"`) aligns both the content and the control (use `"right"`
   for numeric columns). Omit `onSort` and it behaves exactly as before. Fills the
-  data-table column-sorting gap without a separate component.
+  data-table column-sorting gap without a separate component. `TableHead` is also now
+  `whitespace-nowrap` so short header labels never wrap — CJK labels in particular no
+  longer break mid-word (能力 → 能/力) in narrow columns / WebKit.
 - **`AgentTimeline` (`@yuhuanowo/yunui/ai`)** — an agent turn rendered as an
   ordered, INLINE sequence of typed blocks (reasoning / tool call+result /
   assistant text / approval), in the neutral `.card` language. Unlike the
