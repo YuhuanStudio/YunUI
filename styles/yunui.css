@@ -669,6 +669,9 @@ summary {
   cursor: pointer;
   outline: none;
   border: 1px solid;
+  /* A button label must never wrap — in a narrow column a CJK label like 使用
+     would otherwise break vertically into 使/用. Labels stay on one line. */
+  white-space: nowrap;
 }
 
 /* Keyboard focus ring — applies to every .btn variant. Uses :focus-visible so

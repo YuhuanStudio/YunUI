@@ -11,6 +11,12 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Fixed
+- **Button labels never wrap** — the `.btn` base now sets `white-space: nowrap`, so a button
+  label can no longer break onto multiple lines in a narrow container. A CJK label like `使用`
+  in a cramped table action column used to split vertically into `使`/`用`; it now stays on one
+  line (the column widens / the table scrolls instead). Matches the standard button convention.
+
 ### Added
 - **Sortable `TableHead`** — `TableHead` gains optional, backward-compatible sort props:
   `onSort` makes the header a sort control (renders its content as a `<button>` with an
