@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
 import {
     Table,
     TableHeader,
@@ -82,6 +82,39 @@ describe("Table", () => {
         expect(screen.getByRole("table")).toHaveClass("t-table");
         expect(screen.getByRole("columnheader")).toHaveClass("t-th");
         expect(screen.getByRole("cell")).toHaveClass("t-td");
+    });
+
+    it("makes a sortable TableHead a button with aria-sort and fires onSort", () => {
+        const onSort = vi.fn();
+        render(
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead onSort={onSort} sortDirection="asc" align="right">
+                            Price
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+            </Table>
+        );
+        const th = screen.getByRole("columnheader");
+        expect(th).toHaveAttribute("aria-sort", "ascending");
+        fireEvent.click(screen.getByRole("button", { name: /price/i }));
+        expect(onSort).toHaveBeenCalledTimes(1);
+    });
+
+    it("renders a plain non-interactive TableHead when onSort is omitted", () => {
+        render(
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Name</TableHead>
+                    </TableRow>
+                </TableHeader>
+            </Table>
+        );
+        expect(screen.getByRole("columnheader")).not.toHaveAttribute("aria-sort");
+        expect(screen.queryByRole("button")).toBeNull();
     });
 
     it("exposes short aliases that map to the same elements", () => {

@@ -4,6 +4,7 @@
 // =====================================================
 
 import * as React from "react";
+import { ChevronDown, ChevronUp, ChevronsUpDown } from "lucide-react";
 import { cn } from "../lib/cn";
 
 /**
@@ -96,20 +97,67 @@ export const TableRow = React.forwardRef<
 ));
 TableRow.displayName = "TableRow";
 
-/** Column header cell (`<th>`): left-aligned, uppercase, muted, small. */
+/**
+ * Column header cell (`<th>`): uppercase, muted, small.
+ *
+ * Pass `onSort` to make it a sort control — the content renders as a button with an
+ * asc/desc/unsorted chevron and the `<th>` gets `aria-sort`; `sortDirection` is the column's
+ * current state (`"asc"`/`"desc"`, or `false`/omitted when it isn't the active sort column).
+ * `align` also aligns the sort control (use `"right"` for numeric columns).
+ */
 export const TableHead = React.forwardRef<
     HTMLTableCellElement,
-    React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-    <th
-        ref={ref}
-        className={cn(
-            "h-10 px-4 text-left align-middle text-[11px] font-medium uppercase tracking-wider text-muted-foreground [&:has([role=checkbox])]:pr-0",
-            className
-        )}
-        {...props}
-    />
-));
+    React.ThHTMLAttributes<HTMLTableCellElement> & {
+        onSort?: () => void;
+        sortDirection?: "asc" | "desc" | false;
+        align?: "left" | "right" | "center";
+    }
+>(({ className, onSort, sortDirection, align = "left", children, ...props }, ref) => {
+    const alignClass =
+        align === "right" ? "text-right" : align === "center" ? "text-center" : "text-left";
+    const head = cn(
+        "h-10 px-4 align-middle text-[11px] font-medium uppercase tracking-wider text-muted-foreground [&:has([role=checkbox])]:pr-0",
+        alignClass,
+        className
+    );
+
+    if (!onSort) {
+        return (
+            <th ref={ref} className={head} {...props}>
+                {children}
+            </th>
+        );
+    }
+
+    const Icon =
+        sortDirection === "asc" ? ChevronUp : sortDirection === "desc" ? ChevronDown : ChevronsUpDown;
+    const justify =
+        align === "right" ? "justify-end" : align === "center" ? "justify-center" : "justify-start";
+    return (
+        <th
+            ref={ref}
+            aria-sort={sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none"}
+            className={head}
+            {...props}
+        >
+            <button
+                type="button"
+                onClick={onSort}
+                className={cn(
+                    "inline-flex w-full items-center gap-1 uppercase tracking-wider transition-colors hover:text-foreground",
+                    justify
+                )}
+            >
+                {children}
+                <Icon
+                    size={12}
+                    aria-hidden
+                    className={cn("shrink-0", sortDirection ? "text-primary" : "opacity-40")}
+                />
+            </button>
+        </th>
+    );
+});
 TableHead.displayName = "TableHead";
 
 /** Standard data cell (`<td>`). */

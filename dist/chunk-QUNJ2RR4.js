@@ -4,7 +4,7 @@ import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React7 from 'react';
 import { forwardRef, useRef, useCallback, useEffect, useState, useId } from 'react';
 import { createPortal } from 'react-dom';
-import { Minus, Check, ChevronDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Plus, Search, X, ChevronUp, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
+import { Minus, Check, ChevronDown, ChevronUp, ChevronsUpDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Plus, Search, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
@@ -1007,17 +1007,50 @@ var TableRow = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   }
 ));
 TableRow.displayName = "TableRow";
-var TableHead = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
-  "th",
-  {
-    ref,
-    className: cn(
-      "h-10 px-4 text-left align-middle text-[11px] font-medium uppercase tracking-wider text-muted-foreground [&:has([role=checkbox])]:pr-0",
-      className
-    ),
-    ...props
+var TableHead = React7.forwardRef(({ className, onSort, sortDirection, align = "left", children, ...props }, ref) => {
+  const alignClass = align === "right" ? "text-right" : align === "center" ? "text-center" : "text-left";
+  const head = cn(
+    "h-10 px-4 align-middle text-[11px] font-medium uppercase tracking-wider text-muted-foreground [&:has([role=checkbox])]:pr-0",
+    alignClass,
+    className
+  );
+  if (!onSort) {
+    return /* @__PURE__ */ jsx("th", { ref, className: head, ...props, children });
   }
-));
+  const Icon2 = sortDirection === "asc" ? ChevronUp : sortDirection === "desc" ? ChevronDown : ChevronsUpDown;
+  const justify = align === "right" ? "justify-end" : align === "center" ? "justify-center" : "justify-start";
+  return /* @__PURE__ */ jsx(
+    "th",
+    {
+      ref,
+      "aria-sort": sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none",
+      className: head,
+      ...props,
+      children: /* @__PURE__ */ jsxs(
+        "button",
+        {
+          type: "button",
+          onClick: onSort,
+          className: cn(
+            "inline-flex w-full items-center gap-1 uppercase tracking-wider transition-colors hover:text-foreground",
+            justify
+          ),
+          children: [
+            children,
+            /* @__PURE__ */ jsx(
+              Icon2,
+              {
+                size: 12,
+                "aria-hidden": true,
+                className: cn("shrink-0", sortDirection ? "text-primary" : "opacity-40")
+              }
+            )
+          ]
+        }
+      )
+    }
+  );
+});
 TableHead.displayName = "TableHead";
 var TableCell = React7.forwardRef(({ className, label, ...props }, ref) => /* @__PURE__ */ jsx(
   "td",
@@ -2476,5 +2509,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-5TOGZTAO.js.map
-//# sourceMappingURL=chunk-5TOGZTAO.js.map
+//# sourceMappingURL=chunk-QUNJ2RR4.js.map
+//# sourceMappingURL=chunk-QUNJ2RR4.js.map

@@ -359,8 +359,19 @@ declare const TableBody: React$1.ForwardRefExoticComponent<React$1.HTMLAttribute
 declare const TableFooter: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableSectionElement> & React$1.RefAttributes<HTMLTableSectionElement>>;
 /** Table row (`<tr>`) with a divider and hover highlight. */
 declare const TableRow: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLTableRowElement> & React$1.RefAttributes<HTMLTableRowElement>>;
-/** Column header cell (`<th>`): left-aligned, uppercase, muted, small. */
-declare const TableHead: React$1.ForwardRefExoticComponent<React$1.ThHTMLAttributes<HTMLTableCellElement> & React$1.RefAttributes<HTMLTableCellElement>>;
+/**
+ * Column header cell (`<th>`): uppercase, muted, small.
+ *
+ * Pass `onSort` to make it a sort control — the content renders as a button with an
+ * asc/desc/unsorted chevron and the `<th>` gets `aria-sort`; `sortDirection` is the column's
+ * current state (`"asc"`/`"desc"`, or `false`/omitted when it isn't the active sort column).
+ * `align` also aligns the sort control (use `"right"` for numeric columns).
+ */
+declare const TableHead: React$1.ForwardRefExoticComponent<React$1.ThHTMLAttributes<HTMLTableCellElement> & {
+    onSort?: () => void;
+    sortDirection?: "asc" | "desc" | false;
+    align?: "left" | "right" | "center";
+} & React$1.RefAttributes<HTMLTableCellElement>>;
 /** Standard data cell (`<td>`). */
 declare const TableCell: React$1.ForwardRefExoticComponent<React$1.TdHTMLAttributes<HTMLTableCellElement> & {
     /** Column label shown beside the value when the parent `<Table responsive>`

@@ -12,6 +12,13 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Added
+- **Sortable `TableHead`** — `TableHead` gains optional, backward-compatible sort props:
+  `onSort` makes the header a sort control (renders its content as a `<button>` with an
+  asc/desc/unsorted chevron and sets `aria-sort` on the `<th>`), `sortDirection`
+  (`"asc" | "desc" | false`) is the column's current state, and `align`
+  (`"left" | "right" | "center"`) aligns both the content and the control (use `"right"`
+  for numeric columns). Omit `onSort` and it behaves exactly as before. Fills the
+  data-table column-sorting gap without a separate component.
 - **`AgentTimeline` (`@yuhuanowo/yunui/ai`)** — an agent turn rendered as an
   ordered, INLINE sequence of typed blocks (reasoning / tool call+result /
   assistant text / approval), in the neutral `.card` language. Unlike the
