@@ -73,6 +73,15 @@ export interface ModelSelectProps {
     filters?: ModelSelectFilter[];
     /** Optional footer bar; receives the current (filtered) result count. */
     renderFooter?: (count: number) => ReactNode;
+    /** Rendered at the very TOP of the open panel, above the search box — and always visible, even
+     *  when the list is empty (unlike renderFooter, which hides on an empty result set). Use it for
+     *  a domain toolbar that must stay reachable, e.g. a browse-mode switch above the picker. */
+    renderHeader?: () => ReactNode;
+    /** Bump this to imperatively clear the internal search + provider/capability filters WITHOUT
+     *  remounting the panel (so it stays open and doesn't lose scroll/focus). Use it when the option
+     *  set is swapped out from under the filters — e.g. toggling a browse mode — where a carried-over
+     *  filter would otherwise empty the new list. */
+    filterResetKey?: string | number;
 }
 
 /** A generic, searchable model picker: provider grouping + provider/capability
@@ -87,6 +96,8 @@ export function ModelSelect({
     onTogglePin,
     filters,
     renderFooter,
+    renderHeader,
+    filterResetKey,
 }: ModelSelectProps) {
     const L = {
         placeholder: "Select a model",
@@ -102,6 +113,14 @@ export function ModelSelect({
     const [search, setSearch] = useState("");
     const [activeGroup, setActiveGroup] = useState<string | null>(null);
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
+    // Clear search + provider/capability filters when the consumer bumps filterResetKey (e.g. a
+    // browse-mode switch swapped the whole option set). Done as an effect, not a remount, so the
+    // open panel keeps its position/focus and never flashes an empty "no results" from a stale filter.
+    useEffect(() => {
+        setSearch("");
+        setActiveFilters([]);
+        setActiveGroup(null);
+    }, [filterResetKey]);
     const rootRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
@@ -284,6 +303,12 @@ export function ModelSelect({
                         style={{ maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight }}
                         className="origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-background backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden"
                     >
+                        {/* Consumer header (e.g. a browse-mode switch) — pinned to the top of the
+                            panel, always visible even when the list below is empty. */}
+                        {renderHeader && (
+                            <div className="p-2.5 border-b border-border/50">{renderHeader()}</div>
+                        )}
+
                         {/* Search + capability filters */}
                         <div className="p-2.5 border-b border-border/50">
                             <div className="relative">

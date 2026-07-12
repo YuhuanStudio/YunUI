@@ -4,7 +4,7 @@ export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-UYYG4XDW
 import { ThemeToggle } from './chunk-GSPJ5YI6.js';
 import { cn, useAnchoredPosition } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
-import { memo, useState, useRef, useMemo, useEffect } from 'react';
+import { memo, useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, ShieldAlert, Wrench, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
@@ -301,7 +301,9 @@ function ModelSelect({
   pinned,
   onTogglePin,
   filters,
-  renderFooter
+  renderFooter,
+  renderHeader,
+  filterResetKey
 }) {
   const L = {
     placeholder: "Select a model",
@@ -317,6 +319,11 @@ function ModelSelect({
   const [search, setSearch] = useState("");
   const [activeGroup, setActiveGroup] = useState(null);
   const [activeFilters, setActiveFilters] = useState([]);
+  useEffect(() => {
+    setSearch("");
+    setActiveFilters([]);
+    setActiveGroup(null);
+  }, [filterResetKey]);
   const rootRef = useRef(null);
   const inputRef = useRef(null);
   const listRef = useRef(null);
@@ -462,6 +469,7 @@ function ModelSelect({
           style: { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight },
           className: "origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-background backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden",
           children: [
+            renderHeader && /* @__PURE__ */ jsx("div", { className: "p-2.5 border-b border-border/50", children: renderHeader() }),
             /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
               /* @__PURE__ */ jsxs("div", { className: "relative", children: [
                 /* @__PURE__ */ jsx(Search, { size: 15, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),

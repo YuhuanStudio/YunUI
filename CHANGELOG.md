@@ -11,6 +11,16 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Added
+- **`ModelSelect` gains `renderHeader` + `filterResetKey`** — `renderHeader` renders a caller-owned
+  toolbar pinned to the TOP of the open panel, always visible even when the result list is empty
+  (unlike `renderFooter`, which hides on an empty set) — the place for a domain control that must
+  stay reachable, e.g. a browse-mode switch above the picker. `filterResetKey` imperatively clears
+  the internal search + provider/capability filters when its value changes, WITHOUT remounting, so
+  the panel keeps its open state/scroll/focus and never flashes a stale-filter "no results" after the
+  option set is swapped out from under the filters (again: a browse-mode switch). Both are optional
+  and fully backward-compatible.
+
 ### Fixed
 - **Button labels never wrap** — the `.btn` base now sets `white-space: nowrap`, so a button
   label can no longer break onto multiple lines in a narrow container. A CJK label like `使用`

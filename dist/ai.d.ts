@@ -159,10 +159,19 @@ interface ModelSelectProps {
     filters?: ModelSelectFilter[];
     /** Optional footer bar; receives the current (filtered) result count. */
     renderFooter?: (count: number) => ReactNode;
+    /** Rendered at the very TOP of the open panel, above the search box — and always visible, even
+     *  when the list is empty (unlike renderFooter, which hides on an empty result set). Use it for
+     *  a domain toolbar that must stay reachable, e.g. a browse-mode switch above the picker. */
+    renderHeader?: () => ReactNode;
+    /** Bump this to imperatively clear the internal search + provider/capability filters WITHOUT
+     *  remounting the panel (so it stays open and doesn't lose scroll/focus). Use it when the option
+     *  set is swapped out from under the filters — e.g. toggling a browse mode — where a carried-over
+     *  filter would otherwise empty the new list. */
+    filterResetKey?: string | number;
 }
 /** A generic, searchable model picker: provider grouping + provider/capability
  *  filters + a pinned section + a styled dropdown. Domain-agnostic. */
-declare function ModelSelect({ options, value, onChange, className, labels, pinned, onTogglePin, filters, renderFooter, }: ModelSelectProps): React.JSX.Element;
+declare function ModelSelect({ options, value, onChange, className, labels, pinned, onTogglePin, filters, renderFooter, renderHeader, filterResetKey, }: ModelSelectProps): React.JSX.Element;
 
 /** One labelled spec shown in the card's spec grid. */
 interface ModelManagerField {
