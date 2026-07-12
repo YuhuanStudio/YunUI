@@ -170,7 +170,7 @@ export function NotificationPanel({
     return (
         <div
             className={cn(
-                "w-80 sm:w-[400px] rounded-2xl border border-border bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5",
+                "w-80 sm:w-[400px] rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl shadow-lg shadow-black/5",
                 className,
             )}
         >

@@ -1,10 +1,10 @@
 "use client";
-import './chunk-5E3O6ANF.js';
+import './chunk-ZYNAE7TO.js';
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { Footer } from './chunk-UYYG4XDW.js';
-import './chunk-GSPJ5YI6.js';
+import './chunk-N7IH7SPF.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-WSJ2ZLWP.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-JPSTGXNM.js';
 import { cn } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -1748,7 +1748,7 @@ function NotificationPanel({
     "div",
     {
       className: cn(
-        "w-80 sm:w-[400px] rounded-2xl border border-border bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5",
+        "w-80 sm:w-[400px] rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl shadow-lg shadow-black/5",
         className
       ),
       children: [

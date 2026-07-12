@@ -301,7 +301,7 @@ export function ModelSelect({
                            margin (not transform) so it doesn't fight the open
                            animation; height paired with the flex-1 scroll list below. */
                         style={{ maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight }}
-                        className="origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-background backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden"
+                        className="origin-top absolute z-50 top-full left-0 mt-2 w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden"
                     >
                         {/* Consumer header (e.g. a browse-mode switch) — pinned to the top of the
                             panel, always visible even when the list below is empty. */}

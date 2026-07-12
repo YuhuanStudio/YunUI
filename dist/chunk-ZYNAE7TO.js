@@ -171,7 +171,7 @@ function CustomSelect({
       {
         ref: panelRef,
         style: { marginLeft: shift, maxHeight },
-        className: "\n                    absolute z-50 w-full mt-2\n                    rounded-2xl border border-border\n                    bg-background/60 backdrop-blur-2xl text-popover-foreground\n                    shadow-lg shadow-black/5\n                    max-h-64 overflow-hidden flex flex-col\n                    animate-in fade-in-0 zoom-in-95 duration-200\n                ",
+        className: "\n                    absolute z-50 w-full mt-2\n                    rounded-2xl border border-border\n                    bg-popover/85 backdrop-blur-2xl text-popover-foreground\n                    shadow-lg shadow-black/5\n                    max-h-64 overflow-hidden flex flex-col\n                    animate-in fade-in-0 zoom-in-95 duration-200\n                ",
         children: [
           searchable && /* @__PURE__ */ jsx("div", { className: "px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)", children: /* @__PURE__ */ jsxs("div", { className: "relative", children: [
             /* @__PURE__ */ jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
@@ -430,7 +430,7 @@ var PopoverContent = React3.forwardRef(({ className, align = "center", sideOffse
     sideOffset,
     side: "bottom",
     className: cn(
-      "z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-2xl border border-border bg-background/60 backdrop-blur-2xl p-2 text-sm text-popover-foreground shadow-lg shadow-black/5 focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+      "z-50 origin-(--radix-popover-content-transform-origin) overflow-y-auto max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl p-2 text-sm text-popover-foreground shadow-lg shadow-black/5 focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
       className
     ),
     ...props
@@ -1150,5 +1150,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-5E3O6ANF.js.map
-//# sourceMappingURL=chunk-5E3O6ANF.js.map
+//# sourceMappingURL=chunk-ZYNAE7TO.js.map
+//# sourceMappingURL=chunk-ZYNAE7TO.js.map

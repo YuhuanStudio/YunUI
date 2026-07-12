@@ -206,7 +206,7 @@ export function CustomSelect({
                     className="
                     absolute z-50 w-full mt-2
                     rounded-2xl border border-border
-                    bg-background/60 backdrop-blur-2xl text-popover-foreground
+                    bg-popover/85 backdrop-blur-2xl text-popover-foreground
                     shadow-lg shadow-black/5
                     max-h-64 overflow-hidden flex flex-col
                     animate-in fade-in-0 zoom-in-95 duration-200

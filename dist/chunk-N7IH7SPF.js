@@ -88,7 +88,7 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
       {
         ref: panelRef,
         style: { marginLeft: shift, maxHeight },
-        className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
+        className: `absolute ${align === "left" ? "left-0" : "right-0"} top-full mt-2 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
         children: /* @__PURE__ */ jsx("div", { className: "p-1 flex-1 min-h-0 overflow-y-auto", children: themes.map((themeItem) => /* @__PURE__ */ jsxs(
           "button",
           {
@@ -110,5 +110,5 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
 }
 
 export { ThemeToggle };
-//# sourceMappingURL=chunk-GSPJ5YI6.js.map
-//# sourceMappingURL=chunk-GSPJ5YI6.js.map
+//# sourceMappingURL=chunk-N7IH7SPF.js.map
+//# sourceMappingURL=chunk-N7IH7SPF.js.map

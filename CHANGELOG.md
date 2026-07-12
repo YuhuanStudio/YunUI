@@ -22,6 +22,11 @@ patch = fixes, anything may change between 0.x releases).
   and fully backward-compatible.
 
 ### Fixed
+- **Overlays are no longer see-through** — dropdown menus, selects, comboboxes, popovers, the
+  language & theme switchers, the mobile navbar sheet and the notification panel were painted with a
+  60%-opaque `bg-background/60` frosted panel, so content behind them showed through and read as if
+  it were still clickable. They now use `bg-popover/85` (still frosted via `backdrop-blur`, but
+  opaque enough to occlude what's underneath) and the correct `--popover` surface token.
 - **Button labels never wrap** — the `.btn` base now sets `white-space: nowrap`, so a button
   label can no longer break onto multiple lines in a narrow container. A CJK label like `使用`
   in a cramped table action column used to split vertically into `使`/`用`; it now stays on one
