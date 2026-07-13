@@ -297,6 +297,17 @@ function ModelCard({
     }
   );
 }
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const sync = () => setMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return mobile;
+}
 function ModelSelect({
   options,
   value,
@@ -335,9 +346,20 @@ function ModelSelect({
   const panelRef = useRef(null);
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
   const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
+  const mobile = useIsMobile();
+  useEffect(() => {
+    if (!mobile || !isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobile, isOpen]);
   useEffect(() => {
     const onDown = (e) => {
-      if (rootRef.current && !rootRef.current.contains(e.target)) setIsOpen(false);
+      const target = e.target;
+      if (rootRef.current?.contains(target) || panelRef.current?.contains(target)) return;
+      setIsOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("touchstart", onDown);
@@ -464,84 +486,98 @@ function ModelSelect({
           ]
         }
       ),
-      isOpen && /* @__PURE__ */ jsxs(
-        motion.div,
-        {
-          ref: panelRef,
-          initial: { opacity: 0, y: -8, scale: 0.96 },
-          animate: { opacity: 1, y: 0, scale: 1 },
-          transition: { duration: 0.16, ease: "easeOut" },
-          style: { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight },
-          className: `absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`,
-          children: [
-            renderHeader && /* @__PURE__ */ jsx("div", { className: "p-2.5 border-b border-border/50", children: renderHeader() }),
-            /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
-              /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-                /* @__PURE__ */ jsx(Search, { size: 15, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
-                /* @__PURE__ */ jsx(
-                  "input",
-                  {
-                    ref: inputRef,
-                    value: search,
-                    onChange: (e) => setSearch(e.target.value),
-                    onKeyDown: onSearchKeyDown,
-                    placeholder: L.search,
-                    "aria-label": L.search,
-                    role: "combobox",
-                    "aria-expanded": isOpen,
-                    "aria-controls": "yunui-ms-listbox",
-                    "aria-activedescendant": activeId ? rowDomId(activeId) : void 0,
-                    className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
-                  }
-                ),
-                search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
-              ] }),
-              filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-2.5 pb-1.5 overflow-x-auto overflow-y-hidden overscroll-x-contain [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40", children: [
-                filters.map((f) => {
-                  const on = activeFilters.includes(f.key);
-                  return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, "aria-label": f.title, "aria-pressed": on, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
-                }),
-                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
-              ] })
-            ] }),
-            groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto overflow-y-hidden overscroll-x-contain [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
-              /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), "aria-pressed": !activeGroup, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
-                L.all,
-                " (",
-                options.length,
-                ")"
-              ] }),
-              groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), "aria-pressed": activeGroup === g, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
-                groupIcon[g],
-                groupLabel[g] ?? g
-              ] }, g))
-            ] }) }),
-            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, id: "yunui-ms-listbox", role: "listbox", className: "flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain", children: [
-              pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
-                /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
-                  /* @__PURE__ */ jsx(Pin, { size: 9 }),
-                  " ",
-                  L.pinned
+      isOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
+        mobile && /* @__PURE__ */ jsx(
+          motion.div,
+          {
+            initial: { opacity: 0 },
+            animate: { opacity: 1 },
+            transition: { duration: 0.16 },
+            onClick: () => setIsOpen(false),
+            "aria-hidden": true,
+            className: "fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          }
+        ),
+        /* @__PURE__ */ jsxs(
+          motion.div,
+          {
+            ref: panelRef,
+            initial: mobile ? { opacity: 0, y: "100%" } : { opacity: 0, y: -8, scale: 0.96 },
+            animate: mobile ? { opacity: 1, y: 0 } : { opacity: 1, y: 0, scale: 1 },
+            transition: { duration: 0.18, ease: "easeOut" },
+            style: mobile ? { maxHeight: "88dvh" } : { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight },
+            className: mobile ? "fixed inset-x-0 bottom-0 z-50 w-full flex flex-col bg-popover border-t border-border rounded-t-2xl shadow-2xl text-popover-foreground overflow-hidden" : `absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`,
+            children: [
+              mobile && /* @__PURE__ */ jsx("div", { className: "shrink-0 flex justify-center pt-2 pb-0.5", children: /* @__PURE__ */ jsx("div", { className: "h-1 w-9 rounded-full bg-muted-foreground/30" }) }),
+              renderHeader && /* @__PURE__ */ jsx("div", { className: "p-2.5 border-b border-border/50", children: renderHeader() }),
+              /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [
+                /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+                  /* @__PURE__ */ jsx(Search, { size: 15, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
+                  /* @__PURE__ */ jsx(
+                    "input",
+                    {
+                      ref: inputRef,
+                      value: search,
+                      onChange: (e) => setSearch(e.target.value),
+                      onKeyDown: onSearchKeyDown,
+                      placeholder: L.search,
+                      "aria-label": L.search,
+                      role: "combobox",
+                      "aria-expanded": isOpen,
+                      "aria-controls": "yunui-ms-listbox",
+                      "aria-activedescendant": activeId ? rowDomId(activeId) : void 0,
+                      className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
+                    }
+                  ),
+                  search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
                 ] }),
-                pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+                filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-2.5 pb-1.5 flex-wrap sm:flex-nowrap sm:overflow-x-auto sm:overflow-y-hidden overscroll-x-contain [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40", children: [
+                  filters.map((f) => {
+                    const on = activeFilters.includes(f.key);
+                    return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, "aria-label": f.title, "aria-pressed": on, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
+                  }),
+                  activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
+                ] })
               ] }),
-              /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
-                /* @__PURE__ */ jsx("div", { className: "sticky top-0 z-10 pt-1 pb-1.5", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 rounded-xl bg-muted px-3 py-2", children: [
+              groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 sm:overflow-x-auto sm:overflow-y-hidden overscroll-x-contain [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 flex-wrap sm:flex-nowrap sm:min-w-max", children: [
+                /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), "aria-pressed": !activeGroup, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
+                  L.all,
+                  " (",
+                  options.length,
+                  ")"
+                ] }),
+                groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), "aria-pressed": activeGroup === g, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
                   groupIcon[g],
-                  /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold", children: groupLabel[g] ?? g }),
-                  /* @__PURE__ */ jsx("span", { className: "ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-muted-foreground bg-foreground/10 px-1.5 py-0.5 rounded-md", children: opts.length })
-                ] }) }),
-                opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
-              ] }, g)) }),
-              filtered.length === 0 && /* @__PURE__ */ jsxs("div", { className: "py-12 text-center text-muted-foreground", children: [
-                /* @__PURE__ */ jsx(Sparkles, { size: 28, className: "mx-auto mb-3 opacity-40" }),
-                /* @__PURE__ */ jsx("p", { className: "text-sm", children: L.noResults })
-              ] })
-            ] }),
-            renderFooter && filtered.length > 0 && /* @__PURE__ */ jsx("div", { className: "border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-muted-foreground", children: renderFooter(filtered.length) })
-          ]
-        }
-      )
+                  groupLabel[g] ?? g
+                ] }, g))
+              ] }) }),
+              /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, id: "yunui-ms-listbox", role: "listbox", className: "flex-1 min-h-0 overflow-y-auto overscroll-contain sm:max-h-96", children: [
+                pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
+                  /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
+                    /* @__PURE__ */ jsx(Pin, { size: 9 }),
+                    " ",
+                    L.pinned
+                  ] }),
+                  pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+                ] }),
+                /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
+                  /* @__PURE__ */ jsx("div", { className: "sticky top-0 z-10 pt-1 pb-1.5", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 rounded-xl bg-muted px-3 py-2", children: [
+                    groupIcon[g],
+                    /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold", children: groupLabel[g] ?? g }),
+                    /* @__PURE__ */ jsx("span", { className: "ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-muted-foreground bg-foreground/10 px-1.5 py-0.5 rounded-md", children: opts.length })
+                  ] }) }),
+                  opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+                ] }, g)) }),
+                filtered.length === 0 && /* @__PURE__ */ jsxs("div", { className: "py-12 text-center text-muted-foreground", children: [
+                  /* @__PURE__ */ jsx(Sparkles, { size: 28, className: "mx-auto mb-3 opacity-40" }),
+                  /* @__PURE__ */ jsx("p", { className: "text-sm", children: L.noResults })
+                ] })
+              ] }),
+              renderFooter && filtered.length > 0 && /* @__PURE__ */ jsx("div", { className: "border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-muted-foreground", children: renderFooter(filtered.length) })
+            ]
+          }
+        )
+      ] })
     ] })
   );
 }
