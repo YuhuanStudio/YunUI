@@ -115,7 +115,10 @@ export function Navbar({
     return (
         <nav
             style={{ top: "max(1.5rem, env(safe-area-inset-top))" }}
-            className="fixed left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between"
+            /* Centered with inset-x-0 + mx-auto, NOT -translate-x-1/2: a CSS backdrop-filter is
+               dead inside a transformed ancestor, so a transform here would kill the frosted-glass
+               blur on the mobile menu / dropdowns nested below (they'd just bleed the page through). */
+            className="fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between"
         >
             {/* Logo */}
             <Link href={homeHref} className="flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200">
@@ -187,9 +190,8 @@ export function Navbar({
             {variant === "public" && menuOpen && (
                 <>
                     <div className="md:hidden fixed inset-0 -z-10" aria-hidden="true" onClick={() => setMenuOpen(false)} />
-                    {/* Solid, not frosted: backdrop-blur is dead inside the navbar's -translate-x-1/2
-                        transform, so a translucent menu just let the page bleed through. */}
-                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
+                    {/* Frosted glass — works now that the nav centers without a transform (see nav className). */}
+                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
                         {links.map((link) => (
                             <Link
                                 key={link.href}

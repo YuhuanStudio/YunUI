@@ -209,10 +209,12 @@ interface ModelManagerCardProps {
 /** A model-management row as a card (all admin columns, top-to-bottom). */
 declare function ModelManagerCard({ icon, name, nameBadges, ids, selectSlot, actions, fields, capabilities, selected, className, }: ModelManagerCardProps): React.JSX.Element;
 
-/** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge). */
-declare function IDBadge({ text, truncate }: {
+/** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge).
+ *  `size="sm"` renders it at subtitle scale (11px, tighter) for dense cards. */
+declare function IDBadge({ text, truncate, size, }: {
     text: string;
     truncate?: boolean;
+    size?: "default" | "sm";
 }): React.JSX.Element;
 
 interface CapabilitySelectorProps {
@@ -259,7 +261,7 @@ declare function ModelTypeIcon({ type, size }: {
 declare const buttonVariants: (props?: ({
     variant?: "outline" | "primary" | "ghost" | "secondary" | null | undefined;
     color?: "outline" | "primary" | "ghost" | "secondary" | null | undefined;
-    size?: "icon" | "sm" | "icon-sm" | "icon-xs" | null | undefined;
+    size?: "sm" | "icon" | "icon-sm" | "icon-xs" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 /** Variant props for {@link buttonVariants}: `variant`/`color` (primary, outline, ghost, secondary) and `size` (sm, icon, icon-sm, icon-xs). */
 type ButtonProps = VariantProps<typeof buttonVariants>;

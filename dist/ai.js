@@ -190,9 +190,14 @@ function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }
     }
   }) });
 }
-function IDBadge({ text, truncate = true }) {
+function IDBadge({
+  text,
+  truncate = true,
+  size = "default"
+}) {
   const [copied, setCopied] = useState(false);
   const t = useYunUI().useT("common.badge");
+  const sm = size === "sm";
   const handleCopy = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -209,8 +214,8 @@ function IDBadge({ text, truncate = true }) {
       title: t("clickToCopy", { text }),
       "aria-label": t("clickToCopy", { text }),
       children: [
-        /* @__PURE__ */ jsx("span", { className: `px-2 py-0.5 text-xs font-mono block ${truncate ? "truncate max-w-full min-w-0" : "whitespace-nowrap"}`, children: text }),
-        /* @__PURE__ */ jsx("span", { className: "opacity-0 group-hover/badge:opacity-100 absolute right-0 inset-y-0 w-5 flex items-center justify-center rounded-r-md bg-muted/90 backdrop-blur-sm transition-opacity duration-200", children: copied ? /* @__PURE__ */ jsx(Check, { size: 10 }) : /* @__PURE__ */ jsx(Copy, { size: 10 }) })
+        /* @__PURE__ */ jsx("span", { className: `font-mono block ${sm ? "px-1.5 py-0 text-[11px] leading-5 text-muted-foreground" : "px-2 py-0.5 text-xs"} ${truncate ? "truncate max-w-full min-w-0" : "whitespace-nowrap"}`, children: text }),
+        /* @__PURE__ */ jsx("span", { className: `opacity-0 group-hover/badge:opacity-100 absolute right-0 inset-y-0 flex items-center justify-center rounded-r-md bg-muted/90 backdrop-blur-sm transition-opacity duration-200 ${sm ? "w-4" : "w-5"}`, children: copied ? /* @__PURE__ */ jsx(Check, { size: sm ? 9 : 10 }) : /* @__PURE__ */ jsx(Copy, { size: sm ? 9 : 10 }) })
       ]
     }
   );
@@ -1750,7 +1755,7 @@ function LanguageSwitcher({
         {
           ref: panelRef,
           style: { marginLeft: shift, maxHeight },
-          className: `absolute ${align === "left" ? "left-0" : "right-0"} ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-popover text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
+          className: `absolute ${align === "left" ? "left-0" : "right-0"} ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
           children: /* @__PURE__ */ jsx("div", { className: "p-1 flex-1 min-h-0 overflow-y-auto", children: locales.map((lang) => /* @__PURE__ */ jsx(
             "button",
             {
@@ -1828,7 +1833,7 @@ function Navbar({
     "nav",
     {
       style: { top: "max(1.5rem, env(safe-area-inset-top))" },
-      className: "fixed left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between",
+      className: "fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between",
       children: [
         /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: [
           /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 28, height: 28, className: "w-7 h-7 shrink-0" }),
@@ -1881,7 +1886,7 @@ function Navbar({
         ] }),
         variant === "public" && menuOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
           /* @__PURE__ */ jsx("div", { className: "md:hidden fixed inset-0 -z-10", "aria-hidden": "true", onClick: () => setMenuOpen(false) }),
-          /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
+          /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
             links.map((link) => /* @__PURE__ */ jsx(
               Link,
               {
