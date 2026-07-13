@@ -333,17 +333,17 @@ export function ModelSelect({
                                 )}
                             </div>
                             {filters && filters.length > 0 && (
-                                <div className="flex items-center gap-1 mt-2 px-1">
+                                <div className="flex items-center gap-1 mt-2 px-1 overflow-x-auto overflow-y-hidden overscroll-x-contain">
                                     {filters.map((f) => {
                                         const on = activeFilters.includes(f.key);
                                         return (
-                                            <button key={f.key} type="button" title={f.title} aria-label={f.title} aria-pressed={on} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted")}>
+                                            <button key={f.key} type="button" title={f.title} aria-label={f.title} aria-pressed={on} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted")}>
                                                 {f.node}
                                             </button>
                                         );
                                     })}
                                     {activeFilters.length > 0 && (
-                                        <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} aria-label={L.clearFilters} className="p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                        <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} aria-label={L.clearFilters} className="shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
                                             <X size={14} />
                                         </button>
                                     )}

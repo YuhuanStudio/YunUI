@@ -491,12 +491,12 @@ function ModelSelect({
                 ),
                 search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
               ] }),
-              filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-1", children: [
+              filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-1 overflow-x-auto overflow-y-hidden overscroll-x-contain", children: [
                 filters.map((f) => {
                   const on = activeFilters.includes(f.key);
-                  return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, "aria-label": f.title, "aria-pressed": on, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
+                  return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, "aria-label": f.title, "aria-pressed": on, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
                 }),
-                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
+                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
               ] })
             ] }),
             groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto overflow-y-hidden overscroll-x-contain", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
