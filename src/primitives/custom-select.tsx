@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ChevronDown, Loader2, Search, X } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
 
@@ -30,6 +30,18 @@ interface CustomSelectProps {
     className?: string;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
+    /**
+     * Server-backed search. When provided, the component switches to remote mode:
+     * it stops filtering `options` locally (the host owns filtering) and instead
+     * calls `onSearch` — debounced by `searchDebounceMs` — with the current query
+     * so the host can fetch matching options. A search box is shown even without
+     * `searchable`. Pair with `loading` to surface the in-flight fetch.
+     */
+    onSearch?: (query: string) => void;
+    /** Debounce (ms) before `onSearch` fires. @defaultValue 250 */
+    searchDebounceMs?: number;
+    /** In remote mode, show a loading indicator while results are being fetched. */
+    loading?: boolean;
 }
 
 /** Custom dropdown select with optional search, icons, descriptions, and full keyboard support.
@@ -42,6 +54,9 @@ export function CustomSelect({
     searchable = false,
     className = "",
     disabled = false,
+    onSearch,
+    searchDebounceMs = 250,
+    loading = false,
 }: CustomSelectProps) {
     const t = useYunUI().useT("common.select");
     const resolvedPlaceholder = placeholder || t("placeholder");
@@ -58,15 +73,38 @@ export function CustomSelect({
     const listboxId = `${baseId}-listbox`;
     const optionId = (i: number) => `${baseId}-opt-${i}`;
 
+    // Remote mode: the host fetches options via onSearch, so we never filter
+    // locally (a server match may live in a field absent from the label). A
+    // search box is shown whenever we can search at all.
+    const remote = typeof onSearch === "function";
+    const showSearch = searchable || remote;
+
     const selectedOption = options.find((o) => o.value === value);
 
-    const filteredOptions = searchQuery
-        ? options.filter(
-              (o) =>
-                  o.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                  o.value.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-        : options;
+    const filteredOptions =
+        !remote && searchQuery
+            ? options.filter(
+                  (o) =>
+                      o.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                      o.value.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+            : options;
+
+    // Debounce the query out to the host in remote mode. Keep `onSearch` in a ref
+    // so an unstable callback identity doesn't retrigger (or cancel) the timer.
+    const onSearchRef = useRef(onSearch);
+    onSearchRef.current = onSearch;
+    const didDebounceMountRef = useRef(false);
+    useEffect(() => {
+        if (!remote) return;
+        // Skip the initial "" pass — the host loads its base list on mount itself.
+        if (!didDebounceMountRef.current) {
+            didDebounceMountRef.current = true;
+            return;
+        }
+        const id = setTimeout(() => onSearchRef.current?.(searchQuery), searchDebounceMs);
+        return () => clearTimeout(id);
+    }, [searchQuery, remote, searchDebounceMs]);
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -85,9 +123,9 @@ export function CustomSelect({
         // container's key handler receives arrows/Escape. WebKit/Safari doesn't
         // focus a <button> on click, so without this the keyboard would be dead
         // after a mouse-open on a non-searchable select.
-        if (searchable && inputRef.current) inputRef.current.focus();
+        if (showSearch && inputRef.current) inputRef.current.focus();
         else triggerRef.current?.focus();
-    }, [isOpen, searchable]);
+    }, [isOpen, showSearch]);
 
     // On open, highlight the selected option (or the first); reset on close.
     useEffect(() => {
@@ -154,7 +192,7 @@ export function CustomSelect({
                 }
                 break;
             case " ":
-                if (!isOpen && !searchable) { e.preventDefault(); open(); }
+                if (!isOpen && !showSearch) { e.preventDefault(); open(); }
                 break;
             case "Escape":
                 if (isOpen) { e.preventDefault(); close(); }
@@ -212,7 +250,7 @@ export function CustomSelect({
                     animate-in fade-in-0 zoom-in-95 duration-200
                 ">
                     {/* Search */}
-                    {searchable && (
+                    {showSearch && (
                         <div className="px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)">
                             <div className="relative">
                                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
@@ -232,16 +270,24 @@ export function CustomSelect({
                                         bg-(--bg-muted) border border-transparent
                                         focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
                                 />
-                                {searchQuery && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setSearchQuery("")}
-                                        aria-label={t("clearSearch")}
-                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-(--bg-hover)"
-                                        title={t("clearSearch")}
-                                    >
-                                        <X size={12} />
-                                    </button>
+                                {loading ? (
+                                    <Loader2
+                                        size={14}
+                                        aria-hidden
+                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground animate-spin"
+                                    />
+                                ) : (
+                                    searchQuery && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setSearchQuery("")}
+                                            aria-label={t("clearSearch")}
+                                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-(--bg-hover)"
+                                            title={t("clearSearch")}
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    )
                                 )}
                             </div>
                         </div>
@@ -255,9 +301,15 @@ export function CustomSelect({
                         className="flex-1 min-h-0 max-h-52 overflow-y-auto overscroll-contain p-1"
                     >
                         {filteredOptions.length === 0 ? (
-                            <div className="px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap">
-                                {t("noOptions")}
-                            </div>
+                            loading ? (
+                                <div className="flex items-center justify-center px-3 py-3 text-muted-foreground">
+                                    <Loader2 size={16} aria-hidden className="animate-spin" />
+                                </div>
+                            ) : (
+                                <div className="px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap">
+                                    {t("noOptions")}
+                                </div>
+                            )
                         ) : (
                             filteredOptions.map((option, i) => {
                                 const isSelected = option.value === value;

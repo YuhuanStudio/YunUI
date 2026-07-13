@@ -850,10 +850,22 @@ interface CustomSelectProps {
     className?: string;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
+    /**
+     * Server-backed search. When provided, the component switches to remote mode:
+     * it stops filtering `options` locally (the host owns filtering) and instead
+     * calls `onSearch` — debounced by `searchDebounceMs` — with the current query
+     * so the host can fetch matching options. A search box is shown even without
+     * `searchable`. Pair with `loading` to surface the in-flight fetch.
+     */
+    onSearch?: (query: string) => void;
+    /** Debounce (ms) before `onSearch` fires. @defaultValue 250 */
+    searchDebounceMs?: number;
+    /** In remote mode, show a loading indicator while results are being fetched. */
+    loading?: boolean;
 }
 /** Custom dropdown select with optional search, icons, descriptions, and full keyboard support.
  *  Data-driven alternative to `Select`; see `Select`'s doc for "which select do I use". */
-declare function CustomSelect({ options, value, onChange, placeholder, searchable, className, disabled, }: CustomSelectProps): React$1.JSX.Element;
+declare function CustomSelect({ options, value, onChange, placeholder, searchable, className, disabled, onSearch, searchDebounceMs, loading, }: CustomSelectProps): React$1.JSX.Element;
 
 interface SegmentedOption<T = string> {
     /** The value reported to `onChange` when selected. */

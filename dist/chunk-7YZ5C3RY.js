@@ -3,7 +3,7 @@ import { cn, useAnchoredPosition } from './chunk-AV5TGEJS.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React3 from 'react';
 import { forwardRef, useState, useEffect, useRef, useId, useMemo } from 'react';
-import { ChevronDown, Search, X, ArrowRight, Loader2, AlertTriangle, Info, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ChevronDown, Search, Loader2, X, ArrowRight, AlertTriangle, Info, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as Primitive from '@radix-ui/react-collapsible';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
@@ -18,7 +18,10 @@ function CustomSelect({
   placeholder,
   searchable = false,
   className = "",
-  disabled = false
+  disabled = false,
+  onSearch,
+  searchDebounceMs = 250,
+  loading = false
 }) {
   const t = useYunUI().useT("common.select");
   const resolvedPlaceholder = placeholder || t("placeholder");
@@ -34,10 +37,24 @@ function CustomSelect({
   const baseId = useId();
   const listboxId = `${baseId}-listbox`;
   const optionId = (i) => `${baseId}-opt-${i}`;
+  const remote = typeof onSearch === "function";
+  const showSearch = searchable || remote;
   const selectedOption = options.find((o) => o.value === value);
-  const filteredOptions = searchQuery ? options.filter(
+  const filteredOptions = !remote && searchQuery ? options.filter(
     (o) => o.label.toLowerCase().includes(searchQuery.toLowerCase()) || o.value.toLowerCase().includes(searchQuery.toLowerCase())
   ) : options;
+  const onSearchRef = useRef(onSearch);
+  onSearchRef.current = onSearch;
+  const didDebounceMountRef = useRef(false);
+  useEffect(() => {
+    if (!remote) return;
+    if (!didDebounceMountRef.current) {
+      didDebounceMountRef.current = true;
+      return;
+    }
+    const id = setTimeout(() => onSearchRef.current?.(searchQuery), searchDebounceMs);
+    return () => clearTimeout(id);
+  }, [searchQuery, remote, searchDebounceMs]);
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -50,9 +67,9 @@ function CustomSelect({
   }, []);
   useEffect(() => {
     if (!isOpen) return;
-    if (searchable && inputRef.current) inputRef.current.focus();
+    if (showSearch && inputRef.current) inputRef.current.focus();
     else triggerRef.current?.focus();
-  }, [isOpen, searchable]);
+  }, [isOpen, showSearch]);
   useEffect(() => {
     if (isOpen) {
       const sel = filteredOptions.findIndex((o) => o.value === value);
@@ -115,7 +132,7 @@ function CustomSelect({
         }
         break;
       case " ":
-        if (!isOpen && !searchable) {
+        if (!isOpen && !showSearch) {
           e.preventDefault();
           open();
         }
@@ -173,7 +190,7 @@ function CustomSelect({
         style: { marginLeft: shift, maxHeight },
         className: "\n                    absolute z-50 w-full mt-2\n                    rounded-2xl border border-border\n                    bg-popover/85 backdrop-blur-2xl text-popover-foreground\n                    shadow-lg shadow-black/5\n                    max-h-64 overflow-hidden flex flex-col\n                    animate-in fade-in-0 zoom-in-95 duration-200\n                ",
         children: [
-          searchable && /* @__PURE__ */ jsx("div", { className: "px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)", children: /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+          showSearch && /* @__PURE__ */ jsx("div", { className: "px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)", children: /* @__PURE__ */ jsxs("div", { className: "relative", children: [
             /* @__PURE__ */ jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" }),
             /* @__PURE__ */ jsx(
               "input",
@@ -192,7 +209,14 @@ function CustomSelect({
                 className: "w-full pl-9 pr-8 py-1.5 text-sm rounded-lg\n                                        bg-(--bg-muted) border border-transparent\n                                        focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
               }
             ),
-            searchQuery && /* @__PURE__ */ jsx(
+            loading ? /* @__PURE__ */ jsx(
+              Loader2,
+              {
+                size: 14,
+                "aria-hidden": true,
+                className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground animate-spin"
+              }
+            ) : searchQuery && /* @__PURE__ */ jsx(
               "button",
               {
                 type: "button",
@@ -211,7 +235,7 @@ function CustomSelect({
               role: "listbox",
               id: listboxId,
               className: "flex-1 min-h-0 max-h-52 overflow-y-auto overscroll-contain p-1",
-              children: filteredOptions.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap", children: t("noOptions") }) : filteredOptions.map((option, i) => {
+              children: filteredOptions.length === 0 ? loading ? /* @__PURE__ */ jsx("div", { className: "flex items-center justify-center px-3 py-3 text-muted-foreground", children: /* @__PURE__ */ jsx(Loader2, { size: 16, "aria-hidden": true, className: "animate-spin" }) }) : /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap", children: t("noOptions") }) : filteredOptions.map((option, i) => {
                 const isSelected = option.value === value;
                 const isHigh = i === highlighted;
                 return /* @__PURE__ */ jsxs(
@@ -1150,5 +1174,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-ZYNAE7TO.js.map
-//# sourceMappingURL=chunk-ZYNAE7TO.js.map
+//# sourceMappingURL=chunk-7YZ5C3RY.js.map
+//# sourceMappingURL=chunk-7YZ5C3RY.js.map
