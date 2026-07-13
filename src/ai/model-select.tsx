@@ -6,6 +6,92 @@ import { motion } from "framer-motion";
 import { cn } from "../lib/cn";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
 
+/** A horizontally-scrolling strip with an always-visible, drag-able scrollbar that
+ *  works in EVERY browser — including iOS Safari, which renders neither
+ *  `::-webkit-scrollbar` nor `scrollbar-width`. We hide the native bar and draw our
+ *  own thumb synced to scrollLeft; native touch-swipe + trackpad scrolling still
+ *  work, and the thumb is pointer-draggable for mouse users who can't wheel sideways. */
+function HScrollRow({ children, className }: { children: ReactNode; className?: string }) {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [thumb, setThumb] = useState({ w: 0, x: 0, show: false });
+
+    const sync = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+        const { scrollWidth, clientWidth, scrollLeft } = el;
+        const overflow = scrollWidth - clientWidth;
+        if (overflow <= 1) {
+            setThumb((t) => (t.show ? { w: 0, x: 0, show: false } : t));
+            return;
+        }
+        const w = Math.max((clientWidth / scrollWidth) * clientWidth, 28);
+        const x = (scrollLeft / overflow) * (clientWidth - w);
+        setThumb({ w, x, show: true });
+    };
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        sync();
+        el.addEventListener("scroll", sync, { passive: true });
+        // Resync on width changes of the strip AND its content (chips added/removed).
+        const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(sync) : null;
+        ro?.observe(el);
+        if (el.firstElementChild) ro?.observe(el.firstElementChild);
+        return () => {
+            el.removeEventListener("scroll", sync);
+            ro?.disconnect();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const onThumbDown = (e: React.PointerEvent<HTMLDivElement>) => {
+        const el = scrollRef.current;
+        if (!el) return;
+        e.preventDefault();
+        e.currentTarget.setPointerCapture(e.pointerId);
+        const startX = e.clientX;
+        const startScroll = el.scrollLeft;
+        const move = (ev: PointerEvent) => {
+            const { scrollWidth, clientWidth } = el;
+            const w = Math.max((clientWidth / scrollWidth) * clientWidth, 28);
+            const travel = clientWidth - w;
+            if (travel <= 0) return;
+            el.scrollLeft = startScroll + ((ev.clientX - startX) / travel) * (scrollWidth - clientWidth);
+        };
+        const up = () => {
+            window.removeEventListener("pointermove", move);
+            window.removeEventListener("pointerup", up);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", up);
+    };
+
+    return (
+        <div className="relative">
+            <div
+                ref={scrollRef}
+                className={cn(
+                    "overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+                    className,
+                )}
+            >
+                {children}
+            </div>
+            {thumb.show && (
+                <div
+                    onPointerDown={onThumbDown}
+                    role="scrollbar"
+                    aria-orientation="horizontal"
+                    aria-hidden
+                    className="absolute bottom-0 left-0 h-1.5 rounded-full bg-muted-foreground/40 hover:bg-muted-foreground/60 active:bg-muted-foreground/70 cursor-grab active:cursor-grabbing touch-none transition-colors"
+                    style={{ width: `${thumb.w}px`, transform: `translateX(${thumb.x}px)` }}
+                />
+            )}
+        </div>
+    );
+}
+
 // =====================================================
 // MODEL SELECT (generic, domain-agnostic)
 // The searchable / grouped / filterable / pinnable model-picker MACHINERY,
@@ -333,38 +419,42 @@ export function ModelSelect({
                                 )}
                             </div>
                             {filters && filters.length > 0 && (
-                                <div className="flex items-center gap-1 mt-2 px-2.5 pb-1.5 overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-foreground/[0.06] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/50 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/70">
-                                    {filters.map((f) => {
-                                        const on = activeFilters.includes(f.key);
-                                        return (
-                                            <button key={f.key} type="button" title={f.title} aria-label={f.title} aria-pressed={on} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted")}>
-                                                {f.node}
+                                <HScrollRow className="mt-2">
+                                    <div className="flex items-center gap-1 px-2.5 pb-2 w-max">
+                                        {filters.map((f) => {
+                                            const on = activeFilters.includes(f.key);
+                                            return (
+                                                <button key={f.key} type="button" title={f.title} aria-label={f.title} aria-pressed={on} onClick={() => setActiveFilters((p) => (p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]))} className={cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted")}>
+                                                    {f.node}
+                                                </button>
+                                            );
+                                        })}
+                                        {activeFilters.length > 0 && (
+                                            <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} aria-label={L.clearFilters} className="shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                                <X size={14} />
                                             </button>
-                                        );
-                                    })}
-                                    {activeFilters.length > 0 && (
-                                        <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} aria-label={L.clearFilters} className="shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                                            <X size={14} />
-                                        </button>
-                                    )}
-                                </div>
+                                        )}
+                                    </div>
+                                </HScrollRow>
                             )}
                         </div>
 
                         {/* Provider filter */}
                         {groups.length > 1 && (
-                            <div className="px-2.5 py-2 border-b border-border/50 overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-foreground/[0.06] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/50 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/70">
-                                <div className="flex gap-1 min-w-max">
-                                    <button type="button" onClick={() => setActiveGroup(null)} aria-pressed={!activeGroup} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
-                                        {L.all} ({options.length})
-                                    </button>
-                                    {groups.map((g) => (
-                                        <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} aria-pressed={activeGroup === g} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
-                                            {groupIcon[g]}
-                                            {groupLabel[g] ?? g}
+                            <div className="border-b border-border/50">
+                                <HScrollRow>
+                                    <div className="flex gap-1 px-2.5 pt-2 pb-2.5 w-max">
+                                        <button type="button" onClick={() => setActiveGroup(null)} aria-pressed={!activeGroup} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                            {L.all} ({options.length})
                                         </button>
-                                    ))}
-                                </div>
+                                        {groups.map((g) => (
+                                            <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} aria-pressed={activeGroup === g} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                                {groupIcon[g]}
+                                                {groupLabel[g] ?? g}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </HScrollRow>
                             </div>
                         )}
 

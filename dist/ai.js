@@ -297,6 +297,81 @@ function ModelCard({
     }
   );
 }
+function HScrollRow({ children, className }) {
+  const scrollRef = useRef(null);
+  const [thumb, setThumb] = useState({ w: 0, x: 0, show: false });
+  const sync = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollWidth, clientWidth, scrollLeft } = el;
+    const overflow = scrollWidth - clientWidth;
+    if (overflow <= 1) {
+      setThumb((t) => t.show ? { w: 0, x: 0, show: false } : t);
+      return;
+    }
+    const w = Math.max(clientWidth / scrollWidth * clientWidth, 28);
+    const x = scrollLeft / overflow * (clientWidth - w);
+    setThumb({ w, x, show: true });
+  };
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    sync();
+    el.addEventListener("scroll", sync, { passive: true });
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(sync) : null;
+    ro?.observe(el);
+    if (el.firstElementChild) ro?.observe(el.firstElementChild);
+    return () => {
+      el.removeEventListener("scroll", sync);
+      ro?.disconnect();
+    };
+  }, []);
+  const onThumbDown = (e) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const startX = e.clientX;
+    const startScroll = el.scrollLeft;
+    const move = (ev) => {
+      const { scrollWidth, clientWidth } = el;
+      const w = Math.max(clientWidth / scrollWidth * clientWidth, 28);
+      const travel = clientWidth - w;
+      if (travel <= 0) return;
+      el.scrollLeft = startScroll + (ev.clientX - startX) / travel * (scrollWidth - clientWidth);
+    };
+    const up = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+  };
+  return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+    /* @__PURE__ */ jsx(
+      "div",
+      {
+        ref: scrollRef,
+        className: cn(
+          "overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+          className
+        ),
+        children
+      }
+    ),
+    thumb.show && /* @__PURE__ */ jsx(
+      "div",
+      {
+        onPointerDown: onThumbDown,
+        role: "scrollbar",
+        "aria-orientation": "horizontal",
+        "aria-hidden": true,
+        className: "absolute bottom-0 left-0 h-1.5 rounded-full bg-muted-foreground/40 hover:bg-muted-foreground/60 active:bg-muted-foreground/70 cursor-grab active:cursor-grabbing touch-none transition-colors",
+        style: { width: `${thumb.w}px`, transform: `translateX(${thumb.x}px)` }
+      }
+    )
+  ] });
+}
 function ModelSelect({
   options,
   value,
@@ -496,15 +571,15 @@ function ModelSelect({
                 ),
                 search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
               ] }),
-              filters && filters.length > 0 && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 mt-2 px-2.5 pb-1.5 overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-foreground/[0.06] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/50 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/70", children: [
+              filters && filters.length > 0 && /* @__PURE__ */ jsx(HScrollRow, { className: "mt-2", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 px-2.5 pb-2 w-max", children: [
                 filters.map((f) => {
                   const on = activeFilters.includes(f.key);
                   return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, "aria-label": f.title, "aria-pressed": on, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
                 }),
                 activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
-              ] })
+              ] }) })
             ] }),
-            groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "px-2.5 py-2 border-b border-border/50 overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-foreground/[0.06] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/50 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/70", children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 min-w-max", children: [
+            groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "border-b border-border/50", children: /* @__PURE__ */ jsx(HScrollRow, { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 px-2.5 pt-2 pb-2.5 w-max", children: [
               /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), "aria-pressed": !activeGroup, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
                 L.all,
                 " (",
@@ -515,7 +590,7 @@ function ModelSelect({
                 groupIcon[g],
                 groupLabel[g] ?? g
               ] }, g))
-            ] }) }),
+            ] }) }) }),
             /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, id: "yunui-ms-listbox", role: "listbox", className: "flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain", children: [
               pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
                 /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
