@@ -187,7 +187,9 @@ export function Navbar({
             {variant === "public" && menuOpen && (
                 <>
                     <div className="md:hidden fixed inset-0 -z-10" aria-hidden="true" onClick={() => setMenuOpen(false)} />
-                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
+                    {/* Solid, not frosted: backdrop-blur is dead inside the navbar's -translate-x-1/2
+                        transform, so a translucent menu just let the page bleed through. */}
+                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
                         {links.map((link) => (
                             <Link
                                 key={link.href}
