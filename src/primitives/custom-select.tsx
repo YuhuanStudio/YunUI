@@ -78,7 +78,7 @@ export function CustomSelect({
     const triggerRef = useRef<HTMLButtonElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
-    const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
+    const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
     const baseId = useId();
     const listboxId = `${baseId}-listbox`;
     const optionId = (i: number) => `${baseId}-opt-${i}`;
@@ -258,14 +258,14 @@ export function CustomSelect({
                 <div
                     ref={panelRef}
                     style={{ marginLeft: shift, maxHeight }}
-                    className="
-                    absolute z-50 w-full mt-2
+                    className={`
+                    absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"}
                     rounded-2xl border border-border
                     bg-popover/85 backdrop-blur-2xl text-popover-foreground
                     shadow-lg shadow-black/5
                     max-h-64 overflow-hidden flex flex-col
                     animate-in fade-in-0 zoom-in-95 duration-200
-                ">
+                `}>
                     {/* Search */}
                     {showSearch && (
                         <div className="px-2.5 pb-2 pt-1.5 border-b border-(--border-subtle)">

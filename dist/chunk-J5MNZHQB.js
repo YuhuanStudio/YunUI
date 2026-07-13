@@ -11,12 +11,12 @@ var useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEf
 function useAnchoredPosition(open, panelRef, opts) {
   const gutter = opts?.gutter ?? 8;
   const minHeight = opts?.minHeight ?? 160;
-  const [pos, setPos] = useState({ shift: 0, maxHeight: void 0 });
+  const [pos, setPos] = useState({ shift: 0, maxHeight: void 0, placement: "bottom" });
   const shiftRef = useRef(0);
   useIsoLayoutEffect(() => {
     if (!open) {
       shiftRef.current = 0;
-      setPos({ shift: 0, maxHeight: void 0 });
+      setPos({ shift: 0, maxHeight: void 0, placement: "bottom" });
       return;
     }
     const compute = () => {
@@ -32,11 +32,14 @@ function useAnchoredPosition(open, panelRef, opts) {
       if (naturalRight > vw - gutter) dx = vw - gutter - naturalRight;
       if (naturalLeft + dx < gutter) dx = gutter - naturalLeft;
       dx = Math.round(dx);
-      const top = parentRect.top + el.offsetTop;
-      const space = Math.floor(vh - top - gutter);
-      const maxHeight = space < vh ? Math.max(space, minHeight) : void 0;
+      const belowSpace = Math.floor(vh - parentRect.bottom - gutter);
+      const aboveSpace = Math.floor(parentRect.top - gutter);
+      const naturalHeight = el.scrollHeight;
+      const placement = belowSpace >= naturalHeight || belowSpace >= aboveSpace ? "bottom" : "top";
+      const side = placement === "bottom" ? belowSpace : aboveSpace;
+      const maxHeight = naturalHeight > side ? Math.max(side, minHeight) : void 0;
       shiftRef.current = dx;
-      setPos({ shift: dx, maxHeight });
+      setPos({ shift: dx, maxHeight, placement });
     };
     compute();
     window.addEventListener("resize", compute);
@@ -50,5 +53,5 @@ function useAnchoredPosition(open, panelRef, opts) {
 }
 
 export { cn, useAnchoredPosition };
-//# sourceMappingURL=chunk-AV5TGEJS.js.map
-//# sourceMappingURL=chunk-AV5TGEJS.js.map
+//# sourceMappingURL=chunk-J5MNZHQB.js.map
+//# sourceMappingURL=chunk-J5MNZHQB.js.map

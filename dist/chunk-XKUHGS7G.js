@@ -1,5 +1,5 @@
 "use client";
-import { cn, useAnchoredPosition } from './chunk-AV5TGEJS.js';
+import { cn, useAnchoredPosition } from './chunk-J5MNZHQB.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React7 from 'react';
 import { forwardRef, useRef, useCallback, useEffect, useState, useId } from 'react';
@@ -490,7 +490,7 @@ function Combobox({
   const containerRef = useRef(null);
   const inputRef = useRef(null);
   const panelRef = useRef(null);
-  const { shift, maxHeight } = useAnchoredPosition(isOpen, panelRef);
+  const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
   const listboxId = useId();
   const optionId = (i) => `${listboxId}-opt-${i}`;
   useEffect(() => {
@@ -638,7 +638,7 @@ function Combobox({
       {
         ref: panelRef,
         style: { marginLeft: shift, maxHeight },
-        className: "absolute z-50 w-full mt-2 p-1 rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200",
+        className: `absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`,
         children: /* @__PURE__ */ jsx("div", { className: "flex-1 min-h-0 max-h-60 overflow-y-auto", role: "listbox", id: listboxId, children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
           filteredOptions.map((option, i) => {
             const isSelected = option.value === value;
@@ -2511,5 +2511,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-JPSTGXNM.js.map
-//# sourceMappingURL=chunk-JPSTGXNM.js.map
+//# sourceMappingURL=chunk-XKUHGS7G.js.map
+//# sourceMappingURL=chunk-XKUHGS7G.js.map
