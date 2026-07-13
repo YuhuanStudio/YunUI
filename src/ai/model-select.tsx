@@ -6,10 +6,12 @@ import { motion } from "framer-motion";
 import { cn } from "../lib/cn";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
 
-/** Below Tailwind's `sm` breakpoint (<640px). SSR-safe: false until mounted. */
+/** Below Tailwind's `sm` breakpoint (<640px). SSR-safe (false until mounted) and
+ *  degrades to false where matchMedia is absent (jsdom/older runtimes). */
 function useIsMobile() {
     const [mobile, setMobile] = useState(false);
     useEffect(() => {
+        if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
         const mq = window.matchMedia("(max-width: 639px)");
         const sync = () => setMobile(mq.matches);
         sync();
@@ -373,7 +375,7 @@ export function ModelSelect({
                                 )}
                             </div>
                             {filters && filters.length > 0 && (
-                                <div className="flex items-center gap-1 mt-2 px-2.5 pb-1.5 flex-wrap sm:flex-nowrap sm:overflow-x-auto sm:overflow-y-hidden overscroll-x-contain [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40">
+                                <div className="flex items-center gap-1 mt-2 px-2.5 pb-1.5 overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40">
                                     {filters.map((f) => {
                                         const on = activeFilters.includes(f.key);
                                         return (
@@ -393,8 +395,8 @@ export function ModelSelect({
 
                         {/* Provider filter */}
                         {groups.length > 1 && (
-                            <div className="px-2.5 py-2 border-b border-border/50 sm:overflow-x-auto sm:overflow-y-hidden overscroll-x-contain [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40">
-                                <div className="flex gap-1 flex-wrap sm:flex-nowrap sm:min-w-max">
+                            <div className="px-2.5 py-2 border-b border-border/50 overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/40">
+                                <div className="flex gap-1 min-w-max">
                                     <button type="button" onClick={() => setActiveGroup(null)} aria-pressed={!activeGroup} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
                                         {L.all} ({options.length})
                                     </button>
