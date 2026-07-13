@@ -210,7 +210,8 @@ interface ModelManagerCardProps {
 declare function ModelManagerCard({ icon, name, nameBadges, ids, selectSlot, actions, fields, capabilities, selected, className, }: ModelManagerCardProps): React.JSX.Element;
 
 /** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge).
- *  `size="sm"` renders it at subtitle scale (11px, tighter) for dense cards. */
+ *  Defaults to subtitle scale (`sm`: 11px, muted, tighter); pass `size="default"`
+ *  for the larger 12px variant. */
 declare function IDBadge({ text, truncate, size, }: {
     text: string;
     truncate?: boolean;

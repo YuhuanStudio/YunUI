@@ -193,7 +193,7 @@ function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }
 function IDBadge({
   text,
   truncate = true,
-  size = "default"
+  size = "sm"
 }) {
   const [copied, setCopied] = useState(false);
   const t = useYunUI().useT("common.badge");

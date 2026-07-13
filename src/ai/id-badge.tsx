@@ -6,11 +6,12 @@ import { copyToClipboard } from "../lib/clipboard";
 import { useYunUI } from "../adapters/context";
 
 /** Click-to-copy mono ID badge (faithful port of Yunxin's IDBadge).
- *  `size="sm"` renders it at subtitle scale (11px, tighter) for dense cards. */
+ *  Defaults to subtitle scale (`sm`: 11px, muted, tighter); pass `size="default"`
+ *  for the larger 12px variant. */
 export function IDBadge({
     text,
     truncate = true,
-    size = "default",
+    size = "sm",
 }: {
     text: string;
     truncate?: boolean;
