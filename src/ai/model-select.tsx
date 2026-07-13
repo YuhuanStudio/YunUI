@@ -6,21 +6,6 @@ import { motion } from "framer-motion";
 import { cn } from "../lib/cn";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
 
-/** Below Tailwind's `sm` breakpoint (<640px). SSR-safe (false until mounted) and
- *  degrades to false where matchMedia is absent (jsdom/older runtimes). */
-function useIsMobile() {
-    const [mobile, setMobile] = useState(false);
-    useEffect(() => {
-        if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
-        const mq = window.matchMedia("(max-width: 639px)");
-        const sync = () => setMobile(mq.matches);
-        sync();
-        mq.addEventListener("change", sync);
-        return () => mq.removeEventListener("change", sync);
-    }, []);
-    return mobile;
-}
-
 // =====================================================
 // MODEL SELECT (generic, domain-agnostic)
 // The searchable / grouped / filterable / pinnable model-picker MACHINERY,
@@ -144,25 +129,11 @@ export function ModelSelect({
     // on their own; this hand-rolled one needs explicit collision handling).
     const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
     const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
-    const mobile = useIsMobile();
-
-    // Mobile presents a portaled, viewport-fixed bottom sheet — lock the page
-    // behind it so it doesn't scroll under the sheet.
-    useEffect(() => {
-        if (!mobile || !isOpen) return;
-        const prev = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
-        return () => { document.body.style.overflow = prev; };
-    }, [mobile, isOpen]);
 
     // Close on outside pointer (mouse + touch).
     useEffect(() => {
         const onDown = (e: MouseEvent | PointerEvent) => {
-            const target = e.target as Node;
-            // On mobile the panel is portaled OUT of rootRef, so also spare clicks
-            // landing inside it; the dim backdrop (outside the panel) handles close.
-            if (rootRef.current?.contains(target) || panelRef.current?.contains(target)) return;
-            setIsOpen(false);
+            if (rootRef.current && !rootRef.current.contains(e.target as Node)) setIsOpen(false);
         };
         document.addEventListener("mousedown", onDown);
         document.addEventListener("touchstart", onDown as EventListener);
@@ -311,40 +282,27 @@ export function ModelSelect({
             </button>
 
             {isOpen && (
-                <>
-                    {/* Mobile: dim backdrop behind the bottom sheet; tap to dismiss. */}
-                    {mobile && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.16 }}
-                            onClick={() => setIsOpen(false)}
-                            aria-hidden
-                            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-                        />
-                    )}
                     <motion.div
                         ref={panelRef}
-                        /* motion.div WITHOUT AnimatePresence: a reliable enter animation on mount and an
-                           immediate unmount on close. Desktop = an absolutely-anchored float (w-96,
-                           collision-shifted by useAnchoredPosition). Mobile = a viewport-fixed bottom
-                           sheet that slides up and uses the full width, so the picker isn't a tiny box
-                           marooned by huge top/bottom margins. w-96 is a CORE utility (always generated);
-                           the small-screen cap stays an inline style so it can't fail to generate. */
-                        initial={mobile ? { opacity: 0, y: "100%" } : { opacity: 0, y: -8, scale: 0.96 }}
-                        animate={mobile ? { opacity: 1, y: 0 } : { opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.18, ease: "easeOut" }}
-                        style={mobile ? { maxHeight: "88dvh" } : { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight }}
-                        className={mobile
-                            ? "fixed inset-x-0 bottom-0 z-50 w-full flex flex-col bg-popover border-t border-border rounded-t-2xl shadow-2xl text-popover-foreground overflow-hidden"
-                            : `absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`}
+                        /* motion.div WITHOUT AnimatePresence: a reliable enter
+                           animation on mount, and an immediate unmount on close
+                           (no exit delay → close is synchronous). Fixed width so
+                           the panel never reflows as you search/filter. */
+                        initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.16, ease: "easeOut" }}
+                        /* w-96 (= 24rem) is a CORE utility — always generated, so the
+                           panel can't fall back to a full-bleed width the way an
+                           arbitrary `w-[24rem]` did when the consuming app's JIT scan
+                           missed it. The small-screen cap is an inline style (not an
+                           arbitrary class) so it can't silently fail to generate.
+                           `marginLeft`/`maxHeight` come from useAnchoredPosition so
+                           the panel never spills off the right/bottom of the screen —
+                           margin (not transform) so it doesn't fight the open
+                           animation; height paired with the flex-1 scroll list below. */
+                        style={{ maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight }}
+                        className={`absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`}
                     >
-                        {/* Mobile sheet grab handle. */}
-                        {mobile && (
-                            <div className="shrink-0 flex justify-center pt-2 pb-0.5">
-                                <div className="h-1 w-9 rounded-full bg-muted-foreground/30" />
-                            </div>
-                        )}
                         {/* Consumer header (e.g. a browse-mode switch) — pinned to the top of the
                             panel, always visible even when the list below is empty. */}
                         {renderHeader && (
@@ -411,7 +369,7 @@ export function ModelSelect({
                         )}
 
                         {/* List */}
-                        <div ref={listRef} onWheel={onWheel} onMouseMove={clearActiveOnPointer} id="yunui-ms-listbox" role="listbox" className="flex-1 min-h-0 overflow-y-auto overscroll-contain sm:max-h-96">
+                        <div ref={listRef} onWheel={onWheel} onMouseMove={clearActiveOnPointer} id="yunui-ms-listbox" role="listbox" className="flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain">
                             {pinnedList.length > 0 && (
                                 <div className="px-1.5 py-1.5 border-b border-border/40">
                                     <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1">
@@ -458,8 +416,7 @@ export function ModelSelect({
                             </div>
                         )}
                     </motion.div>
-                </>
-            )}
+                )}
         </div>
     );
 }
