@@ -190,8 +190,10 @@ export function Navbar({
             {variant === "public" && menuOpen && (
                 <>
                     <div className="md:hidden fixed inset-0 -z-10" aria-hidden="true" onClick={() => setMenuOpen(false)} />
-                    {/* Frosted glass — works now that the nav centers without a transform (see nav className). */}
-                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
+                    {/* Frosted glass, but at /95 not /85: the nav centers without a transform so the
+                        blur works, yet over a same-toned page an 85% panel still read as see-through.
+                        95% keeps the frost while making the menu opaque enough to not bleed content. */}
+                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover/95 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
                         {links.map((link) => (
                             <Link
                                 key={link.href}
