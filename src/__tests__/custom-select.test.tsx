@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { YunUIProvider } from "../adapters/context";
 import { CustomSelect, type SelectOption } from "../primitives/custom-select";
@@ -102,5 +102,42 @@ describe("CustomSelect — remote search (onSearch)", () => {
     await user.click(screen.getByRole("button"));
     expect(screen.queryByText("common.select.noOptions")).toBeNull();
     expect(screen.getByRole("listbox").querySelector(".animate-spin")).toBeTruthy();
+  });
+});
+
+describe("CustomSelect — infinite scroll (onLoadMore)", () => {
+  function renderInfinite(extra: Partial<React.ComponentProps<typeof CustomSelect>>) {
+    render(
+      <YunUIProvider adapters={{ useT: () => (k: string) => k }}>
+        <CustomSelect options={opts} value="" onChange={vi.fn()} {...extra} />
+      </YunUIProvider>
+    );
+  }
+
+  it("asks for the next page when the list is scrolled near the end", async () => {
+    const user = userEvent.setup();
+    const onLoadMore = vi.fn();
+    renderInfinite({ onLoadMore, hasMore: true });
+    await user.click(screen.getByRole("button"));
+    fireEvent.scroll(screen.getByRole("listbox"));
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not load more when hasMore is false", async () => {
+    const user = userEvent.setup();
+    const onLoadMore = vi.fn();
+    renderInfinite({ onLoadMore, hasMore: false });
+    await user.click(screen.getByRole("button"));
+    fireEvent.scroll(screen.getByRole("listbox"));
+    expect(onLoadMore).not.toHaveBeenCalled();
+  });
+
+  it("does not load more while a fetch is already in flight", async () => {
+    const user = userEvent.setup();
+    const onLoadMore = vi.fn();
+    renderInfinite({ onLoadMore, hasMore: true, loading: true });
+    await user.click(screen.getByRole("button"));
+    fireEvent.scroll(screen.getByRole("listbox"));
+    expect(onLoadMore).not.toHaveBeenCalled();
   });
 });

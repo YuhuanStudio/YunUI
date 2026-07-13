@@ -42,6 +42,14 @@ interface CustomSelectProps {
     searchDebounceMs?: number;
     /** In remote mode, show a loading indicator while results are being fetched. */
     loading?: boolean;
+    /**
+     * Infinite scroll. Called when the options list is scrolled near its end and
+     * `hasMore` is true (and no fetch is in flight). The host appends the next
+     * page to `options`. Independent of `onSearch` — use either or both.
+     */
+    onLoadMore?: () => void;
+    /** Whether more options can be loaded; gates `onLoadMore` and the footer spinner. */
+    hasMore?: boolean;
 }
 
 /** Custom dropdown select with optional search, icons, descriptions, and full keyboard support.
@@ -57,6 +65,8 @@ export function CustomSelect({
     onSearch,
     searchDebounceMs = 250,
     loading = false,
+    onLoadMore,
+    hasMore = false,
 }: CustomSelectProps) {
     const t = useYunUI().useT("common.select");
     const resolvedPlaceholder = placeholder || t("placeholder");
@@ -161,6 +171,13 @@ export function CustomSelect({
         setIsOpen(false);
         setSearchQuery("");
         triggerRef.current?.focus();
+    };
+
+    // Infinite scroll: ask the host for the next page as the list nears its end.
+    const handleListScroll = () => {
+        if (!onLoadMore || !hasMore || loading) return;
+        const el = listRef.current;
+        if (el && el.scrollHeight - el.scrollTop - el.clientHeight < 48) onLoadMore();
     };
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -298,6 +315,7 @@ export function CustomSelect({
                         ref={listRef}
                         role="listbox"
                         id={listboxId}
+                        onScroll={handleListScroll}
                         className="flex-1 min-h-0 max-h-52 overflow-y-auto overscroll-contain p-1"
                     >
                         {filteredOptions.length === 0 ? (
@@ -342,6 +360,13 @@ export function CustomSelect({
                                     </button>
                                 );
                             })
+                        )}
+                        {/* Append-in-progress footer (infinite scroll): a spinner below the
+                            already-rendered page while the next one loads. */}
+                        {loading && filteredOptions.length > 0 && (
+                            <div className="flex items-center justify-center py-2 text-muted-foreground">
+                                <Loader2 size={16} aria-hidden className="animate-spin" />
+                            </div>
                         )}
                     </div>
                 </div>

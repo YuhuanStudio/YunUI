@@ -862,10 +862,18 @@ interface CustomSelectProps {
     searchDebounceMs?: number;
     /** In remote mode, show a loading indicator while results are being fetched. */
     loading?: boolean;
+    /**
+     * Infinite scroll. Called when the options list is scrolled near its end and
+     * `hasMore` is true (and no fetch is in flight). The host appends the next
+     * page to `options`. Independent of `onSearch` — use either or both.
+     */
+    onLoadMore?: () => void;
+    /** Whether more options can be loaded; gates `onLoadMore` and the footer spinner. */
+    hasMore?: boolean;
 }
 /** Custom dropdown select with optional search, icons, descriptions, and full keyboard support.
  *  Data-driven alternative to `Select`; see `Select`'s doc for "which select do I use". */
-declare function CustomSelect({ options, value, onChange, placeholder, searchable, className, disabled, onSearch, searchDebounceMs, loading, }: CustomSelectProps): React$1.JSX.Element;
+declare function CustomSelect({ options, value, onChange, placeholder, searchable, className, disabled, onSearch, searchDebounceMs, loading, onLoadMore, hasMore, }: CustomSelectProps): React$1.JSX.Element;
 
 interface SegmentedOption<T = string> {
     /** The value reported to `onChange` when selected. */

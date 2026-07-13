@@ -21,7 +21,9 @@ function CustomSelect({
   disabled = false,
   onSearch,
   searchDebounceMs = 250,
-  loading = false
+  loading = false,
+  onLoadMore,
+  hasMore = false
 }) {
   const t = useYunUI().useT("common.select");
   const resolvedPlaceholder = placeholder || t("placeholder");
@@ -96,6 +98,11 @@ function CustomSelect({
     setIsOpen(false);
     setSearchQuery("");
     triggerRef.current?.focus();
+  };
+  const handleListScroll = () => {
+    if (!onLoadMore || !hasMore || loading) return;
+    const el = listRef.current;
+    if (el && el.scrollHeight - el.scrollTop - el.clientHeight < 48) onLoadMore();
   };
   const handleKeyDown = (e) => {
     if (disabled) return;
@@ -228,38 +235,42 @@ function CustomSelect({
               }
             )
           ] }) }),
-          /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxs(
             "div",
             {
               ref: listRef,
               role: "listbox",
               id: listboxId,
+              onScroll: handleListScroll,
               className: "flex-1 min-h-0 max-h-52 overflow-y-auto overscroll-contain p-1",
-              children: filteredOptions.length === 0 ? loading ? /* @__PURE__ */ jsx("div", { className: "flex items-center justify-center px-3 py-3 text-muted-foreground", children: /* @__PURE__ */ jsx(Loader2, { size: 16, "aria-hidden": true, className: "animate-spin" }) }) : /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap", children: t("noOptions") }) : filteredOptions.map((option, i) => {
-                const isSelected = option.value === value;
-                const isHigh = i === highlighted;
-                return /* @__PURE__ */ jsxs(
-                  "button",
-                  {
-                    id: optionId(i),
-                    type: "button",
-                    role: "option",
-                    "aria-selected": isSelected,
-                    "data-highlighted": isHigh ? "" : void 0,
-                    onClick: () => handleSelect(option.value),
-                    onMouseEnter: () => setHighlighted(i),
-                    className: `dropdown-item w-full text-left outline-none ${isSelected ? "active" : ""}`,
-                    children: [
-                      option.icon && /* @__PURE__ */ jsx("span", { className: "shrink-0 w-5 h-5 flex items-center justify-center", children: option.icon }),
-                      /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-                        /* @__PURE__ */ jsx("div", { className: "truncate", children: option.label }),
-                        option.description && /* @__PURE__ */ jsx("div", { className: "text-xs font-normal text-muted-foreground truncate", children: option.description })
-                      ] })
-                    ]
-                  },
-                  option.value
-                );
-              })
+              children: [
+                filteredOptions.length === 0 ? loading ? /* @__PURE__ */ jsx("div", { className: "flex items-center justify-center px-3 py-3 text-muted-foreground", children: /* @__PURE__ */ jsx(Loader2, { size: 16, "aria-hidden": true, className: "animate-spin" }) }) : /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground text-center whitespace-nowrap", children: t("noOptions") }) : filteredOptions.map((option, i) => {
+                  const isSelected = option.value === value;
+                  const isHigh = i === highlighted;
+                  return /* @__PURE__ */ jsxs(
+                    "button",
+                    {
+                      id: optionId(i),
+                      type: "button",
+                      role: "option",
+                      "aria-selected": isSelected,
+                      "data-highlighted": isHigh ? "" : void 0,
+                      onClick: () => handleSelect(option.value),
+                      onMouseEnter: () => setHighlighted(i),
+                      className: `dropdown-item w-full text-left outline-none ${isSelected ? "active" : ""}`,
+                      children: [
+                        option.icon && /* @__PURE__ */ jsx("span", { className: "shrink-0 w-5 h-5 flex items-center justify-center", children: option.icon }),
+                        /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+                          /* @__PURE__ */ jsx("div", { className: "truncate", children: option.label }),
+                          option.description && /* @__PURE__ */ jsx("div", { className: "text-xs font-normal text-muted-foreground truncate", children: option.description })
+                        ] })
+                      ]
+                    },
+                    option.value
+                  );
+                }),
+                loading && filteredOptions.length > 0 && /* @__PURE__ */ jsx("div", { className: "flex items-center justify-center py-2 text-muted-foreground", children: /* @__PURE__ */ jsx(Loader2, { size: 16, "aria-hidden": true, className: "animate-spin" }) })
+              ]
             }
           )
         ]
@@ -1174,5 +1185,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-7YZ5C3RY.js.map
-//# sourceMappingURL=chunk-7YZ5C3RY.js.map
+//# sourceMappingURL=chunk-J7FHAHZY.js.map
+//# sourceMappingURL=chunk-J7FHAHZY.js.map
