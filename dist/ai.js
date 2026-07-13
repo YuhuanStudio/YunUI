@@ -1713,53 +1713,57 @@ function LanguageSwitcher({
     onChange(newLocale);
   };
   const currentLabel = locales.find((l) => l.value === currentLocale)?.label ?? currentLocale;
-  return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: `relative ${className}`, children: [
-    variant === "pill" ? /* @__PURE__ */ jsxs(
-      "button",
-      {
-        ref: triggerRef,
-        onClick: () => setIsOpen(!isOpen),
-        className: "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        disabled: pending,
-        "aria-label": label,
-        "aria-expanded": isOpen,
-        "aria-haspopup": "listbox",
-        children: [
-          /* @__PURE__ */ jsx(Globe, { size: 14, className: "shrink-0" }),
-          /* @__PURE__ */ jsx("span", { className: "hidden sm:inline", children: currentLabel })
-        ]
-      }
-    ) : /* @__PURE__ */ jsx(
-      "button",
-      {
-        ref: triggerRef,
-        onClick: () => setIsOpen(!isOpen),
-        className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        disabled: pending,
-        "aria-label": label,
-        "aria-expanded": isOpen,
-        "aria-haspopup": "listbox",
-        children: /* @__PURE__ */ jsx(Globe, { className: "h-[1.2rem] w-[1.2rem]" })
-      }
-    ),
-    isOpen && /* @__PURE__ */ jsx(
-      "div",
-      {
-        ref: panelRef,
-        style: { marginLeft: shift, maxHeight },
-        className: `absolute ${align === "left" ? "left-0" : "right-0"} ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
-        children: /* @__PURE__ */ jsx("div", { className: "p-1 flex-1 min-h-0 overflow-y-auto", children: locales.map((lang) => /* @__PURE__ */ jsx(
-          "button",
-          {
-            onClick: () => handleLocaleChange(lang.value),
-            className: `dropdown-item w-full text-left ${currentLocale === lang.value ? "active" : ""}`,
-            children: /* @__PURE__ */ jsx("span", { className: "flex-1", children: lang.label })
-          },
-          lang.value
-        )) })
-      }
-    )
-  ] });
+  return (
+    // inline-flex so the root shrink-wraps the trigger; a block root filled the row and made the
+    // right-0 dropdown anchor to the row's far edge instead of the trigger.
+    /* @__PURE__ */ jsxs("div", { ref: containerRef, className: `relative inline-flex ${className}`, children: [
+      variant === "pill" ? /* @__PURE__ */ jsxs(
+        "button",
+        {
+          ref: triggerRef,
+          onClick: () => setIsOpen(!isOpen),
+          className: "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          disabled: pending,
+          "aria-label": label,
+          "aria-expanded": isOpen,
+          "aria-haspopup": "listbox",
+          children: [
+            /* @__PURE__ */ jsx(Globe, { size: 14, className: "shrink-0" }),
+            /* @__PURE__ */ jsx("span", { className: "whitespace-nowrap", children: currentLabel })
+          ]
+        }
+      ) : /* @__PURE__ */ jsx(
+        "button",
+        {
+          ref: triggerRef,
+          onClick: () => setIsOpen(!isOpen),
+          className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          disabled: pending,
+          "aria-label": label,
+          "aria-expanded": isOpen,
+          "aria-haspopup": "listbox",
+          children: /* @__PURE__ */ jsx(Globe, { className: "h-[1.2rem] w-[1.2rem]" })
+        }
+      ),
+      isOpen && /* @__PURE__ */ jsx(
+        "div",
+        {
+          ref: panelRef,
+          style: { marginLeft: shift, maxHeight },
+          className: `absolute ${align === "left" ? "left-0" : "right-0"} ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
+          children: /* @__PURE__ */ jsx("div", { className: "p-1 flex-1 min-h-0 overflow-y-auto", children: locales.map((lang) => /* @__PURE__ */ jsx(
+            "button",
+            {
+              onClick: () => handleLocaleChange(lang.value),
+              className: `dropdown-item w-full text-left ${currentLocale === lang.value ? "active" : ""}`,
+              children: /* @__PURE__ */ jsx("span", { className: "flex-1", children: lang.label })
+            },
+            lang.value
+          )) })
+        }
+      )
+    ] })
+  );
 }
 function Navbar({
   appName,

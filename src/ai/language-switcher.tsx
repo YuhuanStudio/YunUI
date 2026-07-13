@@ -82,7 +82,9 @@ export function LanguageSwitcher({
     const currentLabel = locales.find((l) => l.value === currentLocale)?.label ?? currentLocale;
 
     return (
-        <div ref={containerRef} className={`relative ${className}`}>
+        // inline-flex so the root shrink-wraps the trigger; a block root filled the row and made the
+        // right-0 dropdown anchor to the row's far edge instead of the trigger.
+        <div ref={containerRef} className={`relative inline-flex ${className}`}>
             {/* Trigger */}
             {variant === "pill" ? (
                 <button
@@ -95,9 +97,7 @@ export function LanguageSwitcher({
                     aria-haspopup="listbox"
                 >
                     <Globe size={14} className="shrink-0" />
-                    {/* Drop the label when there's no room — collapse to icon-only
-                        (the Globe + aria-label still convey the control). */}
-                    <span className="hidden sm:inline">{currentLabel}</span>
+                    <span className="whitespace-nowrap">{currentLabel}</span>
                 </button>
             ) : (
                 <button
