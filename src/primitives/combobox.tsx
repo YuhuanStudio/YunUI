@@ -69,23 +69,25 @@ export function Combobox({
     const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
     const listboxId = useId();
     const optionId = (i: number) => `${listboxId}-opt-${i}`;
+    const selectedOption = options.find(o => o.value === value);
+    const selectedDisplayValue = selectedOption?.label || value || "";
 
     // 當 value 從外部變化時更新輸入值
     useEffect(() => {
-        const selectedOption = options.find(o => o.value === value);
-        setInputValue(selectedOption?.label || value || "");
-    }, [value, options]);
+        setInputValue(selectedDisplayValue);
+    }, [selectedDisplayValue]);
 
     // 點擊外部關閉
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
                 setIsOpen(false);
+                setInputValue(selectedDisplayValue);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [selectedDisplayValue]);
 
     // Reset the keyboard highlight when the list changes or the panel closes —
     // start at "no highlight" (-1) so the ring only appears after an arrow press.
@@ -110,6 +112,8 @@ export function Combobox({
         (!creatableFilter || creatableFilter(inputValue));
 
     const handleSelect = (selectedValue: string) => {
+        const option = options.find(o => o.value === selectedValue);
+        setInputValue(option?.label || selectedValue);
         onChange(selectedValue);
         setIsOpen(false);
     };
@@ -149,7 +153,7 @@ export function Combobox({
                 break;
             case "Escape":
                 setIsOpen(false);
-                setInputValue(value || "");
+                setInputValue(selectedDisplayValue);
                 break;
         }
     };
@@ -163,8 +167,6 @@ export function Combobox({
     // Only show the committed selection's icon while its label is displayed.
     // Keeping that icon during free-text filtering falsely associates the typed
     // query (and its matching options) with the previously selected item.
-    const selectedOption = options.find(o => o.value === value);
-    const selectedDisplayValue = selectedOption?.label || value || "";
     const selectedIconPath = inputValue === selectedDisplayValue
         ? selectedOption?.iconUrl ?? null
         : null;
@@ -227,7 +229,11 @@ export function Combobox({
                 {/* Dropdown arrow */}
                 <button
                     type="button"
-                    onClick={() => !disabled && setIsOpen(!isOpen)}
+                    onClick={() => {
+                        if (disabled) return;
+                        if (isOpen) setInputValue(selectedDisplayValue);
+                        setIsOpen(!isOpen);
+                    }}
                     disabled={disabled}
                     aria-label="Toggle options"
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring"

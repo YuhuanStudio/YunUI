@@ -493,19 +493,21 @@ function Combobox({
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
   const listboxId = useId();
   const optionId = (i) => `${listboxId}-opt-${i}`;
+  const selectedOption = options.find((o) => o.value === value);
+  const selectedDisplayValue = selectedOption?.label || value || "";
   useEffect(() => {
-    const selectedOption2 = options.find((o) => o.value === value);
-    setInputValue(selectedOption2?.label || value || "");
-  }, [value, options]);
+    setInputValue(selectedDisplayValue);
+  }, [selectedDisplayValue]);
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setIsOpen(false);
+        setInputValue(selectedDisplayValue);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [selectedDisplayValue]);
   useEffect(() => {
     setHighlighted(-1);
   }, [inputValue, isOpen]);
@@ -516,6 +518,8 @@ function Combobox({
     (o) => o.value.toLowerCase() === inputValue.toLowerCase() || o.label.toLowerCase() === inputValue.toLowerCase()
   ) && (!creatableFilter || creatableFilter(inputValue));
   const handleSelect = (selectedValue) => {
+    const option = options.find((o) => o.value === selectedValue);
+    setInputValue(option?.label || selectedValue);
     onChange(selectedValue);
     setIsOpen(false);
   };
@@ -559,7 +563,7 @@ function Combobox({
         break;
       case "Escape":
         setIsOpen(false);
-        setInputValue(value || "");
+        setInputValue(selectedDisplayValue);
         break;
     }
   };
@@ -568,8 +572,6 @@ function Combobox({
     setInputValue("");
     inputRef.current?.focus();
   };
-  const selectedOption = options.find((o) => o.value === value);
-  const selectedDisplayValue = selectedOption?.label || value || "";
   const selectedIconPath = inputValue === selectedDisplayValue ? selectedOption?.iconUrl ?? null : null;
   return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: `relative ${className}`, children: [
     /* @__PURE__ */ jsxs("div", { className: "relative", children: [
@@ -627,7 +629,11 @@ function Combobox({
         "button",
         {
           type: "button",
-          onClick: () => !disabled && setIsOpen(!isOpen),
+          onClick: () => {
+            if (disabled) return;
+            if (isOpen) setInputValue(selectedDisplayValue);
+            setIsOpen(!isOpen);
+          },
           disabled,
           "aria-label": "Toggle options",
           className: "absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -2514,5 +2520,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-LZTXQ6IO.js.map
-//# sourceMappingURL=chunk-LZTXQ6IO.js.map
+//# sourceMappingURL=chunk-NWVWW2GB.js.map
+//# sourceMappingURL=chunk-NWVWW2GB.js.map

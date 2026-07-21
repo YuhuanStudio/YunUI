@@ -8,6 +8,28 @@ const options = [
 ];
 
 describe("Combobox visual state", () => {
+    it("restores the committed label when filtering is cancelled", () => {
+        render(<Combobox options={options} value="qwen" onChange={() => {}} allowCustom={false} />);
+        const input = screen.getByRole("combobox");
+
+        fireEvent.change(input, { target: { value: "Gemini" } });
+        fireEvent.keyDown(input, { key: "Escape" });
+        expect(input).toHaveValue("Qwen Embedding");
+
+        fireEvent.change(input, { target: { value: "Gemini" } });
+        fireEvent.mouseDown(document.body);
+        expect(input).toHaveValue("Qwen Embedding");
+    });
+
+    it("commits the display label immediately even when the controlled value is unchanged", () => {
+        render(<Combobox options={options} value="qwen" onChange={() => {}} allowCustom={false} />);
+        const input = screen.getByRole("combobox");
+
+        fireEvent.change(input, { target: { value: "Qwen" } });
+        fireEvent.click(screen.getByRole("option", { name: "Qwen Embedding" }));
+        expect(input).toHaveValue("Qwen Embedding");
+    });
+
     it("hides the committed option icon while the user filters for another option", () => {
         const { container } = render(
             <Combobox options={options} value="qwen" onChange={() => {}} allowCustom={false} />,
