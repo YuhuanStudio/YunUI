@@ -160,9 +160,14 @@ export function Combobox({
         inputRef.current?.focus();
     };
 
-    // Get the selected option to display its icon
+    // Only show the committed selection's icon while its label is displayed.
+    // Keeping that icon during free-text filtering falsely associates the typed
+    // query (and its matching options) with the previously selected item.
     const selectedOption = options.find(o => o.value === value);
-    const selectedIconPath = selectedOption?.iconUrl ?? null;
+    const selectedDisplayValue = selectedOption?.label || value || "";
+    const selectedIconPath = inputValue === selectedDisplayValue
+        ? selectedOption?.iconUrl ?? null
+        : null;
 
     return (
         <div ref={containerRef} className={`relative ${className}`}>
@@ -173,7 +178,8 @@ export function Combobox({
                         <div className="rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5" style={{ width: 16, height: 16 }}>
                             <Image
                                 src={selectedIconPath}
-                                alt={selectedOption.label}
+                                alt=""
+                                aria-hidden="true"
                                 width={16}
                                 height={16}
                                 className="object-cover"
@@ -235,7 +241,7 @@ export function Combobox({
                 <div
                     ref={panelRef}
                     style={{ marginLeft: shift, maxHeight }}
-                    className={`absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`}
+                    className={`absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover/95 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`}
                 >
                     <div className="flex-1 min-h-0 max-h-60 overflow-y-auto" role="listbox" id={listboxId}>
                         {filteredOptions.length === 0 && !canCreateNew ? (
@@ -264,7 +270,8 @@ export function Combobox({
                                                 <div className="rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5 shrink-0" style={{ width: 16, height: 16 }}>
                                                     <Image
                                                         src={optionIconPath}
-                                                        alt={option.label}
+                                                        alt=""
+                                                        aria-hidden="true"
                                                         width={16}
                                                         height={16}
                                                         className="object-cover"
