@@ -247,7 +247,7 @@ export function Combobox({
                 <div
                     ref={panelRef}
                     style={{ marginLeft: shift, maxHeight }}
-                    className={`absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover/95 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`}
+                    className={`absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`}
                 >
                     <div className="flex-1 min-h-0 max-h-60 overflow-y-auto" role="listbox" id={listboxId}>
                         {filteredOptions.length === 0 && !canCreateNew ? (

@@ -43,10 +43,10 @@ describe("Combobox visual state", () => {
         expect(screen.getByRole("option", { name: "Gemini Embedding" })).toBeInTheDocument();
     });
 
-    it("uses a near-opaque popover surface so underlying form text does not bleed through", () => {
+    it("uses an opaque popover surface so underlying form text does not bleed through", () => {
         render(<Combobox options={options} value="qwen" onChange={() => {}} allowCustom={false} />);
         fireEvent.focus(screen.getByRole("combobox"));
 
-        expect(screen.getByRole("listbox").parentElement).toHaveClass("bg-popover/95");
+        expect(screen.getByRole("listbox").parentElement).toHaveClass("bg-popover");
     });
 });
