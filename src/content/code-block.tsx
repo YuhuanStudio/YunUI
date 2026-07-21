@@ -231,7 +231,7 @@ export function CodeBlock({
         </div>
         <div className="flex items-center gap-1.5">
           {onEdit && (
-            <button onClick={handleEdit} className={cn(btnBase, "text-(--text-tertiary)")}>
+            <button onClick={handleEdit} className={cn(btnBase, "text-(--text-secondary)")}>
               <Edit3 className="w-3.5 h-3.5" />
               {t("edit", "Edit")}
             </button>
@@ -244,8 +244,8 @@ export function CodeBlock({
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-(--text-tertiary)" />
-                <span className="text-(--text-tertiary)">{t("copy", "Copy")}</span>
+                <Copy className="w-3.5 h-3.5 text-(--text-secondary)" />
+                <span className="text-(--text-secondary)">{t("copy", "Copy")}</span>
               </>
             )}
           </button>

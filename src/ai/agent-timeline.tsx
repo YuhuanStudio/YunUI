@@ -147,7 +147,12 @@ function ToolRow({ block, isLast }: { block: Extract<AgentTimelineBlock, { kind:
                                 <span className="truncate">{block.command}</span>
                             </div>
                         )}
-                        <div className={cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/80")}>
+                        <div
+                            tabIndex={0}
+                            role="region"
+                            aria-label={`${block.verb} output`}
+                            className={cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-red-600 dark:text-red-400" : "text-foreground/80")}
+                        >
                             {block.output || "—"}
                         </div>
                     </div>
@@ -169,7 +174,14 @@ function ApprovalRow({ block, isLast, onApprove, onReject }: { block: Extract<Ag
                     </div>
                     {block.message && <p className="mt-1.5 text-[12.5px] text-muted-foreground">{block.message}</p>}
                     {block.argsText && (
-                        <pre className="mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground">{block.argsText}</pre>
+                        <pre
+                            tabIndex={0}
+                            role="region"
+                            aria-label={`${block.title}: ${block.verb}`}
+                            className="mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+                        >
+                            {block.argsText}
+                        </pre>
                     )}
                     <div className="mt-2.5 flex items-center gap-2">
                         {block.decision ? (

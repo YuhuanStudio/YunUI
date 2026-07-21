@@ -1,7 +1,7 @@
 "use client";
 import { useContentT, ImageLightbox } from './chunk-QEIBYOG2.js';
 export { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Alert } from './chunk-7IM4K7VA.js';
+import { Alert } from './chunk-Q2JCLM5B.js';
 import { cn } from './chunk-XTIDJ7F6.js';
 import './chunk-3RT24MSH.js';
 import * as React2 from 'react';
@@ -185,7 +185,7 @@ function CodeBlock({
             filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-(--text-secondary) font-mono", children: filename }) : /* @__PURE__ */ jsx("span", { className: "badge text-xs", children: displayLanguage })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
-            onEdit && /* @__PURE__ */ jsxs("button", { onClick: handleEdit, className: cn(btnBase, "text-(--text-tertiary)"), children: [
+            onEdit && /* @__PURE__ */ jsxs("button", { onClick: handleEdit, className: cn(btnBase, "text-(--text-secondary)"), children: [
               /* @__PURE__ */ jsx(Edit3, { className: "w-3.5 h-3.5" }),
               t("edit", "Edit")
             ] }),
@@ -193,8 +193,8 @@ function CodeBlock({
               /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5 text-(--success)" }),
               /* @__PURE__ */ jsx("span", { className: "text-(--success)", children: t("copied", "Copied") })
             ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-              /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5 text-(--text-tertiary)" }),
-              /* @__PURE__ */ jsx("span", { className: "text-(--text-tertiary)", children: t("copy", "Copy") })
+              /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5 text-(--text-secondary)" }),
+              /* @__PURE__ */ jsx("span", { className: "text-(--text-secondary)", children: t("copy", "Copy") })
             ] }) })
           ] })
         ] }),

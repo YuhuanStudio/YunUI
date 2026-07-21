@@ -1,10 +1,10 @@
 "use client";
-import './chunk-PEPPNKSR.js';
+import './chunk-M4LYIFKN.js';
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { Footer } from './chunk-UYYG4XDW.js';
 import './chunk-BW332LJI.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-7IM4K7VA.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-Q2JCLM5B.js';
 import { cn } from './chunk-XTIDJ7F6.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -1108,8 +1108,8 @@ function SessionItem({
   return /* @__PURE__ */ jsxs("div", { className: cn("flex items-start gap-3 p-2 rounded-lg bg-(--bg-elevated) relative", inactive && "opacity-50", className), children: [
     icon != null && /* @__PURE__ */ jsx("div", { className: "w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0", children: icon }),
     /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
-        /* @__PURE__ */ jsx("span", { className: "text-xs font-medium truncate", children: name }),
+      /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-2", children: [
+        /* @__PURE__ */ jsx("span", { className: "block min-w-0 flex-1 truncate text-xs font-medium", children: name }),
         current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0", children: currentLabel }),
         inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0", children: inactiveLabel })
       ] }),
