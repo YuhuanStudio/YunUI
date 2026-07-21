@@ -1,8 +1,11 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, type ButtonHTMLAttributes } from "react";
 
-export interface SwitchProps {
+export interface SwitchProps extends Omit<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    "onChange" | "onClick" | "disabled" | "id" | "className" | "type"
+> {
     /** Whether the switch is on (controlled). */
     checked: boolean;
     /** Called with the next checked state when toggled. */
@@ -60,12 +63,13 @@ const variantClasses = {
 
 /** Controlled on/off toggle rendered as an accessible switch button. */
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
-    ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id }, ref) => {
+    ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id, ...props }, ref) => {
         const sizeClass = sizeClasses[size];
         const variantClass = variantClasses[variant];
 
         return (
             <button
+                {...props}
                 ref={ref}
                 type="button"
                 role="switch"

@@ -1,5 +1,5 @@
 "use client";
-import { cn, useAnchoredPosition } from './chunk-J5MNZHQB.js';
+import { cn, useAnchoredPosition } from './chunk-XTIDJ7F6.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React7 from 'react';
 import { forwardRef, useRef, useCallback, useEffect, useState, useId } from 'react';
@@ -493,19 +493,21 @@ function Combobox({
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
   const listboxId = useId();
   const optionId = (i) => `${listboxId}-opt-${i}`;
+  const selectedOption = options.find((o) => o.value === value);
+  const selectedDisplayValue = selectedOption?.label || value || "";
   useEffect(() => {
-    const selectedOption2 = options.find((o) => o.value === value);
-    setInputValue(selectedOption2?.label || value || "");
-  }, [value, options]);
+    setInputValue(selectedDisplayValue);
+  }, [selectedDisplayValue]);
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setIsOpen(false);
+        setInputValue(selectedDisplayValue);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [selectedDisplayValue]);
   useEffect(() => {
     setHighlighted(-1);
   }, [inputValue, isOpen]);
@@ -516,6 +518,8 @@ function Combobox({
     (o) => o.value.toLowerCase() === inputValue.toLowerCase() || o.label.toLowerCase() === inputValue.toLowerCase()
   ) && (!creatableFilter || creatableFilter(inputValue));
   const handleSelect = (selectedValue) => {
+    const option = options.find((o) => o.value === selectedValue);
+    setInputValue(option?.label || selectedValue);
     onChange(selectedValue);
     setIsOpen(false);
   };
@@ -559,7 +563,7 @@ function Combobox({
         break;
       case "Escape":
         setIsOpen(false);
-        setInputValue(value || "");
+        setInputValue(selectedDisplayValue);
         break;
     }
   };
@@ -568,15 +572,15 @@ function Combobox({
     setInputValue("");
     inputRef.current?.focus();
   };
-  const selectedOption = options.find((o) => o.value === value);
-  const selectedIconPath = selectedOption?.iconUrl ?? null;
+  const selectedIconPath = inputValue === selectedDisplayValue ? selectedOption?.iconUrl ?? null : null;
   return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: `relative ${className}`, children: [
     /* @__PURE__ */ jsxs("div", { className: "relative", children: [
       selectedIconPath && selectedOption && /* @__PURE__ */ jsx("div", { className: "absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none", children: /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5", style: { width: 16, height: 16 }, children: /* @__PURE__ */ jsx(
         Image2,
         {
           src: selectedIconPath,
-          alt: selectedOption.label,
+          alt: "",
+          "aria-hidden": "true",
           width: 16,
           height: 16,
           className: "object-cover",
@@ -625,7 +629,11 @@ function Combobox({
         "button",
         {
           type: "button",
-          onClick: () => !disabled && setIsOpen(!isOpen),
+          onClick: () => {
+            if (disabled) return;
+            if (isOpen) setInputValue(selectedDisplayValue);
+            setIsOpen(!isOpen);
+          },
           disabled,
           "aria-label": "Toggle options",
           className: "absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -638,7 +646,7 @@ function Combobox({
       {
         ref: panelRef,
         style: { marginLeft: shift, maxHeight },
-        className: `absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`,
+        className: `absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`,
         children: /* @__PURE__ */ jsx("div", { className: "flex-1 min-h-0 max-h-60 overflow-y-auto", role: "listbox", id: listboxId, children: filteredOptions.length === 0 && !canCreateNew ? /* @__PURE__ */ jsx("div", { className: "px-3 py-2 text-sm text-muted-foreground", children: t("noResults") }) : /* @__PURE__ */ jsxs(Fragment, { children: [
           filteredOptions.map((option, i) => {
             const isSelected = option.value === value;
@@ -660,7 +668,8 @@ function Combobox({
                     Image2,
                     {
                       src: optionIconPath,
-                      alt: option.label,
+                      alt: "",
+                      "aria-hidden": "true",
                       width: 16,
                       height: 16,
                       className: "object-cover",
@@ -1847,7 +1856,7 @@ var DialogContent = React7.forwardRef(({ className, children, ...props }, ref) =
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }) })
+        /* @__PURE__ */ jsx(DialogPrimitive.Close, { "aria-label": "Close", className: "absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }) })
       ]
     }
   )
@@ -2511,5 +2520,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-XKUHGS7G.js.map
-//# sourceMappingURL=chunk-XKUHGS7G.js.map
+//# sourceMappingURL=chunk-Q2JCLM5B.js.map
+//# sourceMappingURL=chunk-Q2JCLM5B.js.map

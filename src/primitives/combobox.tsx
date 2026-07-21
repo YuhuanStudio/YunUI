@@ -69,23 +69,25 @@ export function Combobox({
     const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
     const listboxId = useId();
     const optionId = (i: number) => `${listboxId}-opt-${i}`;
+    const selectedOption = options.find(o => o.value === value);
+    const selectedDisplayValue = selectedOption?.label || value || "";
 
     // 當 value 從外部變化時更新輸入值
     useEffect(() => {
-        const selectedOption = options.find(o => o.value === value);
-        setInputValue(selectedOption?.label || value || "");
-    }, [value, options]);
+        setInputValue(selectedDisplayValue);
+    }, [selectedDisplayValue]);
 
     // 點擊外部關閉
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
                 setIsOpen(false);
+                setInputValue(selectedDisplayValue);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [selectedDisplayValue]);
 
     // Reset the keyboard highlight when the list changes or the panel closes —
     // start at "no highlight" (-1) so the ring only appears after an arrow press.
@@ -110,6 +112,8 @@ export function Combobox({
         (!creatableFilter || creatableFilter(inputValue));
 
     const handleSelect = (selectedValue: string) => {
+        const option = options.find(o => o.value === selectedValue);
+        setInputValue(option?.label || selectedValue);
         onChange(selectedValue);
         setIsOpen(false);
     };
@@ -149,7 +153,7 @@ export function Combobox({
                 break;
             case "Escape":
                 setIsOpen(false);
-                setInputValue(value || "");
+                setInputValue(selectedDisplayValue);
                 break;
         }
     };
@@ -160,9 +164,12 @@ export function Combobox({
         inputRef.current?.focus();
     };
 
-    // Get the selected option to display its icon
-    const selectedOption = options.find(o => o.value === value);
-    const selectedIconPath = selectedOption?.iconUrl ?? null;
+    // Only show the committed selection's icon while its label is displayed.
+    // Keeping that icon during free-text filtering falsely associates the typed
+    // query (and its matching options) with the previously selected item.
+    const selectedIconPath = inputValue === selectedDisplayValue
+        ? selectedOption?.iconUrl ?? null
+        : null;
 
     return (
         <div ref={containerRef} className={`relative ${className}`}>
@@ -173,7 +180,8 @@ export function Combobox({
                         <div className="rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5" style={{ width: 16, height: 16 }}>
                             <Image
                                 src={selectedIconPath}
-                                alt={selectedOption.label}
+                                alt=""
+                                aria-hidden="true"
                                 width={16}
                                 height={16}
                                 className="object-cover"
@@ -221,7 +229,11 @@ export function Combobox({
                 {/* Dropdown arrow */}
                 <button
                     type="button"
-                    onClick={() => !disabled && setIsOpen(!isOpen)}
+                    onClick={() => {
+                        if (disabled) return;
+                        if (isOpen) setInputValue(selectedDisplayValue);
+                        setIsOpen(!isOpen);
+                    }}
                     disabled={disabled}
                     aria-label="Toggle options"
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -235,7 +247,7 @@ export function Combobox({
                 <div
                     ref={panelRef}
                     style={{ marginLeft: shift, maxHeight }}
-                    className={`absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`}
+                    className={`absolute z-50 w-full ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} p-1 rounded-2xl border border-border bg-popover text-popover-foreground shadow-lg shadow-black/5 overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-200`}
                 >
                     <div className="flex-1 min-h-0 max-h-60 overflow-y-auto" role="listbox" id={listboxId}>
                         {filteredOptions.length === 0 && !canCreateNew ? (
@@ -264,7 +276,8 @@ export function Combobox({
                                                 <div className="rounded-md overflow-hidden bg-linear-to-br from-black/2 to-black/5 shrink-0" style={{ width: 16, height: 16 }}>
                                                     <Image
                                                         src={optionIconPath}
-                                                        alt={option.label}
+                                                        alt=""
+                                                        aria-hidden="true"
                                                         width={16}
                                                         height={16}
                                                         className="object-cover"

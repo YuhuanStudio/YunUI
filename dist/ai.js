@@ -1,8 +1,8 @@
 "use client";
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-UYYG4XDW.js';
-import { ThemeToggle } from './chunk-EHIIQUYF.js';
-import { cn, useAnchoredPosition } from './chunk-J5MNZHQB.js';
+import { ThemeToggle } from './chunk-BW332LJI.js';
+import { cn, useAnchoredPosition } from './chunk-XTIDJ7F6.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -151,7 +151,16 @@ function ToolRow({ block, isLast }) {
           /* @__PURE__ */ jsx("span", { className: "select-none text-muted-foreground/40", children: "$" }),
           /* @__PURE__ */ jsx("span", { className: "truncate", children: block.command })
         ] }),
-        /* @__PURE__ */ jsx("div", { className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed", error ? "text-red-600 dark:text-red-400" : "text-foreground/80"), children: block.output || "\u2014" })
+        /* @__PURE__ */ jsx(
+          "div",
+          {
+            tabIndex: 0,
+            role: "region",
+            "aria-label": `${block.verb} output`,
+            className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-red-600 dark:text-red-400" : "text-foreground/80"),
+            children: block.output || "\u2014"
+          }
+        )
       ] }) })
     ] })
   ] });
@@ -165,7 +174,16 @@ function ApprovalRow({ block, isLast, onApprove, onReject }) {
         /* @__PURE__ */ jsx("span", { className: "font-mono text-xs text-muted-foreground", children: block.verb })
       ] }),
       block.message && /* @__PURE__ */ jsx("p", { className: "mt-1.5 text-[12.5px] text-muted-foreground", children: block.message }),
-      block.argsText && /* @__PURE__ */ jsx("pre", { className: "mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground", children: block.argsText }),
+      block.argsText && /* @__PURE__ */ jsx(
+        "pre",
+        {
+          tabIndex: 0,
+          role: "region",
+          "aria-label": `${block.title}: ${block.verb}`,
+          className: "mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+          children: block.argsText
+        }
+      ),
       /* @__PURE__ */ jsx("div", { className: "mt-2.5 flex items-center gap-2", children: block.decision ? /* @__PURE__ */ jsx("span", { className: cn("text-xs font-medium", block.decision === "approved" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"), children: block.decidedLabel }) : /* @__PURE__ */ jsxs(Fragment, { children: [
         /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onApprove?.(block.id), className: "rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring", children: block.allowLabel }),
         /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onReject?.(block.id), className: "rounded-md border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring", children: block.denyLabel })

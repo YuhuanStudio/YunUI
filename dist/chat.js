@@ -1,6 +1,6 @@
 "use client";
-import { Badge } from './chunk-XKUHGS7G.js';
-import { cn } from './chunk-J5MNZHQB.js';
+import { Badge } from './chunk-Q2JCLM5B.js';
+import { cn } from './chunk-XTIDJ7F6.js';
 import './chunk-3RT24MSH.js';
 import { Sparkles, Bot, User, Square, ArrowUp } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -157,7 +157,7 @@ function ChatComposer({
       ),
       children: [
         attachments && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2 px-3 pt-3", children: attachments }),
-        /* @__PURE__ */ jsxs("div", { className: "flex items-end gap-2 p-2 pl-3", children: [
+        /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2 px-3 pb-1 pt-2", children: [
           /* @__PURE__ */ jsx(
             "textarea",
             {
@@ -170,7 +170,7 @@ function ChatComposer({
               placeholder,
               className: cn(
                 // 16px on mobile avoids iOS Safari's focus-zoom; compact on desktop.
-                "flex-1 resize-none bg-transparent py-2 text-base leading-5 md:text-sm",
+                "min-h-7 flex-1 resize-none bg-transparent py-0 text-base leading-5 md:text-sm",
                 "placeholder:text-(--text-muted) focus:outline-none",
                 "max-h-[40vh]"
               )

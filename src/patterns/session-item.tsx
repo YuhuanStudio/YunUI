@@ -55,8 +55,8 @@ export function SessionItem({
         <div className={cn("flex items-start gap-3 p-2 rounded-lg bg-(--bg-elevated) relative", inactive && "opacity-50", className)}>
             {icon != null && <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">{icon}</div>}
             <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium truncate">{name}</span>
+                <div className="flex min-w-0 items-center gap-2">
+                    <span className="block min-w-0 flex-1 truncate text-xs font-medium">{name}</span>
                     {current && (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0">
                             {currentLabel}

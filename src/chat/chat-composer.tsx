@@ -97,7 +97,7 @@ export function ChatComposer({
         <div className="flex flex-wrap gap-2 px-3 pt-3">{attachments}</div>
       )}
 
-      <div className="flex items-end gap-2 p-2 pl-3">
+      <div className="flex items-start gap-2 px-3 pb-1 pt-2">
         <textarea
           ref={textareaRef}
           value={value}
@@ -108,7 +108,7 @@ export function ChatComposer({
           placeholder={placeholder}
           className={cn(
             // 16px on mobile avoids iOS Safari's focus-zoom; compact on desktop.
-            "flex-1 resize-none bg-transparent py-2 text-base leading-5 md:text-sm",
+            "min-h-7 flex-1 resize-none bg-transparent py-0 text-base leading-5 md:text-sm",
             "placeholder:text-(--text-muted) focus:outline-none",
             "max-h-[40vh]",
           )}

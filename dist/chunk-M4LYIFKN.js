@@ -1,5 +1,5 @@
 "use client";
-import { cn, useAnchoredPosition } from './chunk-J5MNZHQB.js';
+import { cn, useAnchoredPosition } from './chunk-XTIDJ7F6.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React3 from 'react';
 import { forwardRef, useState, useEffect, useRef, useId, useMemo } from 'react';
@@ -550,12 +550,13 @@ var variantClasses = {
   }
 };
 var Switch = forwardRef(
-  ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id }, ref) => {
+  ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id, ...props }, ref) => {
     const sizeClass = sizeClasses[size];
     const variantClass = variantClasses[variant];
     return /* @__PURE__ */ jsx(
       "button",
       {
+        ...props,
         ref,
         type: "button",
         role: "switch",
@@ -1192,5 +1193,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-OHIEM6KU.js.map
-//# sourceMappingURL=chunk-OHIEM6KU.js.map
+//# sourceMappingURL=chunk-M4LYIFKN.js.map
+//# sourceMappingURL=chunk-M4LYIFKN.js.map

@@ -1,6 +1,6 @@
 import * as framer_motion from 'framer-motion';
 import * as React$1 from 'react';
-import { ReactNode, RefObject } from 'react';
+import { ReactNode, ButtonHTMLAttributes, RefObject } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
@@ -1006,7 +1006,7 @@ declare const ScrollArea: React$1.ForwardRefExoticComponent<Omit<ScrollAreaPrimi
 /** The draggable scrollbar thumb + track. Use `orientation="horizontal"` for an x-axis bar. */
 declare const ScrollBar: React$1.ForwardRefExoticComponent<Omit<ScrollAreaPrimitive.ScrollAreaScrollbarProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 
-interface SwitchProps {
+interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onChange" | "onClick" | "disabled" | "id" | "className" | "type"> {
     /** Whether the switch is on (controlled). */
     checked: boolean;
     /** Called with the next checked state when toggled. */

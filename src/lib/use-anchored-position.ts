@@ -18,13 +18,53 @@ export interface AnchoredPosition {
     placement: "top" | "bottom";
 }
 
+interface ClippingBounds {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+}
+
+const CLIPPING_OVERFLOW = /^(auto|scroll|hidden|clip|overlay)$/;
+
+/** Intersect the viewport with every ancestor that can clip descendants. */
+function getClippingBounds(element: HTMLElement): ClippingBounds {
+    const bounds: ClippingBounds = {
+        top: 0,
+        right: window.innerWidth,
+        bottom: window.innerHeight,
+        left: 0,
+    };
+
+    for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
+        if (ancestor === document.body || ancestor === document.documentElement) continue;
+        const style = window.getComputedStyle(ancestor);
+        const clipsX = CLIPPING_OVERFLOW.test(style.overflowX || style.overflow);
+        const clipsY = CLIPPING_OVERFLOW.test(style.overflowY || style.overflow);
+        if (!clipsX && !clipsY) continue;
+
+        const rect = ancestor.getBoundingClientRect();
+        if (clipsX) {
+            bounds.left = Math.max(bounds.left, rect.left);
+            bounds.right = Math.min(bounds.right, rect.right);
+        }
+        if (clipsY) {
+            bounds.top = Math.max(bounds.top, rect.top);
+            bounds.bottom = Math.min(bounds.bottom, rect.bottom);
+        }
+    }
+
+    return bounds;
+}
+
 /**
  * Viewport-collision for HAND-ROLLED floating panels (the Radix ones flip/shift
  * on their own). Given the open state and a ref to the absolutely-positioned
  * panel, returns a horizontal `shift`, a `maxHeight`, and a `placement` that keep
- * it inside the screen — flipping above the trigger when the space below is too
- * small and there's more room above. Measures via untransformed `offset*` /
- * `getBoundingClientRect` so an in-flight scale/translate animation doesn't skew it.
+ * it inside the viewport and any scroll/clipping ancestor — flipping above the
+ * trigger when the usable space below is too small and there's more room above.
+ * Measures via untransformed `offset*` / `getBoundingClientRect` so an in-flight
+ * scale/translate animation doesn't skew it.
  */
 export function useAnchoredPosition(
     open: boolean,
@@ -52,28 +92,30 @@ export function useAnchoredPosition(
             const parent = el?.offsetParent as HTMLElement | null;
             if (!el || !parent) return;
             const parentRect = parent.getBoundingClientRect();
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
+            const bounds = getClippingBounds(el);
 
             // Natural (un-shifted) box in viewport coords. offsetLeft includes the
             // applied marginLeft, so remove the current shift first.
             const naturalLeft = parentRect.left + el.offsetLeft - shiftRef.current;
             const naturalRight = naturalLeft + el.offsetWidth;
             let dx = 0;
-            if (naturalRight > vw - gutter) dx = vw - gutter - naturalRight;
-            if (naturalLeft + dx < gutter) dx = gutter - naturalLeft;
+            if (naturalRight > bounds.right - gutter) dx = bounds.right - gutter - naturalRight;
+            if (naturalLeft + dx < bounds.left + gutter) dx = bounds.left + gutter - naturalLeft;
             dx = Math.round(dx);
 
             // Vertical: prefer opening downward, but flip up when the content can't fit below and
             // there's more room above. Each side's free space caps the panel height (with an
             // internal scroll region taking over past minHeight).
-            const belowSpace = Math.floor(vh - parentRect.bottom - gutter);
-            const aboveSpace = Math.floor(parentRect.top - gutter);
+            const belowSpace = Math.max(0, Math.floor(bounds.bottom - parentRect.bottom - gutter));
+            const aboveSpace = Math.max(0, Math.floor(parentRect.top - bounds.top - gutter));
             const naturalHeight = el.scrollHeight;
+            const preferredHeight = Math.min(naturalHeight, minHeight);
             const placement: "top" | "bottom" =
-                belowSpace >= naturalHeight || belowSpace >= aboveSpace ? "bottom" : "top";
+                belowSpace >= preferredHeight || belowSpace >= aboveSpace ? "bottom" : "top";
             const side = placement === "bottom" ? belowSpace : aboveSpace;
-            const maxHeight = naturalHeight > side ? Math.max(side, minHeight) : undefined;
+            // A cap must never exceed the actual clipping boundary. Containment
+            // wins over the preferred minimum on genuinely small containers.
+            const maxHeight = naturalHeight > side ? side : undefined;
 
             shiftRef.current = dx;
             setPos({ shift: dx, maxHeight, placement });
