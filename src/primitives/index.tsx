@@ -153,28 +153,33 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         // Associate the inline error with the field so screen readers announce it.
         const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || undefined;
         return (
-            <div className="relative">
-                {icon && (
-                    <div aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                        {icon}
-                    </div>
-                )}
-                <input
-                    ref={ref}
-                    id={fieldId}
-                    aria-invalid={error ? true : undefined}
-                    aria-describedby={describedByIds}
-                    className={cn(
-                        "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
-                        "placeholder:text-muted-foreground",
-                        "focus:border-ring focus:ring-2 focus:ring-ring/20",
-                        "disabled:opacity-50 disabled:cursor-not-allowed",
-                        icon && "pl-10",
-                        error ? "border-(--error) focus:border-(--error)" : "border-border",
-                        className
+            <div>
+                {/* Keep positioned adornments relative to the field itself. The
+                    error row changes the outer wrapper's height and must never
+                    move an icon away from the input's vertical centre. */}
+                <div className="relative">
+                    {icon && (
+                        <div aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                            {icon}
+                        </div>
                     )}
-                    {...props}
-                />
+                    <input
+                        ref={ref}
+                        id={fieldId}
+                        aria-invalid={error ? true : undefined}
+                        aria-describedby={describedByIds}
+                        className={cn(
+                            "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+                            "placeholder:text-muted-foreground",
+                            "focus:border-ring focus:ring-2 focus:ring-ring/20",
+                            "disabled:opacity-50 disabled:cursor-not-allowed",
+                            icon && "pl-10",
+                            error ? "border-(--error) focus:border-(--error)" : "border-border",
+                            className
+                        )}
+                        {...props}
+                    />
+                </div>
                 {error && (
                     <p id={errorId} className="mt-1.5 text-xs text-error flex items-center gap-1">
                         <AlertCircle aria-hidden="true" className="w-3 h-3" />

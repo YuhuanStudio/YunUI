@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { AgentTimeline } from "../ai";
 import { ChatComposer } from "../chat";
 import { CodeBlock } from "../content";
-import { Dialog, DialogContent, DialogTitle, Switch } from "../index";
+import { Dialog, DialogContent, DialogTitle, Input, Switch } from "../index";
 import { SessionItem } from "../patterns";
 
 describe("source and package regression contracts", () => {
@@ -13,6 +13,24 @@ describe("source and package regression contracts", () => {
 
         expect(textbox.parentElement).toHaveClass("items-start", "px-3", "pt-2");
         expect(textbox).toHaveClass("min-h-7", "py-0");
+    });
+
+    it("keeps an input icon centred on the field when an error row appears", () => {
+        render(
+            <Input
+                aria-label="Password"
+                icon={<span data-testid="field-icon">icon</span>}
+                error="Passwords do not match"
+            />,
+        );
+
+        const input = screen.getByRole("textbox", { name: "Password" });
+        const icon = screen.getByTestId("field-icon");
+        const error = screen.getByText("Passwords do not match");
+
+        expect(icon.parentElement?.parentElement).toBe(input.parentElement);
+        expect(input.parentElement).toHaveClass("relative");
+        expect(error.parentElement).toBe(input.parentElement?.parentElement);
     });
 
     it("names the built-in dialog close button", () => {

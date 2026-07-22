@@ -1316,27 +1316,29 @@ var Input = React7.forwardRef(
     const fieldId = id ?? reactId;
     const errorId = error ? `${fieldId}-error` : void 0;
     const describedByIds = [describedBy, errorId].filter(Boolean).join(" ") || void 0;
-    return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-      icon && /* @__PURE__ */ jsx("div", { "aria-hidden": "true", className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground", children: icon }),
-      /* @__PURE__ */ jsx(
-        "input",
-        {
-          ref,
-          id: fieldId,
-          "aria-invalid": error ? true : void 0,
-          "aria-describedby": describedByIds,
-          className: cn(
-            "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
-            "placeholder:text-muted-foreground",
-            "focus:border-ring focus:ring-2 focus:ring-ring/20",
-            "disabled:opacity-50 disabled:cursor-not-allowed",
-            icon && "pl-10",
-            error ? "border-(--error) focus:border-(--error)" : "border-border",
-            className
-          ),
-          ...props
-        }
-      ),
+    return /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+        icon && /* @__PURE__ */ jsx("div", { "aria-hidden": "true", className: "absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground", children: icon }),
+        /* @__PURE__ */ jsx(
+          "input",
+          {
+            ref,
+            id: fieldId,
+            "aria-invalid": error ? true : void 0,
+            "aria-describedby": describedByIds,
+            className: cn(
+              "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+              "placeholder:text-muted-foreground",
+              "focus:border-ring focus:ring-2 focus:ring-ring/20",
+              "disabled:opacity-50 disabled:cursor-not-allowed",
+              icon && "pl-10",
+              error ? "border-(--error) focus:border-(--error)" : "border-border",
+              className
+            ),
+            ...props
+          }
+        )
+      ] }),
       error && /* @__PURE__ */ jsxs("p", { id: errorId, className: "mt-1.5 text-xs text-error flex items-center gap-1", children: [
         /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": "true", className: "w-3 h-3" }),
         error
@@ -2520,5 +2522,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-6PT3JVLZ.js.map
-//# sourceMappingURL=chunk-6PT3JVLZ.js.map
+//# sourceMappingURL=chunk-467D6RCI.js.map
+//# sourceMappingURL=chunk-467D6RCI.js.map
