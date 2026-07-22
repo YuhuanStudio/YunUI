@@ -1,7 +1,7 @@
 "use client";
 import { cn, useAnchoredPosition } from './chunk-N4QO7RN5.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
-import * as React3 from 'react';
+import * as React4 from 'react';
 import { forwardRef, useState, useEffect, useRef, useId, useMemo } from 'react';
 import { ChevronDown, Search, Loader2, X, ArrowRight, AlertTriangle, Info, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -363,6 +363,24 @@ function ShinyButton({
   }
   return /* @__PURE__ */ jsx("button", { type: "button", onClick, className: focusCls, children: ButtonContent });
 }
+var TextShimmer = React4.forwardRef(
+  ({ text, active = true, className, ...props }, ref) => /* @__PURE__ */ jsx(
+    "span",
+    {
+      ref,
+      "aria-label": text,
+      "data-active": active ? "true" : "false",
+      "data-yunui": "text-shimmer",
+      className: cn("yunui-text-shimmer", className),
+      ...props,
+      children: /* @__PURE__ */ jsxs("span", { className: "yunui-text-shimmer__paint", "aria-hidden": "true", children: [
+        /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__base", children: text }),
+        /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__sweep", children: text })
+      ] })
+    }
+  )
+);
+TextShimmer.displayName = "TextShimmer";
 function Marquee({
   className,
   reverse,
@@ -464,7 +482,7 @@ var CollapsibleContent2 = forwardRef(({ children, ...props }, ref) => {
 CollapsibleContent2.displayName = Primitive.CollapsibleContent.displayName;
 var Popover = PopoverPrimitive.Root;
 var PopoverTrigger = PopoverPrimitive.Trigger;
-var PopoverContent = React3.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var PopoverContent = React4.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   PopoverPrimitive.Content,
   {
     ref,
@@ -481,7 +499,7 @@ var PopoverContent = React3.forwardRef(({ className, align = "center", sideOffse
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 var PopoverClose2 = PopoverPrimitive.PopoverClose;
 var PopoverAnchor = PopoverPrimitive.Anchor;
-var ScrollArea = React3.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var ScrollArea = React4.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
   ScrollAreaPrimitive.Root,
   {
     ref,
@@ -495,7 +513,7 @@ var ScrollArea = React3.forwardRef(({ className, children, ...props }, ref) => /
   }
 ));
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
-var ScrollBar = React3.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ jsx(
+var ScrollBar = React4.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ jsx(
   ScrollAreaPrimitive.ScrollAreaScrollbar,
   {
     ref,
@@ -1167,8 +1185,8 @@ function readTheme(el) {
 }
 var STORAGE_KEY = "yunui-theme";
 function useYunUITheme(defaults = {}) {
-  const [theme, setTheme] = React3.useState(defaults);
-  React3.useEffect(() => {
+  const [theme, setTheme] = React4.useState(defaults);
+  React4.useEffect(() => {
     let stored = {};
     try {
       stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
@@ -1178,7 +1196,7 @@ function useYunUITheme(defaults = {}) {
     setTheme(merged);
     applyTheme(merged);
   }, []);
-  const update = React3.useCallback((patch) => {
+  const update = React4.useCallback((patch) => {
     setTheme((prev) => {
       const next = { ...prev, ...patch };
       applyTheme(next);
@@ -1192,6 +1210,6 @@ function useYunUITheme(defaults = {}) {
   return [theme, update];
 }
 
-export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-RBXDVCI3.js.map
-//# sourceMappingURL=chunk-RBXDVCI3.js.map
+export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, TextShimmer, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
+//# sourceMappingURL=chunk-CA2HZZNQ.js.map
+//# sourceMappingURL=chunk-CA2HZZNQ.js.map

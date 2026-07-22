@@ -2704,6 +2704,74 @@ html {
   }
 }
 
+/* Accessible transient-status text. The stationary layer is always present as
+   a fallback; supporting browsers cross-fade to the clipped sweep. */
+.yunui-text-shimmer {
+  --yunui-text-shimmer-base: var(--text-tertiary);
+  --yunui-text-shimmer-peak: var(--text-primary);
+  display: inline-flex;
+  min-width: 0;
+  color: var(--yunui-text-shimmer-base);
+  font: inherit;
+  line-height: inherit;
+}
+
+.yunui-text-shimmer__paint,
+.yunui-text-shimmer__base,
+.yunui-text-shimmer__sweep {
+  min-width: 0;
+  font: inherit;
+  line-height: inherit;
+}
+
+.yunui-text-shimmer__paint {
+  display: inline-grid;
+}
+
+.yunui-text-shimmer__base,
+.yunui-text-shimmer__sweep {
+  grid-area: 1 / 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: opacity 180ms ease-out;
+}
+
+.yunui-text-shimmer__sweep {
+  opacity: 0;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .yunui-text-shimmer[data-active="true"] .yunui-text-shimmer__base {
+    opacity: 0;
+  }
+
+  .yunui-text-shimmer[data-active="true"] .yunui-text-shimmer__sweep {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      90deg,
+      var(--yunui-text-shimmer-base) 20%,
+      var(--yunui-text-shimmer-peak) 48%,
+      var(--yunui-text-shimmer-base) 76%
+    );
+    background-position: 120% 0;
+    background-repeat: no-repeat;
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 1;
+    animation: yunui-text-shimmer 1.65s linear infinite;
+    will-change: background-position;
+  }
+}
+
+@keyframes yunui-text-shimmer {
+  to {
+    background-position: -120% 0;
+  }
+}
+
 /* Reduced-motion reset — when the user asks for less motion, neutralize all
    animations/transitions (skeleton shimmer, marquee, shimmer buttons, pulses,
    typing cursors, particles, framer-motion, Radix data-state animations…).

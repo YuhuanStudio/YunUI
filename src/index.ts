@@ -13,6 +13,7 @@ export { CustomSelect, type SelectOption } from "./primitives/custom-select";
 export { SegmentedSelect, type SegmentedOption } from "./primitives/segmented-select";
 export { NavTabs, type NavTab } from "./primitives/nav-tabs";
 export { ShinyButton } from "./primitives/shiny-button";
+export { TextShimmer, type TextShimmerProps } from "./primitives/text-shimmer";
 export { Marquee } from "./primitives/marquee";
 export { BentoGrid, BentoCard } from "./primitives/bento-grid";
 export {
