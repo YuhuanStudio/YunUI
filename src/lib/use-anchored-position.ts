@@ -27,6 +27,21 @@ interface ClippingBounds {
 
 const CLIPPING_OVERFLOW = /^(auto|scroll|hidden|clip|overlay)$/;
 
+function getClippingAncestors(element: HTMLElement): HTMLElement[] {
+    const ancestors: HTMLElement[] = [];
+    for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
+        if (ancestor === document.body || ancestor === document.documentElement) continue;
+        const style = window.getComputedStyle(ancestor);
+        if (
+            CLIPPING_OVERFLOW.test(style.overflowX || style.overflow)
+            || CLIPPING_OVERFLOW.test(style.overflowY || style.overflow)
+        ) {
+            ancestors.push(ancestor);
+        }
+    }
+    return ancestors;
+}
+
 /** Intersect the viewport with every ancestor that can clip descendants. */
 function getClippingBounds(element: HTMLElement): ClippingBounds {
     const bounds: ClippingBounds = {
@@ -36,12 +51,10 @@ function getClippingBounds(element: HTMLElement): ClippingBounds {
         left: 0,
     };
 
-    for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
-        if (ancestor === document.body || ancestor === document.documentElement) continue;
+    for (const ancestor of getClippingAncestors(element)) {
         const style = window.getComputedStyle(ancestor);
         const clipsX = CLIPPING_OVERFLOW.test(style.overflowX || style.overflow);
         const clipsY = CLIPPING_OVERFLOW.test(style.overflowY || style.overflow);
-        if (!clipsX && !clipsY) continue;
 
         const rect = ancestor.getBoundingClientRect();
         if (clipsX) {
@@ -84,13 +97,14 @@ export function useAnchoredPosition(
             setPos({ shift: 0, maxHeight: undefined, placement: "bottom" });
             return;
         }
+        const el = panelRef.current;
+        // offsetParent is the panel's positioned ancestor — the `relative` wrapper that also
+        // holds the trigger, so its rect approximates the trigger box (the absolute panel adds
+        // no height to it).
+        const parent = el?.offsetParent as HTMLElement | null;
+        if (!el || !parent) return;
+
         const compute = () => {
-            const el = panelRef.current;
-            // offsetParent is the panel's positioned ancestor — the `relative` wrapper that also
-            // holds the trigger, so its rect approximates the trigger box (the absolute panel adds
-            // no height to it).
-            const parent = el?.offsetParent as HTMLElement | null;
-            if (!el || !parent) return;
             const parentRect = parent.getBoundingClientRect();
             const bounds = getClippingBounds(el);
 
@@ -118,13 +132,32 @@ export function useAnchoredPosition(
             const maxHeight = naturalHeight > side ? side : undefined;
 
             shiftRef.current = dx;
-            setPos({ shift: dx, maxHeight, placement });
+            setPos((current) => (
+                current.shift === dx
+                && current.maxHeight === maxHeight
+                && current.placement === placement
+                    ? current
+                    : { shift: dx, maxHeight, placement }
+            ));
         };
 
         compute();
+        // The viewport is not the only thing that can change while a panel is
+        // open. Filtering a combobox, loading options asynchronously, changing
+        // fonts, or resizing a dialog can alter the panel/anchor/clipping boxes
+        // without emitting a window resize event. Observe every box that feeds
+        // the calculation so placement and height stay current.
+        const resizeObserver = typeof ResizeObserver !== "undefined"
+            ? new ResizeObserver(compute)
+            : null;
+        if (resizeObserver) {
+            const observed = new Set<HTMLElement>([el, parent, ...getClippingAncestors(el)]);
+            observed.forEach((element) => resizeObserver.observe(element));
+        }
         window.addEventListener("resize", compute);
         window.addEventListener("scroll", compute, true);
         return () => {
+            resizeObserver?.disconnect();
             window.removeEventListener("resize", compute);
             window.removeEventListener("scroll", compute, true);
         };

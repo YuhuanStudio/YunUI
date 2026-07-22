@@ -9,6 +9,17 @@ function cn(...inputs) {
 }
 var useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 var CLIPPING_OVERFLOW = /^(auto|scroll|hidden|clip|overlay)$/;
+function getClippingAncestors(element) {
+  const ancestors = [];
+  for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
+    if (ancestor === document.body || ancestor === document.documentElement) continue;
+    const style = window.getComputedStyle(ancestor);
+    if (CLIPPING_OVERFLOW.test(style.overflowX || style.overflow) || CLIPPING_OVERFLOW.test(style.overflowY || style.overflow)) {
+      ancestors.push(ancestor);
+    }
+  }
+  return ancestors;
+}
 function getClippingBounds(element) {
   const bounds = {
     top: 0,
@@ -16,12 +27,10 @@ function getClippingBounds(element) {
     bottom: window.innerHeight,
     left: 0
   };
-  for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
-    if (ancestor === document.body || ancestor === document.documentElement) continue;
+  for (const ancestor of getClippingAncestors(element)) {
     const style = window.getComputedStyle(ancestor);
     const clipsX = CLIPPING_OVERFLOW.test(style.overflowX || style.overflow);
     const clipsY = CLIPPING_OVERFLOW.test(style.overflowY || style.overflow);
-    if (!clipsX && !clipsY) continue;
     const rect = ancestor.getBoundingClientRect();
     if (clipsX) {
       bounds.left = Math.max(bounds.left, rect.left);
@@ -45,10 +54,10 @@ function useAnchoredPosition(open, panelRef, opts) {
       setPos({ shift: 0, maxHeight: void 0, placement: "bottom" });
       return;
     }
+    const el = panelRef.current;
+    const parent = el?.offsetParent;
+    if (!el || !parent) return;
     const compute = () => {
-      const el = panelRef.current;
-      const parent = el?.offsetParent;
-      if (!el || !parent) return;
       const parentRect = parent.getBoundingClientRect();
       const bounds = getClippingBounds(el);
       const naturalLeft = parentRect.left + el.offsetLeft - shiftRef.current;
@@ -65,12 +74,18 @@ function useAnchoredPosition(open, panelRef, opts) {
       const side = placement === "bottom" ? belowSpace : aboveSpace;
       const maxHeight = naturalHeight > side ? side : void 0;
       shiftRef.current = dx;
-      setPos({ shift: dx, maxHeight, placement });
+      setPos((current) => current.shift === dx && current.maxHeight === maxHeight && current.placement === placement ? current : { shift: dx, maxHeight, placement });
     };
     compute();
+    const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(compute) : null;
+    if (resizeObserver) {
+      const observed = /* @__PURE__ */ new Set([el, parent, ...getClippingAncestors(el)]);
+      observed.forEach((element) => resizeObserver.observe(element));
+    }
     window.addEventListener("resize", compute);
     window.addEventListener("scroll", compute, true);
     return () => {
+      resizeObserver?.disconnect();
       window.removeEventListener("resize", compute);
       window.removeEventListener("scroll", compute, true);
     };
@@ -79,5 +94,5 @@ function useAnchoredPosition(open, panelRef, opts) {
 }
 
 export { cn, useAnchoredPosition };
-//# sourceMappingURL=chunk-XTIDJ7F6.js.map
-//# sourceMappingURL=chunk-XTIDJ7F6.js.map
+//# sourceMappingURL=chunk-N4QO7RN5.js.map
+//# sourceMappingURL=chunk-N4QO7RN5.js.map
