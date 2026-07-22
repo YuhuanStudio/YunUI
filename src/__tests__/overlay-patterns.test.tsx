@@ -1,7 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Badge, Modal } from "../primitives";
+import { Badge, ConfirmModal, Modal } from "../primitives";
+import { ConfirmCloseDialog } from "../primitives/modal/ConfirmCloseDialog";
 import { FAQ } from "../patterns";
 import { YunUIProvider } from "../adapters/context";
 
@@ -39,6 +40,7 @@ describe("Modal", () => {
     );
 
     const dialog = screen.getByRole("dialog");
+    expect(dialog.className).toContain("pointer-events-auto");
     expect(dialog).toHaveAttribute("aria-modal", "true");
     expect(dialog).toHaveAttribute("aria-labelledby", "modal-title");
 
@@ -46,6 +48,29 @@ describe("Modal", () => {
     expect(title).toHaveAttribute("id", "modal-title");
 
     expect(screen.getByText("Hello content")).toBeInTheDocument();
+  });
+
+  it("keeps confirmation overlays interactive inside a parent modal", () => {
+    const { unmount } = renderWithProvider(
+      <ConfirmModal
+        isOpen
+        title="Delete?"
+        message="This item will be deleted."
+        onClose={() => {}}
+        onConfirm={() => {}}
+      />
+    );
+    expect(screen.getByRole("dialog").className).toContain("pointer-events-auto");
+    unmount();
+
+    renderWithProvider(
+      <ConfirmCloseDialog
+        isOpen
+        onDiscard={() => {}}
+        onKeepEditing={() => {}}
+      />
+    );
+    expect(screen.getByRole("dialog").className).toContain("pointer-events-auto");
   });
 
   it("renders the optional subtitle and footer", () => {

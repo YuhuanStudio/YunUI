@@ -166,7 +166,7 @@ export function Modal({
     const modalContent = (
         <div
             className={cn(
-                "fixed inset-0 flex items-center justify-center p-4 transition-opacity",
+                "fixed inset-0 pointer-events-auto flex items-center justify-center p-4 transition-opacity",
                 isClosing ? "opacity-0 pointer-events-none" : "opacity-100"
             )}
             style={{ zIndex: Z_INDEX.MODAL }}

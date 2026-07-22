@@ -256,7 +256,7 @@ function ConfirmModal({
     "div",
     {
       className: cn(
-        "fixed inset-0 flex items-center justify-center p-4 transition-opacity",
+        "fixed inset-0 pointer-events-auto flex items-center justify-center p-4 transition-opacity",
         isClosing ? "opacity-0 pointer-events-none" : "opacity-100"
       ),
       style: { zIndex: Z_INDEX.CONFIRM_DIALOG },
@@ -2458,7 +2458,7 @@ function Modal({
     "div",
     {
       className: cn(
-        "fixed inset-0 flex items-center justify-center p-4 transition-opacity",
+        "fixed inset-0 pointer-events-auto flex items-center justify-center p-4 transition-opacity",
         isClosing ? "opacity-0 pointer-events-none" : "opacity-100"
       ),
       style: { zIndex: Z_INDEX.MODAL },
@@ -2525,5 +2525,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-SSSYK7PT.js.map
-//# sourceMappingURL=chunk-SSSYK7PT.js.map
+//# sourceMappingURL=chunk-XDJ5WJ24.js.map
+//# sourceMappingURL=chunk-XDJ5WJ24.js.map
