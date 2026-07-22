@@ -1,9 +1,44 @@
 import { describe, it, expect, vi } from "vitest";
 import { useState } from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Checkbox, Slider, Tabs, TabsList, TabsTrigger, TabsContent, Label } from "../primitives";
+import { Checkbox, Combobox, Slider, Tabs, TabsList, TabsTrigger, TabsContent, Label } from "../primitives";
 import { Switch } from "../index";
+
+describe("Combobox", () => {
+  const options = [
+    { value: "runtime/internal/model-id", label: "Queue Model" },
+    { value: "runtime/other-model", label: "Other Model" },
+  ];
+
+  it("restores the selected label when Escape or an outside click cancels filtering", () => {
+    render(<Combobox options={options} value={options[0].value} onChange={() => {}} allowCustom={false} />);
+    const input = screen.getByRole("combobox");
+
+    fireEvent.change(input, { target: { value: "Queue" } });
+    fireEvent.keyDown(input, { key: "Escape" });
+    expect(input).toHaveValue("Queue Model");
+
+    fireEvent.change(input, { target: { value: "Other" } });
+    fireEvent.mouseDown(document.body);
+    expect(input).toHaveValue("Queue Model");
+  });
+
+  it("restores the label when closing with the toggle or reselecting the current value", () => {
+    const onChange = vi.fn();
+    render(<Combobox options={options} value={options[0].value} onChange={onChange} allowCustom={false} />);
+    const input = screen.getByRole("combobox");
+
+    fireEvent.change(input, { target: { value: "Queue" } });
+    fireEvent.click(screen.getByRole("button", { name: "Toggle options" }));
+    expect(input).toHaveValue("Queue Model");
+
+    fireEvent.change(input, { target: { value: "Queue" } });
+    fireEvent.click(screen.getByRole("option", { name: "Queue Model" }));
+    expect(onChange).toHaveBeenCalledWith(options[0].value);
+    expect(input).toHaveValue("Queue Model");
+  });
+});
 
 // -----------------------------------------------------------------------------
 // Switch — custom controlled <button role="switch"> (NOT Radix). It is a fully
