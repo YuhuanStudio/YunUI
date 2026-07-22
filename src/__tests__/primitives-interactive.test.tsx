@@ -225,6 +225,9 @@ describe("Tabs", () => {
       "aria-selected",
       "false"
     );
+    expect(screen.getByRole("tab", { name: "Password" })).toHaveClass(
+      "data-[state=inactive]:text-foreground/70"
+    );
 
     expect(screen.getByText("Account panel")).toBeInTheDocument();
     // Inactive Radix panels are not mounted by default.
