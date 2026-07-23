@@ -2125,11 +2125,12 @@ function AvatarGroup({ className, max, children, ...props }) {
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React7.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(
+var TooltipContent = React7.forwardRef(({ className, sideOffset = 4, collisionPadding = 8, ...props }, ref) => /* @__PURE__ */ jsx(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   TooltipPrimitive.Content,
   {
     ref,
     sideOffset,
+    collisionPadding,
     className: cn(
       "z-50 overflow-hidden rounded-lg bg-foreground px-3 py-1.5 text-xs text-background shadow-lg",
       "animate-in fade-in-0 zoom-in-95",
@@ -2137,7 +2138,7 @@ var TooltipContent = React7.forwardRef(({ className, sideOffset = 4, ...props },
     ),
     ...props
   }
-));
+) }));
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 function Skeleton({ className, ...props }) {
   return /* @__PURE__ */ jsx(
@@ -2525,5 +2526,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-XDJ5WJ24.js.map
-//# sourceMappingURL=chunk-XDJ5WJ24.js.map
+//# sourceMappingURL=chunk-5AM2SB5C.js.map
+//# sourceMappingURL=chunk-5AM2SB5C.js.map

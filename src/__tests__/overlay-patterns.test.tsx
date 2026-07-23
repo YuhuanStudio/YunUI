@@ -1,7 +1,15 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Badge, ConfirmModal, Modal } from "../primitives";
+import {
+  Badge,
+  ConfirmModal,
+  Modal,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../primitives";
 import { ConfirmCloseDialog } from "../primitives/modal/ConfirmCloseDialog";
 import { FAQ } from "../patterns";
 import { YunUIProvider } from "../adapters/context";
@@ -13,13 +21,33 @@ import { YunUIProvider } from "../adapters/context";
  * useYunUI().useT) are wrapped in <YunUIProvider> with the identity translator,
  * so t("close") -> "close", t("unsaved") -> "unsaved".
  *
- * Tooltip is intentionally skipped: the exported Tooltip primitives wrap
- * @radix-ui/react-tooltip, which only mounts content into a portal after a real
- * pointer-hover open delay using layout/pointer APIs jsdom doesn't implement.
+ * Controlled Tooltip coverage avoids pointer/layout behavior that jsdom does
+ * not implement while still enforcing the overlay's portal contract.
  */
 
 const renderWithProvider = (ui: React.ReactElement) =>
   render(<YunUIProvider adapters={{ useT: () => (k) => k }}>{ui}</YunUIProvider>);
+
+describe("Tooltip", () => {
+  it("portals content outside clipping ancestors", () => {
+    render(
+      <div data-testid="clipping-parent" style={{ overflow: "hidden" }}>
+        <TooltipProvider>
+          <Tooltip open>
+            <TooltipTrigger asChild>
+              <button type="button">Details</button>
+            </TooltipTrigger>
+            <TooltipContent>Context details</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    );
+
+    expect(screen.getByRole("tooltip")).not.toBe(
+      screen.getByTestId("clipping-parent").querySelector('[role="tooltip"]')
+    );
+  });
+});
 
 describe("Modal", () => {
   it("renders nothing when isOpen is false", () => {
