@@ -1,7 +1,8 @@
 "use client";
 
 import { type ElementType, type ReactNode } from "react";
-import { Spinner } from "../index";
+import { AlertCircle } from "lucide-react";
+import { Button, Spinner } from "../index";
 
 interface PageLoadingStateProps {
     /** Optional text shown beside the spinner. */
@@ -21,24 +22,33 @@ export function PageLoadingState({ message }: PageLoadingStateProps) {
 interface PageErrorStateProps {
     /** Error message to display. */
     message: string;
-    /** When provided, shows a retry link that calls this. */
+    /** When provided, shows a retry button that calls this. */
     onRetry?: () => void;
-    /** Label for the retry link. @defaultValue "Retry" */
+    /** Label for the retry button. @defaultValue "Retry" */
     retryLabel?: string;
 }
 
-/** Centered in-page error state with an optional retry link. */
+/** Centered, compact in-page error state with an optional retry action. */
 export function PageErrorState({ message, onRetry, retryLabel = "Retry" }: PageErrorStateProps) {
     return (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="text-error font-medium mb-2">{message}</div>
+        <div
+            role="alert"
+            className="mx-auto flex w-full max-w-sm flex-col items-center justify-center px-4 py-12 text-center"
+        >
+            <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-error-soft">
+                <AlertCircle size={20} className="text-error" aria-hidden="true" />
+            </span>
+            <div className="max-w-full text-sm font-medium leading-6 text-foreground">{message}</div>
             {onRetry && (
-                <button
+                <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
                     onClick={onRetry}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors underline outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+                    className="mt-4 min-w-20"
                 >
                     {retryLabel}
-                </button>
+                </Button>
             )}
         </div>
     );

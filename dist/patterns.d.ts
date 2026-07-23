@@ -238,12 +238,12 @@ declare function PageLoadingState({ message }: PageLoadingStateProps): React$1.J
 interface PageErrorStateProps {
     /** Error message to display. */
     message: string;
-    /** When provided, shows a retry link that calls this. */
+    /** When provided, shows a retry button that calls this. */
     onRetry?: () => void;
-    /** Label for the retry link. @defaultValue "Retry" */
+    /** Label for the retry button. @defaultValue "Retry" */
     retryLabel?: string;
 }
-/** Centered in-page error state with an optional retry link. */
+/** Centered, compact in-page error state with an optional retry action. */
 declare function PageErrorState({ message, onRetry, retryLabel }: PageErrorStateProps): React$1.JSX.Element;
 interface PageEmptyStateProps {
     /** Optional icon component shown above the title. */

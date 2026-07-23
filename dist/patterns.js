@@ -759,17 +759,28 @@ function PageLoadingState({ message }) {
   ] });
 }
 function PageErrorState({ message, onRetry, retryLabel = "Retry" }) {
-  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
-    /* @__PURE__ */ jsx("div", { className: "text-error font-medium mb-2", children: message }),
-    onRetry && /* @__PURE__ */ jsx(
-      "button",
-      {
-        onClick: onRetry,
-        className: "text-sm text-muted-foreground hover:text-foreground transition-colors underline outline-none focus-visible:ring-2 focus-visible:ring-ring rounded",
-        children: retryLabel
-      }
-    )
-  ] });
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      role: "alert",
+      className: "mx-auto flex w-full max-w-sm flex-col items-center justify-center px-4 py-12 text-center",
+      children: [
+        /* @__PURE__ */ jsx("span", { className: "mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-error-soft", children: /* @__PURE__ */ jsx(AlertCircle, { size: 20, className: "text-error", "aria-hidden": "true" }) }),
+        /* @__PURE__ */ jsx("div", { className: "max-w-full text-sm font-medium leading-6 text-foreground", children: message }),
+        onRetry && /* @__PURE__ */ jsx(
+          Button,
+          {
+            type: "button",
+            variant: "outline",
+            size: "sm",
+            onClick: onRetry,
+            className: "mt-4 min-w-20",
+            children: retryLabel
+          }
+        )
+      ]
+    }
+  );
 }
 function PageEmptyState({ icon: Icon, title, description, action }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
