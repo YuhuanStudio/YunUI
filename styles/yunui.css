@@ -2711,6 +2711,8 @@ html {
   --yunui-text-shimmer-peak: var(--text-primary);
   display: inline-flex;
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   color: var(--yunui-text-shimmer-base);
   font: inherit;
   line-height: inherit;
@@ -2726,10 +2728,14 @@ html {
 
 .yunui-text-shimmer__paint {
   display: inline-grid;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .yunui-text-shimmer__base,
 .yunui-text-shimmer__sweep {
+  width: 100%;
   grid-area: 1 / 1;
   overflow: hidden;
   text-overflow: ellipsis;
