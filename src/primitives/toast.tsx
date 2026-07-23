@@ -11,6 +11,11 @@ export function Toaster() {
     return (
         <SonnerToaster
             position="bottom-right"
+            // Sonner's collapsed stack renders older notifications as empty
+            // card backs. In dense application shells that reads as a broken
+            // overlay and can cover controls. Keep the latest notification
+            // visible; queued toasts still retain their normal lifetime.
+            visibleToasts={1}
             toastOptions={{
                 classNames: {
                     toast: "bg-card border border-border rounded-xl shadow-lg p-4",
