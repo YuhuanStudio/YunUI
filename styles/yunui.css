@@ -2749,7 +2749,10 @@ html {
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .yunui-text-shimmer[data-active="true"] .yunui-text-shimmer__base {
-    opacity: 0;
+    /* Keep the complete label painted below the moving highlight. Making the
+       base transparent causes the leading/trailing glyphs to disappear while
+       the non-repeating gradient moves beyond them, especially in WebKit. */
+    opacity: 1;
   }
 
   .yunui-text-shimmer[data-active="true"] .yunui-text-shimmer__sweep {
