@@ -22,6 +22,11 @@ patch = fixes, anything may change between 0.x releases).
   and fully backward-compatible.
 
 ### Fixed
+- **`CodeBlock` no longer pulls Shiki's full language catalogue into host builds.** The content
+  renderer now uses Shiki core with explicit lazy grammar/theme loaders and the JavaScript regex
+  engine. Common application and LLM-output languages retain VS Code-grade highlighting; unknown
+  fence labels fall back to escaped plaintext. This keeps `MarkdownRenderer` on demand in practice,
+  instead of making Next/Vite discover and compile hundreds of unused language modules.
 - **Overlays are no longer see-through** — dropdown menus, selects, comboboxes, popovers, the
   language & theme switchers, the mobile navbar sheet and the notification panel were painted with a
   60%-opaque `bg-background/60` frosted panel, so content behind them showed through and read as if

@@ -20,9 +20,10 @@ interface CodeBlockProps {
 }
 /**
  * Syntax-highlighted code block powered by Shiki (accurate, VS Code-grade
- * highlighting for 100+ languages). Shiki is loaded on demand the first time a
- * block renders, so it never ships in the initial bundle. Supports line numbers,
- * highlighted lines, a filename header, copy, and an optional edit action.
+ * highlighting for common application and LLM output languages). Shiki core,
+ * the selected grammar, and the selected theme load on demand. Supports line
+ * numbers, highlighted lines, a filename header, copy, and an optional edit
+ * action. Unknown fence labels degrade to escaped plaintext.
  */
 declare function CodeBlock({ children, language, showLineNumbers, highlightLines, filename, className, onEdit, }: CodeBlockProps): React.JSX.Element;
 /** Inline code (`` `code` ``) — used by the markdown renderer. */

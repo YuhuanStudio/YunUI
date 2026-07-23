@@ -13,6 +13,8 @@ import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
 import { Edit3, Check, Copy, CheckCircle2, XOctagon, AlertTriangle, AlertCircle, Lightbulb, Info, ExternalLink, Link2 } from 'lucide-react';
+import { createdBundledHighlighter, createSingletonShorthands } from 'shiki/core';
+import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import katex from 'katex';
 
@@ -71,6 +73,75 @@ var langExtMap = {
   shell: "sh",
   markdown: "md"
 };
+var shikiLanguages = {
+  bash: () => import('shiki/langs/bash.mjs'),
+  c: () => import('shiki/langs/c.mjs'),
+  cpp: () => import('shiki/langs/cpp.mjs'),
+  css: () => import('shiki/langs/css.mjs'),
+  diff: () => import('shiki/langs/diff.mjs'),
+  dockerfile: () => import('shiki/langs/dockerfile.mjs'),
+  go: () => import('shiki/langs/go.mjs'),
+  graphql: () => import('shiki/langs/graphql.mjs'),
+  html: () => import('shiki/langs/html.mjs'),
+  java: () => import('shiki/langs/java.mjs'),
+  javascript: () => import('shiki/langs/javascript.mjs'),
+  json: () => import('shiki/langs/json.mjs'),
+  jsx: () => import('shiki/langs/jsx.mjs'),
+  kotlin: () => import('shiki/langs/kotlin.mjs'),
+  markdown: () => import('shiki/langs/markdown.mjs'),
+  php: () => import('shiki/langs/php.mjs'),
+  powershell: () => import('shiki/langs/powershell.mjs'),
+  python: () => import('shiki/langs/python.mjs'),
+  ruby: () => import('shiki/langs/ruby.mjs'),
+  rust: () => import('shiki/langs/rust.mjs'),
+  sass: () => import('shiki/langs/sass.mjs'),
+  scss: () => import('shiki/langs/scss.mjs'),
+  sql: () => import('shiki/langs/sql.mjs'),
+  svelte: () => import('shiki/langs/svelte.mjs'),
+  swift: () => import('shiki/langs/swift.mjs'),
+  tsx: () => import('shiki/langs/tsx.mjs'),
+  typescript: () => import('shiki/langs/typescript.mjs'),
+  vue: () => import('shiki/langs/vue.mjs'),
+  xml: () => import('shiki/langs/xml.mjs'),
+  yaml: () => import('shiki/langs/yaml.mjs')
+};
+var shikiLanguageAliases = {
+  cxx: "cpp",
+  docker: "dockerfile",
+  js: "javascript",
+  kt: "kotlin",
+  md: "markdown",
+  py: "python",
+  rb: "ruby",
+  rs: "rust",
+  sh: "bash",
+  shell: "bash",
+  ts: "typescript",
+  yml: "yaml",
+  zsh: "bash"
+};
+var shikiThemes = {
+  "github-dark": () => import('shiki/themes/github-dark.mjs'),
+  "github-light": () => import('shiki/themes/github-light.mjs')
+};
+var createContentHighlighter = createdBundledHighlighter({
+  langs: shikiLanguages,
+  themes: shikiThemes,
+  // The JavaScript regex engine avoids a WASM payload and is sufficient for
+  // browser-side highlighting of the curated grammar set above.
+  engine: () => createJavaScriptRegexEngine()
+});
+var { codeToHtml: highlightToHtml } = createSingletonShorthands(
+  createContentHighlighter
+);
+function resolveShikiLanguage(language) {
+  const normalized = language.trim().toLowerCase();
+  if (!normalized || normalized === "text" || normalized === "plaintext") {
+    return "plaintext";
+  }
+  if (normalized in shikiLanguages) return normalized;
+  return shikiLanguageAliases[normalized] ?? "plaintext";
+}
 function useIsDarkMode() {
   const [isDark, setIsDark] = useState(false);
   useEffect(() => {
@@ -114,10 +185,9 @@ function CodeBlock({
     async function highlight() {
       setIsLoading(true);
       try {
-        const { codeToHtml } = await import('shiki');
         const theme = isDark ? "github-dark" : "github-light";
-        const lang = language?.toLowerCase() || "plaintext";
-        const html = await codeToHtml(code, {
+        const lang = resolveShikiLanguage(language || "plaintext");
+        const html = await highlightToHtml(code, {
           lang,
           theme,
           transformers: [
