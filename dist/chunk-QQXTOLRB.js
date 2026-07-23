@@ -1056,6 +1056,7 @@ function Toaster() {
     Toaster$1,
     {
       position: "bottom-right",
+      visibleToasts: 1,
       toastOptions: {
         classNames: {
           toast: "bg-card border border-border rounded-xl shadow-lg p-4",
@@ -1211,5 +1212,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, TextShimmer, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-CA2HZZNQ.js.map
-//# sourceMappingURL=chunk-CA2HZZNQ.js.map
+//# sourceMappingURL=chunk-QQXTOLRB.js.map
+//# sourceMappingURL=chunk-QQXTOLRB.js.map
