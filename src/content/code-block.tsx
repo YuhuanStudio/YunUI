@@ -4,8 +4,9 @@ import * as React from "react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Check, Copy, Edit3 } from "lucide-react";
 import {
-  createSingletonShorthands,
-  createdBundledHighlighter,
+  createHighlighterCore,
+  type HighlighterGeneric,
+  type ShikiTransformer,
 } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import { cn } from "../lib/cn";
@@ -149,17 +150,70 @@ const shikiThemes = {
   "github-light": () => import("shiki/themes/github-light.mjs"),
 } as const;
 
-const createContentHighlighter = createdBundledHighlighter({
-  langs: shikiLanguages,
-  themes: shikiThemes,
-  // The JavaScript regex engine avoids a WASM payload and is sufficient for
-  // browser-side highlighting of the curated grammar set above.
-  engine: () => createJavaScriptRegexEngine(),
-});
+type ShikiTheme = keyof typeof shikiThemes;
+type ContentHighlighter = HighlighterGeneric<ShikiLanguage, ShikiTheme>;
 
-const { codeToHtml: highlightToHtml } = createSingletonShorthands(
-  createContentHighlighter,
-);
+let contentHighlighterPromise: Promise<ContentHighlighter> | undefined;
+const languageLoadPromises = new Map<ShikiLanguage, Promise<void>>();
+const themeLoadPromises = new Map<ShikiTheme, Promise<void>>();
+
+function getContentHighlighter(): Promise<ContentHighlighter> {
+  contentHighlighterPromise ??= createHighlighterCore({
+    // The JavaScript regex engine avoids a WASM payload and is sufficient for
+    // browser-side highlighting of the curated grammar set above.
+    engine: createJavaScriptRegexEngine(),
+  }) as Promise<ContentHighlighter>;
+  return contentHighlighterPromise;
+}
+
+async function ensureLanguage(
+  highlighter: ContentHighlighter,
+  language: ShikiLanguage | "plaintext",
+) {
+  if (language === "plaintext" || highlighter.getLoadedLanguages().includes(language)) {
+    return;
+  }
+  let pending = languageLoadPromises.get(language);
+  if (!pending) {
+    pending = (async () => {
+      const registration = (await shikiLanguages[language]()).default;
+      await highlighter.loadLanguage(registration);
+    })();
+    languageLoadPromises.set(language, pending);
+  }
+  await pending;
+}
+
+async function ensureTheme(highlighter: ContentHighlighter, theme: ShikiTheme) {
+  if (highlighter.getLoadedThemes().includes(theme)) return;
+  let pending = themeLoadPromises.get(theme);
+  if (!pending) {
+    pending = (async () => {
+      const registration = (await shikiThemes[theme]()).default;
+      await highlighter.loadTheme(registration);
+    })();
+    themeLoadPromises.set(theme, pending);
+  }
+  await pending;
+}
+
+async function highlightToHtml(
+  code: string,
+  options: {
+    lang: ShikiLanguage | "plaintext";
+    theme: ShikiTheme;
+    transformers?: ShikiTransformer[];
+  },
+) {
+  const highlighter = await getContentHighlighter();
+  const language = options.lang as ShikiLanguage | "plaintext";
+  const theme = options.theme as ShikiTheme;
+  await Promise.all([
+    ensureLanguage(highlighter, language),
+    ensureTheme(highlighter, theme),
+  ]);
+  return highlighter.codeToHtml(code, options);
+}
 
 function resolveShikiLanguage(language: string): ShikiLanguage | "plaintext" {
   const normalized = language.trim().toLowerCase();
