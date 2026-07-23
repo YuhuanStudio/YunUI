@@ -45,6 +45,7 @@ export {
   getProviderName,
   getIconPath,
   getDeveloperIconPath,
+  getModelDeveloperId,
   getProviderIconOptions,
   normalizeProviderId,
   ProviderNames,

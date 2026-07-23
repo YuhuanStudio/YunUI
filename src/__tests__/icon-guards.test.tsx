@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import {
   ProviderIcon,
   getIconPath,
+  getModelDeveloperId,
   getProviderName,
   normalizeProviderId,
 } from "../ai";
@@ -28,5 +29,12 @@ describe("AI icon helpers tolerate missing ids", () => {
   it("still resolves a known provider", () => {
     expect(getIconPath("openai")).toContain("openai");
     expect(getProviderName("openai")).toBe("OpenAI");
+  });
+
+  it("resolves model families from provider-qualified ids in one shared helper", () => {
+    expect(getModelDeveloperId("gateway/gpt-5.6-luna")).toBe("openai");
+    expect(getModelDeveloperId("local/mlx-community/Qwen3-Embedding-4B")).toBe("qwen");
+    expect(getModelDeveloperId("provider/model", "Gemini Embedding 2")).toBe("gemini");
+    expect(getModelDeveloperId("custom/acme-model")).toBe("acme-model");
   });
 });

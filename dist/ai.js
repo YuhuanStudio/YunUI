@@ -1279,6 +1279,41 @@ var developerIconMap = {
   minicpm: "minicpm.webp",
   nousresearch: "nousresearch.webp"
 };
+var modelDeveloperPatterns = [
+  [/claude|anthropic/, "claude"],
+  [/gemini/, "gemini"],
+  [/gemma/, "gemma"],
+  [/palm|bison/, "palm"],
+  [/gpt|openai|davinci|chatgpt|text-embedding|dall-?e|whisper|codex|o[134]-/, "openai"],
+  [/glm|chatglm|zhipu|z\.?ai/, "zai"],
+  [/minimax|hailuo|abab/, "minimax"],
+  [/qwen|qwq|dashscope|alibaba|tongyi/, "qwen"],
+  [/deepseek/, "deepseek"],
+  [/llama|meta-/, "meta"],
+  [/mistral|mixtral|codestral|pixtral|magistral|ministral/, "mistral"],
+  [/grok|x-?ai/, "xai"],
+  [/moonshot|kimi/, "moonshot"],
+  [/doubao/, "doubao"],
+  [/hunyuan/, "hunyuan"],
+  [/ernie|wenxin|baidu/, "wenxin"],
+  [/step-|stepfun/, "stepfun"],
+  [/yi-|zero-one|01-ai/, "yi"],
+  [/command|cohere/, "cohere"],
+  [/phi-\d|microsoft/, "microsoft"],
+  [/nemotron|nvidia/, "nvidia"],
+  [/internlm|internvl/, "internlm"],
+  [/flux/, "flux"]
+];
+function getModelDeveloperId(...identifiers) {
+  const haystack = identifiers.filter(Boolean).join(" ").toLowerCase();
+  for (const [pattern, developer] of modelDeveloperPatterns) {
+    if (pattern.test(haystack)) return developer;
+  }
+  const first = identifiers.find((value) => Boolean(value));
+  if (!first) return "";
+  const parts = first.split("/").filter(Boolean);
+  return parts.at(-1) || first;
+}
 function getDeveloperIconPath(developer) {
   if (!developer) return null;
   const file = getDeveloperIconFile(developer);
@@ -2017,6 +2052,6 @@ function Navbar({
   );
 }
 
-export { AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

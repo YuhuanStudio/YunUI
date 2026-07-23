@@ -99,6 +99,50 @@ const developerIconMap: Record<string, string> = {
     nousresearch: "nousresearch.webp",
 };
 
+const modelDeveloperPatterns: readonly (readonly [RegExp, string])[] = [
+    [/claude|anthropic/, "claude"],
+    [/gemini/, "gemini"],
+    [/gemma/, "gemma"],
+    [/palm|bison/, "palm"],
+    [/gpt|openai|davinci|chatgpt|text-embedding|dall-?e|whisper|codex|o[134]-/, "openai"],
+    [/glm|chatglm|zhipu|z\.?ai/, "zai"],
+    [/minimax|hailuo|abab/, "minimax"],
+    [/qwen|qwq|dashscope|alibaba|tongyi/, "qwen"],
+    [/deepseek/, "deepseek"],
+    [/llama|meta-/, "meta"],
+    [/mistral|mixtral|codestral|pixtral|magistral|ministral/, "mistral"],
+    [/grok|x-?ai/, "xai"],
+    [/moonshot|kimi/, "moonshot"],
+    [/doubao/, "doubao"],
+    [/hunyuan/, "hunyuan"],
+    [/ernie|wenxin|baidu/, "wenxin"],
+    [/step-|stepfun/, "stepfun"],
+    [/yi-|zero-one|01-ai/, "yi"],
+    [/command|cohere/, "cohere"],
+    [/phi-\d|microsoft/, "microsoft"],
+    [/nemotron|nvidia/, "nvidia"],
+    [/internlm|internvl/, "internlm"],
+    [/flux/, "flux"],
+];
+
+/**
+ * Resolve a model family to the developer id understood by ModelIcon.
+ * Accepts any provider-qualified ids, display names, or owner fields so host
+ * apps do not need to maintain parallel model-family regex tables.
+ */
+export function getModelDeveloperId(
+    ...identifiers: Array<string | null | undefined>
+): string {
+    const haystack = identifiers.filter(Boolean).join(" ").toLowerCase();
+    for (const [pattern, developer] of modelDeveloperPatterns) {
+        if (pattern.test(haystack)) return developer;
+    }
+    const first = identifiers.find((value): value is string => Boolean(value));
+    if (!first) return "";
+    const parts = first.split("/").filter(Boolean);
+    return parts.at(-1) || first;
+}
+
 // Get icon path for developer (returns full path under /icons/models/).
 // This is the canonical developer-icon resolver shared with ModelIcon/ModelAvatar,
 // so a developer label/badge always matches the model avatar's developer icon.
