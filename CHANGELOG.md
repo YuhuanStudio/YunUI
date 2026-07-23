@@ -22,6 +22,9 @@ patch = fixes, anything may change between 0.x releases).
   and fully backward-compatible.
 
 ### Fixed
+- **`MermaidDiagram` restores its documented `.mermaid-container` DOM contract.** The content
+  stylesheet already scoped responsive SVG rules to that class, but the rendered diagram omitted
+  it, leaving host styling and stable diagram selection disconnected from the actual output.
 - **`CodeBlock` no longer pulls Shiki's full language catalogue into host builds.** The content
   renderer now uses Shiki core with explicit lazy grammar/theme loaders and the JavaScript regex
   engine. Common application and LLM-output languages retain VS Code-grade highlighting; unknown

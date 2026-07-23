@@ -241,7 +241,7 @@ export function MermaidDiagram({
         role={enableZoom ? "button" : undefined}
         aria-label={enableZoom ? t("zoomDiagram", "Zoom diagram") : undefined}
         className={cn(
-          "card my-4 p-4 overflow-x-auto",
+          "mermaid-container card my-4 p-4 overflow-x-auto",
           "flex items-center justify-center",
           "[&_svg]:max-w-full [&_svg]:h-auto",
           enableZoom && "cursor-zoom-in",
