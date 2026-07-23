@@ -33,7 +33,7 @@ describe("source and package regression contracts", () => {
         expect(error.parentElement).toBe(input.parentElement?.parentElement);
     });
 
-    it("names the built-in dialog close button", () => {
+    it("keeps dialog content opaque and names the built-in close button", () => {
         render(
             <Dialog defaultOpen>
                 <DialogContent>
@@ -42,6 +42,8 @@ describe("source and package regression contracts", () => {
             </Dialog>,
         );
 
+        expect(screen.getByRole("dialog")).toHaveClass("bg-background");
+        expect(screen.getByRole("dialog")).not.toHaveClass("bg-background/95");
         expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
     });
 
