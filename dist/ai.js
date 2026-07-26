@@ -257,9 +257,7 @@ function AgentRunStatus({
       "data-phase": phase,
       "data-active": active || void 0,
       className: cn(
-        "relative flex min-h-10 w-fit max-w-full min-w-0 items-center gap-2.5 py-1.5 pl-3 pr-1 text-sm",
-        "before:absolute before:inset-y-1.5 before:left-0 before:w-0.5 before:rounded-full before:bg-primary/70",
-        active && "before:motion-safe:animate-pulse",
+        "flex min-h-9 w-fit max-w-full min-w-0 items-center gap-2 py-1 text-[13.5px] text-muted-foreground",
         className
       ),
       ...props,
@@ -269,9 +267,9 @@ function AgentRunStatus({
           {
             "data-run-status-motion": true,
             "aria-hidden": "true",
-            className: "relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted/55 text-primary ring-1 ring-border/70",
+            className: "relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-primary",
             children: [
-              active ? /* @__PURE__ */ jsx("span", { className: "absolute inset-1 rounded-sm bg-primary/10 motion-safe:animate-ping [animation-duration:2.4s]" }) : null,
+              active ? /* @__PURE__ */ jsx("span", { className: "absolute inset-0 rounded-full border border-primary/20 motion-safe:animate-ping [animation-duration:2.3s]" }) : null,
               /* @__PURE__ */ jsx(
                 Icon,
                 {
@@ -300,16 +298,16 @@ function AgentRunStatus({
             "data-run-status-pulse": true,
             "aria-hidden": "true",
             className: cn(
-              "grid h-4 w-4 shrink-0 grid-cols-2 gap-0.5 transition-opacity",
+              "flex shrink-0 items-center gap-0.5 transition-opacity",
               active ? "opacity-80" : "opacity-0"
             ),
-            children: [0, 1, 2, 3].map((index) => /* @__PURE__ */ jsx(
+            children: [0, 1, 2].map((index) => /* @__PURE__ */ jsx(
               "span",
               {
-                className: "h-1.5 w-1.5 rounded-[2px] bg-primary/65 motion-safe:animate-pulse",
+                className: "h-1 w-1 rounded-full bg-primary/60 motion-safe:animate-pulse",
                 style: {
-                  animationDelay: `${index * 140}ms`,
-                  animationDuration: "1.05s"
+                  animationDelay: `${index * 180}ms`,
+                  animationDuration: "1.1s"
                 }
               },
               index

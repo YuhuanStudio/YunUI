@@ -59,7 +59,7 @@ describe("AgentRunStatus", () => {
     expect(status).toHaveTextContent("Reviewing the evidence");
     expect(container.querySelectorAll('[data-run-status-label]')).toHaveLength(1);
     expect(container.querySelector('[data-run-status-motion]')).not.toBeNull();
-    expect(container.querySelectorAll('[data-run-status-pulse] > span')).toHaveLength(4);
+    expect(container.querySelectorAll('[data-run-status-pulse] > span')).toHaveLength(3);
   });
 
   it("preserves the same row while waiting without decorative motion", () => {
