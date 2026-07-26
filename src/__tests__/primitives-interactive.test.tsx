@@ -3,7 +3,30 @@ import { useState } from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Checkbox, Combobox, Slider, Tabs, TabsList, TabsTrigger, TabsContent, Label } from "../primitives";
-import { Switch } from "../index";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Switch,
+} from "../index";
+
+describe("DropdownMenu", () => {
+  it("uses an opaque menu surface so underlying content stays readable", () => {
+    render(
+      <DropdownMenu open>
+        <DropdownMenuTrigger>Open menu</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>First action</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+
+    expect(screen.getByRole("menu")).toHaveClass("bg-popover");
+    expect(screen.getByRole("menu").className).not.toContain("bg-popover/85");
+    expect(screen.getByRole("menu").className).not.toContain("backdrop-blur");
+  });
+});
 
 describe("Combobox", () => {
   const options = [
