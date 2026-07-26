@@ -94,6 +94,22 @@ describe("source and package regression contracts", () => {
         expect(name.parentElement).toHaveClass("min-w-0");
     });
 
+    it("renders selected and running session state as an accessible leading rail", () => {
+        const { container } = render(
+            <SessionItem
+                name="Long-running task"
+                selected
+                running
+                runningLabel="Running"
+            />,
+        );
+        const row = container.querySelector('[data-running="true"]');
+        expect(row).toHaveAttribute("aria-busy", "true");
+        expect(row).toHaveAttribute("data-selected", "true");
+        expect(container.querySelector("[data-session-activity-rail]")).toBeInTheDocument();
+        expect(screen.getByText("Running")).toHaveClass("sr-only");
+    });
+
     it("uses readable secondary contrast for code actions", () => {
         render(<CodeBlock language="text">example</CodeBlock>);
 

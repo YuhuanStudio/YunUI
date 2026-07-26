@@ -29,6 +29,12 @@ export interface SessionItemProps {
     /** Dims the row and shows an "inactive" badge. */
     inactive?: boolean;
     inactiveLabel?: ReactNode;
+    /** Marks the row selected without adding a badge. */
+    selected?: boolean;
+    /** Shows a pulsing leading activity rail and exposes aria-busy. */
+    running?: boolean;
+    /** Screen-reader label announced while the row is running. */
+    runningLabel?: ReactNode;
     /** Revoke handler — when set (and not current), shows the revoke button. */
     onRevoke?: () => void;
     revoking?: boolean;
@@ -46,13 +52,40 @@ export function SessionItem({
     currentLabel,
     inactive,
     inactiveLabel,
+    selected,
+    running,
+    runningLabel,
     onRevoke,
     revoking,
     revokeLabel,
     className,
 }: SessionItemProps) {
     return (
-        <div className={cn("flex items-start gap-3 p-2 rounded-lg bg-(--bg-elevated) relative", inactive && "opacity-50", className)}>
+        <div
+            data-selected={selected || undefined}
+            data-running={running || undefined}
+            aria-busy={running || undefined}
+            className={cn(
+                "relative flex items-start gap-3 overflow-hidden rounded-lg bg-(--bg-elevated) p-2",
+                inactive && "opacity-50",
+                className,
+            )}
+        >
+            {(selected || running) && (
+                <span
+                    data-session-activity-rail
+                    aria-hidden="true"
+                    className={cn(
+                        "absolute inset-y-2 left-0 w-0.5 overflow-hidden rounded-full",
+                        running ? "bg-primary/25" : "bg-primary/70",
+                    )}
+                >
+                    {running && (
+                        <span className="absolute inset-0 rounded-full bg-primary motion-safe:animate-pulse [animation-duration:1.25s]" />
+                    )}
+                </span>
+            )}
+            {running && runningLabel != null && <span className="sr-only">{runningLabel}</span>}
             {icon != null && <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">{icon}</div>}
             <div className="flex-1 min-w-0">
                 <div className="flex min-w-0 items-center gap-2">

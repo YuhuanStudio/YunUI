@@ -451,13 +451,19 @@ interface SessionItemProps {
     /** Dims the row and shows an "inactive" badge. */
     inactive?: boolean;
     inactiveLabel?: ReactNode;
+    /** Marks the row selected without adding a badge. */
+    selected?: boolean;
+    /** Shows a pulsing leading activity rail and exposes aria-busy. */
+    running?: boolean;
+    /** Screen-reader label announced while the row is running. */
+    runningLabel?: ReactNode;
     /** Revoke handler — when set (and not current), shows the revoke button. */
     onRevoke?: () => void;
     revoking?: boolean;
     revokeLabel?: string;
     className?: string;
 }
-declare function SessionItem({ icon, name, detail, ip, time, current, currentLabel, inactive, inactiveLabel, onRevoke, revoking, revokeLabel, className, }: SessionItemProps): React$1.JSX.Element;
+declare function SessionItem({ icon, name, detail, ip, time, current, currentLabel, inactive, inactiveLabel, selected, running, runningLabel, onRevoke, revoking, revokeLabel, className, }: SessionItemProps): React$1.JSX.Element;
 
 interface MetricBarProps {
     /** Leading icon; when omitted a small color dot (using `color`) is shown. */

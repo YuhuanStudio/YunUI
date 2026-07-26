@@ -1111,44 +1111,73 @@ function SessionItem({
   currentLabel,
   inactive,
   inactiveLabel,
+  selected,
+  running,
+  runningLabel,
   onRevoke,
   revoking,
   revokeLabel,
   className
 }) {
-  return /* @__PURE__ */ jsxs("div", { className: cn("flex items-start gap-3 p-2 rounded-lg bg-(--bg-elevated) relative", inactive && "opacity-50", className), children: [
-    icon != null && /* @__PURE__ */ jsx("div", { className: "w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0", children: icon }),
-    /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-2", children: [
-        /* @__PURE__ */ jsx("span", { className: "block min-w-0 flex-1 truncate text-xs font-medium", children: name }),
-        current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0", children: currentLabel }),
-        inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0", children: inactiveLabel })
-      ] }),
-      detail && /* @__PURE__ */ jsx("div", { className: "text-[10px] text-(--text-tertiary) mt-0.5 truncate", children: detail }),
-      (ip != null || time != null) && /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-2 mt-1 text-[10px] text-(--text-tertiary)", children: [
-        ip != null && /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-0.5", children: [
-          /* @__PURE__ */ jsx(Globe, { size: 8 }),
-          ip
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      "data-selected": selected || void 0,
+      "data-running": running || void 0,
+      "aria-busy": running || void 0,
+      className: cn(
+        "relative flex items-start gap-3 overflow-hidden rounded-lg bg-(--bg-elevated) p-2",
+        inactive && "opacity-50",
+        className
+      ),
+      children: [
+        (selected || running) && /* @__PURE__ */ jsx(
+          "span",
+          {
+            "data-session-activity-rail": true,
+            "aria-hidden": "true",
+            className: cn(
+              "absolute inset-y-2 left-0 w-0.5 overflow-hidden rounded-full",
+              running ? "bg-primary/25" : "bg-primary/70"
+            ),
+            children: running && /* @__PURE__ */ jsx("span", { className: "absolute inset-0 rounded-full bg-primary motion-safe:animate-pulse [animation-duration:1.25s]" })
+          }
+        ),
+        running && runningLabel != null && /* @__PURE__ */ jsx("span", { className: "sr-only", children: runningLabel }),
+        icon != null && /* @__PURE__ */ jsx("div", { className: "w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0", children: icon }),
+        /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-2", children: [
+            /* @__PURE__ */ jsx("span", { className: "block min-w-0 flex-1 truncate text-xs font-medium", children: name }),
+            current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0", children: currentLabel }),
+            inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0", children: inactiveLabel })
+          ] }),
+          detail && /* @__PURE__ */ jsx("div", { className: "text-[10px] text-(--text-tertiary) mt-0.5 truncate", children: detail }),
+          (ip != null || time != null) && /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-2 mt-1 text-[10px] text-(--text-tertiary)", children: [
+            ip != null && /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-0.5", children: [
+              /* @__PURE__ */ jsx(Globe, { size: 8 }),
+              ip
+            ] }),
+            time != null && /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-0.5", children: [
+              /* @__PURE__ */ jsx(Clock, { size: 8 }),
+              time
+            ] })
+          ] })
         ] }),
-        time != null && /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-0.5", children: [
-          /* @__PURE__ */ jsx(Clock, { size: 8 }),
-          time
-        ] })
-      ] })
-    ] }),
-    !current && onRevoke && /* @__PURE__ */ jsx(
-      "button",
-      {
-        type: "button",
-        onClick: onRevoke,
-        disabled: revoking,
-        "aria-label": revokeLabel,
-        title: revokeLabel,
-        className: "p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        children: revoking ? /* @__PURE__ */ jsx(Loader2, { size: 12, className: "animate-spin" }) : /* @__PURE__ */ jsx(LogOut, { size: 12 })
-      }
-    )
-  ] });
+        !current && onRevoke && /* @__PURE__ */ jsx(
+          "button",
+          {
+            type: "button",
+            onClick: onRevoke,
+            disabled: revoking,
+            "aria-label": revokeLabel,
+            title: revokeLabel,
+            className: "p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            children: revoking ? /* @__PURE__ */ jsx(Loader2, { size: 12, className: "animate-spin" }) : /* @__PURE__ */ jsx(LogOut, { size: 12 })
+          }
+        )
+      ]
+    }
+  );
 }
 function MetricBar({ icon, label, value, percentage, color, className }) {
   return /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-3", className), children: [
