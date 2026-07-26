@@ -24,6 +24,8 @@ export interface ChatMessageProps {
   className?: string;
   /** The message body (plain text, or a rendered <MarkdownRenderer/>). */
   children?: React.ReactNode;
+  /** Vertical rhythm for dense transcripts and more spacious assistants. */
+  density?: "compact" | "comfortable";
 }
 
 const roleDefaults: Record<
@@ -68,12 +70,13 @@ export function ChatMessage({
   footer,
   className,
   children,
+  density = "comfortable",
 }: ChatMessageProps) {
   const cfg = roleDefaults[role] ?? roleDefaults.assistant;
   const Icon = cfg.icon;
 
   return (
-    <div className={cn("group py-6", className)}>
+    <div className={cn("group", density === "compact" ? "py-4" : "py-6", className)}>
       <div className="flex gap-4">
         <div className="shrink-0">
           {avatar ?? (

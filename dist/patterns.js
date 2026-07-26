@@ -1791,6 +1791,108 @@ function SettingRow({ title, description, control, className }) {
     control != null && /* @__PURE__ */ jsx("div", { className: "shrink-0", children: control })
   ] });
 }
+function SettingsShell({
+  header,
+  groups,
+  value,
+  onValueChange,
+  children,
+  navigationLabel = "Settings",
+  className,
+  sidebarClassName,
+  contentClassName
+}) {
+  const items = groups.flatMap((group) => group.items);
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex h-full min-h-0", className), children: [
+    /* @__PURE__ */ jsxs(
+      "aside",
+      {
+        className: cn(
+          "hidden w-56 shrink-0 flex-col border-r border-border bg-muted/15 sm:flex",
+          sidebarClassName
+        ),
+        children: [
+          /* @__PURE__ */ jsx("div", { className: "shrink-0 px-6 pb-4 pt-6", children: header }),
+          /* @__PURE__ */ jsx(
+            "nav",
+            {
+              "aria-label": navigationLabel,
+              className: "min-h-0 flex-1 overflow-y-auto px-3 pb-5",
+              children: groups.map((group, groupIndex) => /* @__PURE__ */ jsxs(
+                "section",
+                {
+                  "aria-label": typeof group.label === "string" ? group.label : void 0,
+                  className: cn(groupIndex > 0 && "mt-4 border-t border-border/70 pt-4"),
+                  children: [
+                    group.label ? /* @__PURE__ */ jsx("div", { className: "px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground", children: group.label }) : null,
+                    /* @__PURE__ */ jsx("div", { className: "flex flex-col gap-1", children: group.items.map((item) => {
+                      const Icon = item.icon;
+                      const active = item.key === value;
+                      return /* @__PURE__ */ jsxs(
+                        "button",
+                        {
+                          type: "button",
+                          className: cn(
+                            "flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors",
+                            "hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                            active && "bg-muted text-foreground"
+                          ),
+                          "aria-current": active ? "page" : void 0,
+                          onClick: () => onValueChange(item.key),
+                          children: [
+                            Icon ? /* @__PURE__ */ jsx(Icon, { "aria-hidden": true, size: 18, strokeWidth: 1.75, className: "shrink-0" }) : null,
+                            /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate text-left", children: item.label })
+                          ]
+                        },
+                        item.key
+                      );
+                    }) })
+                  ]
+                },
+                group.key
+              ))
+            }
+          )
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-1 flex-col", children: [
+      /* @__PURE__ */ jsxs("div", { className: "shrink-0 border-b border-border px-4 pb-3 pt-4 sm:hidden", children: [
+        /* @__PURE__ */ jsx("div", { className: "mb-3", children: header }),
+        /* @__PURE__ */ jsx(
+          "nav",
+          {
+            "aria-label": navigationLabel,
+            className: "flex gap-1 overflow-x-auto overscroll-x-contain pb-1",
+            children: items.map((item) => {
+              const Icon = item.icon;
+              const active = item.key === value;
+              return /* @__PURE__ */ jsxs(
+                "button",
+                {
+                  type: "button",
+                  "aria-current": active ? "page" : void 0,
+                  onClick: () => onValueChange(item.key),
+                  className: cn(
+                    "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-muted-foreground transition-colors",
+                    "hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    active && "bg-muted text-foreground"
+                  ),
+                  children: [
+                    Icon ? /* @__PURE__ */ jsx(Icon, { "aria-hidden": true, size: 16, strokeWidth: 1.75 }) : null,
+                    item.label
+                  ]
+                },
+                item.key
+              );
+            })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsx("div", { className: cn("min-h-0 flex-1 overflow-hidden", contentClassName), children })
+    ] })
+  ] });
+}
 function LinkRow({ icon, title, description, href, external, className }) {
   const { Link } = useYunUI();
   const inner = /* @__PURE__ */ jsxs(Fragment, { children: [
@@ -1902,6 +2004,6 @@ function AvatarUploader({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

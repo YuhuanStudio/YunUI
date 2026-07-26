@@ -2,7 +2,7 @@
 import { Badge } from './chunk-NK5XNM3X.js';
 import { cn } from './chunk-N4QO7RN5.js';
 import './chunk-3RT24MSH.js';
-import { Sparkles, Bot, User, Square, ArrowUp } from 'lucide-react';
+import { Sparkles, Bot, User, Square, ArrowUp, FileText, Loader2, AlertCircle } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as React from 'react';
 import { useRef, useCallback, useEffect } from 'react';
@@ -36,11 +36,12 @@ function ChatMessage({
   actions,
   footer,
   className,
-  children
+  children,
+  density = "comfortable"
 }) {
   const cfg = roleDefaults[role] ?? roleDefaults.assistant;
   const Icon = cfg.icon;
-  return /* @__PURE__ */ jsx("div", { className: cn("group py-6", className), children: /* @__PURE__ */ jsxs("div", { className: "flex gap-4", children: [
+  return /* @__PURE__ */ jsx("div", { className: cn("group", density === "compact" ? "py-4" : "py-6", className), children: /* @__PURE__ */ jsxs("div", { className: "flex gap-4", children: [
     /* @__PURE__ */ jsx("div", { className: "shrink-0", children: avatar ?? /* @__PURE__ */ jsx(
       "div",
       {
@@ -262,7 +263,59 @@ function GenerationStats({
     ] })
   ] });
 }
+function ChatAttachment({
+  name,
+  meta,
+  icon,
+  preview,
+  status = "idle",
+  progress,
+  actions,
+  className,
+  ...props
+}) {
+  const boundedProgress = typeof progress === "number" ? Math.max(0, Math.min(100, progress)) : void 0;
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "group relative flex min-w-0 items-center gap-2.5 rounded-xl border border-border/70 bg-muted/35 px-2.5 py-2",
+        "transition-colors hover:bg-muted/60",
+        status === "error" && "border-error/30 bg-error/5",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx("div", { className: "flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted text-muted-foreground", children: preview ?? icon ?? /* @__PURE__ */ jsx(FileText, { "aria-hidden": true, className: "h-4 w-4" }) }),
+        /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1", children: [
+          /* @__PURE__ */ jsx("div", { className: "truncate text-xs font-medium text-foreground", children: name }),
+          meta ? /* @__PURE__ */ jsx("div", { className: cn("truncate text-[11px] text-muted-foreground", status === "error" && "text-error"), children: meta }) : null,
+          status === "loading" && boundedProgress !== void 0 ? /* @__PURE__ */ jsx(
+            "div",
+            {
+              className: "mt-1.5 h-0.5 overflow-hidden rounded-full bg-border",
+              role: "progressbar",
+              "aria-valuemin": 0,
+              "aria-valuemax": 100,
+              "aria-valuenow": boundedProgress,
+              children: /* @__PURE__ */ jsx(
+                "div",
+                {
+                  className: "h-full rounded-full bg-primary transition-[width] duration-150",
+                  style: { width: `${boundedProgress}%` }
+                }
+              )
+            }
+          ) : null
+        ] }),
+        status === "loading" ? /* @__PURE__ */ jsx(Loader2, { "aria-hidden": true, className: "h-4 w-4 shrink-0 animate-spin text-muted-foreground" }) : null,
+        status === "error" ? /* @__PURE__ */ jsx(AlertCircle, { "aria-hidden": true, className: "h-4 w-4 shrink-0 text-error" }) : null,
+        actions ? /* @__PURE__ */ jsx("div", { className: "flex shrink-0 items-center gap-1", children: actions }) : null
+      ]
+    }
+  );
+}
 
-export { ChatComposer, ChatHeader, ChatMessage, ChatMessageList, GenerationStats };
+export { ChatAttachment, ChatComposer, ChatHeader, ChatMessage, ChatMessageList, GenerationStats };
 //# sourceMappingURL=chat.js.map
 //# sourceMappingURL=chat.js.map

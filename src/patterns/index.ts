@@ -86,6 +86,12 @@ export {
 
 // Settings / profile rows.
 export { SettingRow, type SettingRowProps } from "./setting-row";
+export {
+  SettingsShell,
+  type SettingsShellProps,
+  type SettingsNavGroup,
+  type SettingsNavItem,
+} from "./settings-shell";
 export { LinkRow, type LinkRowProps } from "./link-row";
 export { ConnectedAccountRow, type ConnectedAccountRowProps } from "./connected-account-row";
 

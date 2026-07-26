@@ -19,6 +19,8 @@ interface ChatMessageProps {
     className?: string;
     /** The message body (plain text, or a rendered <MarkdownRenderer/>). */
     children?: React.ReactNode;
+    /** Vertical rhythm for dense transcripts and more spacious assistants. */
+    density?: "compact" | "comfortable";
 }
 /**
  * A single chat message row: avatar, header (name + badges + timestamp), body,
@@ -28,7 +30,7 @@ interface ChatMessageProps {
  * (e.g. `<MarkdownRenderer content={…} />` from `@yuhuanowo/yunui/content`) and
  * pass badges/actions/footer as your app sees fit.
  */
-declare function ChatMessage({ role, name, avatar, timestamp, badges, actions, footer, className, children, }: ChatMessageProps): React.JSX.Element;
+declare function ChatMessage({ role, name, avatar, timestamp, badges, actions, footer, className, children, density, }: ChatMessageProps): React.JSX.Element;
 
 interface ChatMessageListProps {
     /** The message rows (e.g. <ChatMessage/> elements). */
@@ -130,4 +132,21 @@ interface GenerationStatsProps {
  */
 declare function GenerationStats({ tokens, tokensPerSecond, latencyMs, labels, className, }: GenerationStatsProps): React.JSX.Element | null;
 
-export { ChatComposer, type ChatComposerProps, ChatHeader, type ChatHeaderProps, ChatMessage, ChatMessageList, type ChatMessageListProps, type ChatMessageProps, type ChatRole, GenerationStats, type GenerationStatsProps };
+type ChatAttachmentStatus = "idle" | "loading" | "error";
+interface ChatAttachmentProps extends React.HTMLAttributes<HTMLDivElement> {
+    name: React.ReactNode;
+    meta?: React.ReactNode;
+    icon?: React.ReactNode;
+    preview?: React.ReactNode;
+    status?: ChatAttachmentStatus;
+    progress?: number;
+    actions?: React.ReactNode;
+}
+/**
+ * Compact attachment surface shared by composers and sent messages.
+ * The host supplies localized labels and actions; YunUI owns the visual
+ * hierarchy, progress treatment and status affordances.
+ */
+declare function ChatAttachment({ name, meta, icon, preview, status, progress, actions, className, ...props }: ChatAttachmentProps): React.JSX.Element;
+
+export { ChatAttachment, type ChatAttachmentProps, type ChatAttachmentStatus, ChatComposer, type ChatComposerProps, ChatHeader, type ChatHeaderProps, ChatMessage, ChatMessageList, type ChatMessageListProps, type ChatMessageProps, type ChatRole, GenerationStats, type GenerationStatsProps };

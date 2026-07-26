@@ -30,3 +30,9 @@ export {
   GenerationStats,
   type GenerationStatsProps,
 } from "./generation-stats";
+
+export {
+  ChatAttachment,
+  type ChatAttachmentProps,
+  type ChatAttachmentStatus,
+} from "./chat-attachment";
