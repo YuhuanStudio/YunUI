@@ -1,7 +1,7 @@
 "use client";
 import { useContentT, ImageLightbox } from './chunk-QEIBYOG2.js';
 export { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Alert } from './chunk-NK5XNM3X.js';
+import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-NK5XNM3X.js';
 import { cn } from './chunk-N4QO7RN5.js';
 import './chunk-3RT24MSH.js';
 import * as React2 from 'react';
@@ -665,7 +665,8 @@ function MarkdownRenderer({
   content,
   className,
   urlTransform,
-  onCodeEdit
+  onCodeEdit,
+  renderLink
 }) {
   const components = useMemo(
     () => ({
@@ -767,6 +768,8 @@ function MarkdownRenderer({
       a: ({ href, children, ...props }) => {
         const host = typeof window !== "undefined" ? window.location.host : "";
         const isExternal = href?.startsWith("http") && !href?.includes(host);
+        const override = renderLink?.({ href, children, isExternal: Boolean(isExternal) });
+        if (override !== void 0) return override;
         return /* @__PURE__ */ jsxs(
           "a",
           {
@@ -857,7 +860,7 @@ function MarkdownRenderer({
       sup: ({ children }) => /* @__PURE__ */ jsx("sup", { className: "text-xs", children }),
       del: ({ children }) => /* @__PURE__ */ jsx("del", { className: "text-(--text-tertiary) line-through", children })
     }),
-    [onCodeEdit]
+    [onCodeEdit, renderLink]
   );
   return /* @__PURE__ */ jsx(
     "div",
@@ -997,7 +1000,62 @@ function InlineMath({ value }) {
 function BlockMath({ value }) {
   return /* @__PURE__ */ jsx(MathRenderer, { math: value, block: true });
 }
+function InlineCitation({
+  label,
+  title,
+  meta,
+  description,
+  icon,
+  onOpen,
+  className
+}) {
+  return /* @__PURE__ */ jsx(TooltipProvider, { delayDuration: 180, children: /* @__PURE__ */ jsxs(Tooltip, { children: [
+    /* @__PURE__ */ jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "button",
+        "data-inline-citation": true,
+        onClick: onOpen,
+        className: cn(
+          "mx-1 inline-flex h-6 max-w-40 translate-y-[1px] items-center gap-1 rounded-full",
+          "border border-border/60 bg-muted/55 px-2 text-[11px] font-medium leading-none",
+          "text-(--text-secondary) transition-colors hover:border-border hover:bg-muted hover:text-(--text-primary)",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+          className
+        ),
+        "aria-label": `${label}: ${title}${meta ? `, ${meta}` : ""}`,
+        children: [
+          icon ? /* @__PURE__ */ jsx("span", { className: "flex shrink-0 items-center", children: icon }) : null,
+          /* @__PURE__ */ jsx("span", { className: "truncate", children: label })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ jsx(
+      TooltipContent,
+      {
+        side: "top",
+        align: "start",
+        sideOffset: 8,
+        className: cn(
+          "w-[min(340px,calc(100vw-24px))] rounded-2xl border border-border",
+          "bg-popover p-3 text-popover-foreground shadow-xl"
+        ),
+        children: /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-start gap-2.5", children: [
+          icon ? /* @__PURE__ */ jsx("span", { className: "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted", children: icon }) : null,
+          /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1", children: [
+            /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2", children: [
+              /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 text-xs font-semibold leading-snug", children: title }),
+              onOpen ? /* @__PURE__ */ jsx(ExternalLink, { "aria-hidden": true, className: "mt-0.5 h-3 w-3 shrink-0 text-(--text-tertiary)" }) : null
+            ] }),
+            meta ? /* @__PURE__ */ jsx("div", { className: "mt-0.5 text-[10px] text-(--text-tertiary)", children: meta }) : null,
+            description ? /* @__PURE__ */ jsx("p", { className: "mt-2 line-clamp-4 text-[11px] font-normal leading-relaxed text-(--text-secondary)", children: description }) : null
+          ] })
+        ] })
+      }
+    )
+  ] }) });
+}
 
-export { BlockMath, CalloutBlock, CodeBlock, ContentImage, InlineCode, InlineMath, MarkdownRenderer, MathRenderer, MermaidDiagram, parseCalloutType };
+export { BlockMath, CalloutBlock, CodeBlock, ContentImage, InlineCitation, InlineCode, InlineMath, MarkdownRenderer, MathRenderer, MermaidDiagram, parseCalloutType };
 //# sourceMappingURL=content.js.map
 //# sourceMappingURL=content.js.map

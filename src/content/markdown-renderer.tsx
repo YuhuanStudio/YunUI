@@ -29,6 +29,16 @@ export interface MarkdownRendererProps {
    * code payload (e.g. open it in an editor). Hidden if unset.
    */
   onCodeEdit?: (payload: CodeBlockEditPayload) => void;
+  /**
+   * Intercept a rendered Markdown link. Return a node to replace the default
+   * link, or `undefined` to retain YunUI's normal internal/external link UI.
+   * Useful for typed inline citations encoded as fragment links.
+   */
+  renderLink?: (link: {
+    href?: string;
+    children: React.ReactNode;
+    isExternal: boolean;
+  }) => React.ReactNode | undefined;
 }
 
 /**
@@ -42,6 +52,7 @@ export function MarkdownRenderer({
   className,
   urlTransform,
   onCodeEdit,
+  renderLink,
 }: MarkdownRendererProps) {
   const components: Components = useMemo(
     () => ({
@@ -145,6 +156,8 @@ export function MarkdownRenderer({
         const host =
           typeof window !== "undefined" ? window.location.host : "";
         const isExternal = href?.startsWith("http") && !href?.includes(host);
+        const override = renderLink?.({ href, children, isExternal: Boolean(isExternal) });
+        if (override !== undefined) return override;
 
         return (
           <a
@@ -300,7 +313,7 @@ export function MarkdownRenderer({
         <del className="text-(--text-tertiary) line-through">{children}</del>
       ),
     }),
-    [onCodeEdit],
+    [onCodeEdit, renderLink],
   );
 
   return (

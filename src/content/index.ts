@@ -49,3 +49,8 @@ export {
   ContentImage,
   type ContentImageProps,
 } from "./content-image";
+
+export {
+  InlineCitation,
+  type InlineCitationProps,
+} from "./inline-citation";

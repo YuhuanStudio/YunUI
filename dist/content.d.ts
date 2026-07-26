@@ -45,6 +45,16 @@ interface MarkdownRendererProps {
      * code payload (e.g. open it in an editor). Hidden if unset.
      */
     onCodeEdit?: (payload: CodeBlockEditPayload) => void;
+    /**
+     * Intercept a rendered Markdown link. Return a node to replace the default
+     * link, or `undefined` to retain YunUI's normal internal/external link UI.
+     * Useful for typed inline citations encoded as fragment links.
+     */
+    renderLink?: (link: {
+        href?: string;
+        children: React.ReactNode;
+        isExternal: boolean;
+    }) => React.ReactNode | undefined;
 }
 /**
  * Full markdown renderer: GFM (tables, task lists, strikethrough), math (KaTeX),
@@ -52,7 +62,7 @@ interface MarkdownRendererProps {
  * and lazy, zoomable images. Requires `katex/dist/katex.min.css` and the YunUI
  * content styles to be imported by the host app.
  */
-declare function MarkdownRenderer({ content, className, urlTransform, onCodeEdit, }: MarkdownRendererProps): React.JSX.Element;
+declare function MarkdownRenderer({ content, className, urlTransform, onCodeEdit, renderLink, }: MarkdownRendererProps): React.JSX.Element;
 
 type CalloutType = "note" | "tip" | "important" | "warning" | "caution" | "success";
 interface CalloutBlockProps {
@@ -142,4 +152,27 @@ interface ContentImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
  */
 declare const ContentImage: React.MemoExoticComponent<({ enableLightbox, className, alt, src, onError, onLoad, ...rest }: ContentImageProps) => React.JSX.Element | null>;
 
-export { BlockMath, CalloutBlock, type CalloutBlockProps, type CalloutType, CodeBlock, type CodeBlockEditPayload, type CodeBlockProps, ContentImage, type ContentImageProps, ImageLightbox, type ImageLightboxProps, InlineCode, InlineMath, MarkdownRenderer, type MarkdownRendererProps, MathRenderer, type MathRendererProps, MermaidDiagram, type MermaidDiagramProps, parseCalloutType };
+interface InlineCitationProps {
+    /** Compact label shown beside the supported claim. */
+    label: string;
+    /** Full source title shown in the evidence preview. */
+    title: string;
+    /** Exact source location, for example a hostname or PDF page. */
+    meta?: string;
+    /** Bounded source excerpt that substantiates the adjacent claim. */
+    description?: string;
+    /** Optional source icon or favicon. */
+    icon?: React.ReactNode;
+    /** Open a document location or external URL. */
+    onOpen?: () => void;
+    className?: string;
+}
+/**
+ * Claim-adjacent evidence marker for grounded AI content.
+ *
+ * The compact trigger stays in the reading flow. Hover/focus previews the
+ * concrete source and clicking delegates navigation to the host application.
+ */
+declare function InlineCitation({ label, title, meta, description, icon, onOpen, className, }: InlineCitationProps): React.JSX.Element;
+
+export { BlockMath, CalloutBlock, type CalloutBlockProps, type CalloutType, CodeBlock, type CodeBlockEditPayload, type CodeBlockProps, ContentImage, type ContentImageProps, ImageLightbox, type ImageLightboxProps, InlineCitation, type InlineCitationProps, InlineCode, InlineMath, MarkdownRenderer, type MarkdownRendererProps, MathRenderer, type MathRendererProps, MermaidDiagram, type MermaidDiagramProps, parseCalloutType };
