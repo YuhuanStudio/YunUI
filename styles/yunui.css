@@ -297,7 +297,7 @@
 [data-accent-source="brand"] .nav-item.active {
   color: var(--brand-solid-strong);
 }
-[data-accent-source="brand"] .nav-item.active::before {
+[data-accent-source="brand"] .nav-state-indicator {
   background: var(--brand-solid-strong);
 }
 [data-accent-source="brand"] .nav-tab.active {
@@ -1213,8 +1213,7 @@ select.input option,
   min-width: 0;
 }
 
-.nav-item::before {
-  content: '';
+.nav-state-indicator {
   position: absolute;
   left: 0.5rem;
   top: 50%;
@@ -1238,7 +1237,7 @@ select.input option,
   color: var(--text-primary);
 }
 
-.nav-item:hover::before {
+.nav-item:hover > .nav-state-indicator {
   transform: translateY(-50%) translateX(0);
   opacity: 0.3;
 }
@@ -1247,10 +1246,29 @@ select.input option,
   color: var(--text-primary);
 }
 
-.nav-item.active::before {
+.nav-state-indicator[data-active="true"] {
   transform: translateY(-50%) translateX(0);
   opacity: 1;
   height: 18px;
+}
+
+@keyframes yunui-nav-state-running {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.nav-state-indicator[data-running="true"] {
+  animation: yunui-nav-state-running 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-state-indicator[data-running="true"] {
+    animation: none;
+  }
 }
 
 .nav-section {
@@ -1605,8 +1623,8 @@ select.input option,
   color: var(--text-primary);
 }
 
-.dark .nav-item:hover::before,
-.true-black .nav-item:hover::before {
+.dark .nav-item:hover > .nav-state-indicator,
+.true-black .nav-item:hover > .nav-state-indicator {
   background: var(--text-primary);
   opacity: 0.4;
 }
@@ -1617,10 +1635,9 @@ select.input option,
   font-weight: 600;
 }
 
-.dark .nav-item.active::before,
-.true-black .nav-item.active::before {
+.dark .nav-state-indicator,
+.true-black .nav-state-indicator {
   background: var(--text-primary);
-  opacity: 1;
 }
 
 /* =====================================================

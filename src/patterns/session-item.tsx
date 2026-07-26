@@ -3,6 +3,7 @@
 import { type ReactNode } from "react";
 import { Globe, Clock, LogOut, Loader2 } from "lucide-react";
 import { cn } from "../lib/cn";
+import { NavStateIndicator } from "./nav-state-indicator";
 
 // =====================================================
 // SESSION ITEM
@@ -67,23 +68,17 @@ export function SessionItem({
             aria-busy={running || undefined}
             className={cn(
                 "relative flex items-start gap-3 overflow-hidden rounded-lg bg-(--bg-elevated) p-2",
+                selected && "text-foreground",
                 inactive && "opacity-50",
                 className,
             )}
         >
             {(selected || running) && (
-                <span
+                <NavStateIndicator
+                    active
+                    running={running}
                     data-session-activity-rail
-                    aria-hidden="true"
-                    className={cn(
-                        "absolute inset-y-2 left-0 w-0.5 overflow-hidden rounded-full",
-                        running ? "bg-primary/25" : "bg-primary/70",
-                    )}
-                >
-                    {running && (
-                        <span className="absolute inset-0 rounded-full bg-primary motion-safe:animate-pulse [animation-duration:1.25s]" />
-                    )}
-                </span>
+                />
             )}
             {running && runningLabel != null && <span className="sr-only">{runningLabel}</span>}
             {icon != null && <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">{icon}</div>}

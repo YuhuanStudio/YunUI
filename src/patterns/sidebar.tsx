@@ -4,6 +4,7 @@ import { type ElementType, type ReactNode, useEffect, useRef } from "react";
 import { X, PanelLeftClose } from "lucide-react";
 import { IconButton } from "../index";
 import { useYunUI } from "../adapters/context";
+import { NavStateIndicator } from "./nav-state-indicator";
 
 export interface SidebarNavItem {
     /** Link text. */
@@ -159,6 +160,7 @@ export function Sidebar({
                                 const Icon = item.icon;
                                 const content = (
                                     <>
+                                        <NavStateIndicator active={active} />
                                         {Icon && <Icon size={18} strokeWidth={1.75} className="shrink-0" />}
                                         <span className="flex-1 min-w-0 truncate">{item.label}</span>
                                     </>

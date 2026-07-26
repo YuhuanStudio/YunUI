@@ -59,6 +59,7 @@ export { FeatureLockedState, type FeatureLockedStateProps } from "./feature-lock
 
 // Session item — a row in an active-sessions / signed-in-devices list.
 export { SessionItem, type SessionItemProps } from "./session-item";
+export { NavStateIndicator, type NavStateIndicatorProps } from "./nav-state-indicator";
 
 // Metric bar — a labelled row with a proportion bar (spend/usage breakdowns).
 export { MetricBar, type MetricBarProps } from "./metric-bar";

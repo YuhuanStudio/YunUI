@@ -623,6 +623,23 @@ function CategoryFilter({
     ))
   ] });
 }
+function NavStateIndicator({
+  active,
+  running,
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx(
+    "span",
+    {
+      "aria-hidden": "true",
+      "data-active": active || void 0,
+      "data-running": running || void 0,
+      className: cn("nav-state-indicator", className),
+      ...props
+    }
+  );
+}
 function isItemActive(item, currentPath, homeHref) {
   if (currentPath === item.href) return true;
   if (item.href !== homeHref && currentPath.startsWith(item.href)) return true;
@@ -702,6 +719,7 @@ function Sidebar({
               const active = isItemActive(item, currentPath, homeHref);
               const Icon = item.icon;
               const content = /* @__PURE__ */ jsxs(Fragment, { children: [
+                /* @__PURE__ */ jsx(NavStateIndicator, { active }),
                 Icon && /* @__PURE__ */ jsx(Icon, { size: 18, strokeWidth: 1.75, className: "shrink-0" }),
                 /* @__PURE__ */ jsx("span", { className: "flex-1 min-w-0 truncate", children: item.label })
               ] });
@@ -1127,20 +1145,17 @@ function SessionItem({
       "aria-busy": running || void 0,
       className: cn(
         "relative flex items-start gap-3 overflow-hidden rounded-lg bg-(--bg-elevated) p-2",
+        selected && "text-foreground",
         inactive && "opacity-50",
         className
       ),
       children: [
         (selected || running) && /* @__PURE__ */ jsx(
-          "span",
+          NavStateIndicator,
           {
-            "data-session-activity-rail": true,
-            "aria-hidden": "true",
-            className: cn(
-              "absolute inset-y-2 left-0 w-0.5 overflow-hidden rounded-full",
-              running ? "bg-primary/25" : "bg-primary/70"
-            ),
-            children: running && /* @__PURE__ */ jsx("span", { className: "absolute inset-0 rounded-full bg-primary motion-safe:animate-pulse [animation-duration:1.25s]" })
+            active: true,
+            running,
+            "data-session-activity-rail": true
           }
         ),
         running && runningLabel != null && /* @__PURE__ */ jsx("span", { className: "sr-only", children: runningLabel }),
@@ -2016,6 +2031,6 @@ function AvatarUploader({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map
