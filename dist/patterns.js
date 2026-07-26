@@ -1,5 +1,5 @@
 "use client";
-import './chunk-SOG4SKAS.js';
+import './chunk-5F3X7PUF.js';
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { Footer } from './chunk-UYYG4XDW.js';
 import './chunk-F2HG4TOQ.js';

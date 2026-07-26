@@ -25,11 +25,12 @@ describe("Toaster", () => {
     mocks.toaster.mockClear();
   });
 
-  it("keeps collapsed notification history from rendering empty card backs", () => {
+  it("keeps notification history from rendering empty collapsed card backs", () => {
     render(<Toaster />);
 
     expect(mocks.toaster).toHaveBeenCalledWith(
       expect.objectContaining({
+        expand: true,
         position: "bottom-right",
         visibleToasts: 1,
       }),
