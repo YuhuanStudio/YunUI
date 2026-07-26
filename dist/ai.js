@@ -257,7 +257,7 @@ function AgentRunStatus({
       "data-phase": phase,
       "data-active": active || void 0,
       className: cn(
-        "relative flex min-h-10 w-full min-w-0 items-center gap-2.5 py-1.5 pl-3 pr-1 text-sm",
+        "relative flex min-h-10 w-fit max-w-full min-w-0 items-center gap-2.5 py-1.5 pl-3 pr-1 text-sm",
         "before:absolute before:inset-y-1.5 before:left-0 before:w-0.5 before:rounded-full before:bg-primary/70",
         active && "before:motion-safe:animate-pulse",
         className
@@ -291,7 +291,7 @@ function AgentRunStatus({
             text: label,
             active,
             "data-run-status-label": true,
-            className: "min-w-0 flex-1 truncate font-medium"
+            className: "min-w-0 max-w-xl truncate font-medium"
           }
         ),
         /* @__PURE__ */ jsx(
