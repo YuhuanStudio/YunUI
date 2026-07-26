@@ -9,6 +9,7 @@ import {
   ModelTypeIcon,
   Navbar,
   Footer,
+  AgentTimeline,
   type NavLink,
   type FooterSection,
   type FooterSocial,
@@ -23,6 +24,26 @@ const adapters: Partial<YunUIAdapters> = { useT: () => (k: string) => k };
 function renderWithProvider(ui: React.ReactNode) {
   return render(<YunUIProvider adapters={adapters}>{ui}</YunUIProvider>);
 }
+
+describe("AgentTimeline", () => {
+  it("animates only a reasoning block explicitly marked active", () => {
+    const { container } = renderWithProvider(
+      <AgentTimeline
+        blocks={[
+          { kind: "reasoning", id: "past", label: "Read files", content: "Done" },
+          { kind: "reasoning", id: "current", label: "Checking evidence", content: "Working", active: true },
+        ]}
+      />
+    );
+
+    expect(screen.getByText("Read files")).toBeInTheDocument();
+    expect(screen.getByLabelText("Checking evidence")).toHaveAttribute(
+      "data-agent-timeline-active",
+      "true",
+    );
+    expect(container.querySelectorAll('[data-agent-timeline-active="true"]')).toHaveLength(1);
+  });
+});
 
 describe("ModelCard", () => {
   it("renders the model name", () => {

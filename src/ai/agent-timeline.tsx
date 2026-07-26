@@ -6,6 +6,7 @@ import {
     ChevronDown, Check, Loader2, ShieldAlert,
 } from "lucide-react";
 import { cn } from "../lib/cn";
+import { TextShimmer } from "../primitives/text-shimmer";
 
 /**
  * AgentTimeline — the *process* lane of an agent turn: the reasoning traces,
@@ -22,7 +23,11 @@ export type AgentTimelineIconName = "terminal" | "search" | "globe" | "image" | 
 export type AgentTimelineToolStatus = "running" | "done" | "error";
 
 export type AgentTimelineBlock =
-    | { kind: "reasoning"; id: string; label: string; content: string }
+    | {
+          kind: "reasoning"; id: string; label: string; content: string
+          /** Marks the one current reasoning summary in a live turn. */
+          active?: boolean
+      }
     | {
           kind: "tool"; id: string; verb: string; summary?: string
           status: AgentTimelineToolStatus; icon?: AgentTimelineIconName
@@ -93,13 +98,35 @@ function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTi
     const [open, setOpen] = useState(false);
     return (
         <div className="flex gap-2.5">
-            <Rail tone="muted" isLast={isLast}><Brain size={13} strokeWidth={1.75} /></Rail>
+            <Rail tone={block.active ? "running" : "muted"} isLast={isLast}>
+                <span className="relative flex items-center justify-center">
+                    {block.active ? (
+                        <span
+                            aria-hidden="true"
+                            className="absolute h-4 w-4 animate-ping rounded-full bg-primary/15 motion-reduce:hidden"
+                        />
+                    ) : null}
+                    <Brain
+                        size={13}
+                        strokeWidth={1.75}
+                        className={cn(block.active && "animate-pulse motion-reduce:animate-none")}
+                    />
+                </span>
+            </Rail>
             <div className="min-w-0 flex-1 pb-2">
                 <button
                     type="button" onClick={() => setOpen(!open)} aria-expanded={open}
                     className="flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
                 >
-                    <span className="flex-1 truncate text-[13px] text-muted-foreground">{block.label}</span>
+                    {block.active ? (
+                        <TextShimmer
+                            text={block.label}
+                            className="min-w-0 flex-1 truncate text-[13px]"
+                            data-agent-timeline-active="true"
+                        />
+                    ) : (
+                        <span className="flex-1 truncate text-[13px] text-muted-foreground">{block.label}</span>
+                    )}
                     <Chevron open={open} />
                 </button>
                 <Collapse open={open}>
