@@ -201,6 +201,8 @@ interface ComboboxProps {
     className?: string;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
+    /** Show a clear (×) action for the current value. @defaultValue true */
+    clearable?: boolean;
     /** Allow entering a value not in `options` (creatable). @defaultValue true */
     allowCustom?: boolean;
     /** Label template for the "create new" row; `{value}` is replaced with the typed text. */
@@ -212,7 +214,7 @@ interface ComboboxProps {
 }
 /** Searchable, optionally creatable combobox — type to filter, Enter to pick or create.
  *  For long lists where users type to narrow; see `Select`'s doc for "which select do I use". */
-declare function Combobox({ options, value, onChange, placeholder, className, disabled, allowCustom, creatableText, creatableFilter, creatableIcon, }: ComboboxProps): React$1.JSX.Element;
+declare function Combobox({ options, value, onChange, placeholder, className, disabled, clearable, allowCustom, creatableText, creatableFilter, creatableIcon, }: ComboboxProps): React$1.JSX.Element;
 
 /**
  * Radix Accordion root — a vertically stacked set of collapsible sections.

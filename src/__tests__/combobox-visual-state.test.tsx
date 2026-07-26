@@ -21,6 +21,21 @@ describe("Combobox visual state", () => {
         expect(input).toHaveValue("Qwen Embedding");
     });
 
+    it("can hide the clear action when the selected value represents a non-clearable default", () => {
+        render(
+            <Combobox
+                options={options}
+                value="qwen"
+                onChange={() => {}}
+                allowCustom={false}
+                clearable={false}
+            />,
+        );
+
+        expect(screen.queryByRole("button", { name: "Clear" })).not.toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Toggle options" })).toBeInTheDocument();
+    });
+
     it("commits the display label immediately even when the controlled value is unchanged", () => {
         render(<Combobox options={options} value="qwen" onChange={() => {}} allowCustom={false} />);
         const input = screen.getByRole("combobox");

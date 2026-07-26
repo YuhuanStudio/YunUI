@@ -32,6 +32,8 @@ interface ComboboxProps {
     className?: string;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
+    /** Show a clear (×) action for the current value. @defaultValue true */
+    clearable?: boolean;
     /** Allow entering a value not in `options` (creatable). @defaultValue true */
     allowCustom?: boolean;
     /** Label template for the "create new" row; `{value}` is replaced with the typed text. */
@@ -51,6 +53,7 @@ export function Combobox({
     placeholder,
     className = "",
     disabled = false,
+    clearable = true,
     allowCustom = true,
     creatableText,
     creatableFilter,
@@ -216,7 +219,7 @@ export function Combobox({
                     `}
                 />
                 {/* Clear button */}
-                {inputValue && !disabled && (
+                {clearable && inputValue && !disabled && (
                     <button
                         type="button"
                         onClick={clearValue}
