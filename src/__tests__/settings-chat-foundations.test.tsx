@@ -48,11 +48,12 @@ describe("settings and chat foundations", () => {
 
   it("supports compact transcript rhythm", () => {
     const { container } = render(
-      <ChatMessage role="assistant" density="compact">
+      <ChatMessage role="assistant" density="compact" actions={<button type="button">Copy</button>}>
         Answer
       </ChatMessage>,
     );
     expect(container.firstChild).toHaveClass("py-4");
     expect(container.firstChild).not.toHaveClass("py-6");
+    expect(screen.getByRole("button", { name: "Copy" }).parentElement?.parentElement).toHaveClass("h-0");
   });
 });

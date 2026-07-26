@@ -115,8 +115,10 @@ export function ChatMessage({
           {footer}
 
           {actions && (
-            <div className="flex items-center gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-opacity pt-1">
-              {actions}
+            <div className="relative z-10 h-0">
+              <div className="absolute left-0 top-1 flex items-center gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100">
+                {actions}
+              </div>
             </div>
           )}
         </div>
