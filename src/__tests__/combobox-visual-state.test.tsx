@@ -49,4 +49,10 @@ describe("Combobox visual state", () => {
 
         expect(screen.getByRole("listbox").parentElement).toHaveClass("bg-popover");
     });
+
+    it("ellipsizes a committed label when the available field width is narrow", () => {
+        render(<Combobox options={options} value="qwen" onChange={() => {}} allowCustom={false} />);
+
+        expect(screen.getByRole("combobox")).toHaveClass("truncate");
+    });
 });

@@ -1,7 +1,7 @@
 "use client";
 import { useContentT, ImageLightbox } from './chunk-QEIBYOG2.js';
 export { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-NK5XNM3X.js';
+import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-XVPHCW4Y.js';
 import { cn } from './chunk-N4QO7RN5.js';
 import './chunk-3RT24MSH.js';
 import * as React2 from 'react';
