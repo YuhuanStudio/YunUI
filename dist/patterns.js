@@ -1915,7 +1915,7 @@ function SettingsShell({
             ActiveIcon ? /* @__PURE__ */ jsx(ActiveIcon, { "aria-hidden": true, size: 16, strokeWidth: 1.75, className: "shrink-0 text-muted-foreground" }) : null,
             /* @__PURE__ */ jsx(SelectValue, {})
           ] }) }),
-          /* @__PURE__ */ jsx(SelectContent, { children: groups.map((group) => /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx(SelectContent, { className: "bg-popover backdrop-blur-none", children: groups.map((group) => /* @__PURE__ */ jsxs("div", { children: [
             group.label ? /* @__PURE__ */ jsx("div", { className: "px-3 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground", children: group.label }) : null,
             group.items.map((item) => /* @__PURE__ */ jsx(SelectItem, { value: item.key, children: item.label }, item.key))
           ] }, group.key)) })

@@ -116,7 +116,7 @@ export function SettingsShell({
                                 <SelectValue />
                             </span>
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-popover backdrop-blur-none">
                             {groups.map((group) => (
                                 <div key={group.key}>
                                     {group.label ? (
