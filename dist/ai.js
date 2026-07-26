@@ -1,12 +1,12 @@
 "use client";
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-UYYG4XDW.js';
-import { ThemeToggle, TextShimmer } from './chunk-F2HG4TOQ.js';
+import { TextShimmer, ThemeToggle } from './chunk-F2HG4TOQ.js';
 import { cn, useAnchoredPosition } from './chunk-N4QO7RN5.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, ShieldAlert, Wrench, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
+import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, ShieldQuestion, MessageSquareText, RefreshCcw, Search, Wrench, Check, Copy, Image, PauseCircle, X, Sparkles, Bot, Globe, Menu, ShieldAlert, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 
@@ -230,6 +230,95 @@ function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }
         return null;
     }
   }) });
+}
+var PHASE_ICONS = {
+  thinking: Brain,
+  acting: Wrench,
+  observing: Search,
+  reflecting: RefreshCcw,
+  responding: MessageSquareText,
+  waiting: ShieldQuestion
+};
+function AgentRunStatus({
+  label,
+  phase = "thinking",
+  active = phase !== "waiting",
+  className,
+  ...props
+}) {
+  const Icon = PHASE_ICONS[phase];
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      role: "status",
+      "aria-live": "polite",
+      "aria-atomic": "true",
+      "data-yunui": "agent-run-status",
+      "data-phase": phase,
+      "data-active": active || void 0,
+      className: cn(
+        "relative flex min-h-10 w-full min-w-0 items-center gap-2.5 py-1.5 pl-3 pr-1 text-sm",
+        "before:absolute before:inset-y-1.5 before:left-0 before:w-0.5 before:rounded-full before:bg-primary/70",
+        active && "before:motion-safe:animate-pulse",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsxs(
+          "span",
+          {
+            "data-run-status-motion": true,
+            "aria-hidden": "true",
+            className: "relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted/55 text-primary ring-1 ring-border/70",
+            children: [
+              active ? /* @__PURE__ */ jsx("span", { className: "absolute inset-1 rounded-sm bg-primary/10 motion-safe:animate-ping [animation-duration:2.4s]" }) : null,
+              /* @__PURE__ */ jsx(
+                Icon,
+                {
+                  className: cn(
+                    "relative h-4 w-4",
+                    active && phase === "reflecting" && "motion-safe:animate-spin [animation-duration:2.8s]",
+                    active && phase === "thinking" && "motion-safe:animate-pulse [animation-duration:1.5s]"
+                  )
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          TextShimmer,
+          {
+            text: label,
+            active,
+            "data-run-status-label": true,
+            className: "min-w-0 flex-1 truncate font-medium"
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "span",
+          {
+            "data-run-status-pulse": true,
+            "aria-hidden": "true",
+            className: cn(
+              "grid h-4 w-4 shrink-0 grid-cols-2 gap-0.5 transition-opacity",
+              active ? "opacity-80" : "opacity-0"
+            ),
+            children: [0, 1, 2, 3].map((index) => /* @__PURE__ */ jsx(
+              "span",
+              {
+                className: "h-1.5 w-1.5 rounded-[2px] bg-primary/65 motion-safe:animate-pulse",
+                style: {
+                  animationDelay: `${index * 140}ms`,
+                  animationDuration: "1.05s"
+                }
+              },
+              index
+            ))
+          }
+        )
+      ]
+    }
+  );
 }
 function IDBadge({
   text,
@@ -2075,6 +2164,6 @@ function Navbar({
   );
 }
 
-export { AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { AgentRunStatus, AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

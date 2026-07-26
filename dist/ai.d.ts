@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
+import { ReactNode, HTMLAttributes } from 'react';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import { VariantProps } from 'class-variance-authority';
 export { D as DiscordIcon, F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial, G as GithubIcon, I as InstagramIcon } from './footer-BoFu7Wqq.js';
@@ -66,6 +66,23 @@ interface AgentTimelineProps {
     className?: string;
 }
 declare function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }: AgentTimelineProps): React.JSX.Element | null;
+
+type AgentRunPhase = "thinking" | "acting" | "observing" | "reflecting" | "responding" | "waiting";
+interface AgentRunStatusProps extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
+    /** Runtime-owned summary of the one activity currently in progress. */
+    label: string;
+    phase?: AgentRunPhase;
+    /** Keeps the row layout stable while disabling decorative motion. */
+    active?: boolean;
+}
+/**
+ * A layout-stable live surface for the current agent activity.
+ *
+ * This is deliberately separate from AgentTimeline: the status stays in one
+ * place for the whole run while timeline rows become durable process history.
+ * Consumers provide localized runtime text; YunUI owns motion and geometry.
+ */
+declare function AgentRunStatus({ label, phase, active, className, ...props }: AgentRunStatusProps): React.JSX.Element;
 
 interface ModelCardProps {
     /** Model display name. */
@@ -407,4 +424,4 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { AgentTimeline, type AgentTimelineBlock, type AgentTimelineIconName, type AgentTimelineProps, type AgentTimelineToolStatus, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { type AgentRunPhase, AgentRunStatus, type AgentRunStatusProps, AgentTimeline, type AgentTimelineBlock, type AgentTimelineIconName, type AgentTimelineProps, type AgentTimelineToolStatus, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };

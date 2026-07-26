@@ -9,6 +9,7 @@ import {
   ModelTypeIcon,
   Navbar,
   Footer,
+  AgentRunStatus,
   AgentTimeline,
   type NavLink,
   type FooterSection,
@@ -42,6 +43,33 @@ describe("AgentTimeline", () => {
       "true",
     );
     expect(container.querySelectorAll('[data-agent-timeline-active="true"]')).toHaveLength(1);
+  });
+});
+
+describe("AgentRunStatus", () => {
+  it("keeps one animated, layout-stable current activity surface", () => {
+    const { container } = renderWithProvider(
+      <AgentRunStatus label="Reviewing the evidence" phase="reflecting" />
+    );
+
+    const status = screen.getByRole("status");
+    expect(status).toHaveAttribute("data-yunui", "agent-run-status");
+    expect(status).toHaveAttribute("data-phase", "reflecting");
+    expect(status).toHaveAttribute("data-active", "true");
+    expect(status).toHaveTextContent("Reviewing the evidence");
+    expect(container.querySelectorAll('[data-run-status-label]')).toHaveLength(1);
+    expect(container.querySelector('[data-run-status-motion]')).not.toBeNull();
+    expect(container.querySelectorAll('[data-run-status-pulse] > span')).toHaveLength(4);
+  });
+
+  it("preserves the same row while waiting without decorative motion", () => {
+    const { container } = renderWithProvider(
+      <AgentRunStatus label="Waiting for approval" phase="waiting" />
+    );
+
+    expect(screen.getByRole("status")).not.toHaveAttribute("data-active");
+    expect(container.querySelector('[data-run-status-pulse]')).toHaveClass("opacity-0");
+    expect(screen.getByLabelText("Waiting for approval")).toHaveAttribute("data-active", "false");
   });
 });
 
