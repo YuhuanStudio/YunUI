@@ -6,7 +6,7 @@ import { cn, useAnchoredPosition } from './chunk-N4QO7RN5.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, ShieldQuestion, MessageSquareText, RefreshCcw, Search, Wrench, Check, Copy, Image, PauseCircle, X, Sparkles, Bot, Globe, Menu, ShieldAlert, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
+import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, ShieldAlert, Wrench, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 
@@ -231,14 +231,6 @@ function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }
     }
   }) });
 }
-var PHASE_ICONS = {
-  thinking: Brain,
-  acting: Wrench,
-  observing: Search,
-  reflecting: RefreshCcw,
-  responding: MessageSquareText,
-  waiting: ShieldQuestion
-};
 function AgentRunStatus({
   label,
   phase = "thinking",
@@ -246,7 +238,6 @@ function AgentRunStatus({
   className,
   ...props
 }) {
-  const Icon = PHASE_ICONS[phase];
   return /* @__PURE__ */ jsxs(
     "div",
     {
@@ -262,27 +253,6 @@ function AgentRunStatus({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsxs(
-          "span",
-          {
-            "data-run-status-motion": true,
-            "aria-hidden": "true",
-            className: "relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-primary",
-            children: [
-              active ? /* @__PURE__ */ jsx("span", { className: "absolute inset-0 rounded-full border border-primary/20 motion-safe:animate-ping [animation-duration:2.3s]" }) : null,
-              /* @__PURE__ */ jsx(
-                Icon,
-                {
-                  className: cn(
-                    "relative h-4 w-4",
-                    active && phase === "reflecting" && "motion-safe:animate-spin [animation-duration:2.8s]",
-                    active && phase === "thinking" && "motion-safe:animate-pulse [animation-duration:1.5s]"
-                  )
-                }
-              )
-            ]
-          }
-        ),
         /* @__PURE__ */ jsx(
           TextShimmer,
           {

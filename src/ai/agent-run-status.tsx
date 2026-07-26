@@ -1,14 +1,6 @@
 "use client";
 
-import type { ComponentType, HTMLAttributes } from "react";
-import {
-    Brain,
-    MessageSquareText,
-    RefreshCcw,
-    Search,
-    ShieldQuestion,
-    Wrench,
-} from "lucide-react";
+import type { HTMLAttributes } from "react";
 import { cn } from "../lib/cn";
 import { TextShimmer } from "../primitives/text-shimmer";
 
@@ -28,15 +20,6 @@ export interface AgentRunStatusProps extends Omit<HTMLAttributes<HTMLDivElement>
     active?: boolean;
 }
 
-const PHASE_ICONS = {
-    thinking: Brain,
-    acting: Wrench,
-    observing: Search,
-    reflecting: RefreshCcw,
-    responding: MessageSquareText,
-    waiting: ShieldQuestion,
-} satisfies Record<AgentRunPhase, ComponentType<{ className?: string }>>;
-
 /**
  * A layout-stable live surface for the current agent activity.
  *
@@ -51,8 +34,6 @@ export function AgentRunStatus({
     className,
     ...props
 }: AgentRunStatusProps) {
-    const Icon = PHASE_ICONS[phase];
-
     return (
         <div
             role="status"
@@ -67,23 +48,6 @@ export function AgentRunStatus({
             )}
             {...props}
         >
-            <span
-                data-run-status-motion
-                aria-hidden="true"
-                className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-primary"
-            >
-                {active ? (
-                    <span className="absolute inset-0 rounded-full border border-primary/20 motion-safe:animate-ping [animation-duration:2.3s]" />
-                ) : null}
-                <Icon
-                    className={cn(
-                        "relative h-4 w-4",
-                        active && phase === "reflecting" && "motion-safe:animate-spin [animation-duration:2.8s]",
-                        active && phase === "thinking" && "motion-safe:animate-pulse [animation-duration:1.5s]",
-                    )}
-                />
-            </span>
-
             <TextShimmer
                 text={label}
                 active={active}

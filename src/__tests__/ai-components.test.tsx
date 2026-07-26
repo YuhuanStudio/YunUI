@@ -58,7 +58,7 @@ describe("AgentRunStatus", () => {
     expect(status).toHaveAttribute("data-active", "true");
     expect(status).toHaveTextContent("Reviewing the evidence");
     expect(container.querySelectorAll('[data-run-status-label]')).toHaveLength(1);
-    expect(container.querySelector('[data-run-status-motion]')).not.toBeNull();
+    expect(container.querySelector('[data-run-status-motion]')).toBeNull();
     expect(container.querySelectorAll('[data-run-status-pulse] > span')).toHaveLength(3);
   });
 
