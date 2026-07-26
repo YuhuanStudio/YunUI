@@ -9,6 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "../primitives";
+import { NavStateIndicator } from "./nav-state-indicator";
 
 export interface SettingsNavItem {
     key: string;
@@ -87,13 +88,13 @@ export function SettingsShell({
                                             key={item.key}
                                             type="button"
                                             className={cn(
-                                                "flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors",
-                                                "hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                                                active && "bg-muted text-foreground",
+                                                "nav-item w-full text-left",
+                                                active && "active",
                                             )}
                                             aria-current={active ? "page" : undefined}
                                             onClick={() => onValueChange(item.key)}
                                         >
+                                            <NavStateIndicator active={active} />
                                             {Icon ? <Icon aria-hidden size={18} strokeWidth={1.75} className="shrink-0" /> : null}
                                             <span className="min-w-0 flex-1 truncate text-left">{item.label}</span>
                                         </button>

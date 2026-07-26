@@ -1884,13 +1884,13 @@ function SettingsShell({
                         {
                           type: "button",
                           className: cn(
-                            "flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors",
-                            "hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                            active && "bg-muted text-foreground"
+                            "nav-item w-full text-left",
+                            active && "active"
                           ),
                           "aria-current": active ? "page" : void 0,
                           onClick: () => onValueChange(item.key),
                           children: [
+                            /* @__PURE__ */ jsx(NavStateIndicator, { active }),
                             Icon ? /* @__PURE__ */ jsx(Icon, { "aria-hidden": true, size: 18, strokeWidth: 1.75, className: "shrink-0" }) : null,
                             /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate text-left", children: item.label })
                           ]
