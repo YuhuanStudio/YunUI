@@ -28,10 +28,11 @@ describe("settings and chat foundations", () => {
       </SettingsShell>,
     );
 
-    expect(screen.getAllByRole("navigation", { name: "Settings sections" })).toHaveLength(2);
+    expect(screen.getAllByRole("navigation", { name: "Settings sections" })).toHaveLength(1);
     expect(screen.getAllByRole("button", { name: "General" })[0]).toHaveAttribute("aria-current", "page");
     fireEvent.click(screen.getAllByRole("button", { name: "Memory" })[0]);
     expect(onValueChange).toHaveBeenCalledWith("memory");
+    expect(screen.getByRole("combobox", { name: "Settings sections" })).toBeInTheDocument();
   });
 
   it("exposes real attachment progress without inventing a percentage", () => {

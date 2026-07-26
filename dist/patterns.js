@@ -4,7 +4,7 @@ import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { Footer } from './chunk-UYYG4XDW.js';
 import './chunk-F2HG4TOQ.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner } from './chunk-NK5XNM3X.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-NK5XNM3X.js';
 import { cn } from './chunk-N4QO7RN5.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -1803,6 +1803,8 @@ function SettingsShell({
   contentClassName
 }) {
   const items = groups.flatMap((group) => group.items);
+  const activeItem = items.find((item) => item.key === value);
+  const ActiveIcon = activeItem?.icon;
   return /* @__PURE__ */ jsxs("div", { className: cn("flex h-full min-h-0", className), children: [
     /* @__PURE__ */ jsxs(
       "aside",
@@ -1859,35 +1861,16 @@ function SettingsShell({
     /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-1 flex-col", children: [
       /* @__PURE__ */ jsxs("div", { className: "shrink-0 border-b border-border px-4 pb-3 pt-4 sm:hidden", children: [
         /* @__PURE__ */ jsx("div", { className: "mb-3", children: header }),
-        /* @__PURE__ */ jsx(
-          "nav",
-          {
-            "aria-label": navigationLabel,
-            className: "flex gap-1 overflow-x-auto overscroll-x-contain pb-1",
-            children: items.map((item) => {
-              const Icon = item.icon;
-              const active = item.key === value;
-              return /* @__PURE__ */ jsxs(
-                "button",
-                {
-                  type: "button",
-                  "aria-current": active ? "page" : void 0,
-                  onClick: () => onValueChange(item.key),
-                  className: cn(
-                    "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-muted-foreground transition-colors",
-                    "hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    active && "bg-muted text-foreground"
-                  ),
-                  children: [
-                    Icon ? /* @__PURE__ */ jsx(Icon, { "aria-hidden": true, size: 16, strokeWidth: 1.75 }) : null,
-                    item.label
-                  ]
-                },
-                item.key
-              );
-            })
-          }
-        )
+        /* @__PURE__ */ jsxs(Select, { value, onValueChange, children: [
+          /* @__PURE__ */ jsx(SelectTrigger, { "aria-label": navigationLabel, className: "h-10 bg-background", children: /* @__PURE__ */ jsxs("span", { className: "flex min-w-0 items-center gap-2", children: [
+            ActiveIcon ? /* @__PURE__ */ jsx(ActiveIcon, { "aria-hidden": true, size: 16, strokeWidth: 1.75, className: "shrink-0 text-muted-foreground" }) : null,
+            /* @__PURE__ */ jsx(SelectValue, {})
+          ] }) }),
+          /* @__PURE__ */ jsx(SelectContent, { children: groups.map((group) => /* @__PURE__ */ jsxs("div", { children: [
+            group.label ? /* @__PURE__ */ jsx("div", { className: "px-3 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground", children: group.label }) : null,
+            group.items.map((item) => /* @__PURE__ */ jsx(SelectItem, { value: item.key, children: item.label }, item.key))
+          ] }, group.key)) })
+        ] })
       ] }),
       /* @__PURE__ */ jsx("div", { className: cn("min-h-0 flex-1 overflow-hidden", contentClassName), children })
     ] })
