@@ -659,7 +659,13 @@ function Sidebar({
   footer,
   closeLabel = "Close",
   loading = false,
-  scrollStorageKey = "yunui-sidebar-scroll"
+  scrollStorageKey = "yunui-sidebar-scroll",
+  layout = "fixed",
+  header,
+  children,
+  className,
+  role = "navigation",
+  ariaLabel = "Main navigation"
 }) {
   const { Link, Image } = useYunUI();
   const navRef = useRef(null);
@@ -673,7 +679,7 @@ function Sidebar({
     return () => nav.removeEventListener("scroll", onScroll);
   }, [scrollStorageKey]);
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    isOpen && /* @__PURE__ */ jsx(
+    layout === "fixed" && isOpen && /* @__PURE__ */ jsx(
       "div",
       {
         className: "fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden",
@@ -684,17 +690,16 @@ function Sidebar({
     /* @__PURE__ */ jsxs(
       "aside",
       {
-        role: "navigation",
-        "aria-label": "Main navigation",
-        className: `
-                fixed inset-y-0 left-0 z-50
-                min-w-64 w-64 bg-(--bg-base) border-r border-(--border-hairline)
-                flex flex-col h-dvh
-                transition-transform duration-200 ease-in-out
-                ${isOpen ? "translate-x-0" : collapsed ? "-translate-x-full" : "-translate-x-full lg:translate-x-0"}
-            `,
+        role,
+        "aria-label": ariaLabel,
+        className: cn(
+          "min-w-64 w-64 bg-(--bg-base) border-r border-(--border-hairline) flex flex-col",
+          layout === "fixed" ? "fixed inset-y-0 left-0 z-50 h-dvh transition-transform duration-200 ease-in-out" : "relative z-0 h-full min-w-0 w-full",
+          layout === "fixed" && (isOpen ? "translate-x-0" : collapsed ? "-translate-x-full" : "-translate-x-full lg:translate-x-0"),
+          className
+        ),
         children: [
-          /* @__PURE__ */ jsx("div", { className: "py-3 px-3 shrink-0", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center py-2 pl-0 pr-1 gap-2", children: [
+          header !== void 0 ? header : /* @__PURE__ */ jsx("div", { className: "py-3 px-3 shrink-0", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center py-2 pl-0 pr-1 gap-2", children: [
             /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex-1 min-w-0 flex items-center gap-2.5 rounded-lg pl-3 pr-3 py-1.5 hover:bg-foreground/5 transition-colors duration-200", children: [
               /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 36, height: 36, className: "shrink-0" }),
               /* @__PURE__ */ jsx("span", { className: "font-semibold text-[18px] truncate", children: appName })
@@ -713,7 +718,7 @@ function Sidebar({
             ] }),
             onClose && /* @__PURE__ */ jsx(IconButton, { icon: /* @__PURE__ */ jsx(X, { size: 20 }), label: closeLabel, onClick: onClose, className: "lg:hidden" })
           ] }) }),
-          /* @__PURE__ */ jsx("nav", { ref: navRef, className: "flex-1 overflow-y-auto py-3 px-3", children: loading ? /* @__PURE__ */ jsx("div", { className: "space-y-2 animate-pulse", children: Array.from({ length: 5 }).map((_, i) => /* @__PURE__ */ jsx("div", { className: "h-9 rounded-lg bg-foreground/5" }, i)) }) : sections.map((section, i) => /* @__PURE__ */ jsxs("div", { className: i > 0 ? "mt-4" : "", children: [
+          children != null ? /* @__PURE__ */ jsx("div", { className: "flex min-h-0 flex-1 flex-col", children }) : /* @__PURE__ */ jsx("nav", { ref: navRef, className: "flex-1 overflow-y-auto py-3 px-3", children: loading ? /* @__PURE__ */ jsx("div", { className: "space-y-2 animate-pulse", children: Array.from({ length: 5 }).map((_, i) => /* @__PURE__ */ jsx("div", { className: "h-9 rounded-lg bg-foreground/5" }, i)) }) : sections.map((section, i) => /* @__PURE__ */ jsxs("div", { className: i > 0 ? "mt-4" : "", children: [
             section.title && /* @__PURE__ */ jsx("div", { className: "nav-section", children: section.title }),
             section.items.map((item) => {
               const active = isItemActive(item, currentPath, homeHref);
@@ -723,7 +728,7 @@ function Sidebar({
                 Icon && /* @__PURE__ */ jsx(Icon, { size: 18, strokeWidth: 1.75, className: "shrink-0" }),
                 /* @__PURE__ */ jsx("span", { className: "flex-1 min-w-0 truncate", children: item.label })
               ] });
-              const className = `nav-item ${active ? "active" : ""}`;
+              const className2 = `nav-item ${active ? "active" : ""}`;
               return onNavigate ? /* @__PURE__ */ jsx(
                 "a",
                 {
@@ -733,11 +738,11 @@ function Sidebar({
                     onNavigate(item.href);
                     onClose?.();
                   },
-                  className,
+                  className: className2,
                   children: content
                 },
                 item.href
-              ) : /* @__PURE__ */ jsx(Link, { href: item.href, onClick: () => onClose?.(), className, children: content }, item.href);
+              ) : /* @__PURE__ */ jsx(Link, { href: item.href, onClick: () => onClose?.(), className: className2, children: content }, item.href);
             })
           ] }, i)) }),
           footer && /* @__PURE__ */ jsx("div", { className: "p-3 shrink-0", children: footer })

@@ -197,9 +197,21 @@ interface SidebarProps {
     loading?: boolean;
     /** sessionStorage key for persisting nav scroll position across navigations. */
     scrollStorageKey?: string;
+    /** Fixed application rail or an in-flow shell owned by the host layout. */
+    layout?: "fixed" | "inline";
+    /** Replaces the built-in logo row while retaining the Sidebar shell. */
+    header?: ReactNode;
+    /** Replaces generated sections with custom dynamic Sidebar content. */
+    children?: ReactNode;
+    /** Additional shell classes. */
+    className?: string;
+    /** Landmark role for custom application layouts. */
+    role?: "navigation" | "complementary";
+    /** Accessible name for the Sidebar landmark. */
+    ariaLabel?: string;
 }
 /** App navigation sidebar: logo, grouped nav sections with active-state matching, a mobile drawer, desktop collapse, and a footer slot. */
-declare function Sidebar({ appName, logoSrc, homeHref, sections, currentPath, isOpen, onClose, collapsed, onToggleCollapse, onNavigate, footer, closeLabel, loading, scrollStorageKey, }: SidebarProps): React$1.JSX.Element;
+declare function Sidebar({ appName, logoSrc, homeHref, sections, currentPath, isOpen, onClose, collapsed, onToggleCollapse, onNavigate, footer, closeLabel, loading, scrollStorageKey, layout, header, children, className, role, ariaLabel, }: SidebarProps): React$1.JSX.Element;
 
 interface PageHeaderProps {
     title: string;

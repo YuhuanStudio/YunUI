@@ -5,6 +5,7 @@ import { X, PanelLeftClose } from "lucide-react";
 import { IconButton } from "../index";
 import { useYunUI } from "../adapters/context";
 import { NavStateIndicator } from "./nav-state-indicator";
+import { cn } from "../lib/cn";
 
 export interface SidebarNavItem {
     /** Link text. */
@@ -57,6 +58,18 @@ export interface SidebarProps {
     loading?: boolean;
     /** sessionStorage key for persisting nav scroll position across navigations. */
     scrollStorageKey?: string;
+    /** Fixed application rail or an in-flow shell owned by the host layout. */
+    layout?: "fixed" | "inline";
+    /** Replaces the built-in logo row while retaining the Sidebar shell. */
+    header?: ReactNode;
+    /** Replaces generated sections with custom dynamic Sidebar content. */
+    children?: ReactNode;
+    /** Additional shell classes. */
+    className?: string;
+    /** Landmark role for custom application layouts. */
+    role?: "navigation" | "complementary";
+    /** Accessible name for the Sidebar landmark. */
+    ariaLabel?: string;
 }
 
 function isItemActive(item: SidebarNavItem, currentPath: string, homeHref: string): boolean {
@@ -81,6 +94,12 @@ export function Sidebar({
     closeLabel = "Close",
     loading = false,
     scrollStorageKey = "yunui-sidebar-scroll",
+    layout = "fixed",
+    header,
+    children,
+    className,
+    role = "navigation",
+    ariaLabel = "Main navigation",
 }: SidebarProps) {
     const { Link, Image } = useYunUI();
     const navRef = useRef<HTMLElement>(null);
@@ -99,7 +118,7 @@ export function Sidebar({
     return (
         <>
             {/* Mobile overlay */}
-            {isOpen && (
+            {layout === "fixed" && isOpen && (
                 <div
                     className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
                     onClick={onClose}
@@ -108,18 +127,25 @@ export function Sidebar({
             )}
 
             <aside
-                role="navigation"
-                aria-label="Main navigation"
-                className={`
-                fixed inset-y-0 left-0 z-50
-                min-w-64 w-64 bg-(--bg-base) border-r border-(--border-hairline)
-                flex flex-col h-dvh
-                transition-transform duration-200 ease-in-out
-                ${isOpen ? "translate-x-0" : collapsed ? "-translate-x-full" : "-translate-x-full lg:translate-x-0"}
-            `}
+                role={role}
+                aria-label={ariaLabel}
+                className={cn(
+                    "min-w-64 w-64 bg-(--bg-base) border-r border-(--border-hairline) flex flex-col",
+                    layout === "fixed"
+                        ? "fixed inset-y-0 left-0 z-50 h-dvh transition-transform duration-200 ease-in-out"
+                        : "relative z-0 h-full min-w-0 w-full",
+                    layout === "fixed" && (
+                        isOpen
+                            ? "translate-x-0"
+                            : collapsed
+                                ? "-translate-x-full"
+                                : "-translate-x-full lg:translate-x-0"
+                    ),
+                    className,
+                )}
             >
                 {/* Logo */}
-                <div className="py-3 px-3 shrink-0">
+                {header !== undefined ? header : <div className="py-3 px-3 shrink-0">
                     <div className="flex items-center py-2 pl-0 pr-1 gap-2">
                         <Link href={homeHref} className="flex-1 min-w-0 flex items-center gap-2.5 rounded-lg pl-3 pr-3 py-1.5 hover:bg-foreground/5 transition-colors duration-200">
                             <Image src={logoSrc} alt={appName} width={36} height={36} className="shrink-0" />
@@ -141,10 +167,12 @@ export function Sidebar({
                             <IconButton icon={<X size={20} />} label={closeLabel} onClick={onClose} className="lg:hidden" />
                         )}
                     </div>
-                </div>
+                </div>}
 
                 {/* Navigation */}
-                <nav ref={navRef} className="flex-1 overflow-y-auto py-3 px-3">
+                {children != null ? (
+                    <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+                ) : <nav ref={navRef} className="flex-1 overflow-y-auto py-3 px-3">
                     {loading ? (
                         <div className="space-y-2 animate-pulse">
                             {Array.from({ length: 5 }).map((_, i) => (
@@ -187,7 +215,7 @@ export function Sidebar({
                             })}
                         </div>
                     )))}
-                </nav>
+                </nav>}
 
                 {/* Footer slot */}
                 {footer && <div className="p-3 shrink-0">{footer}</div>}

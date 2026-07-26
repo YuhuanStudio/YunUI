@@ -4,7 +4,7 @@ import { AgentTimeline } from "../ai";
 import { ChatComposer } from "../chat";
 import { CodeBlock } from "../content";
 import { Dialog, DialogContent, DialogTitle, Input, Switch } from "../index";
-import { SessionItem } from "../patterns";
+import { SessionItem, Sidebar } from "../patterns";
 
 describe("source and package regression contracts", () => {
     it("keeps the composer text aligned to the compact top edge", () => {
@@ -108,6 +108,26 @@ describe("source and package regression contracts", () => {
         expect(row).toHaveAttribute("data-selected", "true");
         expect(container.querySelector("[data-session-activity-rail]")).toBeInTheDocument();
         expect(screen.getByText("Running")).toHaveClass("sr-only");
+    });
+
+    it("lets dynamic products reuse the inline Sidebar shell", () => {
+        render(
+            <Sidebar
+                appName="Example"
+                sections={[]}
+                layout="inline"
+                role="complementary"
+                ariaLabel="Conversation navigation"
+                header={<div>Custom header</div>}
+            >
+                <div>Dynamic history</div>
+            </Sidebar>,
+        );
+
+        const sidebar = screen.getByRole("complementary", { name: "Conversation navigation" });
+        expect(sidebar).toHaveClass("relative", "h-full", "w-full");
+        expect(screen.getByText("Custom header")).toBeInTheDocument();
+        expect(screen.getByText("Dynamic history")).toBeInTheDocument();
     });
 
     it("uses readable secondary contrast for code actions", () => {
