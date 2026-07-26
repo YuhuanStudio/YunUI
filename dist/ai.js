@@ -1,7 +1,7 @@
 "use client";
 import { copyToClipboard } from './chunk-UYYG4XDW.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-UYYG4XDW.js';
-import { ThemeToggle } from './chunk-J6GI5FHF.js';
+import { ThemeToggle, TextShimmer } from './chunk-F2HG4TOQ.js';
 import { cn, useAnchoredPosition } from './chunk-N4QO7RN5.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useEffect, useRef, useMemo } from 'react';
@@ -97,7 +97,23 @@ function Chevron({ open }) {
 function ReasoningRow({ block, isLast, renderContent }) {
   const [open, setOpen] = useState(false);
   return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
-    /* @__PURE__ */ jsx(Rail, { tone: "muted", isLast, children: /* @__PURE__ */ jsx(Brain, { size: 13, strokeWidth: 1.75 }) }),
+    /* @__PURE__ */ jsx(Rail, { tone: block.active ? "running" : "muted", isLast, children: /* @__PURE__ */ jsxs("span", { className: "relative flex items-center justify-center", children: [
+      block.active ? /* @__PURE__ */ jsx(
+        "span",
+        {
+          "aria-hidden": "true",
+          className: "absolute h-4 w-4 animate-ping rounded-full bg-primary/15 motion-reduce:hidden"
+        }
+      ) : null,
+      /* @__PURE__ */ jsx(
+        Brain,
+        {
+          size: 13,
+          strokeWidth: 1.75,
+          className: cn(block.active && "animate-pulse motion-reduce:animate-none")
+        }
+      )
+    ] }) }),
     /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1 pb-2", children: [
       /* @__PURE__ */ jsxs(
         "button",
@@ -107,7 +123,14 @@ function ReasoningRow({ block, isLast, renderContent }) {
           "aria-expanded": open,
           className: "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
           children: [
-            /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
+            block.active ? /* @__PURE__ */ jsx(
+              TextShimmer,
+              {
+                text: block.label,
+                className: "min-w-0 flex-1 truncate text-[13px]",
+                "data-agent-timeline-active": "true"
+              }
+            ) : /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
             /* @__PURE__ */ jsx(Chevron, { open })
           ]
         }

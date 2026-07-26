@@ -33,6 +33,8 @@ type AgentTimelineBlock = {
     id: string;
     label: string;
     content: string;
+    /** Marks the one current reasoning summary in a live turn. */
+    active?: boolean;
 } | {
     kind: "tool";
     id: string;

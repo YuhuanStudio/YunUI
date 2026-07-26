@@ -1,24 +1,42 @@
 "use client";
-import { useAnchoredPosition } from './chunk-N4QO7RN5.js';
+import { cn, useAnchoredPosition } from './chunk-N4QO7RN5.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
-import * as React from 'react';
+import * as React2 from 'react';
+import { jsx, jsxs } from 'react/jsx-runtime';
 import { Sun, Moon, Droplet, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { jsx, jsxs } from 'react/jsx-runtime';
 
+var TextShimmer = React2.forwardRef(
+  ({ text, active = true, className, ...props }, ref) => /* @__PURE__ */ jsx(
+    "span",
+    {
+      ref,
+      "aria-label": text,
+      "data-active": active ? "true" : "false",
+      "data-yunui": "text-shimmer",
+      className: cn("yunui-text-shimmer", className),
+      ...props,
+      children: /* @__PURE__ */ jsxs("span", { className: "yunui-text-shimmer__paint", "aria-hidden": "true", children: [
+        /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__base", children: text }),
+        /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__sweep", children: text })
+      ] })
+    }
+  )
+);
+TextShimmer.displayName = "TextShimmer";
 function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   const { theme, setTheme } = useTheme();
   const t = useYunUI().useT("common.theme");
-  const [mounted, setMounted] = React.useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const containerRef = React.useRef(null);
-  const triggerRef = React.useRef(null);
-  const panelRef = React.useRef(null);
+  const [mounted, setMounted] = React2.useState(false);
+  const [isOpen, setIsOpen] = React2.useState(false);
+  const containerRef = React2.useRef(null);
+  const triggerRef = React2.useRef(null);
+  const panelRef = React2.useRef(null);
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
-  React.useEffect(() => {
+  React2.useEffect(() => {
     setMounted(true);
   }, []);
-  React.useEffect(() => {
+  React2.useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setIsOpen(false);
@@ -27,7 +45,7 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  React.useEffect(() => {
+  React2.useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => {
       if (e.key === "Escape") {
@@ -109,6 +127,6 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   ] });
 }
 
-export { ThemeToggle };
-//# sourceMappingURL=chunk-J6GI5FHF.js.map
-//# sourceMappingURL=chunk-J6GI5FHF.js.map
+export { TextShimmer, ThemeToggle };
+//# sourceMappingURL=chunk-F2HG4TOQ.js.map
+//# sourceMappingURL=chunk-F2HG4TOQ.js.map
