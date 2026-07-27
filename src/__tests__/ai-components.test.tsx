@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { YunUIProvider, type YunUIAdapters } from "../adapters/context";
 import {
   ModelCard,
+  ModelSelect,
   CapabilitySelector,
   IDBadge,
   ModelTypeIcon,
@@ -70,6 +71,43 @@ describe("AgentRunStatus", () => {
     expect(screen.getByRole("status")).not.toHaveAttribute("data-active");
     expect(container.querySelector('[data-run-status-pulse]')).toHaveClass("opacity-0");
     expect(screen.getByLabelText("Waiting for approval")).toHaveAttribute("data-active", "false");
+  });
+});
+
+describe("ModelSelect", () => {
+  it("uses an opaque, viewport-bounded panel and preserves visible row boundaries", async () => {
+    const user = userEvent.setup();
+    const scrollIntoView = vi.fn();
+    const originalScrollIntoView = Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView = scrollIntoView;
+
+    const { container } = renderWithProvider(
+      <ModelSelect
+        value="third"
+        onChange={() => {}}
+        options={[
+          { id: "first", label: "First", group: "provider" },
+          { id: "second", label: "Second", group: "provider" },
+          { id: "third", label: "Third", group: "provider" },
+        ]}
+      />
+    );
+
+    await user.click(screen.getByRole("button", { name: /Third/ }));
+    const panel = container.querySelector<HTMLElement>('[data-yunui="model-select-panel"]');
+    expect(panel).not.toBeNull();
+    expect(panel).toHaveClass("bg-popover");
+    expect(panel?.className).not.toContain("bg-popover/85");
+    expect(panel?.className).not.toContain("backdrop-blur");
+    expect(panel?.style.maxHeight).toContain("32rem");
+
+    await new Promise((resolve) => setTimeout(resolve, 60));
+    expect(scrollIntoView).toHaveBeenCalledWith({ block: "nearest" });
+    if (originalScrollIntoView) {
+      Element.prototype.scrollIntoView = originalScrollIntoView;
+    } else {
+      delete (Element.prototype as Partial<Element>).scrollIntoView;
+    }
   });
 });
 

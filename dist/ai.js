@@ -525,7 +525,7 @@ function ModelSelect({
       inputRef.current?.focus();
       if (value && listRef.current) {
         const el = listRef.current.querySelector(`[data-model-id="${CSS.escape(value)}"]`);
-        el?.scrollIntoView({ block: "center" });
+        el?.scrollIntoView({ block: "nearest" });
       }
     }, 50);
     return () => clearTimeout(t);
@@ -580,6 +580,7 @@ function ModelSelect({
     onChange(id);
     setIsOpen(false);
   };
+  const panelMaxHeight = maxHeight == null ? "min(32rem, calc(100dvh - 7rem))" : `min(${maxHeight}px, 32rem, calc(100dvh - 7rem))`;
   const flatOptions = useMemo(() => {
     const out = [...pinnedList];
     for (const opts of Object.values(grouped)) out.push(...opts);
@@ -644,8 +645,9 @@ function ModelSelect({
           initial: { opacity: 0, y: -8, scale: 0.96 },
           animate: { opacity: 1, y: 0, scale: 1 },
           transition: { duration: 0.16, ease: "easeOut" },
-          style: { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight },
-          className: `absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`,
+          "data-yunui": "model-select-panel",
+          style: { maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight: panelMaxHeight },
+          className: `absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`,
           children: [
             renderHeader && /* @__PURE__ */ jsx("div", { className: "p-2.5 border-b border-border/50", children: renderHeader() }),
             /* @__PURE__ */ jsxs("div", { className: "p-2.5 border-b border-border/50", children: [

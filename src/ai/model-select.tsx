@@ -236,7 +236,10 @@ export function ModelSelect({
             inputRef.current?.focus();
             if (value && listRef.current) {
                 const el = listRef.current.querySelector<HTMLElement>(`[data-model-id="${CSS.escape(value)}"]`);
-                el?.scrollIntoView({ block: "center" });
+                // Do not centre a selection that is already visible. On compact
+                // screens that needlessly moves the first row under the sticky
+                // group header, leaving a clipped half-row at the top edge.
+                el?.scrollIntoView({ block: "nearest" });
             }
         }, 50);
         return () => clearTimeout(t);
@@ -295,6 +298,9 @@ export function ModelSelect({
     };
 
     const select = (id: string) => { onChange(id); setIsOpen(false); };
+    const panelMaxHeight = maxHeight == null
+        ? "min(32rem, calc(100dvh - 7rem))"
+        : `min(${maxHeight}px, 32rem, calc(100dvh - 7rem))`;
 
     // Keyboard navigation (combobox + listbox a11y): the search input keeps DOM
     // focus and drives a highlighted row via aria-activedescendant, so Arrow keys
@@ -386,8 +392,9 @@ export function ModelSelect({
                            the panel never spills off the right/bottom of the screen —
                            margin (not transform) so it doesn't fight the open
                            animation; height paired with the flex-1 scroll list below. */
-                        style={{ maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight }}
-                        className={`absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover/85 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`}
+                        data-yunui="model-select-panel"
+                        style={{ maxWidth: "calc(100vw - 1rem)", marginLeft: shift, maxHeight: panelMaxHeight }}
+                        className={`absolute z-50 left-0 ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} w-96 max-w-[calc(100vw-1rem)] flex flex-col bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 text-popover-foreground overflow-hidden`}
                     >
                         {/* Consumer header (e.g. a browse-mode switch) — pinned to the top of the
                             panel, always visible even when the list below is empty. */}
