@@ -37,4 +37,28 @@ describe("Toaster", () => {
       undefined,
     );
   });
+
+  it("supports shell-safe offsets without losing YunUI toast styling", () => {
+    render(
+      <Toaster
+        offset={{ bottom: 176, right: 16 }}
+        mobileOffset={{ bottom: 152, right: 12 }}
+        toastOptions={{ classNames: { toast: "custom-toast" } }}
+      />,
+    );
+
+    expect(mocks.toaster).toHaveBeenCalledWith(
+      expect.objectContaining({
+        offset: { bottom: 176, right: 16 },
+        mobileOffset: { bottom: 152, right: 12 },
+        toastOptions: expect.objectContaining({
+          classNames: expect.objectContaining({
+            toast: "custom-toast",
+            title: "text-sm font-medium",
+          }),
+        }),
+      }),
+      undefined,
+    );
+  });
 });

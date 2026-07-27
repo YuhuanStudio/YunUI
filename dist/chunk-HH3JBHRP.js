@@ -1033,20 +1033,32 @@ function AreaChart({
     showXAxis && xLabels.length > 1 && /* @__PURE__ */ jsx("div", { className: "mt-1.5 flex justify-between px-1 text-xs text-muted-foreground", children: points.filter((p, i) => p.label != null && i % Math.ceil(points.length / 6) === 0).map((p, i) => /* @__PURE__ */ jsx("span", { className: "truncate", children: p.label }, i)) })
   ] });
 }
-function Toaster() {
+var defaultClassNames = {
+  toast: "bg-card border border-border rounded-xl shadow-lg p-4",
+  title: "text-sm font-medium",
+  description: "text-xs text-muted-foreground",
+  actionButton: "bg-foreground text-background text-xs px-3 py-1.5 rounded-lg",
+  cancelButton: "text-muted-foreground text-xs px-3 py-1.5 rounded-lg hover:bg-muted"
+};
+function Toaster({
+  position = "bottom-right",
+  visibleToasts = 1,
+  expand = true,
+  toastOptions,
+  ...props
+}) {
   return /* @__PURE__ */ jsx(
     Toaster$1,
     {
-      position: "bottom-right",
-      visibleToasts: 1,
-      expand: true,
+      ...props,
+      position,
+      visibleToasts,
+      expand,
       toastOptions: {
+        ...toastOptions,
         classNames: {
-          toast: "bg-card border border-border rounded-xl shadow-lg p-4",
-          title: "text-sm font-medium",
-          description: "text-xs text-muted-foreground",
-          actionButton: "bg-foreground text-background text-xs px-3 py-1.5 rounded-lg",
-          cancelButton: "text-muted-foreground text-xs px-3 py-1.5 rounded-lg hover:bg-muted"
+          ...defaultClassNames,
+          ...toastOptions?.classNames
         }
       }
     }
@@ -1195,5 +1207,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-5F3X7PUF.js.map
-//# sourceMappingURL=chunk-5F3X7PUF.js.map
+//# sourceMappingURL=chunk-HH3JBHRP.js.map
+//# sourceMappingURL=chunk-HH3JBHRP.js.map

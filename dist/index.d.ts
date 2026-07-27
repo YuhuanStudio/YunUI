@@ -13,6 +13,7 @@ import { LucideIcon } from 'lucide-react';
 import * as Primitive from '@radix-ui/react-collapsible';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import { ToasterProps } from 'sonner';
 import { ClassValue } from 'clsx';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
@@ -1197,7 +1198,7 @@ interface AreaChartProps {
  */
 declare function AreaChart({ data, tone, color, height, formatValue, showGrid, showTooltip, showXAxis, strokeWidth, ariaLabel, noDataLabel, className, }: AreaChartProps): React$1.JSX.Element;
 
-declare function Toaster(): React$1.JSX.Element;
+declare function Toaster({ position, visibleToasts, expand, toastOptions, ...props }: ToasterProps): React$1.JSX.Element;
 declare const toast: {
     success: (message: string, description?: string) => void;
     error: (message: string, description?: string) => void;

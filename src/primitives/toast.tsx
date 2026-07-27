@@ -1,29 +1,46 @@
 "use client";
 
-import { Toaster as SonnerToaster, toast as sonnerToast } from "sonner";
+import {
+    Toaster as SonnerToaster,
+    toast as sonnerToast,
+    type ToasterProps,
+} from "sonner";
 import { CheckCircle2, AlertCircle, Info, AlertTriangle, Loader2 } from "lucide-react";
 
 // =====================================================
 // TOAST PROVIDER
 // =====================================================
 
-export function Toaster() {
+const defaultClassNames = {
+    toast: "bg-card border border-border rounded-xl shadow-lg p-4",
+    title: "text-sm font-medium",
+    description: "text-xs text-muted-foreground",
+    actionButton: "bg-foreground text-background text-xs px-3 py-1.5 rounded-lg",
+    cancelButton: "text-muted-foreground text-xs px-3 py-1.5 rounded-lg hover:bg-muted",
+};
+
+export function Toaster({
+    position = "bottom-right",
+    visibleToasts = 1,
+    expand = true,
+    toastOptions,
+    ...props
+}: ToasterProps) {
     return (
         <SonnerToaster
-            position="bottom-right"
+            {...props}
+            position={position}
             // Sonner intentionally hides the content of collapsed back cards.
             // In application shells that looks like a broken, empty toast.
             // Keep one notification visible and render the stack expanded so
             // an exiting or queued notification never becomes a blank card.
-            visibleToasts={1}
-            expand
+            visibleToasts={visibleToasts}
+            expand={expand}
             toastOptions={{
+                ...toastOptions,
                 classNames: {
-                    toast: "bg-card border border-border rounded-xl shadow-lg p-4",
-                    title: "text-sm font-medium",
-                    description: "text-xs text-muted-foreground",
-                    actionButton: "bg-foreground text-background text-xs px-3 py-1.5 rounded-lg",
-                    cancelButton: "text-muted-foreground text-xs px-3 py-1.5 rounded-lg hover:bg-muted",
+                    ...defaultClassNames,
+                    ...toastOptions?.classNames,
                 },
             }}
         />
