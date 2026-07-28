@@ -95,7 +95,7 @@ function Chevron({ open }) {
   return /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("shrink-0 text-muted-foreground/50 transition-transform duration-200", open && "rotate-180") });
 }
 function ReasoningRow({ block, isLast, renderContent }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(block.defaultOpen ?? false);
   return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
     /* @__PURE__ */ jsx(Rail, { tone: block.active ? "running" : "muted", isLast, children: /* @__PURE__ */ jsxs("span", { className: "relative flex items-center justify-center", children: [
       block.active ? /* @__PURE__ */ jsx(

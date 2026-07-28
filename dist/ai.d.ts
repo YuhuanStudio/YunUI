@@ -35,6 +35,8 @@ type AgentTimelineBlock = {
     content: string;
     /** Marks the one current reasoning summary in a live turn. */
     active?: boolean;
+    /** Opens the disclosure on first render while retaining user control. */
+    defaultOpen?: boolean;
 } | {
     kind: "tool";
     id: string;

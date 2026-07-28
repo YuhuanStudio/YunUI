@@ -27,6 +27,8 @@ export type AgentTimelineBlock =
           kind: "reasoning"; id: string; label: string; content: string
           /** Marks the one current reasoning summary in a live turn. */
           active?: boolean
+          /** Opens the disclosure on first render while retaining user control. */
+          defaultOpen?: boolean
       }
     | {
           kind: "tool"; id: string; verb: string; summary?: string
@@ -95,7 +97,7 @@ function Chevron({ open }: { open: boolean }) {
 }
 
 function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTimelineBlock, { kind: "reasoning" }>; isLast: boolean; renderContent?: (t: string) => ReactNode }) {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(block.defaultOpen ?? false);
     return (
         <div className="flex gap-2.5">
             <Rail tone={block.active ? "running" : "muted"} isLast={isLast}>

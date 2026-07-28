@@ -45,6 +45,26 @@ describe("AgentTimeline", () => {
     );
     expect(container.querySelectorAll('[data-agent-timeline-active="true"]')).toHaveLength(1);
   });
+
+  it("can expose reasoning on first render without removing disclosure control", () => {
+    renderWithProvider(
+      <AgentTimeline
+        blocks={[
+          {
+            kind: "reasoning",
+            id: "visible",
+            label: "Checked evidence",
+            content: "Compared the claim with the attached source.",
+            defaultOpen: true,
+          },
+        ]}
+      />
+    );
+
+    const trigger = screen.getByRole("button", { name: "Checked evidence" });
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText("Compared the claim with the attached source.")).toBeVisible();
+  });
 });
 
 describe("AgentRunStatus", () => {
