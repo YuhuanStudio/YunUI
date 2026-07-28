@@ -117,36 +117,46 @@ function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTi
                 </span>
             </Rail>
             <div className="min-w-0 flex-1 pb-2">
-                <button
-                    type="button"
-                    onClick={() => expandable && setOpen(!open)}
-                    aria-expanded={expandable ? open : undefined}
+                <div
+                    data-yunui="agent-timeline-reasoning-disclosure"
                     className={cn(
-                        "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-                        expandable ? "cursor-pointer hover:bg-muted/50" : "cursor-default",
+                        "overflow-hidden rounded-lg",
+                        expandable && "border border-border/60 bg-muted/20",
                     )}
                 >
-                    {block.active ? (
-                        <TextShimmer
-                            text={block.label}
-                            className="min-w-0 flex-1 truncate text-[13px]"
-                            data-agent-timeline-active="true"
-                        />
-                    ) : (
-                        <span className="flex-1 truncate text-[13px] text-muted-foreground">{block.label}</span>
-                    )}
-                    {expandable ? <Chevron open={open} /> : null}
-                </button>
-                {expandable ? (
-                    <Collapse open={open}>
-                        <div
-                            data-yunui="agent-timeline-reasoning-content"
-                            className="mt-1 px-1.5 pb-2 pt-1 text-[12.5px] leading-relaxed text-muted-foreground"
-                        >
-                            {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
-                        </div>
-                    </Collapse>
-                ) : null}
+                    <button
+                        type="button"
+                        onClick={() => expandable && setOpen(!open)}
+                        aria-expanded={expandable ? open : undefined}
+                        className={cn(
+                            "flex h-[30px] w-full items-center gap-2 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+                            expandable
+                                ? "cursor-pointer rounded-none px-2.5 hover:bg-muted/40"
+                                : "cursor-default rounded-md px-1.5",
+                        )}
+                    >
+                        {block.active ? (
+                            <TextShimmer
+                                text={block.label}
+                                className="min-w-0 flex-1 truncate text-[13px]"
+                                data-agent-timeline-active="true"
+                            />
+                        ) : (
+                            <span className="flex-1 truncate text-[13px] text-muted-foreground">{block.label}</span>
+                        )}
+                        {expandable ? <Chevron open={open} /> : null}
+                    </button>
+                    {expandable ? (
+                        <Collapse open={open}>
+                            <div
+                                data-yunui="agent-timeline-reasoning-content"
+                                className="border-t border-border/50 px-2.5 pb-2.5 pt-2 text-[12.5px] leading-relaxed text-muted-foreground"
+                            >
+                                {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
+                            </div>
+                        </Collapse>
+                    ) : null}
+                </div>
             </div>
         </div>
     );

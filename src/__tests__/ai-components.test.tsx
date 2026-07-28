@@ -67,9 +67,13 @@ describe("AgentTimeline", () => {
     const content = screen.getByText("Compared the claim with the attached source.").closest(
       '[data-yunui="agent-timeline-reasoning-content"]',
     );
-    expect(content).not.toHaveClass("border");
+    const disclosure = content?.closest(
+      '[data-yunui="agent-timeline-reasoning-disclosure"]',
+    );
+    expect(disclosure).toHaveClass("border");
+    expect(disclosure).toHaveClass("rounded-lg");
+    expect(content).toHaveClass("border-t");
     expect(content?.className).not.toContain("border-l");
-    expect(content).not.toHaveClass("bg-muted/30");
   });
 
   it("keeps an active model stage visible without inventing an empty disclosure", () => {
@@ -90,6 +94,9 @@ describe("AgentTimeline", () => {
 
     const stage = screen.getByRole("button", { name: "Checking evidence" });
     expect(stage).not.toHaveAttribute("aria-expanded");
+    expect(
+      stage.closest('[data-yunui="agent-timeline-reasoning-disclosure"]'),
+    ).not.toHaveClass("border");
     expect(document.querySelector('[data-yunui="agent-timeline-reasoning-content"]')).toBeNull();
   });
 });

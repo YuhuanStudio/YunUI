@@ -115,39 +115,49 @@ function ReasoningRow({ block, isLast, renderContent }) {
         }
       )
     ] }) }),
-    /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1 pb-2", children: [
-      /* @__PURE__ */ jsxs(
-        "button",
-        {
-          type: "button",
-          onClick: () => expandable && setOpen(!open),
-          "aria-expanded": expandable ? open : void 0,
-          className: cn(
-            "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-            expandable ? "cursor-pointer hover:bg-muted/50" : "cursor-default"
+    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs(
+      "div",
+      {
+        "data-yunui": "agent-timeline-reasoning-disclosure",
+        className: cn(
+          "overflow-hidden rounded-lg",
+          expandable && "border border-border/60 bg-muted/20"
+        ),
+        children: [
+          /* @__PURE__ */ jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => expandable && setOpen(!open),
+              "aria-expanded": expandable ? open : void 0,
+              className: cn(
+                "flex h-[30px] w-full items-center gap-2 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+                expandable ? "cursor-pointer rounded-none px-2.5 hover:bg-muted/40" : "cursor-default rounded-md px-1.5"
+              ),
+              children: [
+                block.active ? /* @__PURE__ */ jsx(
+                  TextShimmer,
+                  {
+                    text: block.label,
+                    className: "min-w-0 flex-1 truncate text-[13px]",
+                    "data-agent-timeline-active": "true"
+                  }
+                ) : /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
+                expandable ? /* @__PURE__ */ jsx(Chevron, { open }) : null
+              ]
+            }
           ),
-          children: [
-            block.active ? /* @__PURE__ */ jsx(
-              TextShimmer,
-              {
-                text: block.label,
-                className: "min-w-0 flex-1 truncate text-[13px]",
-                "data-agent-timeline-active": "true"
-              }
-            ) : /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
-            expandable ? /* @__PURE__ */ jsx(Chevron, { open }) : null
-          ]
-        }
-      ),
-      expandable ? /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx(
-        "div",
-        {
-          "data-yunui": "agent-timeline-reasoning-content",
-          className: "mt-1 px-1.5 pb-2 pt-1 text-[12.5px] leading-relaxed text-muted-foreground",
-          children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content })
-        }
-      ) }) : null
-    ] })
+          expandable ? /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx(
+            "div",
+            {
+              "data-yunui": "agent-timeline-reasoning-content",
+              className: "border-t border-border/50 px-2.5 pb-2.5 pt-2 text-[12.5px] leading-relaxed text-muted-foreground",
+              children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content })
+            }
+          ) }) : null
+        ]
+      }
+    ) })
   ] });
 }
 function ToolRow({ block, isLast }) {
