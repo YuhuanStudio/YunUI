@@ -67,8 +67,9 @@ describe("AgentTimeline", () => {
     const content = screen.getByText("Compared the claim with the attached source.").closest(
       '[data-yunui="agent-timeline-reasoning-content"]',
     );
-    expect(content).toHaveClass("border");
-    expect(content).not.toHaveClass("border-l-2");
+    expect(content).not.toHaveClass("border");
+    expect(content?.className).not.toContain("border-l");
+    expect(content).not.toHaveClass("bg-muted/30");
   });
 
   it("keeps an active model stage visible without inventing an empty disclosure", () => {
