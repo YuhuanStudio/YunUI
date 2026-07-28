@@ -143,7 +143,7 @@ function ReasoningRow({ block, isLast, renderContent }) {
         "div",
         {
           "data-yunui": "agent-timeline-reasoning-content",
-          className: "mt-1.5 rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground",
+          className: "mt-1 px-1.5 pb-2 pt-1 text-[12.5px] leading-relaxed text-muted-foreground",
           children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content })
         }
       ) }) : null
