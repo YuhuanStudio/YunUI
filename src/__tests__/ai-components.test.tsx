@@ -64,6 +64,11 @@ describe("AgentTimeline", () => {
     const trigger = screen.getByRole("button", { name: "Checked evidence" });
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByText("Compared the claim with the attached source.")).toBeVisible();
+    const content = screen.getByText("Compared the claim with the attached source.").closest(
+      '[data-yunui="agent-timeline-reasoning-content"]',
+    );
+    expect(content).toHaveClass("border");
+    expect(content).not.toHaveClass("border-l-2");
   });
 });
 

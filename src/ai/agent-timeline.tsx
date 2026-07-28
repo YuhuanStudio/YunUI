@@ -132,7 +132,10 @@ function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTi
                     <Chevron open={open} />
                 </button>
                 <Collapse open={open}>
-                    <div className="mt-1.5 rounded-md border-l-2 border-border bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground">
+                    <div
+                        data-yunui="agent-timeline-reasoning-content"
+                        className="mt-1.5 rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground"
+                    >
                         {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
                     </div>
                 </Collapse>
