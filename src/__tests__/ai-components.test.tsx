@@ -70,6 +70,27 @@ describe("AgentTimeline", () => {
     expect(content).toHaveClass("border");
     expect(content).not.toHaveClass("border-l-2");
   });
+
+  it("keeps an active model stage visible without inventing an empty disclosure", () => {
+    renderWithProvider(
+      <AgentTimeline
+        blocks={[
+          {
+            kind: "reasoning",
+            id: "waiting",
+            label: "Checking evidence",
+            content: "",
+            active: true,
+            defaultOpen: true,
+          },
+        ]}
+      />
+    );
+
+    const stage = screen.getByRole("button", { name: "Checking evidence" });
+    expect(stage).not.toHaveAttribute("aria-expanded");
+    expect(document.querySelector('[data-yunui="agent-timeline-reasoning-content"]')).toBeNull();
+  });
 });
 
 describe("AgentRunStatus", () => {

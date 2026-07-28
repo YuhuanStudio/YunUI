@@ -96,6 +96,7 @@ function Chevron({ open }) {
 }
 function ReasoningRow({ block, isLast, renderContent }) {
   const [open, setOpen] = useState(block.defaultOpen ?? false);
+  const expandable = Boolean(block.content.trim());
   return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
     /* @__PURE__ */ jsx(Rail, { tone: block.active ? "running" : "muted", isLast, children: /* @__PURE__ */ jsxs("span", { className: "relative flex items-center justify-center", children: [
       block.active ? /* @__PURE__ */ jsx(
@@ -119,9 +120,12 @@ function ReasoningRow({ block, isLast, renderContent }) {
         "button",
         {
           type: "button",
-          onClick: () => setOpen(!open),
-          "aria-expanded": open,
-          className: "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+          onClick: () => expandable && setOpen(!open),
+          "aria-expanded": expandable ? open : void 0,
+          className: cn(
+            "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+            expandable ? "cursor-pointer hover:bg-muted/50" : "cursor-default"
+          ),
           children: [
             block.active ? /* @__PURE__ */ jsx(
               TextShimmer,
@@ -131,18 +135,18 @@ function ReasoningRow({ block, isLast, renderContent }) {
                 "data-agent-timeline-active": "true"
               }
             ) : /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
-            /* @__PURE__ */ jsx(Chevron, { open })
+            expandable ? /* @__PURE__ */ jsx(Chevron, { open }) : null
           ]
         }
       ),
-      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx(
+      expandable ? /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx(
         "div",
         {
           "data-yunui": "agent-timeline-reasoning-content",
           className: "mt-1.5 rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground",
           children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content })
         }
-      ) })
+      ) }) : null
     ] })
   ] });
 }
@@ -222,7 +226,7 @@ function ApprovalRow({ block, isLast, onApprove, onReject }) {
   ] });
 }
 function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }) {
-  const visible = blocks.filter((b) => !(b.kind === "reasoning" && !b.content.trim()));
+  const visible = blocks.filter((b) => !(b.kind === "reasoning" && !b.content.trim() && !b.active));
   if (!visible.length) return null;
   return /* @__PURE__ */ jsx("div", { className: cn("flex flex-col", className), children: visible.map((b, i) => {
     const isLast = i === visible.length - 1;

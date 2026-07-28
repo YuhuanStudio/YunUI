@@ -98,6 +98,7 @@ function Chevron({ open }: { open: boolean }) {
 
 function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTimelineBlock, { kind: "reasoning" }>; isLast: boolean; renderContent?: (t: string) => ReactNode }) {
     const [open, setOpen] = useState(block.defaultOpen ?? false);
+    const expandable = Boolean(block.content.trim());
     return (
         <div className="flex gap-2.5">
             <Rail tone={block.active ? "running" : "muted"} isLast={isLast}>
@@ -117,8 +118,13 @@ function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTi
             </Rail>
             <div className="min-w-0 flex-1 pb-2">
                 <button
-                    type="button" onClick={() => setOpen(!open)} aria-expanded={open}
-                    className="flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+                    type="button"
+                    onClick={() => expandable && setOpen(!open)}
+                    aria-expanded={expandable ? open : undefined}
+                    className={cn(
+                        "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+                        expandable ? "cursor-pointer hover:bg-muted/50" : "cursor-default",
+                    )}
                 >
                     {block.active ? (
                         <TextShimmer
@@ -129,16 +135,18 @@ function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTi
                     ) : (
                         <span className="flex-1 truncate text-[13px] text-muted-foreground">{block.label}</span>
                     )}
-                    <Chevron open={open} />
+                    {expandable ? <Chevron open={open} /> : null}
                 </button>
-                <Collapse open={open}>
-                    <div
-                        data-yunui="agent-timeline-reasoning-content"
-                        className="mt-1.5 rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground"
-                    >
-                        {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
-                    </div>
-                </Collapse>
+                {expandable ? (
+                    <Collapse open={open}>
+                        <div
+                            data-yunui="agent-timeline-reasoning-content"
+                            className="mt-1.5 rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-[12.5px] leading-relaxed text-muted-foreground"
+                        >
+                            {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
+                        </div>
+                    </Collapse>
+                ) : null}
             </div>
         </div>
     );
@@ -238,8 +246,12 @@ function ApprovalRow({ block, isLast, onApprove, onReject }: { block: Extract<Ag
 }
 
 export function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }: AgentTimelineProps) {
-    // Drop empty reasoning up front so rail connectors (isLast) are accurate.
-    const visible = blocks.filter((b) => !(b.kind === "reasoning" && !b.content.trim()));
+    // A current model call may not have emitted provider reasoning yet. Keep
+    // that one active row as a non-expandable stage indicator; historical
+    // empty rows still disappear so rail connectors remain accurate.
+    const visible = blocks.filter((b) => !(
+        b.kind === "reasoning" && !b.content.trim() && !b.active
+    ));
     if (!visible.length) return null;
     return (
         <div className={cn("flex flex-col", className)}>
