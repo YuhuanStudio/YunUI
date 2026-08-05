@@ -71,6 +71,9 @@ export function MathRenderer({ math, block = false, className }: MathRendererPro
   if (block) {
     return (
       <div
+        /* A long display equation scrolls sideways; without this the tail of
+           it is pointer-only. WCAG 2.1.1. */
+        tabIndex={0}
         className={cn(
           "my-4 py-4 overflow-x-auto text-center",
           "[&_.katex]:text-lg",

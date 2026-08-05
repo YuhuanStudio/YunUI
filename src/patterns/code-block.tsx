@@ -250,7 +250,17 @@ export function CodeBlock({
             </div>
 
             <div className="p-4 bg-(--bg-base)">
-                <pre className="text-sm overflow-x-auto">
+                {/* tabIndex, because this scrolls. A region that overflows and
+                    is not focusable can be scrolled with a mouse or a finger
+                    and by no other means: a keyboard user cannot reach it, so
+                    whatever is past the right edge of a long command is simply
+                    unreadable to them. WCAG 2.1.1, and axe reports it as
+                    scrollable-region-focusable.
+
+                    No role and no label: the content is already a <pre>, and
+                    announcing a wrapper adds a stop on the way to it without
+                    saying anything the code does not. */}
+                <pre className="text-sm overflow-x-auto" tabIndex={0}>
                     <code className="font-mono" style={{ color: 'var(--text-primary)' }}>
                         {showLineNumbers ? (
                             <div

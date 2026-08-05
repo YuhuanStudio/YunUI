@@ -207,7 +207,7 @@ export function MermaidDiagram({
               <summary className="text-xs text-(--text-tertiary) cursor-pointer hover:text-(--text-primary)">
                 {t("viewSource", "View source")}
               </summary>
-              <pre className="mt-2 p-2 bg-(--bg-elevated) rounded text-xs overflow-auto">
+              <pre className="mt-2 p-2 bg-(--bg-elevated) rounded text-xs overflow-auto" tabIndex={0}>
                 {chart}
               </pre>
             </details>
@@ -240,6 +240,11 @@ export function MermaidDiagram({
         onClick={enableZoom ? () => setZoomOpen(true) : undefined}
         role={enableZoom ? "button" : undefined}
         aria-label={enableZoom ? t("zoomDiagram", "Zoom diagram") : undefined}
+        /* Unconditional, and it fixes two things at once. With zoom on, a
+           role="button" that cannot be tabbed to is a control a keyboard user
+           can see and never operate; with zoom off, the container still scrolls
+           sideways and its right-hand edge would be pointer-only. */
+        tabIndex={0}
         className={cn(
           "mermaid-container card my-4 p-4 overflow-x-auto",
           "flex items-center justify-center",

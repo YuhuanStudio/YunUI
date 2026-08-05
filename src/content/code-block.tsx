@@ -392,7 +392,12 @@ export function CodeBlock({
         </div>
       </div>
 
+      {/* Focusable because it scrolls in both directions. Without it a
+          keyboard user cannot reach anything past the right edge or below the
+          fold of a long sample — the region is reachable by pointer only.
+          WCAG 2.1.1; axe calls it scrollable-region-focusable. */}
       <div
+        tabIndex={0}
         className={cn(
           "overflow-x-auto overflow-y-auto p-4 max-h-100 bg-(--bg-base)",
           showLineNumbers && "code-with-line-numbers",

@@ -6,6 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { Input, Textarea, IconButton, Checkbox } from "../primitives";
 import { Switch, SegmentedSelect } from "../index";
 import { getProviderName, ProviderNames } from "../ai/provider-icons";
+import { CodeBlock } from "../patterns";
 
 // =============================================================================
 // Regression tests for the accessibility / correctness fixes applied to src/.
@@ -184,5 +185,28 @@ describe("getProviderName resolution", () => {
     const zzResult = getProviderName("zz");
     expect(zzResult).toBe("Zz");
     expect(Object.values(ProviderNames)).not.toContain(zzResult);
+  });
+});
+
+// -----------------------------------------------------------------------------
+// Scrollable regions are keyboard-reachable.
+//
+// A region that overflows and is not focusable can be scrolled with a mouse or
+// a finger and by no other means, so anything past its edge is unreadable to a
+// keyboard user. Found with axe (`scrollable-region-focusable`) on a docs page
+// at 390px, where three code samples were wider than the viewport.
+//
+// Asserted on the DOM rather than by scrolling: jsdom has no layout, so
+// overflow never actually occurs here. What can be checked is the contract —
+// every scroll container this library renders carries tabIndex.
+// -----------------------------------------------------------------------------
+describe("Scrollable regions", () => {
+  it("gives the code block's scroll container a tab stop", () => {
+    const { container } = render(
+      <CodeBlock code={"a".repeat(400)} language="bash" />
+    );
+    const scroller = container.querySelector(".overflow-x-auto");
+    expect(scroller).not.toBeNull();
+    expect(scroller).toHaveAttribute("tabindex", "0");
   });
 });

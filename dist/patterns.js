@@ -201,7 +201,7 @@ function CodeBlock({
         }
       )
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "p-4 bg-(--bg-base)", children: /* @__PURE__ */ jsx("pre", { className: "text-sm overflow-x-auto", children: /* @__PURE__ */ jsx("code", { className: "font-mono", style: { color: "var(--text-primary)" }, children: showLineNumbers ? /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsx("div", { className: "p-4 bg-(--bg-base)", children: /* @__PURE__ */ jsx("pre", { className: "text-sm overflow-x-auto", tabIndex: 0, children: /* @__PURE__ */ jsx("code", { className: "font-mono", style: { color: "var(--text-primary)" }, children: showLineNumbers ? /* @__PURE__ */ jsx(
       "div",
       {
         className: "table",

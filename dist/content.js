@@ -308,6 +308,7 @@ function CodeBlock({
         /* @__PURE__ */ jsx(
           "div",
           {
+            tabIndex: 0,
             className: cn(
               "overflow-x-auto overflow-y-auto p-4 max-h-100 bg-(--bg-base)",
               showLineNumbers && "code-with-line-numbers"
@@ -469,7 +470,7 @@ function MermaidDiagram({
             /* @__PURE__ */ jsx("p", { className: "text-xs text-(--text-tertiary) mt-1", children: error }),
             /* @__PURE__ */ jsxs("details", { className: "mt-2", children: [
               /* @__PURE__ */ jsx("summary", { className: "text-xs text-(--text-tertiary) cursor-pointer hover:text-(--text-primary)", children: t("viewSource", "View source") }),
-              /* @__PURE__ */ jsx("pre", { className: "mt-2 p-2 bg-(--bg-elevated) rounded text-xs overflow-auto", children: chart })
+              /* @__PURE__ */ jsx("pre", { className: "mt-2 p-2 bg-(--bg-elevated) rounded text-xs overflow-auto", tabIndex: 0, children: chart })
             ] })
           ] })
         ] })
@@ -499,6 +500,7 @@ function MermaidDiagram({
         onClick: enableZoom ? () => setZoomOpen(true) : void 0,
         role: enableZoom ? "button" : void 0,
         "aria-label": enableZoom ? t("zoomDiagram", "Zoom diagram") : void 0,
+        tabIndex: 0,
         className: cn(
           "mermaid-container card my-4 p-4 overflow-x-auto",
           "flex items-center justify-center",
@@ -809,7 +811,7 @@ function MarkdownRenderer({
         }
         return /* @__PURE__ */ jsx("blockquote", { className: "border-l-4 border-(--border-default) pl-4 my-4 italic text-(--text-secondary)", children });
       },
-      table: ({ children }) => /* @__PURE__ */ jsx("div", { className: "card my-4 overflow-x-auto", children: /* @__PURE__ */ jsx("table", { className: "min-w-full divide-y divide-(--border-hairline)", children }) }),
+      table: ({ children }) => /* @__PURE__ */ jsx("div", { className: "card my-4 overflow-x-auto", tabIndex: 0, children: /* @__PURE__ */ jsx("table", { className: "min-w-full divide-y divide-(--border-hairline)", children }) }),
       thead: ({ children }) => /* @__PURE__ */ jsx("thead", { className: "bg-(--bg-elevated)", children }),
       th: ({ children }) => /* @__PURE__ */ jsx("th", { className: "px-4 py-2 text-left text-sm font-semibold text-(--text-primary)", children }),
       td: ({ children }) => /* @__PURE__ */ jsx("td", { className: "px-4 py-2 text-sm border-t border-(--border-hairline)", children }),
@@ -983,6 +985,7 @@ function MathRenderer({ math, block = false, className }) {
     return /* @__PURE__ */ jsx(
       "div",
       {
+        tabIndex: 0,
         className: cn(
           "my-4 py-4 overflow-x-auto text-center",
           "[&_.katex]:text-lg",

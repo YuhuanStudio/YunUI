@@ -220,7 +220,7 @@ export function MarkdownRenderer({
       },
 
       table: ({ children }) => (
-        <div className="card my-4 overflow-x-auto">
+        <div className="card my-4 overflow-x-auto" tabIndex={0}>
           <table className="min-w-full divide-y divide-(--border-hairline)">{children}</table>
         </div>
       ),
