@@ -89,7 +89,11 @@
   /* Text */
   --text-primary: #09090b;
   --text-secondary: #52525b;
-  --text-tertiary: #71717a;
+  /* Measured against the elevated surface too, not only white. Tertiary text
+     sits on cards and code-block headers more often than on the page itself,
+     and #71717a was 4.40:1 there — under AA while looking fine on white, which
+     is why it went unnoticed. 5.28 on white / 4.81 on #f4f4f5. */
+  --text-tertiary: #6b6b73;
   --text-muted: #71717a;
 
   /* Accent */
@@ -147,7 +151,12 @@
   /* Text */
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
-  --text-tertiary: #71717a;
+  /* Lightened for dark, and measured against the *elevated* surface, not just
+     the base one. Tertiary text lands on cards, code-block headers and inputs
+     far more often than on the page background, and #18181b is the harder of
+     the two. 5.44 on base / 4.85 on elevated, still weaker than
+     --text-secondary so the three-step hierarchy survives. */
+  --text-tertiary: #85858e;
   --text-muted: #52525b;
 
   /* Accent */
@@ -200,7 +209,12 @@
   /* Text - Reduced contrast for eye comfort */
   --text-primary: #d4d4d8;
   --text-secondary: #a1a1aa;
-  --text-tertiary: #71717a;
+  /* Lightened for dark, and measured against the *elevated* surface, not just
+     the base one. Tertiary text lands on cards, code-block headers and inputs
+     far more often than on the page background, and #18181b is the harder of
+     the two. 5.44 on base / 4.85 on elevated, still weaker than
+     --text-secondary so the three-step hierarchy survives. */
+  --text-tertiary: #85858e;
   --text-muted: #52525b;
 
   /* Accent - Softer white */
@@ -838,6 +852,18 @@ summary {
   color: #fafafa;
   background: rgba(255, 255, 255, 0.08);
   border-color: #71717a;
+}
+
+/* The resting state was missing while the hover below existed, so a ghost
+   button kept the light theme's #71717a on a dark page — 4.11:1, under AA.
+   Every sibling variant has both a dark base and a dark hover; this one had
+   only the hover, which is what marks it as an omission rather than a choice.
+   #85858e is --text-tertiary's dark value: 5.44:1 on the page and 4.85:1 on an
+   elevated surface, and still dimmer than .btn-secondary's #d4d4d8 so a ghost
+   still reads as the quieter button. */
+.dark .btn-ghost,
+.true-black .btn-ghost {
+  color: #85858e;
 }
 
 .dark .btn-ghost:hover,
