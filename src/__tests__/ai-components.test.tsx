@@ -499,3 +499,43 @@ describe("Footer", () => {
     expect(links).toHaveLength(2);
   });
 });
+
+// -----------------------------------------------------------------------------
+// Footer columns follow the number of sections.
+//
+// The grid was fixed at md:grid-cols-4, which is the brand plus exactly three
+// sections. A consumer that wanted four left three empty cells beside the
+// wrapped one; a consumer with two left the fourth column blank.
+// -----------------------------------------------------------------------------
+describe("Footer section columns", () => {
+  const section = (title: string) => ({
+    title,
+    links: [{ label: title, href: `/${title}` }],
+  });
+
+  it.each([
+    [1, "md:grid-cols-2"],
+    [2, "md:grid-cols-3"],
+    [3, "md:grid-cols-4"],
+    [4, "md:grid-cols-5"],
+  ])("lays %i sections out as %s", (count, expected) => {
+    const { container } = render(
+      <Footer
+        appName="Test"
+        sections={Array.from({ length: count }, (_, i) => section(`s${i}`))}
+      />
+    );
+    const grid = container.querySelector(".grid");
+    expect(grid?.className).toContain(expected);
+  });
+
+  it("falls back to four columns past the point labels stay readable", () => {
+    const { container } = render(
+      <Footer
+        appName="Test"
+        sections={Array.from({ length: 6 }, (_, i) => section(`s${i}`))}
+      />
+    );
+    expect(container.querySelector(".grid")?.className).toContain("md:grid-cols-4");
+  });
+});

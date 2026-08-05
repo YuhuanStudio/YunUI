@@ -62,6 +62,26 @@ export interface FooterProps {
     copyright?: string;
 }
 
+/**
+ * Columns at md and up: the brand, plus one per section.
+ *
+ * Fixed at four, this only looked right with exactly three sections. A fourth
+ * wrapped onto its own row and left three empty cells beside it — the ragged
+ * shape the grid exists to prevent — and two sections left the fourth column
+ * blank. Found in a consumer that wanted a developer column beside 閱讀,
+ * 訂閱 and 生態.
+ *
+ * A lookup of literal class names rather than a template, because Tailwind
+ * generates what it can see in the source: `md:grid-cols-${n}` is invisible to
+ * it and would silently produce no rule at all.
+ */
+const SECTION_COLUMNS: Record<number, string> = {
+    1: "md:grid-cols-2",
+    2: "md:grid-cols-3",
+    3: "md:grid-cols-4",
+    4: "md:grid-cols-5",
+};
+
 /** Site footer: brand block, link columns, copyright line, and social icons. */
 export function Footer({
     appName,
@@ -73,6 +93,9 @@ export function Footer({
     copyright,
 }: FooterProps) {
     const { Link, Image } = useYunUI();
+    // Five sections or more go back to wrapping in four: past that the columns
+    // are too narrow to read a label in, and the answer is fewer sections.
+    const columns = SECTION_COLUMNS[sections.length] ?? "md:grid-cols-4";
     const year = new Date().getFullYear();
     const copyrightText = copyright ?? `© ${year} ${appName}. All rights reserved.`;
 
@@ -80,7 +103,7 @@ export function Footer({
         <footer className="mt-auto py-6 px-6">
             <div className="max-w-6xl mx-auto">
                 <div className="card p-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className={`grid grid-cols-2 ${columns} gap-6`}>
                         {/* Brand — full width on mobile so it doesn't get squeezed
                             into a half column next to the link sections. */}
                         <div className="col-span-2 md:col-span-1">
