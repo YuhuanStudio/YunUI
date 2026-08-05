@@ -17,6 +17,7 @@ export { LLMCopyButton, ViewOptions } from "./docs-page-actions";
 export { BlogCard } from "./blog-card";
 export { BlogPostHeader } from "./blog-post-header";
 export { BlogPagination } from "./blog-pagination";
+export { ReadingProgress } from "./reading-progress";
 export { SimplePagination } from "./simple-pagination";
 export { CategoryFilter } from "./category-filter";
 

@@ -9,7 +9,7 @@ import { cn } from './chunk-N4QO7RN5.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, ArrowUp, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -560,6 +560,64 @@ function BlogPagination({
           /* @__PURE__ */ jsx("span", { className: "mr-1 hidden sm:inline", children: nextLabel }),
           /* @__PURE__ */ jsx(ChevronRight, { size: 16 })
         ]
+      }
+    )
+  ] });
+}
+function ReadingProgress({
+  threshold = 600,
+  bar = true,
+  backToTop = true,
+  labels,
+  className = ""
+}) {
+  const [progress, setProgress] = useState(0);
+  const [show, setShow] = useState(false);
+  const backToTopLabel = labels?.backToTop ?? "Back to top";
+  useEffect(() => {
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const scrolled = window.scrollY;
+      const reach = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(reach > 0 ? Math.min(100, scrolled / reach * 100) : 0);
+      setShow(scrolled > threshold);
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(measure);
+    };
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [threshold]);
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    bar && /* @__PURE__ */ jsx(
+      "div",
+      {
+        "aria-hidden": true,
+        className: `pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 ${className}`,
+        children: /* @__PURE__ */ jsx(
+          "div",
+          {
+            className: "h-full origin-left bg-[var(--accent)] transition-transform duration-150 ease-out",
+            style: { transform: `scaleX(${progress / 100})` }
+          }
+        )
+      }
+    ),
+    backToTop && /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        "aria-label": backToTopLabel,
+        onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+        className: "fixed bottom-5 right-5 z-50 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-2.5 text-[var(--text-secondary)] shadow-sm backdrop-blur transition-all duration-200 hover:text-[var(--text-primary)] " + (show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"),
+        children: /* @__PURE__ */ jsx(ArrowUp, { size: 16 })
       }
     )
   ] });
@@ -2036,6 +2094,6 @@ function AvatarUploader({
   );
 }
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ReadingProgress, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

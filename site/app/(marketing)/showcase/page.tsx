@@ -142,6 +142,7 @@ import {
   BlogCard,
   BlogPostHeader,
   BlogPagination,
+  ReadingProgress,
   SimplePagination,
   CategoryFilter,
   BackgroundEffects,
@@ -510,6 +511,9 @@ function BlogControlsDemo() {
         onSelect={setCategory}
       />
       <BlogPagination currentPage={page} totalPages={12} onPageChange={setPage} />
+      {/* Fixed to the viewport, so it demonstrates itself against this
+          page's own scroll rather than inside a card. */}
+      <ReadingProgress />
       {/* SimplePagination — cursor / has-more lists with no known total */}
       <SimplePagination
         currentPage={page}
