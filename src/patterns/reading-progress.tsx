@@ -71,7 +71,7 @@ export function ReadingProgress({
           {/* scaleX rather than width: it animates on the compositor and never
               triggers layout, which matters on a page long enough to need this. */}
           <div
-            className="h-full origin-left bg-[var(--accent)] transition-transform duration-150 ease-out"
+            className="bg-accent h-full origin-left transition-transform duration-150 ease-out"
             style={{ transform: `scaleX(${progress / 100})` }}
           />
         </div>
@@ -83,9 +83,12 @@ export function ReadingProgress({
           aria-label={backToTopLabel}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className={
-            "fixed bottom-5 right-5 z-50 rounded-full border border-[var(--border-hairline)] " +
-            "bg-[var(--bg-elevated)] p-2.5 text-[var(--text-secondary)] shadow-sm backdrop-blur " +
-            "transition-all duration-200 hover:text-[var(--text-primary)] " +
+            // The house classes, not raw var() in a class string: patterns use
+            // `text-muted-foreground` and `border-border` throughout, and those
+            // bridge to the same tokens through @theme.
+            "border-border bg-(--bg-elevated) text-muted-foreground hover:text-foreground " +
+            "fixed bottom-5 right-5 z-50 rounded-full border p-2.5 shadow-sm backdrop-blur " +
+            "transition-all duration-200 " +
             (show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0")
           }
         >
