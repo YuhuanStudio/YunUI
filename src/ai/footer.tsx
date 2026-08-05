@@ -98,7 +98,12 @@ export function Footer({
                                 <ul className="space-y-1.5 text-sm">
                                     {section.links.map((link) => (
                                         <li key={link.href}>
-                                            <Link href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
+                                            {/* inline-block with vertical padding so the
+                                                tap target clears 24px. Measured on an
+                                                iPhone 14 the links were 17px tall — under
+                                                WCAG 2.2 AA's 24px minimum — because an
+                                                inline <a> is only as tall as its text. */}
+                                            <Link href={link.href} className="text-muted-foreground hover:text-foreground inline-block py-1 transition-colors">
                                                 {link.label}
                                             </Link>
                                         </li>
@@ -111,14 +116,18 @@ export function Footer({
                     {/* Bottom: Copyright + Social Icons */}
                     <div className="mt-5 pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
                         <span>{copyrightText}</span>
-                        <div className="flex items-center gap-4">
+                        {/* gap-2 with padding on the links rather than gap-4 on bare
+                            icons: an icon-only <a> is exactly the icon's size, so these
+                            were 16-18px tap targets — under WCAG 2.2 AA's 24px. The
+                            padding restores the visual spacing the gap gave up. */}
+                        <div className="flex items-center gap-2">
                             {social.map((link) => (
                                 <a
                                     key={link.label}
                                     href={link.href}
                                     target={link.href.startsWith("/") || link.href.startsWith("mailto:") ? undefined : "_blank"}
                                     rel={link.href.startsWith("/") || link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                                    className="text-muted-foreground hover:text-foreground transition-colors"
+                                    className="text-muted-foreground hover:text-foreground -m-1 inline-flex items-center justify-center p-2 transition-colors"
                                     aria-label={link.label}
                                 >
                                     {link.icon}

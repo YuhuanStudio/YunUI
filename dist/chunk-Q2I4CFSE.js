@@ -28,18 +28,18 @@ function Footer({
       ] }),
       sections.map((section) => /* @__PURE__ */ jsxs("div", { children: [
         /* @__PURE__ */ jsx("h4", { className: "text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2", children: section.title }),
-        /* @__PURE__ */ jsx("ul", { className: "space-y-1.5 text-sm", children: section.links.map((link) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(Link, { href: link.href, className: "text-muted-foreground hover:text-foreground transition-colors", children: link.label }) }, link.href)) })
+        /* @__PURE__ */ jsx("ul", { className: "space-y-1.5 text-sm", children: section.links.map((link) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(Link, { href: link.href, className: "text-muted-foreground hover:text-foreground inline-block py-1 transition-colors", children: link.label }) }, link.href)) })
       ] }, section.title))
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mt-5 pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground", children: [
       /* @__PURE__ */ jsx("span", { children: copyrightText }),
-      /* @__PURE__ */ jsx("div", { className: "flex items-center gap-4", children: social.map((link) => /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsx("div", { className: "flex items-center gap-2", children: social.map((link) => /* @__PURE__ */ jsx(
         "a",
         {
           href: link.href,
           target: link.href.startsWith("/") || link.href.startsWith("mailto:") ? void 0 : "_blank",
           rel: link.href.startsWith("/") || link.href.startsWith("mailto:") ? void 0 : "noopener noreferrer",
-          className: "text-muted-foreground hover:text-foreground transition-colors",
+          className: "text-muted-foreground hover:text-foreground -m-1 inline-flex items-center justify-center p-2 transition-colors",
           "aria-label": link.label,
           children: link.icon
         },
@@ -75,5 +75,5 @@ async function copyToClipboard(text) {
 }
 
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon, copyToClipboard };
-//# sourceMappingURL=chunk-UYYG4XDW.js.map
-//# sourceMappingURL=chunk-UYYG4XDW.js.map
+//# sourceMappingURL=chunk-Q2I4CFSE.js.map
+//# sourceMappingURL=chunk-Q2I4CFSE.js.map

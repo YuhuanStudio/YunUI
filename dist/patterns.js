@@ -1,7 +1,7 @@
 "use client";
 import './chunk-HH3JBHRP.js';
-import { copyToClipboard } from './chunk-UYYG4XDW.js';
-export { Footer } from './chunk-UYYG4XDW.js';
+import { copyToClipboard } from './chunk-Q2I4CFSE.js';
+export { Footer } from './chunk-Q2I4CFSE.js';
 import './chunk-F2HG4TOQ.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
 import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-BCOKFWXC.js';
