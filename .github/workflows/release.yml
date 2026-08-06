@@ -10,7 +10,7 @@ on:
       - "v*"
 
 permissions:
-  contents: read
+  contents: write # create the GitHub Release
   id-token: write # required for npm provenance
 
 jobs:
@@ -56,3 +56,25 @@ jobs:
 
       - name: Publish to npm (tokenless OIDC + provenance)
         run: npm publish --provenance --access public
+
+      # Create the GitHub Release from this version's CHANGELOG section, so the
+      # Releases page stays in sync with npm without a manual `gh release create`.
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          # Slice out the "## [VERSION] ..." section up to the next "## [" heading.
+          awk -v v="## [$VERSION]" '
+            index($0, v) == 1 { f = 1; next }
+            f && /^## \[/ { exit }
+            f { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+          if [ -s RELEASE_NOTES.md ]; then
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" \
+              --notes-file RELEASE_NOTES.md --verify-tag --latest
+          else
+            echo "::warning::No CHANGELOG section for $VERSION; using auto-generated notes"
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" \
+              --generate-notes --verify-tag --latest
+          fi
