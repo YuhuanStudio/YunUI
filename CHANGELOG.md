@@ -11,6 +11,17 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Performance
+- **`useAnchoredPosition` no longer thrashes layout on scroll.** An open floating
+  panel (select / combobox / custom-select / model picker) subscribes to the
+  capture-phase scroll of every ancestor; it now coalesces those events into one
+  `requestAnimationFrame` measurement instead of running a `getBoundingClientRect`
+  reflow per scroll event, and the listener is `passive`. Resize and the
+  `ResizeObserver` stay synchronous so content changes still remeasure promptly.
+- **`Sidebar` persists its scroll position at most once per frame.** It was writing
+  `sessionStorage` synchronously on every scroll event; the write is now
+  rAF-coalesced and the listener is `passive`.
+
 ## [0.2.17] - 2026-08-06
 
 ### Added

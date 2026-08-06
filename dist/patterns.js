@@ -1,11 +1,11 @@
 "use client";
-import './chunk-HH3JBHRP.js';
+import './chunk-BFOKFDB6.js';
 import { copyToClipboard } from './chunk-DDUP7GAX.js';
 export { Footer } from './chunk-DDUP7GAX.js';
-import './chunk-F2HG4TOQ.js';
+import './chunk-3YYY5E4O.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-BCOKFWXC.js';
-import { cn } from './chunk-N4QO7RN5.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-WVJCPGIK.js';
+import { cn } from './chunk-N7APRQBO.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
@@ -767,9 +767,19 @@ function Sidebar({
     if (!nav) return;
     const saved = sessionStorage.getItem(scrollStorageKey);
     if (saved) nav.scrollTop = parseInt(saved, 10);
-    const onScroll = () => sessionStorage.setItem(scrollStorageKey, String(nav.scrollTop));
-    nav.addEventListener("scroll", onScroll);
-    return () => nav.removeEventListener("scroll", onScroll);
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        sessionStorage.setItem(scrollStorageKey, String(nav.scrollTop));
+      });
+    };
+    nav.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      nav.removeEventListener("scroll", onScroll);
+    };
   }, [scrollStorageKey]);
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     layout === "fixed" && isOpen && /* @__PURE__ */ jsx(

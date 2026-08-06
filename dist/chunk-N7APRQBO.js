@@ -76,6 +76,14 @@ function useAnchoredPosition(open, panelRef, opts) {
       shiftRef.current = dx;
       setPos((current) => current.shift === dx && current.maxHeight === maxHeight && current.placement === placement ? current : { shift: dx, maxHeight, placement });
     };
+    let frame = 0;
+    const scheduleScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        compute();
+      });
+    };
     compute();
     const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(compute) : null;
     if (resizeObserver) {
@@ -83,16 +91,17 @@ function useAnchoredPosition(open, panelRef, opts) {
       observed.forEach((element) => resizeObserver.observe(element));
     }
     window.addEventListener("resize", compute);
-    window.addEventListener("scroll", compute, true);
+    window.addEventListener("scroll", scheduleScroll, { capture: true, passive: true });
     return () => {
+      if (frame) cancelAnimationFrame(frame);
       resizeObserver?.disconnect();
       window.removeEventListener("resize", compute);
-      window.removeEventListener("scroll", compute, true);
+      window.removeEventListener("scroll", scheduleScroll, true);
     };
   }, [open, gutter, minHeight, panelRef]);
   return pos;
 }
 
 export { cn, useAnchoredPosition };
-//# sourceMappingURL=chunk-N4QO7RN5.js.map
-//# sourceMappingURL=chunk-N4QO7RN5.js.map
+//# sourceMappingURL=chunk-N7APRQBO.js.map
+//# sourceMappingURL=chunk-N7APRQBO.js.map

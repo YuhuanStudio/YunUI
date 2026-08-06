@@ -110,9 +110,21 @@ export function Sidebar({
         if (!nav) return;
         const saved = sessionStorage.getItem(scrollStorageKey);
         if (saved) nav.scrollTop = parseInt(saved, 10);
-        const onScroll = () => sessionStorage.setItem(scrollStorageKey, String(nav.scrollTop));
-        nav.addEventListener("scroll", onScroll);
-        return () => nav.removeEventListener("scroll", onScroll);
+        // Persist at most once per frame: a synchronous sessionStorage write on
+        // every scroll event is wasteful on a list that scrolls fast.
+        let frame = 0;
+        const onScroll = () => {
+            if (frame) return;
+            frame = requestAnimationFrame(() => {
+                frame = 0;
+                sessionStorage.setItem(scrollStorageKey, String(nav.scrollTop));
+            });
+        };
+        nav.addEventListener("scroll", onScroll, { passive: true });
+        return () => {
+            if (frame) cancelAnimationFrame(frame);
+            nav.removeEventListener("scroll", onScroll);
+        };
     }, [scrollStorageKey]);
 
     return (

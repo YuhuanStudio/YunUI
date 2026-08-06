@@ -141,6 +141,22 @@ export function useAnchoredPosition(
             ));
         };
 
+        // Coalesce SCROLL into one measurement per frame. compute() reads layout
+        // (getBoundingClientRect / scrollHeight); a panel subscribes to the scroll
+        // of every ancestor via capture, so running compute synchronously on each
+        // scroll event forces a reflow per event and thrashes on fast scroll. rAF
+        // batches a burst of scroll callbacks into a single pass. Resize and the
+        // ResizeObserver stay synchronous: they're low-frequency and signal a real
+        // box change that must remeasure promptly (no one-frame placement flash).
+        let frame = 0;
+        const scheduleScroll = () => {
+            if (frame) return;
+            frame = requestAnimationFrame(() => {
+                frame = 0;
+                compute();
+            });
+        };
+
         compute();
         // The viewport is not the only thing that can change while a panel is
         // open. Filtering a combobox, loading options asynchronously, changing
@@ -155,11 +171,12 @@ export function useAnchoredPosition(
             observed.forEach((element) => resizeObserver.observe(element));
         }
         window.addEventListener("resize", compute);
-        window.addEventListener("scroll", compute, true);
+        window.addEventListener("scroll", scheduleScroll, { capture: true, passive: true });
         return () => {
+            if (frame) cancelAnimationFrame(frame);
             resizeObserver?.disconnect();
             window.removeEventListener("resize", compute);
-            window.removeEventListener("scroll", compute, true);
+            window.removeEventListener("scroll", scheduleScroll, true);
         };
     }, [open, gutter, minHeight, panelRef]);
 
