@@ -24,6 +24,29 @@
       "description": ""
     }
   ],
+  "AgentRunStatus": [
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "phase !== \"waiting\"",
+      "description": "Keeps the row layout stable while disabling decorative motion."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Runtime-owned summary of the one activity currently in progress."
+    },
+    {
+      "name": "phase",
+      "type": "\"thinking\" | \"acting\" | \"observing\" | \"reflecting\" | \"responding\" | \"waiting\"",
+      "required": false,
+      "defaultValue": "thinking",
+      "description": ""
+    }
+  ],
   "AgentTimeline": [
     {
       "name": "blocks",
@@ -203,6 +226,13 @@
     }
   ],
   "IDBadge": [
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\"",
+      "required": false,
+      "defaultValue": "sm",
+      "description": ""
+    },
     {
       "name": "text",
       "type": "string",
@@ -489,6 +519,13 @@
       "description": ""
     },
     {
+      "name": "filterResetKey",
+      "type": "string | number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Bump this to imperatively clear the internal search + provider/capability filters WITHOUT\nremounting the panel (so it stays open and doesn't lose scroll/focus). Use it when the option\nset is swapped out from under the filters — e.g. toggling a browse mode — where a carried-over\nfilter would otherwise empty the new list."
+    },
+    {
       "name": "filters",
       "type": "ModelSelectFilter[]",
       "required": false,
@@ -536,6 +573,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Optional footer bar; receives the current (filtered) result count."
+    },
+    {
+      "name": "renderHeader",
+      "type": "(() => ReactNode)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Rendered at the very TOP of the open panel, above the search box — and always visible, even\nwhen the list is empty (unlike renderFooter, which hides on an empty result set). Use it for\na domain toolbar that must stay reachable, e.g. a browse-mode switch above the picker."
     },
     {
       "name": "value",
@@ -795,6 +839,57 @@
       "description": "Render the reasoning content (e.g. with a Markdown renderer). Defaults to\nplain pre-wrapped text so YunUI carries no markdown dependency."
     }
   ],
+  "ChatAttachment": [
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "meta",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "name",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "preview",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "progress",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "status",
+      "type": "\"idle\" | \"loading\" | \"error\"",
+      "required": false,
+      "defaultValue": "idle",
+      "description": ""
+    }
+  ],
   "ChatComposer": [
     {
       "name": "allowSendEmpty",
@@ -1013,6 +1108,13 @@
       "description": ""
     },
     {
+      "name": "density",
+      "type": "\"compact\" | \"comfortable\"",
+      "required": false,
+      "defaultValue": "comfortable",
+      "description": "Vertical rhythm for dense transcripts and more spacious assistants."
+    },
+    {
       "name": "footer",
       "type": "ReactNode",
       "required": false,
@@ -1207,6 +1309,57 @@
       "description": "Image URL to view. Omit when providing custom `children` (e.g. an SVG)."
     }
   ],
+  "InlineCitation": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Bounded source excerpt that substantiates the adjacent claim."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional source icon or favicon."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Compact label shown beside the supported claim."
+    },
+    {
+      "name": "meta",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Exact source location, for example a hostname or PDF page."
+    },
+    {
+      "name": "onOpen",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Open a document location or external URL."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Full source title shown in the evidence preview."
+    }
+  ],
   "MarkdownRenderer": [
     {
       "name": "className",
@@ -1228,6 +1381,13 @@
       "required": false,
       "defaultValue": null,
       "description": "When provided, code blocks show an \"Edit\" button that calls this with the\ncode payload (e.g. open it in an editor). Hidden if unset."
+    },
+    {
+      "name": "renderLink",
+      "type": "((link: { href?: string; children: ReactNode; isExternal: boolean; }) => ReactNode)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Intercept a rendered Markdown link. Return a node to replace the default\nlink, or `undefined` to retain YunUI's normal internal/external link UI.\nUseful for typed inline citations encoded as fragment links."
     },
     {
       "name": "urlTransform",
@@ -2309,6 +2469,22 @@
       "description": "Right-aligned value (e.g. \"120 credits\")."
     }
   ],
+  "NavStateIndicator": [
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Shows the indicator in its selected state."
+    },
+    {
+      "name": "running",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Animates the same indicator without changing its geometry."
+    }
+  ],
   "NotificationBell": [
     {
       "name": "className",
@@ -2614,14 +2790,14 @@
       "type": "(() => void)",
       "required": false,
       "defaultValue": null,
-      "description": "When provided, shows a retry link that calls this."
+      "description": "When provided, shows a retry button that calls this."
     },
     {
       "name": "retryLabel",
       "type": "string",
       "required": false,
       "defaultValue": "Retry",
-      "description": "Label for the retry link."
+      "description": "Label for the retry button."
     }
   ],
   "PageEmptyState": [
@@ -2652,6 +2828,43 @@
       "required": true,
       "defaultValue": null,
       "description": "Heading text."
+    }
+  ],
+  "ReadingProgress": [
+    {
+      "name": "backToTop",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Make the control a back-to-top button (arrow + click-to-top)."
+    },
+    {
+      "name": "bar",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Draw the circular progress ring around the button."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": "",
+      "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "{ backToTop?: string; }",
+      "required": false,
+      "defaultValue": null,
+      "description": "Localized labels; default to English."
+    },
+    {
+      "name": "threshold",
+      "type": "number",
+      "required": false,
+      "defaultValue": "600",
+      "description": "Scroll distance, in px, before the control appears."
     }
   ],
   "SessionItem": [
@@ -2740,6 +2953,27 @@
       "description": ""
     },
     {
+      "name": "running",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Shows a pulsing leading activity rail and exposes aria-busy."
+    },
+    {
+      "name": "runningLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Screen-reader label announced while the row is running."
+    },
+    {
+      "name": "selected",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Marks the row selected without adding a badge."
+    },
+    {
       "name": "time",
       "type": "ReactNode",
       "required": false,
@@ -2777,6 +3011,64 @@
       "description": ""
     }
   ],
+  "SettingsShell": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "contentClassName",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "groups",
+      "type": "SettingsNavGroup[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "header",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Dialog/page heading. Pass the host's accessible title primitive here."
+    },
+    {
+      "name": "navigationLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Settings",
+      "description": ""
+    },
+    {
+      "name": "onValueChange",
+      "type": "(key: string) => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "sidebarClassName",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
   "Sidebar": [
     {
       "name": "appName",
@@ -2784,6 +3076,27 @@
       "required": true,
       "defaultValue": null,
       "description": "Brand name shown next to the logo."
+    },
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Main navigation",
+      "description": "Accessible name for the Sidebar landmark."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Replaces generated sections with custom dynamic Sidebar content."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Additional shell classes."
     },
     {
       "name": "closeLabel",
@@ -2814,6 +3127,13 @@
       "description": "Bottom-pinned slot (balance card, user card, etc.)."
     },
     {
+      "name": "header",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Replaces the built-in logo row while retaining the Sidebar shell."
+    },
+    {
       "name": "homeHref",
       "type": "string",
       "required": false,
@@ -2826,6 +3146,13 @@
       "required": false,
       "defaultValue": "false",
       "description": "Mobile drawer open state."
+    },
+    {
+      "name": "layout",
+      "type": "\"fixed\" | \"inline\"",
+      "required": false,
+      "defaultValue": "fixed",
+      "description": "Fixed application rail or an in-flow shell owned by the host layout."
     },
     {
       "name": "loading",
@@ -2861,6 +3188,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Called to toggle the desktop collapse state (also renders the collapse button when set)."
+    },
+    {
+      "name": "role",
+      "type": "\"navigation\" | \"complementary\"",
+      "required": false,
+      "defaultValue": "navigation",
+      "description": "Landmark role for custom application layouts."
     },
     {
       "name": "scrollStorageKey",
@@ -3224,6 +3558,13 @@
       "description": ""
     },
     {
+      "name": "clearable",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Show a clear (×) action for the current value."
+    },
+    {
       "name": "creatableFilter",
       "type": "((input: string) => boolean)",
       "required": false,
@@ -3533,11 +3874,39 @@
       "description": "Disable interaction and dim the control."
     },
     {
+      "name": "hasMore",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Whether more options can be loaded; gates `onLoadMore` and the footer spinner."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "In remote mode, show a loading indicator while results are being fetched."
+    },
+    {
       "name": "onChange",
       "type": "(value: string) => void",
       "required": true,
       "defaultValue": null,
       "description": "Called with the chosen option's value."
+    },
+    {
+      "name": "onLoadMore",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Infinite scroll. Called when the options list is scrolled near its end and\n`hasMore` is true (and no fetch is in flight). The host appends the next\npage to `options`. Independent of `onSearch` — use either or both."
+    },
+    {
+      "name": "onSearch",
+      "type": "((query: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Server-backed search. When provided, the component switches to remote mode:\nit stops filtering `options` locally (the host owns filtering) and instead\ncalls `onSearch` — debounced by `searchDebounceMs` — with the current query\nso the host can fetch matching options. A search box is shown even without\n`searchable`. Pair with `loading` to surface the in-flight fetch."
     },
     {
       "name": "options",
@@ -3559,6 +3928,13 @@
       "required": false,
       "defaultValue": "false",
       "description": "Show an in-dropdown search box that filters options by label/value."
+    },
+    {
+      "name": "searchDebounceMs",
+      "type": "number",
+      "required": false,
+      "defaultValue": "250",
+      "description": "Debounce (ms) before `onSearch` fires."
     },
     {
       "name": "value",
@@ -8347,6 +8723,22 @@
       "description": "Stack each row into a labelled card below the `md` breakpoint, so dense\nmany-column tables stay readable on narrow screens instead of forcing a\nhorizontal scroll. Pair with `<TableCell label=\"…\">` to label each value."
     }
   ],
+  "TableHead": [
+    {
+      "name": "onSort",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "sortDirection",
+      "type": "false | \"asc\" | \"desc\"",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
   "TableCell": [
     {
       "name": "label",
@@ -8729,6 +9121,22 @@
       "required": false,
       "defaultValue": "default",
       "description": "Checked-state color: `default`, `success`, `warning`, or `danger`."
+    }
+  ],
+  "TextShimmer": [
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Pause the sweep while preserving the same layout and text treatment."
+    },
+    {
+      "name": "text",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "The single accessible label and visible text."
     }
   ],
   "ThemeToggle": [

@@ -70,8 +70,8 @@ function Rail({ children, tone = "muted", isLast }) {
           "relative z-10 mt-0.5 flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-background ring-1 transition-colors",
           tone === "muted" && "text-muted-foreground ring-border",
           tone === "running" && "text-primary ring-primary/40",
-          tone === "error" && "text-red-500 ring-red-500/40 dark:text-red-400",
-          tone === "warn" && "text-amber-500 ring-amber-500/40"
+          tone === "error" && "text-(--error) ring-(--error)/40",
+          tone === "warn" && "text-(--warning) ring-(--warning)/40"
         ),
         children
       }
@@ -183,15 +183,15 @@ function ToolRow({ block, isLast }) {
             /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[13px] font-medium text-foreground", children: block.verb }),
             block.summary && /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate font-mono text-[11.5px] text-muted-foreground", children: block.summary }),
             /* @__PURE__ */ jsxs("span", { className: cn("flex shrink-0 items-center gap-2", !block.summary && "ml-auto"), children: [
-              block.status === "done" && /* @__PURE__ */ jsx(Check, { size: 14, className: "text-emerald-500" }),
-              error && /* @__PURE__ */ jsx("span", { className: "rounded bg-red-500/10 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-wide text-red-600 dark:text-red-400", children: "error" }),
+              block.status === "done" && /* @__PURE__ */ jsx(Check, { size: 14, className: "text-(--success)" }),
+              error && /* @__PURE__ */ jsx("span", { className: "rounded bg-(--error)/10 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-wide text-(--error)", children: "error" }),
               expandable && /* @__PURE__ */ jsx(Chevron, { open })
             ] })
           ]
         }
       ),
-      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsxs("div", { className: cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-red-500/20 bg-red-500/5" : "border-border bg-muted/40"), children: [
-        block.command && /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/60"), children: [
+      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsxs("div", { className: cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-(--error)/20 bg-(--error)/5" : "border-border bg-muted/40"), children: [
+        block.command && /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-(--error)/20" : "border-border/60"), children: [
           /* @__PURE__ */ jsx("span", { className: "select-none text-muted-foreground/40", children: "$" }),
           /* @__PURE__ */ jsx("span", { className: "truncate", children: block.command })
         ] }),
@@ -201,7 +201,7 @@ function ToolRow({ block, isLast }) {
             tabIndex: 0,
             role: "region",
             "aria-label": `${block.verb} output`,
-            className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-red-600 dark:text-red-400" : "text-foreground/80"),
+            className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-(--error)" : "text-foreground/80"),
             children: block.output || "\u2014"
           }
         )
@@ -212,7 +212,7 @@ function ToolRow({ block, isLast }) {
 function ApprovalRow({ block, isLast, onApprove, onReject }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
     /* @__PURE__ */ jsx(Rail, { tone: "warn", isLast, children: /* @__PURE__ */ jsx(ShieldAlert, { size: 13, strokeWidth: 1.75 }) }),
-    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs("div", { className: "rounded-lg border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2.5", children: [
+    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs("div", { className: "rounded-lg border border-(--warning)/25 bg-(--warning)/[0.06] px-3 py-2.5", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-[13px] font-medium text-foreground", children: [
         /* @__PURE__ */ jsx("span", { children: block.title }),
         /* @__PURE__ */ jsx("span", { className: "font-mono text-xs text-muted-foreground", children: block.verb })
@@ -228,7 +228,7 @@ function ApprovalRow({ block, isLast, onApprove, onReject }) {
           children: block.argsText
         }
       ),
-      /* @__PURE__ */ jsx("div", { className: "mt-2.5 flex items-center gap-2", children: block.decision ? /* @__PURE__ */ jsx("span", { className: cn("text-xs font-medium", block.decision === "approved" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"), children: block.decidedLabel }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsx("div", { className: "mt-2.5 flex items-center gap-2", children: block.decision ? /* @__PURE__ */ jsx("span", { className: cn("text-xs font-medium", block.decision === "approved" ? "text-(--success)" : "text-(--error)"), children: block.decidedLabel }) : /* @__PURE__ */ jsxs(Fragment, { children: [
         /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onApprove?.(block.id), className: "rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring", children: block.allowLabel }),
         /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onReject?.(block.id), className: "rounded-md border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring", children: block.denyLabel })
       ] }) })

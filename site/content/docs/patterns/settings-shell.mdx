@@ -1,0 +1,48 @@
+import { SettingsShell } from "yunui/patterns";
+
+The canonical settings layout: grouped navigation down a fixed sidebar on desktop, a compact `Select` on mobile, and one scroll-safe content lane. Works equally inside a dialog or as a full page. The host owns the active panel and the dialog lifecycle; YunUI owns all navigation spacing, the active indicator, and the responsive switch.
+
+## Import
+
+```tsx
+import { SettingsShell, type SettingsNavGroup } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+It's controlled: pass `value` (the active item key) and `onValueChange`. Sections come from `groups`, each with an optional label and its `items` (key, label, optional icon). Resize the frame to see the sidebar collapse into the mobile picker.
+
+<ComponentPreview title="Basic">
+  <SettingsShellDemo />
+</ComponentPreview>
+
+## Shape
+
+```tsx
+const groups: SettingsNavGroup[] = [
+  {
+    key: "account",
+    label: "Account",
+    items: [
+      { key: "profile", label: "Profile", icon: User },
+      { key: "billing", label: "Billing", icon: CreditCard },
+    ],
+  },
+  { key: "workspace", label: "Workspace", items: [/* … */] },
+];
+
+<SettingsShell
+  header={<DialogTitle>Settings</DialogTitle>}
+  groups={groups}
+  value={tab}
+  onValueChange={setTab}
+>
+  {renderPanel(tab)}
+</SettingsShell>
+```
+
+The `header` slot takes the host's own heading primitive (e.g. a `DialogTitle` for accessibility inside a modal). It fills its parent's height (`h-full`), so give it a bounded container — a sized dialog body or a flex page region.
+
+## Props
+
+<PropsTable name="SettingsShell" />

@@ -1,0 +1,59 @@
+import { ChatAttachment } from "yunui/chat";
+import { IconButton } from "yunui";
+import { X } from "lucide-react";
+
+一個由輸入框（排隊待送的檔案）與已送出訊息（已附加的檔案）共用的緊湊附件面。它負責視覺層級、上傳進度樣式與狀態提示;宿主提供已本地化的 `name`／`meta`、可選的 `preview` 縮圖或 `icon`，以及任何 `actions`。
+
+## 匯入
+
+```tsx
+import { ChatAttachment } from "@yuhuanowo/yunui/chat";
+```
+
+## 基礎用法
+
+<ComponentPreview title="基礎用法">
+  <div className="w-full max-w-xs">
+    <ChatAttachment name="quarterly-report.pdf" meta="2.4 MB · PDF" />
+  </div>
+</ComponentPreview>
+
+## 上傳中
+
+設定 `status="loading"` 與 `progress`（0–100）可呈現確定式進度條與旋轉指示。省略 `progress` 則只顯示不確定式旋轉指示。
+
+<ComponentPreview title="上傳中">
+  <div className="w-full max-w-xs">
+    <ChatAttachment name="dataset.csv" meta="Uploading… 68%" status="loading" progress={68} />
+  </div>
+</ComponentPreview>
+
+## 錯誤
+
+`status="error"` 會為整個面上色並替換為警示符號;`meta` 行則承載原因。
+
+<ComponentPreview title="錯誤">
+  <div className="w-full max-w-xs">
+    <ChatAttachment name="video.mov" meta="File exceeds 25 MB limit" status="error" />
+  </div>
+</ComponentPreview>
+
+## 帶操作
+
+傳入 `actions`（例如用來移除的 `IconButton`）——它們會落在該列的尾端。
+
+<ComponentPreview title="帶操作">
+  <div className="w-full max-w-xs">
+    <ChatAttachment
+      name="design-spec.fig"
+      meta="1.1 MB · Figma"
+      actions={<IconButton label="Remove" variant="ghost" size="sm"><X className="h-4 w-4" /></IconButton>}
+    />
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+`ChatAttachment` 也會轉發任何 `<div>` HTML 屬性。
+
+<PropsTable name="ChatAttachment" />

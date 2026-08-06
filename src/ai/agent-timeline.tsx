@@ -67,8 +67,8 @@ function Rail({ children, tone = "muted", isLast }: { children: ReactNode; tone?
                     "relative z-10 mt-0.5 flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-background ring-1 transition-colors",
                     tone === "muted" && "text-muted-foreground ring-border",
                     tone === "running" && "text-primary ring-primary/40",
-                    tone === "error" && "text-red-500 ring-red-500/40 dark:text-red-400",
-                    tone === "warn" && "text-amber-500 ring-amber-500/40",
+                    tone === "error" && "text-(--error) ring-(--error)/40",
+                    tone === "warn" && "text-(--warning) ring-(--warning)/40",
                 )}
             >
                 {children}
@@ -184,15 +184,15 @@ function ToolRow({ block, isLast }: { block: Extract<AgentTimelineBlock, { kind:
                     <span className="shrink-0 text-[13px] font-medium text-foreground">{block.verb}</span>
                     {block.summary && <span className="min-w-0 flex-1 truncate font-mono text-[11.5px] text-muted-foreground">{block.summary}</span>}
                     <span className={cn("flex shrink-0 items-center gap-2", !block.summary && "ml-auto")}>
-                        {block.status === "done" && <Check size={14} className="text-emerald-500" />}
-                        {error && <span className="rounded bg-red-500/10 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-wide text-red-600 dark:text-red-400">error</span>}
+                        {block.status === "done" && <Check size={14} className="text-(--success)" />}
+                        {error && <span className="rounded bg-(--error)/10 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-wide text-(--error)">error</span>}
                         {expandable && <Chevron open={open} />}
                     </span>
                 </button>
                 <Collapse open={open}>
-                    <div className={cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-red-500/20 bg-red-500/5" : "border-border bg-muted/40")}>
+                    <div className={cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-(--error)/20 bg-(--error)/5" : "border-border bg-muted/40")}>
                         {block.command && (
-                            <div className={cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-red-500/20" : "border-border/60")}>
+                            <div className={cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-(--error)/20" : "border-border/60")}>
                                 <span className="select-none text-muted-foreground/40">$</span>
                                 <span className="truncate">{block.command}</span>
                             </div>
@@ -201,7 +201,7 @@ function ToolRow({ block, isLast }: { block: Extract<AgentTimelineBlock, { kind:
                             tabIndex={0}
                             role="region"
                             aria-label={`${block.verb} output`}
-                            className={cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-red-600 dark:text-red-400" : "text-foreground/80")}
+                            className={cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-(--error)" : "text-foreground/80")}
                         >
                             {block.output || "—"}
                         </div>
@@ -217,7 +217,7 @@ function ApprovalRow({ block, isLast, onApprove, onReject }: { block: Extract<Ag
         <div className="flex gap-2.5">
             <Rail tone="warn" isLast={isLast}><ShieldAlert size={13} strokeWidth={1.75} /></Rail>
             <div className="min-w-0 flex-1 pb-2">
-                <div className="rounded-lg border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2.5">
+                <div className="rounded-lg border border-(--warning)/25 bg-(--warning)/[0.06] px-3 py-2.5">
                     <div className="flex items-center gap-2 text-[13px] font-medium text-foreground">
                         <span>{block.title}</span>
                         <span className="font-mono text-xs text-muted-foreground">{block.verb}</span>
@@ -235,7 +235,7 @@ function ApprovalRow({ block, isLast, onApprove, onReject }: { block: Extract<Ag
                     )}
                     <div className="mt-2.5 flex items-center gap-2">
                         {block.decision ? (
-                            <span className={cn("text-xs font-medium", block.decision === "approved" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400")}>
+                            <span className={cn("text-xs font-medium", block.decision === "approved" ? "text-(--success)" : "text-(--error)")}>
                                 {block.decidedLabel}
                             </span>
                         ) : (

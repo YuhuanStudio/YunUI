@@ -1,0 +1,40 @@
+import { ReadingProgress } from "yunui/patterns";
+
+Two answers to "where am I on this long page", in one floating control in the corner — not a mystery hairline across the top. A circular ring fills as you scroll; an up-arrow sits in the middle and returns you to the top on click. Both live in one component because they answer the same question and share a single scroll listener — two would mean two listeners on exactly the pages least able to afford them.
+
+Mount it once, high in your app tree (or per long article). It owns no data, no routing, and no copy beyond an overridable label.
+
+## Import
+
+```tsx
+import { ReadingProgress } from "@yuhuanowo/yunui/patterns";
+```
+
+## Live
+
+This very page has a `ReadingProgress` mounted below — scroll and watch the ring fill around the button in the bottom-right corner; click it to return to the top.
+
+<ComponentPreview title="Live (fixed to the viewport)">
+  <ReadingProgress />
+  <p className="text-sm text-muted-foreground">
+    Scroll the page — the ring in the bottom-right corner tracks your progress,
+    and clicking it scrolls back to the top.
+  </p>
+</ComponentPreview>
+
+## Options
+
+`bar` and `backToTop` each toggle one half: keep only the progress ring, or only the plain back-to-top button. `threshold` (px, default `600`) sets how far to scroll before the control fades in, and `labels.backToTop` localizes its accessible name.
+
+```tsx
+<ReadingProgress
+  bar            // draw the circular progress ring
+  backToTop      // arrow + click-to-top
+  threshold={800}
+  labels={{ backToTop: "回到顶部" }}
+/>
+```
+
+## Props
+
+<PropsTable name="ReadingProgress" />

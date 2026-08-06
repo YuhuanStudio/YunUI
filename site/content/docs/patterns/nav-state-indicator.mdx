@@ -1,0 +1,38 @@
+import { NavStateIndicator } from "yunui/patterns";
+
+The single active/running indicator shared by YunUI's navigation surfaces — the small accent marker that appears beside the selected item in a [Sidebar](/docs/patterns/sidebar), [SettingsShell](/docs/patterns/settings-shell) or nav list. It's a presentational `<span>` driven purely by two boolean data-states; place it inside a `.nav-item` and it inherits the correct geometry.
+
+## Import
+
+```tsx
+import { NavStateIndicator } from "@yuhuanowo/yunui/patterns";
+```
+
+## States
+
+`active` shows the selected marker; `running` animates the same marker without changing its geometry (e.g. a page/session with work in progress).
+
+<ComponentPreview title="States">
+  <div className="flex w-56 flex-col gap-1">
+    <button type="button" className="nav-item w-full text-left">
+      <NavStateIndicator />
+      <span className="flex-1">Inactive</span>
+    </button>
+    <button type="button" className="nav-item active w-full text-left">
+      <NavStateIndicator active />
+      <span className="flex-1">Active</span>
+    </button>
+    <button type="button" className="nav-item w-full text-left">
+      <NavStateIndicator running />
+      <span className="flex-1">Running</span>
+    </button>
+  </div>
+</ComponentPreview>
+
+Most apps get this for free through `Sidebar` / `SettingsShell`; reach for `NavStateIndicator` directly only when you're building a bespoke navigation surface that should match the rest of the system.
+
+## Props
+
+`NavStateIndicator` also forwards any `<span>` HTML attributes.
+
+<PropsTable name="NavStateIndicator" />

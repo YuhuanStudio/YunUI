@@ -1,0 +1,48 @@
+import { SettingsShell } from "yunui/patterns";
+
+标准的设置布局：桌面版在固定侧边栏呈现分组导航、移动版改为紧凑的 `Select`，并保留一条可安全滚动的内容轨道。无论放在对话框或整页皆适用。宿主负责当前面板与对话框生命周期;YunUI 负责所有导航间距、当前指示与响应式切换。
+
+## 导入
+
+```tsx
+import { SettingsShell, type SettingsNavGroup } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基础用法
+
+它是受控的：传入 `value`（当前项目的 key）与 `onValueChange`。分区来自 `groups`，每一组带有可选的标签与其 `items`（key、label、可选 icon）。调整框架宽度即可看到侧边栏折叠为移动版选择器。
+
+<ComponentPreview title="基础用法">
+  <SettingsShellDemo />
+</ComponentPreview>
+
+## 数据结构
+
+```tsx
+const groups: SettingsNavGroup[] = [
+  {
+    key: "account",
+    label: "Account",
+    items: [
+      { key: "profile", label: "Profile", icon: User },
+      { key: "billing", label: "Billing", icon: CreditCard },
+    ],
+  },
+  { key: "workspace", label: "Workspace", items: [/* … */] },
+];
+
+<SettingsShell
+  header={<DialogTitle>Settings</DialogTitle>}
+  groups={groups}
+  value={tab}
+  onValueChange={setTab}
+>
+  {renderPanel(tab)}
+</SettingsShell>
+```
+
+`header` 插槽接受宿主自己的标题原件（例如在对话框内用 `DialogTitle` 以维持无障碍）。它会填满父层高度（`h-full`），因此请给它一个有界限的容器——一个有尺寸的对话框内容区，或一个弹性页面区域。
+
+## 属性
+
+<PropsTable name="SettingsShell" />

@@ -1,0 +1,60 @@
+import { InlineCitation } from "yunui/content";
+
+用于有依据的 AI 内容、紧贴主张的证据标记。这个紧凑胶囊内嵌在阅读流中;将鼠标移上或聚焦即可预览具体来源——标题、位置与一段有界限的摘录——点击则通过 `onOpen` 将导航委派给宿主。
+
+## 导入
+
+```tsx
+import { InlineCitation } from "@yuhuanowo/yunui/content";
+```
+
+## 基础用法
+
+胶囊留在文字之中;将鼠标移上即可看到来源预览。
+
+<ComponentPreview title="基础用法">
+  <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+    The Eiffel Tower was completed in 1889
+    <InlineCitation
+      label="1"
+      title="Eiffel Tower — Wikipedia"
+      meta="en.wikipedia.org"
+      description="Construction of the Eiffel Tower finished on 15 March 1889; it was the tallest man-made structure in the world until 1930."
+    />
+    and stands 330 metres tall.
+  </p>
+</ComponentPreview>
+
+## 标签与图标
+
+`label` 是胶囊内的紧凑文字（一个数字、一个简短来源名）;传入 `icon`（例如 favicon）即可为它加上前缀。
+
+<ComponentPreview title="标签与图标">
+  <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+    Transformers replaced recurrence with self-attention
+    <InlineCitation
+      label="Vaswani et al."
+      title="Attention Is All You Need"
+      meta="arxiv.org · p.3"
+      description="The Transformer relies entirely on an attention mechanism to draw global dependencies between input and output, dispensing with recurrence and convolutions."
+    />
+    in 2017.
+  </p>
+</ComponentPreview>
+
+## 打开来源
+
+传入 `onOpen` 让胶囊可被操作——它会在点击时触发，并在预览中显示外部链接提示。导航（打开 URL、滚动至文档位置）属于宿主。
+
+```tsx
+<InlineCitation
+  label="1"
+  title="Eiffel Tower — Wikipedia"
+  meta="en.wikipedia.org"
+  onOpen={() => window.open("https://en.wikipedia.org/wiki/Eiffel_Tower", "_blank")}
+/>
+```
+
+## 属性
+
+<PropsTable name="InlineCitation" />

@@ -37,8 +37,9 @@ import {
   AudioPlayer,
   MediaGallery,
   type MediaResult,
+  SettingsShell,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge } from "yunui";
+import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
 import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
 import {
   CapabilitySelector,
@@ -52,7 +53,7 @@ import {
   ProviderIcon,
 } from "yunui/ai";
 import { MarkdownRenderer, ImageLightbox } from "yunui/content";
-import { Coins, LayoutGrid, List, Table, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw } from "lucide-react";
+import { Coins, LayoutGrid, List, Table as TableIcon, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -181,7 +182,7 @@ export function SegmentedSelectDemo() {
       options={[
         { value: "grid", label: "Grid", icon: LayoutGrid },
         { value: "list", label: "List", icon: List },
-        { value: "table", label: "Table", icon: Table },
+        { value: "table", label: "Table", icon: TableIcon },
       ]}
     />
   );
@@ -1231,6 +1232,106 @@ export function ChatComposerDemo() {
           </Button>
         }
       />
+    </div>
+  );
+}
+
+export function SettingsShellDemo() {
+  const [tab, setTab] = useState("profile");
+  const groups = [
+    {
+      key: "account",
+      label: "Account",
+      items: [
+        { key: "profile", label: "Profile", icon: Shield },
+        { key: "billing", label: "Billing", icon: CreditCard },
+      ],
+    },
+    {
+      key: "workspace",
+      label: "Workspace",
+      items: [
+        { key: "members", label: "Members", icon: Bot },
+        { key: "integrations", label: "Integrations", icon: Globe },
+      ],
+    },
+  ];
+  const titles: Record<string, string> = {
+    profile: "Profile",
+    billing: "Billing",
+    members: "Members",
+    integrations: "Integrations",
+  };
+  return (
+    <div className="h-[380px] w-full overflow-hidden rounded-2xl border border-border">
+      <SettingsShell
+        header={<h2 className="text-sm font-semibold text-foreground">Settings</h2>}
+        groups={groups}
+        value={tab}
+        onValueChange={setTab}
+      >
+        <div className="h-full overflow-y-auto p-6">
+          <h3 className="text-base font-semibold text-foreground">{titles[tab]}</h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The {titles[tab].toLowerCase()} panel. The host owns the active panel and its content;
+            YunUI owns the navigation layout and active states.
+          </p>
+        </div>
+      </SettingsShell>
+    </div>
+  );
+}
+
+export function TableSortDemo() {
+  const rows = [
+    { model: "Claude Opus 4.8", context: 200, cost: 15 },
+    { model: "DeepSeek R1", context: 64, cost: 2 },
+    { model: "GPT-4o mini", context: 128, cost: 1 },
+  ];
+  const [sort, setSort] = useState<{ key: "context" | "cost"; dir: "asc" | "desc" }>({
+    key: "context",
+    dir: "desc",
+  });
+  const toggle = (key: "context" | "cost") =>
+    setSort((s) =>
+      s.key === key ? { key, dir: s.dir === "asc" ? "desc" : "asc" } : { key, dir: "asc" },
+    );
+  const sorted = [...rows].sort((a, b) => {
+    const d = a[sort.key] - b[sort.key];
+    return sort.dir === "asc" ? d : -d;
+  });
+  return (
+    <div className="w-full max-w-xl">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Model</TableHead>
+            <TableHead
+              align="right"
+              onSort={() => toggle("context")}
+              sortDirection={sort.key === "context" ? sort.dir : false}
+            >
+              Context (K)
+            </TableHead>
+            <TableHead
+              align="right"
+              onSort={() => toggle("cost")}
+              sortDirection={sort.key === "cost" ? sort.dir : false}
+            >
+              $ / Mtok
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {sorted.map((r) => (
+            <TableRow key={r.model}>
+              <TableCell>{r.model}</TableCell>
+              <TableCell className="text-right tabular-nums">{r.context}</TableCell>
+              <TableCell className="text-right tabular-nums">${r.cost}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

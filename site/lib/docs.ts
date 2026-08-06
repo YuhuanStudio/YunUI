@@ -690,6 +690,16 @@ export const docs: DocEntry[] = [
     "inline status async job pending processing completed failed progress percent spinner",
   ),
   comp(
+    "text-shimmer",
+    { en: "Text Shimmer", "zh-CN": "文字微光", "zh-TW": "文字微光" },
+    {
+      en: "A restrained animated text sweep for transient work states like \"Thinking…\"; the label is announced to screen readers exactly once.",
+      "zh-CN": "用于短暂工作状态（如“思考中…”）的克制型文字扫光动画;标签仅对屏幕阅读器朗读一次。",
+      "zh-TW": "用於短暫工作狀態（如「思考中…」）的克制型文字掃光動畫;標籤僅對螢幕閱讀器朗讀一次。",
+    },
+    "text shimmer sweep loading thinking streaming animated label accessible",
+  ),
+  comp(
     "empty-state",
     { en: "Empty State", "zh-CN": "空状态", "zh-TW": "空狀態" },
     {
@@ -1048,6 +1058,36 @@ export const docs: DocEntry[] = [
     },
     "docs actions copy markdown llm view options github edit page header",
   ),
+  pat(
+    "reading-progress",
+    { en: "Reading Progress", "zh-CN": "阅读进度", "zh-TW": "閱讀進度" },
+    {
+      en: "A circular scroll-progress ring wrapped around a back-to-top button, fixed to the corner of long pages.",
+      "zh-CN": "环绕回到顶部按钮的圆形滚动进度环，固定在长页面的角落。",
+      "zh-TW": "環繞回到頂部按鈕的圓形捲動進度環，固定在長頁面的角落。",
+    },
+    "reading progress scroll bar back to top long page ring circular indicator",
+  ),
+  pat(
+    "settings-shell",
+    { en: "Settings Shell", "zh-CN": "设置外壳", "zh-TW": "設定外殼" },
+    {
+      en: "The canonical settings layout — grouped desktop sidebar navigation, a compact mobile picker, and one scroll-safe content lane.",
+      "zh-CN": "标准的设置布局——桌面版分组侧边栏导航、紧凑的移动版选择器，以及一条可安全滚动的内容轨道。",
+      "zh-TW": "標準的設定版面——桌面版分組側邊欄導覽、緊湊的行動版選擇器，以及一條可安全捲動的內容軌道。",
+    },
+    "settings shell layout navigation sidebar groups dialog preferences panel responsive",
+  ),
+  pat(
+    "nav-state-indicator",
+    { en: "Nav State Indicator", "zh-CN": "导航状态指示器", "zh-TW": "導覽狀態指示器" },
+    {
+      en: "The shared active/running marker that sits beside a selected navigation item in a Sidebar or SettingsShell.",
+      "zh-CN": "共用的活动/运行标记，出现在 Sidebar 或 SettingsShell 中所选导航项目旁。",
+      "zh-TW": "共用的作用中/執行中標記，出現在 Sidebar 或 SettingsShell 中所選導覽項目旁。",
+    },
+    "nav state indicator active running sidebar marker selected navigation item",
+  ),
 
   // ---- AI -----------------------------------------------------------------
   aiDoc(
@@ -1129,6 +1169,16 @@ export const docs: DocEntry[] = [
       "zh-TW": "代理回合的處理軌道——推理過程、帶輸出的工具呼叫與授權提示，繪製在相連的垂直時間軸上。",
     },
     "agent timeline steps tool call reasoning approval process rail codex chain of thought",
+  ),
+  aiDoc(
+    "agent-run-status",
+    { en: "Agent Run Status", "zh-CN": "代理运行状态", "zh-TW": "代理執行狀態" },
+    {
+      en: "A layout-stable live surface for the one activity an agent is doing now — a shimmering label with a pulsing dot trio, announced politely.",
+      "zh-CN": "一个布局稳定的实时状态面，呈现代理当下正在进行的单一活动——扫光标签加三点脉动，礼貌播报。",
+      "zh-TW": "一個版面穩定的即時狀態面，呈現代理當下正在進行的單一活動——掃光標籤加三點脈動，禮貌播報。",
+    },
+    "agent run status live activity phase thinking acting shimmer aria-live streaming",
   ),
   aiDoc(
     "id-badge",
@@ -1257,6 +1307,16 @@ export const docs: DocEntry[] = [
     },
     "image lightbox viewer zoom rotate download fullscreen portal keyboard esc modal",
   ),
+  contentDoc(
+    "inline-citation",
+    { en: "Inline Citation", "zh-CN": "内联引用", "zh-TW": "內聯引用" },
+    {
+      en: "A claim-adjacent evidence marker for grounded AI content — a compact pill that previews its source on hover and delegates opening to the host.",
+      "zh-CN": "用于有依据 AI 内容、紧贴主张的证据标记——悬停预览来源、开启动作委派给宿主的紧凑胶囊。",
+      "zh-TW": "用於有根據 AI 內容、緊貼主張的證據標記——懸停預覽來源、開啟動作委派給宿主的緊湊膠囊。",
+    },
+    "inline citation source reference footnote evidence grounding rag tooltip llm content",
+  ),
 
   // ---- Chat ---------------------------------------------------------------
   {
@@ -1323,6 +1383,16 @@ export const docs: DocEntry[] = [
       "zh-TW": "助手回覆的指標膠囊 —— token 數、吞吐量(tok/s)與延遲，由資料驅動、單位文字可本地化。",
     },
     "generation stats tokens per second throughput latency metrics pills usage completion assistant thinking",
+  ),
+  chatDoc(
+    "chat-attachment",
+    { en: "Chat Attachment", "zh-CN": "聊天附件", "zh-TW": "聊天附件" },
+    {
+      en: "A compact attachment surface for the composer and sent messages — name, meta, preview, upload progress and status.",
+      "zh-CN": "用于输入框与已发送消息的紧凑附件面——名称、元信息、预览、上传进度与状态。",
+      "zh-TW": "用於輸入框與已送出訊息的緊湊附件面——名稱、中繼資訊、預覽、上傳進度與狀態。",
+    },
+    "chat attachment file upload progress preview status composer message document image",
   ),
 ];
 
@@ -1413,6 +1483,7 @@ export const groups: DocGroup[] = [
       "components/page-loader",
       "components/empty-state",
       "components/inline-status",
+      "components/text-shimmer",
     ],
   },
   {
@@ -1454,6 +1525,9 @@ export const groups: DocGroup[] = [
       "patterns/category-filter",
       "patterns/code-demo",
       "patterns/docs-actions",
+      "patterns/reading-progress",
+      "patterns/settings-shell",
+      "patterns/nav-state-indicator",
     ],
   },
   {
@@ -1467,6 +1541,7 @@ export const groups: DocGroup[] = [
       "ai/capability-badge",
       "ai/thinking-block",
       "ai/agent-timeline",
+      "ai/agent-run-status",
       "ai/id-badge",
       "ai/navbar",
       "ai/footer",
@@ -1484,6 +1559,7 @@ export const groups: DocGroup[] = [
       "content/mermaid-diagram",
       "content/content-image",
       "content/image-lightbox",
+      "content/inline-citation",
     ],
   },
   {
@@ -1495,6 +1571,7 @@ export const groups: DocGroup[] = [
       "chat/chat-composer",
       "chat/chat-header",
       "chat/generation-stats",
+      "chat/chat-attachment",
     ],
   },
 ];

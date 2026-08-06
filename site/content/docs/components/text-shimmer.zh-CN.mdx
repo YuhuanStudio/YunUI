@@ -1,0 +1,32 @@
+import { TextShimmer } from "yunui";
+
+用于短暂工作状态的克制型文字扫光动画——“思考中…”、“检查结果中”、“生成中”。当 `active` 时，一道光带会扫过标签文字。文字仅对辅助技术公开一次;重复的绘制图层皆为 `aria-hidden`，因此屏幕阅读器只会朗读该文字一次。
+
+## 导入
+
+```tsx
+import { TextShimmer } from "@yuhuanowo/yunui";
+```
+
+## 基础用法
+
+<ComponentPreview title="基础用法">
+  <TextShimmer text="Thinking…" />
+</ComponentPreview>
+
+## 暂停
+
+设置 `active={false}` 可在不改变布局与文字样式的情况下冻结扫光——适合在工作完成的当下使用，让标签停止移动但仍留在原位。
+
+<ComponentPreview title="暂停">
+  <div className="flex flex-col gap-2">
+    <TextShimmer text="Generating response…" active />
+    <TextShimmer text="Done" active={false} />
+  </div>
+</ComponentPreview>
+
+## 属性
+
+`TextShimmer` 也会转发任何 `<span>` HTML 属性。
+
+<PropsTable name="TextShimmer" />

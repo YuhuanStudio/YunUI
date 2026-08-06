@@ -37,6 +37,42 @@ Set `searchable` to add a filter box inside the dropdown. Each option can carry 
   <CustomSelectDemo />
 </ComponentPreview>
 
+## Server-backed search
+
+By default `searchable` filters the given `options` client-side. Pass `onSearch` to drive results from a backend instead: it fires (debounced by `searchDebounceMs`, default `250`) with the current query, and you replace `options` with the fetched results. Pair it with `loading` to surface the in-flight fetch.
+
+```tsx
+const [options, setOptions] = useState<CustomSelectOption[]>([]);
+const [loading, setLoading] = useState(false);
+
+<CustomSelect
+  searchable
+  value={value}
+  onChange={setValue}
+  options={options}
+  loading={loading}
+  onSearch={async (query) => {
+    setLoading(true);
+    setOptions(await searchModels(query));
+    setLoading(false);
+  }}
+/>
+```
+
+## Infinite scroll
+
+For long or paged result sets, pass `onLoadMore` + `hasMore`. `onLoadMore` fires when the list is scrolled near its end (and no fetch is in flight); append the next page to `options`. It's independent of `onSearch` — use either or both.
+
+```tsx
+<CustomSelect
+  value={value}
+  onChange={setValue}
+  options={options}
+  hasMore={hasMore}
+  onLoadMore={() => loadNextPage()}
+/>
+```
+
 ## Props
 
 <PropsTable name="CustomSelect" />

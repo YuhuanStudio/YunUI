@@ -118,11 +118,11 @@ interface BlogPaginationProps {
 declare function BlogPagination({ currentPage, totalPages, onPageChange, labels, }: BlogPaginationProps): React$1.JSX.Element | null;
 
 interface ReadingProgressProps {
-    /** Scroll distance, in px, before the back-to-top button appears. */
+    /** Scroll distance, in px, before the control appears. */
     threshold?: number;
-    /** Show the progress bar. Off leaves only the button. */
+    /** Draw the circular progress ring around the button. */
     bar?: boolean;
-    /** Show the back-to-top button. Off leaves only the bar. */
+    /** Make the control a back-to-top button (arrow + click-to-top). */
     backToTop?: boolean;
     /** Localized labels; default to English. */
     labels?: {
@@ -131,16 +131,18 @@ interface ReadingProgressProps {
     className?: string;
 }
 /**
- * How far through a long page the reader is, and a way back to the start.
+ * How far through a long page the reader is, and a way back to the start —
+ * as one floating control in the corner, not a mystery hairline across the top.
  *
- * Both in one component because they answer the same question — where am I —
- * and because they share a scroll listener. Two components would mean two
- * listeners on the pages least able to afford them.
+ * A circular ring fills as you scroll; an up-arrow sits in the middle and
+ * returns you to the top on click. Both live in one component because they
+ * answer the same question — where am I — and share a single scroll listener.
+ * Two components would mean two listeners on the pages least able to afford them.
  *
  * The host app owns nothing here: no data, no routing, no copy beyond an
  * overridable label.
  */
-declare function ReadingProgress({ threshold, bar, backToTop, labels, className, }: ReadingProgressProps): React$1.JSX.Element;
+declare function ReadingProgress({ threshold, bar, backToTop, labels, className, }: ReadingProgressProps): React$1.JSX.Element | null;
 
 interface SimplePaginationProps {
     /** 1-indexed current page, shown in the centre indicator. */

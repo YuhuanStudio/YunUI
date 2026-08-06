@@ -1,0 +1,32 @@
+import { TextShimmer } from "yunui";
+
+A restrained animated text sweep for transient work states — "Thinking…", "Checking results", "Generating". A light band travels across the label while `active`. The label is exposed to assistive technology exactly once; the duplicated paint layers stay `aria-hidden`, so a screen reader announces the text a single time.
+
+## Import
+
+```tsx
+import { TextShimmer } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+<ComponentPreview title="Basic">
+  <TextShimmer text="Thinking…" />
+</ComponentPreview>
+
+## Paused
+
+Set `active={false}` to freeze the sweep without changing the layout or text treatment — useful the moment work finishes, so the label stops moving but stays in place.
+
+<ComponentPreview title="Paused">
+  <div className="flex flex-col gap-2">
+    <TextShimmer text="Generating response…" active />
+    <TextShimmer text="Done" active={false} />
+  </div>
+</ComponentPreview>
+
+## Props
+
+`TextShimmer` also forwards any `<span>` HTML attributes.
+
+<PropsTable name="TextShimmer" />

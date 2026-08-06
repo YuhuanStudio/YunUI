@@ -564,6 +564,8 @@ function BlogPagination({
     )
   ] });
 }
+var RING_RADIUS = 21;
+var RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 function ReadingProgress({
   threshold = 600,
   bar = true,
@@ -595,37 +597,65 @@ function ReadingProgress({
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, [threshold]);
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
-    bar && /* @__PURE__ */ jsx(
-      "div",
-      {
-        "aria-hidden": true,
-        className: `pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 ${className}`,
-        children: /* @__PURE__ */ jsx(
-          "div",
-          {
-            className: "bg-accent h-full origin-left transition-transform duration-150 ease-out",
-            style: { transform: `scaleX(${progress / 100})` }
-          }
-        )
-      }
-    ),
-    backToTop && /* @__PURE__ */ jsx(
-      "button",
-      {
+  if (!bar && !backToTop) return null;
+  const interactive = backToTop;
+  const Tag = interactive ? "button" : "div";
+  return /* @__PURE__ */ jsxs(
+    Tag,
+    {
+      ...interactive ? {
         type: "button",
         "aria-label": backToTopLabel,
-        onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }),
-        className: (
-          // The house classes, not raw var() in a class string: patterns use
-          // `text-muted-foreground` and `border-border` throughout, and those
-          // bridge to the same tokens through @theme.
-          "border-border bg-(--bg-elevated) text-muted-foreground hover:text-foreground fixed bottom-5 right-5 z-50 rounded-full border p-2.5 shadow-sm backdrop-blur transition-all duration-200 " + (show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0")
+        onClick: () => window.scrollTo({ top: 0, behavior: "smooth" })
+      } : { "aria-hidden": true },
+      className: (
+        // The canonical YunUI elevated-overlay surface (same recipe as menus &
+        // dropdowns): translucent popover + backdrop blur, hairline border, the
+        // house shadow and focus ring. House colour classes bridge to the token
+        // system through @theme.
+        "group fixed bottom-6 right-6 z-50 grid h-12 w-12 place-items-center rounded-full border border-border bg-popover/85 backdrop-blur-2xl text-muted-foreground shadow-lg shadow-black/5 transition-all duration-300 ease-out " + (interactive ? "hover:-translate-y-0.5 hover:bg-popover hover:text-foreground hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background " : "pointer-events-none ") + (show ? "translate-y-0 scale-100 opacity-100 " : "pointer-events-none translate-y-3 scale-90 opacity-0 ") + className
+      ),
+      children: [
+        bar && /* @__PURE__ */ jsxs(
+          "svg",
+          {
+            viewBox: "0 0 48 48",
+            className: "absolute inset-0 h-full w-full -rotate-90",
+            "aria-hidden": "true",
+            children: [
+              /* @__PURE__ */ jsx(
+                "circle",
+                {
+                  cx: "24",
+                  cy: "24",
+                  r: RING_RADIUS,
+                  fill: "none",
+                  strokeWidth: "2",
+                  style: { stroke: "var(--border)" }
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "circle",
+                {
+                  cx: "24",
+                  cy: "24",
+                  r: RING_RADIUS,
+                  fill: "none",
+                  strokeWidth: "2.5",
+                  strokeLinecap: "round",
+                  className: "transition-[stroke-dashoffset] duration-150 ease-out",
+                  style: { stroke: "var(--accent)" },
+                  strokeDasharray: RING_CIRCUMFERENCE,
+                  strokeDashoffset: RING_CIRCUMFERENCE * (1 - progress / 100)
+                }
+              )
+            ]
+          }
         ),
-        children: /* @__PURE__ */ jsx(ArrowUp, { size: 16 })
-      }
-    )
-  ] });
+        backToTop && /* @__PURE__ */ jsx(ArrowUp, { size: 17, strokeWidth: 2, className: "relative transition-transform duration-200 group-hover:-translate-y-0.5" })
+      ]
+    }
+  );
 }
 function SimplePagination({
   currentPage,

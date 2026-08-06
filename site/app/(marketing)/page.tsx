@@ -39,11 +39,8 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { GithubIcon } from "yunui/ai";
+import { version as PKG_VERSION } from "yunui/package.json";
 import { LogoMark } from "@/components/logo";
-
-// Shown in the hero provenance badges. Bump on each npm release (kept manual
-// because the package's package.json isn't exported for a runtime import).
-const PKG_VERSION = "0.2.15";
 
 // ---------------------------------------------------------------------------
 // Section header — the centered pill-badge + gradient title + subcopy rhythm
@@ -175,13 +172,14 @@ export default function Home() {
         id="overview"
         className="relative scroll-mt-20 min-h-[88vh] flex flex-col items-center justify-center text-center py-16 px-6"
       >
-        {/* Pill badge */}
+        {/* Pill badge — links to the changelog and always shows the live
+            package version, so it never goes stale between releases. */}
         <Link
-          href="/showcase"
+          href="/changelog"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-(--accent-subtle)/80 backdrop-blur-sm border border-(--accent-muted) mb-8 animate-enter hover:bg-(--accent-subtle) transition-colors"
         >
           <span className="text-foreground"><LogoMark size={16} /></span>
-          <span className="text-sm font-medium">{t("heroBadge")}</span>
+          <span className="text-sm font-medium">{t("heroBadge", { version: PKG_VERSION })}</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
 

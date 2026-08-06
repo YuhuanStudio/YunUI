@@ -1,0 +1,44 @@
+import { AgentRunStatus } from "yunui/ai";
+
+一個版面穩定的即時狀態面，用於呈現代理當下正在進行的*單一*活動——「讀取檔案中」、「執行測試中」、「撰寫回應中」——搭配掃光標籤與三點脈動指示。它透過 `role="status"` / `aria-live` 以禮貌方式向輔助技術播報。
+
+它刻意與 [Agent Timeline](/docs/ai/agent-timeline) 分開：狀態在整個回合中固定停留在同一處，而時間軸的每一列則累積成持久的處理歷史。你提供已本地化的即時 `label`;YunUI 負責動態與幾何。
+
+## 匯入
+
+```tsx
+import { AgentRunStatus } from "@yuhuanowo/yunui/ai";
+```
+
+## 基礎用法
+
+<ComponentPreview title="基礎用法">
+  <AgentRunStatus label="Thinking…" phase="thinking" />
+</ComponentPreview>
+
+## 階段
+
+`phase` 是一個語意提示，由宿主將其即時狀態對映上去——`thinking`、`acting`、`observing`、`reflecting`、`responding`、`waiting`。`waiting` 階段會將 `active` 預設為 `false`，凍結動態但保持版面不變。
+
+<ComponentPreview title="階段">
+  <div className="flex flex-col gap-2">
+    <AgentRunStatus label="Reading files…" phase="acting" />
+    <AgentRunStatus label="Reviewing the results…" phase="observing" />
+    <AgentRunStatus label="Writing response…" phase="responding" />
+    <AgentRunStatus label="Waiting for approval" phase="waiting" />
+  </div>
+</ComponentPreview>
+
+## 暫停
+
+在任何階段傳入 `active={false}` 即可讓該列靜止（例如回合被暫停），且不會收合它。
+
+<ComponentPreview title="暫停">
+  <AgentRunStatus label="Paused" phase="acting" active={false} />
+</ComponentPreview>
+
+## 屬性
+
+`AgentRunStatus` 也會轉發任何 `<div>` HTML 屬性。
+
+<PropsTable name="AgentRunStatus" />

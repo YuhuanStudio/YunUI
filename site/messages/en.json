@@ -58,7 +58,8 @@
     "docs": "Docs",
     "home": "YunUI home",
     "github": "GitHub",
-    "menu": "Menu"
+    "menu": "Menu",
+    "changelog": "Changelog"
   },
   "footer": {
     "tagline": "Quietly beautiful, quietly engineered.",
@@ -76,7 +77,7 @@
     "yunshu": "Yunshu"
   },
   "landing": {
-    "heroBadge": "New: Flex · Grid · Table · Accordion",
+    "heroBadge": "What’s new in v{version}",
     "heroTitleLead": "Quietly beautiful.",
     "heroTitleAccent": "Quietly engineered.",
     "heroSubtitle": "A React 19 + Tailwind v4 design system that doesn't shout. Token-driven, three themes, a framework-agnostic adapter — every detail considered, none of them loud.",
@@ -725,5 +726,9 @@
       "error": "Error",
       "retry": "Retry"
     }
+  },
+  "changelog": {
+    "title": "Changelog",
+    "subtitle": "Every notable change to @yuhuanowo/yunui — new components, fixes and refinements."
   }
 }

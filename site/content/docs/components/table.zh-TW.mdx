@@ -94,6 +94,14 @@ import {
   </div>
 </ComponentPreview>
 
+## 可排序欄位
+
+為 `TableHead` 傳入 `onSort` 即可將它變成排序控制項：標籤會變成帶有升冪／降冪／未排序箭號的按鈕，而 `<th>` 會取得 `aria-sort`。`sortDirection` 是該欄目前的狀態（`"asc"` / `"desc"`，或非作用欄時為 `false`）。排序邏輯本身仍由你負責——YunUI 只算繪控制項與無障礙狀態。數值欄請用 `align="right"`，它會同時對齊儲存格與排序控制項。
+
+<ComponentPreview title="可排序">
+  <TableSortDemo />
+</ComponentPreview>
+
 ## 屬性 — Table
 
 <PropsTable name="Table" />

@@ -11,6 +11,8 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.17] - 2026-08-06
+
 ### Added
 - **`ModelSelect` gains `renderHeader` + `filterResetKey`** — `renderHeader` renders a caller-owned
   toolbar pinned to the TOP of the open panel, always visible even when the result list is empty
@@ -60,6 +62,49 @@ patch = fixes, anything may change between 0.x releases).
   Prop-driven and copy-free — the consumer maps records onto `AgentTimelineBlock`,
   localizes every label, and supplies a markdown renderer. Verified on Chrome +
   Safari/WebKit, desktop + mobile.
+- **`AgentRunStatus` (`@yuhuanowo/yunui/ai`)** — a layout-stable live surface for the
+  single activity an agent is doing *now* (a shimmering label + pulsing dot trio,
+  announced via `role="status"`/`aria-live`). Complements `AgentTimeline`: the status
+  stays put for the whole run while timeline rows become durable history. `phase`
+  (`thinking`/`acting`/`observing`/`reflecting`/`responding`/`waiting`) is a semantic hint.
+- **`TextShimmer` (`@yuhuanowo/yunui`)** — a restrained animated text sweep for transient
+  work states ("Thinking…"); the label is exposed to assistive tech exactly once while the
+  duplicated paint layers stay `aria-hidden`. `active` pauses the sweep without a layout shift.
+- **`ChatAttachment` (`@yuhuanowo/yunui/chat`)** — a compact attachment surface shared by
+  the composer and sent messages: name/meta, an optional `preview` or `icon`, a determinate
+  upload `progress` bar, `status` (`idle`/`loading`/`error`) affordances and an `actions` slot.
+- **`InlineCitation` (`@yuhuanowo/yunui/content`)** — a claim-adjacent evidence marker for
+  grounded AI output. A compact inline pill previews the concrete source (title, location, a
+  bounded excerpt) on hover/focus and delegates opening to the host via `onOpen`.
+- **`ReadingProgress` (`@yuhuanowo/yunui/patterns`)** — reading position + back-to-top as one
+  floating control: a circular ring fills with scroll progress around an up-arrow button (no
+  full-width hairline). `bar`/`backToTop` toggle each half; `threshold` and `labels.backToTop`
+  are configurable. One rAF-coalesced scroll listener; the ring animates via `stroke-dashoffset`.
+- **`SettingsShell` (`@yuhuanowo/yunui/patterns`)** — the canonical settings layout: grouped
+  desktop sidebar navigation, a compact mobile `Select`, and one scroll-safe content lane; works
+  in a dialog or full page. Controlled via `value`/`onValueChange`, sections from `groups`
+  (`SettingsNavGroup`/`SettingsNavItem`). The host owns the active panel; YunUI owns navigation.
+- **`NavStateIndicator` (`@yuhuanowo/yunui/patterns`)** — the shared active/running marker that
+  sits beside a selected item in `Sidebar`/`SettingsShell`; a presentational `<span>` driven by
+  `active`/`running` data-states. Extracted so bespoke navigation surfaces can match the system.
+- **`CustomSelect` server-backed search + infinite scroll** — `onSearch` (debounced by
+  `searchDebounceMs`, default 250) drives results from a backend, paired with `loading`;
+  `onLoadMore` + `hasMore` append pages as the list nears its end. Both optional and independent
+  of the existing client-side `searchable` filtering.
+- **`Combobox` gains `clearable`** (default `true`) — a clear (×) action for the current value;
+  set `clearable={false}` when the field must always hold a value.
+- **`useAnchoredPosition` flips above the trigger** when there isn't room below, and remeasures
+  open panels as layout changes — hand-rolled floating panels now match the collision behavior of
+  the Radix-based overlays.
+- **`getModelDeveloperId` (`@yuhuanowo/yunui/ai`)** — model-family icon resolution is centralized,
+  so a model id resolves to its developer/family icon through one shared helper.
+
+### Fixed
+- **Untrusted Mermaid/KaTeX is sanitized** — `MermaidDiagram` renders with a strict
+  `securityLevel` and KaTeX with `trust: false`, so diagram/math content coming from model
+  or user input can't inject scripts or navigate via crafted labels (XSS hardening).
+- **`Tooltip` content escapes clipping ancestors** — tooltips now portal out, so they're no
+  longer cut off by an `overflow: hidden`/`clip` parent.
 
 ### Removed
 - **`AgentSteps` (`@yuhuanowo/yunui/ai`)** — the earlier Codex-style execution
@@ -71,6 +116,16 @@ patch = fixes, anything may change between 0.x releases).
 - **`ModelSelect` selection bar inset refined to 5px** (from `left-1.5`/6px),
   set as an inline style since Tailwind's `1.25` step isn't core and could be
   dropped by a consumer's JIT scan.
+- **`AgentTimeline` now speaks YunUI's semantic status vocabulary** — the error /
+  success / warning affordances moved off raw Tailwind `red-*`/`emerald-*`/`amber-*`
+  onto the `--error` / `--success` / `--warning` tokens, so they track the active
+  theme (light / dark / brand) instead of drifting from the system's palette.
+- **`./package.json` is now an export** so tooling and consumers can read the
+  package version at runtime (the docs site uses it for its version badge).
+- **Dependencies refreshed to latest** — React 19.2.8, the Radix primitives,
+  Tailwind 4.3.3, `shiki` 4, `framer-motion` 12.43, `lucide-react` 1.28 and more.
+  No API changes; `typescript` intentionally held at 6.x (7.x isn't yet compatible
+  with the `tsup`/`rollup-plugin-dts` build toolchain).
 
 ## [0.2.16] - 2026-07-02
 

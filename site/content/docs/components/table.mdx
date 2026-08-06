@@ -94,6 +94,14 @@ import {
   </div>
 </ComponentPreview>
 
+## Sortable columns
+
+Pass `onSort` to a `TableHead` to make it a sort control: the label becomes a button with an asc/desc/unsorted chevron, and the `<th>` gets `aria-sort`. `sortDirection` is that column's current state (`"asc"` / `"desc"`, or `false` when it isn't the active column). Sorting itself stays with you — YunUI only renders the control and the a11y state. Use `align="right"` for numeric columns; it aligns both the cells and the sort control.
+
+<ComponentPreview title="Sortable">
+  <TableSortDemo />
+</ComponentPreview>
+
 ## Props — Table
 
 <PropsTable name="Table" />

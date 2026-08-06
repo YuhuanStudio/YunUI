@@ -1,0 +1,39 @@
+import { ReadingProgress } from "yunui/patterns";
+
+回答「我在這個長頁面的哪裡」的兩個答案，收進角落一個懸浮控制項裡——而不是橫在頂端、根本看不出是什麼的一條細線。一個圓形環會隨你捲動而填滿;中央有個向上箭頭，點擊即可回到頂部。兩者放在同一個元件裡，因為它們回答同一個問題，並共用單一個捲動監聽器——拆成兩個就意味著在最禁不起負擔的頁面上掛兩個監聽器。
+
+在你的應用樹高處掛載一次即可（或針對每篇長文）。它不擁有任何資料、路由，也沒有任何文案，只有一個可覆寫的標籤。
+
+## 匯入
+
+```tsx
+import { ReadingProgress } from "@yuhuanowo/yunui/patterns";
+```
+
+## 即時示範
+
+這個頁面下方就掛載了一個 `ReadingProgress`——捲動並觀察右下角按鈕四周的環填滿;點擊它即可回到頂部。
+
+<ComponentPreview title="即時示範（固定於視窗）">
+  <ReadingProgress />
+  <p className="text-sm text-muted-foreground">
+    捲動頁面——右下角的環會追蹤你的進度，點擊它即可捲回頂部。
+  </p>
+</ComponentPreview>
+
+## 選項
+
+`bar` 與 `backToTop` 各自切換其中一半：只保留進度環，或只保留單純的回到頂部按鈕。`threshold`（px，預設 `600`）設定要捲動多遠控制項才會淡入，而 `labels.backToTop` 則本地化其無障礙名稱。
+
+```tsx
+<ReadingProgress
+  bar            // 繪製圓形進度環
+  backToTop      // 箭頭 + 點擊回到頂部
+  threshold={800}
+  labels={{ backToTop: "回到頂部" }}
+/>
+```
+
+## 屬性
+
+<PropsTable name="ReadingProgress" />

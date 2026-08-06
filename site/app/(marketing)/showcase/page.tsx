@@ -110,10 +110,13 @@ import {
   Sparkline,
   Gauge,
   SegmentedBar,
+  TextShimmer,
 } from "yunui";
+import { ChatAttachment } from "yunui/chat";
 import {
   ThinkingBlock,
   AgentTimeline,
+  AgentRunStatus,
   LanguageSwitcher,
   Navbar,
   Footer,
@@ -169,6 +172,7 @@ import {
   LLMCopyButton,
   ViewOptions,
   AudioPlayer,
+  NavStateIndicator,
 } from "yunui/patterns";
 import {
   NotificationDemo,
@@ -188,6 +192,7 @@ import {
   MediaGalleryDemo,
   MarkdownRendererDemo,
   ChatDemo,
+  SettingsShellDemo,
 } from "@/components/docs/demos";
 import {
   CodeBlock as ContentCodeBlock,
@@ -195,6 +200,7 @@ import {
   MathRenderer,
   MermaidDiagram,
   ContentImage,
+  InlineCitation,
 } from "yunui/content";
 import {
   Heart,
@@ -1735,6 +1741,53 @@ export default function Showcase() {
                 { kind: "tool", id: "t3", verb: "Fetch", summary: "api.example.com/models", status: "running", icon: "globe" },
               ]}
             />
+          </div>
+        </Demo>
+        <Demo title="Agent run status & text shimmer">
+          <div className="w-full max-w-lg flex flex-col gap-3">
+            <AgentRunStatus label="Reading files…" phase="acting" />
+            <AgentRunStatus label="Writing response…" phase="responding" />
+            <TextShimmer text="Thinking…" className="text-sm" />
+          </div>
+        </Demo>
+        <Demo title="Chat attachment">
+          <div className="w-full max-w-sm flex flex-col gap-2">
+            <ChatAttachment name="quarterly-report.pdf" meta="2.4 MB · PDF" />
+            <ChatAttachment name="dataset.csv" meta="Uploading… 68%" status="loading" progress={68} />
+            <ChatAttachment name="video.mov" meta="File exceeds 25 MB limit" status="error" />
+          </div>
+        </Demo>
+        <Demo title="Inline citation">
+          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+            The Transformer architecture was introduced in 2017
+            <InlineCitation
+              label="1"
+              title="Attention Is All You Need"
+              meta="arxiv.org · Vaswani et al."
+              description="The Transformer relies entirely on an attention mechanism to draw global dependencies between input and output, dispensing with recurrence."
+            />
+            and now underpins most large language models.
+          </p>
+        </Demo>
+        <Demo title="Nav state indicator">
+          <div className="flex w-56 flex-col gap-1">
+            <button type="button" className="nav-item w-full text-left">
+              <NavStateIndicator />
+              <span className="flex-1">Inactive</span>
+            </button>
+            <button type="button" className="nav-item active w-full text-left">
+              <NavStateIndicator active />
+              <span className="flex-1">Active</span>
+            </button>
+            <button type="button" className="nav-item w-full text-left">
+              <NavStateIndicator running />
+              <span className="flex-1">Running</span>
+            </button>
+          </div>
+        </Demo>
+        <Demo title="Settings shell" description="Grouped desktop nav, compact mobile picker, one scroll-safe content lane.">
+          <div className="w-full max-w-2xl">
+            <SettingsShellDemo />
           </div>
         </Demo>
         <Demo title={t("demos.toast.title")} description={t("demos.toast.description")}>

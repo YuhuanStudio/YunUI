@@ -1,0 +1,39 @@
+import { ReadingProgress } from "yunui/patterns";
+
+回答“我在这个长页面的哪里”的两个答案，收进角落一个悬浮控件里——而不是横在顶端、根本看不出是什么的一条细线。一个圆形环会随你滚动而填满;中央有个向上箭头，点击即可回到顶部。两者放在同一个组件里，因为它们回答同一个问题，并共用单一个滚动监听器——拆成两个就意味着在最禁不起负担的页面上挂两个监听器。
+
+在你的应用树高处挂载一次即可（或针对每篇长文）。它不拥有任何数据、路由，也没有任何文案，只有一个可覆写的标签。
+
+## 导入
+
+```tsx
+import { ReadingProgress } from "@yuhuanowo/yunui/patterns";
+```
+
+## 实时示范
+
+这个页面下方就挂载了一个 `ReadingProgress`——滚动并观察右下角按钮四周的环填满;点击它即可回到顶部。
+
+<ComponentPreview title="实时示范（固定于视口）">
+  <ReadingProgress />
+  <p className="text-sm text-muted-foreground">
+    滚动页面——右下角的环会追踪你的进度，点击它即可滚回顶部。
+  </p>
+</ComponentPreview>
+
+## 选项
+
+`bar` 与 `backToTop` 各自切换其中一半：只保留进度环，或只保留单纯的回到顶部按钮。`threshold`（px，默认 `600`）设定要滚动多远控件才会淡入，而 `labels.backToTop` 则本地化其无障碍名称。
+
+```tsx
+<ReadingProgress
+  bar            // 绘制圆形进度环
+  backToTop      // 箭头 + 点击回到顶部
+  threshold={800}
+  labels={{ backToTop: "回到顶部" }}
+/>
+```
+
+## 属性
+
+<PropsTable name="ReadingProgress" />

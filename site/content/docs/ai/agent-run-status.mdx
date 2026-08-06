@@ -1,0 +1,44 @@
+import { AgentRunStatus } from "yunui/ai";
+
+A layout-stable live surface for the *one* activity an agent is doing right now — "Reading files", "Running tests", "Writing response" — with a shimmering label and a pulsing dot trio. It is announced politely to assistive tech via `role="status"` / `aria-live`.
+
+It is deliberately separate from [Agent Timeline](/docs/ai/agent-timeline): the status stays in one place for the whole run, while timeline rows accumulate as durable process history. You supply the localized runtime `label`; YunUI owns the motion and geometry.
+
+## Import
+
+```tsx
+import { AgentRunStatus } from "@yuhuanowo/yunui/ai";
+```
+
+## Basic
+
+<ComponentPreview title="Basic">
+  <AgentRunStatus label="Thinking…" phase="thinking" />
+</ComponentPreview>
+
+## Phases
+
+`phase` is a semantic hint the host maps its runtime state onto — `thinking`, `acting`, `observing`, `reflecting`, `responding`, `waiting`. The `waiting` phase defaults `active` to `false`, freezing the motion while the layout stays put.
+
+<ComponentPreview title="Phases">
+  <div className="flex flex-col gap-2">
+    <AgentRunStatus label="Reading files…" phase="acting" />
+    <AgentRunStatus label="Reviewing the results…" phase="observing" />
+    <AgentRunStatus label="Writing response…" phase="responding" />
+    <AgentRunStatus label="Waiting for approval" phase="waiting" />
+  </div>
+</ComponentPreview>
+
+## Paused
+
+Pass `active={false}` at any phase to hold the row still (e.g. the run is suspended) without collapsing it.
+
+<ComponentPreview title="Paused">
+  <AgentRunStatus label="Paused" phase="acting" active={false} />
+</ComponentPreview>
+
+## Props
+
+`AgentRunStatus` also forwards any `<div>` HTML attributes.
+
+<PropsTable name="AgentRunStatus" />

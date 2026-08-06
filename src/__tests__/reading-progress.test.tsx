@@ -31,10 +31,19 @@ function flushFrames() {
     });
 }
 
-/** The progress bar's fill. Selected by its own class rather than by
- *  `[aria-hidden]`, which also matches the icon SVG inside the button. */
-function fillOf(container: HTMLElement): HTMLElement {
-    return container.querySelector(".origin-left") as HTMLElement;
+// Ring geometry mirrors the component (48×48 viewBox, r=21). The progress arc
+// is drawn with stroke-dashoffset = C·(1 − progress): full offset = empty ring,
+// zero offset = complete ring.
+const RING_CIRCUMFERENCE = 2 * Math.PI * 21;
+
+/** The animated progress arc — the second <circle> (the first is the track). */
+function arcOf(container: HTMLElement): SVGCircleElement | null {
+    return container.querySelectorAll("circle")[1] as SVGCircleElement | undefined ?? null;
+}
+
+/** The arc's dash offset, as a number (0 = full ring, C = empty). */
+function offsetOf(container: HTMLElement): number {
+    return parseFloat(arcOf(container)!.getAttribute("stroke-dashoffset") ?? "NaN");
 }
 
 /** Put the document somewhere specific and let the listener run. */
@@ -60,30 +69,28 @@ describe("ReadingProgress", () => {
     it("starts empty at the top of the page", () => {
         const { container } = render(<ReadingProgress />);
         scrollTo(0);
-        const fill = fillOf(container);
-        expect(fill.style.transform).toBe("scaleX(0)");
+        // progress 0 → the arc is fully offset (empty ring).
+        expect(offsetOf(container)).toBeCloseTo(RING_CIRCUMFERENCE, 3);
     });
 
     it("fills as the page is scrolled", () => {
         const { container } = render(<ReadingProgress />);
-        // 1000 of a 2000px reach is half way.
+        // 1000 of a 2000px reach is half way → the arc is half offset.
         scrollTo(1000);
-        const fill = fillOf(container);
-        expect(fill.style.transform).toBe("scaleX(0.5)");
+        expect(offsetOf(container)).toBeCloseTo(RING_CIRCUMFERENCE * 0.5, 3);
     });
 
     it("never exceeds one, however far the page is over-scrolled", () => {
         const { container } = render(<ReadingProgress />);
         scrollTo(9999);
-        const fill = fillOf(container);
-        expect(fill.style.transform).toBe("scaleX(1)");
+        // progress 100 → the arc is complete (zero offset).
+        expect(offsetOf(container)).toBeCloseTo(0, 3);
     });
 
     it("does not divide by zero on a page shorter than the viewport", () => {
         const { container } = render(<ReadingProgress />);
         scrollTo(0, { height: 500, viewport: 1000 });
-        const fill = fillOf(container);
-        expect(fill.style.transform).toBe("scaleX(0)");
+        expect(offsetOf(container)).toBeCloseTo(RING_CIRCUMFERENCE, 3);
     });
 
     it("hides the back-to-top button until the threshold is passed", () => {
@@ -114,9 +121,12 @@ describe("ReadingProgress", () => {
 
     it("can render either half alone", () => {
         const { container, rerender } = render(<ReadingProgress backToTop={false} />);
+        // Ring only: not interactive, so it renders no button.
         expect(screen.queryByRole("button")).toBeNull();
+        expect(arcOf(container)).not.toBeNull();
         rerender(<ReadingProgress bar={false} />);
-        expect(fillOf(container)).toBeNull();
+        // Button only: no progress ring.
+        expect(container.querySelector("circle")).toBeNull();
     });
 
     it("removes its listeners on unmount", () => {

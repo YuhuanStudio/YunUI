@@ -2,6 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { PropsTable } from "@/components/docs/props-table";
+import { MdxPre } from "@/components/docs/mdx-code";
 import {
   StatCardDemo,
   SwitchDemo,
@@ -48,6 +49,8 @@ import {
   ChatDemo,
   ChatComposerDemo,
   GenerationStatsDemo,
+  SettingsShellDemo,
+  TableSortDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -60,6 +63,7 @@ import {
 export function useMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
+    pre: MdxPre,
     ComponentPreview,
     PropsTable,
     StatCardDemo,
@@ -107,6 +111,8 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     ChatDemo,
     ChatComposerDemo,
     GenerationStatsDemo,
+    SettingsShellDemo,
+    TableSortDemo,
     ...components,
   };
 }

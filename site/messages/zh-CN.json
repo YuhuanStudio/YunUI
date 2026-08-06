@@ -58,7 +58,8 @@
     "docs": "文档",
     "home": "YunUI 首页",
     "github": "GitHub",
-    "menu": "菜单"
+    "menu": "菜单",
+    "changelog": "更新日志"
   },
   "footer": {
     "tagline": "安静的好看，安静的扎实。",
@@ -76,7 +77,7 @@
     "yunshu": "Yunshu"
   },
   "landing": {
-    "heroBadge": "新增：Flex · Grid · Table · Accordion",
+    "heroBadge": "v{version} 更新内容",
     "heroTitleLead": "安静的好看。",
     "heroTitleAccent": "安静的扎实。",
     "heroSubtitle": "一套不喧哗的 React 19 + Tailwind v4 设计系统。令牌驱动、三套主题、与框架无关的适配层——每个细节都被在意过，却没有一个在喧哗。",
@@ -725,5 +726,9 @@
       "error": "错误",
       "retry": "重试"
     }
+  },
+  "changelog": {
+    "title": "更新日志",
+    "subtitle": "@yuhuanowo/yunui 的每一项重要变更——新组件、修复与打磨。"
   }
 }

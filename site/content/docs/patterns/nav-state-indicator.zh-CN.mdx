@@ -1,0 +1,38 @@
+import { NavStateIndicator } from "yunui/patterns";
+
+由 YunUI 各导航界面共用的单一“当前／运行中”指示器——出现在 [Sidebar](/docs/patterns/sidebar)、[SettingsShell](/docs/patterns/settings-shell) 或导航列表中所选项目旁的小型强调标记。它是一个纯呈现的 `<span>`，仅由两个布尔 data-state 驱动;把它放进 `.nav-item` 内，它就会继承正确的几何。
+
+## 导入
+
+```tsx
+import { NavStateIndicator } from "@yuhuanowo/yunui/patterns";
+```
+
+## 状态
+
+`active` 显示所选标记;`running` 让同一个标记产生动画但不改变其几何（例如某个页面／会话正有工作进行中）。
+
+<ComponentPreview title="状态">
+  <div className="flex w-56 flex-col gap-1">
+    <button type="button" className="nav-item w-full text-left">
+      <NavStateIndicator />
+      <span className="flex-1">Inactive</span>
+    </button>
+    <button type="button" className="nav-item active w-full text-left">
+      <NavStateIndicator active />
+      <span className="flex-1">Active</span>
+    </button>
+    <button type="button" className="nav-item w-full text-left">
+      <NavStateIndicator running />
+      <span className="flex-1">Running</span>
+    </button>
+  </div>
+</ComponentPreview>
+
+大多数应用通过 `Sidebar` / `SettingsShell` 就能免费获得此效果;只有在你打造需与系统其余部分一致的定制导航界面时，才需要直接使用 `NavStateIndicator`。
+
+## 属性
+
+`NavStateIndicator` 也会转发任何 `<span>` HTML 属性。
+
+<PropsTable name="NavStateIndicator" />

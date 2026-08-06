@@ -24,6 +24,7 @@ function Navbar({ pathname }: { pathname: string }) {
   const NAV_LINKS = [
     { label: t("showcase"), href: "/showcase" },
     { label: t("docs"), href: "/docs" },
+    { label: t("changelog"), href: "/changelog" },
   ];
 
   const isActive = (href: string) =>

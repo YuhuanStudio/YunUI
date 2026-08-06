@@ -1,0 +1,59 @@
+import { ChatAttachment } from "yunui/chat";
+import { IconButton } from "yunui";
+import { X } from "lucide-react";
+
+A compact attachment surface shared by the composer (files queued to send) and sent messages (files already attached). It owns the visual hierarchy, upload-progress treatment and status affordances; the host supplies the localized `name`/`meta`, an optional `preview` thumbnail or `icon`, and any `actions`.
+
+## Import
+
+```tsx
+import { ChatAttachment } from "@yuhuanowo/yunui/chat";
+```
+
+## Basic
+
+<ComponentPreview title="Basic">
+  <div className="w-full max-w-xs">
+    <ChatAttachment name="quarterly-report.pdf" meta="2.4 MB · PDF" />
+  </div>
+</ComponentPreview>
+
+## Uploading
+
+Set `status="loading"` and a `progress` (0–100) to render a determinate bar and a spinner. Omit `progress` for an indeterminate spinner only.
+
+<ComponentPreview title="Uploading">
+  <div className="w-full max-w-xs">
+    <ChatAttachment name="dataset.csv" meta="Uploading… 68%" status="loading" progress={68} />
+  </div>
+</ComponentPreview>
+
+## Error
+
+`status="error"` tints the surface and swaps in an alert glyph; the `meta` line carries the reason.
+
+<ComponentPreview title="Error">
+  <div className="w-full max-w-xs">
+    <ChatAttachment name="video.mov" meta="File exceeds 25 MB limit" status="error" />
+  </div>
+</ComponentPreview>
+
+## With actions
+
+Pass `actions` (e.g. an `IconButton` to remove) — they sit on the trailing edge of the row.
+
+<ComponentPreview title="With actions">
+  <div className="w-full max-w-xs">
+    <ChatAttachment
+      name="design-spec.fig"
+      meta="1.1 MB · Figma"
+      actions={<IconButton label="Remove" variant="ghost" size="sm"><X className="h-4 w-4" /></IconButton>}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+`ChatAttachment` also forwards any `<div>` HTML attributes.
+
+<PropsTable name="ChatAttachment" />

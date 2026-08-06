@@ -1,0 +1,38 @@
+import { NavStateIndicator } from "yunui/patterns";
+
+由 YunUI 各導覽介面共用的單一「作用中／執行中」指示器——出現在 [Sidebar](/docs/patterns/sidebar)、[SettingsShell](/docs/patterns/settings-shell) 或導覽清單中所選項目旁的小型強調標記。它是一個純呈現的 `<span>`，僅由兩個布林 data-state 驅動;把它放進 `.nav-item` 內，它就會繼承正確的幾何。
+
+## 匯入
+
+```tsx
+import { NavStateIndicator } from "@yuhuanowo/yunui/patterns";
+```
+
+## 狀態
+
+`active` 顯示所選標記;`running` 讓同一個標記產生動畫但不改變其幾何（例如某個頁面／工作階段正有工作進行中）。
+
+<ComponentPreview title="狀態">
+  <div className="flex w-56 flex-col gap-1">
+    <button type="button" className="nav-item w-full text-left">
+      <NavStateIndicator />
+      <span className="flex-1">Inactive</span>
+    </button>
+    <button type="button" className="nav-item active w-full text-left">
+      <NavStateIndicator active />
+      <span className="flex-1">Active</span>
+    </button>
+    <button type="button" className="nav-item w-full text-left">
+      <NavStateIndicator running />
+      <span className="flex-1">Running</span>
+    </button>
+  </div>
+</ComponentPreview>
+
+大多數應用透過 `Sidebar` / `SettingsShell` 就能免費取得此效果;只有在你打造需與系統其餘部分一致的客製導覽介面時，才需要直接使用 `NavStateIndicator`。
+
+## 屬性
+
+`NavStateIndicator` 也會轉發任何 `<span>` HTML 屬性。
+
+<PropsTable name="NavStateIndicator" />

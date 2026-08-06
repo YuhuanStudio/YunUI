@@ -37,6 +37,42 @@ const [value, setValue] = useState("medium");
   <CustomSelectDemo />
 </ComponentPreview>
 
+## 后端驱动的搜索
+
+`searchable` 默认会在客户端过滤传入的 `options`。改为传入 `onSearch` 即可让结果由后端驱动：它会（以 `searchDebounceMs` 去抖动，默认 `250`）带着当前的查询字符串触发，你再用抓取到的结果替换 `options`。搭配 `loading` 可呈现进行中的抓取。
+
+```tsx
+const [options, setOptions] = useState<CustomSelectOption[]>([]);
+const [loading, setLoading] = useState(false);
+
+<CustomSelect
+  searchable
+  value={value}
+  onChange={setValue}
+  options={options}
+  loading={loading}
+  onSearch={async (query) => {
+    setLoading(true);
+    setOptions(await searchModels(query));
+    setLoading(false);
+  }}
+/>
+```
+
+## 无限滚动
+
+对于长或分页的结果集，传入 `onLoadMore` + `hasMore`。`onLoadMore` 会在列表滚动接近底部时触发（且没有进行中的抓取）;你再将下一页附加到 `options`。它与 `onSearch` 互相独立——可择一或并用。
+
+```tsx
+<CustomSelect
+  value={value}
+  onChange={setValue}
+  options={options}
+  hasMore={hasMore}
+  onLoadMore={() => loadNextPage()}
+/>
+```
+
 ## 属性
 
 <PropsTable name="CustomSelect" />
