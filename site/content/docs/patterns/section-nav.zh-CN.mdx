@@ -1,0 +1,43 @@
+import { SectionNav } from "yunui/patterns";
+
+带滚动监视的页内章节导航——让读者直接跳到长页面的某个章节，而不必先滚过前面所有内容。
+
+与 [`Sidebar`](/docs/patterns/sidebar) 不同，后者是*网站*导航。从 YunNEWS 上收而来——那里一份日报可能横跨九个章节、多达四十则。
+
+## 导入
+
+```tsx
+import { SectionNav } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基础用法
+
+每个项目的 `id` 同时是锚点与被观察的元素。`count` 为可选，会靠右对齐。
+
+<ComponentPreview title="章节轨">
+  <div className="w-56">
+    <SectionNav
+      label="Sections"
+      items={[
+        { id: "models", label: "Models", count: 12 },
+        { id: "research", label: "Research", count: 10 },
+        { id: "tooling", label: "Tooling", count: 15 },
+        { id: "other", label: "Other", count: 20 },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## 追踪方式
+
+它使用 `IntersectionObserver` 而非滚动事件：滚动监听器每一帧都会触发，且必须测量每个章节的方框——那是浏览器早已做过的工作。
+
+`offset`（默认 `112`）会把观察带缩到固定标头下方;没有它的话，章节还躲在导航栏后面就会被算成可见。当多个章节同时进入视野时，**最上面**的获胜，因此向上滚动绝不会高亮你正要离开的章节。
+
+```tsx
+<SectionNav offset={96} label={t("sections")} items={sections} />
+```
+
+## 属性
+
+<PropsTable name="SectionNav" />

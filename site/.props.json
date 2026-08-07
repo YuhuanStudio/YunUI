@@ -3259,6 +3259,36 @@
       "description": "The section title."
     }
   ],
+  "SectionNav": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "items",
+      "type": "SectionNavItem[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Sections",
+      "description": "Accessible name for the nav landmark — localize it."
+    },
+    {
+      "name": "offset",
+      "type": "number",
+      "required": false,
+      "defaultValue": "112",
+      "description": "Offset in px for a fixed header, used when scrolling and when spying."
+    }
+  ],
   "SessionItem": [
     {
       "name": "className",

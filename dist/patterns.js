@@ -2527,7 +2527,58 @@ function SectionRow({ title, action, className, ...props }) {
     action
   ] });
 }
+function SectionNav({ items, offset = 112, label = "Sections", className }) {
+  const [active, setActive] = useState(items[0]?.id ?? null);
+  useEffect(() => {
+    if (items.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      {
+        // Shrink the viewport to a band just under the header: without it a
+        // section counts as visible while it is still behind the navbar.
+        rootMargin: `-${offset}px 0px -55% 0px`,
+        threshold: 0
+      }
+    );
+    for (const item of items) {
+      const el = document.getElementById(item.id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, [items, offset]);
+  if (items.length === 0) return null;
+  return /* @__PURE__ */ jsx("nav", { "aria-label": label, className, children: /* @__PURE__ */ jsx("ul", { className: "space-y-0.5", children: items.map((item) => {
+    const isActive = item.id === active;
+    return /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsxs(
+      "a",
+      {
+        href: `#${item.id}`,
+        "aria-current": isActive ? "true" : void 0,
+        className: cn(
+          "group flex items-center justify-between gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors",
+          isActive ? "bg-foreground/5 font-medium text-foreground" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+        ),
+        children: [
+          /* @__PURE__ */ jsx("span", { className: "truncate", children: item.label }),
+          item.count !== void 0 && /* @__PURE__ */ jsx(
+            "span",
+            {
+              className: cn(
+                "shrink-0 text-xs tabular-nums",
+                isActive ? "text-foreground" : "text-muted-foreground"
+              ),
+              children: item.count
+            }
+          )
+        ]
+      }
+    ) }, item.id);
+  }) }) });
+}
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AuthShell, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DashboardPage, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SectionRow, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatGrid, StatusBadge, TableState, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AuthShell, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DashboardPage, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SectionNav, SectionRow, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatGrid, StatusBadge, TableState, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

@@ -1,0 +1,43 @@
+import { SectionNav } from "yunui/patterns";
+
+An in-page section navigator with scroll spy — the rail that lets a reader jump straight to a section of a long page instead of scrolling past everything before it.
+
+Distinct from [`Sidebar`](/docs/patterns/sidebar), which is *site* navigation. Upstreamed from YunNEWS, where a digest can run to forty entries across nine sections.
+
+## Import
+
+```tsx
+import { SectionNav } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+Each item's `id` is both the anchor and the observed element. `count` is optional and right-aligns.
+
+<ComponentPreview title="Section rail">
+  <div className="w-56">
+    <SectionNav
+      label="Sections"
+      items={[
+        { id: "models", label: "Models", count: 12 },
+        { id: "research", label: "Research", count: 10 },
+        { id: "tooling", label: "Tooling", count: 15 },
+        { id: "other", label: "Other", count: 20 },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## How it tracks
+
+It uses an `IntersectionObserver`, not a scroll handler: a scroll listener fires every frame and has to measure each section's box — work the browser has already done.
+
+`offset` (default `112`) shrinks the observed band to sit just under a fixed header; without it a section counts as visible while it is still behind the navbar. When several sections intersect, the **topmost** wins, so scrolling up never highlights the section you are leaving.
+
+```tsx
+<SectionNav offset={96} label={t("sections")} items={sections} />
+```
+
+## Props
+
+<PropsTable name="SectionNav" />

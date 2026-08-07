@@ -132,3 +132,6 @@ export {
   type DashboardPageProps,
   type SectionRowProps,
 } from "./data-states";
+
+// In-page scroll-spy navigator (upstreamed from YunNEWS).
+export { SectionNav, type SectionNavProps, type SectionNavItem } from "./section-nav";

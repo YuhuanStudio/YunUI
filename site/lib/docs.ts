@@ -1153,6 +1153,16 @@ export const docs: DocEntry[] = [
 
   // ---- App shells (extracted from Yunxin) ---------------------------------
   pat(
+    "section-nav",
+    { en: "Section Nav", "zh-CN": "章节导航", "zh-TW": "章節導覽" },
+    {
+      en: "An in-page scroll-spy rail for long pages — jump straight to a section instead of scrolling past everything.",
+      "zh-CN": "长页面的页内滚动监视导航轨——直接跳到某个章节，不必滚过前面所有内容。",
+      "zh-TW": "長頁面的頁內捲動監看導覽軌——直接跳到某個章節，不必捲過前面所有內容。",
+    },
+    "section nav scroll spy in page anchor toc rail intersection observer long page",
+  ),
+  pat(
     "auth-shell",
     { en: "Auth Shell", "zh-CN": "认证外壳", "zh-TW": "驗證外殼" },
     {
@@ -1630,6 +1640,7 @@ export const groups: DocGroup[] = [
       "patterns/prose-article",
       "patterns/auth-shell",
       "patterns/data-states",
+      "patterns/section-nav",
     ],
   },
   {

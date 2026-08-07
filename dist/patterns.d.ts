@@ -1044,4 +1044,34 @@ interface SectionRowProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> 
  */
 declare function SectionRow({ title, action, className, ...props }: SectionRowProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AuthShell, type AuthShellProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DashboardPage, type DashboardPageProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SectionRow, type SectionRowProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatGrid, type StatGridProps, StatusBadge, TableState, type TableStateProps, ViewOptions };
+interface SectionNavItem {
+    /** Element id to scroll to; also the observed target. */
+    id: string;
+    label: string;
+    /** Shown right-aligned — how many things are in the section. */
+    count?: number;
+}
+interface SectionNavProps {
+    items: SectionNavItem[];
+    /** Offset in px for a fixed header, used when scrolling and when spying. */
+    offset?: number;
+    /** Accessible name for the nav landmark — localize it. @defaultValue "Sections" */
+    label?: string;
+    className?: string;
+}
+/**
+ * In-page section navigator with scroll spy.
+ *
+ * Written because a digest can run to forty entries across nine sections, and
+ * without this the only way to reach 產業動態 is to scroll past everything
+ * before it. Distinct from `Sidebar`, which is site navigation (brand, logo, routes):
+ * this covers "navigate within one long page". Upstreamed from YunNEWS, where
+ * it was written to library standards from the start.
+ *
+ * IntersectionObserver rather than a scroll handler: a scroll listener fires on
+ * every frame and has to measure each section's box, which is the same work the
+ * browser has already done.
+ */
+declare function SectionNav({ items, offset, label, className }: SectionNavProps): React$1.JSX.Element | null;
+
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AuthShell, type AuthShellProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DashboardPage, type DashboardPageProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SectionNav, type SectionNavItem, type SectionNavProps, SectionRow, type SectionRowProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatGrid, type StatGridProps, StatusBadge, TableState, type TableStateProps, ViewOptions };
