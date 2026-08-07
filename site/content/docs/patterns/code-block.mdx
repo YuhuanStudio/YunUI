@@ -2,6 +2,9 @@ import { CodeBlock } from "yunui/patterns";
 
 A styled code block with window-chrome dots, a header showing the `language` badge or a `filename`, optional line numbers, lightweight syntax highlighting, and a copy-to-clipboard button. Pass `tabs` to render multiple switchable code panes instead of a single block.
 
+
+> **Which CodeBlock?** This one is dependency-free — it highlights with a small built-in tokenizer, so it costs nothing to render a snippet in a marketing page or a docs card. [`CodeBlock` from `yunui/content`](/docs/content/code-block) is the Shiki-backed one: VS Code-grade highlighting, line highlighting and an edit action, at the cost of loading a grammar. Use that for real code, this for illustration.
+
 ## Import
 
 ```tsx
