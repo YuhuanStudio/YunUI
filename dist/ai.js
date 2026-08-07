@@ -1,6 +1,6 @@
 "use client";
-import { copyToClipboard } from './chunk-DDUP7GAX.js';
-export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-DDUP7GAX.js';
+import { capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
+export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-HJ6AUOR7.js';
 import { TextShimmer, ThemeToggle } from './chunk-3YYY5E4O.js';
 import { cn, useAnchoredPosition } from './chunk-N7APRQBO.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
@@ -340,17 +340,17 @@ function IDBadge({
   );
 }
 var CAPABILITY_ICONS = {
-  streaming: { icon: Waves, color: "text-cyan-500" },
-  vision: { icon: Eye, color: "text-amber-500" },
-  thinking: { icon: Brain, color: "text-pink-500" },
-  function_calling: { icon: Code, color: "text-purple-500" },
-  image_edit: { icon: Image, color: "text-orange-500" },
-  negative_prompt: { icon: Ban, color: "text-red-500" },
-  seed_control: { icon: Fingerprint, color: "text-indigo-500" },
-  lora: { icon: Layers, color: "text-teal-500" },
-  guidance_scale: { icon: SlidersHorizontal, color: "text-yellow-500" },
-  strength: { icon: SlidersHorizontal, color: "text-orange-500" },
-  batch: { icon: Waves, color: "text-cyan-500" }
+  streaming: { color: capabilityIconColor("streaming"), icon: Waves },
+  vision: { color: capabilityIconColor("vision"), icon: Eye },
+  thinking: { color: capabilityIconColor("thinking"), icon: Brain },
+  function_calling: { color: capabilityIconColor("function_calling"), icon: Code },
+  image_edit: { color: capabilityIconColor("image_edit"), icon: Image },
+  negative_prompt: { color: capabilityIconColor("negative_prompt"), icon: Ban },
+  seed_control: { color: capabilityIconColor("seed_control"), icon: Fingerprint },
+  lora: { color: capabilityIconColor("lora"), icon: Layers },
+  guidance_scale: { color: capabilityIconColor("guidance_scale"), icon: SlidersHorizontal },
+  strength: { color: capabilityIconColor("strength"), icon: SlidersHorizontal },
+  batch: { color: capabilityIconColor("batch"), icon: Waves }
 };
 function ModelCard({
   name,

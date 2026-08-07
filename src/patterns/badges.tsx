@@ -2,6 +2,7 @@
 
 import { Eye, EyeOff, Clock, CheckCircle, XCircle, Zap, FileText, FileCode, MessageSquare, Waves, Code, Brain, Ban, Fingerprint, Layers, SlidersHorizontal, Image as ImageIcon, Award } from "lucide-react";
 import { useYunUI } from "../adapters/context";
+import { capabilityIconColor, capabilityBadgeColor } from "../ai/capability-colors";
 
 // Fellow recognition badge — the standing mark of an approved Fellows-tier member.
 export function FellowBadge({ variant = "inline", className = "" }: { variant?: "inline" | "pill"; className?: string }) {
@@ -28,18 +29,18 @@ export function CapabilityBadge({ capability, short = false }: { capability: str
     const t = useYunUI().useT("components.badges");
 
     const configs: Record<string, { icon: React.ComponentType<{ size?: number; className?: string }>; iconColor: string; color: string; labelKey: string }> = {
-        chat: { icon: MessageSquare, iconColor: "text-blue-500", color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20", labelKey: "chat" },
-        streaming: { icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20", labelKey: "streaming" },
-        function_calling: { icon: Code, iconColor: "text-purple-500", color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20", labelKey: "functionCalling" },
-        vision: { icon: Eye, iconColor: "text-amber-500", color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20", labelKey: "vision" },
-        thinking: { icon: Brain, iconColor: "text-pink-500", color: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20", labelKey: "thinking" },
-        image_edit: { icon: ImageIcon, iconColor: "text-orange-500", color: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20", labelKey: "imageEdit" },
-        negative_prompt: { icon: Ban, iconColor: "text-red-500", color: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20", labelKey: "negativePrompt" },
-        seed_control: { icon: Fingerprint, iconColor: "text-indigo-500", color: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20", labelKey: "seedControl" },
-        lora: { icon: Layers, iconColor: "text-teal-500", color: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20", labelKey: "loraSupport" },
-        guidance_scale: { icon: SlidersHorizontal, iconColor: "text-yellow-500", color: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20", labelKey: "guidanceScale" },
-        strength: { icon: SlidersHorizontal, iconColor: "text-orange-500", color: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20", labelKey: "strength" },
-        batch: { icon: Waves, iconColor: "text-cyan-500", color: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20", labelKey: "batchGeneration" },
+        chat: { icon: MessageSquare, iconColor: capabilityIconColor("chat"), color: capabilityBadgeColor("chat"), labelKey: "chat" },
+        streaming: { icon: Waves, iconColor: capabilityIconColor("streaming"), color: capabilityBadgeColor("streaming"), labelKey: "streaming" },
+        function_calling: { icon: Code, iconColor: capabilityIconColor("function_calling"), color: capabilityBadgeColor("function_calling"), labelKey: "functionCalling" },
+        vision: { icon: Eye, iconColor: capabilityIconColor("vision"), color: capabilityBadgeColor("vision"), labelKey: "vision" },
+        thinking: { icon: Brain, iconColor: capabilityIconColor("thinking"), color: capabilityBadgeColor("thinking"), labelKey: "thinking" },
+        image_edit: { icon: ImageIcon, iconColor: capabilityIconColor("image_edit"), color: capabilityBadgeColor("image_edit"), labelKey: "imageEdit" },
+        negative_prompt: { icon: Ban, iconColor: capabilityIconColor("negative_prompt"), color: capabilityBadgeColor("negative_prompt"), labelKey: "negativePrompt" },
+        seed_control: { icon: Fingerprint, iconColor: capabilityIconColor("seed_control"), color: capabilityBadgeColor("seed_control"), labelKey: "seedControl" },
+        lora: { icon: Layers, iconColor: capabilityIconColor("lora"), color: capabilityBadgeColor("lora"), labelKey: "loraSupport" },
+        guidance_scale: { icon: SlidersHorizontal, iconColor: capabilityIconColor("guidance_scale"), color: capabilityBadgeColor("guidance_scale"), labelKey: "guidanceScale" },
+        strength: { icon: SlidersHorizontal, iconColor: capabilityIconColor("strength"), color: capabilityBadgeColor("strength"), labelKey: "strength" },
+        batch: { icon: Waves, iconColor: capabilityIconColor("batch"), color: capabilityBadgeColor("batch"), labelKey: "batchGeneration" },
     };
 
     const config = configs[capability];
