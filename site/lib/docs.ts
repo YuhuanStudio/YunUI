@@ -1265,6 +1265,16 @@ export const docs: DocEntry[] = [
     "agent run status live activity phase thinking acting shimmer aria-live streaming",
   ),
   aiDoc(
+    "account-menu",
+    { en: "Account Menu", "zh-CN": "账号菜单", "zh-TW": "帳號選單" },
+    {
+      en: "The navbar account control — sign-in glyph, avatar once signed in, and a menu with identity, links and sign out.",
+      "zh-CN": "导航栏账号控件——未登录显示图标、登录后显示头像，并带出身份、链接与登出菜单。",
+      "zh-TW": "導覽列帳號控制項——未登入顯示符號、登入後顯示頭像，並帶出身分、連結與登出選單。",
+    },
+    "account menu avatar signed in user session navbar sign out profile dropdown",
+  ),
+  aiDoc(
     "id-badge",
     { en: "ID Badge", "zh-CN": "ID 徽章", "zh-TW": "ID 徽章" },
     {
@@ -1634,6 +1644,7 @@ export const groups: DocGroup[] = [
       "ai/thinking-block",
       "ai/agent-timeline",
       "ai/agent-run-status",
+      "ai/account-menu",
       "ai/id-badge",
       "ai/navbar",
       "ai/footer",

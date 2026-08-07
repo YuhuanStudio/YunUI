@@ -52,9 +52,10 @@ import {
   IDBadge,
   ModelIcon,
   ProviderIcon,
+  AccountMenu,
 } from "yunui/ai";
 import { MarkdownRenderer, ImageLightbox } from "yunui/content";
-import { Coins, LayoutGrid, List, Table as TableIcon, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw, Users } from "lucide-react";
+import { Coins, LayoutGrid, List, Table as TableIcon, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw, Users, KeyRound, Bookmark, LayoutDashboard } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -1344,6 +1345,24 @@ export function StatGridDemo() {
         <StatCard icon={Coins} label="Balance" value="$1,250" />
         <StatCard icon={Users} label="Members" value="48" />
       </StatGrid>
+    </div>
+  );
+}
+
+export function AccountMenuDemo() {
+  return (
+    <div className="flex h-56 w-full items-start justify-center pt-2">
+      <AccountMenu
+        signInHref="/login"
+        user={{ name: "Yuhuan", email: "you@example.com" }}
+        items={[
+          { key: "keys", label: "API keys", icon: KeyRound, href: "#" },
+          { key: "saved", label: "Saved", icon: Bookmark, href: "#" },
+          { key: "admin", label: "Admin", icon: LayoutDashboard, href: "#" },
+        ]}
+        onSignOut={() => {}}
+        labels={{ signOut: "Sign out" }}
+      />
     </div>
   );
 }

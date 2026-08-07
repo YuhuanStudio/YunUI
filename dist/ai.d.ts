@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactNode, HTMLAttributes } from 'react';
+import { ReactNode, HTMLAttributes, ElementType } from 'react';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import { VariantProps } from 'class-variance-authority';
 export { D as DiscordIcon, F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial, G as GithubIcon, I as InstagramIcon } from './footer-BoFu7Wqq.js';
@@ -426,4 +426,61 @@ interface NavbarProps {
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
 declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
 
-export { type AgentRunPhase, AgentRunStatus, type AgentRunStatusProps, AgentTimeline, type AgentTimelineBlock, type AgentTimelineIconName, type AgentTimelineProps, type AgentTimelineToolStatus, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+interface AccountMenuUser {
+    /** Display name. Falls back to `fallbackName` when absent. */
+    name?: string | null;
+    /** Shown under the name in the menu header. */
+    email?: string | null;
+    /** Avatar image URL; a glyph is shown when absent. */
+    avatarUrl?: string | null;
+}
+interface AccountMenuItem {
+    key: string;
+    label: ReactNode;
+    icon?: ElementType;
+    /** Navigate on select. */
+    href?: string;
+    /** Or run something on select (takes precedence over `href`). */
+    onSelect?: () => void;
+}
+interface AccountMenuProps {
+    /**
+     * The signed-in user, `null` when signed out, or `undefined` while the
+     * answer is still unknown.
+     *
+     * The three-state shape is the point: a session cookie is usually
+     * `httpOnly`, so the page cannot read it and only the server can answer.
+     * While it is `undefined` this renders a fixed-size placeholder rather than
+     * guessing — showing "sign in" first and swapping to an avatar makes every
+     * page load look like it signed the reader out.
+     */
+    user: AccountMenuUser | null | undefined;
+    /** Menu entries above the sign-out row. */
+    items?: AccountMenuItem[];
+    /** Where the signed-out button links. */
+    signInHref: string;
+    /** Called when the sign-out row is chosen. Omit to hide the row. */
+    onSignOut?: () => void;
+    /** Every string this renders — localize them yourself. */
+    labels?: {
+        signIn?: string;
+        signOut?: string;
+        /** Accessible name for the trigger, e.g. "{name} menu". */
+        menu?: string;
+        /** Shown when the user has no name. */
+        fallbackName?: string;
+    };
+    className?: string;
+}
+/**
+ * The navbar account control: a sign-in glyph when signed out, the reader's
+ * avatar when signed in, and a menu with their identity, your links and a
+ * sign-out row.
+ *
+ * Extracted from YunNEWS, which handles the signed-in swap better than the
+ * other apps — hence upstreaming it so they all get it. Purely presentational:
+ * the host fetches the session, supplies every label and owns each action.
+ */
+declare function AccountMenu({ user, items, signInHref, onSignOut, labels, className, }: AccountMenuProps): React.JSX.Element;
+
+export { AccountMenu, type AccountMenuItem, type AccountMenuProps, type AccountMenuUser, type AgentRunPhase, AgentRunStatus, type AgentRunStatusProps, AgentTimeline, type AgentTimelineBlock, type AgentTimelineIconName, type AgentTimelineProps, type AgentTimelineToolStatus, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };

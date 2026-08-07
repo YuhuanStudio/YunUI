@@ -24,6 +24,50 @@
       "description": ""
     }
   ],
+  "AccountMenu": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "items",
+      "type": "AccountMenuItem[]",
+      "required": false,
+      "defaultValue": "[]",
+      "description": "Menu entries above the sign-out row."
+    },
+    {
+      "name": "labels",
+      "type": "{ signIn?: string; signOut?: string; menu?: string | undefined; fallbackName?: string | undefined; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Every string this renders — localize them yourself."
+    },
+    {
+      "name": "onSignOut",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Called when the sign-out row is chosen. Omit to hide the row."
+    },
+    {
+      "name": "signInHref",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Where the signed-out button links."
+    },
+    {
+      "name": "user",
+      "type": "AccountMenuUser | null | undefined",
+      "required": true,
+      "defaultValue": null,
+      "description": "The signed-in user, `null` when signed out, or `undefined` while the\nanswer is still unknown.\n\nThe three-state shape is the point: a session cookie is usually\n`httpOnly`, so the page cannot read it and only the server can answer.\nWhile it is `undefined` this renders a fixed-size placeholder rather than\nguessing — showing \"sign in\" first and swapping to an avatar makes every\npage load look like it signed the reader out."
+    }
+  ],
   "AgentRunStatus": [
     {
       "name": "active",

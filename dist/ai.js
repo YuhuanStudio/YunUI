@@ -6,7 +6,7 @@ import { cn, useAnchoredPosition } from './chunk-N7APRQBO.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, ShieldAlert, Wrench, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
+import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, CircleUserRound, LogOut, ShieldAlert, Wrench, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 
@@ -2154,7 +2154,132 @@ function Navbar({
     }
   );
 }
+function AccountMenu({
+  user,
+  items = [],
+  signInHref,
+  onSignOut,
+  labels,
+  className
+}) {
+  const { Link } = useYunUI();
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const signInLabel = labels?.signIn ?? "Sign in";
+  const signOutLabel = labels?.signOut ?? "Sign out";
+  const fallbackName = labels?.fallbackName ?? "Account";
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) setOpen(false);
+    };
+    const onKey = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+  if (user === void 0) {
+    return /* @__PURE__ */ jsx("span", { "aria-hidden": true, className: cn("block h-9 w-9", className) });
+  }
+  if (user === null) {
+    return /* @__PURE__ */ jsx(
+      Link,
+      {
+        href: signInHref,
+        "aria-label": signInLabel,
+        className: cn(
+          "flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground",
+          className
+        ),
+        children: /* @__PURE__ */ jsx(CircleUserRound, { className: "h-4 w-4" })
+      }
+    );
+  }
+  const name = user.name || fallbackName;
+  return /* @__PURE__ */ jsxs("div", { ref, className: cn("relative", className), children: [
+    /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        onClick: () => setOpen((v) => !v),
+        "aria-haspopup": "menu",
+        "aria-expanded": open,
+        "aria-label": labels?.menu ?? name,
+        className: "flex h-9 w-9 items-center justify-center overflow-hidden rounded-full transition-colors hover:bg-foreground/5 outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        children: user.avatarUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          /* @__PURE__ */ jsx("img", { src: user.avatarUrl, alt: "", width: 28, height: 28, className: "h-7 w-7 rounded-full" })
+        ) : /* @__PURE__ */ jsx(CircleUserRound, { className: "h-4 w-4 text-muted-foreground" })
+      }
+    ),
+    open && /* @__PURE__ */ jsxs(
+      "div",
+      {
+        role: "menu",
+        className: "absolute right-0 top-full z-50 mt-2 w-56 rounded-2xl border border-border bg-popover/95 p-1.5 shadow-lg shadow-black/5 backdrop-blur-2xl",
+        children: [
+          /* @__PURE__ */ jsxs("div", { className: "border-b border-border px-3 py-2.5", children: [
+            /* @__PURE__ */ jsx("p", { className: "truncate text-sm font-medium", children: name }),
+            user.email && /* @__PURE__ */ jsx("p", { className: "text-caption truncate", children: user.email })
+          ] }),
+          items.map((item) => {
+            const Icon = item.icon;
+            const body = /* @__PURE__ */ jsxs(Fragment, { children: [
+              Icon && /* @__PURE__ */ jsx(Icon, { className: "h-4 w-4", "aria-hidden": true }),
+              item.label
+            ] });
+            const rowClass = "mt-1 flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring";
+            return item.onSelect ? /* @__PURE__ */ jsx(
+              "button",
+              {
+                type: "button",
+                role: "menuitem",
+                onClick: () => {
+                  item.onSelect?.();
+                  setOpen(false);
+                },
+                className: rowClass,
+                children: body
+              },
+              item.key
+            ) : /* @__PURE__ */ jsx(
+              Link,
+              {
+                href: item.href ?? "#",
+                onClick: () => setOpen(false),
+                className: rowClass,
+                children: body
+              },
+              item.key
+            );
+          }),
+          onSignOut && /* @__PURE__ */ jsxs(
+            "button",
+            {
+              type: "button",
+              role: "menuitem",
+              onClick: () => {
+                onSignOut();
+                setOpen(false);
+              },
+              className: "mt-1 flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              children: [
+                /* @__PURE__ */ jsx(LogOut, { className: "h-4 w-4", "aria-hidden": true }),
+                signOutLabel
+              ]
+            }
+          )
+        ]
+      }
+    )
+  ] });
+}
 
-export { AgentRunStatus, AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { AccountMenu, AgentRunStatus, AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

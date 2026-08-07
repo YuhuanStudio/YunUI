@@ -70,3 +70,11 @@ export {
   type FooterSocial,
   type FooterProps,
 } from "./footer";
+
+// Navbar account control — avatar + menu when signed in (upstreamed from YunNEWS).
+export {
+    AccountMenu,
+    type AccountMenuProps,
+    type AccountMenuUser,
+    type AccountMenuItem,
+} from "./account-menu";

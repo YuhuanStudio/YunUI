@@ -1,0 +1,61 @@
+import { AccountMenu } from "yunui/ai";
+
+导航栏的账号控件：未登录时显示登录图标，已登录时显示读者头像，并带出含身份、你的链接与登出行的菜单。
+
+从 YunNEWS 上收而来——它处理「登录后切换」的方式比其他应用都好。纯呈现：由你获取会话、提供所有文字、掌握每个操作。
+
+## 导入
+
+```tsx
+import { AccountMenu } from "@yuhuanowo/yunui/ai";
+```
+
+## 三种状态
+
+`user` 是**三态**属性，而这正是重点：
+
+| `user` | 渲染 |
+| --- | --- |
+| `undefined` | 固定尺寸的占位——答案尚未揭晓 |
+| `null` | 登录图标 |
+| 对象 | 头像（或备用图标）与菜单 |
+
+会话 cookie 通常是 `httpOnly`，页面读不到，只有服务器能回答。在答案还没回来时，先猜「未登录」再换成头像，会让**每一次页面加载都看起来像把读者登出了**——所以这里先把空间留住。
+
+<ComponentPreview title="未登录">
+  <AccountMenu user={null} signInHref="/login" labels={{ signIn: "Sign in" }} />
+</ComponentPreview>
+
+## 已登录
+
+点击头像即可打开菜单。
+
+<ComponentPreview title="已登录">
+  <AccountMenuDemo />
+</ComponentPreview>
+
+## 接线方式
+
+```tsx
+const [user, setUser] = useState<AccountMenuUser | null | undefined>(undefined);
+
+useEffect(() => {
+  let alive = true;
+  api.me().then((d) => alive && setUser(d?.user ?? null));
+  return () => { alive = false; };
+}, []);
+
+<AccountMenu
+  user={user}
+  signInHref="/login"
+  items={[{ key: "keys", label: t("apiKeys"), icon: KeyRound, href: "/account/keys" }]}
+  onSignOut={async () => { await api.logout(); setUser(null); router.refresh(); }}
+  labels={{ signIn: t("signIn"), signOut: t("signOut") }}
+/>
+```
+
+省略 `onSignOut` 即可隐藏登出行。带 `onSelect` 的项目会渲染成按钮而非链接。
+
+## 属性
+
+<PropsTable name="AccountMenu" />

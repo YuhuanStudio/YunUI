@@ -1,0 +1,61 @@
+import { AccountMenu } from "yunui/ai";
+
+The navbar account control: a sign-in glyph when signed out, the reader's avatar when signed in, and a menu carrying their identity, your links and a sign-out row.
+
+Upstreamed from YunNEWS, which handles the signed-in swap better than the other apps. Purely presentational — you fetch the session, supply every label and own each action.
+
+## Import
+
+```tsx
+import { AccountMenu } from "@yuhuanowo/yunui/ai";
+```
+
+## The three states
+
+`user` is a **three-state** prop, and that is the whole point:
+
+| `user` | Renders |
+| --- | --- |
+| `undefined` | a fixed-size placeholder — the answer isn't known yet |
+| `null` | the sign-in glyph |
+| an object | the avatar (or a fallback glyph) plus the menu |
+
+A session cookie is usually `httpOnly`, so the page cannot read it and only the server can answer. While the answer is pending, guessing "signed out" and then swapping to an avatar makes **every page load look like it signed the reader out** — so this holds the space instead.
+
+<ComponentPreview title="Signed out">
+  <AccountMenu user={null} signInHref="/login" labels={{ signIn: "Sign in" }} />
+</ComponentPreview>
+
+## Signed in
+
+Click the avatar to open the menu.
+
+<ComponentPreview title="Signed in">
+  <AccountMenuDemo />
+</ComponentPreview>
+
+## Wiring it up
+
+```tsx
+const [user, setUser] = useState<AccountMenuUser | null | undefined>(undefined);
+
+useEffect(() => {
+  let alive = true;
+  api.me().then((d) => alive && setUser(d?.user ?? null));
+  return () => { alive = false; };
+}, []);
+
+<AccountMenu
+  user={user}
+  signInHref="/login"
+  items={[{ key: "keys", label: t("apiKeys"), icon: KeyRound, href: "/account/keys" }]}
+  onSignOut={async () => { await api.logout(); setUser(null); router.refresh(); }}
+  labels={{ signIn: t("signIn"), signOut: t("signOut") }}
+/>
+```
+
+Omit `onSignOut` to hide the sign-out row. An item with `onSelect` renders as a button instead of a link.
+
+## Props
+
+<PropsTable name="AccountMenu" />
