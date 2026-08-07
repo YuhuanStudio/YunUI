@@ -522,7 +522,11 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
                     // Renders the canonical `.card` class so <Card> matches the
                     // ~226 raw `className="card"` usages across the app (single look).
                     "card",
-                    hover && "hover:border-ring hover:shadow-lg hover:shadow-foreground/5 transition-all duration-200",
+                    // `card-interactive` is the house hover (1px lift + one step
+                    // up the shadow ramp). It used to invent its own recipe here
+                    // — `hover:border-ring hover:shadow-lg` — which contradicted
+                    // the `.card:hover` every raw `className="card"` gets.
+                    hover && "card-interactive",
                     className
                 )}
                 {...props}
@@ -765,7 +769,9 @@ export function StatusIndicator({
 }: StatusIndicatorProps) {
     const color = {
         online: "bg-(--success)",
-        offline: "bg-zinc-400",
+        // Token, not `zinc-400`: every other state in this map is token-driven,
+        // and a raw palette value would not follow a theme.
+        offline: "bg-muted-foreground/60",
         busy: "bg-(--error)",
         away: "bg-(--warning)",
         neutral: "bg-muted-foreground",

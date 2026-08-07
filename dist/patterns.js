@@ -1,10 +1,10 @@
 "use client";
-import './chunk-5O5EDUIA.js';
+import './chunk-GR7M5HHW.js';
 import { copyToClipboard } from './chunk-DDUP7GAX.js';
 export { Footer } from './chunk-DDUP7GAX.js';
 import './chunk-3YYY5E4O.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-WVJCPGIK.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-KM3YT3CP.js';
 import { cn } from './chunk-N7APRQBO.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -916,12 +916,23 @@ function PageEmptyState({ icon: Icon, title, description, action }) {
     action && /* @__PURE__ */ jsx("div", { className: "mt-4", children: action })
   ] });
 }
+var SEMANTIC_TONES = {
+  warning: { card: "border-warning-soft bg-warning-soft", value: "text-warning" },
+  success: { card: "border-success-soft bg-success-soft", value: "text-success" },
+  info: { card: "border-info-soft bg-info-soft", value: "text-info" },
+  error: { card: "border-error-soft bg-error-soft", value: "text-error" },
+  // No `.text-accent` helper exists (unlike the four status tones), so the
+  // value colour reads the token directly rather than a dead utility class.
+  accent: { card: "border-accent-soft bg-accent-soft", value: "text-(--accent)" }
+};
 var TONES = {
-  amber: { card: "border-amber-500/20 bg-amber-500/5", value: "text-amber-600 dark:text-amber-400" },
-  emerald: { card: "border-emerald-500/20 bg-emerald-500/5", value: "text-emerald-600 dark:text-emerald-400" },
-  blue: { card: "border-blue-500/20 bg-blue-500/5", value: "text-blue-600 dark:text-blue-400" },
-  red: { card: "border-red-500/20 bg-red-500/5", value: "text-red-600 dark:text-red-400" },
-  purple: { card: "border-purple-500/20 bg-purple-500/5", value: "text-purple-600 dark:text-purple-400" }
+  ...SEMANTIC_TONES,
+  // Legacy colour-named aliases.
+  amber: SEMANTIC_TONES.warning,
+  emerald: SEMANTIC_TONES.success,
+  blue: SEMANTIC_TONES.info,
+  red: SEMANTIC_TONES.error,
+  purple: SEMANTIC_TONES.accent
 };
 function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, inline = false, valueFirst = false, compact = false, className }) {
   const toneCfg = tone ? TONES[tone] : void 0;
@@ -1218,7 +1229,7 @@ function FeatureLockedState({ icon, title, description, noteTitle, noteText, cla
     /* @__PURE__ */ jsx("div", { className: "w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-4", children: icon ?? /* @__PURE__ */ jsx(Sparkles, { className: "w-8 h-8 text-muted-foreground" }) }),
     /* @__PURE__ */ jsx("h2", { className: "text-2xl font-semibold mb-2", children: title }),
     description && /* @__PURE__ */ jsx("p", { className: "text-muted-foreground mb-6", children: description }),
-    (noteTitle || noteText) && /* @__PURE__ */ jsx("div", { className: "card p-4 bg-muted/30 border border-dashed", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3 text-sm text-muted-foreground", children: [
+    (noteTitle || noteText) && /* @__PURE__ */ jsx("div", { className: "card p-4 bg-muted/30 border border-dashed border-border", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3 text-sm text-muted-foreground", children: [
       /* @__PURE__ */ jsx(AlertCircle, { className: "w-5 h-5 shrink-0 mt-0.5" }),
       /* @__PURE__ */ jsxs("div", { className: "text-left", children: [
         noteTitle && /* @__PURE__ */ jsx("p", { className: "font-medium mb-1", children: noteTitle }),
@@ -1760,36 +1771,40 @@ function MediaGallery({
   ] });
 }
 var TONES2 = {
+  // Token-driven, matching Alert/Badge: the raw `blue/amber/red/green-500`
+  // palette these used to carry is not the same colour as `--info`/`--warning`/
+  // `--error`/`--success`, so a Banner and an Alert reading the same severity
+  // rendered as two different hues and neither followed a brand theme.
   info: {
-    bg: "bg-linear-to-r from-blue-500/10 via-blue-500/5 to-blue-500/10",
-    border: "border-blue-500/25",
-    text: "text-blue-700 dark:text-blue-300",
-    icon: "text-blue-500",
-    dismissHover: "hover:bg-blue-500/10",
+    bg: "bg-info-soft",
+    border: "border-info-soft",
+    text: "text-info",
+    icon: "text-info",
+    dismissHover: "hover:bg-info-soft",
     defaultIcon: /* @__PURE__ */ jsx(Info, { size: 16 })
   },
   warning: {
-    bg: "bg-linear-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10",
-    border: "border-amber-500/25",
-    text: "text-amber-700 dark:text-amber-300",
-    icon: "text-amber-500",
-    dismissHover: "hover:bg-amber-500/10",
+    bg: "bg-warning-soft",
+    border: "border-warning-soft",
+    text: "text-warning",
+    icon: "text-warning",
+    dismissHover: "hover:bg-warning-soft",
     defaultIcon: /* @__PURE__ */ jsx(AlertTriangle, { size: 16 })
   },
   critical: {
-    bg: "bg-linear-to-r from-red-500/10 via-red-500/5 to-red-500/10",
-    border: "border-red-500/25",
-    text: "text-red-700 dark:text-red-300",
-    icon: "text-red-500",
-    dismissHover: "hover:bg-red-500/10",
+    bg: "bg-error-soft",
+    border: "border-error-soft",
+    text: "text-error",
+    icon: "text-error",
+    dismissHover: "hover:bg-error-soft",
     defaultIcon: /* @__PURE__ */ jsx(AlertCircle, { size: 16 })
   },
   success: {
-    bg: "bg-linear-to-r from-green-500/10 via-green-500/5 to-green-500/10",
-    border: "border-green-500/25",
-    text: "text-green-700 dark:text-green-300",
-    icon: "text-green-500",
-    dismissHover: "hover:bg-green-500/10",
+    bg: "bg-success-soft",
+    border: "border-success-soft",
+    text: "text-success",
+    icon: "text-success",
+    dismissHover: "hover:bg-success-soft",
     defaultIcon: /* @__PURE__ */ jsx(CheckCircle2, { size: 16 })
   },
   neutral: {

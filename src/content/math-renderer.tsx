@@ -28,7 +28,13 @@ export function MathRenderer({ math, block = false, className }: MathRendererPro
       katex.render(math, containerRef.current, {
         displayMode: block,
         throwOnError: false,
-        errorColor: "#cc0000",
+        // KaTeX writes this straight into inline styles, so it cannot be a
+        // class. Read the live token instead of hardcoding a red that matches
+        // neither theme; fall back only if the stylesheet has not loaded.
+        errorColor:
+          (typeof window !== "undefined" &&
+            getComputedStyle(document.documentElement).getPropertyValue("--error").trim()) ||
+          "#cc0000",
         strict: false,
         // trust:false — untrusted math must not enable \href{javascript:...},
         // \includegraphics, \htmlData etc. (KaTeX XSS surface).

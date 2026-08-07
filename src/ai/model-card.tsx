@@ -153,7 +153,7 @@ export function ModelCard({
         <div className="flex items-center gap-2">
           {context && <span className="bg-muted px-1.5 py-0.5 rounded-sm font-medium">{context}</span>}
           {tier && tier !== "free" && (
-            <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded-sm font-medium">
+            <span className="bg-warning-soft text-warning px-1.5 py-0.5 rounded-sm font-medium">
               {tier}
             </span>
           )}

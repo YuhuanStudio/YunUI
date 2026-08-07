@@ -202,7 +202,7 @@ export function ConfirmModal({
             <div
                 ref={dialogRef}
                 className={cn(
-                    "card relative w-full max-w-sm shadow-2xl transition-all",
+                    "card relative w-full max-w-sm shadow-lg shadow-black/5 transition-all",
                     isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100",
                     className
                 )}

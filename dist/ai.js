@@ -408,7 +408,7 @@ function ModelCard({
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
             context && /* @__PURE__ */ jsx("span", { className: "bg-muted px-1.5 py-0.5 rounded-sm font-medium", children: context }),
-            tier && tier !== "free" && /* @__PURE__ */ jsx("span", { className: "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded-sm font-medium", children: tier }),
+            tier && tier !== "free" && /* @__PURE__ */ jsx("span", { className: "bg-warning-soft text-warning px-1.5 py-0.5 rounded-sm font-medium", children: tier }),
             price && /* @__PURE__ */ jsx("span", { className: "font-mono", children: price })
           ] })
         ] })
@@ -647,7 +647,7 @@ function ModelSelect({
           "aria-expanded": isOpen,
           "aria-haspopup": "listbox",
           className: cn(
-            "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            "flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring"
           ),
           children: [

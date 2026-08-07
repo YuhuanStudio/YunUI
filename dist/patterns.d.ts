@@ -297,12 +297,6 @@ interface PageEmptyStateProps {
 /** Centered in-page empty state with an icon, title, description, and optional action. */
 declare function PageEmptyState({ icon: Icon, title, description, action }: PageEmptyStateProps): React$1.JSX.Element;
 
-/**
- * Canonical dashboard stat card — the single source for every metric tile.
- * Structure is the dashboard overview card; `tone` provides semantic color
- * (amber=pending, red=rejected, …); icon/trend/subtext/delay are all optional
- * so compact colored tiles and rich trend cards share one component.
- */
 declare const TONES: Record<string, {
     card: string;
     value: string;

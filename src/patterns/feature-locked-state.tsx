@@ -34,7 +34,7 @@ export function FeatureLockedState({ icon, title, description, noteTitle, noteTe
                 <h2 className="text-2xl font-semibold mb-2">{title}</h2>
                 {description && <p className="text-muted-foreground mb-6">{description}</p>}
                 {(noteTitle || noteText) && (
-                    <div className="card p-4 bg-muted/30 border border-dashed">
+                    <div className="card p-4 bg-muted/30 border border-dashed border-border">
                         <div className="flex items-start gap-3 text-sm text-muted-foreground">
                             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
                             <div className="text-left">

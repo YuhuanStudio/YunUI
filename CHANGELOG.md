@@ -12,6 +12,28 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **Semantic tones no longer use the raw Tailwind palette.** `Banner` and `StatCard`
+  were built on `blue/amber/red/green/emerald/purple-500`, which are *not* the same
+  colours as `--info`/`--warning`/`--error`/`--success` — so a Banner and an Alert
+  reading the same severity rendered as two different hues, and neither followed a
+  brand theme. Both now route through the token helpers. `StatCard` gains semantic
+  tone names (`warning`/`success`/`info`/`error`/`accent`); the old colour names stay
+  as aliases, so nothing breaks.
+- **`<Card hover>` uses the house hover.** It invented its own
+  (`hover:border-ring hover:shadow-lg`), contradicting the `.card:hover` that every
+  raw `className="card"` surface gets; it now applies `card-interactive`.
+- **Modals sit on the overlay shadow ramp.** `Modal`, `ConfirmModal` and
+  `ConfirmCloseDialog` used `shadow-2xl` — a far heavier drop than anything else in
+  the system — and `Modal` used `bg-background/95` where every other overlay uses
+  `bg-popover/85`. All three now use the standard `shadow-lg shadow-black/5` recipe.
+- **Bare `border` no longer renders as `currentColor`** in `SegmentedSelect`,
+  `ModelSelect` and `FeatureLockedState` (they now set `border-border`), so the
+  border stops shifting hue with the text colour.
+- **Misc token cleanup**: the offline status dot (`zinc-400` → `muted-foreground/60`),
+  `ModelCard`'s tier pill (hand-rolled two-theme amber → `bg-warning-soft text-warning`),
+  and KaTeX's error colour (hardcoded `#cc0000` → the live `--error` token).
+
+### Fixed
 - **`BentoCard` hover speaks YunUI's language again.** It carried the stock
   bento-grid trick of sliding its content sideways (`translate-x-2`) on hover,
   which reads as jitter and matches nothing else in the system. It now uses the

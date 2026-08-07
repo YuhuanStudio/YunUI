@@ -28,7 +28,9 @@ describe("Card", () => {
 
   it("adds hover affordances when `hover`", () => {
     render(<Card hover data-testid="c">x</Card>);
-    expect(screen.getByTestId("c").className).toContain("hover:border-ring");
+    // The house hover, not a bespoke one: `card-interactive` carries the same
+    // lift + shadow every raw `className="card"` surface gets.
+    expect(screen.getByTestId("c").className).toContain("card-interactive");
   });
 });
 

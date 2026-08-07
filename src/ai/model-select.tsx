@@ -358,7 +358,7 @@ export function ModelSelect({
                 aria-expanded={isOpen}
                 aria-haspopup="listbox"
                 className={cn(
-                    "flex items-center gap-2 px-3 py-2 bg-card border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    "flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring",
                 )}
             >

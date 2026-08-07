@@ -281,7 +281,7 @@ function ConfirmModal({
           {
             ref: dialogRef,
             className: cn(
-              "card relative w-full max-w-sm shadow-2xl transition-all",
+              "card relative w-full max-w-sm shadow-lg shadow-black/5 transition-all",
               isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100",
               className
             ),
@@ -1601,7 +1601,11 @@ var Card = React7.forwardRef(
           // Renders the canonical `.card` class so <Card> matches the
           // ~226 raw `className="card"` usages across the app (single look).
           "card",
-          hover && "hover:border-ring hover:shadow-lg hover:shadow-foreground/5 transition-all duration-200",
+          // `card-interactive` is the house hover (1px lift + one step
+          // up the shadow ramp). It used to invent its own recipe here
+          // — `hover:border-ring hover:shadow-lg` — which contradicted
+          // the `.card:hover` every raw `className="card"` gets.
+          hover && "card-interactive",
           className
         ),
         ...props
@@ -1731,7 +1735,9 @@ function StatusIndicator({
 }) {
   const color = {
     online: "bg-(--success)",
-    offline: "bg-zinc-400",
+    // Token, not `zinc-400`: every other state in this map is token-driven,
+    // and a raw palette value would not follow a theme.
+    offline: "bg-muted-foreground/60",
     busy: "bg-(--error)",
     away: "bg-(--warning)",
     neutral: "bg-muted-foreground"
@@ -2487,7 +2493,7 @@ function Modal({
             ref: modalRef,
             className: cn(
               // Glassy surface (not the solid .card) to match Sheet/Dialog/navbar.
-              "relative w-full rounded-2xl border border-border bg-background/95 backdrop-blur-xl shadow-2xl flex flex-col transition-all",
+              "relative w-full rounded-2xl border border-border bg-popover/85 backdrop-blur-2xl shadow-lg shadow-black/5 flex flex-col transition-all",
               sizeClass,
               isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100",
               className
@@ -2528,5 +2534,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-WVJCPGIK.js.map
-//# sourceMappingURL=chunk-WVJCPGIK.js.map
+//# sourceMappingURL=chunk-KM3YT3CP.js.map
+//# sourceMappingURL=chunk-KM3YT3CP.js.map

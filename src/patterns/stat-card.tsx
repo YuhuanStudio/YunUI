@@ -10,12 +10,30 @@ import { cn } from "../lib/cn";
  * (amber=pending, red=rejected, …); icon/trend/subtext/delay are all optional
  * so compact colored tiles and rich trend cards share one component.
  */
+// Tones are semantic, so they resolve through the design tokens rather than the
+// raw Tailwind palette — a `red` tile and an `error` Alert are now the same
+// colour, and every tone follows the active theme.
+//
+// The colour-named keys are kept as aliases because they are already part of the
+// public API; prefer the semantic names in new code.
+const SEMANTIC_TONES = {
+    warning: { card: "border-warning-soft bg-warning-soft", value: "text-warning" },
+    success: { card: "border-success-soft bg-success-soft", value: "text-success" },
+    info: { card: "border-info-soft bg-info-soft", value: "text-info" },
+    error: { card: "border-error-soft bg-error-soft", value: "text-error" },
+    // No `.text-accent` helper exists (unlike the four status tones), so the
+    // value colour reads the token directly rather than a dead utility class.
+    accent: { card: "border-accent-soft bg-accent-soft", value: "text-(--accent)" },
+} as const;
+
 const TONES: Record<string, { card: string; value: string }> = {
-    amber: { card: "border-amber-500/20 bg-amber-500/5", value: "text-amber-600 dark:text-amber-400" },
-    emerald: { card: "border-emerald-500/20 bg-emerald-500/5", value: "text-emerald-600 dark:text-emerald-400" },
-    blue: { card: "border-blue-500/20 bg-blue-500/5", value: "text-blue-600 dark:text-blue-400" },
-    red: { card: "border-red-500/20 bg-red-500/5", value: "text-red-600 dark:text-red-400" },
-    purple: { card: "border-purple-500/20 bg-purple-500/5", value: "text-purple-600 dark:text-purple-400" },
+    ...SEMANTIC_TONES,
+    // Legacy colour-named aliases.
+    amber: SEMANTIC_TONES.warning,
+    emerald: SEMANTIC_TONES.success,
+    blue: SEMANTIC_TONES.info,
+    red: SEMANTIC_TONES.error,
+    purple: SEMANTIC_TONES.accent,
 };
 
 export interface StatCardProps {

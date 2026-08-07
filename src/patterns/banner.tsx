@@ -17,36 +17,40 @@ import { cn } from "../lib/cn";
 export type BannerTone = "info" | "warning" | "critical" | "success" | "neutral";
 
 const TONES: Record<BannerTone, { bg: string; border: string; text: string; icon: string; dismissHover: string; defaultIcon: ReactNode }> = {
+    // Token-driven, matching Alert/Badge: the raw `blue/amber/red/green-500`
+    // palette these used to carry is not the same colour as `--info`/`--warning`/
+    // `--error`/`--success`, so a Banner and an Alert reading the same severity
+    // rendered as two different hues and neither followed a brand theme.
     info: {
-        bg: "bg-linear-to-r from-blue-500/10 via-blue-500/5 to-blue-500/10",
-        border: "border-blue-500/25",
-        text: "text-blue-700 dark:text-blue-300",
-        icon: "text-blue-500",
-        dismissHover: "hover:bg-blue-500/10",
+        bg: "bg-info-soft",
+        border: "border-info-soft",
+        text: "text-info",
+        icon: "text-info",
+        dismissHover: "hover:bg-info-soft",
         defaultIcon: <Info size={16} />,
     },
     warning: {
-        bg: "bg-linear-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10",
-        border: "border-amber-500/25",
-        text: "text-amber-700 dark:text-amber-300",
-        icon: "text-amber-500",
-        dismissHover: "hover:bg-amber-500/10",
+        bg: "bg-warning-soft",
+        border: "border-warning-soft",
+        text: "text-warning",
+        icon: "text-warning",
+        dismissHover: "hover:bg-warning-soft",
         defaultIcon: <AlertTriangle size={16} />,
     },
     critical: {
-        bg: "bg-linear-to-r from-red-500/10 via-red-500/5 to-red-500/10",
-        border: "border-red-500/25",
-        text: "text-red-700 dark:text-red-300",
-        icon: "text-red-500",
-        dismissHover: "hover:bg-red-500/10",
+        bg: "bg-error-soft",
+        border: "border-error-soft",
+        text: "text-error",
+        icon: "text-error",
+        dismissHover: "hover:bg-error-soft",
         defaultIcon: <AlertCircle size={16} />,
     },
     success: {
-        bg: "bg-linear-to-r from-green-500/10 via-green-500/5 to-green-500/10",
-        border: "border-green-500/25",
-        text: "text-green-700 dark:text-green-300",
-        icon: "text-green-500",
-        dismissHover: "hover:bg-green-500/10",
+        bg: "bg-success-soft",
+        border: "border-success-soft",
+        text: "text-success",
+        icon: "text-success",
+        dismissHover: "hover:bg-success-soft",
         defaultIcon: <CheckCircle2 size={16} />,
     },
     neutral: {

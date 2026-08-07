@@ -11,8 +11,15 @@ describe("StatCard", () => {
   });
 
   it("tones the value with the semantic color", () => {
+    // `amber` is a legacy alias that now resolves to the `warning` token, so a
+    // StatCard and an Alert reading the same severity render the same colour.
     render(<StatCard label="Pending" value="5" tone="amber" />);
-    expect(screen.getByText("5").className).toContain("text-amber-600");
+    expect(screen.getByText("5").className).toContain("text-warning");
+  });
+
+  it("accepts semantic tone names directly", () => {
+    render(<StatCard label="Failed" value="2" tone="error" />);
+    expect(screen.getByText("2").className).toContain("text-error");
   });
 
   it("inline variant renders the compact `card p-4` row", () => {

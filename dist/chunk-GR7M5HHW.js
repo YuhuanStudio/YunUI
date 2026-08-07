@@ -303,7 +303,7 @@ function SegmentedSelect({
         "aria-pressed": value === opt.value,
         title: opt.desc,
         className: cn(
-          "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+          "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border border-border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           value === opt.value ? "text-foreground border-(--border-strong) bg-accent-subtle hover:bg-accent-muted hover:shadow-xs" : "text-muted-foreground border-(--border-default) bg-muted/50 hover:text-foreground hover:border-(--border-strong) hover:bg-muted",
           disabled && "opacity-50 cursor-not-allowed pointer-events-none"
         ),
@@ -1222,5 +1222,5 @@ function useYunUITheme(defaults = {}) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-5O5EDUIA.js.map
-//# sourceMappingURL=chunk-5O5EDUIA.js.map
+//# sourceMappingURL=chunk-GR7M5HHW.js.map
+//# sourceMappingURL=chunk-GR7M5HHW.js.map

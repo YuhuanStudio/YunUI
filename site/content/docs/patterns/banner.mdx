@@ -1,6 +1,6 @@
 import { Banner } from "yunui/patterns";
 
-A tinted, horizontal **banner row** for dashboard headers and home screens: a tone-colored gradient card with an icon, a title + optional inline description, optional meta (e.g. a timestamp), a trailing actions slot, and an optional dismiss button. It covers announcement / release / verification-style banners with one component.
+A tinted, horizontal **banner row** for dashboard headers and home screens: a tone-tinted card with an icon, a title + optional inline description, optional meta (e.g. a timestamp), a trailing actions slot, and an optional dismiss button. It covers announcement / release / verification-style banners with one component.
 
 Presentation only — the host owns fetching, dismiss persistence, and copy. (For a stacked, solid form-message box, use the [`Alert`](/docs/components/alert) primitive instead.)
 
@@ -12,7 +12,7 @@ import { Banner } from "@yuhuanowo/yunui/patterns";
 
 ## Example
 
-`tone` drives the gradient, border, text and icon color (and a default icon). `dismissible` adds the ✕ button; `actions` and `meta` are slots.
+`tone` drives the tint, border, text and icon color (and a default icon). `dismissible` adds the ✕ button; `actions` and `meta` are slots.
 
 <ComponentPreview
   title="Banner"
@@ -40,7 +40,7 @@ function Example() {
 
 ## Tones
 
-`info` · `warning` · `critical` · `success` · `neutral`. Each sets the gradient + a default icon; override the glyph with `icon` (e.g. a `Rocket` for a release), or pass `icon={null}` to omit it.
+`info` · `warning` · `critical` · `success` · `neutral`. Each sets the tint + a default icon; override the glyph with `icon` (e.g. a `Rocket` for a release), or pass `icon={null}` to omit it.
 
 ## Props
 

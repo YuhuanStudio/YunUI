@@ -151,7 +151,7 @@ export function ConfirmCloseDialog({
             <div
                 ref={dialogRef}
                 className={cn(
-                    "card w-full max-w-sm p-6 shadow-2xl transition-all",
+                    "card w-full max-w-sm p-6 shadow-lg shadow-black/5 transition-all",
                     isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"
                 )}
             >

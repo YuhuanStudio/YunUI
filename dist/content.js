@@ -1,7 +1,7 @@
 "use client";
 import { useContentT, ImageLightbox } from './chunk-QEIBYOG2.js';
 export { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-WVJCPGIK.js';
+import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-KM3YT3CP.js';
 import { cn } from './chunk-N7APRQBO.js';
 import './chunk-3RT24MSH.js';
 import * as React2 from 'react';
@@ -945,7 +945,10 @@ function MathRenderer({ math, block = false, className }) {
       katex.render(math, containerRef.current, {
         displayMode: block,
         throwOnError: false,
-        errorColor: "#cc0000",
+        // KaTeX writes this straight into inline styles, so it cannot be a
+        // class. Read the live token instead of hardcoding a red that matches
+        // neither theme; fall back only if the stylesheet has not loaded.
+        errorColor: typeof window !== "undefined" && getComputedStyle(document.documentElement).getPropertyValue("--error").trim() || "#cc0000",
         strict: false,
         // trust:false — untrusted math must not enable \href{javascript:...},
         // \includegraphics, \htmlData etc. (KaTeX XSS surface).
