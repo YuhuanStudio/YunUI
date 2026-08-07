@@ -43,10 +43,14 @@ export const BentoCard = ({
         <div
             className={cn(
                 "row-span-1 glass-card relative p-6 flex flex-col justify-between space-y-4 group/bento overflow-hidden",
-                // The house hover: a quiet lift and a deeper shadow. Content stays
-                // put — sliding the text sideways (the stock bento-grid trick) reads
-                // as jitter and is not YunUI's language.
-                "transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
+                // The house hover, matching `.card-interactive`: a single-pixel
+                // lift and one step up the shadow ramp. Content stays put —
+                // sliding or scaling it (the stock bento-grid trick this card
+                // used to carry) reads as jitter and matches nothing else here.
+                // The richer glow treatment belongs to `FeatureCard`, which is a
+                // faithful extraction of Yunxin's marketing tile; keeping it out
+                // of here stops the two from competing.
+                "transition-all duration-150 hover:-translate-y-px hover:shadow-md",
                 className
             )}
         >
@@ -55,14 +59,9 @@ export const BentoCard = ({
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-foreground/15 to-transparent"
             />
-            {/* Corner glow — fades in on hover; the "發亮" the design leans on. */}
-            <div
-                aria-hidden
-                className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-foreground/5 blur-3xl opacity-0 transition-opacity duration-500 group-hover/bento:opacity-100"
-            />
             {header}
             <div className="relative">
-                <div className="mb-2 text-[var(--text-primary)] transition-transform duration-200 group-hover/bento:scale-105 origin-left w-fit">
+                <div className="mb-2 text-[var(--text-primary)]">
                     {icon}
                 </div>
                 <div className="font-semibold text-[var(--text-primary)] text-lg mb-2 mt-2">

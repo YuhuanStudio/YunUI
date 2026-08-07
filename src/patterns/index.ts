@@ -99,3 +99,11 @@ export { ConnectedAccountRow, type ConnectedAccountRowProps } from "./connected-
 
 // Avatar uploader — clickable avatar with file picker + upload spinner.
 export { AvatarUploader, type AvatarUploaderProps } from "./avatar-uploader";
+
+// Marketing section rhythm — eyebrow pill + title + subcopy.
+export {
+  SectionHeading,
+  Eyebrow,
+  type SectionHeadingProps,
+  type EyebrowProps,
+} from "./section-heading";

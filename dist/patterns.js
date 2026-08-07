@@ -1,5 +1,5 @@
 "use client";
-import './chunk-KQNFO46H.js';
+import './chunk-5O5EDUIA.js';
 import { copyToClipboard } from './chunk-DDUP7GAX.js';
 export { Footer } from './chunk-DDUP7GAX.js';
 import './chunk-3YYY5E4O.js';
@@ -2138,7 +2138,65 @@ function AvatarUploader({
     }
   );
 }
+function Eyebrow({ icon, children, className, ...props }) {
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "inline-flex items-center gap-2 rounded-full border border-(--accent-muted) bg-(--accent-subtle) px-3 py-1",
+        className
+      ),
+      ...props,
+      children: [
+        icon,
+        /* @__PURE__ */ jsx("span", { className: "text-xs font-medium", children })
+      ]
+    }
+  );
+}
+function SectionHeading({
+  badge,
+  icon,
+  title,
+  subtitle,
+  align = "center",
+  animate = true,
+  className,
+  ...props
+}) {
+  const enter = animate ? "animate-enter" : void 0;
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn("mb-16", align === "center" ? "text-center" : "text-left", className),
+      ...props,
+      children: [
+        badge != null && /* @__PURE__ */ jsx(Eyebrow, { icon, className: cn("mb-4", enter), children: badge }),
+        /* @__PURE__ */ jsx(
+          "h2",
+          {
+            className: cn("heading-xl mb-4 text-balance", enter),
+            style: animate ? { animationDelay: "100ms" } : void 0,
+            children: title
+          }
+        ),
+        subtitle != null && /* @__PURE__ */ jsx(
+          "p",
+          {
+            className: cn(
+              "text-body text-lg text-pretty",
+              align === "center" && "mx-auto max-w-2xl",
+              enter
+            ),
+            style: animate ? { animationDelay: "200ms" } : void 0,
+            children: subtitle
+          }
+        )
+      ]
+    }
+  );
+}
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ReadingProgress, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ReadingProgress, SectionHeading, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

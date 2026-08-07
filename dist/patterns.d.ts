@@ -783,4 +783,47 @@ interface AvatarUploaderProps {
 }
 declare function AvatarUploader({ src, fallback, size, uploading, onSelectFile, label, className, }: AvatarUploaderProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ReadingProgress, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+interface EyebrowProps extends HTMLAttributes<HTMLDivElement> {
+    /** Small leading glyph, e.g. a lucide icon at `w-4 h-4`. */
+    icon?: ReactNode;
+    /** The label text. */
+    children: ReactNode;
+}
+/**
+ * The pill badge that sits above a marketing section title — a tinted, hairline
+ * capsule holding an icon and a short label ("Why YunUI", "功能特性").
+ *
+ * Pulled out on its own because it appears far away from any heading too:
+ * above a hero title, inside a CTA band, as a "trusted by" chip.
+ */
+declare function Eyebrow({ icon, children, className, ...props }: EyebrowProps): React$1.JSX.Element;
+interface SectionHeadingProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+    /** Eyebrow label above the title. Omit for a bare heading. */
+    badge?: ReactNode;
+    /** Glyph inside the eyebrow pill. */
+    icon?: ReactNode;
+    /** The section title. */
+    title: ReactNode;
+    /** Supporting line under the title. */
+    subtitle?: ReactNode;
+    /** Horizontal alignment. @defaultValue "center" */
+    align?: "center" | "left";
+    /**
+     * Play the entrance animation, staggering badge → title → subtitle.
+     * Turn it off for headings that are already visible on load.
+     * @defaultValue true
+     */
+    animate?: boolean;
+}
+/**
+ * The centered pill-badge → title → subcopy rhythm that sits above every
+ * marketing band (landing page, Fellows, docs index).
+ *
+ * This exact block was hand-rolled in Yunxin's landing, Yunxin's Fellows page
+ * AND YunUI's own showcase site — three copies of the same eight lines, each
+ * re-deriving the stagger delays. It lives here now so every surface inherits
+ * the same rhythm instead of drifting apart.
+ */
+declare function SectionHeading({ badge, icon, title, subtitle, align, animate, className, ...props }: SectionHeadingProps): React$1.JSX.Element;
+
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ReadingProgress, SectionHeading, type SectionHeadingProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
