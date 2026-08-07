@@ -635,6 +635,13 @@
   ],
   "Navbar": [
     {
+      "name": "account",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Signed-in account control — pass an `AccountMenu`. When present it\nREPLACES the sign in / sign up buttons (desktop and mobile), so a reader\nwho is already signed in sees their avatar rather than an invitation to\nsign in again."
+    },
+    {
       "name": "appName",
       "type": "string",
       "required": true,
@@ -1575,6 +1582,64 @@
       "required": true,
       "defaultValue": null,
       "description": ""
+    }
+  ],
+  "ArchiveCalendar": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": "",
+      "description": ""
+    },
+    {
+      "name": "dates",
+      "type": "string[]",
+      "required": true,
+      "defaultValue": null,
+      "description": "Dates that have an issue, as YYYY-MM-DD. Order does not matter."
+    },
+    {
+      "name": "formatCount",
+      "type": "((count: number) => string)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Label the per-month count, e.g. `(n) => `${n} issues``. Omit to hide it."
+    },
+    {
+      "name": "formatDayLabel",
+      "type": "((date: string) => string)",
+      "required": false,
+      "defaultValue": "(date) => date",
+      "description": "Accessible label for a filled day."
+    },
+    {
+      "name": "formatMonth",
+      "type": "((year: number, month: number) => string)",
+      "required": false,
+      "defaultValue": "(year, month) => `${year}-${String(month).padStart(2, \"0\")}`",
+      "description": "Format a month heading."
+    },
+    {
+      "name": "href",
+      "type": "(date: string) => string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Where a date links to."
+    },
+    {
+      "name": "maxMonths",
+      "type": "number",
+      "required": false,
+      "defaultValue": "24",
+      "description": "Most months to draw. A ceiling, not a count: the range comes from the data,\nso an archive three weeks old draws one month rather than six, five of them\nempty."
+    },
+    {
+      "name": "weekdays",
+      "type": "readonly string[]",
+      "required": false,
+      "defaultValue": "[\"S\", \"M\", \"T\", \"W\", \"T\", \"F\", \"S\"] as const",
+      "description": "Weekday initials, Sunday first."
     }
   ],
   "AudioPlayer": [

@@ -2578,7 +2578,98 @@ function SectionNav({ items, offset = 112, label = "Sections", className }) {
     ) }, item.id);
   }) }) });
 }
+var DEFAULT_WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
+function parts(date) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+  return m ? { y: +m[1], m: +m[2], d: +m[3] } : null;
+}
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+function monthShape(year, month) {
+  return {
+    days: new Date(Date.UTC(year, month, 0)).getUTCDate(),
+    firstDay: new Date(Date.UTC(year, month - 1, 1)).getUTCDay()
+  };
+}
+function ArchiveCalendar({
+  dates,
+  href,
+  maxMonths = 24,
+  weekdays = DEFAULT_WEEKDAYS,
+  formatMonth = (year, month) => `${year}-${String(month).padStart(2, "0")}`,
+  formatCount,
+  formatDayLabel = (date) => date,
+  className = ""
+}) {
+  const { Link } = useYunUI();
+  const have = new Set(dates);
+  const sorted = [...dates].sort();
+  const newest = parts(sorted.at(-1) ?? "");
+  const oldest = parts(sorted[0] ?? "");
+  if (!newest || !oldest) return null;
+  const span = (newest.y - oldest.y) * 12 + (newest.m - oldest.m) + 1;
+  const grid = [];
+  for (let back = 0; back < Math.min(span, maxMonths); back++) {
+    const month = newest.m - back;
+    grid.push({
+      year: newest.y + Math.floor((month - 1) / 12),
+      month: ((month - 1) % 12 + 12) % 12 + 1
+    });
+  }
+  return /* @__PURE__ */ jsx("div", { className: `grid gap-6 sm:grid-cols-2 lg:grid-cols-3 ${className}`, children: grid.map(({ year, month }) => {
+    const { days, firstDay } = monthShape(year, month);
+    const cells = [
+      ...Array.from({ length: firstDay }, () => null),
+      ...Array.from({ length: days }, (_, i) => i + 1)
+    ];
+    const filled = cells.filter(
+      (day) => day && have.has(`${year}-${pad(month)}-${pad(day)}`)
+    ).length;
+    return /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsxs("div", { className: "mb-2 flex items-baseline justify-between", children: [
+        /* @__PURE__ */ jsx("h3", { className: "text-sm font-semibold tracking-tight tabular-nums", children: formatMonth(year, month) }),
+        formatCount && /* @__PURE__ */ jsx("span", { className: "text-caption tabular-nums", children: formatCount(filled) })
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-7 gap-1", role: "presentation", children: [
+        weekdays.map((label, i) => /* @__PURE__ */ jsx(
+          "div",
+          {
+            "aria-hidden": true,
+            className: "text-caption grid h-6 place-items-center text-[0.6875rem]",
+            children: label
+          },
+          `${label}-${i}`
+        )),
+        cells.map((day, i) => {
+          if (!day) return /* @__PURE__ */ jsx("div", { "aria-hidden": true }, `pad-${i}`);
+          const date = `${year}-${pad(month)}-${pad(day)}`;
+          if (!have.has(date)) {
+            return /* @__PURE__ */ jsx(
+              "div",
+              {
+                className: "text-muted-foreground grid h-8 place-items-center text-xs tabular-nums",
+                children: day
+              },
+              date
+            );
+          }
+          return /* @__PURE__ */ jsx(
+            Link,
+            {
+              href: href(date),
+              className: "border-border hover:border-(--accent) hover:text-(--accent) grid h-8 place-items-center rounded-md border text-xs font-medium tabular-nums transition-colors",
+              "aria-label": formatDayLabel(date),
+              children: day
+            },
+            date
+          );
+        })
+      ] })
+    ] }, `${year}-${month}`);
+  }) });
+}
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AuthShell, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DashboardPage, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SectionNav, SectionRow, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatGrid, StatusBadge, TableState, ViewOptions };
+export { AccountLockedCard, ActiveBadge, ArchiveCalendar, AudioPlayer, AuthShell, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DashboardPage, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SectionNav, SectionRow, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatGrid, StatusBadge, TableState, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

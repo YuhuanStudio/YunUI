@@ -1,0 +1,38 @@
+import { ArchiveCalendar } from "yunui/patterns";
+
+Every day of an archive, drawn as month grids. A daily publication browsed as a list of dates answers "what is the newest" and nothing else; the two questions a reader actually has — "was there an issue on the day I remember" and "how far back does this go" — are a scan in a list and a glance in a grid.
+
+An unbroken run of filled cells is also the claim a daily publication is making, and a gap is the honest way to admit a day that failed. Upstreamed from YunNEWS.
+
+## Import
+
+```tsx
+import { ArchiveCalendar } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+`dates` are the days that have something (`YYYY-MM-DD`, any order); `href` maps a date to its destination. `maxMonths` is a **ceiling, not a count** — the range comes from the data, so a three-week-old archive draws one month rather than six mostly-empty ones.
+
+<ComponentPreview title="Archive">
+  <ArchiveCalendarDemo />
+</ComponentPreview>
+
+## Localizing
+
+Every string is a prop, and the defaults are deliberately neutral (`S M T W T F S`, `2026-08`). Pass your own to localize:
+
+```tsx
+<ArchiveCalendar
+  dates={dates}
+  href={(d) => `/issues/${d}`}
+  weekdays={["日","一","二","三","四","五","六"]}
+  formatMonth={(y, m) => `${y} 年 ${m} 月`}
+  formatCount={(n) => `${n} 期`}
+  formatDayLabel={(d) => `${d} 的日報`}
+/>
+```
+
+## Props
+
+<PropsTable name="ArchiveCalendar" />

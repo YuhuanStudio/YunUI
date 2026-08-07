@@ -1,0 +1,38 @@
+import { ArchiveCalendar } from "yunui/patterns";
+
+把整个归档的每一天画成月历格。日刊若以日期列表浏览，只能回答「最新的是哪一期」;读者真正会问的两件事——「我记得的那天有没有出刊」与「这份刊物回溯到多久以前」——在列表里要用扫的，在网格里一眼就看到。
+
+连续填满的格子本身就是日刊在宣称的事，而空格是承认某天失败最诚实的方式。从 YunNEWS 上收而来。
+
+## 导入
+
+```tsx
+import { ArchiveCalendar } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基础用法
+
+`dates` 是有内容的日子（`YYYY-MM-DD`，顺序不拘）;`href` 把日期映射到目的地。`maxMonths` 是**上限而非数量**——范围来自数据，因此只有三周历史的归档会画一个月，而不是六个几乎全空的月份。
+
+<ComponentPreview title="归档">
+  <ArchiveCalendarDemo />
+</ComponentPreview>
+
+## 本地化
+
+每一个字符串都是属性，默认值刻意保持中性（`S M T W T F S`、`2026-08`）。传入你自己的即可本地化：
+
+```tsx
+<ArchiveCalendar
+  dates={dates}
+  href={(d) => `/issues/${d}`}
+  weekdays={["日","一","二","三","四","五","六"]}
+  formatMonth={(y, m) => `${y} 年 ${m} 月`}
+  formatCount={(n) => `${n} 期`}
+  formatDayLabel={(d) => `${d} 的日報`}
+/>
+```
+
+## 属性
+
+<PropsTable name="ArchiveCalendar" />

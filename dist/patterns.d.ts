@@ -1074,4 +1074,27 @@ interface SectionNavProps {
  */
 declare function SectionNav({ items, offset, label, className }: SectionNavProps): React$1.JSX.Element | null;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AuthShell, type AuthShellProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DashboardPage, type DashboardPageProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SectionNav, type SectionNavItem, type SectionNavProps, SectionRow, type SectionRowProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatGrid, type StatGridProps, StatusBadge, TableState, type TableStateProps, ViewOptions };
+interface ArchiveCalendarProps {
+    /** Dates that have an issue, as YYYY-MM-DD. Order does not matter. */
+    dates: string[];
+    /** Where a date links to. */
+    href: (date: string) => string;
+    /**
+     * Most months to draw. A ceiling, not a count: the range comes from the data,
+     * so an archive three weeks old draws one month rather than six, five of them
+     * empty.
+     */
+    maxMonths?: number;
+    /** Weekday initials, Sunday first. @defaultValue ["S","M","T","W","T","F","S"] */
+    weekdays?: readonly string[];
+    /** Format a month heading. @defaultValue `${year}-${month}` */
+    formatMonth?: (year: number, month: number) => string;
+    /** Label the per-month count, e.g. `(n) => `${n} issues``. Omit to hide it. */
+    formatCount?: (count: number) => string;
+    /** Accessible label for a filled day. @defaultValue the ISO date */
+    formatDayLabel?: (date: string) => string;
+    className?: string;
+}
+declare function ArchiveCalendar({ dates, href, maxMonths, weekdays, formatMonth, formatCount, formatDayLabel, className, }: ArchiveCalendarProps): React$1.JSX.Element | null;
+
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, ArchiveCalendar, type ArchiveCalendarProps, AudioPlayer, type AudioPlayerProps, AuthShell, type AuthShellProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DashboardPage, type DashboardPageProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SectionNav, type SectionNavItem, type SectionNavProps, SectionRow, type SectionRowProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatGrid, type StatGridProps, StatusBadge, TableState, type TableStateProps, ViewOptions };

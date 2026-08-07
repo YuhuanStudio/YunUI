@@ -1163,6 +1163,16 @@ export const docs: DocEntry[] = [
     "section nav scroll spy in page anchor toc rail intersection observer long page",
   ),
   pat(
+    "archive-calendar",
+    { en: "Archive Calendar", "zh-CN": "归档日历", "zh-TW": "彙整月曆" },
+    {
+      en: "Every day of an archive as month grids — answers \"was there one on the day I remember\" at a glance.",
+      "zh-CN": "把归档的每一天画成月历格——一眼回答「我记得的那天有没有出刊」。",
+      "zh-TW": "把彙整的每一天畫成月曆格——一眼回答「我記得的那天有沒有出刊」。",
+    },
+    "archive calendar month grid dates daily publication issues heatmap contribution",
+  ),
+  pat(
     "auth-shell",
     { en: "Auth Shell", "zh-CN": "认证外壳", "zh-TW": "驗證外殼" },
     {
@@ -1641,6 +1651,7 @@ export const groups: DocGroup[] = [
       "patterns/auth-shell",
       "patterns/data-states",
       "patterns/section-nav",
+      "patterns/archive-calendar",
     ],
   },
   {

@@ -135,3 +135,6 @@ export {
 
 // In-page scroll-spy navigator (upstreamed from YunNEWS).
 export { SectionNav, type SectionNavProps, type SectionNavItem } from "./section-nav";
+
+// Archive calendar — month grid of days that have content (upstreamed from YunNEWS).
+export { ArchiveCalendar, type ArchiveCalendarProps } from "./archive-calendar";

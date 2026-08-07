@@ -53,6 +53,7 @@ import {
   TableSortDemo,
   StatGridDemo,
   AccountMenuDemo,
+  ArchiveCalendarDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -117,6 +118,7 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     TableSortDemo,
     StatGridDemo,
     AccountMenuDemo,
+    ArchiveCalendarDemo,
     ...components,
   };
 }

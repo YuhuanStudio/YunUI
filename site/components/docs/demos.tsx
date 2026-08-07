@@ -39,6 +39,7 @@ import {
   type MediaResult,
   SettingsShell,
   StatGrid,
+  ArchiveCalendar,
 } from "yunui/patterns";
 import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
 import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
@@ -1362,6 +1363,22 @@ export function AccountMenuDemo() {
         ]}
         onSignOut={() => {}}
         labels={{ signOut: "Sign out" }}
+      />
+    </div>
+  );
+}
+
+export function ArchiveCalendarDemo() {
+  return (
+    <div className="w-full max-w-md">
+      <ArchiveCalendar
+        dates={[
+          "2026-08-01", "2026-08-02", "2026-08-03", "2026-08-05", "2026-08-06",
+          "2026-08-07", "2026-08-08", "2026-08-09", "2026-08-12", "2026-08-13",
+          "2026-07-28", "2026-07-29", "2026-07-30", "2026-07-31",
+        ]}
+        href={(date) => `#${date}`}
+        maxMonths={2}
       />
     </div>
   );
