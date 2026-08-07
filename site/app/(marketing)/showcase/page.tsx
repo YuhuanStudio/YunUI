@@ -173,6 +173,13 @@ import {
   ViewOptions,
   AudioPlayer,
   NavStateIndicator,
+  SectionHeading,
+  Eyebrow,
+  FeatureCard,
+  MarketingHero,
+  HeroAccent,
+  CTASection,
+  PullQuote,
 } from "yunui/patterns";
 import {
   NotificationDemo,
@@ -211,6 +218,7 @@ import {
   Inbox,
   Zap,
   Rocket,
+  Boxes,
   Star,
   Coins,
   Activity,
@@ -1768,6 +1776,43 @@ export default function Showcase() {
             />
             and now underpins most large language models.
           </p>
+        </Demo>
+        <Demo title="Marketing kit" description="Extracted from Yunxin: section rhythm, feature tile, hero, CTA band and pull quote.">
+          <div className="w-full flex flex-col gap-10">
+            <SectionHeading
+              badge="Why YunUI"
+              icon={<Sparkles className="w-4 h-4" />}
+              title="Care, in the details."
+              subtitle="Not the most components — the most considered ones."
+              animate={false}
+              className="mb-0"
+            />
+            <div className="grid gap-6 md:grid-cols-3">
+              <FeatureCard icon={<Boxes className="w-6 h-6" />} title="Composed" description="Primitives, patterns and AI components, typed end to end." />
+              <FeatureCard icon={<Zap className="w-6 h-6" />} title="Token-driven" description="Light, dark and a true-black OLED theme." />
+              <FeatureCard icon={<Star className="w-6 h-6" />} title="Considered" description="Every hover, every stagger, decided once." />
+            </div>
+            <MarketingHero
+              fullHeight={false}
+              className="pt-8 pb-8"
+              badge={<Eyebrow icon={<Rocket className="w-4 h-4" />}>Fellows programme</Eyebrow>}
+              title={<>Build with us. <HeroAccent>On us.</HeroAccent></>}
+              subtitle="Six weeks of credits, review and a room full of people shipping the same week you are."
+              actions={<>
+                <Button variant="primary" size="lg">Apply now</Button>
+                <Button variant="secondary" size="lg">Learn more</Button>
+              </>}
+              facts={["Free to apply", "6 weeks", "Open source"]}
+            />
+            <PullQuote cite="— The Fellows charter">
+              We would rather ship one screen that feels considered than ten that feel generated.
+            </PullQuote>
+            <CTASection
+              title="Ready when you are."
+              body="Install the package, wire the adapter, ship the first screen this afternoon."
+              actions={<Button variant="primary" size="lg">Get started</Button>}
+            />
+          </div>
         </Demo>
         <Demo title="Nav state indicator">
           <div className="flex w-56 flex-col gap-1">
