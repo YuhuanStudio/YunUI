@@ -68,7 +68,9 @@ export function InlineCitation({
           sideOffset={8}
           className={cn(
             "w-[min(340px,calc(100vw-24px))] rounded-2xl border border-border",
-            "bg-popover p-3 text-popover-foreground shadow-xl",
+            // shadow-lg shadow-black/5 is the house overlay drop; shadow-xl was
+            // heavier than every other popover in the system.
+            "bg-popover p-3 text-popover-foreground shadow-lg shadow-black/5",
           )}
         >
           <div className="flex min-w-0 items-start gap-2.5">

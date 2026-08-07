@@ -1044,7 +1044,9 @@ function InlineCitation({
         sideOffset: 8,
         className: cn(
           "w-[min(340px,calc(100vw-24px))] rounded-2xl border border-border",
-          "bg-popover p-3 text-popover-foreground shadow-xl"
+          // shadow-lg shadow-black/5 is the house overlay drop; shadow-xl was
+          // heavier than every other popover in the system.
+          "bg-popover p-3 text-popover-foreground shadow-lg shadow-black/5"
         ),
         children: /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-start gap-2.5", children: [
           icon ? /* @__PURE__ */ jsx("span", { className: "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted", children: icon }) : null,
