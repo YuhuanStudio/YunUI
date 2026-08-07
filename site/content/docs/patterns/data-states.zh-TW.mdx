@@ -1,0 +1,63 @@
+import { TableState, StatGrid, DashboardPage, SectionRow } from "yunui/patterns";
+import { Button } from "yunui";
+
+四個小型儀表板構件——Yunxin 重複了數十次卻從未抽取：表格內的空／載入單行、統計磚列、頁面內容欄，以及帶尾端操作的區段標題。
+
+## 匯入
+
+```tsx
+import { TableState, StatGrid, DashboardPage, SectionRow } from "@yuhuanowo/yunui/patterns";
+```
+
+## TableState
+
+表格為空或載入中時，用來取代列的那一行低調文字。Yunxin 以三種不同寫法重複了 **39 次**。它刻意**不是** [`EmptyState`](/docs/components/empty-state)——那是整頁的圖示＋標題＋說明＋操作區塊;這個是表格內的單行儲存格。
+
+<ComponentPreview title="空與載入">
+  <div className="w-full max-w-lg flex flex-col gap-3">
+    <TableState surface="card">No results match those filters.</TableState>
+    <TableState surface="card" loading>Loading transactions…</TableState>
+  </div>
+</ComponentPreview>
+
+## StatGrid
+
+儀表板頁面頂部的響應式磚列——手機兩欄，`sm` 以上為 `columns` 欄。
+
+<ComponentPreview title="統計格線">
+  <StatGridDemo />
+</ComponentPreview>
+
+## SectionRow
+
+區段標題與尾端控制項對齊在同一基線上。這不是*頁面*標頭——那是 [`PageHeader`](/docs/patterns/page-header)。
+
+<ComponentPreview title="區段標題列">
+  <div className="w-full max-w-lg">
+    <SectionRow title="Recent activity" action={<Button variant="ghost" size="sm">View all</Button>} />
+    <TableState surface="card">Nothing yet.</TableState>
+  </div>
+</ComponentPreview>
+
+## DashboardPage
+
+有上限、置中的內容欄，區段之間帶房子的節奏。與 [`PageLayout`](/docs/patterns/page-layout) 不同——後者是帶導覽列與頁尾的行銷外殼。
+
+```tsx
+<DashboardPage>
+  <PageHeader title="Billing" />
+  <StatGrid>{tiles}</StatGrid>
+  <SectionRow title="Invoices" action={<Button size="sm">Export</Button>} />
+  {table}
+</DashboardPage>
+```
+
+## 屬性
+
+<PropsTable name="TableState" />
+
+<PropsTable name="StatGrid" />
+
+<PropsTable name="SectionRow" />
+
+<PropsTable name="DashboardPage" />

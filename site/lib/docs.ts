@@ -1151,6 +1151,28 @@ export const docs: DocEntry[] = [
     "prose article reading column measure long form blog about back link",
   ),
 
+  // ---- App shells (extracted from Yunxin) ---------------------------------
+  pat(
+    "auth-shell",
+    { en: "Auth Shell", "zh-CN": "认证外壳", "zh-TW": "驗證外殼" },
+    {
+      en: "The centered single-column screen every auth flow uses — sign in, sign up, reset password, verify email.",
+      "zh-CN": "所有认证流程共用的居中单栏画面——登录、注册、重设密码、邮箱验证。",
+      "zh-TW": "所有驗證流程共用的置中單欄畫面——登入、註冊、重設密碼、信箱驗證。",
+    },
+    "auth shell login signup sign in reset password verify email centered card screen",
+  ),
+  pat(
+    "data-states",
+    { en: "Dashboard States", "zh-CN": "仪表板构件", "zh-TW": "儀表板構件" },
+    {
+      en: "TableState, StatGrid, SectionRow and DashboardPage — the small dashboard blocks repeated dozens of times.",
+      "zh-CN": "TableState、StatGrid、SectionRow 与 DashboardPage——重复数十次的小型仪表板构件。",
+      "zh-TW": "TableState、StatGrid、SectionRow 與 DashboardPage——重複數十次的小型儀表板構件。",
+    },
+    "table empty loading state stat grid section row dashboard page admin shell column",
+  ),
+
   // ---- AI -----------------------------------------------------------------
   aiDoc(
     "model-card",
@@ -1596,6 +1618,8 @@ export const groups: DocGroup[] = [
       "patterns/cta-section",
       "patterns/pull-quote",
       "patterns/prose-article",
+      "patterns/auth-shell",
+      "patterns/data-states",
     ],
   },
   {

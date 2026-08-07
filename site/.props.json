@@ -1577,6 +1577,50 @@
       "description": "Optional title shown above the controls."
     }
   ],
+  "AuthShell": [
+    {
+      "name": "brand",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Brand row above the card — usually a logo + wordmark linking home."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "The form (or whatever the screen is for)."
+    },
+    {
+      "name": "footer",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Content under the card — \"Don't have an account?\", legal links."
+    },
+    {
+      "name": "subtitle",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional line under the heading."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Card heading, centered."
+    },
+    {
+      "name": "width",
+      "type": "\"sm\" | \"md\"",
+      "required": false,
+      "defaultValue": "sm",
+      "description": "Width of the column. `sm` suits a sign-in form; `md` suits screens with\nmore to say (verification, callbacks)."
+    }
+  ],
   "AvatarUploader": [
     {
       "name": "className",
@@ -2093,6 +2137,63 @@
       "required": true,
       "defaultValue": null,
       "description": "Headline."
+    }
+  ],
+  "TableState": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "The message — \"No results\", \"Nothing to review\"."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Show a spinner before the message."
+    },
+    {
+      "name": "surface",
+      "type": "\"plain\" | \"card\"",
+      "required": false,
+      "defaultValue": "plain",
+      "description": "Vertical padding. `card` also draws the card surface."
+    }
+  ],
+  "StatGrid": [
+    {
+      "name": "columns",
+      "type": "2 | 3 | 4",
+      "required": false,
+      "defaultValue": "4",
+      "description": "Columns at the widest breakpoint."
+    }
+  ],
+  "DashboardPage": [
+    {
+      "name": "width",
+      "type": "\"5xl\" | \"6xl\" | \"7xl\"",
+      "required": false,
+      "defaultValue": "7xl",
+      "description": "Max content width."
+    }
+  ],
+  "SectionRow": [
+    {
+      "name": "action",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Trailing control — a button, a filter, a link."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Section title."
     }
   ],
   "LLMCopyButton": [

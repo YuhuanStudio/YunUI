@@ -2431,7 +2431,103 @@ function BackLink({ href, children, className }) {
     }
   );
 }
+function AuthShell({
+  brand,
+  title,
+  subtitle,
+  children,
+  footer,
+  width = "sm",
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      className: cn(
+        "flex min-h-dvh items-center justify-center bg-background px-6",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ jsxs("div", { className: cn("w-full", width === "sm" ? "max-w-sm" : "max-w-md"), children: [
+        brand != null && /* @__PURE__ */ jsx("div", { className: "mb-8 flex justify-center", children: brand }),
+        /* @__PURE__ */ jsxs("div", { className: "card p-6", children: [
+          title != null && /* @__PURE__ */ jsx("h1", { className: "mb-2 text-center text-xl font-semibold", children: title }),
+          subtitle != null && /* @__PURE__ */ jsx("p", { className: "text-caption mb-6 text-center", children: subtitle }),
+          /* @__PURE__ */ jsx("div", { className: cn(title != null && subtitle == null && "mt-4"), children })
+        ] }),
+        footer != null && /* @__PURE__ */ jsx("div", { className: "text-caption mt-6 text-center", children: footer })
+      ] })
+    }
+  );
+}
+function TableState({
+  children,
+  loading = false,
+  surface = "plain",
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "flex items-center justify-center gap-2 p-8 text-center text-sm text-muted-foreground",
+        surface === "card" && "card",
+        className
+      ),
+      ...props,
+      children: [
+        loading && /* @__PURE__ */ jsx(Loader2, { "aria-hidden": true, className: "h-4 w-4 animate-spin" }),
+        children
+      ]
+    }
+  );
+}
+function StatGrid({ children, columns = 4, className, ...props }) {
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      className: cn(
+        "grid grid-cols-2 gap-4",
+        columns === 2 && "sm:grid-cols-2",
+        columns === 3 && "sm:grid-cols-3",
+        columns === 4 && "sm:grid-cols-4",
+        className
+      ),
+      ...props,
+      children
+    }
+  );
+}
+function DashboardPage({
+  children,
+  width = "7xl",
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      className: cn(
+        "mx-auto space-y-6",
+        width === "5xl" && "max-w-5xl",
+        width === "6xl" && "max-w-6xl",
+        width === "7xl" && "max-w-7xl",
+        className
+      ),
+      ...props,
+      children
+    }
+  );
+}
+function SectionRow({ title, action, className, ...props }) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("mb-4 flex items-center justify-between gap-3", className), ...props, children: [
+    /* @__PURE__ */ jsx("h2", { className: "text-sm font-semibold text-foreground", children: title }),
+    action
+  ] });
+}
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AuthShell, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DashboardPage, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SectionRow, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatGrid, StatusBadge, TableState, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

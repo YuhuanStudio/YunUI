@@ -1,0 +1,48 @@
+import { AuthShell } from "yunui/patterns";
+import { Button, Input, Label } from "yunui";
+
+所有认证流程共用的居中单栏画面：登录、注册、忘记／重设密码、邮箱验证、重发验证信、OAuth 回调。
+
+Yunxin 把这个外壳手刻了**十五次**——每一份都自己重推一次视口居中、栏宽、品牌行间距与卡片外框。这里的面板使用设计系统的 `.card`，让认证画面与系统其他界面一致。
+
+## 导入
+
+```tsx
+import { AuthShell } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基础用法
+
+`AuthShell` 会填满视口（`min-h-dvh`）;下方预览是缩小放在框架内的。
+
+<ComponentPreview title="登录" contained containedHeight={520}>
+  <AuthShell
+    className="min-h-0 py-8"
+    brand={<span className="font-semibold text-[15px]">YunUI</span>}
+    title="Sign in"
+    footer={<>Don&apos;t have an account? <a href="#" className="text-foreground underline">Sign up</a></>}
+  >
+    <form className="space-y-4">
+      <div>
+        <Label>Email</Label>
+        <Input type="email" placeholder="you@example.com" />
+      </div>
+      <div>
+        <Label>Password</Label>
+        <Input type="password" placeholder="••••••••" />
+      </div>
+      <Button variant="primary" className="w-full">Continue</Button>
+    </form>
+  </AuthShell>
+</ComponentPreview>
+
+## 插槽
+
+- `brand` — 卡片上方的标志／字标行。链回首页由你决定。
+- `title` / `subtitle` — 居中标题与辅助说明。
+- `footer` — 卡片下方的低调内容。
+- `width` — `sm`（默认）适合登录表单，`md` 适合要说较多话的画面。
+
+## 属性
+
+<PropsTable name="AuthShell" />

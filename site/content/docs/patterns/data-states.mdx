@@ -1,0 +1,63 @@
+import { TableState, StatGrid, DashboardPage, SectionRow } from "yunui/patterns";
+import { Button } from "yunui";
+
+Four small dashboard building blocks that Yunxin repeated dozens of times without ever extracting: the empty/loading line inside a table, the stat tile row, the page content column, and a section title with a trailing action.
+
+## Import
+
+```tsx
+import { TableState, StatGrid, DashboardPage, SectionRow } from "@yuhuanowo/yunui/patterns";
+```
+
+## TableState
+
+The single muted line an empty or loading table shows in place of rows. Yunxin repeats this **39 times** in three different spellings. This is deliberately *not* [`EmptyState`](/docs/components/empty-state) — that is the full-screen icon + title + description + action block; this is the one-line cell inside a table.
+
+<ComponentPreview title="Empty & loading">
+  <div className="w-full max-w-lg flex flex-col gap-3">
+    <TableState surface="card">No results match those filters.</TableState>
+    <TableState surface="card" loading>Loading transactions…</TableState>
+  </div>
+</ComponentPreview>
+
+## StatGrid
+
+The responsive tile row at the top of a dashboard page — two up on phones, `columns` up from `sm`.
+
+<ComponentPreview title="Stat grid">
+  <StatGridDemo />
+</ComponentPreview>
+
+## SectionRow
+
+A section title with a trailing control on the same baseline. Not the *page* header — that is [`PageHeader`](/docs/patterns/page-header).
+
+<ComponentPreview title="Section row">
+  <div className="w-full max-w-lg">
+    <SectionRow title="Recent activity" action={<Button variant="ghost" size="sm">View all</Button>} />
+    <TableState surface="card">Nothing yet.</TableState>
+  </div>
+</ComponentPreview>
+
+## DashboardPage
+
+The capped, centered content column with the house rhythm between sections. Distinct from [`PageLayout`](/docs/patterns/page-layout), which is the marketing shell with a navbar and footer.
+
+```tsx
+<DashboardPage>
+  <PageHeader title="Billing" />
+  <StatGrid>{tiles}</StatGrid>
+  <SectionRow title="Invoices" action={<Button size="sm">Export</Button>} />
+  {table}
+</DashboardPage>
+```
+
+## Props
+
+<PropsTable name="TableState" />
+
+<PropsTable name="StatGrid" />
+
+<PropsTable name="SectionRow" />
+
+<PropsTable name="DashboardPage" />

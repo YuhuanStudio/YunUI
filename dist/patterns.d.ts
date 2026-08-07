@@ -956,4 +956,92 @@ interface BackLinkProps {
  */
 declare function BackLink({ href, children, className }: BackLinkProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+interface AuthShellProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+    /** Brand row above the card — usually a logo + wordmark linking home. */
+    brand?: ReactNode;
+    /** Card heading, centered. */
+    title?: ReactNode;
+    /** Optional line under the heading. */
+    subtitle?: ReactNode;
+    /** The form (or whatever the screen is for). */
+    children: ReactNode;
+    /** Content under the card — "Don't have an account?", legal links. */
+    footer?: ReactNode;
+    /**
+     * Width of the column. `sm` suits a sign-in form; `md` suits screens with
+     * more to say (verification, callbacks). @defaultValue "sm"
+     */
+    width?: "sm" | "md";
+}
+/**
+ * The centered single-column screen every auth flow uses: sign in, sign up,
+ * forgot/reset password, verify email, resend verification, OAuth callback.
+ *
+ * Yunxin hand-rolled this shell **fifteen times** — each copy re-deriving the
+ * viewport centring, the column width, the brand row spacing and the card
+ * chrome. Extracted so those screens stop drifting apart.
+ *
+ * The panel uses the house `.card` rather than the ad-hoc
+ * `bg-card border rounded-xl` those copies carried, so an auth screen matches
+ * every other surface in the system.
+ */
+declare function AuthShell({ brand, title, subtitle, children, footer, width, className, ...props }: AuthShellProps): React$1.JSX.Element;
+
+interface TableStateProps extends HTMLAttributes<HTMLDivElement> {
+    /** The message — "No results", "Nothing to review". */
+    children: ReactNode;
+    /** Show a spinner before the message. @defaultValue false */
+    loading?: boolean;
+    /** Vertical padding. `card` also draws the card surface. @defaultValue "plain" */
+    surface?: "plain" | "card";
+}
+/**
+ * The single muted line an empty or loading table/panel shows in place of rows.
+ *
+ * Yunxin repeats this shape **39 times** across its dashboard and admin pages —
+ * as `card p-8 text-center text-muted-foreground`, as `p-8 …`, and as `py-8 …`,
+ * i.e. three spellings of one idea. This is deliberately *not*
+ * {@link EmptyState}: that is the big icon + title + description + action block
+ * for a whole screen; this is the one-line cell inside a table.
+ */
+declare function TableState({ children, loading, surface, className, ...props }: TableStateProps): React$1.JSX.Element;
+interface StatGridProps extends HTMLAttributes<HTMLDivElement> {
+    children: ReactNode;
+    /** Columns at the widest breakpoint. @defaultValue 4 */
+    columns?: 2 | 3 | 4;
+}
+/**
+ * The responsive tile row that carries {@link StatCard}s at the top of a
+ * dashboard page — two up on phones, `columns` up from `sm`/`lg`.
+ *
+ * Extracted because Yunxin hand-rolls the same grid on ~12 admin pages, and the
+ * copies had already drifted between `sm:grid-cols-4` and `lg:grid-cols-4`.
+ */
+declare function StatGrid({ children, columns, className, ...props }: StatGridProps): React$1.JSX.Element;
+interface DashboardPageProps extends HTMLAttributes<HTMLDivElement> {
+    children: ReactNode;
+    /** Max content width. @defaultValue "7xl" */
+    width?: "5xl" | "6xl" | "7xl";
+}
+/**
+ * The content column for a dashboard/admin page: a capped, centered width with
+ * the house vertical rhythm between sections.
+ *
+ * Distinct from {@link PageLayout}, which is the marketing shell (navbar +
+ * footer). Yunxin repeats `space-y-6 max-w-7xl mx-auto` on 11 admin pages.
+ */
+declare function DashboardPage({ children, width, className, ...props }: DashboardPageProps): React$1.JSX.Element;
+interface SectionRowProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+    /** Section title. */
+    title: ReactNode;
+    /** Trailing control — a button, a filter, a link. */
+    action?: ReactNode;
+}
+/**
+ * A section title with a trailing action on the same baseline — the header that
+ * sits above a table or a card list inside a page (not the page header itself;
+ * that is {@link PageHeader}). Repeated 13 times across Yunxin's dashboard.
+ */
+declare function SectionRow({ title, action, className, ...props }: SectionRowProps): React$1.JSX.Element;
+
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AuthShell, type AuthShellProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DashboardPage, type DashboardPageProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SectionRow, type SectionRowProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatGrid, type StatGridProps, StatusBadge, TableState, type TableStateProps, ViewOptions };

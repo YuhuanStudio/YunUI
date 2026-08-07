@@ -119,3 +119,16 @@ export {
   type ProseArticleProps,
   type BackLinkProps,
 } from "./prose-article";
+
+// App shells — extracted from Yunxin's auth flows and dashboard pages.
+export { AuthShell, type AuthShellProps } from "./auth-shell";
+export {
+  TableState,
+  StatGrid,
+  DashboardPage,
+  SectionRow,
+  type TableStateProps,
+  type StatGridProps,
+  type DashboardPageProps,
+  type SectionRowProps,
+} from "./data-states";

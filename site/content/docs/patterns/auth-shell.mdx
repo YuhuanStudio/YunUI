@@ -1,0 +1,48 @@
+import { AuthShell } from "yunui/patterns";
+import { Button, Input, Label } from "yunui";
+
+The centered single-column screen every auth flow uses: sign in, sign up, forgot/reset password, verify email, resend verification, OAuth callback.
+
+Yunxin hand-rolled this shell **fifteen times** — each copy re-deriving the viewport centring, the column width, the brand row spacing and the card chrome. The panel uses the house `.card`, so an auth screen matches every other surface.
+
+## Import
+
+```tsx
+import { AuthShell } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+`AuthShell` fills the viewport (`min-h-dvh`); the preview below is scaled down inside a frame.
+
+<ComponentPreview title="Sign in" contained containedHeight={520}>
+  <AuthShell
+    className="min-h-0 py-8"
+    brand={<span className="font-semibold text-[15px]">YunUI</span>}
+    title="Sign in"
+    footer={<>Don&apos;t have an account? <a href="#" className="text-foreground underline">Sign up</a></>}
+  >
+    <form className="space-y-4">
+      <div>
+        <Label>Email</Label>
+        <Input type="email" placeholder="you@example.com" />
+      </div>
+      <div>
+        <Label>Password</Label>
+        <Input type="password" placeholder="••••••••" />
+      </div>
+      <Button variant="primary" className="w-full">Continue</Button>
+    </form>
+  </AuthShell>
+</ComponentPreview>
+
+## Slots
+
+- `brand` — the logo/wordmark row above the card. Link it home yourself.
+- `title` / `subtitle` — centered heading and supporting line.
+- `footer` — muted content under the card.
+- `width` — `sm` (default) for a sign-in form, `md` for screens with more to say.
+
+## Props
+
+<PropsTable name="AuthShell" />

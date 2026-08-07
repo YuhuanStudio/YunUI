@@ -38,6 +38,7 @@ import {
   MediaGallery,
   type MediaResult,
   SettingsShell,
+  StatGrid,
 } from "yunui/patterns";
 import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
 import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
@@ -53,7 +54,7 @@ import {
   ProviderIcon,
 } from "yunui/ai";
 import { MarkdownRenderer, ImageLightbox } from "yunui/content";
-import { Coins, LayoutGrid, List, Table as TableIcon, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw } from "lucide-react";
+import { Coins, LayoutGrid, List, Table as TableIcon, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw, Users } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -1332,6 +1333,17 @@ export function TableSortDemo() {
           ))}
         </TableBody>
       </Table>
+    </div>
+  );
+}
+
+export function StatGridDemo() {
+  return (
+    <div className="w-full max-w-2xl">
+      <StatGrid columns={2}>
+        <StatCard icon={Coins} label="Balance" value="$1,250" />
+        <StatCard icon={Users} label="Members" value="48" />
+      </StatGrid>
     </div>
   );
 }

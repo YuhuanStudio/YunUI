@@ -51,6 +51,7 @@ import {
   GenerationStatsDemo,
   SettingsShellDemo,
   TableSortDemo,
+  StatGridDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -113,6 +114,7 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     GenerationStatsDemo,
     SettingsShellDemo,
     TableSortDemo,
+    StatGridDemo,
     ...components,
   };
 }
