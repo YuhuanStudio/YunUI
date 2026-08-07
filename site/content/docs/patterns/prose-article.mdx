@@ -1,0 +1,52 @@
+import { ProseArticle, BackLink } from "yunui/patterns";
+
+The reading column for long-form pages — About, a blog post, a changelog. A 3xl measure, centered, with the page's vertical rhythm. `BackLink` is the muted "‹ back to …" link that sits above a detail page.
+
+Both were hand-rolled identically on Yunxin's About and blog post pages.
+
+## Import
+
+```tsx
+import { ProseArticle, BackLink } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview title="Reading column">
+  <ProseArticle className="py-0">
+    <h2>A considered measure</h2>
+    <p>
+      Long-form text wants a line length the eye can track. This column caps at
+      a 3xl measure and centres itself, so an article reads the same on About,
+      on a post, and on a changelog.
+    </p>
+  </ProseArticle>
+</ComponentPreview>
+
+## Turning off Typography
+
+`prose` adds Tailwind Typography's classes. Turn it **off** when the content already ships its own styles — notably YunUI's [`MarkdownRenderer`](/docs/content/markdown-renderer), which would otherwise be styled twice.
+
+```tsx
+<ProseArticle prose={false}>
+  <MarkdownRenderer content={md} />
+</ProseArticle>
+```
+
+## Back link
+
+`BackLink` routes through the [adapter](/docs)'s `Link`, so it uses your framework's router.
+
+```tsx
+<ProseArticle>
+  <BackLink href="/blog">Back to blog</BackLink>
+  <BlogPostHeader {...post} />
+  {body}
+</ProseArticle>
+```
+
+## Props
+
+<PropsTable name="ProseArticle" />
+
+<PropsTable name="BackLink" />

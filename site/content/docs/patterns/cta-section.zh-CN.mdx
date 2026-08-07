@@ -1,0 +1,42 @@
+import { CTASection, Eyebrow } from "yunui/patterns";
+import { Button } from "yunui";
+
+收尾的行动号召横幅：一块大圆角面板，上缘晕开柔和的放射光，内含标题、一行说明与行动按钮。
+
+从 Yunxin 抽取而来，那里的 landing 与 Fellows 页都用同一块面板收尾。
+
+## 导入
+
+```tsx
+import { CTASection } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基础用法
+
+<ComponentPreview title="CTA">
+  <CTASection
+    title="Ready when you are."
+    body="Install the package, wire the adapter, ship the first screen this afternoon."
+    actions={<>
+      <Button variant="primary" size="lg">Get started</Button>
+      <Button variant="secondary" size="lg">Read the docs</Button>
+    </>}
+  />
+</ComponentPreview>
+
+## 带小胶囊
+
+<ComponentPreview title="带 eyebrow">
+  <CTASection
+    eyebrow={<Eyebrow>Fellows</Eyebrow>}
+    title="Applications close in April."
+    body="Six weeks, fully funded."
+    actions={<Button variant="primary" size="lg">Apply</Button>}
+  />
+</ComponentPreview>
+
+## 属性
+
+`CTASection` 也会转发任何 `<div>` HTML 属性。
+
+<PropsTable name="CTASection" />

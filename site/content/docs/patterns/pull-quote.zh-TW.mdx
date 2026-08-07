@@ -1,0 +1,37 @@
+import { PullQuote } from "yunui/patterns";
+
+置中的宣言或引言：柔和的引號符號之上，一行大型展示文字從前景色淡入柔和色調。
+
+原封不動地從 Yunxin 的 Fellows 宣言抽取而來。漸層文字是重點——這個尺寸用純色會讀起來像標題，而不是一句主張。
+
+## 匯入
+
+```tsx
+import { PullQuote } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基礎用法
+
+<ComponentPreview title="宣言">
+  <PullQuote>
+    We would rather ship one screen that feels considered than ten that feel generated.
+  </PullQuote>
+</ComponentPreview>
+
+## 帶署名
+
+<ComponentPreview title="帶 cite">
+  <PullQuote cite="— The Fellows charter">
+    Credits are the cheap part. Attention is what we are actually giving you.
+  </PullQuote>
+</ComponentPreview>
+
+## 不要引號符號
+
+當引言下方已有標題框住它時，設 `showIcon={false}`。
+
+## 屬性
+
+`PullQuote` 也會將任何 HTML 屬性轉發到 `<figure>`。
+
+<PropsTable name="PullQuote" />

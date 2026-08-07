@@ -1,0 +1,52 @@
+import { ProseArticle, BackLink } from "yunui/patterns";
+
+长文页面的阅读栏——关于、博客文章、更新日志。最宽 3xl、居中，并带有页面的垂直节奏。`BackLink` 则是详情页上方那个低调的「‹ 返回…」链接。
+
+这两者在 Yunxin 的关于页与博客文章页被一模一样地手刻了两次。
+
+## 导入
+
+```tsx
+import { ProseArticle, BackLink } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基础用法
+
+<ComponentPreview title="阅读栏">
+  <ProseArticle className="py-0">
+    <h2>A considered measure</h2>
+    <p>
+      Long-form text wants a line length the eye can track. This column caps at
+      a 3xl measure and centres itself, so an article reads the same on About,
+      on a post, and on a changelog.
+    </p>
+  </ProseArticle>
+</ComponentPreview>
+
+## 关闭 Typography
+
+`prose` 会加上 Tailwind Typography 的类别。当内容本身已自带样式时请**关掉**它——特别是 YunUI 的 [`MarkdownRenderer`](/docs/content/markdown-renderer)，否则会被套两层样式。
+
+```tsx
+<ProseArticle prose={false}>
+  <MarkdownRenderer content={md} />
+</ProseArticle>
+```
+
+## 返回链接
+
+`BackLink` 通过[适配器](/docs)的 `Link` 渲染，因此会使用你框架的路由。
+
+```tsx
+<ProseArticle>
+  <BackLink href="/blog">Back to blog</BackLink>
+  <BlogPostHeader {...post} />
+  {body}
+</ProseArticle>
+```
+
+## 属性
+
+<PropsTable name="ProseArticle" />
+
+<PropsTable name="BackLink" />

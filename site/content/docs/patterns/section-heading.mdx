@@ -1,0 +1,48 @@
+import { SectionHeading, Eyebrow } from "yunui/patterns";
+import { Sparkles } from "lucide-react";
+
+The eyebrow pill → title → subcopy rhythm that sits above every marketing band. This exact block was hand-rolled in Yunxin's landing, Yunxin's Fellows page **and** YunUI's own showcase site — three copies, each re-deriving the same stagger delays. It lives here so every surface inherits one rhythm.
+
+## Import
+
+```tsx
+import { SectionHeading, Eyebrow } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview title="Basic">
+  <SectionHeading
+    badge="Why YunUI"
+    icon={<Sparkles className="w-4 h-4" />}
+    title="Care, in the details."
+    subtitle="Not the most components — the most considered ones."
+  />
+</ComponentPreview>
+
+## Left-aligned, no badge
+
+`align="left"` for in-page sections; omit `badge` for a bare heading. Set `animate={false}` when the heading is already on screen at load.
+
+<ComponentPreview title="Left-aligned">
+  <SectionHeading
+    align="left"
+    animate={false}
+    title="Recent releases"
+    subtitle="Everything shipped in the last quarter."
+  />
+</ComponentPreview>
+
+## Eyebrow on its own
+
+The pill is exported separately — it also appears above a hero title, inside a CTA band, or as a standalone chip.
+
+<ComponentPreview title="Eyebrow">
+  <Eyebrow icon={<Sparkles className="w-4 h-4" />}>Now in beta</Eyebrow>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="SectionHeading" />
+
+<PropsTable name="Eyebrow" />

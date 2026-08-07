@@ -1,0 +1,42 @@
+import { CTASection, Eyebrow } from "yunui/patterns";
+import { Button } from "yunui";
+
+The closing call-to-action band: a large rounded panel with a soft radial wash blooming from its top edge, a headline, a line of copy and the action.
+
+Extracted from Yunxin, where the same panel closes both the landing page and the Fellows page.
+
+## Import
+
+```tsx
+import { CTASection } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview title="CTA">
+  <CTASection
+    title="Ready when you are."
+    body="Install the package, wire the adapter, ship the first screen this afternoon."
+    actions={<>
+      <Button variant="primary" size="lg">Get started</Button>
+      <Button variant="secondary" size="lg">Read the docs</Button>
+    </>}
+  />
+</ComponentPreview>
+
+## With an eyebrow
+
+<ComponentPreview title="With eyebrow">
+  <CTASection
+    eyebrow={<Eyebrow>Fellows</Eyebrow>}
+    title="Applications close in April."
+    body="Six weeks, fully funded."
+    actions={<Button variant="primary" size="lg">Apply</Button>}
+  />
+</ComponentPreview>
+
+## Props
+
+`CTASection` also forwards any `<div>` HTML attributes.
+
+<PropsTable name="CTASection" />

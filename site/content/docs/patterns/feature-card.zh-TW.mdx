@@ -1,0 +1,56 @@
+import { FeatureCard } from "yunui/patterns";
+import { Boxes, Palette, ShieldCheck } from "lucide-react";
+
+行銷用的功能磚：一個帶色底的圖示方塊、標題、一行說明——以及一個會**發亮**而不是移動的 hover。上緣有一道髮絲光、角落有柔和光暈淡入，整張卡只微抬一個像素。
+
+從 Yunxin 抽取而來，那裡的 landing 與 Fellows 頁各自手刻了一份。用於整齊的功能格線;若是不對稱的 bento 版面，請用姊妹元件 [BentoCard](/docs/components/bento-grid)。
+
+## 匯入
+
+```tsx
+import { FeatureCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基礎用法
+
+將滑鼠移到卡片上即可看到光暈。
+
+<ComponentPreview title="功能格線">
+  <div className="grid w-full gap-6 md:grid-cols-3">
+    <FeatureCard
+      icon={<Boxes className="w-6 h-6" />}
+      title="Composed"
+      description="Primitives, page-level patterns and AI components, typed end to end."
+    />
+    <FeatureCard
+      icon={<Palette className="w-6 h-6" />}
+      title="Token-driven"
+      description="Light, dark and a true-black OLED theme — swap with one class."
+    />
+    <FeatureCard
+      icon={<ShieldCheck className="w-6 h-6" />}
+      title="Tokenless releases"
+      description="Published to npm with provenance; no long-lived tokens in CI."
+    />
+  </div>
+</ComponentPreview>
+
+## 交錯進場
+
+在 map 格線時傳入 `delay`——`index * 100` 就能重現房子的層疊節奏。
+
+```tsx
+{features.map((f, i) => (
+  <FeatureCard key={f.title} {...f} delay={i * 100} />
+))}
+```
+
+## 額外內容
+
+傳入 `children` 的任何內容都會算繪在說明文字下方——連結、標籤列，或一個小數據。
+
+## 屬性
+
+`FeatureCard` 也會轉發任何 `<div>` HTML 屬性。
+
+<PropsTable name="FeatureCard" />

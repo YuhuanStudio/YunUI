@@ -1,0 +1,44 @@
+import { MarketingHero, HeroAccent, Eyebrow } from "yunui/patterns";
+import { Button } from "yunui";
+import { GraduationCap } from "lucide-react";
+
+The full-bleed landing hero: a soft radial wash, a pill badge, a large two-tone headline, subcopy, the actions, a row of reassurance chips, and a bouncing scroll-down chevron.
+
+Extracted from Yunxin, where the landing page and the Fellows page each hand-rolled the identical block. Everything is a slot — YunUI owns the geometry, the wash and the entrance stagger; you own every word.
+
+## Import
+
+```tsx
+import { MarketingHero, HeroAccent } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+Wrap the tail of the headline in `HeroAccent` so it washes into the muted tone. `fullHeight={false}` is used here to keep the preview short.
+
+<ComponentPreview title="Hero">
+  <MarketingHero
+    fullHeight={false}
+    className="pt-12 pb-12"
+    badge={<Eyebrow icon={<GraduationCap className="w-4 h-4" />}>Fellows programme</Eyebrow>}
+    title={<>Build with us. <HeroAccent>On us.</HeroAccent></>}
+    subtitle="Six weeks of credits, review and a room full of people shipping the same week you are."
+    actions={<>
+      <Button variant="primary" size="lg">Apply now</Button>
+      <Button variant="secondary" size="lg">Learn more</Button>
+    </>}
+    facts={["Free to apply", "6 weeks", "Open source"]}
+  />
+</ComponentPreview>
+
+## Anatomy
+
+- `badge` — anything; an [`Eyebrow`](/docs/patterns/section-heading) is the house choice.
+- `title` — wrap part of it in `HeroAccent` for the two-tone fade.
+- `facts` — short reassurance chips under the actions.
+- `scrollToId` — renders the bouncing chevron, linking to that anchor. Omit to hide it.
+- `fullHeight` — `min-h-dvh` by default; turn it off for a shorter banner.
+
+## Props
+
+<PropsTable name="MarketingHero" />

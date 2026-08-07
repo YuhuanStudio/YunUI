@@ -1,0 +1,44 @@
+import { MarketingHero, HeroAccent, Eyebrow } from "yunui/patterns";
+import { Button } from "yunui";
+import { GraduationCap } from "lucide-react";
+
+滿版的 landing hero：柔和的放射狀光暈、膠囊徽章、大型雙色標題、副標、行動按鈕、一排安心用的小標籤，以及會彈跳的向下捲動箭頭。
+
+從 Yunxin 抽取而來，那裡的 landing 與 Fellows 頁各自手刻了一模一樣的區塊。所有內容都是插槽——YunUI 負責幾何、光暈與進場交錯;文字全部由你決定。
+
+## 匯入
+
+```tsx
+import { MarketingHero, HeroAccent } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基礎用法
+
+把標題的後半段包進 `HeroAccent`，它就會淡入柔和色調。這裡用 `fullHeight={false}` 讓預覽短一點。
+
+<ComponentPreview title="Hero">
+  <MarketingHero
+    fullHeight={false}
+    className="pt-12 pb-12"
+    badge={<Eyebrow icon={<GraduationCap className="w-4 h-4" />}>Fellows programme</Eyebrow>}
+    title={<>Build with us. <HeroAccent>On us.</HeroAccent></>}
+    subtitle="Six weeks of credits, review and a room full of people shipping the same week you are."
+    actions={<>
+      <Button variant="primary" size="lg">Apply now</Button>
+      <Button variant="secondary" size="lg">Learn more</Button>
+    </>}
+    facts={["Free to apply", "6 weeks", "Open source"]}
+  />
+</ComponentPreview>
+
+## 組成
+
+- `badge` — 任何節點;房子的選擇是 [`Eyebrow`](/docs/patterns/section-heading)。
+- `title` — 把其中一段包進 `HeroAccent` 即可得到雙色淡出。
+- `facts` — 行動按鈕下方那排安心小標籤。
+- `scrollToId` — 算繪彈跳箭頭並連到該錨點;省略則隱藏。
+- `fullHeight` — 預設 `min-h-dvh`;關掉可做較矮的橫幅。
+
+## 屬性
+
+<PropsTable name="MarketingHero" />

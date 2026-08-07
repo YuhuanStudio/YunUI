@@ -1,0 +1,37 @@
+import { PullQuote } from "yunui/patterns";
+
+A centered manifesto or pull-quote: a soft quote glyph over one large line of display text that fades from the foreground into the muted tone.
+
+Extracted verbatim from Yunxin's Fellows manifesto. The gradient text is the point — a flat colour at this size reads as a heading, not a statement.
+
+## Import
+
+```tsx
+import { PullQuote } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+<ComponentPreview title="Manifesto">
+  <PullQuote>
+    We would rather ship one screen that feels considered than ten that feel generated.
+  </PullQuote>
+</ComponentPreview>
+
+## With attribution
+
+<ComponentPreview title="With cite">
+  <PullQuote cite="— The Fellows charter">
+    Credits are the cheap part. Attention is what we are actually giving you.
+  </PullQuote>
+</ComponentPreview>
+
+## Without the glyph
+
+Set `showIcon={false}` when the quote sits under a heading that already frames it.
+
+## Props
+
+`PullQuote` also forwards any HTML attributes to the `<figure>`.
+
+<PropsTable name="PullQuote" />

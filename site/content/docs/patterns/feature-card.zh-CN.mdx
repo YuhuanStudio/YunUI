@@ -1,0 +1,56 @@
+import { FeatureCard } from "yunui/patterns";
+import { Boxes, Palette, ShieldCheck } from "lucide-react";
+
+营销用的功能砖：一个带色底的图标方块、标题、一行说明——以及一个会**发亮**而不是移动的 hover。上缘有一道发丝光、角落有柔和光晕淡入，整张卡只微抬一个像素。
+
+从 Yunxin 抽取而来，那里的 landing 与 Fellows 页各自手刻了一份。用于整齐的功能网格;若是不对称的 bento 版面，请用姊妹组件 [BentoCard](/docs/components/bento-grid)。
+
+## 导入
+
+```tsx
+import { FeatureCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基础用法
+
+将鼠标移到卡片上即可看到光晕。
+
+<ComponentPreview title="功能网格">
+  <div className="grid w-full gap-6 md:grid-cols-3">
+    <FeatureCard
+      icon={<Boxes className="w-6 h-6" />}
+      title="Composed"
+      description="Primitives, page-level patterns and AI components, typed end to end."
+    />
+    <FeatureCard
+      icon={<Palette className="w-6 h-6" />}
+      title="Token-driven"
+      description="Light, dark and a true-black OLED theme — swap with one class."
+    />
+    <FeatureCard
+      icon={<ShieldCheck className="w-6 h-6" />}
+      title="Tokenless releases"
+      description="Published to npm with provenance; no long-lived tokens in CI."
+    />
+  </div>
+</ComponentPreview>
+
+## 交错进场
+
+在 map 网格时传入 `delay`——`index * 100` 就能重现设计系统的层叠节奏。
+
+```tsx
+{features.map((f, i) => (
+  <FeatureCard key={f.title} {...f} delay={i * 100} />
+))}
+```
+
+## 额外内容
+
+传入 `children` 的任何内容都会渲染在说明文字下方——链接、标签行，或一个小数据。
+
+## 属性
+
+`FeatureCard` 也会转发任何 `<div>` HTML 属性。
+
+<PropsTable name="FeatureCard" />

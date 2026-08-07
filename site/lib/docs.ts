@@ -1089,6 +1089,68 @@ export const docs: DocEntry[] = [
     "nav state indicator active running sidebar marker selected navigation item",
   ),
 
+  // ---- Marketing kit (extracted from Yunxin) ------------------------------
+  pat(
+    "section-heading",
+    { en: "Section Heading", "zh-CN": "区块标题", "zh-TW": "區塊標題" },
+    {
+      en: "The eyebrow pill → title → subcopy rhythm above every marketing band, with the house entrance stagger.",
+      "zh-CN": "每个营销区块上方的「小胶囊 → 标题 → 副标」节奏，带统一的进场交错。",
+      "zh-TW": "每個行銷區塊上方的「小膠囊 → 標題 → 副標」節奏，帶統一的進場交錯。",
+    },
+    "section heading eyebrow badge pill title subtitle marketing band stagger",
+  ),
+  pat(
+    "feature-card",
+    { en: "Feature Card", "zh-CN": "功能卡片", "zh-TW": "功能卡片" },
+    {
+      en: "The marketing feature tile whose hover glows rather than moves — top hairline, corner bloom, one-pixel lift.",
+      "zh-CN": "hover 时发亮而非移动的营销功能砖——上缘发丝光、角落光晕、微抬一像素。",
+      "zh-TW": "hover 時發亮而非移動的行銷功能磚——上緣髮絲光、角落光暈、微抬一像素。",
+    },
+    "feature card marketing tile glow hover icon grid landing",
+  ),
+  pat(
+    "marketing-hero",
+    { en: "Marketing Hero", "zh-CN": "营销首屏", "zh-TW": "行銷首屏" },
+    {
+      en: "The full-bleed landing hero — radial wash, pill badge, two-tone headline, actions, fact chips and a scroll chevron.",
+      "zh-CN": "满版的 landing 首屏——放射光晕、胶囊徽章、双色标题、行动按钮、小标签与向下箭头。",
+      "zh-TW": "滿版的 landing 首屏——放射光暈、膠囊徽章、雙色標題、行動按鈕、小標籤與向下箭頭。",
+    },
+    "hero landing marketing headline gradient badge cta scroll chevron full bleed",
+  ),
+  pat(
+    "cta-section",
+    { en: "CTA Section", "zh-CN": "行动号召区块", "zh-TW": "行動呼籲區塊" },
+    {
+      en: "The closing call-to-action panel with a radial wash blooming from its top edge.",
+      "zh-CN": "收尾的行动号召面板，上缘晕开柔和放射光。",
+      "zh-TW": "收尾的行動呼籲面板，上緣暈開柔和放射光。",
+    },
+    "cta call to action section panel closing band conversion",
+  ),
+  pat(
+    "pull-quote",
+    { en: "Pull Quote", "zh-CN": "引言", "zh-TW": "引言" },
+    {
+      en: "A centered manifesto quote in large gradient display text, with a soft quote glyph.",
+      "zh-CN": "居中的宣言引言，大型渐变展示文字搭配柔和引号符号。",
+      "zh-TW": "置中的宣言引言，大型漸層展示文字搭配柔和引號符號。",
+    },
+    "pull quote manifesto blockquote testimonial gradient display cite",
+  ),
+  pat(
+    "prose-article",
+    { en: "Prose Article", "zh-CN": "长文阅读栏", "zh-TW": "長文閱讀欄" },
+    {
+      en: "The centered reading column for long-form pages, plus the muted BackLink that sits above a detail page.",
+      "zh-CN": "长文页面的居中阅读栏，以及详情页上方低调的 BackLink 返回链接。",
+      "zh-TW": "長文頁面的置中閱讀欄，以及詳細頁上方低調的 BackLink 返回連結。",
+    },
+    "prose article reading column measure long form blog about back link",
+  ),
+
   // ---- AI -----------------------------------------------------------------
   aiDoc(
     "model-card",
@@ -1528,6 +1590,12 @@ export const groups: DocGroup[] = [
       "patterns/reading-progress",
       "patterns/settings-shell",
       "patterns/nav-state-indicator",
+      "patterns/section-heading",
+      "patterns/feature-card",
+      "patterns/marketing-hero",
+      "patterns/cta-section",
+      "patterns/pull-quote",
+      "patterns/prose-article",
     ],
   },
   {

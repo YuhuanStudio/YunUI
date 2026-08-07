@@ -1,0 +1,56 @@
+import { FeatureCard } from "yunui/patterns";
+import { Boxes, Palette, ShieldCheck } from "lucide-react";
+
+The marketing feature tile: a tinted icon block, a title, a line of copy — and a hover that **glows** rather than moves. A hairline catches the light along the top edge, a soft bloom fades in at the corner, and the card lifts a single pixel.
+
+Extracted from Yunxin, where the landing page and the Fellows page each hand-rolled it. Use it for uniform feature grids; [BentoCard](/docs/components/bento-grid) is the sibling for asymmetric bento layouts.
+
+## Import
+
+```tsx
+import { FeatureCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## Basic
+
+Hover a card to see the glow.
+
+<ComponentPreview title="Feature grid">
+  <div className="grid w-full gap-6 md:grid-cols-3">
+    <FeatureCard
+      icon={<Boxes className="w-6 h-6" />}
+      title="Composed"
+      description="Primitives, page-level patterns and AI components, typed end to end."
+    />
+    <FeatureCard
+      icon={<Palette className="w-6 h-6" />}
+      title="Token-driven"
+      description="Light, dark and a true-black OLED theme — swap with one class."
+    />
+    <FeatureCard
+      icon={<ShieldCheck className="w-6 h-6" />}
+      title="Tokenless releases"
+      description="Published to npm with provenance; no long-lived tokens in CI."
+    />
+  </div>
+</ComponentPreview>
+
+## Staggered entrance
+
+Pass `delay` when mapping a grid — `index * 100` reproduces the house cascade.
+
+```tsx
+{features.map((f, i) => (
+  <FeatureCard key={f.title} {...f} delay={i * 100} />
+))}
+```
+
+## Extra content
+
+Anything you pass as `children` renders under the description — a link, a chip row, a small stat.
+
+## Props
+
+`FeatureCard` also forwards any `<div>` HTML attributes.
+
+<PropsTable name="FeatureCard" />

@@ -1,0 +1,48 @@
+import { SectionHeading, Eyebrow } from "yunui/patterns";
+import { Sparkles } from "lucide-react";
+
+橫幅上方那組「小膠囊 → 標題 → 副標」的節奏。這一整塊在 Yunxin 的 landing、Yunxin 的 Fellows 頁**以及 YunUI 自己的展示站**都各手刻了一份——三份副本，每份都自己重推一次交錯延遲。放進函式庫後，所有介面共用同一套節奏。
+
+## 匯入
+
+```tsx
+import { SectionHeading, Eyebrow } from "@yuhuanowo/yunui/patterns";
+```
+
+## 基礎用法
+
+<ComponentPreview title="基礎用法">
+  <SectionHeading
+    badge="Why YunUI"
+    icon={<Sparkles className="w-4 h-4" />}
+    title="Care, in the details."
+    subtitle="Not the most components — the most considered ones."
+  />
+</ComponentPreview>
+
+## 靠左、不帶膠囊
+
+頁內區段用 `align="left"`;不需要膠囊就省略 `badge`。若標題載入時已在畫面上，設 `animate={false}`。
+
+<ComponentPreview title="靠左對齊">
+  <SectionHeading
+    align="left"
+    animate={false}
+    title="Recent releases"
+    subtitle="Everything shipped in the last quarter."
+  />
+</ComponentPreview>
+
+## 單獨使用膠囊
+
+膠囊是獨立匯出的——它也會出現在 hero 標題上方、CTA 區塊內，或單獨作為標籤。
+
+<ComponentPreview title="Eyebrow">
+  <Eyebrow icon={<Sparkles className="w-4 h-4" />}>Now in beta</Eyebrow>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="SectionHeading" />
+
+<PropsTable name="Eyebrow" />
