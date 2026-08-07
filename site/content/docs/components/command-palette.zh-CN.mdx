@@ -1,0 +1,63 @@
+import { CommandPalette } from "yunui";
+
+⌘K 命令面板：居中的浮层，一个输入框、可用键盘操作的结果列表，按 Escape 离开。
+
+刻意设计为受控——`query` 与 `items` 都在你手上——因此同一个组件既能做本地模糊过滤，也能做去抖动的服务器搜索，而它本身不需要知道是哪一种。
+
+## 导入
+
+```tsx
+import { CommandPalette, useCommandPaletteShortcut } from "@yuhuanowo/yunui";
+```
+
+## 基础用法
+
+方向键移动光标、Enter 选取，因此整份列表不需要鼠标。结果变动时光标会归零，才不会指向一个已经被换掉的行。
+
+<ComponentPreview title="面板">
+  <CommandPaletteDemo />
+</ComponentPreview>
+
+## 接线方式
+
+```tsx
+const [open, setOpen] = useState(false);
+const [query, setQuery] = useState("");
+const [items, setItems] = useState<CommandPaletteItem[]>([]);
+
+useCommandPaletteShortcut(() => setOpen(true));   // ⌘K / Ctrl-K
+
+<CommandPalette
+  open={open}
+  onClose={() => setOpen(false)}
+  query={query}
+  onQueryChange={(q) => { setQuery(q); void search(q).then(setItems); }}
+  items={items}
+  loading={loading}
+  empty={t("noResults")}
+  initial={t("startTyping")}
+  labels={{ placeholder: t("search"), title: t("search"), close: t("close") }}
+/>
+```
+
+## 分组
+
+为项目加上 `group`，连续且同组的项目就会被画在同一个标题底下——不需要嵌套结构，也不需要另外的 section 对象。
+
+```tsx
+items={[
+  { id: "1", title: "Button", group: "Components" },
+  { id: "2", title: "Card",   group: "Components" },
+  { id: "3", title: "Tokens", group: "Docs" },
+]}
+```
+
+## 细节
+
+- 输入框是 `16px`;再小 iOS Safari 就会在聚焦时放大整页。
+- 面板打开时页面停止滚动，浮层通过 portal 渲染，因此不会被任何祖先的 `overflow` 裁切。
+- `useCommandPaletteShortcut` 是分开的，已有快捷键层的宿主可以略过它。
+
+## 属性
+
+<PropsTable name="CommandPalette" />

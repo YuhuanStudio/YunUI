@@ -2,7 +2,7 @@
 import { cn, useAnchoredPosition } from './chunk-N7APRQBO.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React3 from 'react';
-import { forwardRef, useState, useEffect, useRef, useId, useMemo } from 'react';
+import { forwardRef, useState, useEffect, useRef, useId, useMemo, useCallback } from 'react';
 import { ChevronDown, Search, Loader2, X, ArrowRight, AlertTriangle, Info, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as Primitive from '@radix-ui/react-collapsible';
@@ -10,6 +10,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { useSpring, useTransform, motion } from 'framer-motion';
 import { Toaster as Toaster$1, toast as toast$1 } from 'sonner';
+import { createPortal } from 'react-dom';
 
 function CustomSelect({
   options,
@@ -1220,7 +1221,169 @@ function useYunUITheme(defaults = {}) {
   }, []);
   return [theme, update];
 }
+function CommandPalette({
+  open,
+  onClose,
+  query,
+  onQueryChange,
+  items = [],
+  loading = false,
+  empty,
+  initial,
+  labels,
+  className
+}) {
+  const [cursor, setCursor] = useState(0);
+  const inputRef = useRef(null);
+  const listRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  useEffect(() => setCursor(0), [items]);
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+  const select = useCallback(
+    (item) => {
+      if (!item) return;
+      item.onSelect?.();
+      onClose();
+    },
+    [onClose]
+  );
+  const onKeyDown = (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      onClose();
+      return;
+    }
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (items.length === 0) return;
+      setCursor((c) => {
+        const next = event.key === "ArrowDown" ? c + 1 : c - 1;
+        const wrapped = (next + items.length) % items.length;
+        listRef.current?.querySelectorAll("[data-command-item]")[wrapped]?.scrollIntoView({ block: "nearest" });
+        return wrapped;
+      });
+      return;
+    }
+    if (event.key === "Enter") {
+      event.preventDefault();
+      select(items[cursor]);
+    }
+  };
+  const grouped = useMemo(() => {
+    const out = [];
+    for (const item of items) {
+      const last = out[out.length - 1];
+      if (last && last.group === item.group) last.items.push(item);
+      else out.push({ group: item.group, items: [item] });
+    }
+    return out;
+  }, [items]);
+  if (!open || !mounted) return null;
+  let index = -1;
+  return createPortal(
+    /* @__PURE__ */ jsx(
+      "div",
+      {
+        role: "dialog",
+        "aria-modal": "true",
+        "aria-label": labels?.title ?? "Search",
+        className: "fixed inset-0 z-100 flex items-start justify-center bg-black/40 px-4 pt-[12vh] backdrop-blur-sm",
+        onMouseDown: (e) => {
+          if (e.target === e.currentTarget) onClose();
+        },
+        children: /* @__PURE__ */ jsxs(
+          "div",
+          {
+            onKeyDown,
+            className: cn(
+              "w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-popover/95 shadow-lg shadow-black/5 backdrop-blur-2xl",
+              className
+            ),
+            children: [
+              /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5 border-b border-border px-4", children: [
+                /* @__PURE__ */ jsx(Search, { "aria-hidden": true, className: "h-4 w-4 shrink-0 text-muted-foreground" }),
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    ref: inputRef,
+                    value: query,
+                    onChange: (e) => onQueryChange(e.target.value),
+                    placeholder: labels?.placeholder ?? "Search\u2026",
+                    className: "h-12 flex-1 bg-transparent text-[16px] outline-none placeholder:text-muted-foreground"
+                  }
+                ),
+                /* @__PURE__ */ jsx(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: onClose,
+                    "aria-label": labels?.close ?? "Close",
+                    className: "rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsx("div", { ref: listRef, className: "max-h-[55vh] overflow-y-auto p-1.5", tabIndex: -1, children: loading ? /* @__PURE__ */ jsx("div", { className: "p-8 text-center text-sm text-muted-foreground", children: "\u2026" }) : items.length === 0 ? /* @__PURE__ */ jsx("div", { className: "p-6 text-center text-sm text-muted-foreground", children: query ? empty : initial }) : grouped.map((section, s) => /* @__PURE__ */ jsxs("div", { children: [
+                section.group && /* @__PURE__ */ jsx("div", { className: "px-3 pt-2 pb-1 text-[10px] font-semibold tracking-[0.08em] text-muted-foreground uppercase", children: section.group }),
+                section.items.map((item) => {
+                  index += 1;
+                  const active = index === cursor;
+                  const myIndex = index;
+                  return /* @__PURE__ */ jsxs(
+                    "button",
+                    {
+                      type: "button",
+                      "data-command-item": true,
+                      onMouseEnter: () => setCursor(myIndex),
+                      onClick: () => select(item),
+                      className: cn(
+                        "flex w-full items-start gap-2.5 rounded-xl px-3 py-2 text-left transition-colors outline-none",
+                        active ? "bg-foreground/5" : "hover:bg-foreground/5"
+                      ),
+                      children: [
+                        item.icon && /* @__PURE__ */ jsx("span", { className: "mt-0.5 shrink-0 text-muted-foreground", children: item.icon }),
+                        /* @__PURE__ */ jsxs("span", { className: "min-w-0 flex-1", children: [
+                          /* @__PURE__ */ jsx("span", { className: "block truncate text-sm", children: item.title }),
+                          item.description && /* @__PURE__ */ jsx("span", { className: "text-caption block truncate", children: item.description })
+                        ] })
+                      ]
+                    },
+                    item.id
+                  );
+                })
+              ] }, section.group ?? s)) })
+            ]
+          }
+        )
+      }
+    ),
+    document.body
+  );
+}
+function useCommandPaletteShortcut(onOpen) {
+  useEffect(() => {
+    const onKey = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        onOpen();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onOpen]);
+}
 
-export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useYunUITheme };
-//# sourceMappingURL=chunk-GR7M5HHW.js.map
-//# sourceMappingURL=chunk-GR7M5HHW.js.map
+export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
+//# sourceMappingURL=chunk-VPF3PFJV.js.map
+//# sourceMappingURL=chunk-VPF3PFJV.js.map

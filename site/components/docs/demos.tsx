@@ -41,7 +41,7 @@ import {
   StatGrid,
   ArchiveCalendar,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
+import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, CommandPalette, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
 import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
 import {
   CapabilitySelector,
@@ -1381,5 +1381,36 @@ export function ArchiveCalendarDemo() {
         maxMonths={2}
       />
     </div>
+  );
+}
+
+export function CommandPaletteDemo() {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const all = [
+    { id: "1", title: "Button", description: "Primitives", group: "Components" },
+    { id: "2", title: "Marketing Hero", description: "Patterns", group: "Components" },
+    { id: "3", title: "Agent Timeline", description: "AI", group: "Components" },
+    { id: "4", title: "Getting started", description: "Install and wire the adapter", group: "Docs" },
+    { id: "5", title: "Design tokens", description: "Themes and palettes", group: "Docs" },
+  ];
+  const items = query
+    ? all.filter((i) => i.title.toLowerCase().includes(query.toLowerCase()))
+    : all;
+  return (
+    <>
+      <Button variant="secondary" onClick={() => setOpen(true)}>
+        Open palette (⌘K)
+      </Button>
+      <CommandPalette
+        open={open}
+        onClose={() => setOpen(false)}
+        query={query}
+        onQueryChange={setQuery}
+        items={items.map((i) => ({ ...i, onSelect: () => {} }))}
+        empty="No matches."
+        labels={{ placeholder: "Search components and docs…", title: "Search", close: "Close" }}
+      />
+    </>
   );
 }

@@ -77,3 +77,9 @@ export {
   type YunUIThemePreset,
   type YunUIThemePresetName,
 } from "./lib/theme";
+export {
+  CommandPalette,
+  useCommandPaletteShortcut,
+  type CommandPaletteProps,
+  type CommandPaletteItem,
+} from "./primitives/command-palette";

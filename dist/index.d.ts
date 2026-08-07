@@ -1406,4 +1406,58 @@ declare function readTheme(el?: HTMLElement | null): YunUITheme;
  */
 declare function useYunUITheme(defaults?: YunUITheme): [YunUITheme, (patch: YunUITheme) => void];
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, type SelectOption, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, TextShimmer, type TextShimmerProps, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+interface CommandPaletteItem {
+    id: string;
+    /** Primary line. */
+    title: ReactNode;
+    /** Secondary line under the title. */
+    description?: ReactNode;
+    /** Leading glyph. */
+    icon?: ReactNode;
+    /** Group heading this item sits under. */
+    group?: string;
+    /** Run on select. */
+    onSelect?: () => void;
+}
+interface CommandPaletteProps {
+    open: boolean;
+    onClose: () => void;
+    /** Current query — controlled, so the host can drive a remote search. */
+    query: string;
+    onQueryChange: (query: string) => void;
+    /** Results to show. */
+    items?: CommandPaletteItem[];
+    /** Show a spinner in place of the list. */
+    loading?: boolean;
+    /** Rendered when there is a query but no results. */
+    empty?: ReactNode;
+    /** Rendered before anything is typed — recents, shortcuts, tips. */
+    initial?: ReactNode;
+    /** Every string this renders. */
+    labels?: {
+        placeholder?: string;
+        title?: string;
+        close?: string;
+    };
+    className?: string;
+}
+/**
+ * The ⌘K command palette: a centered overlay with one input, a keyboard-driven
+ * result list, and Escape to leave.
+ *
+ * Controlled on purpose — `query` and `items` live with the host, so the same
+ * component covers a local fuzzy filter and a debounced server search without
+ * knowing which it is. Pair it with {@link useCommandPaletteShortcut}.
+ *
+ * Arrow keys move the cursor and Enter selects, so the list is reachable
+ * without touching the mouse; the cursor resets whenever the results change so
+ * it never points at a row that has scrolled out from under it.
+ */
+declare function CommandPalette({ open, onClose, query, onQueryChange, items, loading, empty, initial, labels, className, }: CommandPaletteProps): React$1.ReactPortal | null;
+/**
+ * Opens the palette on ⌘K / Ctrl-K. Kept separate so a host that already owns a
+ * shortcut layer can skip it.
+ */
+declare function useCommandPaletteShortcut(onOpen: () => void): void;
+
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, CommandPalette, type CommandPaletteItem, type CommandPaletteProps, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, type SelectOption, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, TextShimmer, type TextShimmerProps, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useCommandPaletteShortcut, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };

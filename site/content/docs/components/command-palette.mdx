@@ -1,0 +1,63 @@
+import { CommandPalette } from "yunui";
+
+The ⌘K palette: a centered overlay with one input, a keyboard-driven result list, and Escape to leave.
+
+Controlled on purpose — `query` and `items` live with you — so the same component covers a local fuzzy filter and a debounced server search without knowing which it is.
+
+## Import
+
+```tsx
+import { CommandPalette, useCommandPaletteShortcut } from "@yuhuanowo/yunui";
+```
+
+## Basic
+
+Arrow keys move the cursor and Enter selects, so the list never needs the mouse. The cursor resets whenever the results change, so it can't point at a row that scrolled out from under it.
+
+<ComponentPreview title="Palette">
+  <CommandPaletteDemo />
+</ComponentPreview>
+
+## Wiring it up
+
+```tsx
+const [open, setOpen] = useState(false);
+const [query, setQuery] = useState("");
+const [items, setItems] = useState<CommandPaletteItem[]>([]);
+
+useCommandPaletteShortcut(() => setOpen(true));   // ⌘K / Ctrl-K
+
+<CommandPalette
+  open={open}
+  onClose={() => setOpen(false)}
+  query={query}
+  onQueryChange={(q) => { setQuery(q); void search(q).then(setItems); }}
+  items={items}
+  loading={loading}
+  empty={t("noResults")}
+  initial={t("startTyping")}
+  labels={{ placeholder: t("search"), title: t("search"), close: t("close") }}
+/>
+```
+
+## Grouping
+
+Tag items with `group` and consecutive items sharing one are drawn under a single heading — no nesting, no separate section objects.
+
+```tsx
+items={[
+  { id: "1", title: "Button", group: "Components" },
+  { id: "2", title: "Card",   group: "Components" },
+  { id: "3", title: "Tokens", group: "Docs" },
+]}
+```
+
+## Notes
+
+- The input is `16px`; anything smaller and iOS Safari zooms the page when it takes focus.
+- The body stops scrolling while the palette is open, and the overlay renders in a portal so no ancestor's `overflow` can clip it.
+- `useCommandPaletteShortcut` is separate, so a host that already owns a shortcut layer can skip it.
+
+## Props
+
+<PropsTable name="CommandPalette" />

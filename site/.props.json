@@ -4108,6 +4108,78 @@
       "description": "Currently selected value (controlled)."
     }
   ],
+  "CommandPalette": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "empty",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Rendered when there is a query but no results."
+    },
+    {
+      "name": "initial",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Rendered before anything is typed — recents, shortcuts, tips."
+    },
+    {
+      "name": "items",
+      "type": "CommandPaletteItem[]",
+      "required": false,
+      "defaultValue": "[]",
+      "description": "Results to show."
+    },
+    {
+      "name": "labels",
+      "type": "{ placeholder?: string; title?: string; close?: string | undefined; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Every string this renders."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Show a spinner in place of the list."
+    },
+    {
+      "name": "onClose",
+      "type": "() => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onQueryChange",
+      "type": "(query: string) => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "query",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Current query — controlled, so the host can drive a remote search."
+    }
+  ],
   "ConfirmModal": [
     {
       "name": "cancelText",

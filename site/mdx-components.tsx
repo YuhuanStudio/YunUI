@@ -54,6 +54,7 @@ import {
   StatGridDemo,
   AccountMenuDemo,
   ArchiveCalendarDemo,
+  CommandPaletteDemo,
 } from "@/components/docs/demos";
 
 /**
@@ -119,6 +120,7 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
     StatGridDemo,
     AccountMenuDemo,
     ArchiveCalendarDemo,
+    CommandPaletteDemo,
     ...components,
   };
 }

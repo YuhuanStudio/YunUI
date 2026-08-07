@@ -690,6 +690,16 @@ export const docs: DocEntry[] = [
     "inline status async job pending processing completed failed progress percent spinner",
   ),
   comp(
+    "command-palette",
+    { en: "Command Palette", "zh-CN": "命令面板", "zh-TW": "命令面板" },
+    {
+      en: "The ⌘K palette — one input, a keyboard-driven result list, grouping, and Escape to leave.",
+      "zh-CN": "⌘K 命令面板——一个输入框、可用键盘操作的结果列表、分组，按 Escape 离开。",
+      "zh-TW": "⌘K 命令面板——一個輸入框、可用鍵盤操作的結果清單、分組，按 Escape 離開。",
+    },
+    "command palette cmdk ctrl k search overlay quick open spotlight keyboard",
+  ),
+  comp(
     "text-shimmer",
     { en: "Text Shimmer", "zh-CN": "文字微光", "zh-TW": "文字微光" },
     {
@@ -1598,6 +1608,7 @@ export const groups: DocGroup[] = [
       "components/empty-state",
       "components/inline-status",
       "components/text-shimmer",
+      "components/command-palette",
     ],
   },
   {
