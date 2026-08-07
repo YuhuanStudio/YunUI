@@ -281,7 +281,10 @@ function ChatAttachment({
       className: cn(
         "group relative flex min-w-0 items-center gap-2.5 rounded-xl border border-border/70 bg-muted/35 px-2.5 py-2",
         "transition-colors hover:bg-muted/60",
-        status === "error" && "border-error/30 bg-error/5",
+        // `border-error/30 bg-error/5` looked right but generated nothing:
+        // `error` is a CSS custom property, not a Tailwind palette colour, so the
+        // /alpha form is never emitted and the error tint was invisible.
+        status === "error" && "border-error-soft bg-error-soft",
         className
       ),
       ...props,

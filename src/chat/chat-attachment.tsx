@@ -40,7 +40,10 @@ export function ChatAttachment({
       className={cn(
         "group relative flex min-w-0 items-center gap-2.5 rounded-xl border border-border/70 bg-muted/35 px-2.5 py-2",
         "transition-colors hover:bg-muted/60",
-        status === "error" && "border-error/30 bg-error/5",
+        // Was a bare `error` colour name with an alpha modifier, which emits
+        // nothing: `error` is a CSS custom property, not a registered Tailwind
+        // palette colour, so the tint was invisible. The `-soft` helpers are real.
+        status === "error" && "border-error-soft bg-error-soft",
         className,
       )}
       {...props}

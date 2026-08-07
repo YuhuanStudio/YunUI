@@ -156,7 +156,7 @@ function MediaBody({
           {status === "failed" ? labels.failed : labels.expired}
         </span>
         {item.error && (
-          <span className="mt-0.5 max-w-[85%] truncate text-xs text-error/70">{item.error}</span>
+          <span className="mt-0.5 max-w-[85%] truncate text-xs text-error">{item.error}</span>
         )}
       </div>
     );

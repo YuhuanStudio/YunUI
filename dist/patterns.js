@@ -1482,7 +1482,7 @@ function MediaBody({
     return /* @__PURE__ */ jsxs("div", { className: "flex h-full w-full flex-col items-center justify-center gap-1 bg-muted px-3 text-center", children: [
       /* @__PURE__ */ jsx(AlertCircle, { size: 22, className: "text-error" }),
       /* @__PURE__ */ jsx("span", { className: "text-xs text-error", children: status === "failed" ? labels.failed : labels.expired }),
-      item.error && /* @__PURE__ */ jsx("span", { className: "mt-0.5 max-w-[85%] truncate text-xs text-error/70", children: item.error })
+      item.error && /* @__PURE__ */ jsx("span", { className: "mt-0.5 max-w-[85%] truncate text-xs text-error", children: item.error })
     ] });
   }
   if (kind === "audio") {
