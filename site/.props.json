@@ -4823,6 +4823,15 @@
       "description": "Heading text."
     }
   ],
+  "Label": [
+    {
+      "name": "size",
+      "type": "\"sm\" | \"xs\"",
+      "required": false,
+      "defaultValue": "md",
+      "description": "`xs` (default) is the compact 11px label; `sm` is 12px, for denser forms\nwhere the label sits directly above a full-height input and 11px reads as\nan afterthought."
+    }
+  ],
   "Modal": [
     {
       "name": "children",

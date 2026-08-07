@@ -1576,12 +1576,23 @@ IconButton.displayName = "IconButton";
 // LABEL
 // =====================================================
 
+export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+    /**
+     * `xs` (default) is the compact 11px label; `sm` is 12px, for denser forms
+     * where the label sits directly above a full-height input and 11px reads as
+     * an afterthought.
+     * @defaultValue "xs"
+     */
+    size?: "xs" | "sm";
+}
+
 /** Uppercase, muted form-field label. */
-export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
+export function Label({ className, size = "xs", ...props }: LabelProps) {
     return (
         <label
             className={cn(
-                "text-[11px] font-medium text-muted-foreground uppercase tracking-wider block mb-2",
+                "font-medium text-muted-foreground uppercase tracking-wider block mb-2",
+                size === "xs" ? "text-[11px]" : "text-xs",
                 className
             )}
             {...props}
