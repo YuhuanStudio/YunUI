@@ -42,13 +42,27 @@ export const BentoCard = ({
     return (
         <div
             className={cn(
-                "row-span-1 glass-card p-6 flex flex-col justify-between space-y-4 group/bento overflow-hidden",
+                "row-span-1 glass-card relative p-6 flex flex-col justify-between space-y-4 group/bento overflow-hidden",
+                // The house hover: a quiet lift and a deeper shadow. Content stays
+                // put — sliding the text sideways (the stock bento-grid trick) reads
+                // as jitter and is not YunUI's language.
+                "transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
                 className
             )}
         >
+            {/* Top hairline — catches the light along the card's upper edge. */}
+            <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-foreground/15 to-transparent"
+            />
+            {/* Corner glow — fades in on hover; the "發亮" the design leans on. */}
+            <div
+                aria-hidden
+                className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-foreground/5 blur-3xl opacity-0 transition-opacity duration-500 group-hover/bento:opacity-100"
+            />
             {header}
-            <div className="group-hover/bento:translate-x-2 transition duration-200">
-                <div className="mb-2 text-[var(--text-primary)]">
+            <div className="relative">
+                <div className="mb-2 text-[var(--text-primary)] transition-transform duration-200 group-hover/bento:scale-105 origin-left w-fit">
                     {icon}
                 </div>
                 <div className="font-semibold text-[var(--text-primary)] text-lg mb-2 mt-2">

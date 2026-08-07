@@ -11,6 +11,13 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Fixed
+- **`BentoCard` hover speaks YunUI's language again.** It carried the stock
+  bento-grid trick of sliding its content sideways (`translate-x-2`) on hover,
+  which reads as jitter and matches nothing else in the system. It now uses the
+  house treatment: a quiet lift, a deeper shadow, a top hairline highlight and a
+  soft corner glow that fades in — the same "發亮" feel the landing pages use.
+
 ### Performance
 - **`useAnchoredPosition` no longer thrashes layout on scroll.** An open floating
   panel (select / combobox / custom-select / model picker) subscribes to the

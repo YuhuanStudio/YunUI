@@ -160,7 +160,10 @@ export default function Home() {
   const BULLETS = [t("bullets.react"), t("bullets.tailwind"), t("bullets.license"), t("bullets.agnostic")];
 
   return (
-    <div className="relative">
+    // `isolate` gives this wrapper its own stacking context, so the dotted
+    // backdrop's `-z-10` stays *inside* it instead of sliding behind the page
+    // background and disappearing.
+    <div className="relative isolate">
       {/* Animated dotted background behind everything (dogfoods the pattern).
           Full-bleed — it spans the whole viewport like Yunxin's landing. */}
       <BackgroundEffects />
