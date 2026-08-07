@@ -35,6 +35,13 @@ interface NavbarProps {
     loginHref?: string;
     /** Sign-up link destination. @defaultValue "/signup" */
     signupHref?: string;
+    /**
+     * Signed-in account control — pass an `AccountMenu`. When present it
+     * REPLACES the sign in / sign up buttons (desktop and mobile), so a reader
+     * who is already signed in sees their avatar rather than an invitation to
+     * sign in again.
+     */
+    account?: ReactNode;
 }
 
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
@@ -50,6 +57,7 @@ export function Navbar({
     homeHref = "/",
     loginHref = "/login",
     signupHref = "/signup",
+    account,
 }: NavbarProps) {
     const { Link, Image } = useYunUI();
     const [scrollSection, setScrollSection] = useState<string>("");
@@ -154,8 +162,9 @@ export function Navbar({
                 <span className="hidden md:flex items-center gap-1.5">{languageSwitcher}</span>
                 {themeToggle ?? <ThemeToggle variant="pill" />}
 
-                {/* Auth Buttons (desktop) */}
-                {variant !== "minimal" && (
+                {/* Account control, or the auth buttons when signed out. */}
+                {variant !== "minimal" && account}
+                {variant !== "minimal" && !account && (
                     <>
                         <Link
                             href={loginHref}
@@ -208,20 +217,24 @@ export function Navbar({
                         {languageSwitcher && (
                             <div className="px-2 py-1.5">{languageSwitcher}</div>
                         )}
-                        <Link
-                            href={loginHref}
-                            onClick={() => setMenuOpen(false)}
-                            className="px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5"
-                        >
-                            {signIn}
-                        </Link>
-                        <Link
-                            href={signupHref}
-                            onClick={() => setMenuOpen(false)}
-                            className="mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on"
-                        >
-                            {signUp}
-                        </Link>
+                        {!account && (
+                            <>
+                                <Link
+                                    href={loginHref}
+                                    onClick={() => setMenuOpen(false)}
+                                    className="px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5"
+                                >
+                                    {signIn}
+                                </Link>
+                                <Link
+                                    href={signupHref}
+                                    onClick={() => setMenuOpen(false)}
+                                    className="mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on"
+                                >
+                                    {signUp}
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </>
             )}

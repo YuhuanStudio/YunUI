@@ -422,9 +422,16 @@ interface NavbarProps {
     loginHref?: string;
     /** Sign-up link destination. @defaultValue "/signup" */
     signupHref?: string;
+    /**
+     * Signed-in account control — pass an `AccountMenu`. When present it
+     * REPLACES the sign in / sign up buttons (desktop and mobile), so a reader
+     * who is already signed in sees their avatar rather than an invitation to
+     * sign in again.
+     */
+    account?: ReactNode;
 }
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
-declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, }: NavbarProps): React.JSX.Element;
+declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, account, }: NavbarProps): React.JSX.Element;
 
 interface AccountMenuUser {
     /** Display name. Falls back to `fallbackName` when absent. */

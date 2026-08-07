@@ -2012,7 +2012,8 @@ function Navbar({
   themeToggle,
   homeHref = "/",
   loginHref = "/login",
-  signupHref = "/signup"
+  signupHref = "/signup",
+  account
 }) {
   const { Link, Image } = useYunUI();
   const [scrollSection, setScrollSection] = useState("");
@@ -2085,7 +2086,8 @@ function Navbar({
         /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 shrink-0", children: [
           /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
           themeToggle ?? /* @__PURE__ */ jsx(ThemeToggle, { variant: "pill" }),
-          variant !== "minimal" && /* @__PURE__ */ jsxs(Fragment, { children: [
+          variant !== "minimal" && account,
+          variant !== "minimal" && !account && /* @__PURE__ */ jsxs(Fragment, { children: [
             /* @__PURE__ */ jsx(
               Link,
               {
@@ -2130,24 +2132,26 @@ function Navbar({
             )),
             /* @__PURE__ */ jsx("div", { className: "my-1 border-t border-border" }),
             languageSwitcher && /* @__PURE__ */ jsx("div", { className: "px-2 py-1.5", children: languageSwitcher }),
-            /* @__PURE__ */ jsx(
-              Link,
-              {
-                href: loginHref,
-                onClick: () => setMenuOpen(false),
-                className: "px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5",
-                children: signIn
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              Link,
-              {
-                href: signupHref,
-                onClick: () => setMenuOpen(false),
-                className: "mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on",
-                children: signUp
-              }
-            )
+            !account && /* @__PURE__ */ jsxs(Fragment, { children: [
+              /* @__PURE__ */ jsx(
+                Link,
+                {
+                  href: loginHref,
+                  onClick: () => setMenuOpen(false),
+                  className: "px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5",
+                  children: signIn
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                Link,
+                {
+                  href: signupHref,
+                  onClick: () => setMenuOpen(false),
+                  className: "mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on",
+                  children: signUp
+                }
+              )
+            ] })
           ] })
         ] })
       ]
