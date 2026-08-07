@@ -820,4 +820,140 @@ interface SectionHeadingProps extends Omit<HTMLAttributes<HTMLDivElement>, "titl
  */
 declare function SectionHeading({ badge, icon, title, subtitle, align, animate, className, ...props }: SectionHeadingProps): React$1.JSX.Element;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, LLMCopyButton, LinkRow, type LinkRowProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ReadingProgress, SectionHeading, type SectionHeadingProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+interface FeatureCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+    /** Glyph shown in the tinted icon tile above the title. */
+    icon?: ReactNode;
+    /** Feature name. */
+    title: ReactNode;
+    /** Supporting copy. */
+    description?: ReactNode;
+    /**
+     * Stagger the entrance animation by this many milliseconds — pass
+     * `index * 100` when mapping a grid. Omit to render without animation.
+     */
+    delay?: number;
+    /** Extra content below the description (a link, a chip row). */
+    children?: ReactNode;
+}
+/**
+ * The marketing feature tile: a tinted icon block, a title, a line of copy, and
+ * — the part that makes it feel considered — a hover that *glows* rather than
+ * moves. A hairline catches the light along the top edge and a soft radial
+ * bloom fades in at the corner while the card lifts a single pixel.
+ *
+ * This is the card that Yunxin's landing and Fellows pages repeat; it was
+ * hand-rolled in both. Prefer it for uniform feature grids. {@link BentoCard} is
+ * the sibling for asymmetric bento layouts — same hover language, glass surface.
+ */
+declare function FeatureCard({ icon, title, description, delay, children, className, style, ...props }: FeatureCardProps): React$1.JSX.Element;
+
+interface CTASectionProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+    /** Headline. */
+    title: ReactNode;
+    /** Supporting line under the headline. */
+    body?: ReactNode;
+    /** The call to action — a Button, or a pair of them. */
+    actions?: ReactNode;
+    /** Small label above the headline (an {@link Eyebrow}, a badge). */
+    eyebrow?: ReactNode;
+    /** Play the staggered entrance animation. @defaultValue true */
+    animate?: boolean;
+}
+/**
+ * The closing call-to-action band: a large rounded panel with a soft radial
+ * wash blooming from its top edge, a headline, a line of copy and the action.
+ *
+ * Extracted from Yunxin, where the same panel closes both the landing page and
+ * the Fellows page. The wash is an inline `radial-gradient` on `--accent-subtle`
+ * rather than a utility class because it needs a precise ellipse origin.
+ */
+declare function CTASection({ title, body, actions, eyebrow, animate, className, ...props }: CTASectionProps): React$1.JSX.Element;
+
+interface PullQuoteProps extends HTMLAttributes<HTMLElement> {
+    /** The quoted line — a manifesto, an ethos, a testimonial. */
+    children: ReactNode;
+    /** Attribution shown under the quote. */
+    cite?: ReactNode;
+    /** Show the leading quote glyph. @defaultValue true */
+    showIcon?: boolean;
+}
+/**
+ * A centered manifesto/pull-quote: a soft quote glyph over one large line of
+ * display text that fades from `--foreground` into the muted tone.
+ *
+ * Extracted verbatim from Yunxin's Fellows manifesto block. The gradient text
+ * is the whole point — a flat colour at this size reads as a heading, not a
+ * statement — so it stays a `bg-clip-text` fade rather than a solid fill.
+ */
+declare function PullQuote({ children, cite, showIcon, className, ...props }: PullQuoteProps): React$1.JSX.Element;
+
+interface MarketingHeroProps extends Omit<HTMLAttributes<HTMLElement>, "title"> {
+    /** Pill badge above the title — pass an {@link Eyebrow} or any node. */
+    badge?: ReactNode;
+    /** Headline. Wrap the part that should fade with {@link HeroAccent}. */
+    title: ReactNode;
+    /** Supporting paragraph. */
+    subtitle?: ReactNode;
+    /** Primary/secondary buttons. */
+    actions?: ReactNode;
+    /** Short reassurance chips under the actions ("Free to apply", "6 weeks"). */
+    facts?: ReactNode[];
+    /** Anchor the scroll-down chevron links to. Omit to hide the chevron. */
+    scrollToId?: string;
+    /** Accessible label for the scroll-down chevron. @defaultValue "Scroll down" */
+    scrollLabel?: string;
+    /** Fill the viewport (`min-h-dvh`). @defaultValue true */
+    fullHeight?: boolean;
+}
+/**
+ * The full-bleed landing hero: a soft radial wash, a pill badge, a large
+ * two-tone headline, subcopy, the actions, a row of reassurance chips, and a
+ * bouncing scroll-down chevron.
+ *
+ * Extracted from Yunxin, where the landing page and the Fellows page each
+ * hand-rolled the identical block. Everything is a slot — YunUI owns the
+ * geometry, the wash and the entrance stagger; the host owns every word.
+ */
+declare function MarketingHero({ badge, title, subtitle, actions, facts, scrollToId, scrollLabel, fullHeight, className, ...props }: MarketingHeroProps): React$1.JSX.Element;
+/**
+ * The faded tail of a hero headline — wrap the second half of the title so it
+ * washes from the foreground colour into the muted tone.
+ */
+declare function HeroAccent({ children }: {
+    children: ReactNode;
+}): React$1.JSX.Element;
+
+interface ProseArticleProps extends HTMLAttributes<HTMLElement> {
+    children: ReactNode;
+    /**
+     * Drop Tailwind Typography's `prose` classes on the inner wrapper.
+     * Turn it off when the content already ships its own styles (e.g. YunUI's
+     * `MarkdownRenderer`, which would then be styled twice).
+     * @defaultValue true
+     */
+    prose?: boolean;
+}
+/**
+ * The reading column for long-form pages — About, a blog post, a changelog.
+ * A 3xl measure, centered, with the page's vertical rhythm.
+ *
+ * Extracted from Yunxin, where About and the blog post page each hand-rolled
+ * the identical wrapper. `prose` is a prop because the two callers differ: MDX
+ * bodies want Typography, `MarkdownRenderer` output does not (see the
+ * double-styling note in the content docs).
+ */
+declare function ProseArticle({ children, prose, className, ...props }: ProseArticleProps): React$1.JSX.Element;
+interface BackLinkProps {
+    /** Destination. */
+    href: string;
+    /** Link text — localize it yourself. */
+    children: ReactNode;
+    className?: string;
+}
+/**
+ * The muted "‹ back to …" link above a detail page. Routes through the
+ * {@link useYunUI} adapter, so it uses the host framework's Link.
+ */
+declare function BackLink({ href, children, className }: BackLinkProps): React$1.JSX.Element;
+
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, AudioPlayer, type AudioPlayerProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };

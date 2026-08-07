@@ -9,7 +9,7 @@ import { cn } from './chunk-N7APRQBO.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, ArrowUp, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, ArrowUp, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Quote, ChevronDown, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -2211,7 +2211,227 @@ function SectionHeading({
     }
   );
 }
+function FeatureCard({
+  icon,
+  title,
+  description,
+  delay,
+  children,
+  className,
+  style,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "group relative h-full overflow-hidden rounded-2xl border border-border bg-card/50 p-8 shadow-sm backdrop-blur-xl",
+        "transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
+        delay != null && "animate-enter",
+        className
+      ),
+      style: delay != null ? { animationDelay: `${delay}ms`, ...style } : style,
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx(
+          "div",
+          {
+            "aria-hidden": true,
+            className: "pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-foreground/15 to-transparent"
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "div",
+          {
+            "aria-hidden": true,
+            className: "pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-foreground/5 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+          icon && /* @__PURE__ */ jsx("div", { className: "feature-icon mb-5 transition-transform duration-200 group-hover:scale-105", children: icon }),
+          /* @__PURE__ */ jsx("h3", { className: "heading-md mb-3", children: title }),
+          description != null && /* @__PURE__ */ jsx("p", { className: "text-body leading-relaxed", children: description }),
+          children
+        ] })
+      ]
+    }
+  );
+}
+function CTASection({
+  title,
+  body,
+  actions,
+  eyebrow,
+  animate = true,
+  className,
+  ...props
+}) {
+  const enter = animate ? "animate-enter" : void 0;
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "relative overflow-hidden rounded-3xl border border-border p-12 text-center md:p-16",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx(
+          "div",
+          {
+            "aria-hidden": true,
+            className: "absolute inset-0 -z-10",
+            style: {
+              background: "radial-gradient(70% 120% at 50% 0%, var(--accent-subtle), transparent 70%)"
+            }
+          }
+        ),
+        eyebrow != null && /* @__PURE__ */ jsx("div", { className: cn("mb-4", enter), children: eyebrow }),
+        /* @__PURE__ */ jsx("h2", { className: cn("heading-xl mb-4 text-balance", enter), children: title }),
+        body != null && /* @__PURE__ */ jsx(
+          "p",
+          {
+            className: cn("text-body mx-auto mb-8 max-w-xl text-lg text-pretty", enter),
+            style: animate ? { animationDelay: "100ms" } : void 0,
+            children: body
+          }
+        ),
+        actions != null && /* @__PURE__ */ jsx(
+          "div",
+          {
+            className: cn("flex flex-wrap items-center justify-center gap-3", enter),
+            style: animate ? { animationDelay: "200ms" } : void 0,
+            children: actions
+          }
+        )
+      ]
+    }
+  );
+}
+function PullQuote({
+  children,
+  cite,
+  showIcon = true,
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs("figure", { className: cn("mx-auto max-w-4xl text-center", className), ...props, children: [
+    showIcon && /* @__PURE__ */ jsx(Quote, { "aria-hidden": true, className: "mx-auto mb-6 h-8 w-8 text-muted-foreground/30" }),
+    /* @__PURE__ */ jsx("blockquote", { className: "bg-linear-to-r from-foreground to-muted-foreground/70 bg-clip-text text-2xl leading-snug font-semibold tracking-tight text-balance text-transparent md:text-3xl", children }),
+    cite != null && /* @__PURE__ */ jsx("figcaption", { className: "text-caption mt-6", children: cite })
+  ] });
+}
+function MarketingHero({
+  badge,
+  title,
+  subtitle,
+  actions,
+  facts,
+  scrollToId,
+  scrollLabel = "Scroll down",
+  fullHeight = true,
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs(
+    "section",
+    {
+      className: cn(
+        "relative flex flex-col items-center justify-center px-6 pt-32 pb-28",
+        fullHeight && "min-h-dvh",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx(
+          "div",
+          {
+            "aria-hidden": true,
+            className: "absolute inset-0 -z-10",
+            style: {
+              background: "radial-gradient(60% 50% at 50% 30%, var(--accent-subtle), transparent 70%)"
+            }
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "relative z-10 mx-auto w-full max-w-6xl text-center", children: [
+          badge != null && /* @__PURE__ */ jsx("div", { className: "mb-8 animate-enter", children: badge }),
+          /* @__PURE__ */ jsx(
+            "h1",
+            {
+              className: "mb-6 animate-enter text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl",
+              style: { animationDelay: "100ms" },
+              children: title
+            }
+          ),
+          subtitle != null && /* @__PURE__ */ jsx(
+            "p",
+            {
+              className: "mx-auto mb-10 max-w-2xl animate-enter text-lg leading-relaxed text-pretty text-muted-foreground md:text-xl",
+              style: { animationDelay: "300ms" },
+              children: subtitle
+            }
+          ),
+          actions != null && /* @__PURE__ */ jsx(
+            "div",
+            {
+              className: "flex animate-enter flex-col items-center justify-center gap-4 sm:flex-row",
+              style: { animationDelay: "400ms" },
+              children: actions
+            }
+          ),
+          facts && facts.length > 0 && /* @__PURE__ */ jsx(
+            "div",
+            {
+              className: "mt-8 flex animate-enter flex-wrap items-center justify-center gap-2",
+              style: { animationDelay: "500ms" },
+              children: facts.map((fact, i) => /* @__PURE__ */ jsx(
+                "span",
+                {
+                  className: "rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm",
+                  children: fact
+                },
+                i
+              ))
+            }
+          )
+        ] }),
+        scrollToId && /* @__PURE__ */ jsx(
+          "a",
+          {
+            href: `#${scrollToId}`,
+            "aria-label": scrollLabel,
+            className: "absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce text-muted-foreground/60 transition-colors hover:text-foreground",
+            children: /* @__PURE__ */ jsx(ChevronDown, { className: "h-5 w-5" })
+          }
+        )
+      ]
+    }
+  );
+}
+function HeroAccent({ children }) {
+  return /* @__PURE__ */ jsx("span", { className: "bg-linear-to-r from-foreground via-foreground to-muted-foreground/70 bg-clip-text text-transparent", children });
+}
+function ProseArticle({ children, prose = true, className, ...props }) {
+  return /* @__PURE__ */ jsx("article", { className: cn("mx-auto max-w-3xl px-6 py-16", className), ...props, children: prose ? /* @__PURE__ */ jsx("div", { className: "prose prose-neutral dark:prose-invert max-w-none", children }) : children });
+}
+function BackLink({ href, children, className }) {
+  const { Link } = useYunUI();
+  return /* @__PURE__ */ jsxs(
+    Link,
+    {
+      href,
+      className: cn(
+        "mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsx(ChevronLeft, { size: 16, "aria-hidden": true }),
+        children
+      ]
+    }
+  );
+}
 
-export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureLockedState, FellowBadge, FellowsBanner, LLMCopyButton, LinkRow, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ReadingProgress, SectionHeading, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
+export { AccountLockedCard, ActiveBadge, AudioPlayer, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatusBadge, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

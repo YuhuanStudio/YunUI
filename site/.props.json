@@ -2058,6 +2058,43 @@
       "description": ""
     }
   ],
+  "CTASection": [
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "The call to action — a Button, or a pair of them."
+    },
+    {
+      "name": "animate",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Play the staggered entrance animation."
+    },
+    {
+      "name": "body",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Supporting line under the headline."
+    },
+    {
+      "name": "eyebrow",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Small label above the headline (an {@link Eyebrow }, a badge)."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Headline."
+    }
+  ],
   "LLMCopyButton": [
     {
       "name": "markdownUrl",
@@ -2120,6 +2157,43 @@
       "required": true,
       "defaultValue": null,
       "description": "The questions to render. The host app supplies (and translates) these."
+    }
+  ],
+  "FeatureCard": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Extra content below the description (a link, a chip row)."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Stagger the entrance animation by this many milliseconds — pass\n`index * 100` when mapping a grid. Omit to render without animation."
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Supporting copy."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Glyph shown in the tinted icon tile above the title."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Feature name."
     }
   ],
   "FeatureLockedState": [
@@ -2252,6 +2326,64 @@
       "required": true,
       "defaultValue": null,
       "description": ""
+    }
+  ],
+  "MarketingHero": [
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Primary/secondary buttons."
+    },
+    {
+      "name": "badge",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Pill badge above the title — pass an {@link Eyebrow } or any node."
+    },
+    {
+      "name": "facts",
+      "type": "ReactNode[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Short reassurance chips under the actions (\"Free to apply\", \"6 weeks\")."
+    },
+    {
+      "name": "fullHeight",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Fill the viewport (`min-h-dvh`)."
+    },
+    {
+      "name": "scrollLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": "Scroll down",
+      "description": "Accessible label for the scroll-down chevron."
+    },
+    {
+      "name": "scrollToId",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Anchor the scroll-down chevron links to. Omit to hide the chevron."
+    },
+    {
+      "name": "subtitle",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Supporting paragraph."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Headline. Wrap the part that should fade with {@link HeroAccent}."
     }
   ],
   "MediaGallery": [
@@ -2830,6 +2962,61 @@
       "description": "Heading text."
     }
   ],
+  "ProseArticle": [
+    {
+      "name": "prose",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Drop Tailwind Typography's `prose` classes on the inner wrapper.\nTurn it off when the content already ships its own styles (e.g. YunUI's\n`MarkdownRenderer`, which would then be styled twice)."
+    }
+  ],
+  "BackLink": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "Link text — localize it yourself."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "Destination."
+    }
+  ],
+  "PullQuote": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "The quoted line — a manifesto, an ethos, a testimonial."
+    },
+    {
+      "name": "cite",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Attribution shown under the quote."
+    },
+    {
+      "name": "showIcon",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Show the leading quote glyph."
+    }
+  ],
   "ReadingProgress": [
     {
       "name": "backToTop",
@@ -2865,6 +3052,66 @@
       "required": false,
       "defaultValue": "600",
       "description": "Scroll distance, in px, before the control appears."
+    }
+  ],
+  "Eyebrow": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "The label text."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Small leading glyph, e.g. a lucide icon at `w-4 h-4`."
+    }
+  ],
+  "SectionHeading": [
+    {
+      "name": "align",
+      "type": "\"center\" | \"left\"",
+      "required": false,
+      "defaultValue": "center",
+      "description": "Horizontal alignment."
+    },
+    {
+      "name": "animate",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "Play the entrance animation, staggering badge → title → subtitle.\nTurn it off for headings that are already visible on load."
+    },
+    {
+      "name": "badge",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Eyebrow label above the title. Omit for a bare heading."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Glyph inside the eyebrow pill."
+    },
+    {
+      "name": "subtitle",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Supporting line under the title."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "defaultValue": null,
+      "description": "The section title."
     }
   ],
   "SessionItem": [

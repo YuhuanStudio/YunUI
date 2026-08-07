@@ -107,3 +107,15 @@ export {
   type SectionHeadingProps,
   type EyebrowProps,
 } from "./section-heading";
+
+// Marketing kit — extracted from Yunxin's landing and Fellows pages.
+export { FeatureCard, type FeatureCardProps } from "./feature-card";
+export { CTASection, type CTASectionProps } from "./cta-section";
+export { PullQuote, type PullQuoteProps } from "./pull-quote";
+export { MarketingHero, HeroAccent, type MarketingHeroProps } from "./marketing-hero";
+export {
+  ProseArticle,
+  BackLink,
+  type ProseArticleProps,
+  type BackLinkProps,
+} from "./prose-article";
