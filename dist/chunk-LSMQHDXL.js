@@ -354,7 +354,7 @@ function ShinyButton({
           children,
           /* @__PURE__ */ jsx(ArrowRight, { className: "h-4 w-4 transition-transform group-hover:translate-x-1" })
         ] }),
-        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 block animate-shimmer bg-linear-to-r from-transparent via-(--text-primary)/10 to-transparent bg-size-[200%_100%]" })
+        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 block animate-shimmer bg-linear-to-r from-transparent via-(--text-primary)/10 to-transparent bg-size-[200%_100%]" })
       ]
     }
   );
@@ -1385,5 +1385,5 @@ function useCommandPaletteShortcut(onOpen) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-VPF3PFJV.js.map
-//# sourceMappingURL=chunk-VPF3PFJV.js.map
+//# sourceMappingURL=chunk-LSMQHDXL.js.map
+//# sourceMappingURL=chunk-LSMQHDXL.js.map

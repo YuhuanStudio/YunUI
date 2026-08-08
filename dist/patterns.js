@@ -1,10 +1,10 @@
 "use client";
-import './chunk-VPF3PFJV.js';
+import './chunk-LSMQHDXL.js';
 import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
 export { Footer } from './chunk-HJ6AUOR7.js';
 import './chunk-3YYY5E4O.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-WFZJENQ7.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-WWYBDV5L.js';
 import { cn } from './chunk-N7APRQBO.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -305,7 +305,7 @@ var actionClass = cn(
   "inline-flex items-center gap-1.5 px-2 py-1 text-xs",
   "text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors rounded-md hover:bg-fd-accent"
 );
-function LLMCopyButton({ markdownUrl }) {
+function LLMCopyButton({ markdownUrl, labels }) {
   const [copied, setCopied] = useState(false);
   const handleCopy = useCallback(async () => {
     try {
@@ -320,15 +320,12 @@ function LLMCopyButton({ markdownUrl }) {
       setTimeout(() => setCopied(false), 2e3);
     }
   }, [markdownUrl]);
-  return /* @__PURE__ */ jsxs("button", { type: "button", onClick: handleCopy, title: "Copy as Markdown for LLM", className: actionClass, children: [
+  return /* @__PURE__ */ jsxs("button", { type: "button", onClick: handleCopy, title: labels?.title ?? "Copy as Markdown for LLM", className: actionClass, children: [
     copied ? /* @__PURE__ */ jsx(Check, { className: "size-3" }) : /* @__PURE__ */ jsx(Copy, { className: "size-3" }),
-    copied ? "Copied" : "Copy"
+    copied ? labels?.copied ?? "Copied" : labels?.copy ?? "Copy"
   ] });
 }
-function ViewOptions({
-  markdownUrl,
-  githubUrl
-}) {
+function ViewOptions({ markdownUrl, githubUrl, labels }) {
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsxs(
       "a",
@@ -337,10 +334,10 @@ function ViewOptions({
         target: "_blank",
         rel: "noreferrer noopener",
         className: cn(actionClass, "no-underline"),
-        title: "View as Markdown",
+        title: labels?.markdownTitle ?? "View as Markdown",
         children: [
           /* @__PURE__ */ jsx(FileText, { className: "size-3" }),
-          "Markdown"
+          labels?.markdown ?? "Markdown"
         ]
       }
     ),
@@ -351,10 +348,10 @@ function ViewOptions({
         target: "_blank",
         rel: "noreferrer noopener",
         className: cn(actionClass, "no-underline"),
-        title: "Edit on GitHub",
+        title: labels?.githubTitle ?? "Edit on GitHub",
         children: [
           /* @__PURE__ */ jsx(ExternalLink, { className: "size-3" }),
-          "GitHub"
+          labels?.github ?? "GitHub"
         ]
       }
     )
@@ -2271,7 +2268,10 @@ function CTASection({
     "div",
     {
       className: cn(
-        "relative overflow-hidden rounded-3xl border border-border p-12 text-center md:p-16",
+        // `isolate` is load-bearing: the radial wash below is `-z-10`, and `relative`
+        // alone is NOT a stacking context — without this the wash escapes to the
+        // root and disappears the moment a consumer nests this in an opaque box.
+        "relative isolate overflow-hidden rounded-3xl border border-border p-12 text-center md:p-16",
         className
       ),
       ...props,
@@ -2337,7 +2337,10 @@ function MarketingHero({
     "section",
     {
       className: cn(
-        "relative flex flex-col items-center justify-center px-6 pt-32 pb-28",
+        // `isolate` is load-bearing: the radial wash below is `-z-10`, and `relative`
+        // alone is NOT a stacking context, so the wash would escape to the root
+        // and vanish behind any opaque ancestor a consumer wraps this in.
+        "relative isolate flex flex-col items-center justify-center px-6 pt-32 pb-28",
         fullHeight && "min-h-dvh",
         className
       ),

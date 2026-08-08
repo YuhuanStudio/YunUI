@@ -45,7 +45,10 @@ export function MarketingHero({
     return (
         <section
             className={cn(
-                "relative flex flex-col items-center justify-center px-6 pt-32 pb-28",
+                // `isolate` is load-bearing: the radial wash below is `-z-10`, and `relative`
+                // alone is NOT a stacking context, so the wash would escape to the root
+                // and vanish behind any opaque ancestor a consumer wraps this in.
+                "relative isolate flex flex-col items-center justify-center px-6 pt-32 pb-28",
                 fullHeight && "min-h-dvh",
                 className,
             )}

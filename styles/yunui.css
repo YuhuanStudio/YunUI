@@ -15,6 +15,16 @@
    so the default look is unchanged. See styles/tokens.css. */
 @import "./tokens.css";
 
+/* Enter/exit animation utilities (`animate-in`, `fade-in-0`, `zoom-in-95`,
+   `slide-in-from-top-2`, …). These come from the `tailwindcss-animate` plugin,
+   which is Tailwind v3-only — under v4 every one of those classes silently
+   compiled to NOTHING, so every dropdown, popover, dialog, sheet, tooltip and
+   menu in YunUI (and in the apps consuming it) snapped open with no transition.
+   `tw-animate-css` is the v4 successor and is API-compatible. It is a plain
+   stylesheet, not a JS plugin, and ships as a dependency so the bare specifier
+   resolves from this file for consumers too. */
+@import "tw-animate-css";
+
 @theme {
   --color-border: var(--border-default);
   --color-input: var(--border-default);
@@ -53,6 +63,7 @@
   /* Marquee animations — generate the .animate-marquee / .animate-marquee-vertical
      utilities the <Marquee> component relies on. Duration/gap are overridable
      per-instance via the --duration / --gap CSS vars set on the component. */
+  --animate-shimmer: shimmer 3s linear infinite;
   --animate-marquee: marquee var(--duration, 40s) linear infinite;
   --animate-marquee-vertical: marquee-vertical var(--duration, 40s) linear infinite;
 }
@@ -64,6 +75,62 @@
    `utilities` layer) can override them via className — e.g. a `bg-accent`
    passed to a `.btn-ghost` now wins. `@theme` and `@custom-variant` above stay
    at the top level (they cannot live inside a layer). */
+/* ---------------------------------------------------------------------------
+   Semantic colour helpers — declared with `@utility`, NOT as plain rules in
+   `@layer components`.
+
+   Why it matters: a hand-written `.bg-error-soft` inside @layer components is
+   invisible to Tailwind's variant machinery, so `hover:bg-error-soft`,
+   `dark:text-error`, `data-[state=open]:bg-accent-muted` and friends compiled
+   to NOTHING — silently. That killed the hover state on every banner dismiss
+   button, session/account row delete button and notification action in the
+   library. `@utility` registers them for real, so every variant works.
+
+   These are deliberately NOT `@theme` colours: `bg-*-soft` is a 10% tint while
+   `border-*-soft` is 30%, so a single `--color-*-soft` entry could not express
+   both without changing the existing borders.
+   --------------------------------------------------------------------------- */
+
+/* Semantic status text — canonical target for inline status colour, so
+   components stop hand-rolling `text-emerald-600 dark:text-emerald-400`. */
+@utility text-success { color: var(--success); }
+@utility text-warning { color: var(--warning); }
+@utility text-error   { color: var(--error); }
+@utility text-info    { color: var(--info); }
+
+/* Soft semantic-colour backgrounds — the themeable counterpart to the .text-*
+   helpers above, for medallions / icon tiles / soft banners that need a ~10%
+   tint of a status colour. (`bg-error/10` does NOT resolve — there is no
+   --color-error.) color-mix tracks the token across light / dark / true-black. */
+@utility bg-error-soft   { background-color: color-mix(in srgb, var(--error) 10%, transparent); }
+@utility bg-success-soft { background-color: color-mix(in srgb, var(--success) 10%, transparent); }
+@utility bg-warning-soft { background-color: color-mix(in srgb, var(--warning) 10%, transparent); }
+@utility bg-info-soft    { background-color: color-mix(in srgb, var(--info) 10%, transparent); }
+
+/* Matching tinted borders for soft semantic callouts (Alert, banners). */
+@utility border-error-soft   { border-color: color-mix(in srgb, var(--error) 30%, transparent); }
+@utility border-success-soft { border-color: color-mix(in srgb, var(--success) 30%, transparent); }
+@utility border-warning-soft { border-color: color-mix(in srgb, var(--warning) 30%, transparent); }
+@utility border-info-soft    { border-color: color-mix(in srgb, var(--info) 30%, transparent); }
+
+/* Accent tone — neutral/brand emphasis (e.g. GitHub "important" callouts). Uses
+   the accent-subtle fill so it stays legible in every theme, unlike a 10% mix of
+   the near-black / near-white --accent. Pairs with the text-accent utility. */
+@utility bg-accent-soft     { background-color: var(--accent-subtle); }
+@utility border-accent-soft { border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+
+/* Accent fills/inks — use instead of bg-black / text-black. The `border-` and
+   `text-` counterparts exist because consumers reached for `border-accent-muted`
+   and `text-accent-solid`, which had no definition at all and fell through to
+   currentColor / inherited ink. */
+@utility bg-accent-solid     { background-color: var(--accent); }
+@utility bg-accent-subtle    { background-color: var(--accent-subtle); }
+@utility bg-accent-muted     { background-color: var(--accent-muted); }
+@utility text-accent-solid   { color: var(--accent); }
+@utility border-accent-solid { border-color: var(--accent); }
+@utility border-accent-subtle{ border-color: var(--accent-subtle); }
+@utility border-accent-muted { border-color: var(--accent-muted); }
+
 @layer components {
 
 /* =====================================================
@@ -1140,24 +1207,6 @@ select.input option,
   color: #3b82f6;
 }
 
-/* Semantic status text — canonical target for inline status colour, so
-   components stop hand-rolling `text-emerald-600 dark:text-emerald-400`. */
-.text-success {
-  color: var(--success);
-}
-
-.text-warning {
-  color: var(--warning);
-}
-
-.text-error {
-  color: var(--error);
-}
-
-.text-info {
-  color: var(--info);
-}
-
 /* White ink that STAYS white on a colored/dark fill — badges, icon overlays,
    solid-button text. Distinct from `.text-white`, which true-black deliberately
    dims to #d4d4d8 for body-text eye comfort (that dim wrecks contrast when the
@@ -1172,43 +1221,9 @@ select.input option,
    need a ~10% tint of a status color (the `bg-error/10` Tailwind utility does
    NOT resolve — there is no --color-error). color-mix tracks the token across
    light / dark / true-black. */
-.bg-error-soft {
-  background-color: color-mix(in srgb, var(--error) 10%, transparent);
-}
-.bg-success-soft {
-  background-color: color-mix(in srgb, var(--success) 10%, transparent);
-}
-.bg-warning-soft {
-  background-color: color-mix(in srgb, var(--warning) 10%, transparent);
-}
-.bg-info-soft {
-  background-color: color-mix(in srgb, var(--info) 10%, transparent);
-}
-
-/* Matching tinted borders for soft semantic callouts (Alert, banners). */
-.border-error-soft {
-  border-color: color-mix(in srgb, var(--error) 30%, transparent);
-}
-.border-success-soft {
-  border-color: color-mix(in srgb, var(--success) 30%, transparent);
-}
-.border-warning-soft {
-  border-color: color-mix(in srgb, var(--warning) 30%, transparent);
-}
-.border-info-soft {
-  border-color: color-mix(in srgb, var(--info) 30%, transparent);
-}
-
 /* Accent tone — neutral/brand emphasis (e.g. GitHub "important" callouts). Uses
    the accent-subtle fill so it stays legible in every theme, unlike a 10% mix of
    the near-black / near-white --accent. Pairs with the text-accent utility. */
-.bg-accent-soft {
-  background-color: var(--accent-subtle);
-}
-.border-accent-soft {
-  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
-}
-
 .badge-neutral {
   background: var(--bg-glass-hover);
   color: var(--text-secondary);
@@ -1577,19 +1592,6 @@ select.input option,
 .dark .bg-overlay,
 .true-black .bg-overlay {
   background-color: rgba(0, 0, 0, 0.7);
-}
-
-/* Foreground/accent backgrounds - replaces bg-black */
-.bg-accent-solid {
-  background-color: var(--accent);
-}
-
-.bg-accent-subtle {
-  background-color: var(--accent-subtle);
-}
-
-.bg-accent-muted {
-  background-color: var(--accent-muted);
 }
 
 /* Text utilities - use instead of text-black */

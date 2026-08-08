@@ -145,13 +145,16 @@ interface SheetProps {
     children: React.ReactNode;
     /** Optional header title. */
     title?: string;
+    /** Accessible name for the close button. The library ships no copy of its
+     *  own; the English default only keeps it usable untranslated. */
+    closeLabel?: string;
     /** Hide on large screens (`lg`+) — for mobile-only drawers (e.g. a sidebar
      *  that's permanent on desktop). @defaultValue false (shows on all sizes). */
     mobileOnly?: boolean;
 }
 /** Slide-in panel from the right with a backdrop. By default it shows on every
  *  screen size; set `mobileOnly` to hide it on `lg`+ (a mobile-only drawer). */
-declare function Sheet({ open, onClose, children, title, mobileOnly }: SheetProps): React$1.ReactPortal | null;
+declare function Sheet({ open, onClose, children, title, closeLabel, mobileOnly }: SheetProps): React$1.ReactPortal | null;
 
 interface CheckboxProps {
     /** Whether the box is checked. `"indeterminate"` shows a dash — for a
@@ -199,6 +202,12 @@ interface ComboboxProps {
     onChange: (value: string) => void;
     /** Placeholder for the input (falls back to i18n default). */
     placeholder?: string;
+    /** Accessible names for the clear / toggle affordances. The library ships no
+     *  copy of its own; the English defaults only keep it usable untranslated. */
+    labels?: {
+        clear?: string;
+        toggle?: string;
+    };
     className?: string;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
@@ -215,7 +224,7 @@ interface ComboboxProps {
 }
 /** Searchable, optionally creatable combobox — type to filter, Enter to pick or create.
  *  For long lists where users type to narrow; see `Select`'s doc for "which select do I use". */
-declare function Combobox({ options, value, onChange, placeholder, className, disabled, clearable, allowCustom, creatableText, creatableFilter, creatableIcon, }: ComboboxProps): React$1.JSX.Element;
+declare function Combobox({ options, value, onChange, placeholder, labels, className, disabled, clearable, allowCustom, creatableText, creatableFilter, creatableIcon, }: ComboboxProps): React$1.JSX.Element;
 
 /**
  * Radix Accordion root — a vertically stacked set of collapsible sections.
@@ -637,7 +646,11 @@ declare const DialogClose: React$1.ForwardRefExoticComponent<DialogPrimitive.Dia
 /** Dimmed, blurred backdrop behind the dialog content. */
 declare const DialogOverlay: React$1.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogOverlayProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 /** Centered, animated dialog panel (includes the overlay and a built-in close button). */
-declare const DialogContent: React$1.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+declare const DialogContent: React$1.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & {
+    /** Accessible name for the built-in close button. The library ships no
+     *  copy of its own; the English default only keeps it usable untranslated. */
+    closeLabel?: string;
+} & React$1.RefAttributes<HTMLDivElement>>;
 /** Header layout block for the dialog title/description. */
 declare function DialogHeader({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): React$1.JSX.Element;
 /** Accessible dialog title (labels the dialog for screen readers). */

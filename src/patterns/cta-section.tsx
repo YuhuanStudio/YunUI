@@ -35,7 +35,10 @@ export function CTASection({
     return (
         <div
             className={cn(
-                "relative overflow-hidden rounded-3xl border border-border p-12 text-center md:p-16",
+                // `isolate` is load-bearing: the radial wash below is `-z-10`, and `relative`
+                // alone is NOT a stacking context — without this the wash escapes to the
+                // root and disappears the moment a consumer nests this in an opaque box.
+                "relative isolate overflow-hidden rounded-3xl border border-border p-12 text-center md:p-16",
                 className,
             )}
             {...props}

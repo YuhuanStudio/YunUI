@@ -9,7 +9,16 @@ const actionClass = cn(
   "text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors rounded-md hover:bg-fd-accent"
 );
 
-export function LLMCopyButton({ markdownUrl }: { markdownUrl: string }) {
+export interface LLMCopyButtonProps {
+  markdownUrl: string;
+  /**
+   * Every string this renders. The library ships no copy of its own — these
+   * defaults exist only so the component is usable untranslated.
+   */
+  labels?: { copy?: string; copied?: string; title?: string };
+}
+
+export function LLMCopyButton({ markdownUrl, labels }: LLMCopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -27,20 +36,21 @@ export function LLMCopyButton({ markdownUrl }: { markdownUrl: string }) {
   }, [markdownUrl]);
 
   return (
-    <button type="button" onClick={handleCopy} title="Copy as Markdown for LLM" className={actionClass}>
+    <button type="button" onClick={handleCopy} title={labels?.title ?? "Copy as Markdown for LLM"} className={actionClass}>
       {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
-      {copied ? "Copied" : "Copy"}
+      {copied ? (labels?.copied ?? "Copied") : (labels?.copy ?? "Copy")}
     </button>
   );
 }
 
-export function ViewOptions({
-  markdownUrl,
-  githubUrl,
-}: {
+export interface ViewOptionsProps {
   markdownUrl: string;
   githubUrl?: string;
-}) {
+  /** Every string this renders; defaults keep it usable untranslated. */
+  labels?: { markdown?: string; markdownTitle?: string; github?: string; githubTitle?: string };
+}
+
+export function ViewOptions({ markdownUrl, githubUrl, labels }: ViewOptionsProps) {
   return (
     <>
       <a
@@ -48,10 +58,10 @@ export function ViewOptions({
         target="_blank"
         rel="noreferrer noopener"
         className={cn(actionClass, "no-underline")}
-        title="View as Markdown"
+        title={labels?.markdownTitle ?? "View as Markdown"}
       >
         <FileText className="size-3" />
-        Markdown
+        {labels?.markdown ?? "Markdown"}
       </a>
       {githubUrl && (
         <a
@@ -59,10 +69,10 @@ export function ViewOptions({
           target="_blank"
           rel="noreferrer noopener"
           className={cn(actionClass, "no-underline")}
-          title="Edit on GitHub"
+          title={labels?.githubTitle ?? "Edit on GitHub"}
         >
           <ExternalLink className="size-3" />
-          GitHub
+          {labels?.github ?? "GitHub"}
         </a>
       )}
     </>

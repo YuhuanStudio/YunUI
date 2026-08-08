@@ -49,13 +49,31 @@ interface CodeBlockProps {
 /** Styled code block with a window-chrome header, optional tabs, line numbers, basic syntax highlighting, and copy. */
 declare function CodeBlock({ code, language, filename, showLineNumbers, copyable, className, tabs, }: CodeBlockProps): React$1.JSX.Element;
 
-declare function LLMCopyButton({ markdownUrl }: {
+interface LLMCopyButtonProps {
     markdownUrl: string;
-}): React$1.JSX.Element;
-declare function ViewOptions({ markdownUrl, githubUrl, }: {
+    /**
+     * Every string this renders. The library ships no copy of its own — these
+     * defaults exist only so the component is usable untranslated.
+     */
+    labels?: {
+        copy?: string;
+        copied?: string;
+        title?: string;
+    };
+}
+declare function LLMCopyButton({ markdownUrl, labels }: LLMCopyButtonProps): React$1.JSX.Element;
+interface ViewOptionsProps {
     markdownUrl: string;
     githubUrl?: string;
-}): React$1.JSX.Element;
+    /** Every string this renders; defaults keep it usable untranslated. */
+    labels?: {
+        markdown?: string;
+        markdownTitle?: string;
+        github?: string;
+        githubTitle?: string;
+    };
+}
+declare function ViewOptions({ markdownUrl, githubUrl, labels }: ViewOptionsProps): React$1.JSX.Element;
 
 interface BlogCardProps {
     /** Post title. */

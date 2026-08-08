@@ -1,5 +1,5 @@
 "use client";
-import { Badge } from './chunk-WFZJENQ7.js';
+import { Badge } from './chunk-WWYBDV5L.js';
 import { cn } from './chunk-N7APRQBO.js';
 import './chunk-3RT24MSH.js';
 import { Sparkles, Bot, User, Square, ArrowUp, FileText, Loader2, AlertCircle } from 'lucide-react';

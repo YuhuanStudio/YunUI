@@ -378,7 +378,7 @@ function RegenerateConfirmModal({
     }
   );
 }
-function Sheet({ open, onClose, children, title, mobileOnly = false }) {
+function Sheet({ open, onClose, children, title, closeLabel, mobileOnly = false }) {
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef(null);
   const titleId = useId();
@@ -427,7 +427,7 @@ function Sheet({ open, onClose, children, title, mobileOnly = false }) {
                 {
                   onClick: onClose,
                   className: "-mr-1.5 p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors ml-auto",
-                  "aria-label": "Close",
+                  "aria-label": closeLabel ?? "Close",
                   children: /* @__PURE__ */ jsx(X, { size: 18 })
                 }
               )
@@ -473,6 +473,7 @@ function Combobox({
   value,
   onChange,
   placeholder,
+  labels,
   className = "",
   disabled = false,
   clearable = true,
@@ -621,7 +622,7 @@ function Combobox({
         {
           type: "button",
           onClick: clearValue,
-          "aria-label": "Clear",
+          "aria-label": labels?.clear ?? "Clear",
           className: "absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: /* @__PURE__ */ jsx(X, { size: 14 })
         }
@@ -636,7 +637,7 @@ function Combobox({
             setIsOpen(!isOpen);
           },
           disabled,
-          "aria-label": "Toggle options",
+          "aria-label": labels?.toggle ?? "Toggle options",
           className: "absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring",
           children: /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: isOpen ? "rotate-180 transition-transform" : "" })
         }
@@ -1845,7 +1846,7 @@ var DialogOverlay = React7.forwardRef(({ className, ...props }, ref) => /* @__PU
   }
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
+var DialogContent = React7.forwardRef(({ className, children, closeLabel, ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
   /* @__PURE__ */ jsx(DialogOverlay, {}),
   /* @__PURE__ */ jsxs(
     DialogPrimitive.Content,
@@ -1866,7 +1867,7 @@ var DialogContent = React7.forwardRef(({ className, children, ...props }, ref) =
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx(DialogPrimitive.Close, { "aria-label": "Close", className: "absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }) })
+        /* @__PURE__ */ jsx(DialogPrimitive.Close, { "aria-label": closeLabel ?? "Close", className: "absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }) })
       ]
     }
   )
@@ -2535,5 +2536,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-WFZJENQ7.js.map
-//# sourceMappingURL=chunk-WFZJENQ7.js.map
+//# sourceMappingURL=chunk-WWYBDV5L.js.map
+//# sourceMappingURL=chunk-WWYBDV5L.js.map

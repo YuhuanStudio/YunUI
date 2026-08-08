@@ -12,6 +12,29 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **Every overlay animation was dead.** `animate-in` / `animate-out` / `fade-in-0` /
+  `zoom-in-95` / `slide-in-from-*` come from the `tailwindcss-animate` plugin, which
+  is Tailwind **v3-only**. Under v4 every one of those classes compiled to *nothing*,
+  so dialogs, sheets, popovers, tooltips, dropdowns, the combobox and the theme/
+  language menus all snapped open and shut with no transition — in YunUI and in every
+  app consuming it. The neighbouring `duration-200` emitted fine, which hid the
+  failure. Fixed by importing `tw-animate-css` (the v4 successor, API-compatible,
+  a plain stylesheet rather than a JS plugin) from `styles/yunui.css`.
+- **Semantic colour helpers had no working variants.** `.bg-error-soft`,
+  `.text-error`, `.bg-accent-subtle` and friends were hand-written rules inside
+  `@layer components`, which Tailwind's variant machinery cannot see — so
+  `hover:bg-error-soft`, `hover:text-error` and `hover:bg-accent-muted` emitted
+  nothing. Banner dismiss buttons, session/account-row delete buttons, notification
+  actions and the segmented-select active chip had **no hover state at all**. They are
+  now declared with `@utility`, so every variant works. Added the missing
+  `text-accent-solid`, `border-accent-solid`, `border-accent-subtle` and
+  `border-accent-muted`, which consumers were already using against no definition.
+- **`ShinyButton`'s sheen never moved.** `@keyframes shimmer` existed but no
+  `--animate-shimmer` was registered, so `animate-shimmer` was a dead class; and the
+  sheen layer sat at `-z-10` under a `relative` (not `isolate`) parent, so it painted
+  behind the button's own opaque fill. Both fixed.
+- **`CTASection` and `MarketingHero` gained `isolate`**, so their `-z-10` radial
+  washes cannot escape the component and vanish behind an opaque ancestor.
 - **Semantic tones no longer use the raw Tailwind palette.** `Banner` and `StatCard`
   were built on `blue/amber/red/green/emerald/purple-500`, which are *not* the same
   colours as `--info`/`--warning`/`--error`/`--success` — so a Banner and an Alert
@@ -153,6 +176,12 @@ patch = fixes, anything may change between 0.x releases).
   sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
 ### Changed
+- **The last hardcoded English strings are now overridable.** The library is meant
+  to carry no copy at all, but `DialogContent` and `Sheet` shipped a literal
+  `aria-label="Close"`, `Combobox` shipped `"Clear"` / `"Toggle options"`, and
+  `LLMCopyButton` / `ViewOptions` shipped six visible labels. All are now props
+  (`closeLabel`, `labels`), with the English text kept only as a default so the
+  components stay usable untranslated.
 - **`ModelSelect` selection bar inset refined to 5px** (from `left-1.5`/6px),
   set as an inline style since Tailwind's `1.25` step isn't core and could be
   dropped by a consumer's JIT scan.

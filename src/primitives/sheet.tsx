@@ -15,6 +15,9 @@ interface SheetProps {
     children: React.ReactNode;
     /** Optional header title. */
     title?: string;
+    /** Accessible name for the close button. The library ships no copy of its
+     *  own; the English default only keeps it usable untranslated. */
+    closeLabel?: string;
     /** Hide on large screens (`lg`+) — for mobile-only drawers (e.g. a sidebar
      *  that's permanent on desktop). @defaultValue false (shows on all sizes). */
     mobileOnly?: boolean;
@@ -22,7 +25,7 @@ interface SheetProps {
 
 /** Slide-in panel from the right with a backdrop. By default it shows on every
  *  screen size; set `mobileOnly` to hide it on `lg`+ (a mobile-only drawer). */
-export function Sheet({ open, onClose, children, title, mobileOnly = false }: SheetProps) {
+export function Sheet({ open, onClose, children, title, closeLabel, mobileOnly = false }: SheetProps) {
     const [mounted, setMounted] = useState(false);
     const panelRef = useRef<HTMLDivElement>(null);
     const titleId = useId();
@@ -82,7 +85,7 @@ export function Sheet({ open, onClose, children, title, mobileOnly = false }: Sh
                             <button
                                 onClick={onClose}
                                 className="-mr-1.5 p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors ml-auto"
-                                aria-label="Close"
+                                aria-label={closeLabel ?? "Close"}
                             >
                                 <X size={18} />
                             </button>

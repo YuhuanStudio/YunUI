@@ -28,7 +28,11 @@ export function ShinyButton({
                 {children}
                 <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
-            <div className="absolute inset-0 -z-10 block animate-shimmer bg-linear-to-r from-transparent via-(--text-primary)/10 to-transparent bg-size-[200%_100%]" />
+            {/* No `-z-10` here: the parent is `relative` with z-index auto, which is
+                NOT a stacking context, so a negative-z child escapes to the root and
+                paints behind the parent's opaque fill — the sheen was invisible. Plain
+                `absolute` already sits above the background and below the `z-10` label. */}
+            <div className="absolute inset-0 block animate-shimmer bg-linear-to-r from-transparent via-(--text-primary)/10 to-transparent bg-size-[200%_100%]" />
         </div>
     );
 

@@ -29,6 +29,9 @@ interface ComboboxProps {
     onChange: (value: string) => void;
     /** Placeholder for the input (falls back to i18n default). */
     placeholder?: string;
+    /** Accessible names for the clear / toggle affordances. The library ships no
+     *  copy of its own; the English defaults only keep it usable untranslated. */
+    labels?: { clear?: string; toggle?: string };
     className?: string;
     /** Disable interaction and dim the control. */
     disabled?: boolean;
@@ -51,6 +54,7 @@ export function Combobox({
     value,
     onChange,
     placeholder,
+    labels,
     className = "",
     disabled = false,
     clearable = true,
@@ -223,7 +227,7 @@ export function Combobox({
                     <button
                         type="button"
                         onClick={clearValue}
-                        aria-label="Clear"
+                        aria-label={labels?.clear ?? "Clear"}
                         className="absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                         <X size={14} />
@@ -238,7 +242,7 @@ export function Combobox({
                         setIsOpen(!isOpen);
                     }}
                     disabled={disabled}
-                    aria-label="Toggle options"
+                    aria-label={labels?.toggle ?? "Toggle options"}
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                     <ChevronDown size={14} className={isOpen ? "rotate-180 transition-transform" : ""} />

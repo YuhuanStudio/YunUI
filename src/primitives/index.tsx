@@ -953,8 +953,12 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 /** Centered, animated dialog panel (includes the overlay and a built-in close button). */
 export const DialogContent = React.forwardRef<
     React.ComponentRef<typeof DialogPrimitive.Content>,
-    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+        /** Accessible name for the built-in close button. The library ships no
+         *  copy of its own; the English default only keeps it usable untranslated. */
+        closeLabel?: string;
+    }
+>(({ className, children, closeLabel, ...props }, ref) => (
     <DialogPortal>
         <DialogOverlay />
         <DialogPrimitive.Content
@@ -974,7 +978,7 @@ export const DialogContent = React.forwardRef<
             {...props}
         >
             {children}
-            <DialogPrimitive.Close aria-label="Close" className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <DialogPrimitive.Close aria-label={closeLabel ?? "Close"} className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <X className="h-4 w-4" />
             </DialogPrimitive.Close>
         </DialogPrimitive.Content>
