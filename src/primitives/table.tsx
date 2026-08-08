@@ -1,3 +1,5 @@
+"use client";
+
 // =====================================================
 // TABLE
 // Semantic, presentational table family using design-system tokens.

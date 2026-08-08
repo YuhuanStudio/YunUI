@@ -1,0 +1,34 @@
+import { Steps } from "yunui";
+
+A vertical stepper: an ordered list of milestones with a connecting rail, showing what is finished, what is in progress, and what is still ahead.
+
+Use it for a linear flow the reader is *in the middle of* — onboarding, a multi-page form, a setup wizard. For a bare completion ratio, use [`Progress`](/docs/components/progress) instead.
+
+## Import
+
+```tsx
+import { Steps } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+`steps` is plain data — each entry is a `title` plus an optional `description`. `current` is the **zero-based index** of the active step: everything before it renders as done (a filled marker with a check), the step itself is outlined in the primary colour, and everything after stays muted. The rail between two completed steps is filled too, so progress reads at a glance.
+
+Only the active step carries `aria-current="step"`; the markers and the rail are `aria-hidden`, so a screen reader hears the list of titles rather than a stream of decorative numbers.
+
+<ComponentPreview title="Steps">
+  <div className="w-full max-w-sm">
+    <Steps
+      current={1}
+      steps={[
+        { title: "Create an account", description: "Verify your email address." },
+        { title: "Add a payment method" },
+        { title: "Invite your team", description: "Optional — you can do this later." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="Steps" />

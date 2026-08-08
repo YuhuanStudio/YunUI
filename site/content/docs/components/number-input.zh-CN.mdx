@@ -1,0 +1,35 @@
+import { NumberInput } from "yunui";
+
+受控的数字输入框，左右各有一个减少／增加按钮，数值居中显示。
+
+## 导入
+
+```tsx
+import { NumberInput } from "@yuhuanowo/yunui";
+```
+
+## 用法
+
+它是完全受控的：传入 `value`（数字）与 `onChange`，后者收到的是下一个数值——已按 `min`／`max` 夹紧。到达边界时步进按钮会自行禁用，用户不会按了没反应却不明所以。
+
+<ComponentPreview title="Number input">
+  <NumberInputDemo />
+</ComponentPreview>
+
+## 错误状态
+
+`error` 会把边框转红、设置 `aria-invalid`，并在字段下方渲染讯息，且透过 `aria-describedby` 关联——屏幕阅读器会把错误当作该字段的一部分念出，而不是旁边一段游离文字。
+
+<ComponentPreview title="Error state">
+  <NumberInputErrorDemo />
+</ComponentPreview>
+
+## 说明
+
+- 输入框在移动端为 `text-base`，`md` 以上才是 `text-sm`。这是刻意的：iOS Safari 在聚焦的输入框字号小于 16px 时会缩放整个页面。
+- 原生数字微调箭头已隐藏（`yunui-number` 类）——由组件自己的按钮取代，因此在各浏览器中外观一致。
+- 两个步进按钮都有无障碍名称；可用 `labels={{ increment, decrement }}` 覆盖英文默认值。
+
+## 属性
+
+<PropsTable name="NumberInput" />

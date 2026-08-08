@@ -1,0 +1,39 @@
+import { Separator } from "yunui";
+
+A one-pixel rule that divides content, horizontally or vertically.
+
+## Import
+
+```tsx
+import { Separator } from "@yuhuanowo/yunui";
+```
+
+## Orientation
+
+A horizontal separator stretches to the width of its container. A vertical one stretches to the *height* of its container, so it needs a parent with a resolved height — a flex row with a set height, or `items-stretch`.
+
+<ComponentPreview title="Horizontal">
+  <div className="w-full max-w-sm text-sm">
+    <p className="pb-3 text-muted-foreground">Account</p>
+    <Separator />
+    <p className="pt-3 text-muted-foreground">Billing</p>
+  </div>
+</ComponentPreview>
+
+<ComponentPreview title="Vertical">
+  <div className="flex h-6 items-center gap-3 text-sm text-muted-foreground">
+    <span>Docs</span>
+    <Separator orientation="vertical" />
+    <span>Showcase</span>
+    <Separator orientation="vertical" />
+    <span>Changelog</span>
+  </div>
+</ComponentPreview>
+
+## Accessibility
+
+By default the rule is exposed as `role="separator"`, which is right when it marks a genuine section boundary. Set `decorative` when the line is only visual and the structure is already conveyed some other way — that removes it from the accessibility tree so a screen reader does not announce a divider that means nothing.
+
+## Props
+
+<PropsTable name="Separator" />

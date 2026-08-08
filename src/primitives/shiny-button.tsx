@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowRight as ArrowRightIcon } from "lucide-react";
 import { ReactNode } from "react";
 import { cn } from "../lib/cn";

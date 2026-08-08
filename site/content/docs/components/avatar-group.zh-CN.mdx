@@ -1,0 +1,38 @@
+import { AvatarGroup, Avatar, AvatarImage, AvatarFallback } from "yunui";
+
+一排相互叠压的 [`Avatar`](/docs/components/avatar)，可带溢出计数——用于展示团队成员、会话参与者或通话中的人。
+
+## 导入
+
+```tsx
+import { AvatarGroup, Avatar, AvatarImage, AvatarFallback } from "@yuhuanowo/yunui";
+```
+
+## 用法
+
+传入 `Avatar` 子元素；分组会将它们叠压排列，并为每个加上一圈分隔描边。设定 `max` 可限制绘制数量——其余的会在末尾收拢为一个 `+N` 小方块。不设 `max` 时全部显示。
+
+<ComponentPreview title="Avatar group">
+  <div className="flex flex-col gap-5">
+    <AvatarGroup>
+      <Avatar><AvatarFallback>AL</AvatarFallback></Avatar>
+      <Avatar><AvatarImage src="https://github.com/yuhuanowo.png" alt="@yuhuanowo" /><AvatarFallback>YH</AvatarFallback></Avatar>
+      <Avatar><AvatarFallback>GH</AvatarFallback></Avatar>
+    </AvatarGroup>
+    <AvatarGroup max={3}>
+      <Avatar><AvatarFallback>AL</AvatarFallback></Avatar>
+      <Avatar><AvatarFallback>GH</AvatarFallback></Avatar>
+      <Avatar><AvatarFallback>AT</AvatarFallback></Avatar>
+      <Avatar><AvatarFallback>KJ</AvatarFallback></Avatar>
+      <Avatar><AvatarFallback>BL</AvatarFallback></Avatar>
+    </AvatarGroup>
+  </div>
+</ComponentPreview>
+
+## 说明
+
+分隔描边使用内联 `box-shadow`，而非 `ring-*`／`border-*` 工具类。这是刻意的：它在任何消费方都能渲染，不依赖对方的 Tailwind 扫描是否生成了那些类；同时不改变头像的盒子尺寸，因此 `-space-x-2` 的叠压间距保持精确。
+
+## 属性
+
+<PropsTable name="AvatarGroup" />

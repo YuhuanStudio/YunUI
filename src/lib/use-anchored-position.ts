@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 // SSR-safe layout effect: useLayoutEffect on the client, no-op on the server

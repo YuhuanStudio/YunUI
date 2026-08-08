@@ -1,0 +1,27 @@
+import { Kbd } from "yunui";
+
+A single keyboard key rendered as a real `<kbd>` element — a bordered, monospaced chip for documenting shortcuts inline.
+
+It is presentational only: it does not listen for the key it names. To bind the shortcut itself, see [`CommandPalette`](/docs/components/command-palette) and its `useCommandPaletteShortcut` hook.
+
+## Import
+
+```tsx
+import { Kbd } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+Compose one `Kbd` per key. The chip has a `min-w-5`, so a lone letter stays square instead of collapsing to the width of its glyph.
+
+<ComponentPreview title="Kbd">
+  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+    <span className="flex items-center gap-1">Open search <Kbd>⌘</Kbd><Kbd>K</Kbd></span>
+    <span className="flex items-center gap-1">Dismiss <Kbd>Esc</Kbd></span>
+    <span className="flex items-center gap-1">Submit <Kbd>⌥</Kbd><Kbd>⏎</Kbd></span>
+  </div>
+</ComponentPreview>
+
+## Props
+
+`Kbd` takes no props of its own — it forwards every `<kbd>` HTML attribute, including `className`.

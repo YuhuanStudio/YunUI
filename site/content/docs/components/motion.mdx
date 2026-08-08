@@ -1,0 +1,43 @@
+import { MotionDiv, MotionSpan } from "yunui";
+
+`MotionDiv` and `MotionSpan` are YunUI's re-exports of Framer Motion's `motion.div` and `motion.span`.
+
+They exist so an app can animate with the *same* Framer Motion instance the library already bundles, instead of adding its own dependency — two copies of Framer Motion in one page means two animation loops and duplicated `AnimatePresence` context.
+
+## Import
+
+```tsx
+import { MotionDiv, MotionSpan } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+They are the Framer Motion components unchanged, so every `initial` / `animate` / `exit` / `transition` / `variants` / `whileHover` prop works exactly as documented upstream.
+
+<ComponentPreview title="Motion">
+  <div className="flex items-center gap-6">
+    <MotionDiv
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="card px-5 py-4 text-sm"
+    >
+      Fades and lifts in on mount.
+    </MotionDiv>
+    <MotionSpan
+      animate={{ scale: [1, 1.15, 1] }}
+      transition={{ duration: 1.6, repeat: Infinity }}
+      className="inline-block text-sm text-muted-foreground"
+    >
+      Breathing label
+    </MotionSpan>
+  </div>
+</ComponentPreview>
+
+## When not to use these
+
+Reach for CSS first. A hover lift, a fade-in, a spinner — those are `transition-*` and `animate-*` utilities, and they cost nothing at runtime. Motion earns its keep for enter/exit choreography, layout animation, gesture-driven movement and spring physics.
+
+## Props
+
+No props table here: these forward Framer Motion's full surface (several hundred props), which a generated table would only obscure. See the [Framer Motion docs](https://motion.dev/docs/react-motion-component) for the authoritative list.

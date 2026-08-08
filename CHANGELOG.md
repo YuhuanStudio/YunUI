@@ -175,7 +175,18 @@ patch = fixes, anything may change between 0.x releases).
   `AgentTimeline`, which renders the same agent-turn data as an inline ordered
   sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
+### Added
+- **Docs for the nine components that had none.** `Kbd`, `Steps`, `Separator`,
+  `AvatarGroup`, `MotionDiv`/`MotionSpan`, `NumberInput`, `PasswordInput` and
+  `SearchInput` were exported from the barrel but appeared nowhere in the docs
+  site — no page, no sidebar entry, not in search. Eight new pages (Motion covers
+  both re-exports) in all three locales, with live previews and props tables.
+
 ### Changed
+- **Dropped two dead dependencies**, `@radix-ui/react-presence` and
+  `@radix-ui/react-switch`. Neither is referenced anywhere in the source or the
+  build — `Switch` is hand-rolled on a plain `<button>` — so they were pure
+  install weight for every consumer.
 - **The last hardcoded English strings are now overridable.** The library is meant
   to carry no copy at all, but `DialogContent` and `Sheet` shipped a literal
   `aria-label="Close"`, `Combobox` shipped `"Clear"` / `"Toggle options"`, and

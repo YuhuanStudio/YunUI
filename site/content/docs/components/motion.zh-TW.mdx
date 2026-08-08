@@ -1,0 +1,43 @@
+import { MotionDiv, MotionSpan } from "yunui";
+
+`MotionDiv` 與 `MotionSpan` 是 YunUI 對 Framer Motion 的 `motion.div`、`motion.span` 的再匯出。
+
+它們存在的意義是：讓應用能用函式庫*本身已經打包的那一份* Framer Motion 做動畫，而不必再加一個自己的相依——同一個頁面裡存在兩份 Framer Motion，意味著兩套動畫迴圈和重複的 `AnimatePresence` context。
+
+## 匯入
+
+```tsx
+import { MotionDiv, MotionSpan } from "@yuhuanowo/yunui";
+```
+
+## 用法
+
+它們就是原封不動的 Framer Motion 元件，因此 `initial` / `animate` / `exit` / `transition` / `variants` / `whileHover` 等屬性的行為與上游文件完全一致。
+
+<ComponentPreview title="Motion">
+  <div className="flex items-center gap-6">
+    <MotionDiv
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="card px-5 py-4 text-sm"
+    >
+      Fades and lifts in on mount.
+    </MotionDiv>
+    <MotionSpan
+      animate={{ scale: [1, 1.15, 1] }}
+      transition={{ duration: 1.6, repeat: Infinity }}
+      className="inline-block text-sm text-muted-foreground"
+    >
+      Breathing label
+    </MotionSpan>
+  </div>
+</ComponentPreview>
+
+## 什麼時候不該用
+
+優先考慮 CSS。懸停浮起、淡入、旋轉指示——這些用 `transition-*` 與 `animate-*` 工具類即可，執行期零成本。Motion 的價值在於進出場編排、版面動畫、手勢驅動的位移與彈簧物理。
+
+## 屬性
+
+此處不列屬性表：它們轉發 Framer Motion 的完整介面（數百個屬性），自動產生的表格只會淹沒重點。權威列表請見 [Framer Motion 文件](https://motion.dev/docs/react-motion-component)。

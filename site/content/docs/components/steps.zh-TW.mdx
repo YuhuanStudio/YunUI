@@ -1,0 +1,34 @@
+import { Steps } from "yunui";
+
+縱向步驟條：一串帶連接軸線的里程碑列表，標示哪些已完成、哪一步進行中、哪些還在後面。
+
+適用於讀者*正處於其中*的線性流程——新手引導、多頁表單、安裝精靈。若只需要一個完成比例，請改用 [`Progress`](/docs/components/progress)。
+
+## 匯入
+
+```tsx
+import { Steps } from "@yuhuanowo/yunui";
+```
+
+## 用法
+
+`steps` 是純資料——每項是一個 `title` 加可選的 `description`。`current` 是目前步驟的**從 0 起算的索引**：它之前的全部渲染為已完成（實心標記加勾），它本身以主色描邊，之後的保持淡出。兩個已完成步驟之間的軸線也會填色，讓進度一眼可讀。
+
+只有目前步驟帶 `aria-current="step"`；標記與軸線皆為 `aria-hidden`，因此螢幕閱讀器聽到的是標題列表，而不是一串裝飾性數字。
+
+<ComponentPreview title="Steps">
+  <div className="w-full max-w-sm">
+    <Steps
+      current={1}
+      steps={[
+        { title: "Create an account", description: "Verify your email address." },
+        { title: "Add a payment method" },
+        { title: "Invite your team", description: "Optional — you can do this later." },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="Steps" />

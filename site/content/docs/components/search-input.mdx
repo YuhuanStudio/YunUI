@@ -1,0 +1,35 @@
+import { SearchInput } from "yunui";
+
+A search field with a leading magnifier and a clear button that appears once there is something to clear.
+
+## Import
+
+```tsx
+import { SearchInput } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+Controlled: `value` is a string and `onChange` receives the next **string**, not an event — so filtering a list is a one-liner. Clearing calls `onChange("")` and returns focus to the field, so the next keystroke lands where the user expects instead of going nowhere.
+
+<ComponentPreview title="Search input">
+  <SearchInputDemo />
+</ComponentPreview>
+
+## Sizes
+
+`size="sm"` tightens the height and pulls the magnifier in — for toolbars and table headers where a full-height field would dominate.
+
+<ComponentPreview title="Sizes">
+  <SearchInputSizesDemo />
+</ComponentPreview>
+
+## Notes
+
+- It renders `type="text"` with `role="searchbox"`, not `type="search"`. A native search input adds its own clear (×) decoration, which would sit right on top of this component's button.
+- When you don't pass an `aria-label`, the `placeholder` becomes the accessible name — so the field is never nameless, and an explicit label still wins.
+- Set `clearable={false}` when the field must always hold a value.
+
+## Props
+
+<PropsTable name="SearchInput" />

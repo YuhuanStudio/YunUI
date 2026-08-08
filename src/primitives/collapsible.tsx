@@ -1,3 +1,5 @@
+"use client";
+
 'use client';
 import * as Primitive from '@radix-ui/react-collapsible';
 import { forwardRef, useEffect, useState } from 'react';

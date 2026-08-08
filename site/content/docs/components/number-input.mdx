@@ -1,0 +1,35 @@
+import { NumberInput } from "yunui";
+
+A controlled numeric field with a decrement and an increment button flanking a centered value.
+
+## Import
+
+```tsx
+import { NumberInput } from "@yuhuanowo/yunui";
+```
+
+## Usage
+
+It is fully controlled: pass `value` (a number) and `onChange`, which receives the next number — already clamped to `min`/`max`. The step buttons disable themselves at either bound, so a user can't push past the range and then wonder why nothing happened.
+
+<ComponentPreview title="Number input">
+  <NumberInputDemo />
+</ComponentPreview>
+
+## Errors
+
+`error` turns the border red, sets `aria-invalid`, and renders the message below the field wired up via `aria-describedby` — so a screen reader reads the error as part of the field, not as loose text next to it.
+
+<ComponentPreview title="Error state">
+  <NumberInputErrorDemo />
+</ComponentPreview>
+
+## Notes
+
+- The input is `text-base` on mobile and `text-sm` from `md` up. That is deliberate: iOS Safari zooms the whole page when a focused input's font is under 16px.
+- The native number spinners are hidden (the `yunui-number` class) — the component's own buttons replace them, so the control looks the same in every browser.
+- Both step buttons are labelled; override the English defaults with `labels={{ increment, decrement }}`.
+
+## Props
+
+<PropsTable name="NumberInput" />

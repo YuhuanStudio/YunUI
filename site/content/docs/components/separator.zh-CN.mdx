@@ -1,0 +1,39 @@
+import { Separator } from "yunui";
+
+一像素的分隔线，可横向或纵向分隔内容。
+
+## 导入
+
+```tsx
+import { Separator } from "@yuhuanowo/yunui";
+```
+
+## 方向
+
+横向分隔线会撑满容器宽度。纵向的则撑满容器**高度**，因此需要父级有确定的高度——例如设定高度的 flex 行，或 `items-stretch`。
+
+<ComponentPreview title="Horizontal">
+  <div className="w-full max-w-sm text-sm">
+    <p className="pb-3 text-muted-foreground">Account</p>
+    <Separator />
+    <p className="pt-3 text-muted-foreground">Billing</p>
+  </div>
+</ComponentPreview>
+
+<ComponentPreview title="Vertical">
+  <div className="flex h-6 items-center gap-3 text-sm text-muted-foreground">
+    <span>Docs</span>
+    <Separator orientation="vertical" />
+    <span>Showcase</span>
+    <Separator orientation="vertical" />
+    <span>Changelog</span>
+  </div>
+</ComponentPreview>
+
+## 无障碍
+
+默认情况下这条线以 `role="separator"` 暴露，适用于它确实标示了一处区块边界时。若这条线纯粹是视觉装饰、结构已由其他方式表达，请设 `decorative`——这会把它从无障碍树中移除，避免屏幕阅读器念出一个没有意义的分隔符。
+
+## 属性
+
+<PropsTable name="Separator" />

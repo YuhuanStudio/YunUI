@@ -1,0 +1,35 @@
+import { SearchInput } from "yunui";
+
+搜尋輸入框，左側帶放大鏡圖示，一旦有內容可清除便出現清除按鈕。
+
+## 匯入
+
+```tsx
+import { SearchInput } from "@yuhuanowo/yunui";
+```
+
+## 用法
+
+受控：`value` 是字串，`onChange` 收到的是下一個**字串**而非事件——因此過濾列表只要一行。清除會呼叫 `onChange("")` 並把焦點還給輸入框，使使用者接下來的按鍵落在預期的位置，而不是無處可去。
+
+<ComponentPreview title="Search input">
+  <SearchInputDemo />
+</ComponentPreview>
+
+## 尺寸
+
+`size="sm"` 會收緊高度並把放大鏡內移——適用於工具列和表格表頭，避免整高欄位喧賓奪主。
+
+<ComponentPreview title="Sizes">
+  <SearchInputSizesDemo />
+</ComponentPreview>
+
+## 說明
+
+- 它渲染為 `type="text"` 搭配 `role="searchbox"`，而非 `type="search"`。原生搜尋輸入框會自帶一個清除（×）裝飾，正好壓在本元件的按鈕上。
+- 未傳 `aria-label` 時，`placeholder` 會成為無障礙名稱——欄位永遠不會無名，而明確的標籤仍然優先。
+- 若欄位必須始終有值，請設 `clearable={false}`。
+
+## 屬性
+
+<PropsTable name="SearchInput" />

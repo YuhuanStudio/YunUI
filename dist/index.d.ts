@@ -618,10 +618,13 @@ declare function InlineStatus({ status, label, progress, size, className }: Inli
 /** Inline `<code>` styling for code spans in prose or chat. Use `Kbd` for keys. */
 declare function InlineCode({ className, ...props }: React$1.HTMLAttributes<HTMLElement>): React$1.JSX.Element;
 interface Step {
+    /** The milestone's label. */
     title: React$1.ReactNode;
+    /** Optional second line under the title. */
     description?: React$1.ReactNode;
 }
 interface StepsProps extends Omit<React$1.HTMLAttributes<HTMLOListElement>, "children"> {
+    /** The milestones, in order, from first to last. */
     steps: Step[];
     /** Zero-based index of the active step; earlier steps render as completed. */
     current?: number;

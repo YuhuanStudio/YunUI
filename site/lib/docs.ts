@@ -680,6 +680,86 @@ export const docs: DocEntry[] = [
     "page loader fullscreen loading route fallback splash",
   ),
   comp(
+    "kbd",
+    { en: "Kbd", "zh-CN": "按键", "zh-TW": "按鍵" },
+    {
+      en: "A single keyboard key rendered as a real <kbd> — a bordered, monospaced chip for documenting shortcuts inline.",
+      "zh-CN": "单个键盘按键，渲染为真正的 <kbd>——带边框的等宽小方块，用于行内说明快捷键。",
+      "zh-TW": "單個鍵盤按鍵，渲染為真正的 <kbd>——帶邊框的等寬小方塊，用於行內說明快捷鍵。",
+    },
+    "kbd keyboard key shortcut hotkey command chip inline mono",
+  ),
+  comp(
+    "steps",
+    { en: "Steps", "zh-CN": "步骤条", "zh-TW": "步驟條" },
+    {
+      en: "A vertical stepper showing what is done, what is in progress and what is still ahead.",
+      "zh-CN": "纵向步骤条，标示哪些已完成、哪一步进行中、哪些还在后面。",
+      "zh-TW": "縱向步驟條，標示哪些已完成、哪一步進行中、哪些還在後面。",
+    },
+    "steps stepper wizard onboarding progress milestone timeline vertical",
+  ),
+  comp(
+    "separator",
+    { en: "Separator", "zh-CN": "分隔线", "zh-TW": "分隔線" },
+    {
+      en: "A one-pixel rule that divides content horizontally or vertically, with a decorative mode that hides it from assistive tech.",
+      "zh-CN": "一像素分隔线，可横向或纵向分隔内容；装饰模式会将其从无障碍树中隐藏。",
+      "zh-TW": "一像素分隔線，可橫向或縱向分隔內容；裝飾模式會將其從無障礙樹中隱藏。",
+    },
+    "separator divider rule hr line horizontal vertical decorative",
+  ),
+  comp(
+    "avatar-group",
+    { en: "Avatar Group", "zh-CN": "头像组", "zh-TW": "頭像組" },
+    {
+      en: "A row of overlapping avatars with an optional +N overflow chip.",
+      "zh-CN": "一排相互叠压的头像，可带 +N 溢出计数。",
+      "zh-TW": "一排相互疊壓的頭像，可帶 +N 溢位計數。",
+    },
+    "avatar group stack overlap facepile members team participants overflow max",
+  ),
+  comp(
+    "motion",
+    { en: "Motion", "zh-CN": "动效元件", "zh-TW": "動效元件" },
+    {
+      en: "MotionDiv and MotionSpan — YunUI's re-exports of Framer Motion, so apps animate with the bundled instance instead of a second copy.",
+      "zh-CN": "MotionDiv 与 MotionSpan——YunUI 对 Framer Motion 的再导出，让应用共用已打包的那一份，而非引入第二份。",
+      "zh-TW": "MotionDiv 與 MotionSpan——YunUI 對 Framer Motion 的再匯出，讓應用共用已打包的那一份，而非引入第二份。",
+    },
+    "motion framer animation animate transition variants gesture spring exit presence",
+  ),
+  comp(
+    "number-input",
+    { en: "Number Input", "zh-CN": "数字输入框", "zh-TW": "數字輸入框" },
+    {
+      en: "A controlled numeric field with decrement/increment buttons that clamp to min and max.",
+      "zh-CN": "受控数字输入框，带减少／增加按钮，并按 min／max 夹紧数值。",
+      "zh-TW": "受控數字輸入框，帶減少／增加按鈕，並按 min／max 夾緊數值。",
+    },
+    "number input numeric stepper spinner quantity increment decrement min max clamp",
+  ),
+  comp(
+    "password-input",
+    { en: "Password Input", "zh-CN": "密码输入框", "zh-TW": "密碼輸入框" },
+    {
+      en: "A password field with a built-in reveal toggle and wired-up error messaging.",
+      "zh-CN": "内建显示／隐藏切换的密码输入框，并已接好错误讯息关联。",
+      "zh-TW": "內建顯示／隱藏切換的密碼輸入框，並已接好錯誤訊息關聯。",
+    },
+    "password input reveal show hide toggle eye secret credential login signup",
+  ),
+  comp(
+    "search-input",
+    { en: "Search Input", "zh-CN": "搜索输入框", "zh-TW": "搜尋輸入框" },
+    {
+      en: "A search field with a leading magnifier and a focus-restoring clear button.",
+      "zh-CN": "搜索输入框，左侧带放大镜，清除后会把焦点还给输入框。",
+      "zh-TW": "搜尋輸入框，左側帶放大鏡，清除後會把焦點還給輸入框。",
+    },
+    "search input filter query magnifier clear searchbox find lookup",
+  ),
+  comp(
     "alert",
     { en: "Alert", "zh-CN": "提示框", "zh-TW": "提示框" },
     {
@@ -1570,6 +1650,9 @@ export const groups: DocGroup[] = [
       "components/custom-select",
       "components/segmented-select",
       "components/file-dropzone",
+      "components/number-input",
+      "components/password-input",
+      "components/search-input",
     ],
   },
   {
@@ -1579,6 +1662,8 @@ export const groups: DocGroup[] = [
       "components/grid",
       "components/bento-grid",
       "components/scroll-area",
+      "components/separator",
+      "components/motion",
     ],
   },
   {
@@ -1594,6 +1679,8 @@ export const groups: DocGroup[] = [
       "components/sparkline",
       "components/gauge",
       "components/segmented-bar",
+      "components/avatar-group",
+      "components/kbd",
     ],
   },
   {
@@ -1631,6 +1718,7 @@ export const groups: DocGroup[] = [
       "components/status-indicator",
       "components/text-shimmer",
       "components/command-palette",
+      "components/steps",
     ],
   },
   {

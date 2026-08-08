@@ -853,11 +853,14 @@ export function InlineCode({ className, ...props }: React.HTMLAttributes<HTMLEle
 // =====================================================
 
 interface Step {
+    /** The milestone's label. */
     title: React.ReactNode;
+    /** Optional second line under the title. */
     description?: React.ReactNode;
 }
 
 interface StepsProps extends Omit<React.HTMLAttributes<HTMLOListElement>, "children"> {
+    /** The milestones, in order, from first to last. */
     steps: Step[];
     /** Zero-based index of the active step; earlier steps render as completed. */
     current?: number;

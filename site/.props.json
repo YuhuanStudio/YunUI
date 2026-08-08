@@ -2307,6 +2307,13 @@
   ],
   "LLMCopyButton": [
     {
+      "name": "labels",
+      "type": "{ copy?: string; copied?: string; title?: string | undefined; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Every string this renders. The library ships no copy of its own — these\ndefaults exist only so the component is usable untranslated."
+    },
+    {
       "name": "markdownUrl",
       "type": "string",
       "required": true,
@@ -2321,6 +2328,13 @@
       "required": false,
       "defaultValue": null,
       "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "{ markdown?: string; markdownTitle?: string; github?: string | undefined; githubTitle?: string | undefined; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Every string this renders; defaults keep it usable untranslated."
     },
     {
       "name": "markdownUrl",
@@ -4080,6 +4094,13 @@
       "description": "Disable interaction and dim the control."
     },
     {
+      "name": "labels",
+      "type": "{ clear?: string; toggle?: string; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible names for the clear / toggle affordances. The library ships no\ncopy of its own; the English defaults only keep it usable untranslated."
+    },
+    {
       "name": "onChange",
       "type": "(value: string) => void",
       "required": true,
@@ -4756,7 +4777,7 @@
       "type": "Step[]",
       "required": true,
       "defaultValue": null,
-      "description": ""
+      "description": "The milestones, in order, from first to last."
     }
   ],
   "AvatarGroup": [
@@ -4933,6 +4954,13 @@
     }
   ],
   "Sheet": [
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name for the close button. The library ships no copy of its\nown; the English default only keeps it usable untranslated."
+    },
     {
       "name": "mobileOnly",
       "type": "boolean",
@@ -5128,6 +5156,15 @@
       "required": false,
       "defaultValue": null,
       "description": "Add a hover lift (border + shadow transition)."
+    }
+  ],
+  "DialogContent": [
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name for the built-in close button. The library ships no\ncopy of its own; the English default only keeps it usable untranslated."
     }
   ],
   "MotionDiv": [

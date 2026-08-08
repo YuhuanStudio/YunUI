@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * useEscapeKey - Hook for handling Escape key press
  *

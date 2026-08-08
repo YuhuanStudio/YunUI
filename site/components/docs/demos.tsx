@@ -41,7 +41,9 @@ import {
   StatGrid,
   ArchiveCalendar,
 } from "yunui/patterns";
-import { Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, CommandPalette, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
+import {
+  NumberInput,
+  SearchInput, Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, CommandPalette, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
 import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
 import {
   CapabilitySelector,
@@ -1412,5 +1414,58 @@ export function CommandPaletteDemo() {
         labels={{ placeholder: "Search components and docs…", title: "Search", close: "Close" }}
       />
     </>
+  );
+}
+
+/** NumberInput is fully controlled — `onChange` is a function prop, so the demo
+ *  has to live on the client side of the MDX boundary. */
+export function NumberInputDemo() {
+  const [qty, setQty] = useState(3);
+  return (
+    <div className="w-full max-w-xs flex flex-col gap-2">
+      <NumberInput value={qty} onChange={setQty} min={0} max={10} />
+      <p className="text-xs text-muted-foreground">
+        Value: {qty} — clamped to 0–10, so the buttons disable at either end.
+      </p>
+    </div>
+  );
+}
+
+export function NumberInputErrorDemo() {
+  const [seats, setSeats] = useState(0);
+  return (
+    <div className="w-full max-w-xs">
+      <NumberInput
+        value={seats}
+        onChange={setSeats}
+        min={0}
+        error={seats < 1 ? "Pick at least one seat." : undefined}
+      />
+    </div>
+  );
+}
+
+export function SearchInputDemo() {
+  const [q, setQ] = useState("");
+  const items = ["Button", "Badge", "Breadcrumb", "Card", "Checkbox", "Combobox", "Dialog"];
+  const hits = items.filter((i) => i.toLowerCase().includes(q.toLowerCase()));
+  return (
+    <div className="w-full max-w-sm flex flex-col gap-3">
+      <SearchInput value={q} onChange={setQ} placeholder="Filter components…" />
+      <ul className="text-sm text-muted-foreground flex flex-wrap gap-x-3 gap-y-1">
+        {hits.length ? hits.map((i) => <li key={i}>{i}</li>) : <li>No matches</li>}
+      </ul>
+    </div>
+  );
+}
+
+export function SearchInputSizesDemo() {
+  const [a, setA] = useState("");
+  const [b, setB] = useState("tokens");
+  return (
+    <div className="w-full max-w-sm flex flex-col gap-3">
+      <SearchInput value={a} onChange={setA} placeholder="Default (md)" />
+      <SearchInput value={b} onChange={setB} size="sm" placeholder="Compact (sm)" />
+    </div>
   );
 }

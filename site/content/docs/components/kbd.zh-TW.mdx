@@ -1,0 +1,27 @@
+import { Kbd } from "yunui";
+
+單個鍵盤按鍵，渲染為真正的 `<kbd>` 元素——帶邊框的等寬小方塊，用於在行內說明快捷鍵。
+
+它純粹是展示性的：並不會監聽自己所標示的按鍵。要真正綁定快捷鍵，請參見 [`CommandPalette`](/docs/components/command-palette) 及其 `useCommandPaletteShortcut` hook。
+
+## 匯入
+
+```tsx
+import { Kbd } from "@yuhuanowo/yunui";
+```
+
+## 用法
+
+一個按鍵用一個 `Kbd`。方塊設有 `min-w-5`，因此單個字母仍保持方形，不會塌縮成字形本身的寬度。
+
+<ComponentPreview title="Kbd">
+  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+    <span className="flex items-center gap-1">Open search <Kbd>⌘</Kbd><Kbd>K</Kbd></span>
+    <span className="flex items-center gap-1">Dismiss <Kbd>Esc</Kbd></span>
+    <span className="flex items-center gap-1">Submit <Kbd>⌥</Kbd><Kbd>⏎</Kbd></span>
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+`Kbd` 沒有自己的屬性——它會轉發全部 `<kbd>` HTML 屬性，包括 `className`。
