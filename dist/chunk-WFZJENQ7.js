@@ -1328,7 +1328,7 @@ var Input = React7.forwardRef(
             "aria-invalid": error ? true : void 0,
             "aria-describedby": describedByIds,
             className: cn(
-              "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+              "w-full h-10 px-4 bg-background border border-border rounded-xl text-base md:text-sm outline-none transition-colors",
               "placeholder:text-muted-foreground",
               "focus:border-ring focus:ring-2 focus:ring-ring/20",
               "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -1363,7 +1363,7 @@ var Textarea = React7.forwardRef(
           "aria-invalid": error ? true : void 0,
           "aria-describedby": describedByIds,
           className: cn(
-            "w-full px-4 py-3 bg-background border border-border rounded-xl text-sm outline-none transition-colors resize-none",
+            "w-full px-4 py-3 bg-background border border-border rounded-xl text-base md:text-sm outline-none transition-colors resize-none",
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -1486,7 +1486,7 @@ var NumberInput = React7.forwardRef(
                 disabled,
                 "aria-invalid": error ? true : void 0,
                 "aria-describedby": describedByIds,
-                className: "yunui-number w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none",
+                className: "yunui-number w-full min-w-0 bg-transparent px-1 text-center text-base md:text-sm outline-none",
                 ...props
               }
             ),
@@ -1563,7 +1563,7 @@ var SearchInput = React7.forwardRef(
           onChange: (e) => onChange?.(e.target.value),
           disabled,
           className: cn(
-            "w-full bg-background border border-border text-sm outline-none transition-colors",
+            "w-full bg-background border border-border text-base md:text-sm outline-none transition-colors",
             "placeholder:text-muted-foreground",
             "focus:border-ring focus:ring-2 focus:ring-ring/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -2535,5 +2535,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-FA2JY2O3.js.map
-//# sourceMappingURL=chunk-FA2JY2O3.js.map
+//# sourceMappingURL=chunk-WFZJENQ7.js.map
+//# sourceMappingURL=chunk-WFZJENQ7.js.map

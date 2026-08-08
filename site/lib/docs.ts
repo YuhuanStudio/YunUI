@@ -680,6 +680,26 @@ export const docs: DocEntry[] = [
     "page loader fullscreen loading route fallback splash",
   ),
   comp(
+    "alert",
+    { en: "Alert", "zh-CN": "提示框", "zh-TW": "提示框" },
+    {
+      en: "An inline callout for info / success / warning / error messages, with a leading icon and optional title.",
+      "zh-CN": "内联提示框，用于信息／成功／警告／错误消息，带前置图标与可选标题。",
+      "zh-TW": "內聯提示框，用於資訊／成功／警告／錯誤訊息，帶前置圖示與可選標題。",
+    },
+    "alert callout message box info success warning error inline notice",
+  ),
+  comp(
+    "status-indicator",
+    { en: "Status Indicator", "zh-CN": "状态指示点", "zh-TW": "狀態指示點" },
+    {
+      en: "A small coloured presence dot — online / busy / away / offline — optionally labelled and pulsing.",
+      "zh-CN": "小型在线状态圆点——online / busy / away / offline，可加标签与脉动。",
+      "zh-TW": "小型在線狀態圓點——online / busy / away / offline，可加標籤與脈動。",
+    },
+    "status indicator dot presence online offline busy away pulse live",
+  ),
+  comp(
     "inline-status",
     { en: "Inline Status", "zh-CN": "内联状态", "zh-TW": "內聯狀態" },
     {
@@ -1607,6 +1627,8 @@ export const groups: DocGroup[] = [
       "components/page-loader",
       "components/empty-state",
       "components/inline-status",
+      "components/alert",
+      "components/status-indicator",
       "components/text-shimmer",
       "components/command-palette",
     ],

@@ -1,0 +1,37 @@
+import { StatusIndicator } from "yunui";
+
+用於呈現「在線與否」的小圓點——這個提供商在線嗎、這個工作者忙碌嗎、這把金鑰還有效嗎。可加標籤，也可在狀態確實為即時（而非最後已知）時加上脈動。
+
+非同步任務的進度請用 [`InlineStatus`](/docs/components/inline-status);審批狀態請用 [`StatusBadge`](/docs/patterns/badges)。
+
+## 匯入
+
+```tsx
+import { StatusIndicator } from "@yuhuanowo/yunui";
+```
+
+## 狀態
+
+<ComponentPreview title="狀態">
+  <div className="flex flex-col gap-2 text-sm">
+    <StatusIndicator status="online">Online</StatusIndicator>
+    <StatusIndicator status="busy">Busy</StatusIndicator>
+    <StatusIndicator status="away">Away</StatusIndicator>
+    <StatusIndicator status="offline">Offline</StatusIndicator>
+    <StatusIndicator status="neutral">Unknown</StatusIndicator>
+  </div>
+</ComponentPreview>
+
+## 脈動
+
+`pulse` 會加上光暈。**只有在數值真的即時更新時才用**——在一個快取值上放脈動點，等於告訴讀者一件不成立的事。
+
+<ComponentPreview title="脈動">
+  <StatusIndicator status="online" pulse>Streaming</StatusIndicator>
+</ComponentPreview>
+
+## 屬性
+
+`StatusIndicator` 也會轉發任何 `<span>` HTML 屬性。
+
+<PropsTable name="StatusIndicator" />

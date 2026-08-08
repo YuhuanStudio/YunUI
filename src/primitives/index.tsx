@@ -169,7 +169,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         aria-invalid={error ? true : undefined}
                         aria-describedby={describedByIds}
                         className={cn(
-                            "w-full h-10 px-4 bg-background border border-border rounded-xl text-sm outline-none transition-colors",
+                            "w-full h-10 px-4 bg-background border border-border rounded-xl text-base md:text-sm outline-none transition-colors",
                             "placeholder:text-muted-foreground",
                             "focus:border-ring focus:ring-2 focus:ring-ring/20",
                             "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -216,7 +216,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
                     aria-invalid={error ? true : undefined}
                     aria-describedby={describedByIds}
                     className={cn(
-                        "w-full px-4 py-3 bg-background border border-border rounded-xl text-sm outline-none transition-colors resize-none",
+                        "w-full px-4 py-3 bg-background border border-border rounded-xl text-base md:text-sm outline-none transition-colors resize-none",
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -367,7 +367,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                         disabled={disabled}
                         aria-invalid={error ? true : undefined}
                         aria-describedby={describedByIds}
-                        className="yunui-number w-full min-w-0 bg-transparent px-1 text-center text-sm outline-none"
+                        className="yunui-number w-full min-w-0 bg-transparent px-1 text-center text-base md:text-sm outline-none"
                         {...props}
                     />
                     <button
@@ -474,7 +474,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                     onChange={(e) => onChange?.(e.target.value)}
                     disabled={disabled}
                     className={cn(
-                        "w-full bg-background border border-border text-sm outline-none transition-colors",
+                        "w-full bg-background border border-border text-base md:text-sm outline-none transition-colors",
                         "placeholder:text-muted-foreground",
                         "focus:border-ring focus:ring-2 focus:ring-ring/20",
                         "disabled:opacity-50 disabled:cursor-not-allowed",

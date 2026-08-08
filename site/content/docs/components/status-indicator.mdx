@@ -1,0 +1,37 @@
+import { StatusIndicator } from "yunui";
+
+A small coloured dot for presence — is this provider online, is this worker busy, is this key still live. Optionally labelled, and optionally pulsing when the state is genuinely live rather than last-known.
+
+For an async job's progress use [`InlineStatus`](/docs/components/inline-status); for an approval state use [`StatusBadge`](/docs/patterns/badges).
+
+## Import
+
+```tsx
+import { StatusIndicator } from "@yuhuanowo/yunui";
+```
+
+## Statuses
+
+<ComponentPreview title="Statuses">
+  <div className="flex flex-col gap-2 text-sm">
+    <StatusIndicator status="online">Online</StatusIndicator>
+    <StatusIndicator status="busy">Busy</StatusIndicator>
+    <StatusIndicator status="away">Away</StatusIndicator>
+    <StatusIndicator status="offline">Offline</StatusIndicator>
+    <StatusIndicator status="neutral">Unknown</StatusIndicator>
+  </div>
+</ComponentPreview>
+
+## Pulse
+
+`pulse` adds a halo. Use it only when the value is being updated live — a pulsing dot on a cached value tells the reader something that isn't true.
+
+<ComponentPreview title="Pulse">
+  <StatusIndicator status="online" pulse>Streaming</StatusIndicator>
+</ComponentPreview>
+
+## Props
+
+`StatusIndicator` also forwards any `<span>` HTML attributes.
+
+<PropsTable name="StatusIndicator" />

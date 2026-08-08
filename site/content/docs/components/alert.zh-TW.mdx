@@ -1,0 +1,41 @@
+import { Alert } from "yunui";
+
+內聯的提示框，用於讀者需要處理或知悉的訊息——實心堆疊式方塊，帶前置圖示與可選的粗體標題。
+
+若需要可關閉、橫跨頁面頂端的滿版長條，請改用 [`Banner`](/docs/patterns/banner)。Alert 是待在內容流*之中*、緊鄰它所描述對象的那個方塊。
+
+## 匯入
+
+```tsx
+import { Alert } from "@yuhuanowo/yunui";
+```
+
+## 變體
+
+每種色調都由 token 驅動（`bg-*-soft` / `text-*` / `border-*-soft`），因此表達相同嚴重度的 Alert 與 Banner 在任何主題下都是同一個顏色。
+
+<ComponentPreview title="變體">
+  <div className="w-full max-w-lg flex flex-col gap-2">
+    <Alert variant="info" title="Heads up">Your trial ends in 3 days.</Alert>
+    <Alert variant="success" title="Saved">Your changes have been saved.</Alert>
+    <Alert variant="warning">Usage is approaching your monthly limit.</Alert>
+    <Alert variant="error" title="Payment failed">Update your billing details to continue.</Alert>
+    <Alert variant="accent">A neutral, brand-toned note.</Alert>
+  </div>
+</ComponentPreview>
+
+## 標題與圖示
+
+`title` 是選用的——單行提示可以省略。圖示預設會依變體自動選擇;傳 `icon={null}` 可移除，或傳入你自己的節點取代。
+
+<ComponentPreview title="不帶圖示">
+  <div className="w-full max-w-lg">
+    <Alert variant="info" icon={null}>No glyph, just the message.</Alert>
+  </div>
+</ComponentPreview>
+
+## 屬性
+
+`Alert` 也會轉發任何 `<div>` HTML 屬性。
+
+<PropsTable name="Alert" />

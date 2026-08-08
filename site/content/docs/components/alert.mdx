@@ -1,0 +1,41 @@
+import { Alert } from "yunui";
+
+An inline callout for a message the reader needs to act on or acknowledge — a stacked, solid box with a leading icon and an optional bold title.
+
+For a dismissible, full-bleed strip across the top of a page, use [`Banner`](/docs/patterns/banner) instead. Alert is the box that sits *in* the flow, next to the thing it's about.
+
+## Import
+
+```tsx
+import { Alert } from "@yuhuanowo/yunui";
+```
+
+## Variants
+
+Each tone is token-driven (`bg-*-soft` / `text-*` / `border-*-soft`), so an Alert and a Banner reading the same severity are the same colour, in every theme.
+
+<ComponentPreview title="Variants">
+  <div className="w-full max-w-lg flex flex-col gap-2">
+    <Alert variant="info" title="Heads up">Your trial ends in 3 days.</Alert>
+    <Alert variant="success" title="Saved">Your changes have been saved.</Alert>
+    <Alert variant="warning">Usage is approaching your monthly limit.</Alert>
+    <Alert variant="error" title="Payment failed">Update your billing details to continue.</Alert>
+    <Alert variant="accent">A neutral, brand-toned note.</Alert>
+  </div>
+</ComponentPreview>
+
+## Title and icon
+
+`title` is optional — omit it for a single-line note. The icon defaults to one that matches the variant; pass `icon={null}` to drop it, or your own node to replace it.
+
+<ComponentPreview title="Without icon">
+  <div className="w-full max-w-lg">
+    <Alert variant="info" icon={null}>No glyph, just the message.</Alert>
+  </div>
+</ComponentPreview>
+
+## Props
+
+`Alert` also forwards any `<div>` HTML attributes.
+
+<PropsTable name="Alert" />
