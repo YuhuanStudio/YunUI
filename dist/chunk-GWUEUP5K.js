@@ -1,8 +1,8 @@
 "use client";
-import { cn, useAnchoredPosition } from './chunk-SY3JATSS.js';
+import { cn, useFocusTrap, useEscapeKey, useBodyScrollLock, useModalBehavior, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React7 from 'react';
-import { forwardRef, useRef, useCallback, useEffect, useState, useId } from 'react';
+import { forwardRef, useRef, useState, useEffect, useCallback, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Minus, Check, ChevronDown, ChevronUp, ChevronsUpDown, ChevronLeft, ChevronRight, Loader2, AlertCircle, EyeOff, Eye, Plus, Search, X, CheckCircle2, CheckCircle, Info, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
@@ -17,108 +17,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-
-function useEscapeKey(onEscape, enabled = true) {
-  const onEscapeRef = useRef(onEscape);
-  onEscapeRef.current = onEscape;
-  const enabledRef = useRef(enabled);
-  enabledRef.current = enabled;
-  const handleKeyDown = useCallback(
-    (event) => {
-      if (!enabledRef.current) return;
-      if (event.key === "Escape") {
-        event.preventDefault();
-        event.stopPropagation();
-        onEscapeRef.current();
-      }
-    },
-    []
-    // No dependencies - uses refs
-  );
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown, true);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown, true);
-    };
-  }, [handleKeyDown]);
-}
-var scrollLockCount = 0;
-var originalOverflow = "";
-function useBodyScrollLock(locked = true) {
-  const hasLockedRef = useRef(false);
-  useEffect(() => {
-    if (!locked) {
-      if (hasLockedRef.current) {
-        scrollLockCount--;
-        hasLockedRef.current = false;
-        if (scrollLockCount === 0) {
-          document.body.style.overflow = originalOverflow;
-          originalOverflow = "";
-        }
-      }
-      return;
-    }
-    if (!hasLockedRef.current) {
-      if (scrollLockCount === 0) {
-        originalOverflow = document.body.style.overflow;
-      }
-      scrollLockCount++;
-      document.body.style.overflow = "hidden";
-      hasLockedRef.current = true;
-    }
-    return () => {
-      if (hasLockedRef.current) {
-        scrollLockCount--;
-        hasLockedRef.current = false;
-        if (scrollLockCount === 0) {
-          document.body.style.overflow = originalOverflow;
-          originalOverflow = "";
-        }
-      }
-    };
-  }, [locked]);
-}
-function useModalBehavior(isOpen, onClose) {
-  useEscapeKey(onClose, isOpen);
-  useBodyScrollLock(isOpen);
-}
-var FOCUSABLE_SELECTOR = 'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
-function useFocusTrap(containerRef, enabled = true) {
-  useEffect(() => {
-    if (!enabled) return;
-    const container = containerRef.current;
-    if (!container) return;
-    const previouslyFocused = document.activeElement;
-    const getFocusable = () => Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR));
-    const initial = getFocusable();
-    (initial[0] ?? container).focus?.();
-    const onKeyDown = (event) => {
-      if (event.key !== "Tab") return;
-      const items = getFocusable();
-      if (items.length === 0) {
-        event.preventDefault();
-        return;
-      }
-      const first = items[0];
-      const last = items[items.length - 1];
-      const active = document.activeElement;
-      if (event.shiftKey) {
-        if (active === first || !container.contains(active)) {
-          event.preventDefault();
-          last.focus();
-        }
-      } else if (active === last || !container.contains(active)) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-    container.addEventListener("keydown", onKeyDown);
-    return () => {
-      container.removeEventListener("keydown", onKeyDown);
-      previouslyFocused?.focus?.();
-    };
-  }, [enabled, containerRef]);
-}
 
 // src/primitives/modal/constants.ts
 var Z_INDEX = {
@@ -500,16 +398,15 @@ function Combobox({
   useEffect(() => {
     setInputValue(selectedDisplayValue);
   }, [selectedDisplayValue]);
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setIsOpen(false);
-        setInputValue(selectedDisplayValue);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [selectedDisplayValue]);
+  useDismissOnOutside(
+    isOpen,
+    () => {
+      setIsOpen(false);
+      setInputValue(selectedDisplayValue);
+    },
+    containerRef,
+    { escape: false }
+  );
   useEffect(() => {
     setHighlighted(-1);
   }, [inputValue, isOpen]);
@@ -2535,6 +2432,6 @@ function Modal({
   return createPortal(modalContent, document.body);
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem, useBodyScrollLock, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-FJUSFI6M.js.map
-//# sourceMappingURL=chunk-FJUSFI6M.js.map
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem };
+//# sourceMappingURL=chunk-GWUEUP5K.js.map
+//# sourceMappingURL=chunk-GWUEUP5K.js.map

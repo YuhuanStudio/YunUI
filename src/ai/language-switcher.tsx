@@ -3,6 +3,7 @@
 import { Globe } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
+import { useDismissOnOutside } from "../lib/hooks";
 
 export interface LanguageOption {
     /** Locale code (e.g. "en", "zh-TW"). */
@@ -47,16 +48,8 @@ export function LanguageSwitcher({
     const panelRef = useRef<HTMLDivElement>(null);
     const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
 
-    // Close on outside click
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-                setIsOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    // Escape is handled separately below (it also restores focus to the trigger).
+    useDismissOnOutside(isOpen, () => setIsOpen(false), containerRef, { escape: false });
 
     // Close on Escape + restore focus to the trigger. A document-level listener
     // (not a container onKeyDown) because WebKit/Safari on macOS doesn't focus a

@@ -1,5 +1,5 @@
 "use client";
-import { cn, useAnchoredPosition } from './chunk-SY3JATSS.js';
+import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React3 from 'react';
 import { forwardRef, useState, useEffect, useRef, useId, useMemo, useCallback } from 'react';
@@ -58,16 +58,15 @@ function CustomSelect({
     const id = setTimeout(() => onSearchRef.current?.(searchQuery), searchDebounceMs);
     return () => clearTimeout(id);
   }, [searchQuery, remote, searchDebounceMs]);
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setIsOpen(false);
-        setSearchQuery("");
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  useDismissOnOutside(
+    isOpen,
+    () => {
+      setIsOpen(false);
+      setSearchQuery("");
+    },
+    containerRef,
+    { escape: false }
+  );
   useEffect(() => {
     if (!isOpen) return;
     if (showSearch && inputRef.current) inputRef.current.focus();
@@ -1385,5 +1384,5 @@ function useCommandPaletteShortcut(onOpen) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-UDEDC4EH.js.map
-//# sourceMappingURL=chunk-UDEDC4EH.js.map
+//# sourceMappingURL=chunk-AWZNI4OO.js.map
+//# sourceMappingURL=chunk-AWZNI4OO.js.map

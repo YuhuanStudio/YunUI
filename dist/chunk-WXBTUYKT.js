@@ -1,5 +1,5 @@
 "use client";
-import { cn, useAnchoredPosition } from './chunk-SY3JATSS.js';
+import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React2 from 'react';
 import { jsx, jsxs } from 'react/jsx-runtime';
@@ -36,15 +36,7 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
   React2.useEffect(() => {
     setMounted(true);
   }, []);
-  React2.useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  useDismissOnOutside(isOpen, () => setIsOpen(false), containerRef, { escape: false });
   React2.useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => {
@@ -128,5 +120,5 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
 }
 
 export { TextShimmer, ThemeToggle };
-//# sourceMappingURL=chunk-KH3FIXUZ.js.map
-//# sourceMappingURL=chunk-KH3FIXUZ.js.map
+//# sourceMappingURL=chunk-WXBTUYKT.js.map
+//# sourceMappingURL=chunk-WXBTUYKT.js.map

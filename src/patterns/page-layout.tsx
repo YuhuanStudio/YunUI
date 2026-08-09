@@ -24,6 +24,14 @@ export interface PageLayoutProps {
     /** Override the `<main>` classes — defaults to `flex-1 pt-28` (clears the
      *  fixed navbar). Pass your own offset for a taller/shorter bar. */
     mainClassName?: string;
+    /**
+     * `id` on the `<main>` element — the target a "skip to main content" link
+     * jumps to. Defaults to `"main-content"`, the conventional value, so the
+     * skip link in a consumer's root layout actually lands somewhere. Pass
+     * `undefined` explicitly if a page must not carry the id (e.g. two shells
+     * on one page). @defaultValue "main-content"
+     */
+    mainId?: string;
     /** Extra classes on the outer wrapper. */
     className?: string;
 }
@@ -36,12 +44,13 @@ export function PageLayout({
     hideFooter = false,
     transparentBg = false,
     mainClassName,
+    mainId = "main-content",
     className,
 }: PageLayoutProps) {
     return (
         <div className={cn("min-h-dvh flex flex-col relative", !transparentBg && "bg-background", className)}>
             {navbar}
-            <main className={cn("flex-1 pt-28", mainClassName)}>{children}</main>
+            <main id={mainId} className={cn("flex-1 pt-28", mainClassName)}>{children}</main>
             {!hideFooter && footer}
         </div>
     );

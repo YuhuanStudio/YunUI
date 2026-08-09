@@ -3,7 +3,9 @@ import { Button, Input, Label } from "yunui";
 
 The centered single-column screen every auth flow uses: sign in, sign up, forgot/reset password, verify email, resend verification, OAuth callback.
 
-Yunxin hand-rolled this shell **fifteen times** — each copy re-deriving the viewport centring, the column width, the brand row spacing and the card chrome. The panel uses the house `.card`, so an auth screen matches every other surface.
+Yunxin hand-rolls this shell **nine times** — each copy re-deriving the viewport centring, the column width, the brand row spacing and the card chrome. This is a straight extraction of that markup, class for class: **Yunxin is the original and stays the reference**, so a screen that adopts `AuthShell` renders identically to the copy it replaces.
+
+That is also why the panel is `p-6 bg-card border border-border rounded-xl` and *not* the house `.card` class. `.card` is a 20px radius with a shadow and a hover transition — swapping it in would have quietly restyled all nine screens.
 
 ## Import
 
@@ -38,10 +40,35 @@ import { AuthShell } from "@yuhuanowo/yunui/patterns";
 
 ## Slots
 
-- `brand` — the logo/wordmark row above the card. Link it home yourself.
-- `title` / `subtitle` — centered heading and supporting line.
+- `brand` — the logo/wordmark row above the card. Pass `homeHref` and it becomes a link home, with the same `gap-2.5 mb-8` row Yunxin uses.
+- `title` / `subtitle` — centered heading and supporting line. The heading's bottom margin follows Yunxin: `mb-2` when there is a subtitle, `mb-6` when there is not.
+- `error` — a failed submit, rendered in the soft-error box these screens share. Falsy values render nothing, so `error={submitError}` is safe.
+- `icon` — a medallion or spinner above the heading, for confirmation and status screens.
+- `centered` — centers everything in the card, for "check your email" style screens.
 - `footer` — muted content under the card.
-- `width` — `sm` (default) for a sign-in form, `md` for screens with more to say.
+- `width` — `sm` (default) for a sign-in form, `md` for the wider error / not-found screens.
+
+Anything that varies per screen stays in `children`. The shell owns only what is identical in all nine copies.
+
+## Failed submit
+
+Errors do not get their own layout — they slot above the form in the box every one of these screens already uses.
+
+<ComponentPreview title="With an error" contained containedHeight={360}>
+  <AuthShell
+    className="min-h-0 py-8"
+    title="Sign in"
+    error="Incorrect email or password."
+  >
+    <form className="space-y-4">
+      <div>
+        <Label>Email</Label>
+        <Input type="email" defaultValue="you@example.com" />
+      </div>
+      <Button variant="primary" className="w-full">Continue</Button>
+    </form>
+  </AuthShell>
+</ComponentPreview>
 
 ## Props
 

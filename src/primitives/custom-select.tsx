@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
 import { ChevronDown, Loader2, Search, X } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
+import { useDismissOnOutside } from "../lib/hooks";
 
 export interface SelectOption {
     /** The value reported to `onChange` when selected. */
@@ -116,16 +117,17 @@ export function CustomSelect({
         return () => clearTimeout(id);
     }, [searchQuery, remote, searchDebounceMs]);
 
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-                setIsOpen(false);
-                setSearchQuery("");
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    // Escape is handled separately below (it also restores focus to the trigger),
+    // so this only takes the outside-press half.
+    useDismissOnOutside(
+        isOpen,
+        () => {
+            setIsOpen(false);
+            setSearchQuery("");
+        },
+        containerRef,
+        { escape: false },
+    );
 
     useEffect(() => {
         if (!isOpen) return;

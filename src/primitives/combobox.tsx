@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useId, type ReactNode } from "react";
 import { X, ChevronDown } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
+import { useDismissOnOutside } from "../lib/hooks";
 
 export interface ComboboxOption {
     /** The value reported to `onChange` when selected. */
@@ -84,17 +85,17 @@ export function Combobox({
         setInputValue(selectedDisplayValue);
     }, [selectedDisplayValue]);
 
-    // 點擊外部關閉
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-                setIsOpen(false);
-                setInputValue(selectedDisplayValue);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [selectedDisplayValue]);
+    // Escape is handled separately below (it also restores focus to the trigger),
+    // so this only takes the outside-press half.
+    useDismissOnOutside(
+        isOpen,
+        () => {
+            setIsOpen(false);
+            setInputValue(selectedDisplayValue);
+        },
+        containerRef,
+        { escape: false },
+    );
 
     // Reset the keyboard highlight when the list changes or the panel closes —
     // start at "no highlight" (-1) so the ring only appears after an arrow press.

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ElementType, type ReactNode } from "r
 import { CircleUserRound, LogOut } from "lucide-react";
 import { cn } from "../lib/cn";
 import { useYunUI } from "../adapters/context";
+import { useDismissOnOutside } from "../lib/hooks";
 
 export interface AccountMenuUser {
     /** Display name. Falls back to `fallbackName` when absent. */
@@ -79,21 +80,7 @@ export function AccountMenu({
     const signOutLabel = labels?.signOut ?? "Sign out";
     const fallbackName = labels?.fallbackName ?? "Account";
 
-    useEffect(() => {
-        if (!open) return;
-        const onDown = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false);
-        };
-        const onKey = (event: KeyboardEvent) => {
-            if (event.key === "Escape") setOpen(false);
-        };
-        document.addEventListener("mousedown", onDown);
-        document.addEventListener("keydown", onKey);
-        return () => {
-            document.removeEventListener("mousedown", onDown);
-            document.removeEventListener("keydown", onKey);
-        };
-    }, [open]);
+    useDismissOnOutside(open, () => setOpen(false), ref);
 
     // Not answered yet — hold the space so the navbar does not shift when it is.
     if (user === undefined) {

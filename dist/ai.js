@@ -1,8 +1,8 @@
 "use client";
 import { capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-HJ6AUOR7.js';
-import { TextShimmer, ThemeToggle } from './chunk-KH3FIXUZ.js';
-import { cn, useAnchoredPosition } from './chunk-SY3JATSS.js';
+import { TextShimmer, ThemeToggle } from './chunk-WXBTUYKT.js';
+import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -529,17 +529,7 @@ function ModelSelect({
   const panelRef = useRef(null);
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
   const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
-  useEffect(() => {
-    const onDown = (e) => {
-      if (rootRef.current && !rootRef.current.contains(e.target)) setIsOpen(false);
-    };
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("touchstart", onDown);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("touchstart", onDown);
-    };
-  }, []);
+  useDismissOnOutside(isOpen, () => setIsOpen(false), rootRef, { escape: false });
   useEffect(() => {
     if (!isOpen) return;
     const t = setTimeout(() => {
@@ -1923,15 +1913,7 @@ function LanguageSwitcher({
   const triggerRef = useRef(null);
   const panelRef = useRef(null);
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  useDismissOnOutside(isOpen, () => setIsOpen(false), containerRef, { escape: false });
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => {
@@ -2172,21 +2154,7 @@ function AccountMenu({
   const signInLabel = labels?.signIn ?? "Sign in";
   const signOutLabel = labels?.signOut ?? "Sign out";
   const fallbackName = labels?.fallbackName ?? "Account";
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) setOpen(false);
-    };
-    const onKey = (event) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
+  useDismissOnOutside(open, () => setOpen(false), ref);
   if (user === void 0) {
     return /* @__PURE__ */ jsx("span", { "aria-hidden": true, className: cn("block h-9 w-9", className) });
   }

@@ -176,6 +176,20 @@ patch = fixes, anything may change between 0.x releases).
   sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
 ### Added
+- **`useDismissOnOutside`** — one hook replacing six hand-rolled copies of
+  "close this panel when the user presses outside it" (`CustomSelect`,
+  `Combobox`, `ThemeToggle`, `LanguageSwitcher`, `ModelSelect`, `AccountMenu`).
+  No two agreed: four registered their listener permanently, so it ran on every
+  click in the host app whether the panel was open or not, and four listened for
+  `mousedown` only — meaning on a phone, tapping away did not close them. The
+  hook takes the correct half of each: listeners exist only while open, and
+  cover mouse and touch.
+- **`PageLayout` now puts `id="main-content"` on its `<main>`** (overridable via
+  `mainId`). Yunxin's root layout ships a "Skip to main content" link on every
+  page, but `#main-content` only existed in the dashboard layout — so on the
+  homepage, /models, /fellows, /about, /blog and /contact the skip link pointed
+  at nothing at all. Those pages all route through `PageLayout`, so this fixes
+  them without touching Yunxin.
 - **Docs for the nine components that had none.** `Kbd`, `Steps`, `Separator`,
   `AvatarGroup`, `MotionDiv`/`MotionSpan`, `NumberInput`, `PasswordInput` and
   `SearchInput` were exported from the barrel but appeared nowhere in the docs
@@ -187,6 +201,15 @@ patch = fixes, anything may change between 0.x releases).
   `@radix-ui/react-switch`. Neither is referenced anywhere in the source or the
   build — `Switch` is hand-rolled on a plain `<button>` — so they were pure
   install weight for every consumer.
+- **`AuthShell` is now a faithful extraction of Yunxin's auth screens.** It had
+  been written as an *improvement* on them — the panel used the house `.card`
+  (a 20px radius with a shadow and a hover transition) where all nine Yunxin auth
+  screens use a flat `p-6 bg-card border border-border rounded-xl`. Adopting it
+  would therefore have silently restyled sign-in, sign-up, forgot/reset password,
+  verify-email, resend-verification and the OAuth callback. Yunxin is the
+  original and stays the reference: the shell now reproduces its markup class for
+  class, and a test pins those strings so they cannot drift. Gained the `error`,
+  `icon` and `centered` slots those screens actually use.
 - **The last hardcoded English strings are now overridable.** The library is meant
   to carry no copy at all, but `DialogContent` and `Sheet` shipped a literal
   `aria-label="Close"`, `Combobox` shipped `"Clear"` / `"Toggle options"`, and

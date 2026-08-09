@@ -1,9 +1,11 @@
 import { AuthShell } from "yunui/patterns";
 import { Button, Input, Label } from "yunui";
 
-所有驗證流程共用的置中單欄畫面：登入、註冊、忘記／重設密碼、信箱驗證、重寄驗證信、OAuth 回呼。
+所有認證流程共用的置中單欄頁面：登入、註冊、忘記／重設密碼、驗證信箱、重寄驗證信、OAuth 回呼。
 
-Yunxin 把這個外殼手刻了**十五次**——每一份都自己重推一次視窗置中、欄寬、品牌列間距與卡片外框。這裡的面板使用房子的 `.card`，讓驗證畫面與系統其他介面一致。
+Yunxin 裡這個外殼被手寫了**九次**——每一份都各自重新推導視口置中、欄寬、品牌列間距與卡片外觀。本元件是那段標記逐個 class 的原樣抽取：**Yunxin 是原型，並且仍然是基準**，因此換用 `AuthShell` 的頁面與它所取代的那一份渲染結果完全一致。
+
+這也是為什麼面板用的是 `p-6 bg-card border border-border rounded-xl` 而*不是*系統的 `.card` 類。`.card` 是 20px 圓角、帶陰影與 hover 過渡——換過去會悄悄改掉全部九個頁面的樣子。
 
 ## 匯入
 
@@ -38,10 +40,35 @@ import { AuthShell } from "@yuhuanowo/yunui/patterns";
 
 ## 插槽
 
-- `brand` — 卡片上方的標誌／字標列。連回首頁由你決定。
-- `title` / `subtitle` — 置中標題與輔助說明。
-- `footer` — 卡片下方的低調內容。
-- `width` — `sm`（預設）適合登入表單，`md` 適合要說較多話的畫面。
+- `brand` — 卡片上方的 logo／字標列。傳入 `homeHref` 即變成回首頁的連結，使用與 Yunxin 相同的 `gap-2.5 mb-8` 列。
+- `title` / `subtitle` — 置中的標題與輔助說明。標題的下邊距沿用 Yunxin：有副標題時 `mb-2`，沒有時 `mb-6`。
+- `error` — 送出失敗的訊息，渲染在這些頁面共用的柔和錯誤框中。falsy 值不渲染任何東西，因此 `error={submitError}` 可以直接傳。
+- `icon` — 標題上方的圓形圖示或旋轉指示，用於確認與狀態類頁面。
+- `centered` — 讓卡片內所有內容置中，適用於「請查收信箱」這類頁面。
+- `footer` — 卡片下方的淡出內容。
+- `width` — `sm`（預設）適合登入表單，`md` 適合較寬的錯誤／404 頁面。
+
+每個頁面各自不同的部分留在 `children`。外殼只擁有九份副本中完全一致的那些。
+
+## 送出失敗
+
+錯誤不需要自己的版面——它就放在表單上方，用的是這些頁面本來就在用的那個框。
+
+<ComponentPreview title="With an error" contained containedHeight={360}>
+  <AuthShell
+    className="min-h-0 py-8"
+    title="Sign in"
+    error="Incorrect email or password."
+  >
+    <form className="space-y-4">
+      <div>
+        <Label>Email</Label>
+        <Input type="email" defaultValue="you@example.com" />
+      </div>
+      <Button variant="primary" className="w-full">Continue</Button>
+    </form>
+  </AuthShell>
+</ComponentPreview>
 
 ## 屬性
 

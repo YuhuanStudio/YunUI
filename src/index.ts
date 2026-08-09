@@ -56,6 +56,7 @@ export { Toaster, toast } from "./primitives/toast";
 export { cn } from "./lib/cn";
 export {
   useEscapeKey,
+  useDismissOnOutside,
   useBodyScrollLock,
   useModalBehavior,
   useFocusTrap,

@@ -280,11 +280,19 @@ interface PageLayoutProps {
     /** Override the `<main>` classes — defaults to `flex-1 pt-28` (clears the
      *  fixed navbar). Pass your own offset for a taller/shorter bar. */
     mainClassName?: string;
+    /**
+     * `id` on the `<main>` element — the target a "skip to main content" link
+     * jumps to. Defaults to `"main-content"`, the conventional value, so the
+     * skip link in a consumer's root layout actually lands somewhere. Pass
+     * `undefined` explicitly if a page must not carry the id (e.g. two shells
+     * on one page). @defaultValue "main-content"
+     */
+    mainId?: string;
     /** Extra classes on the outer wrapper. */
     className?: string;
 }
 /** Full-height page shell: navbar slot · offset `<main>` · footer slot. */
-declare function PageLayout({ children, navbar, footer, hideFooter, transparentBg, mainClassName, className, }: PageLayoutProps): React$1.JSX.Element;
+declare function PageLayout({ children, navbar, footer, hideFooter, transparentBg, mainClassName, mainId, className, }: PageLayoutProps): React$1.JSX.Element;
 
 interface PageLoadingStateProps {
     /** Optional text shown beside the spinner. */
@@ -975,35 +983,55 @@ interface BackLinkProps {
 declare function BackLink({ href, children, className }: BackLinkProps): React$1.JSX.Element;
 
 interface AuthShellProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-    /** Brand row above the card — usually a logo + wordmark linking home. */
+    /**
+     * Brand row above the card — the logo + wordmark. Rendered inside a
+     * centered flex row; pass the image and the name as siblings.
+     */
     brand?: ReactNode;
-    /** Card heading, centered. */
+    /** When set, the brand row becomes a link to this destination (usually "/"). */
+    homeHref?: string;
+    /** Card heading. */
     title?: ReactNode;
     /** Optional line under the heading. */
     subtitle?: ReactNode;
+    /**
+     * A block above the form for a failed submit — rendered in the soft-error
+     * box these screens all use. Falsy values render nothing.
+     */
+    error?: ReactNode;
+    /** Optional medallion / spinner above the heading, centered. */
+    icon?: ReactNode;
     /** The form (or whatever the screen is for). */
     children: ReactNode;
     /** Content under the card — "Don't have an account?", legal links. */
     footer?: ReactNode;
+    /** Centers everything in the card — for confirmation and status screens. */
+    centered?: boolean;
     /**
-     * Width of the column. `sm` suits a sign-in form; `md` suits screens with
-     * more to say (verification, callbacks). @defaultValue "sm"
+     * Width of the column. `sm` suits a sign-in form; `md` suits the wider
+     * error / not-found screens. @defaultValue "sm"
      */
     width?: "sm" | "md";
+    /** Extra classes on the card box itself (the wrapper takes `className`). */
+    cardClassName?: string;
 }
 /**
  * The centered single-column screen every auth flow uses: sign in, sign up,
  * forgot/reset password, verify email, resend verification, OAuth callback.
  *
- * Yunxin hand-rolled this shell **fifteen times** — each copy re-deriving the
+ * Yunxin hand-rolls this shell **nine times** — each copy re-deriving the
  * viewport centring, the column width, the brand row spacing and the card
- * chrome. Extracted so those screens stop drifting apart.
+ * chrome. This is a straight extraction of that markup, class for class:
+ * Yunxin is the original and stays the reference, so a screen that adopts
+ * `AuthShell` renders identically to the copy it replaces.
  *
- * The panel uses the house `.card` rather than the ad-hoc
- * `bg-card border rounded-xl` those copies carried, so an auth screen matches
- * every other surface in the system.
+ * That is why the panel is `p-6 bg-card border border-border rounded-xl` and
+ * NOT the house `.card` class — `.card` is a 20px radius with a shadow and a
+ * hover transition, so swapping it in would have quietly restyled all nine
+ * screens. Only the parts that are identical in every copy live here; whatever
+ * varies (medallions, spinners, per-screen copy) stays in `children`.
  */
-declare function AuthShell({ brand, title, subtitle, children, footer, width, className, ...props }: AuthShellProps): React$1.JSX.Element;
+declare function AuthShell({ brand, homeHref, title, subtitle, error, icon, children, footer, centered, width, className, cardClassName, ...props }: AuthShellProps): React$1.JSX.Element;
 
 interface TableStateProps extends HTMLAttributes<HTMLDivElement> {
     /** The message — "No results", "Nothing to review". */

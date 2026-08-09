@@ -1,11 +1,11 @@
 "use client";
-import './chunk-UDEDC4EH.js';
+import './chunk-AWZNI4OO.js';
 import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
 export { Footer } from './chunk-HJ6AUOR7.js';
-import './chunk-KH3FIXUZ.js';
+import './chunk-WXBTUYKT.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-FJUSFI6M.js';
-import { cn } from './chunk-SY3JATSS.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-GWUEUP5K.js';
+import { cn } from './chunk-5ZWUGRS7.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
@@ -867,11 +867,12 @@ function PageLayout({
   hideFooter = false,
   transparentBg = false,
   mainClassName,
+  mainId = "main-content",
   className
 }) {
   return /* @__PURE__ */ jsxs("div", { className: cn("min-h-dvh flex flex-col relative", !transparentBg && "bg-background", className), children: [
     navbar,
-    /* @__PURE__ */ jsx("main", { className: cn("flex-1 pt-28", mainClassName), children }),
+    /* @__PURE__ */ jsx("main", { id: mainId, className: cn("flex-1 pt-28", mainClassName), children }),
     !hideFooter && footer
   ] });
 }
@@ -2436,30 +2437,58 @@ function BackLink({ href, children, className }) {
 }
 function AuthShell({
   brand,
+  homeHref,
   title,
   subtitle,
+  error,
+  icon,
   children,
   footer,
+  centered = false,
   width = "sm",
   className,
+  cardClassName,
   ...props
 }) {
+  const { Link } = useYunUI();
+  const brandRowClass = "flex items-center justify-center gap-2.5 mb-8";
   return /* @__PURE__ */ jsx(
     "div",
     {
       className: cn(
-        "flex min-h-dvh items-center justify-center bg-background px-6",
+        "min-h-dvh bg-background flex items-center justify-center px-6",
         className
       ),
       ...props,
       children: /* @__PURE__ */ jsxs("div", { className: cn("w-full", width === "sm" ? "max-w-sm" : "max-w-md"), children: [
-        brand != null && /* @__PURE__ */ jsx("div", { className: "mb-8 flex justify-center", children: brand }),
-        /* @__PURE__ */ jsxs("div", { className: "card p-6", children: [
-          title != null && /* @__PURE__ */ jsx("h1", { className: "mb-2 text-center text-xl font-semibold", children: title }),
-          subtitle != null && /* @__PURE__ */ jsx("p", { className: "text-caption mb-6 text-center", children: subtitle }),
-          /* @__PURE__ */ jsx("div", { className: cn(title != null && subtitle == null && "mt-4"), children })
-        ] }),
-        footer != null && /* @__PURE__ */ jsx("div", { className: "text-caption mt-6 text-center", children: footer })
+        brand != null && (homeHref ? /* @__PURE__ */ jsx(Link, { href: homeHref, className: brandRowClass, children: brand }) : /* @__PURE__ */ jsx("div", { className: brandRowClass, children: brand })),
+        /* @__PURE__ */ jsxs(
+          "div",
+          {
+            className: cn(
+              "p-6 bg-card border border-border rounded-xl",
+              centered && "text-center",
+              cardClassName
+            ),
+            children: [
+              icon != null && /* @__PURE__ */ jsx("div", { className: "flex justify-center mb-4", children: icon }),
+              title != null && /* @__PURE__ */ jsx(
+                "h1",
+                {
+                  className: cn(
+                    "text-xl font-semibold text-center",
+                    subtitle != null ? "mb-2" : "mb-6"
+                  ),
+                  children: title
+                }
+              ),
+              subtitle != null && /* @__PURE__ */ jsx("p", { className: "text-muted-foreground text-sm text-center mb-6", children: subtitle }),
+              error ? /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-error-soft text-error text-sm rounded-lg border border-error-soft", children: error }) : null,
+              children
+            ]
+          }
+        ),
+        footer != null && /* @__PURE__ */ jsx("div", { className: "mt-6 text-center text-sm text-muted-foreground", children: footer })
       ] })
     }
   );

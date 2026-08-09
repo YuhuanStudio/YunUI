@@ -5,6 +5,7 @@ import { Search, Pin, ChevronDown, X, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "../lib/cn";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
+import { useDismissOnOutside } from "../lib/hooks";
 
 /** A horizontally-scrolling strip with an always-visible, drag-able scrollbar that
  *  works in EVERY browser — including iOS Safari, which renders neither
@@ -216,18 +217,8 @@ export function ModelSelect({
     const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
     const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
 
-    // Close on outside pointer (mouse + touch).
-    useEffect(() => {
-        const onDown = (e: MouseEvent | PointerEvent) => {
-            if (rootRef.current && !rootRef.current.contains(e.target as Node)) setIsOpen(false);
-        };
-        document.addEventListener("mousedown", onDown);
-        document.addEventListener("touchstart", onDown as EventListener);
-        return () => {
-            document.removeEventListener("mousedown", onDown);
-            document.removeEventListener("touchstart", onDown as EventListener);
-        };
-    }, []);
+    // Escape is handled separately below (it also restores focus to the trigger).
+    useDismissOnOutside(isOpen, () => setIsOpen(false), rootRef, { escape: false });
 
     // On open: focus the search and bring the selected row into view.
     useEffect(() => {

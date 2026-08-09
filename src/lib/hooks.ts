@@ -209,3 +209,71 @@ export function useFocusTrap(
         };
     }, [enabled, containerRef]);
 }
+
+/**
+ * Dismiss a floating panel when the pointer goes down outside it.
+ *
+ * Six components in this library hand-rolled this, and no two agreed:
+ * `CustomSelect`, `Combobox`, `ThemeToggle` and `LanguageSwitcher` registered
+ * the listener permanently (it ran on every click in the app, open or not) and
+ * listened for `mousedown` only — so on a touch device, tapping away did not
+ * reliably close them. `ModelSelect` added `touchstart` but still never
+ * unregistered while closed. `AccountMenu` gated on open and handled Escape.
+ *
+ * This is the union of the correct halves: the listeners exist only while
+ * `open`, cover both mouse and touch, and optionally close on Escape.
+ *
+ * @param open        Whether the panel is currently showing.
+ * @param onDismiss   Called on an outside press (and on Escape, if enabled).
+ * @param ref         The panel's outermost element — a press inside it is ignored.
+ * @param options.escape  Also dismiss on Escape. @defaultValue true
+ * @param options.extraRefs  Further elements to treat as "inside" — for a panel
+ *   rendered through a portal, whose DOM is not a descendant of the trigger.
+ *
+ * @example
+ * ```tsx
+ * const ref = useRef<HTMLDivElement>(null);
+ * const [open, setOpen] = useState(false);
+ * useDismissOnOutside(open, () => setOpen(false), ref);
+ * ```
+ */
+export function useDismissOnOutside(
+    open: boolean,
+    onDismiss: () => void,
+    ref: RefObject<HTMLElement | null>,
+    options?: { escape?: boolean; extraRefs?: RefObject<HTMLElement | null>[] }
+): void {
+    const onDismissRef = useRef(onDismiss);
+    onDismissRef.current = onDismiss;
+
+    const escape = options?.escape ?? true;
+    const extraRefs = options?.extraRefs;
+
+    useEffect(() => {
+        if (!open) return;
+
+        const isInside = (target: Node) =>
+            ref.current?.contains(target) ||
+            extraRefs?.some((r) => r.current?.contains(target));
+
+        const onDown = (event: Event) => {
+            const target = event.target as Node | null;
+            if (target && !isInside(target)) onDismissRef.current();
+        };
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onDismissRef.current();
+        };
+
+        // `mousedown` alone leaves touch devices holding the panel open until a
+        // synthesised mouse event arrives — which never happens for a scroll.
+        document.addEventListener("mousedown", onDown);
+        document.addEventListener("touchstart", onDown);
+        if (escape) document.addEventListener("keydown", onKey);
+        return () => {
+            document.removeEventListener("mousedown", onDown);
+            document.removeEventListener("touchstart", onDown);
+            if (escape) document.removeEventListener("keydown", onKey);
+        };
+        // `extraRefs` is a caller-owned array; depend on its identity, not contents.
+    }, [open, escape, ref, extraRefs]);
+}
