@@ -40,8 +40,11 @@ export function BlogPagination({
         size="sm"
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        // The visible word is hidden below `sm`, which left the button with
+        // nothing but a chevron and NO accessible name on a phone.
+        aria-label={previousLabel}
       >
-        <ChevronLeft size={16} />
+        <ChevronLeft size={16} aria-hidden />
         <span className="ml-1 hidden sm:inline">{previousLabel}</span>
       </Button>
 
@@ -91,9 +94,10 @@ export function BlogPagination({
         size="sm"
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        aria-label={nextLabel}
       >
         <span className="mr-1 hidden sm:inline">{nextLabel}</span>
-        <ChevronRight size={16} />
+        <ChevronRight size={16} aria-hidden />
       </Button>
     </div>
   );

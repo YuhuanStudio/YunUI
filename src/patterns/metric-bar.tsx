@@ -40,6 +40,10 @@ export function MetricBar({ icon, label, value, percentage, color, className }: 
                 <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                     <div
                         role="progressbar"
+                        // The bar had a visible label beside it and no accessible
+                        // name of its own, so a screen reader announced a bare
+                        // percentage with nothing to attach it to.
+                        aria-label={typeof label === "string" ? label : undefined}
                         aria-valuenow={Math.max(0, Math.min(100, percentage))}
                         aria-valuemin={0}
                         aria-valuemax={100}

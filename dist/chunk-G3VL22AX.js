@@ -340,11 +340,12 @@ function Sheet({ open, onClose, children, title, closeLabel, mobileOnly = false 
   );
 }
 var Checkbox = forwardRef(
-  ({ checked = false, onCheckedChange, disabled = false, className = "", id }, ref) => {
+  ({ checked = false, onCheckedChange, disabled = false, className = "", id, ...props }, ref) => {
     const filled = checked === true || checked === "indeterminate";
     return /* @__PURE__ */ jsx(
       "button",
       {
+        ...props,
         ref,
         type: "button",
         role: "checkbox",
@@ -1911,7 +1912,7 @@ var SelectScrollDownButton = React7.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
-var Slider = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxs(
+var Slider = React7.forwardRef(({ className, label, ...props }, ref) => /* @__PURE__ */ jsxs(
   SliderPrimitive.Root,
   {
     ref,
@@ -1922,6 +1923,7 @@ var Slider = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */
       /* @__PURE__ */ jsx(
         SliderPrimitive.Thumb,
         {
+          "aria-label": label,
           className: "block h-5 w-5 rounded-full border-2 border-foreground bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 yunui-accent-border"
         }
       )
@@ -1929,10 +1931,11 @@ var Slider = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */
   }
 ));
 Slider.displayName = SliderPrimitive.Root.displayName;
-var Progress = React7.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ jsx(
+var Progress = React7.forwardRef(({ className, value, label, ...props }, ref) => /* @__PURE__ */ jsx(
   ProgressPrimitive.Root,
   {
     ref,
+    "aria-label": label,
     className: cn("relative h-2 w-full overflow-hidden rounded-full bg-muted", className),
     ...props,
     children: /* @__PURE__ */ jsx(
@@ -2448,5 +2451,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem };
-//# sourceMappingURL=chunk-BLFFI7N3.js.map
-//# sourceMappingURL=chunk-BLFFI7N3.js.map
+//# sourceMappingURL=chunk-G3VL22AX.js.map
+//# sourceMappingURL=chunk-G3VL22AX.js.map

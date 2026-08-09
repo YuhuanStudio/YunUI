@@ -63,6 +63,7 @@ export function ChatAttachment({
           <div
             className="mt-1.5 h-0.5 overflow-hidden rounded-full bg-border"
             role="progressbar"
+            aria-label={typeof name === "string" ? name : undefined}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={boundedProgress}

@@ -469,7 +469,7 @@ export default function Home() {
                   <Checkbox checked={checked} onCheckedChange={setChecked} />
                   {t("livePreview.subscribe")}
                 </label>
-                <Switch checked={sw} onCheckedChange={setSw} />
+                <Switch checked={sw} onCheckedChange={setSw} label="Preview toggle" />
               </div>
               <Button variant="primary" size="sm" className="mt-1">
                 {t("livePreview.continue")}

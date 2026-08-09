@@ -1,5 +1,5 @@
 "use client";
-import { Spinner } from './chunk-BLFFI7N3.js';
+import { Spinner } from './chunk-G3VL22AX.js';
 import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React3 from 'react';
@@ -566,7 +566,7 @@ var variantClasses = {
   }
 };
 var Switch = forwardRef(
-  ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id, ...props }, ref) => {
+  ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id, label, ...props }, ref) => {
     const sizeClass = sizeClasses[size];
     const variantClass = variantClasses[variant];
     return /* @__PURE__ */ jsx(
@@ -577,6 +577,7 @@ var Switch = forwardRef(
         type: "button",
         role: "switch",
         "aria-checked": checked,
+        ...label ? { "aria-label": label } : {},
         id,
         onClick: () => !disabled && onCheckedChange(!checked),
         disabled,
@@ -655,6 +656,7 @@ function Sparkline({
   area = false,
   min,
   max,
+  label,
   className,
   ...props
 }) {
@@ -684,7 +686,8 @@ function Sparkline({
       height,
       preserveAspectRatio: "none",
       className: cn("overflow-visible", className),
-      role: "img",
+      role: label ? "img" : void 0,
+      "aria-label": label,
       ...props,
       children: [
         area && /* @__PURE__ */ jsxs(Fragment, { children: [
@@ -725,6 +728,7 @@ function Gauge({
   tone = "accent",
   color,
   label,
+  ariaLabel,
   counterClockwise = false,
   className
 }) {
@@ -739,6 +743,7 @@ function Gauge({
       className: cn("relative inline-flex items-center justify-center", className),
       style: { width: size, height: size },
       role: "progressbar",
+      "aria-label": typeof label === "string" ? label : ariaLabel,
       "aria-valuenow": Math.round(pct),
       "aria-valuemin": 0,
       "aria-valuemax": 100,
@@ -791,6 +796,7 @@ function SegmentedBar({
   height = 8,
   legend = false,
   formatValue,
+  label,
   className
 }) {
   const sum = segments.reduce((a, s) => a + Math.max(0, s.value), 0);
@@ -801,7 +807,8 @@ function SegmentedBar({
       {
         className: "flex w-full overflow-hidden rounded-full bg-muted",
         style: { height },
-        role: "img",
+        role: label ? "img" : void 0,
+        "aria-label": label,
         children: segments.map((s, i) => {
           const w = Math.max(0, s.value) / axis * 100;
           if (w <= 0) return null;
@@ -1455,5 +1462,5 @@ function useCommandPaletteShortcut(onOpen) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-RHQRQPCZ.js.map
-//# sourceMappingURL=chunk-RHQRQPCZ.js.map
+//# sourceMappingURL=chunk-Y2UOFEUP.js.map
+//# sourceMappingURL=chunk-Y2UOFEUP.js.map

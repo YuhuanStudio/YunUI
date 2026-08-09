@@ -35,16 +35,18 @@ export function SimplePagination({
 
   return (
     <div className="flex items-center justify-center gap-1.5 sm:gap-2">
-      <Button variant="ghost" size="sm" onClick={onPrevious} disabled={!canPrev}>
-        <ChevronLeft size={16} />
+      {/* aria-label because the word is hidden below `sm`, leaving a chevron
+          with no accessible name on a phone. */}
+      <Button variant="ghost" size="sm" onClick={onPrevious} disabled={!canPrev} aria-label={previousLabel}>
+        <ChevronLeft size={16} aria-hidden />
         <span className="ml-1 hidden sm:inline">{previousLabel}</span>
       </Button>
 
       <span className="px-3 text-sm font-medium tabular-nums whitespace-nowrap">{pageNode}</span>
 
-      <Button variant="ghost" size="sm" onClick={onNext} disabled={!hasNext}>
+      <Button variant="ghost" size="sm" onClick={onNext} disabled={!hasNext} aria-label={nextLabel}>
         <span className="mr-1 hidden sm:inline">{nextLabel}</span>
-        <ChevronRight size={16} />
+        <ChevronRight size={16} aria-hidden />
       </Button>
     </div>
   );

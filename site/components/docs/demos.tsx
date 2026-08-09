@@ -81,14 +81,14 @@ export function SwitchDemo() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <Switch checked={on} onCheckedChange={setOn} />
-        <Switch checked={on} onCheckedChange={setOn} size="md" />
-        <Switch checked={false} onCheckedChange={() => {}} disabled />
+        <Switch checked={on} onCheckedChange={setOn} label="Notifications" />
+        <Switch checked={on} onCheckedChange={setOn} size="md" label="Notifications, larger" />
+        <Switch checked={false} onCheckedChange={() => {}} disabled label="Disabled example" />
       </div>
       <div className="flex items-center gap-4">
-        <Switch checked={success} onCheckedChange={setSuccess} variant="success" />
-        <Switch checked={warning} onCheckedChange={setWarning} variant="warning" />
-        <Switch checked={danger} onCheckedChange={setDanger} variant="danger" />
+        <Switch checked={success} onCheckedChange={setSuccess} variant="success" label="Success example" />
+        <Switch checked={warning} onCheckedChange={setWarning} variant="warning" label="Warning example" />
+        <Switch checked={danger} onCheckedChange={setDanger} variant="danger" label="Danger example" />
       </div>
     </div>
   );
@@ -121,20 +121,23 @@ export function NavTabsDemo() {
 export function CheckboxDemo() {
   const [a, setA] = useState(true);
   const [b, setB] = useState(false);
+  // `aria-labelledby`, not a wrapping <label>: Radix renders a
+  // `<button role="checkbox">`, and <label> only names form controls — it does
+  // nothing for a button, so the wrapped version produced an unnamed checkbox.
   return (
     <div className="flex flex-col gap-3">
-      <label className="flex items-center gap-2 text-sm">
-        <Checkbox checked={a} onCheckedChange={setA} id="cb-a" />
-        Subscribe to updates
-      </label>
-      <label className="flex items-center gap-2 text-sm">
-        <Checkbox checked={b} onCheckedChange={setB} id="cb-b" />
-        Remember this device
-      </label>
-      <label className="flex items-center gap-2 text-sm opacity-60">
-        <Checkbox checked={false} onCheckedChange={() => {}} disabled id="cb-c" />
-        Disabled option
-      </label>
+      <span className="flex items-center gap-2 text-sm">
+        <Checkbox checked={a} onCheckedChange={setA} id="cb-a" aria-labelledby="cb-a-label" />
+        <span id="cb-a-label">Subscribe to updates</span>
+      </span>
+      <span className="flex items-center gap-2 text-sm">
+        <Checkbox checked={b} onCheckedChange={setB} id="cb-b" aria-labelledby="cb-b-label" />
+        <span id="cb-b-label">Remember this device</span>
+      </span>
+      <span className="flex items-center gap-2 text-sm opacity-60">
+        <Checkbox checked={false} onCheckedChange={() => {}} disabled id="cb-c" aria-labelledby="cb-c-label" />
+        <span id="cb-c-label">Disabled option</span>
+      </span>
     </div>
   );
 }
@@ -558,16 +561,16 @@ export function SettingRowDemo() {
       <SettingRow
         title="Email notifications"
         description="Receive a summary of account activity in your inbox."
-        control={<Switch checked={email} onCheckedChange={setEmail} />}
+        control={<Switch aria-label="Setting toggle" checked={email} onCheckedChange={setEmail} />}
       />
       <SettingRow
         title="Push notifications"
         description="Get notified on your devices the moment something happens."
-        control={<Switch checked={push} onCheckedChange={setPush} />}
+        control={<Switch aria-label="Setting toggle" checked={push} onCheckedChange={setPush} />}
       />
       <SettingRow
         title="Weekly digest"
-        control={<Switch checked={digest} onCheckedChange={setDigest} />}
+        control={<Switch aria-label="Setting toggle" checked={digest} onCheckedChange={setDigest} />}
       />
     </div>
   );

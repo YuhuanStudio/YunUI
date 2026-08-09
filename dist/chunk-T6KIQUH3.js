@@ -2,24 +2,26 @@
 import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React2 from 'react';
-import { jsx, jsxs } from 'react/jsx-runtime';
+import { jsxs, jsx } from 'react/jsx-runtime';
 import { Sun, Moon, Droplet, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 var TextShimmer = React2.forwardRef(
-  ({ text, active = true, className, ...props }, ref) => /* @__PURE__ */ jsx(
+  ({ text, active = true, className, ...props }, ref) => /* @__PURE__ */ jsxs(
     "span",
     {
       ref,
-      "aria-label": text,
       "data-active": active ? "true" : "false",
       "data-yunui": "text-shimmer",
       className: cn("yunui-text-shimmer", className),
       ...props,
-      children: /* @__PURE__ */ jsxs("span", { className: "yunui-text-shimmer__paint", "aria-hidden": "true", children: [
-        /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__base", children: text }),
-        /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__sweep", children: text })
-      ] })
+      children: [
+        /* @__PURE__ */ jsx("span", { className: "sr-only", children: text }),
+        /* @__PURE__ */ jsxs("span", { className: "yunui-text-shimmer__paint", "aria-hidden": "true", children: [
+          /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__base", children: text }),
+          /* @__PURE__ */ jsx("span", { className: "yunui-text-shimmer__sweep", children: text })
+        ] })
+      ]
     }
   )
 );
@@ -120,5 +122,5 @@ function ThemeToggle({ variant = "icon", align = "right", className = "" }) {
 }
 
 export { TextShimmer, ThemeToggle };
-//# sourceMappingURL=chunk-VJ4AIGVS.js.map
-//# sourceMappingURL=chunk-VJ4AIGVS.js.map
+//# sourceMappingURL=chunk-T6KIQUH3.js.map
+//# sourceMappingURL=chunk-T6KIQUH3.js.map

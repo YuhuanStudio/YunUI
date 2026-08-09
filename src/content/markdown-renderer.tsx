@@ -263,6 +263,14 @@ export function MarkdownRenderer({
               type="checkbox"
               checked={checked}
               readOnly
+              // Hidden from assistive tech and skipped by Tab. This is a
+              // markdown task marker, not a control: it cannot be toggled, it
+              // has no name of its own, and the item's text — which sits right
+              // beside it in the same <li> — is what carries the meaning. Left
+              // exposed it was announced as an unlabelled checkbox, which axe
+              // flags as critical and which tells a reader nothing.
+              aria-hidden="true"
+              tabIndex={-1}
               // `accent-*` colours the native checkbox tick (text-* does not).
               className="mt-1 h-4 w-4 rounded border-(--border-hairline) accent-(--accent) focus:ring-ring"
               {...props}

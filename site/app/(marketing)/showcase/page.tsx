@@ -312,7 +312,7 @@ function Demo({ title, description, code, children }: { title: string; descripti
 // Self-contained checkbox so the showcase model cards actually toggle.
 function MmcSelect({ defaultChecked = false }: { defaultChecked?: boolean }) {
   const [checked, setChecked] = useState(defaultChecked);
-  return <Checkbox checked={checked} onCheckedChange={setChecked} />;
+  return <Checkbox checked={checked} onCheckedChange={setChecked} aria-label="Select this model" />;
 }
 
 function ErrorBoundaryDemo() {
@@ -561,7 +561,7 @@ function NewInputsDemo() {
       </div>
       <div>
         <Label>Quantity</Label>
-        <NumberInput value={qty} onChange={setQty} min={0} max={20} />
+        <NumberInput value={qty} onChange={setQty} min={0} max={20} aria-label="Quantity" />
       </div>
       <p className="text-sm text-muted-foreground">
         Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> to open search.
@@ -584,7 +584,7 @@ function ProviderCardGridDemo() {
           <div className="min-w-0">
             <h3 className="font-semibold truncate">{name}</h3>
             <div className="flex items-center gap-2 text-xs mt-0.5">
-              <span className="flex items-center gap-1 text-green-500"><CheckCircle2 size={12} />Healthy</span>
+              <span className="flex items-center gap-1 text-success"><CheckCircle2 size={12} />Healthy</span>
               <span className={`flex items-center gap-1 ${latencyClass}`}><Zap size={11} />{latency}</span>
             </div>
           </div>
@@ -597,7 +597,7 @@ function ProviderCardGridDemo() {
       <div className="flex flex-wrap gap-2">{badges}</div>
       <div className="card-footer flex items-center justify-between">
         <span className="text-xs text-muted-foreground">{models} models</span>
-        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-green-600 bg-green-500/10">
+        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium badge-success">
           <Power size={14} />Enabled
         </span>
       </div>
@@ -606,7 +606,7 @@ function ProviderCardGridDemo() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
       <Card
-        provider="anthropic" name="Claude Code" latency="50ms" latencyClass="text-green-500" models={10}
+        provider="anthropic" name="Claude Code" latency="50ms" latencyClass="text-success" models={10}
         badges={
           <>
             <CardBadge color="bg-blue-500/10 text-blue-600 dark:text-blue-400"><Server size={12} />Local Provider</CardBadge>
@@ -615,10 +615,10 @@ function ProviderCardGridDemo() {
         }
       />
       <Card
-        provider="cloudflare" name="Cloudflare Worker" latency="1588ms" latencyClass="text-red-500" models={95}
+        provider="cloudflare" name="Cloudflare Worker" latency="1588ms" latencyClass="text-error" models={95}
         badges={
           <>
-            <CardBadge color="bg-green-500/10 text-green-600 dark:text-green-400"><KeyRound size={12} />Key Configured</CardBadge>
+            <CardBadge color="badge-success dark:text-green-400"><KeyRound size={12} />Key Configured</CardBadge>
             <CardBadge color="bg-muted text-muted-foreground max-w-44"><Globe size={12} /><span className="truncate">https://api.cloudflare.com/…</span></CardBadge>
             <CardBadge color="bg-slate-500/10 text-slate-600 dark:text-slate-400"><Cpu size={12} />Built-in adapter</CardBadge>
           </>
@@ -689,7 +689,7 @@ function ModelSelectDemo() {
         {m.caps.includes("thinking") && <CapabilityIcon capability="thinking" />}
         {m.caps.includes("functions") && <CapabilityIcon capability="function_calling" />}
         {m.deprecated && <span title="Deprecated"><AlertTriangle size={14} className="text-orange-500 shrink-0" /></span>}
-        {m.tier === "pro" && <span title="Pro tier"><Crown size={14} className="text-amber-500 shrink-0" /></span>}
+        {m.tier === "pro" && <span title="Pro tier"><Crown size={14} className="text-warning shrink-0" /></span>}
       </>
     ),
     detail: (
@@ -752,7 +752,7 @@ function IconGalleryDemo() {
       {/* Inline gridTemplateColumns (not a Tailwind arbitrary grid-cols-[…]
           class) — Safari mis-parsed the escaped repeat()/minmax() class and
           collapsed the grid to a single centered column. */}
-      <div className="grid gap-3 max-h-96 overflow-y-auto pr-1" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(74px, 1fr))" }}>
+      <div tabIndex={0} className="grid gap-3 max-h-96 overflow-y-auto pr-1 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(74px, 1fr))" }}>
         {shown.map((slug) => (
           <div key={slug} className="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-(--bg-hover) transition-colors">
             {/* Subtle inset ring so dark brand tiles (openai/github) keep a visible
@@ -1187,11 +1187,11 @@ export default function Showcase() {
         </Demo>
         <Demo title={t("demos.checkboxSwitch.title")}>
           <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <Checkbox checked={checked} onCheckedChange={setChecked} />
+            <Checkbox checked={checked} onCheckedChange={setChecked} aria-label="Select row" />
             {t("demos.checkboxSwitch.subscribe")}
           </label>
-          <Switch checked={sw} onCheckedChange={setSw} />
-          <Switch checked={!sw} onCheckedChange={(v) => setSw(!v)} variant="success" />
+          <Switch checked={sw} onCheckedChange={setSw} label="Demo switch" />
+          <Switch checked={!sw} onCheckedChange={(v) => setSw(!v)} variant="success" label="Demo switch, success" />
         </Demo>
         <Demo title={t("demos.segmentedSelect.title")}>
           <SegmentedSelect
@@ -1235,7 +1235,7 @@ export default function Showcase() {
           code={`import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, ProviderIcon } from "@yuhuanowo/yunui";
 
 <Select>
-  <SelectTrigger className="w-56">
+  <SelectTrigger aria-label="Example select" className="w-56">
     <SelectValue placeholder="Pick a provider" />
   </SelectTrigger>
   <SelectContent>
@@ -1252,7 +1252,7 @@ export default function Showcase() {
 </Select>`}
         >
           <Select>
-            <SelectTrigger className="w-56">
+            <SelectTrigger aria-label="Example select" className="w-56">
               <SelectValue placeholder={t("demos.radixSelect.placeholder")} />
             </SelectTrigger>
             <SelectContent>
@@ -1266,7 +1266,7 @@ export default function Showcase() {
         </Demo>
         <Demo title={t("demos.slider.title")}>
           <div className="w-72">
-            <Slider value={slider} onValueChange={setSlider} max={100} step={1} />
+            <Slider label="Example slider" value={slider} onValueChange={setSlider} max={100} step={1} />
             <p className="text-caption mt-2">{t("demos.slider.value")}: {slider[0]}</p>
           </div>
         </Demo>
@@ -1457,7 +1457,7 @@ export default function Showcase() {
               ].map((r) => (
                 <TableRow key={r.name} className="group">
                   <TableCell>
-                    <button className="p-1 hover:bg-muted rounded-sm transition-colors"><Square size={18} className="text-muted-foreground" /></button>
+                    <button aria-label="Select row" className="p-1 hover:bg-muted rounded-sm transition-colors"><Square size={18} className="text-muted-foreground" /></button>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-start gap-3">
@@ -1486,7 +1486,7 @@ export default function Showcase() {
                     <div className="flex items-center gap-2"><ModelTypeIcon type={r.type} size={16} /><span className="text-sm capitalize">{r.typeLabel}</span></div>
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><CheckCircle size={12} />Approved</span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium badge-success"><CheckCircle size={12} />Approved</span>
                   </TableCell>
                   <TableCell className="whitespace-nowrap text-muted-foreground"><span className="text-sm">{r.ctx}</span></TableCell>
                   <TableCell className="whitespace-nowrap text-muted-foreground"><span className="text-sm">{r.maxOut}</span></TableCell>
@@ -1498,11 +1498,11 @@ export default function Showcase() {
                   </TableCell>
                   <TableCell className="whitespace-nowrap text-right">
                     <div className="flex items-center justify-end gap-1 text-muted-foreground">
-                      <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯"><Pencil size={14} /></button>
-                      <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="停用"><Power size={14} /></button>
-                      <button className="p-1.5 rounded-lg hover:bg-muted transition-colors" title="標記棄用"><Eye size={14} /></button>
-                      <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="暫停"><PauseCircle size={14} /></button>
-                      <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="刪除"><Trash2 size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯" aria-label="編輯"><Pencil size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-warning transition-colors" title="停用" aria-label="停用"><Power size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-muted transition-colors" title="標記棄用" aria-label="標記棄用"><Eye size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-warning transition-colors" title="暫停" aria-label="暫停"><PauseCircle size={14} /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-error transition-colors" title="刪除" aria-label="刪除"><Trash2 size={14} /></button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -1523,17 +1523,17 @@ export default function Showcase() {
                 <IDBadge text="claude-opus-agent" />
               </>}
               actions={<>
-                <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯"><Pencil size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="停用"><Power size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors" title="標記棄用"><Eye size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="暫停"><PauseCircle size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="刪除"><Trash2 size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯" aria-label="編輯"><Pencil size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-warning transition-colors" title="停用" aria-label="停用"><Power size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors" title="標記棄用" aria-label="標記棄用"><Eye size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-warning transition-colors" title="暫停" aria-label="暫停"><PauseCircle size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-error transition-colors" title="刪除" aria-label="刪除"><Trash2 size={15} /></button>
               </>}
               fields={[
                 { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-2 text-sm text-muted-foreground"><ProviderIcon provider="claude" size={18} rounded />Claude Code</span> },
                 { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-2 text-sm"><ProviderIcon provider="anthropic" size={18} rounded />Anthropic</span> },
                 { label: "類型 / Type", value: <span className="inline-flex items-center gap-2 text-sm"><ModelTypeIcon type="chat" size={16} />Chat</span> },
-                { label: "狀態 / Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><CheckCircle size={12} />Approved</span> },
+                { label: "狀態 / Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium badge-success"><CheckCircle size={12} />Approved</span> },
                 { label: "上下文 / 解析度", value: <span className="text-sm text-muted-foreground">200.00K</span> },
                 { label: "最大輸出 TOKEN", value: <span className="text-sm text-muted-foreground">128.00K</span> },
                 { label: "價格（輸入/輸出）", value: <span className="font-mono text-sm text-muted-foreground">5.00K / 25.00K</span>, full: true },
@@ -1547,21 +1547,21 @@ export default function Showcase() {
               name="FLUX.1 Kontext"
               nameBadges={<>
                 <span className="badge flex items-center gap-1 bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20"><FileCode size={10} />YAML</span>
-                <span className="badge bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 flex items-center gap-1"><PauseCircle size={10} />Suspended</span>
+                <span className="badge badge-warning flex items-center gap-1"><PauseCircle size={10} />Suspended</span>
               </>}
               ids={<IDBadge text="fal/flux-kontext" />}
               actions={<>
-                <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯"><Pencil size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="停用"><Power size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors" title="標記棄用"><Eye size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="暫停"><PauseCircle size={15} /></button>
-                <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="刪除"><Trash2 size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="編輯" aria-label="編輯"><Pencil size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-warning transition-colors" title="停用" aria-label="停用"><Power size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors" title="標記棄用" aria-label="標記棄用"><Eye size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-warning transition-colors" title="暫停" aria-label="暫停"><PauseCircle size={15} /></button>
+                <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-error transition-colors" title="刪除" aria-label="刪除"><Trash2 size={15} /></button>
               </>}
               fields={[
                 { label: "供應商 / Provider", value: <span className="inline-flex items-center gap-2 text-sm text-muted-foreground"><ProviderIcon provider="fal" size={18} rounded />fal.ai</span> },
                 { label: "開發者 / Developer", value: <span className="inline-flex items-center gap-2 text-sm"><ProviderIcon provider="flux" size={18} rounded />Black Forest</span> },
                 { label: "類型 / Type", value: <span className="inline-flex items-center gap-2 text-sm"><ModelTypeIcon type="image_generation" size={16} />Image generation</span> },
-                { label: "狀態 / Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400"><Clock size={12} />Pending</span> },
+                { label: "狀態 / Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium badge-warning"><Clock size={12} />Pending</span> },
                 { label: "上下文 / 解析度", value: <span className="text-sm text-muted-foreground">256–2048 × 256–2048</span> },
                 { label: "最大輸出 TOKEN", value: <span className="text-sm text-muted-foreground">—</span> },
                 { label: "價格（輸入/輸出）", value: <span className="font-mono text-sm text-muted-foreground">25.00 /req</span>, full: true },
@@ -1575,7 +1575,7 @@ export default function Showcase() {
             <AvatarImage src="https://github.com/yuhuanowo.png" alt="avatar" />
             <AvatarFallback>YX</AvatarFallback>
           </Avatar>
-          <div className="w-60"><Progress value={66} /></div>
+          <div className="w-60"><Progress value={66} label="Demo progress" /></div>
         </Demo>
         <Demo title={t("demos.animatedNumber.title")} description={t("demos.animatedNumber.description")}>
           <div className="flex flex-wrap gap-8">
@@ -1659,18 +1659,18 @@ export default function Showcase() {
         </Demo>
         <Demo title="Sparkline" description="Tiny inline line/area charts for a rolling number series — throughput, GPU utilization, latency. Pure SVG, tone-colored.">
           <div className="flex flex-wrap items-center gap-8">
-            <Sparkline data={[4, 7, 5, 9, 6, 11, 8, 13, 10, 15]} className="w-40 h-8" />
-            <Sparkline area data={[8, 6, 9, 7, 12, 10, 14, 11, 16, 13]} className="w-40 h-10" />
-            <Sparkline tone="success" area data={[2, 4, 3, 6, 5, 8, 7, 10]} className="w-32 h-8" />
-            <Sparkline tone="error" area data={[10, 8, 9, 6, 7, 4, 5, 2]} className="w-32 h-8" />
+            <Sparkline label="Example sparkline" data={[4, 7, 5, 9, 6, 11, 8, 13, 10, 15]} className="w-40 h-8" />
+            <Sparkline label="Example sparkline" area data={[8, 6, 9, 7, 12, 10, 14, 11, 16, 13]} className="w-40 h-10" />
+            <Sparkline label="Example sparkline" tone="success" area data={[2, 4, 3, 6, 5, 8, 7, 10]} className="w-32 h-8" />
+            <Sparkline label="Example sparkline" tone="error" area data={[10, 8, 9, 6, 7, 4, 5, 2]} className="w-32 h-8" />
           </div>
         </Demo>
         <Demo title="Gauge" description="Circular percentage rings for GPU / cache / disk. The arc color follows a semantic tone (often a threshold).">
           <div className="flex flex-wrap items-center gap-6">
-            <Gauge value={38} tone="success" />
-            <Gauge value={71} tone="warning" />
-            <Gauge value={94} tone="error" size={88} thickness={8} />
-            <Gauge value={64} tone="info" size={96} label={<div className="text-center"><div className="text-lg font-bold">64%</div><div className="text-[10px] text-muted-foreground">CACHE</div></div>} />
+            <Gauge ariaLabel="Example gauge" value={38} tone="success" />
+            <Gauge ariaLabel="Example gauge" value={71} tone="warning" />
+            <Gauge ariaLabel="Example gauge" value={94} tone="error" size={88} thickness={8} />
+            <Gauge ariaLabel="Example gauge" value={64} tone="info" size={96} label={<div className="text-center"><div className="text-lg font-bold">64%</div><div className="text-[10px] text-muted-foreground">CACHE</div></div>} />
           </div>
         </Demo>
         <Demo title="SegmentedBar" description="A proportional multi-segment bar for memory allocation or a request mix, with an optional legend.">

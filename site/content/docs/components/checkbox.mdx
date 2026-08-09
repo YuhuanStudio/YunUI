@@ -15,7 +15,7 @@ import { Checkbox } from "@yuhuanowo/yunui";
 ```tsx
 const [checked, setChecked] = useState(false);
 <label className="flex items-center gap-2">
-  <Checkbox checked={checked} onCheckedChange={setChecked} id="terms" />
+  <Checkbox checked={checked} onCheckedChange={setChecked} id="terms" aria-label="Accept terms" />
   Accept terms
 </label>
 ```
@@ -25,6 +25,19 @@ const [checked, setChecked] = useState(false);
 <ComponentPreview title="Checkbox rows">
   <CheckboxDemo />
 </ComponentPreview>
+
+## Naming it
+
+`Checkbox` renders a `<button role="checkbox">`. A `<label>` — wrapping it, or
+via `htmlFor` — **does not name it**: labels only apply to real form controls.
+Use `aria-label`, or point `aria-labelledby` at the text beside it.
+
+```tsx
+<span className="flex items-center gap-2 text-sm">
+  <Checkbox checked={checked} onCheckedChange={setChecked} aria-labelledby="terms-label" />
+  <span id="terms-label">I accept the terms</span>
+</span>
+```
 
 ## Props
 

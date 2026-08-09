@@ -4,20 +4,27 @@ import { Eye, EyeOff, Clock, CheckCircle, XCircle, Zap, FileText, FileCode, Mess
 import { useYunUI } from "../adapters/context";
 import { capabilityIconColor, capabilityBadgeColor } from "../ai/capability-colors";
 
+/*
+ * Light-mode ink is -700, not -600. These pills sit on a 10% tint of the same
+ * hue, and axe measured the -600 inks below the 4.5:1 AA floor on the brighter
+ * ones (amber 2.96:1, cyan 3.29:1) against the tint. Dark mode keeps -400,
+ * where the tint is on a dark surface and the contrast runs the other way.
+ * Matches ai/capability-colors.ts.
+ */
 // Fellow recognition badge — the standing mark of an approved Fellows-tier member.
 export function FellowBadge({ variant = "inline", className = "" }: { variant?: "inline" | "pill"; className?: string }) {
     const t = useYunUI().useT("components.badges");
     if (variant === "pill") {
         return (
-            <span className={`badge inline-flex items-center gap-1 text-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 ${className}`}>
-                <Award size={11} className="text-amber-500" />
+            <span className={`badge inline-flex items-center gap-1 text-xs bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20 ${className}`}>
+                <Award size={11} className="text-amber-600" />
                 {t("fellow")}
             </span>
         );
     }
     return (
-        <span className={`inline-flex items-center gap-1 text-xs font-medium text-amber-600 dark:text-amber-400 ${className}`}>
-            <Award size={10} className="text-amber-500" />
+        <span className={`inline-flex items-center gap-1 text-xs font-medium text-amber-700 dark:text-amber-400 ${className}`}>
+            <Award size={10} className="text-amber-600" />
             {t("fellow")}
         </span>
     );
@@ -85,8 +92,8 @@ export function SourceBadge({ source, showIcon = true }: { source: string; showI
     const t = useYunUI().useT("common.badge");
 
     const configs: Record<string, { icon: React.ComponentType<{ size?: number }>; color: string; label: string }> = {
-        yaml: { icon: FileCode, color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20", label: t("yaml") },
-        api: { icon: FileText, color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20", label: t("api") },
+        yaml: { icon: FileCode, color: "bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20", label: t("yaml") },
+        api: { icon: FileText, color: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20", label: t("api") },
     };
 
     const config = configs[source.toLowerCase()];

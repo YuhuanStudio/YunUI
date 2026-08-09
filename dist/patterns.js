@@ -1,10 +1,10 @@
 "use client";
-import './chunk-RHQRQPCZ.js';
-import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
-export { Footer } from './chunk-HJ6AUOR7.js';
-import './chunk-VJ4AIGVS.js';
+import './chunk-Y2UOFEUP.js';
+import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-6YVN22VI.js';
+export { Footer } from './chunk-6YVN22VI.js';
+import './chunk-T6KIQUH3.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-BLFFI7N3.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-G3VL22AX.js';
 import { cn } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -508,8 +508,9 @@ function BlogPagination({
         size: "sm",
         onClick: () => handlePageChange(currentPage - 1),
         disabled: currentPage === 1,
+        "aria-label": previousLabel,
         children: [
-          /* @__PURE__ */ jsx(ChevronLeft, { size: 16 }),
+          /* @__PURE__ */ jsx(ChevronLeft, { size: 16, "aria-hidden": true }),
           /* @__PURE__ */ jsx("span", { className: "ml-1 hidden sm:inline", children: previousLabel })
         ]
       }
@@ -553,9 +554,10 @@ function BlogPagination({
         size: "sm",
         onClick: () => handlePageChange(currentPage + 1),
         disabled: currentPage === totalPages,
+        "aria-label": nextLabel,
         children: [
           /* @__PURE__ */ jsx("span", { className: "mr-1 hidden sm:inline", children: nextLabel }),
-          /* @__PURE__ */ jsx(ChevronRight, { size: 16 })
+          /* @__PURE__ */ jsx(ChevronRight, { size: 16, "aria-hidden": true })
         ]
       }
     )
@@ -667,14 +669,14 @@ function SimplePagination({
   const nextLabel = labels?.next ?? "Next";
   const pageNode = labels?.page ? labels.page(currentPage) : `Page ${currentPage}`;
   return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-center gap-1.5 sm:gap-2", children: [
-    /* @__PURE__ */ jsxs(Button, { variant: "ghost", size: "sm", onClick: onPrevious, disabled: !canPrev, children: [
-      /* @__PURE__ */ jsx(ChevronLeft, { size: 16 }),
+    /* @__PURE__ */ jsxs(Button, { variant: "ghost", size: "sm", onClick: onPrevious, disabled: !canPrev, "aria-label": previousLabel, children: [
+      /* @__PURE__ */ jsx(ChevronLeft, { size: 16, "aria-hidden": true }),
       /* @__PURE__ */ jsx("span", { className: "ml-1 hidden sm:inline", children: previousLabel })
     ] }),
     /* @__PURE__ */ jsx("span", { className: "px-3 text-sm font-medium tabular-nums whitespace-nowrap", children: pageNode }),
-    /* @__PURE__ */ jsxs(Button, { variant: "ghost", size: "sm", onClick: onNext, disabled: !hasNext, children: [
+    /* @__PURE__ */ jsxs(Button, { variant: "ghost", size: "sm", onClick: onNext, disabled: !hasNext, "aria-label": nextLabel, children: [
       /* @__PURE__ */ jsx("span", { className: "mr-1 hidden sm:inline", children: nextLabel }),
-      /* @__PURE__ */ jsx(ChevronRight, { size: 16 })
+      /* @__PURE__ */ jsx(ChevronRight, { size: 16, "aria-hidden": true })
     ] })
   ] });
 }
@@ -944,9 +946,10 @@ function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, i
       "%"
     ] })
   ] }) : null;
+  const mutedInk = toneCfg ? "text-foreground/75" : "text-muted-foreground";
   if (inline) {
     return /* @__PURE__ */ jsxs("div", { className: cn("card p-4", toneCfg?.card, className), children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-sm text-muted-foreground", children: [
+      /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-2 text-sm", mutedInk), children: [
         Icon && /* @__PURE__ */ jsx(Icon, { size: 18 }),
         /* @__PURE__ */ jsx("span", { children: label })
       ] }),
@@ -962,8 +965,8 @@ function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, i
         children: [
           topRow,
           /* @__PURE__ */ jsx("div", { className: cn("text-2xl font-semibold mb-1", toneCfg?.value), children: value }),
-          /* @__PURE__ */ jsx("div", { className: "text-sm text-muted-foreground", children: label }),
-          subtext && /* @__PURE__ */ jsx("div", { className: "text-xs text-muted-foreground/60 mt-1", children: subtext })
+          /* @__PURE__ */ jsx("div", { className: cn("text-sm", mutedInk), children: label }),
+          subtext && /* @__PURE__ */ jsx("div", { className: cn("text-xs mt-1", toneCfg ? "text-foreground/60" : "text-muted-foreground/60"), children: subtext })
         ]
       }
     );
@@ -1146,13 +1149,13 @@ function MediaErrorState({ message, onRetry }) {
 function FellowBadge({ variant = "inline", className = "" }) {
   const t = useYunUI().useT("components.badges");
   if (variant === "pill") {
-    return /* @__PURE__ */ jsxs("span", { className: `badge inline-flex items-center gap-1 text-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 ${className}`, children: [
-      /* @__PURE__ */ jsx(Award, { size: 11, className: "text-amber-500" }),
+    return /* @__PURE__ */ jsxs("span", { className: `badge inline-flex items-center gap-1 text-xs bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20 ${className}`, children: [
+      /* @__PURE__ */ jsx(Award, { size: 11, className: "text-amber-600" }),
       t("fellow")
     ] });
   }
-  return /* @__PURE__ */ jsxs("span", { className: `inline-flex items-center gap-1 text-xs font-medium text-amber-600 dark:text-amber-400 ${className}`, children: [
-    /* @__PURE__ */ jsx(Award, { size: 10, className: "text-amber-500" }),
+  return /* @__PURE__ */ jsxs("span", { className: `inline-flex items-center gap-1 text-xs font-medium text-amber-700 dark:text-amber-400 ${className}`, children: [
+    /* @__PURE__ */ jsx(Award, { size: 10, className: "text-amber-600" }),
     t("fellow")
   ] });
 }
@@ -1199,8 +1202,8 @@ function StatusBadge({ status, size = "sm" }) {
 function SourceBadge({ source, showIcon = true }) {
   const t = useYunUI().useT("common.badge");
   const configs = {
-    yaml: { icon: FileCode, color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20", label: t("yaml") },
-    api: { icon: FileText, color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20", label: t("api") }
+    yaml: { icon: FileCode, color: "bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20", label: t("yaml") },
+    api: { icon: FileText, color: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20", label: t("api") }
   };
   const config = configs[source.toLowerCase()];
   if (!config) return null;
@@ -1323,6 +1326,7 @@ function MetricBar({ icon, label, value, percentage, color, className }) {
         "div",
         {
           role: "progressbar",
+          "aria-label": typeof label === "string" ? label : void 0,
           "aria-valuenow": Math.max(0, Math.min(100, percentage)),
           "aria-valuemin": 0,
           "aria-valuemax": 100,

@@ -36,6 +36,11 @@ export interface GaugeProps {
   color?: string;
   /** Center content. Defaults to the rounded percentage; pass `null` to hide. */
   label?: ReactNode;
+  /**
+   * Accessible name, when `label` is a node rather than a string. Radix aside,
+   * a `role="progressbar"` with no name announces a bare percentage.
+   */
+  ariaLabel?: string;
   /** Start the arc from the top and sweep clockwise (default) or counter-clockwise. */
   counterClockwise?: boolean;
   className?: string;
@@ -52,6 +57,7 @@ export function Gauge({
   tone = "accent",
   color,
   label,
+  ariaLabel,
   counterClockwise = false,
   className,
 }: GaugeProps) {
@@ -66,6 +72,7 @@ export function Gauge({
       className={cn("relative inline-flex items-center justify-center", className)}
       style={{ width: size, height: size }}
       role="progressbar"
+      aria-label={typeof label === "string" ? label : ariaLabel}
       aria-valuenow={Math.round(pct)}
       aria-valuemin={0}
       aria-valuemax={100}

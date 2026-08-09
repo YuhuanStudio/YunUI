@@ -1,5 +1,5 @@
 "use client";
-import { Badge } from './chunk-BLFFI7N3.js';
+import { Badge } from './chunk-G3VL22AX.js';
 import { cn } from './chunk-YLY2GQ3R.js';
 import './chunk-3RT24MSH.js';
 import { Sparkles, Bot, User, Square, ArrowUp, FileText, Loader2, AlertCircle } from 'lucide-react';
@@ -298,6 +298,7 @@ function ChatAttachment({
             {
               className: "mt-1.5 h-0.5 overflow-hidden rounded-full bg-border",
               role: "progressbar",
+              "aria-label": typeof name === "string" ? name : void 0,
               "aria-valuemin": 0,
               "aria-valuemax": 100,
               "aria-valuenow": boundedProgress,

@@ -1,7 +1,7 @@
 "use client";
 import { useContentT, ImageLightbox } from './chunk-QEIBYOG2.js';
 export { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-BLFFI7N3.js';
+import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-G3VL22AX.js';
 import { cn } from './chunk-YLY2GQ3R.js';
 import './chunk-3RT24MSH.js';
 import * as React2 from 'react';
@@ -838,6 +838,8 @@ function MarkdownRenderer({
               type: "checkbox",
               checked,
               readOnly: true,
+              "aria-hidden": "true",
+              tabIndex: -1,
               className: "mt-1 h-4 w-4 rounded border-(--border-hairline) accent-(--accent) focus:ring-ring",
               ...props
             }

@@ -15,7 +15,7 @@ import { Checkbox } from "@yuhuanowo/yunui";
 ```tsx
 const [checked, setChecked] = useState(false);
 <label className="flex items-center gap-2">
-  <Checkbox checked={checked} onCheckedChange={setChecked} id="terms" />
+  <Checkbox checked={checked} onCheckedChange={setChecked} id="terms" aria-label="Accept terms" />
   Accept terms
 </label>
 ```
@@ -25,6 +25,17 @@ const [checked, setChecked] = useState(false);
 <ComponentPreview title="核取方塊列">
   <CheckboxDemo />
 </ComponentPreview>
+
+## 如何命名
+
+`Checkbox` 渲染的是 `<button role="checkbox">`。`<label>`——不論是包住它還是用 `htmlFor`——**都無法命名它**：label 只對真正的表單控制項有效。請用 `aria-label`，或讓 `aria-labelledby` 指向旁邊的文字。
+
+```tsx
+<span className="flex items-center gap-2 text-sm">
+  <Checkbox checked={checked} onCheckedChange={setChecked} aria-labelledby="terms-label" />
+  <span id="terms-label">I accept the terms</span>
+</span>
+```
 
 ## 屬性
 

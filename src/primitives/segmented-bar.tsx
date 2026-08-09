@@ -45,6 +45,13 @@ export interface SegmentedBarProps {
   legend?: boolean;
   /** Format a segment value for the legend (e.g. bytes → "1.2 GB"). */
   formatValue?: (value: number) => ReactNode;
+  /**
+   * Accessible name for the whole graphic, e.g. "Storage used: 62%".
+   * Without it the element is treated as decoration rather than being
+   * announced as an anonymous image — an unnamed `role="img"` tells a screen
+   * reader there is a picture here and nothing about it.
+   */
+  label?: string;
   className?: string;
 }
 
@@ -60,6 +67,7 @@ export function SegmentedBar({
   height = 8,
   legend = false,
   formatValue,
+  label,
   className,
 }: SegmentedBarProps) {
   const sum = segments.reduce((a, s) => a + Math.max(0, s.value), 0);
@@ -70,7 +78,11 @@ export function SegmentedBar({
       <div
         className="flex w-full overflow-hidden rounded-full bg-muted"
         style={{ height }}
-        role="img"
+        // Only claim the img role when there is a name for it: an unnamed
+        // `role="img"` is announced as an anonymous image, which is worse than
+        // leaving the bar as decorative markup.
+        role={label ? "img" : undefined}
+        aria-label={label}
       >
         {segments.map((s, i) => {
           const w = (Math.max(0, s.value) / axis) * 100;

@@ -1187,8 +1187,15 @@ SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayNam
 /** Range slider with a track, filled range, and draggable thumb. */
 export const Slider = React.forwardRef<
     React.ComponentRef<typeof SliderPrimitive.Root>,
-    React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, ...props }, ref) => (
+    React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
+        /**
+         * Accessible name for the thumb. Radix gives it `role="slider"`, and a
+         * slider with no name is announced as an unlabelled one — the value
+         * without any idea what it sets.
+         */
+        label?: string;
+    }
+>(({ className, label, ...props }, ref) => (
     <SliderPrimitive.Root
         ref={ref}
         // px-2.5 (half the 20px thumb) keeps the thumb inside the Root box at both
@@ -1201,6 +1208,7 @@ export const Slider = React.forwardRef<
             <SliderPrimitive.Range className="absolute h-full bg-foreground yunui-accent-bg" />
         </SliderPrimitive.Track>
         <SliderPrimitive.Thumb
+            aria-label={label}
             className="block h-5 w-5 rounded-full border-2 border-foreground bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 yunui-accent-border"
         />
     </SliderPrimitive.Root>
@@ -1217,10 +1225,17 @@ export const Progress = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
         /** Percent complete, 0–100. */
         value?: number;
+        /**
+         * Accessible name, e.g. "Upload progress". Radix gives the root
+         * `role="progressbar"`, and a progressbar with no name is announced as
+         * an unlabelled one — the percentage without any idea what it measures.
+         */
+        label?: string;
     }
->(({ className, value, ...props }, ref) => (
+>(({ className, value, label, ...props }, ref) => (
     <ProgressPrimitive.Root
         ref={ref}
+        aria-label={label}
         className={cn("relative h-2 w-full overflow-hidden rounded-full bg-muted", className)}
         {...props}
     >

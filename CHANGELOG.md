@@ -203,6 +203,34 @@ patch = fixes, anything may change between 0.x releases).
   returns nothing: no bare `aria-label="…"` literals remain in `src/`.
 
 ### Fixed
+- **A YunUI `Checkbox` could not be given an accessible name at all.** It renders
+  a `<button role="checkbox">`, so `<label>` — wrapping or `htmlFor` — does not
+  name it; and the component dropped every prop it did not explicitly list, so
+  `aria-label` was silently discarded too. Between the two there was no way to
+  name one. It forwards its props now, the doc comment no longer recommends the
+  method that cannot work, and three tests pin it.
+- **Six components carried unnamed ARIA roles.** `Switch` (`role="switch"`),
+  `Progress`, `Gauge`, `MetricBar` and `ChatAttachment`'s upload bar
+  (`role="progressbar"`), and `Slider`'s thumb (`role="slider"`) all rendered
+  without an accessible name — announced as an unlabelled control, or a bare
+  percentage with no idea what it measures. Each takes a `label` now (MetricBar
+  reuses its visible one).
+- **`TextShimmer` announced nothing.** It put `aria-label` on a role-less
+  `<span>`, which ARIA prohibits and browsers ignore, while both paint layers
+  were `aria-hidden` — so "Thinking…" was invisible to a screen reader. It
+  renders a real `sr-only` copy now. Same for the markdown task-list checkbox,
+  which was an unlabelled readonly control and is now correctly hidden.
+- **`SegmentedBar` and `Sparkline` claimed `role="img"` with no name**, telling a
+  screen reader there is a picture and nothing about it. The role is now
+  conditional on a `label`.
+- **Pagination's Previous/Next had no name on a phone.** The word is
+  `hidden sm:inline`, which left a bare chevron below `sm` — in both
+  `BlogPagination` and `SimplePagination`.
+- **Tinted badges failed AA.** The capability pills, `FellowBadge`, `SourceBadge`
+  and the capability selector used `-600` ink on a 10% tint of the same hue:
+  amber measured 2.96:1, cyan 3.29:1, pink 3.98:1 against the 4.5:1 floor. Light
+  mode is `-700` now; dark keeps `-400`. Meaningful glyphs moved `-500` → `-600`
+  for SC 1.4.11's 3:1. `.badge-info` and `StatCard`'s toned labels likewise.
 - **Nested frosted glass never worked, and the code blamed the wrong thing.** The
   mobile menu inside `Navbar` carried `bg-popover/95 backdrop-blur-2xl`, but the
   bar it is nested in has its own `backdrop-filter` — which makes that bar a

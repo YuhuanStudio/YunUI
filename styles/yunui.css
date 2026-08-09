@@ -1204,7 +1204,16 @@ select.input option,
 
 .badge-info {
   background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  /* blue-700, not blue-500. On the 10% tint over a light surface, #3b82f6
+     measured 3.28:1 — below the 4.5:1 AA floor for the 11px text these badges
+     use. The dark-mode override below keeps the lighter blue, where the tint
+     sits on a dark surface and the contrast runs the other way. */
+  color: #1d4ed8;
+}
+
+.dark .badge-info,
+.true-black .badge-info {
+  color: #60a5fa;
 }
 
 /* White ink that STAYS white on a colored/dark fill — badges, icon overlays,

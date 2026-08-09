@@ -156,7 +156,7 @@ interface SheetProps {
  *  screen size; set `mobileOnly` to hide it on `lg`+ (a mobile-only drawer). */
 declare function Sheet({ open, onClose, children, title, closeLabel, mobileOnly }: SheetProps): React$1.ReactPortal | null;
 
-interface CheckboxProps {
+interface CheckboxProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "checked" | "onChange" | "type" | "role" | "disabled" | "id" | "className"> {
     /** Whether the box is checked. `"indeterminate"` shows a dash — for a
      *  select-all that's only partially selected. Defaults to `false`. */
     checked?: boolean | "indeterminate";
@@ -166,7 +166,14 @@ interface CheckboxProps {
     /** Disable interaction and dim the control. */
     disabled?: boolean;
     className?: string;
-    /** Element id (e.g. to pair with a `<label htmlFor>`). */
+    /**
+     * Element id.
+     *
+     * NOTE: this renders a `<button role="checkbox">`, and `<label>` — whether
+     * wrapping or via `htmlFor` — only names real form controls. It does
+     * nothing for a button. Name it with `aria-label`, or point
+     * `aria-labelledby` at the text beside it.
+     */
     id?: string;
 }
 /** Controlled checkbox rendered as an accessible toggle button. Supports an
@@ -702,11 +709,24 @@ declare const SelectScrollUpButton: React$1.ForwardRefExoticComponent<Omit<Selec
 /** Auto-scroll affordance shown at the bottom of a long, scrollable list. */
 declare const SelectScrollDownButton: React$1.ForwardRefExoticComponent<Omit<SelectPrimitive.SelectScrollDownButtonProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 /** Range slider with a track, filled range, and draggable thumb. */
-declare const Slider: React$1.ForwardRefExoticComponent<Omit<SliderPrimitive.SliderProps & React$1.RefAttributes<HTMLSpanElement>, "ref"> & React$1.RefAttributes<HTMLSpanElement>>;
+declare const Slider: React$1.ForwardRefExoticComponent<Omit<SliderPrimitive.SliderProps & React$1.RefAttributes<HTMLSpanElement>, "ref"> & {
+    /**
+     * Accessible name for the thumb. Radix gives it `role="slider"`, and a
+     * slider with no name is announced as an unlabelled one — the value
+     * without any idea what it sets.
+     */
+    label?: string;
+} & React$1.RefAttributes<HTMLSpanElement>>;
 /** Horizontal progress bar; `value` is the percent complete (0–100). */
 declare const Progress: React$1.ForwardRefExoticComponent<Omit<ProgressPrimitive.ProgressProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & {
     /** Percent complete, 0–100. */
     value?: number;
+    /**
+     * Accessible name, e.g. "Upload progress". Radix gives the root
+     * `role="progressbar"`, and a progressbar with no name is announced as
+     * an unlabelled one — the percentage without any idea what it measures.
+     */
+    label?: string;
 } & React$1.RefAttributes<HTMLDivElement>>;
 /** Radix Tabs root — manages the active tab. Compose with TabsList/TabsTrigger/TabsContent. */
 declare const Tabs: React$1.ForwardRefExoticComponent<TabsPrimitive.TabsProps & React$1.RefAttributes<HTMLDivElement>>;
@@ -1066,6 +1086,12 @@ interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onC
     /** Checked-state color: `default`, `success`, `warning`, or `danger`. */
     variant?: "default" | "success" | "warning" | "danger";
     className?: string;
+    /**
+     * Accessible name. A `role="switch"` with no name is announced as an
+     * unlabelled control, and this one has no text of its own — so either pass
+     * this or pair the switch with a `<Label htmlFor>` via `id`.
+     */
+    label?: string;
     /** Element id (e.g. to pair with a `<label htmlFor>`). */
     id?: string;
 }
@@ -1115,13 +1141,20 @@ interface SparklineProps extends Omit<React.SVGProps<SVGSVGElement>, "color"> {
     min?: number;
     /** Upper bound of the value axis. Defaults to the data maximum. */
     max?: number;
+    /**
+     * Accessible name for the whole graphic, e.g. "Storage used: 62%".
+     * Without it the element is treated as decoration rather than being
+     * announced as an anonymous image — an unnamed `role="img"` tells a screen
+     * reader there is a picture here and nothing about it.
+     */
+    label?: string;
     className?: string;
 }
 /**
  * A minimal inline line chart. Give it a rolling window of numbers and it draws
  * a smooth, container-width sparkline; set `area` for a gradient fill.
  */
-declare function Sparkline({ data, width, height, tone, color, strokeWidth, area, min, max, className, ...props }: SparklineProps): React$1.JSX.Element;
+declare function Sparkline({ data, width, height, tone, color, strokeWidth, area, min, max, label, className, ...props }: SparklineProps): React$1.JSX.Element;
 
 type GaugeTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
 interface GaugeProps {
@@ -1137,6 +1170,11 @@ interface GaugeProps {
     color?: string;
     /** Center content. Defaults to the rounded percentage; pass `null` to hide. */
     label?: ReactNode;
+    /**
+     * Accessible name, when `label` is a node rather than a string. Radix aside,
+     * a `role="progressbar"` with no name announces a bare percentage.
+     */
+    ariaLabel?: string;
     /** Start the arc from the top and sweep clockwise (default) or counter-clockwise. */
     counterClockwise?: boolean;
     className?: string;
@@ -1145,7 +1183,7 @@ interface GaugeProps {
  * A circular percentage gauge. Feed it a `value` (0–100) and it fills the ring
  * proportionally; the center renders the value unless you pass a custom `label`.
  */
-declare function Gauge({ value, size, thickness, tone, color, label, counterClockwise, className, }: GaugeProps): React$1.JSX.Element;
+declare function Gauge({ value, size, thickness, tone, color, label, ariaLabel, counterClockwise, className, }: GaugeProps): React$1.JSX.Element;
 
 type SegmentTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
 interface BarSegment {
@@ -1169,13 +1207,20 @@ interface SegmentedBarProps {
     legend?: boolean;
     /** Format a segment value for the legend (e.g. bytes → "1.2 GB"). */
     formatValue?: (value: number) => ReactNode;
+    /**
+     * Accessible name for the whole graphic, e.g. "Storage used: 62%".
+     * Without it the element is treated as decoration rather than being
+     * announced as an anonymous image — an unnamed `role="img"` tells a screen
+     * reader there is a picture here and nothing about it.
+     */
+    label?: string;
     className?: string;
 }
 /**
  * A proportional multi-segment bar. Give it segments and (optionally) a `total`;
  * each segment takes a slice of the width, with any leftover shown as track.
  */
-declare function SegmentedBar({ segments, total, height, legend, formatValue, className, }: SegmentedBarProps): React$1.JSX.Element;
+declare function SegmentedBar({ segments, total, height, legend, formatValue, label, className, }: SegmentedBarProps): React$1.JSX.Element;
 
 interface FileDropzoneProps {
     /** Called with the selected/dropped files (already filtered to a File[]). */

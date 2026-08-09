@@ -43,6 +43,13 @@ export interface SparklineProps extends Omit<React.SVGProps<SVGSVGElement>, "col
   min?: number;
   /** Upper bound of the value axis. Defaults to the data maximum. */
   max?: number;
+  /**
+   * Accessible name for the whole graphic, e.g. "Storage used: 62%".
+   * Without it the element is treated as decoration rather than being
+   * announced as an anonymous image — an unnamed `role="img"` tells a screen
+   * reader there is a picture here and nothing about it.
+   */
+  label?: string;
   className?: string;
 }
 
@@ -60,6 +67,7 @@ export function Sparkline({
   area = false,
   min,
   max,
+  label,
   className,
   ...props
 }: SparklineProps) {
@@ -94,7 +102,10 @@ export function Sparkline({
       height={height}
       preserveAspectRatio="none"
       className={cn("overflow-visible", className)}
-      role="img"
+      // Same rule as SegmentedBar: an unnamed role="img" on an <svg> is an
+      // anonymous image to a screen reader. Without a label this is decoration.
+      role={label ? "img" : undefined}
+      aria-label={label}
       {...props}
     >
       {area && (

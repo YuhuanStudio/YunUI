@@ -4175,7 +4175,7 @@
       "type": "string",
       "required": false,
       "defaultValue": null,
-      "description": "Element id (e.g. to pair with a `<label htmlFor>`)."
+      "description": "Element id.\n\nNOTE: this renders a `<button role=\"checkbox\">`, and `<label>` — whether\nwrapping or via `htmlFor` — only names real form controls. It does\nnothing for a button. Name it with `aria-label`, or point\n`aria-labelledby` at the text beside it."
     },
     {
       "name": "onCheckedChange",
@@ -4739,6 +4739,13 @@
     }
   ],
   "Gauge": [
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name, when `label` is a node rather than a string. Radix aside,\na `role=\"progressbar\"` with no name announces a bare percentage."
+    },
     {
       "name": "className",
       "type": "string",
@@ -5314,6 +5321,24 @@
       "required": false,
       "defaultValue": null,
       "description": "Accessible name for the built-in close button. The library ships no\ncopy of its own; the English default only keeps it usable untranslated."
+    }
+  ],
+  "Slider": [
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name for the thumb. Radix gives it `role=\"slider\"`, and a\nslider with no name is announced as an unlabelled one — the value\nwithout any idea what it sets."
+    }
+  ],
+  "Progress": [
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name, e.g. \"Upload progress\". Radix gives the root\n`role=\"progressbar\"`, and a progressbar with no name is announced as\nan unlabelled one — the percentage without any idea what it measures."
     }
   ],
   "MotionDiv": [
@@ -9680,6 +9705,13 @@
       "description": "Bar thickness in px."
     },
     {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name for the whole graphic, e.g. \"Storage used: 62%\".\nWithout it the element is treated as decoration rather than being\nannounced as an anonymous image — an unnamed `role=\"img\"` tells a screen\nreader there is a picture here and nothing about it."
+    },
+    {
       "name": "legend",
       "type": "boolean",
       "required": false,
@@ -9798,6 +9830,13 @@
       "description": "Intrinsic viewBox height."
     },
     {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name for the whole graphic, e.g. \"Storage used: 62%\".\nWithout it the element is treated as decoration rather than being\nannounced as an anonymous image — an unnamed `role=\"img\"` tells a screen\nreader there is a picture here and nothing about it."
+    },
+    {
       "name": "max",
       "type": "number",
       "required": false,
@@ -9861,6 +9900,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Element id (e.g. to pair with a `<label htmlFor>`)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name. A `role=\"switch\"` with no name is announced as an\nunlabelled control, and this one has no text of its own — so either pass\nthis or pair the switch with a `<Label htmlFor>` via `id`."
     },
     {
       "name": "onCheckedChange",

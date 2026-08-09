@@ -39,10 +39,12 @@ describe("AgentTimeline", () => {
     );
 
     expect(screen.getByText("Read files")).toBeInTheDocument();
-    expect(screen.getByLabelText("Checking evidence")).toHaveAttribute(
-      "data-agent-timeline-active",
-      "true",
-    );
+    // Queried by the marker rather than by label: the active row's name now
+    // comes from TextShimmer's sr-only text, not an `aria-label` (prohibited on
+    // a role-less span, and ignored by browsers).
+    const active = container.querySelector('[data-agent-timeline-active="true"]');
+    expect(active).toBeTruthy();
+    expect(active).toHaveTextContent("Checking evidence");
     expect(container.querySelectorAll('[data-agent-timeline-active="true"]')).toHaveLength(1);
   });
 
@@ -124,7 +126,10 @@ describe("AgentRunStatus", () => {
 
     expect(screen.getByRole("status")).not.toHaveAttribute("data-active");
     expect(container.querySelector('[data-run-status-pulse]')).toHaveClass("opacity-0");
-    expect(screen.getByLabelText("Waiting for approval")).toHaveAttribute("data-active", "false");
+    // TextShimmer exposes its label as sr-only text, not `aria-label` (which
+    // ARIA prohibits on a role-less span and browsers ignore), so query by the
+    // shimmer element rather than by label.
+    expect(container.querySelector('[data-yunui="text-shimmer"]')).toHaveAttribute("data-active", "false");
   });
 });
 

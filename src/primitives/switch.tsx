@@ -17,6 +17,12 @@ export interface SwitchProps extends Omit<
     /** Checked-state color: `default`, `success`, `warning`, or `danger`. */
     variant?: "default" | "success" | "warning" | "danger";
     className?: string;
+    /**
+     * Accessible name. A `role="switch"` with no name is announced as an
+     * unlabelled control, and this one has no text of its own — so either pass
+     * this or pair the switch with a `<Label htmlFor>` via `id`.
+     */
+    label?: string;
     /** Element id (e.g. to pair with a `<label htmlFor>`). */
     id?: string;
 }
@@ -63,7 +69,7 @@ const variantClasses = {
 
 /** Controlled on/off toggle rendered as an accessible switch button. */
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
-    ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id, ...props }, ref) => {
+    ({ checked, onCheckedChange, disabled = false, size = "sm", variant = "default", className = "", id, label, ...props }, ref) => {
         const sizeClass = sizeClasses[size];
         const variantClass = variantClasses[variant];
 
@@ -74,6 +80,10 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
                 type="button"
                 role="switch"
                 aria-checked={checked}
+                // Only when `label` is given: this sits AFTER {...props}, so an
+                // unconditional `aria-label={label}` would blank out an
+                // aria-label the caller passed directly.
+                {...(label ? { "aria-label": label } : {})}
                 id={id}
                 onClick={() => !disabled && onCheckedChange(!checked)}
                 disabled={disabled}

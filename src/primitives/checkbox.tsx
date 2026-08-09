@@ -1,9 +1,13 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, type ButtonHTMLAttributes } from "react";
 import { Check, Minus } from "lucide-react";
 
-export interface CheckboxProps {
+export interface CheckboxProps
+    extends Omit<
+        ButtonHTMLAttributes<HTMLButtonElement>,
+        "checked" | "onChange" | "type" | "role" | "disabled" | "id" | "className"
+    > {
     /** Whether the box is checked. `"indeterminate"` shows a dash — for a
      *  select-all that's only partially selected. Defaults to `false`. */
     checked?: boolean | "indeterminate";
@@ -13,17 +17,31 @@ export interface CheckboxProps {
     /** Disable interaction and dim the control. */
     disabled?: boolean;
     className?: string;
-    /** Element id (e.g. to pair with a `<label htmlFor>`). */
+    /**
+     * Element id.
+     *
+     * NOTE: this renders a `<button role="checkbox">`, and `<label>` — whether
+     * wrapping or via `htmlFor` — only names real form controls. It does
+     * nothing for a button. Name it with `aria-label`, or point
+     * `aria-labelledby` at the text beside it.
+     */
     id?: string;
 }
 
 /** Controlled checkbox rendered as an accessible toggle button. Supports an
  *  `indeterminate` state (dash) for partial select-all. */
 export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
-    ({ checked = false, onCheckedChange, disabled = false, className = "", id }, ref) => {
+    ({ checked = false, onCheckedChange, disabled = false, className = "", id, ...props }, ref) => {
         const filled = checked === true || checked === "indeterminate";
         return (
             <button
+                // Spread FIRST so the explicit props below still win, but the
+                // caller's aria-label / aria-labelledby / data-* actually reach
+                // the DOM. They did not before: this component dropped every
+                // prop it did not name, so a YunUI checkbox could not be given
+                // an accessible name at all — `<label>` does not work on a
+                // button, and aria-label was silently discarded.
+                {...props}
                 ref={ref}
                 type="button"
                 role="checkbox"

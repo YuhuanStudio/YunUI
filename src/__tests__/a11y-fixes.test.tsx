@@ -210,3 +210,37 @@ describe("Scrollable regions", () => {
     expect(scroller).toHaveAttribute("tabindex", "0");
   });
 });
+
+// -----------------------------------------------------------------------------
+// Checkbox — it renders a <button role="checkbox">, so a <label> (wrapping or
+// htmlFor) cannot name it. It also used to drop every prop it did not name,
+// which meant `aria-label` was discarded too: between the two, a YunUI checkbox
+// could not be given an accessible name at all. axe caught it as `button-name`,
+// critical, on three pages.
+// -----------------------------------------------------------------------------
+describe("Checkbox accessible name", () => {
+    it("forwards aria-label to the control", () => {
+        render(<Checkbox checked={false} onCheckedChange={() => {}} aria-label="Subscribe" />);
+        expect(screen.getByRole("checkbox", { name: "Subscribe" })).toBeTruthy();
+    });
+
+    it("supports aria-labelledby against neighbouring text", () => {
+        render(
+            <span>
+                <Checkbox checked onCheckedChange={() => {}} aria-labelledby="cb-label" />
+                <span id="cb-label">Remember this device</span>
+            </span>,
+        );
+        expect(screen.getByRole("checkbox", { name: "Remember this device" })).toBeTruthy();
+    });
+
+    it("still lets the component's own props win over spread ones", () => {
+        // `role` and `type` are fixed by the component; a caller must not be
+        // able to turn the checkbox into something else by accident.
+        render(
+            // @ts-expect-error — deliberately passing a prop the type omits
+            <Checkbox checked={false} onCheckedChange={() => {}} role="button" aria-label="Fixed" />,
+        );
+        expect(screen.getByRole("checkbox", { name: "Fixed" })).toBeTruthy();
+    });
+});

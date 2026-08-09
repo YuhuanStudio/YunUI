@@ -84,11 +84,17 @@ export function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay
         </div>
     ) : null;
 
+    // On a tinted card the muted ink loses contrast against the raised
+    // background — measured 4.45:1 on the error tone, just under the 4.5:1 AA
+    // floor. Toned cards get a slightly stronger ink; untinted ones are
+    // unchanged, so the default look does not move.
+    const mutedInk = toneCfg ? "text-foreground/75" : "text-muted-foreground";
+
     // Compact row layout — icon and label share a line, value underneath.
     if (inline) {
         return (
             <div className={cn("card p-4", toneCfg?.card, className)}>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className={cn("flex items-center gap-2 text-sm", mutedInk)}>
                     {Icon && <Icon size={18} />}
                     <span>{label}</span>
                 </div>
@@ -106,8 +112,8 @@ export function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay
             >
                 {topRow}
                 <div className={cn("text-2xl font-semibold mb-1", toneCfg?.value)}>{value}</div>
-                <div className="text-sm text-muted-foreground">{label}</div>
-                {subtext && <div className="text-xs text-muted-foreground/60 mt-1">{subtext}</div>}
+                <div className={cn("text-sm", mutedInk)}>{label}</div>
+                {subtext && <div className={cn("text-xs mt-1", toneCfg ? "text-foreground/60" : "text-muted-foreground/60")}>{subtext}</div>}
             </div>
         );
     }
