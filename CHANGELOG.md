@@ -74,6 +74,53 @@ patch = fixes, anything may change between 0.x releases).
   `sessionStorage` synchronously on every scroll event; the write is now
   rAF-coalesced and the listener is `passive`.
 
+### Changed
+- **Label props follow one rule now, and it is written down.** They had drifted
+  into a shape nobody could predict: `SessionItem` took four separate `*Label`
+  props, `NotificationPanel` three, and `Pagination` and `BlogPagination` — the
+  same control twice — disagreed on whether it was `previousLabel`/`nextLabel`
+  or `labels: { previous, next }`. The rule is now in CONTRIBUTING.md: `label`
+  for the component's own name, `ariaLabel` for a container whose `label`
+  already means something else, `<x>Label` for exactly one auxiliary string, and
+  a `labels` object for two or more. One-string components are deliberately left
+  alone — `labels={{ back: "…" }}` is worse than `backLabel="…"`.
+
+  **Breaking**, for four components:
+  `SessionItem` `currentLabel`/`inactiveLabel`/`runningLabel`/`revokeLabel` →
+  `labels.{current,inactive,running,revoke}`; `NotificationPanel`
+  `unreadLabel`/`loadingLabel`/`emptyLabel` → `labels.{unread,loading,empty}`;
+  `Pagination` `previousLabel`/`nextLabel` → `labels.{previous,next}`;
+  `ChatComposer` `sendLabel`/`stopLabel` → `labels.{send,stop}`.
+
+### Fixed
+- **`Pagination` announced its page buttons in English, always.** Every numbered
+  button was named with a hardcoded template literal — ``aria-label={`Go to page
+  ${n}`}`` — with no prop behind it, so a Chinese page read out English to screen
+  readers with no way for the host to override. It takes `labels.page(n)` now,
+  defaulting to the old wording. The CONTRIBUTING grep that is supposed to catch
+  this only matches *literal* attributes, which is exactly why it survived; that
+  gap is now documented next to the check, and the rest of `src/` was swept for
+  the same shape.
+- **`CodeDemo` was hardcoded to one gateway.** All three snippets baked in
+  `https://api.example.com/v1` and `deepseek-r1`, and the docs stated it "takes
+  no props" — so any app but the original rendered a landing page telling readers
+  to call example.com. `baseUrl`, `model`, `apiKeyPlaceholder`, `prompt`,
+  `labels` and `className` are props now, defaulting to the previous literals so
+  rendered output is unchanged until you pass something. Values are interpolated
+  through quote escaping, so a prompt containing a quote can't break the snippet.
+
+### Infrastructure
+- **CI gates on three things a typecheck cannot see.** `dist/` must reproduce
+  from `src/` (consumers install by git pin, so the committed `dist/` *is* the
+  package and could drift silently); `scripts/check-emitted-css.mjs` asserts that
+  every literal `className` in `src/` produces a selector in the built stylesheet
+  — the failure mode behind `bg-error/10`, `hover:bg-error-soft` and the dead
+  `tailwindcss-animate` classes, all of which look perfectly ordinary in review —
+  and also fails on `fd-*` leakage from fumadocs; and the axe sweep now exits
+  non-zero. Visual regression stays a local tool (`pnpm test:visual`) and is
+  chromium-only: WebKit could not hold a baseline in the Playwright container,
+  flaking on three or four of twelve tests per run even at a 900 px budget.
+
 ## [0.2.17] - 2026-08-06
 
 ### Added
