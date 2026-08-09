@@ -464,12 +464,22 @@ interface PaginationProps extends Omit<React$1.HTMLAttributes<HTMLElement>, "onC
      * @defaultValue 1
      */
     siblingCount?: number;
-    /** Accessible label for the previous-page button. @defaultValue "Go to previous page" */
-    previousLabel?: string;
-    /** Accessible label for the next-page button. @defaultValue "Go to next page" */
-    nextLabel?: string;
     /** Accessible name for the wrapping nav landmark. @defaultValue "Pagination" */
     ariaLabel?: string;
+    /** Every string the control announces. Matches `BlogPagination.labels`. */
+    labels?: {
+        /** Previous-page button. @defaultValue "Go to previous page" */
+        previous?: string;
+        /** Next-page button. @defaultValue "Go to next page" */
+        next?: string;
+        /**
+         * Names a numbered page button. The number alone is not a usable name
+         * — this used to be a hardcoded `Go to page N`, in English, with no way
+         * for the host to translate it.
+         * @defaultValue (n) => `Go to page ${n}`
+         */
+        page?: (page: number) => string;
+    };
 }
 /**
  * Controlled pagination control. Renders previous/next arrows plus numbered

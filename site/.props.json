@@ -1013,6 +1013,13 @@
       "description": ""
     },
     {
+      "name": "labels",
+      "type": "{ send?: string; stop?: string; } | undefined",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible names for the composer's buttons."
+    },
+    {
       "name": "loading",
       "type": "boolean",
       "required": false,
@@ -1060,20 +1067,6 @@
       "required": false,
       "defaultValue": "false",
       "description": "Force-disable the send button even with text (e.g. invalid state)."
-    },
-    {
-      "name": "sendLabel",
-      "type": "string",
-      "required": false,
-      "defaultValue": "Send",
-      "description": "Accessible label for the send button."
-    },
-    {
-      "name": "stopLabel",
-      "type": "string",
-      "required": false,
-      "defaultValue": "Stop",
-      "description": "Accessible label for the stop button."
     },
     {
       "name": "toolbar",
@@ -3166,13 +3159,6 @@
       "description": "When true (and not loading) the empty state replaces the children."
     },
     {
-      "name": "emptyLabel",
-      "type": "ReactNode",
-      "required": false,
-      "defaultValue": null,
-      "description": ""
-    },
-    {
       "name": "footer",
       "type": "ReactNode",
       "required": false,
@@ -3180,15 +3166,15 @@
       "description": "Footer slot — typically a centered \"view all\" adapter Link."
     },
     {
-      "name": "loading",
-      "type": "boolean",
+      "name": "labels",
+      "type": "{ unread?: ReactNode; loading?: ReactNode; empty?: ReactNode; }",
       "required": false,
       "defaultValue": null,
-      "description": ""
+      "description": "Every string the panel renders besides `title`. See CONTRIBUTING.md."
     },
     {
-      "name": "loadingLabel",
-      "type": "ReactNode",
+      "name": "loading",
+      "type": "boolean",
       "required": false,
       "defaultValue": null,
       "description": ""
@@ -3206,13 +3192,6 @@
       "required": false,
       "defaultValue": "0",
       "description": "Unread count shown in the header; hidden when 0."
-    },
-    {
-      "name": "unreadLabel",
-      "type": "ReactNode",
-      "required": false,
-      "defaultValue": null,
-      "description": "Word rendered after the count (e.g. \"unread\")."
     }
   ],
   "PageHeader": [
@@ -3563,13 +3542,6 @@
       "description": "Marks the current session — shows a badge and hides the revoke button."
     },
     {
-      "name": "currentLabel",
-      "type": "ReactNode",
-      "required": false,
-      "defaultValue": null,
-      "description": ""
-    },
-    {
       "name": "detail",
       "type": "ReactNode",
       "required": false,
@@ -3591,18 +3563,18 @@
       "description": "Dims the row and shows an \"inactive\" badge."
     },
     {
-      "name": "inactiveLabel",
-      "type": "ReactNode",
-      "required": false,
-      "defaultValue": null,
-      "description": ""
-    },
-    {
       "name": "ip",
       "type": "ReactNode",
       "required": false,
       "defaultValue": null,
       "description": "IP address (rendered after a globe glyph)."
+    },
+    {
+      "name": "labels",
+      "type": "{ current?: ReactNode; inactive?: ReactNode; running?: ReactNode; revoke?: string; }",
+      "required": false,
+      "defaultValue": null,
+      "description": "Every string this row renders. See CONTRIBUTING.md — a component\nneeding more than one auxiliary string groups them here."
     },
     {
       "name": "name",
@@ -3619,13 +3591,6 @@
       "description": "Revoke handler — when set (and not current), shows the revoke button."
     },
     {
-      "name": "revokeLabel",
-      "type": "string",
-      "required": false,
-      "defaultValue": null,
-      "description": ""
-    },
-    {
       "name": "revoking",
       "type": "boolean",
       "required": false,
@@ -3638,13 +3603,6 @@
       "required": false,
       "defaultValue": null,
       "description": "Shows a pulsing leading activity rail and exposes aria-busy."
-    },
-    {
-      "name": "runningLabel",
-      "type": "ReactNode",
-      "required": false,
-      "defaultValue": null,
-      "description": "Screen-reader label announced while the row is running."
     },
     {
       "name": "selected",
@@ -9587,11 +9545,11 @@
       "description": "Accessible name for the wrapping nav landmark."
     },
     {
-      "name": "nextLabel",
-      "type": "string",
+      "name": "labels",
+      "type": "{ previous?: string; next?: string; page?: ((page: number) => string) | undefined; } | undefined",
       "required": false,
-      "defaultValue": "Go to next page",
-      "description": "Accessible label for the next-page button."
+      "defaultValue": null,
+      "description": "Every string the control announces. Matches `BlogPagination.labels`."
     },
     {
       "name": "onPageChange",
@@ -9606,13 +9564,6 @@
       "required": true,
       "defaultValue": null,
       "description": "The active page (1-based)."
-    },
-    {
-      "name": "previousLabel",
-      "type": "string",
-      "required": false,
-      "defaultValue": "Go to previous page",
-      "description": "Accessible label for the previous-page button."
     },
     {
       "name": "siblingCount",

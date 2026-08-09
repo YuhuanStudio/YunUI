@@ -22,6 +22,27 @@ same change. Check yourself with
 `rg 'aria-label="[A-Za-z]|title="[A-Za-z]' src --glob '!**/__tests__/**'`:
 every hit should be an expression with a `??`, never a bare literal.
 
+Note the check only catches *literal* attributes. A template literal is just as
+much hardcoded copy and slips straight past it — `Pagination` announced every
+numbered button as `` aria-label={`Go to page ${n}`} `` for a long time, in
+English, with no prop behind it.
+
+**Naming those props.** Three shapes, and which one you use is not a matter of
+taste:
+
+| The string is… | Prop |
+| --- | --- |
+| the component's own name / caption | `label` |
+| the accessible name of the container, where `label` already means something else (an item's caption) | `ariaLabel` |
+| one auxiliary string | `<thing>Label` — `closeLabel`, `dismissLabel`, `retryLabel` |
+| **two or more** auxiliary strings | a single `labels` object |
+
+The threshold matters in both directions. Four scattered `*Label` props is a
+prop list nobody can scan (`SessionItem` had `currentLabel`, `inactiveLabel`,
+`runningLabel`, `revokeLabel`); but `labels={{ back: "…" }}` for a lone string is
+worse than `backLabel="…"`, so don't group one. Sibling components must agree —
+`Pagination` and `BlogPagination` both take `labels: { previous, next }`.
+
 ## Project layout
 
 | Path | What goes here |

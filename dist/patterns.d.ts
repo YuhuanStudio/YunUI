@@ -523,23 +523,30 @@ interface SessionItemProps {
     time?: ReactNode;
     /** Marks the current session — shows a badge and hides the revoke button. */
     current?: boolean;
-    currentLabel?: ReactNode;
     /** Dims the row and shows an "inactive" badge. */
     inactive?: boolean;
-    inactiveLabel?: ReactNode;
     /** Marks the row selected without adding a badge. */
     selected?: boolean;
     /** Shows a pulsing leading activity rail and exposes aria-busy. */
     running?: boolean;
-    /** Screen-reader label announced while the row is running. */
-    runningLabel?: ReactNode;
     /** Revoke handler — when set (and not current), shows the revoke button. */
     onRevoke?: () => void;
     revoking?: boolean;
-    revokeLabel?: string;
+    /** Every string this row renders. See CONTRIBUTING.md — a component
+     *  needing more than one auxiliary string groups them here. */
+    labels?: {
+        /** Badge on the current session. */
+        current?: ReactNode;
+        /** Badge on a dimmed / inactive session. */
+        inactive?: ReactNode;
+        /** Announced to screen readers while `running`. */
+        running?: ReactNode;
+        /** Accessible name of the revoke button. */
+        revoke?: string;
+    };
     className?: string;
 }
-declare function SessionItem({ icon, name, detail, ip, time, current, currentLabel, inactive, inactiveLabel, selected, running, runningLabel, onRevoke, revoking, revokeLabel, className, }: SessionItemProps): React$1.JSX.Element;
+declare function SessionItem({ icon, name, detail, ip, time, current, inactive, selected, running, onRevoke, revoking, labels, className, }: SessionItemProps): React$1.JSX.Element;
 
 interface NavStateIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
     /** Shows the indicator in its selected state. */
@@ -717,20 +724,25 @@ interface NotificationPanelProps {
     title: ReactNode;
     /** Unread count shown in the header; hidden when 0. */
     unreadCount?: number;
-    /** Word rendered after the count (e.g. "unread"). */
-    unreadLabel?: ReactNode;
     loading?: boolean;
-    loadingLabel?: ReactNode;
     /** When true (and not loading) the empty state replaces the children. */
     empty?: boolean;
-    emptyLabel?: ReactNode;
+    /** Every string the panel renders besides `title`. See CONTRIBUTING.md. */
+    labels?: {
+        /** Word rendered after the unread count (e.g. "unread"). */
+        unread?: ReactNode;
+        /** Shown in place of the list while `loading`. */
+        loading?: ReactNode;
+        /** Shown in place of the list while `empty`. */
+        empty?: ReactNode;
+    };
     /** Footer slot — typically a centered "view all" adapter Link. */
     footer?: ReactNode;
     /** The notification rows. */
     children?: ReactNode;
     className?: string;
 }
-declare function NotificationPanel({ title, unreadCount, unreadLabel, loading, loadingLabel, empty, emptyLabel, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
+declare function NotificationPanel({ title, unreadCount, loading, empty, labels, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
 
 interface SettingRowProps {
     title: ReactNode;

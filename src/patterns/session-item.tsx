@@ -26,20 +26,27 @@ export interface SessionItemProps {
     time?: ReactNode;
     /** Marks the current session — shows a badge and hides the revoke button. */
     current?: boolean;
-    currentLabel?: ReactNode;
     /** Dims the row and shows an "inactive" badge. */
     inactive?: boolean;
-    inactiveLabel?: ReactNode;
     /** Marks the row selected without adding a badge. */
     selected?: boolean;
     /** Shows a pulsing leading activity rail and exposes aria-busy. */
     running?: boolean;
-    /** Screen-reader label announced while the row is running. */
-    runningLabel?: ReactNode;
     /** Revoke handler — when set (and not current), shows the revoke button. */
     onRevoke?: () => void;
     revoking?: boolean;
-    revokeLabel?: string;
+    /** Every string this row renders. See CONTRIBUTING.md — a component
+     *  needing more than one auxiliary string groups them here. */
+    labels?: {
+        /** Badge on the current session. */
+        current?: ReactNode;
+        /** Badge on a dimmed / inactive session. */
+        inactive?: ReactNode;
+        /** Announced to screen readers while `running`. */
+        running?: ReactNode;
+        /** Accessible name of the revoke button. */
+        revoke?: string;
+    };
     className?: string;
 }
 
@@ -50,15 +57,12 @@ export function SessionItem({
     ip,
     time,
     current,
-    currentLabel,
     inactive,
-    inactiveLabel,
     selected,
     running,
-    runningLabel,
     onRevoke,
     revoking,
-    revokeLabel,
+    labels,
     className,
 }: SessionItemProps) {
     return (
@@ -80,19 +84,19 @@ export function SessionItem({
                     data-session-activity-rail
                 />
             )}
-            {running && runningLabel != null && <span className="sr-only">{runningLabel}</span>}
+            {running && labels?.running != null && <span className="sr-only">{labels?.running}</span>}
             {icon != null && <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">{icon}</div>}
             <div className="flex-1 min-w-0">
                 <div className="flex min-w-0 items-center gap-2">
                     <span className="block min-w-0 flex-1 truncate text-xs font-medium">{name}</span>
                     {current && (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0">
-                            {currentLabel}
+                            {labels?.current}
                         </span>
                     )}
                     {inactive && (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0">
-                            {inactiveLabel}
+                            {labels?.inactive}
                         </span>
                     )}
                 </div>
@@ -119,8 +123,8 @@ export function SessionItem({
                     type="button"
                     onClick={onRevoke}
                     disabled={revoking}
-                    aria-label={revokeLabel}
-                    title={revokeLabel}
+                    aria-label={labels?.revoke}
+                    title={labels?.revoke}
                     className="p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                     {revoking ? <Loader2 size={12} className="animate-spin" /> : <LogOut size={12} />}

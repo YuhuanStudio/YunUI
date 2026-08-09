@@ -1111,9 +1111,8 @@ var Pagination = React7.forwardRef(
     totalPages,
     onPageChange,
     siblingCount = 1,
-    previousLabel = "Go to previous page",
-    nextLabel = "Go to next page",
     ariaLabel = "Pagination",
+    labels,
     className,
     ...props
   }, ref) => {
@@ -1133,7 +1132,7 @@ var Pagination = React7.forwardRef(
             "button",
             {
               type: "button",
-              "aria-label": previousLabel,
+              "aria-label": labels?.previous ?? "Go to previous page",
               disabled: isFirst,
               onClick: () => !isFirst && onPageChange(page - 1),
               className: navButton,
@@ -1153,7 +1152,7 @@ var Pagination = React7.forwardRef(
               "button",
               {
                 type: "button",
-                "aria-label": `Go to page ${token}`,
+                "aria-label": labels?.page ? labels.page(token) : `Go to page ${token}`,
                 "aria-current": token === page ? "page" : void 0,
                 onClick: () => onPageChange(token),
                 className: cn(
@@ -1169,7 +1168,7 @@ var Pagination = React7.forwardRef(
             "button",
             {
               type: "button",
-              "aria-label": nextLabel,
+              "aria-label": labels?.next ?? "Go to next page",
               disabled: isLast,
               onClick: () => !isLast && onPageChange(page + 1),
               className: navButton,
@@ -2451,5 +2450,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem };
-//# sourceMappingURL=chunk-A4EQAODL.js.map
-//# sourceMappingURL=chunk-A4EQAODL.js.map
+//# sourceMappingURL=chunk-FQY573F3.js.map
+//# sourceMappingURL=chunk-FQY573F3.js.map

@@ -1,5 +1,5 @@
 "use client";
-import { Badge } from './chunk-A4EQAODL.js';
+import { Badge } from './chunk-FQY573F3.js';
 import { cn } from './chunk-YLY2GQ3R.js';
 import './chunk-3RT24MSH.js';
 import { Sparkles, Bot, User, Square, ArrowUp, FileText, Loader2, AlertCircle } from 'lucide-react';
@@ -122,8 +122,7 @@ function ChatComposer({
   sendDisabled = false,
   allowSendEmpty = false,
   maxRows = 8,
-  sendLabel = "Send",
-  stopLabel = "Stop",
+  labels,
   className
 }) {
   const textareaRef = useRef(null);
@@ -182,7 +181,7 @@ function ChatComposer({
             {
               type: "button",
               onClick: onStop,
-              "aria-label": stopLabel,
+              "aria-label": labels?.stop ?? "Stop",
               className: "shrink-0 mb-0.5 h-8 w-8 rounded-full bg-(--text-primary) text-(--bg-base) flex items-center justify-center hover:opacity-90 transition-opacity",
               children: /* @__PURE__ */ jsx(Square, { className: "w-3.5 h-3.5 fill-current" })
             }
@@ -192,7 +191,7 @@ function ChatComposer({
               type: "button",
               onClick: () => canSend && onSend(),
               disabled: !canSend,
-              "aria-label": sendLabel,
+              "aria-label": labels?.send ?? "Send",
               className: cn(
                 "shrink-0 mb-0.5 h-8 w-8 rounded-full flex items-center justify-center transition-colors",
                 canSend ? "bg-(--accent) text-(--bg-base) hover:opacity-90" : "bg-(--bg-elevated) text-(--text-muted) cursor-not-allowed"

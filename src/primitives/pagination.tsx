@@ -26,12 +26,22 @@ interface PaginationProps extends Omit<React.HTMLAttributes<HTMLElement>, "onCha
      * @defaultValue 1
      */
     siblingCount?: number;
-    /** Accessible label for the previous-page button. @defaultValue "Go to previous page" */
-    previousLabel?: string;
-    /** Accessible label for the next-page button. @defaultValue "Go to next page" */
-    nextLabel?: string;
     /** Accessible name for the wrapping nav landmark. @defaultValue "Pagination" */
     ariaLabel?: string;
+    /** Every string the control announces. Matches `BlogPagination.labels`. */
+    labels?: {
+        /** Previous-page button. @defaultValue "Go to previous page" */
+        previous?: string;
+        /** Next-page button. @defaultValue "Go to next page" */
+        next?: string;
+        /**
+         * Names a numbered page button. The number alone is not a usable name
+         * — this used to be a hardcoded `Go to page N`, in English, with no way
+         * for the host to translate it.
+         * @defaultValue (n) => `Go to page ${n}`
+         */
+        page?: (page: number) => string;
+    };
 }
 
 /**
@@ -93,9 +103,8 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
             totalPages,
             onPageChange,
             siblingCount = 1,
-            previousLabel = "Go to previous page",
-            nextLabel = "Go to next page",
             ariaLabel = "Pagination",
+            labels,
             className,
             ...props
         },
@@ -116,7 +125,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
             >
                 <button
                     type="button"
-                    aria-label={previousLabel}
+                    aria-label={labels?.previous ?? "Go to previous page"}
                     disabled={isFirst}
                     onClick={() => !isFirst && onPageChange(page - 1)}
                     className={navButton}
@@ -137,7 +146,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                         <button
                             key={token}
                             type="button"
-                            aria-label={`Go to page ${token}`}
+                            aria-label={labels?.page ? labels.page(token) : `Go to page ${token}`}
                             aria-current={token === page ? "page" : undefined}
                             onClick={() => onPageChange(token)}
                             className={cn(
@@ -153,7 +162,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
 
                 <button
                     type="button"
-                    aria-label={nextLabel}
+                    aria-label={labels?.next ?? "Go to next page"}
                     disabled={isLast}
                     onClick={() => !isLast && onPageChange(page + 1)}
                     className={navButton}

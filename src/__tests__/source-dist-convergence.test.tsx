@@ -87,7 +87,7 @@ describe("source and package regression contracts", () => {
     });
 
     it("allows long session names to shrink without displacing status badges", () => {
-        render(<SessionItem name="A very long session name" current currentLabel="Current" />);
+        render(<SessionItem name="A very long session name" current labels={{ current: "Current" }} />);
 
         const name = screen.getByText("A very long session name");
         expect(name).toHaveClass("min-w-0", "flex-1", "truncate");
@@ -100,7 +100,7 @@ describe("source and package regression contracts", () => {
                 name="Long-running task"
                 selected
                 running
-                runningLabel="Running"
+                labels={{ running: "Running" }}
             />,
         );
         const row = container.querySelector('[data-running="true"]');

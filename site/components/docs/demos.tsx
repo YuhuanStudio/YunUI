@@ -433,10 +433,8 @@ export function SessionItemDemo() {
             ip={s.ip}
             time={s.time}
             current={s.current}
-            currentLabel="Current"
             inactive={s.inactive}
-            inactiveLabel="Inactive"
-            revokeLabel="Revoke"
+            labels={{ current: "Current", inactive: "Inactive", revoke: "Revoke" }}
             onRevoke={() => setSessions((prev) => prev.filter((x) => x.id !== s.id))}
           />
         );
@@ -525,9 +523,8 @@ export function NotificationDemo() {
       <NotificationPanel
         title="Notifications"
         unreadCount={unread}
-        unreadLabel="unread"
         empty={items.length === 0}
-        emptyLabel="You're all caught up"
+        labels={{ unread: "unread", empty: "You're all caught up" }}
         footer={<a href="#" onClick={(e) => e.preventDefault()}>View all</a>}
       >
         {items.map((n) => {

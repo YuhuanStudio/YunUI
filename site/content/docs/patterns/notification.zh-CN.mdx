@@ -29,9 +29,8 @@ function Example() {
       <NotificationPanel
         title="通知"
         unreadCount={unread}
-        unreadLabel="unread"
         empty={items.length === 0}
-        emptyLabel="You're all caught up"
+        labels={{ unread: "unread", empty: "You're all caught up" }}
         footer={<a href="#">View all</a>}
       >
         {items.map((n) => (

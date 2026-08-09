@@ -144,13 +144,18 @@ export interface NotificationPanelProps {
     title: ReactNode;
     /** Unread count shown in the header; hidden when 0. */
     unreadCount?: number;
-    /** Word rendered after the count (e.g. "unread"). */
-    unreadLabel?: ReactNode;
     loading?: boolean;
-    loadingLabel?: ReactNode;
     /** When true (and not loading) the empty state replaces the children. */
     empty?: boolean;
-    emptyLabel?: ReactNode;
+    /** Every string the panel renders besides `title`. See CONTRIBUTING.md. */
+    labels?: {
+        /** Word rendered after the unread count (e.g. "unread"). */
+        unread?: ReactNode;
+        /** Shown in place of the list while `loading`. */
+        loading?: ReactNode;
+        /** Shown in place of the list while `empty`. */
+        empty?: ReactNode;
+    };
     /** Footer slot — typically a centered "view all" adapter Link. */
     footer?: ReactNode;
     /** The notification rows. */
@@ -161,11 +166,9 @@ export interface NotificationPanelProps {
 export function NotificationPanel({
     title,
     unreadCount = 0,
-    unreadLabel,
     loading,
-    loadingLabel,
     empty,
-    emptyLabel,
+    labels,
     footer,
     children,
     className,
@@ -182,18 +185,18 @@ export function NotificationPanel({
                 {unreadCount > 0 && (
                     <span className="text-[10px] font-medium text-primary">
                         {unreadCount}
-                        {unreadLabel ? <> {unreadLabel}</> : null}
+                        {labels?.unread ? <> {labels.unread}</> : null}
                     </span>
                 )}
             </div>
 
             <div className="max-h-[400px] overflow-y-auto px-2 pb-2 flex flex-col gap-1">
                 {loading ? (
-                    <div className="p-4 text-center text-sm text-muted-foreground">{loadingLabel}</div>
+                    <div className="p-4 text-center text-sm text-muted-foreground">{labels?.loading}</div>
                 ) : empty ? (
                     <div className="p-6 text-center">
                         <Bell size={24} className="mx-auto mb-2 text-muted-foreground/40" />
-                        <p className="text-sm text-muted-foreground">{emptyLabel}</p>
+                        <p className="text-sm text-muted-foreground">{labels?.empty}</p>
                     </div>
                 ) : (
                     children
