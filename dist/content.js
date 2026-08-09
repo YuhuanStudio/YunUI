@@ -121,8 +121,8 @@ var shikiLanguageAliases = {
   zsh: "bash"
 };
 var shikiThemes = {
-  "github-dark": () => import('shiki/themes/github-dark.mjs'),
-  "github-light": () => import('shiki/themes/github-light.mjs')
+  "github-dark": () => import('shiki/themes/github-dark-default.mjs'),
+  "github-light": () => import('shiki/themes/github-light-default.mjs')
 };
 var contentHighlighterPromise;
 var languageLoadPromises = /* @__PURE__ */ new Map();

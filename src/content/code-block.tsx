@@ -145,9 +145,21 @@ const shikiLanguageAliases: Record<string, ShikiLanguage> = {
   zsh: "bash",
 };
 
+/*
+ * The `-default` variants, not plain `github-dark` / `github-light`. These are
+ * the themes GitHub itself moved to, and the older pair has a token colour that
+ * fails WCAG AA in each mode — measured against each theme's own background:
+ *
+ *   github-light   #e36209 (constants/numbers)  3.49:1
+ *   github-dark    #6a737d (comments)           3.93:1
+ *
+ * Both are text, both are below the 4.5:1 floor, and axe flagged the light one
+ * on every page with a code sample. The `-default` variants have no failing
+ * text token in either mode, and are visually near-identical.
+ */
 const shikiThemes = {
-  "github-dark": () => import("shiki/themes/github-dark.mjs"),
-  "github-light": () => import("shiki/themes/github-light.mjs"),
+  "github-dark": () => import("shiki/themes/github-dark-default.mjs"),
+  "github-light": () => import("shiki/themes/github-light-default.mjs"),
 } as const;
 
 type ShikiTheme = keyof typeof shikiThemes;

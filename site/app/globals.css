@@ -20,3 +20,12 @@
    ../node_modules/yunui/dist went through a symlink the scanner didn't follow,
    so component classes were silently dropped and layouts broke. */
 @source "../../dist/**/*.js";
+
+/* fumadocs' own muted ink is neutral-500 (#737373), and its sidebar/TOC hover
+   surface is a light grey — measured 4.12:1 by axe, under the 4.5:1 AA floor
+   for the 14px text it uses. One step darker clears it (~7:1) and is visually
+   almost the same. Scoped to light mode: on the dark surface the lighter value
+   is the one with contrast. */
+:root:not(.dark) {
+  --color-fd-muted-foreground: #525252;
+}

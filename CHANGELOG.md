@@ -203,6 +203,11 @@ patch = fixes, anything may change between 0.x releases).
   returns nothing: no bare `aria-label="…"` literals remain in `src/`.
 
 ### Fixed
+- **The syntax theme failed AA in both modes.** `github-light`'s constant colour
+  (`#e36209`) measures 3.49:1 and `github-dark`'s comment colour (`#6a737d`)
+  3.93:1, each against its own background — both text, both under the 4.5:1
+  floor. Swapped to the `-default` variants GitHub itself moved to, which have
+  no failing text token in either mode and are visually near-identical.
 - **A YunUI `Checkbox` could not be given an accessible name at all.** It renders
   a `<button role="checkbox">`, so `<label>` — wrapping or `htmlFor` — does not
   name it; and the component dropped every prop it did not explicitly list, so
