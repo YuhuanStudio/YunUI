@@ -873,6 +873,52 @@ interface FeatureCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title">
  */
 declare function FeatureCard({ icon, title, description, delay, children, className, style, ...props }: FeatureCardProps): React$1.JSX.Element;
 
+interface MembershipCardStat {
+    /** The number, rendered in tabular figures so a row of them lines up. */
+    value: ReactNode;
+    /** Short caption under the number. */
+    label: ReactNode;
+}
+interface MembershipCardProps extends HTMLAttributes<HTMLDivElement> {
+    /** Programme name, top-left — e.g. "Yunxin Fellows". */
+    brand?: ReactNode;
+    /** Tier pill, top-right. */
+    badge?: {
+        label: ReactNode;
+        icon?: ReactNode;
+    };
+    /**
+     * A large glyph bled off the bottom-right corner at 6% opacity. Pass a
+     * lucide icon sized `w-48 h-48`; the component positions it.
+     */
+    watermark?: ReactNode;
+    /** Small uppercase caption above the status line. */
+    label?: ReactNode;
+    /** The membership's headline state — "Active", "Renews in 12 days". */
+    status?: ReactNode;
+    /** Up to three figures along the bottom. */
+    stats?: MembershipCardStat[];
+    /** The little contactless-chip rectangle beside the status. @defaultValue true */
+    chip?: boolean;
+}
+/**
+ * A physical-feeling membership card: an inverted, lit surface with ambient
+ * glows, a bled-off watermark, a light sweep on hover, and a row of figures.
+ *
+ * Extracted class for class from Yunxin's Fellows landing page, where it is the
+ * tangible centrepiece of the pitch. **Yunxin is the original and stays the
+ * reference** — a page that adopts this renders exactly what its local copy did.
+ *
+ * It is theme-adaptive rather than a fixed dark card: the surface is
+ * `bg-foreground/80` with `text-background`, so it inverts with the theme and
+ * stays striking in light *and* dark, matching the system's solid buttons.
+ *
+ * The outer element is `block` with `mx-auto`, not a flex child, so the
+ * `aspect-[1.586/1]` box (the real credit-card ratio) cannot be stretched or
+ * collapsed by a flex parent.
+ */
+declare function MembershipCard({ brand, badge, watermark, label, status, stats, chip, className, ...props }: MembershipCardProps): React$1.JSX.Element;
+
 interface CTASectionProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
     /** Headline. */
     title: ReactNode;
@@ -1143,4 +1189,4 @@ interface ArchiveCalendarProps {
 }
 declare function ArchiveCalendar({ dates, href, maxMonths, weekdays, formatMonth, formatCount, formatDayLabel, className, }: ArchiveCalendarProps): React$1.JSX.Element | null;
 
-export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, ArchiveCalendar, type ArchiveCalendarProps, AudioPlayer, type AudioPlayerProps, AuthShell, type AuthShellProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DashboardPage, type DashboardPageProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SectionNav, type SectionNavItem, type SectionNavProps, SectionRow, type SectionRowProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatGrid, type StatGridProps, StatusBadge, TableState, type TableStateProps, ViewOptions };
+export { AccountLockedCard, type AccountLockedCardProps, ActiveBadge, ArchiveCalendar, type ArchiveCalendarProps, AudioPlayer, type AudioPlayerProps, AuthShell, type AuthShellProps, AvatarUploader, type AvatarUploaderProps, BackLink, type BackLinkProps, BackgroundEffects, Banner, type BannerProps, type BannerTone, BlogCard, BlogPagination, BlogPostHeader, CTASection, type CTASectionProps, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, type ConnectedAccountRowProps, DashboardPage, type DashboardPageProps, DeprecatedBadge, ErrorBoundary, type ErrorBoundaryLabels, Eyebrow, type EyebrowProps, FAQ, type FAQItem, type FAQProps, FeatureCard, type FeatureCardProps, FeatureLockedState, type FeatureLockedStateProps, FellowBadge, FellowsBanner, type FellowsBannerProps, HeroAccent, LLMCopyButton, LinkRow, type LinkRowProps, MarketingHero, type MarketingHeroProps, MediaEmptyState, MediaErrorState, MediaGallery, type MediaGalleryLabels, type MediaGalleryProps, MediaLoadingState, MediaPageHeader, type MediaResult, type MediaStatus, MembershipCard, type MembershipCardProps, type MembershipCardStat, MetricBar, type MetricBarProps, NavStateIndicator, type NavStateIndicatorProps, NotificationBell, type NotificationBellProps, NotificationItem, type NotificationItemProps, NotificationPanel, type NotificationPanelProps, PageEmptyState, PageErrorState, PageHeader, PageLayout, type PageLayoutProps, PageLoadingState, ProseArticle, type ProseArticleProps, PullQuote, type PullQuoteProps, ReadingProgress, SectionHeading, type SectionHeadingProps, SectionNav, type SectionNavItem, type SectionNavProps, SectionRow, type SectionRowProps, SessionItem, type SessionItemProps, SettingRow, type SettingRowProps, type SettingsNavGroup, type SettingsNavItem, SettingsShell, type SettingsShellProps, Sidebar, type SidebarNavItem, type SidebarProps, type SidebarSection, SimplePagination, SourceBadge, StatCard, StatGrid, type StatGridProps, StatusBadge, TableState, type TableStateProps, ViewOptions };

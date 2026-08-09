@@ -1211,6 +1211,16 @@ export const docs: DocEntry[] = [
     "section heading eyebrow badge pill title subtitle marketing band stagger",
   ),
   pat(
+    "membership-card",
+    { en: "Membership Card", "zh-CN": "会员卡", "zh-TW": "會員卡" },
+    {
+      en: "A physical-feeling membership card — inverted lit surface, ambient glows, corner watermark, hover sweep and a row of figures.",
+      "zh-CN": "有实体感的会员卡——反相受光表面、环境辉光、角落浮水印、悬停光扫与一列数字。",
+      "zh-TW": "有實體感的會員卡——反相受光表面、環境輝光、角落浮水印、懸停光掃與一列數字。",
+    },
+    "membership card fellow tier plan credit-card badge perks benefits stats glow",
+  ),
+  pat(
     "feature-card",
     { en: "Feature Card", "zh-CN": "功能卡片", "zh-TW": "功能卡片" },
     {
@@ -1765,6 +1775,7 @@ export const groups: DocGroup[] = [
       "patterns/nav-state-indicator",
       "patterns/section-heading",
       "patterns/feature-card",
+      "patterns/membership-card",
       "patterns/marketing-hero",
       "patterns/cta-section",
       "patterns/pull-quote",

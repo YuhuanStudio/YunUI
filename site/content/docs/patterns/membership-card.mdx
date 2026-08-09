@@ -1,0 +1,44 @@
+import { MembershipCard } from "yunui/patterns";
+import { Award, GraduationCap } from "lucide-react";
+
+A physical-feeling membership card: an inverted, lit surface with ambient glows, a watermark bled off the corner, a light sweep on hover, and a row of figures along the bottom.
+
+Extracted class for class from Yunxin's Fellows landing page, where it is the tangible centrepiece of the pitch — **Yunxin is the original and stays the reference**, so a page that adopts this renders exactly what its local copy did.
+
+## Import
+
+```tsx
+import { MembershipCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## Usage
+
+Every region is optional: pass only `brand` and `status` for a plain card, or fill all of them for the full object.
+
+<ComponentPreview title="Membership card">
+  <div className="w-full max-w-md">
+    <MembershipCard
+      brand="Yunxin Fellows"
+      badge={{ label: "Fellow", icon: <Award className="w-3 h-3" /> }}
+      watermark={<GraduationCap className="w-48 h-48" />}
+      label="Membership"
+      status="Active — renews in 24 days"
+      stats={[
+        { value: "5M", label: "per month" },
+        { value: "170+", label: "models" },
+        { value: "120", label: "req / min" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Why it looks the way it does
+
+- **Theme-adaptive, not a fixed dark card.** The surface is `bg-foreground/80` with `text-background`, so it inverts with the theme and stays striking in light *and* dark — the same trick as the system's solid buttons.
+- **`aspect-[1.586/1]`** is the real credit-card ratio. The element is `block` with `mx-auto` rather than a flex child, so a flex parent cannot stretch or collapse that box.
+- **The glows are the surface.** Two blurred radial patches, not borders — a lit object rather than a panel with lines drawn on it.
+- **`tabular-nums` on the figures**, so three stats side by side line up instead of jittering as the numbers load.
+
+## Props
+
+<PropsTable name="MembershipCard" />

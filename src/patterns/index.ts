@@ -110,6 +110,11 @@ export {
 
 // Marketing kit — extracted from Yunxin's landing and Fellows pages.
 export { FeatureCard, type FeatureCardProps } from "./feature-card";
+export {
+  MembershipCard,
+  type MembershipCardProps,
+  type MembershipCardStat,
+} from "./membership-card";
 export { CTASection, type CTASectionProps } from "./cta-section";
 export { PullQuote, type PullQuoteProps } from "./pull-quote";
 export { MarketingHero, HeroAccent, type MarketingHeroProps } from "./marketing-hero";

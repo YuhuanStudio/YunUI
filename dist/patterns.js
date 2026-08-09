@@ -2255,6 +2255,57 @@ function FeatureCard({
     }
   );
 }
+function MembershipCard({
+  brand,
+  badge,
+  watermark,
+  label,
+  status,
+  stats = [],
+  chip = true,
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: cn(
+        "group relative w-full max-w-md mx-auto lg:mx-0 aspect-[1.586/1] min-h-56 rounded-[20px]",
+        "bg-foreground/80 backdrop-blur-2xl border border-background/15 text-background",
+        "shadow-2xl overflow-hidden select-none animate-enter",
+        "transition-transform duration-300 hover:-translate-y-1",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx("div", { className: "absolute -top-1/3 -left-1/4 w-2/3 h-2/3 rounded-full bg-background/15 blur-3xl" }),
+        /* @__PURE__ */ jsx("div", { className: "absolute -bottom-1/3 -right-1/4 w-1/2 h-2/3 rounded-full bg-background/8 blur-3xl" }),
+        watermark != null && /* @__PURE__ */ jsx("div", { "aria-hidden": true, className: "absolute -right-8 -bottom-9 opacity-[0.06]", children: watermark }),
+        /* @__PURE__ */ jsx("div", { className: "pointer-events-none absolute top-0 -left-1/3 h-full w-1/3 -skew-x-12 bg-background/15 blur-xl translate-x-[-200%] group-hover:translate-x-[450%] transition-transform duration-[900ms] ease-out" }),
+        /* @__PURE__ */ jsxs("div", { className: "relative h-full flex flex-col justify-between p-6 sm:p-7", children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between", children: [
+            brand != null && /* @__PURE__ */ jsx("span", { className: "text-sm font-semibold tracking-tight", children: brand }),
+            badge != null && /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-background/15 text-[11px] font-medium", children: [
+              badge.icon,
+              badge.label
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxs("div", { className: "flex items-end justify-between gap-4", children: [
+            /* @__PURE__ */ jsxs("div", { children: [
+              label != null && /* @__PURE__ */ jsx("div", { className: "text-[10px] uppercase tracking-[0.22em] opacity-50 mb-1.5", children: label }),
+              status != null && /* @__PURE__ */ jsx("div", { className: "text-lg font-medium leading-tight", children: status })
+            ] }),
+            chip && /* @__PURE__ */ jsx("div", { className: "hidden sm:block w-9 h-7 rounded-md bg-background/15 border border-background/10 shrink-0" })
+          ] }),
+          stats.length > 0 && /* @__PURE__ */ jsx("div", { className: "flex items-end gap-6", children: stats.map((stat, i) => /* @__PURE__ */ jsxs("div", { children: [
+            /* @__PURE__ */ jsx("div", { className: "text-base font-semibold tabular-nums leading-none", children: stat.value }),
+            /* @__PURE__ */ jsx("div", { className: "text-[11px] opacity-50 mt-1", children: stat.label })
+          ] }, i)) })
+        ] })
+      ]
+    }
+  );
+}
 function CTASection({
   title,
   body,
@@ -2702,6 +2753,6 @@ function ArchiveCalendar({
   }) });
 }
 
-export { AccountLockedCard, ActiveBadge, ArchiveCalendar, AudioPlayer, AuthShell, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DashboardPage, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SectionNav, SectionRow, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatGrid, StatusBadge, TableState, ViewOptions };
+export { AccountLockedCard, ActiveBadge, ArchiveCalendar, AudioPlayer, AuthShell, AvatarUploader, BackLink, BackgroundEffects, Banner, BlogCard, BlogPagination, BlogPostHeader, CTASection, CapabilityBadge, CategoryFilter, CodeBlock, CodeDemo, ConnectedAccountRow, DashboardPage, DeprecatedBadge, ErrorBoundary, Eyebrow, FAQ, FeatureCard, FeatureLockedState, FellowBadge, FellowsBanner, HeroAccent, LLMCopyButton, LinkRow, MarketingHero, MediaEmptyState, MediaErrorState, MediaGallery, MediaLoadingState, MediaPageHeader, MembershipCard, MetricBar, NavStateIndicator, NotificationBell, NotificationItem, NotificationPanel, PageEmptyState, PageErrorState, PageHeader, PageLayout, PageLoadingState, ProseArticle, PullQuote, ReadingProgress, SectionHeading, SectionNav, SectionRow, SessionItem, SettingRow, SettingsShell, Sidebar, SimplePagination, SourceBadge, StatCard, StatGrid, StatusBadge, TableState, ViewOptions };
 //# sourceMappingURL=patterns.js.map
 //# sourceMappingURL=patterns.js.map

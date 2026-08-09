@@ -2816,6 +2816,57 @@
       "description": ""
     }
   ],
+  "MembershipCard": [
+    {
+      "name": "badge",
+      "type": "{ label: ReactNode; icon?: ReactNode; }",
+      "required": false,
+      "defaultValue": null,
+      "description": "Tier pill, top-right."
+    },
+    {
+      "name": "brand",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Programme name, top-left — e.g. \"Yunxin Fellows\"."
+    },
+    {
+      "name": "chip",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "The little contactless-chip rectangle beside the status."
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Small uppercase caption above the status line."
+    },
+    {
+      "name": "stats",
+      "type": "MembershipCardStat[]",
+      "required": false,
+      "defaultValue": "[]",
+      "description": "Up to three figures along the bottom."
+    },
+    {
+      "name": "status",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "The membership's headline state — \"Active\", \"Renews in 12 days\"."
+    },
+    {
+      "name": "watermark",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "A large glyph bled off the bottom-right corner at 6% opacity. Pass a\nlucide icon sized `w-48 h-48`; the component positions it."
+    }
+  ],
   "MetricBar": [
     {
       "name": "className",

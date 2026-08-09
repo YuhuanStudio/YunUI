@@ -1,0 +1,44 @@
+import { MembershipCard } from "yunui/patterns";
+import { Award, GraduationCap } from "lucide-react";
+
+一张有实体感的会员卡：反相的受光表面、环境辉光、从角落溢出的浮水印、滑鼠悬停时的光扫，底部还有一列数字。
+
+从 Yunxin 的 Fellows 落地页逐个 class 原样抽取——那里它是整段说服的实体核心。**Yunxin 是原型，并且仍然是基准**，因此换用本组件的页面与它原本的本地副本渲染结果完全一致。
+
+## 导入
+
+```tsx
+import { MembershipCard } from "@yuhuanowo/yunui/patterns";
+```
+
+## 用法
+
+每个区域都是可选的：只给 `brand` 与 `status` 就是一张素卡，全部填满则是完整的样子。
+
+<ComponentPreview title="Membership card">
+  <div className="w-full max-w-md">
+    <MembershipCard
+      brand="Yunxin Fellows"
+      badge={{ label: "Fellow", icon: <Award className="w-3 h-3" /> }}
+      watermark={<GraduationCap className="w-48 h-48" />}
+      label="Membership"
+      status="Active — renews in 24 days"
+      stats={[
+        { value: "5M", label: "per month" },
+        { value: "170+", label: "models" },
+        { value: "120", label: "req / min" },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## 为什么长这样
+
+- **随主题反相，而不是固定的深色卡。** 表面是 `bg-foreground/80` 搭配 `text-background`，因此会随主题反转，在浅色与深色下都同样醒目——和系统的实心按钮是同一招。
+- **`aspect-[1.586/1]`** 是真实信用卡的比例。元素是 `block` 加 `mx-auto` 而非 flex 子元素，这样 flex 父层就无法把这个盒子拉伸或压扁。
+- **辉光本身就是表面。** 两块模糊的圆形色块，而不是描边——是一个受光的物件，而不是画了线的面板。
+- **数字用 `tabular-nums`**，三个并排的统计值才会对齐，不会在数据载入时跳动。
+
+## 属性
+
+<PropsTable name="MembershipCard" />
