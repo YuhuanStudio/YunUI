@@ -111,6 +111,28 @@ patch = fixes, anything may change between 0.x releases).
   on base, still clearly below `--text-secondary` so the three-step hierarchy
   survives. Light is unchanged — its soft tint is #f4f4f5, where the existing
   value already measures 4.81:1.
+- **Code blocks rendered the LIGHT syntax theme in the `true-black` theme —
+  1.35:1.** Fumadocs emits `--shiki-light` / `--shiki-dark` per token and flips
+  them with `.dark .shiki … code span`. next-themes maps one theme to one class,
+  so `true-black` sets `class="true-black"` with no `dark` beside it and that
+  switch never fired: GitHub's light palette on #0a0a0a. A `.true-black`
+  counterpart existed but sat in `@layer components`, where fumadocs' own light
+  rule in `@layer utilities` beat it — later layer wins, specificity is not
+  consulted. It is unlayered now (a marked section at the end of `yunui.css`),
+  and covers both DOM shapes fumadocs emits (`.shiki` on the wrapping figure,
+  and on the `<code>` itself). Measured worst token after the fix: 7.45:1.
+- **`CodeBlock` line numbers were invisible when you hovered to read them.**
+  `--text-muted` (2.57:1 in dark before opacity) at `group-hover:opacity-50`
+  works out to roughly 1.4:1. They still only appear on hover, but now in
+  `--text-tertiary` at full opacity: 6.37:1 dark / 6.72:1 true-black / 5.28:1
+  light.
+- **`--color-fd-card` was bridged only in `true-black`.** Light and dark used
+  fumadocs' own #f1f1f1 / #191919 while every YunUI card beside them used
+  `--bg-card` — two card colours on one page, which is what the `fd-*` bridge
+  exists to prevent. It also cost contrast: fumadocs renders code blocks on this
+  surface, and GitHub's palettes are calibrated against their own canvas, so the
+  light comment token measured 4.03:1 on #f1f1f1 and 4.55:1 on white. Every
+  intermediate grey still failed, so it was white or nothing.
 - **`.nav-section` failed AA on every page that has a sidebar.** The uppercase
   10px section headings ("PLAYGROUND", "GENERATE", …) used `--text-muted`, which
   in dark is `#52525b` on `#09090b` — 2.57:1, against a 4.5:1 requirement that

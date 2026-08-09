@@ -2867,6 +2867,28 @@ html {
    anything we can write.
    ===================================================== */
 
+/* Fumadocs card surface = YunUI's card surface.
+   `--color-fd-card` was bridged only inside the true-black block, so in light
+   and dark the docs used fumadocs' own values (#f1f1f1 / #191919) while every
+   YunUI card next to them used `--bg-card` (#ffffff / #141417). Two card
+   colours on one page is the thing the fd-* bridge exists to prevent.
+
+   It also matters for contrast: fumadocs renders code blocks on this surface,
+   and GitHub's Shiki palettes are calibrated against their own canvas — white
+   for `github-light-default`. On #f1f1f1 the comment token (#6e7781) measured
+   4.03:1; on white it is 4.55:1. Every intermediate grey still failed, so this
+   is white or nothing. */
+:root,
+.light {
+  --color-fd-card: var(--bg-card);
+  --color-fd-card-foreground: var(--text-primary);
+}
+
+.dark {
+  --color-fd-card: var(--bg-card);
+  --color-fd-card-foreground: var(--text-primary);
+}
+
 /* Shiki dual themes in the `true-black` theme.
    Fumadocs emits `--shiki-light` / `--shiki-dark` per token and switches with
    `.dark .shiki … code span { color: var(--shiki-dark) }`. Our third theme sets
