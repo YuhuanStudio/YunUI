@@ -76,6 +76,29 @@ jobs:
         run: pnpm test
       - name: Build
         run: pnpm build
+      # `dist/` is committed (consumers install by git pin), so it has to be
+      # provably the output of `src/`. Without this it can drift silently and a
+      # consumer gets stale components while the source looks correct.
+      - name: dist/ reproduces from src/
+        run: git diff --exit-code -- dist/
+      - name: Build site
+        run: pnpm --filter yunui-site build
+      # Catches the class of bug that reading source cannot: a className that
+      # compiles to nothing. See scripts/check-emitted-css.mjs for the four
+      # separate disguises this arrived in.
+      - name: Every class emits CSS
+        run: node scripts/check-emitted-css.mjs $(find site/.next/static -name '*.css' | head -5)
+      # The accessibility sweep needs a running build. It found a Checkbox that
+      # could not be given an accessible name at all, six components rendering
+      # ARIA roles with no name, and badges failing AA — none of which typecheck,
+      # tests or a build would ever notice.
+      - name: Install Playwright (chromium)
+        run: pnpm --filter yunui-site exec playwright install --with-deps chromium
+      - name: Accessibility sweep
+        run: |
+          pnpm --filter yunui-site start -p 3000 &
+          npx --yes wait-on http://localhost:3000/docs --timeout 90000
+          pnpm --filter yunui-site a11y
       - name: Lint package (publint)
         run: pnpm exec publint
 

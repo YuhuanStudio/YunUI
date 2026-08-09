@@ -55,3 +55,7 @@ for (const [id, v] of Object.entries(all).sort((a,b)=>(order[a[1].impact]??9)-(o
   console.log(`  pages: ${[...v.pages].join(', ')}`);
   for (const n of [...new Set(v.nodes)].slice(0,3)) console.log(`   · ${n}`);
 }
+
+// Non-zero exit so CI gates on this rather than printing into the void.
+const total = Object.keys(all).length;
+if (total) { console.error(`\n${total} violation type(s) — failing.`); process.exit(1); }

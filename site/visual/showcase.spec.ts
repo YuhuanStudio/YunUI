@@ -11,6 +11,16 @@ const setBrand = (page: Page, brand = "violet") =>
 const setDark = (page: Page) =>
   page.evaluate(() => document.documentElement.classList.add("dark"));
 
+/**
+ * Element-level screenshots capture the FIXED navbar wherever it happens to be
+ * floating, so a section shot lands the bar in the middle of the section — the
+ * first Linux baseline for `#forms` had it sitting across "Segmented select".
+ * That makes the baseline fail on any unrelated navbar change. Hide it for
+ * element shots; the full-page shots keep it, which is where it belongs.
+ */
+const hideFixedChrome = (page: Page) =>
+  page.addStyleTag({ content: "nav.fixed{visibility:hidden!important}" });
+
 // Showcase -----------------------------------------------------------------
 test.describe("showcase", () => {
   test("top — light, default monochrome", async ({ page }) => {
@@ -23,6 +33,7 @@ test.describe("showcase", () => {
     await page.goto("/showcase");
     await page.locator("#buttons").scrollIntoViewIfNeeded();
     await page.waitForTimeout(500);
+    await hideFixedChrome(page);
     await expect(page.locator("#buttons")).toHaveScreenshot("buttons-mono.png");
   });
 
@@ -31,6 +42,7 @@ test.describe("showcase", () => {
     await setBrand(page);
     await page.locator("#buttons").scrollIntoViewIfNeeded();
     await page.waitForTimeout(500);
+    await hideFixedChrome(page);
     await expect(page.locator("#buttons")).toHaveScreenshot("buttons-brand.png");
   });
 
@@ -40,6 +52,7 @@ test.describe("showcase", () => {
     await setBrand(page);
     await page.locator("#buttons").scrollIntoViewIfNeeded();
     await page.waitForTimeout(500);
+    await hideFixedChrome(page);
     await expect(page.locator("#buttons")).toHaveScreenshot("buttons-brand-dark.png");
   });
 
@@ -48,6 +61,7 @@ test.describe("showcase", () => {
     await setBrand(page);
     await page.locator("#forms").scrollIntoViewIfNeeded();
     await page.waitForTimeout(500);
+    await hideFixedChrome(page);
     await expect(page.locator("#forms")).toHaveScreenshot("forms-brand.png");
   });
 });
