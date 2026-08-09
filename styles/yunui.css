@@ -1326,7 +1326,11 @@ select.input option,
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  /* --text-tertiary, not --text-muted — the third place in this file to need
+     the same correction. In dark, --text-muted (#52525b) on --bg-base is
+     2.57:1, and this is 10px uppercase, which WCAG gives no small-text
+     allowance for. axe flagged it on five separate Yunshu pages. */
+  color: var(--text-tertiary);
   padding: 1rem 0.875rem 0.5rem;
 }
 

@@ -101,6 +101,13 @@ patch = fixes, anything may change between 0.x releases).
   this only matches *literal* attributes, which is exactly why it survived; that
   gap is now documented next to the check, and the rest of `src/` was swept for
   the same shape.
+- **`.nav-section` failed AA on every page that has a sidebar.** The uppercase
+  10px section headings ("PLAYGROUND", "GENERATE", …) used `--text-muted`, which
+  in dark is `#52525b` on `#09090b` — 2.57:1, against a 4.5:1 requirement that
+  10px uppercase gets no allowance from. The same correction had already been
+  made twice in this stylesheet, with the same wording in the comment; this was
+  the third instance and it was missed. Now `--text-tertiary`, measured at
+  5.44:1. axe flagged it on all 23 Yunshu routes.
 - **`Modal`'s focus trap never armed, and the trap leaked.** Two defects, found
   by driving a real dialog in Chromium and WebKit rather than by reading the
   hook. `useFocusTrap` bailed on `if (!container) return` with deps of `enabled`
