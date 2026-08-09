@@ -1,4 +1,5 @@
 "use client";
+import { Spinner } from './chunk-GWUEUP5K.js';
 import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React3 from 'react';
@@ -1229,13 +1230,16 @@ function CommandPalette({
   loading = false,
   empty,
   initial,
+  footer,
   labels,
   className
 }) {
+  const { Link } = useYunUI();
   const [cursor, setCursor] = useState(0);
   const inputRef = useRef(null);
   const listRef = useRef(null);
   const [mounted, setMounted] = useState(false);
+  const listId = useId();
   useEffect(() => setMounted(true), []);
   useEffect(() => setCursor(0), [items]);
   useEffect(() => {
@@ -1275,8 +1279,13 @@ function CommandPalette({
       return;
     }
     if (event.key === "Enter") {
+      const item = items[cursor];
+      if (item?.href) {
+        listRef.current?.querySelectorAll("[data-command-item]")[cursor]?.click();
+        return;
+      }
       event.preventDefault();
-      select(items[cursor]);
+      select(item);
     }
   };
   const grouped = useMemo(() => {
@@ -1319,9 +1328,16 @@ function CommandPalette({
                     value: query,
                     onChange: (e) => onQueryChange(e.target.value),
                     placeholder: labels?.placeholder ?? "Search\u2026",
-                    className: "h-12 flex-1 bg-transparent text-[16px] outline-none placeholder:text-muted-foreground"
+                    className: "h-12 flex-1 bg-transparent text-[16px] outline-none placeholder:text-muted-foreground",
+                    autoComplete: "off",
+                    spellCheck: false,
+                    role: "combobox",
+                    "aria-expanded": items.length > 0,
+                    "aria-controls": listId,
+                    "aria-activedescendant": items.length ? `${listId}-${cursor}` : void 0
                   }
                 ),
+                loading && /* @__PURE__ */ jsx(Spinner, { className: "h-4 w-4 shrink-0" }),
                 /* @__PURE__ */ jsx(
                   "button",
                   {
@@ -1333,35 +1349,67 @@ function CommandPalette({
                   }
                 )
               ] }),
-              /* @__PURE__ */ jsx("div", { ref: listRef, className: "max-h-[55vh] overflow-y-auto p-1.5", tabIndex: -1, children: loading ? /* @__PURE__ */ jsx("div", { className: "p-8 text-center text-sm text-muted-foreground", children: "\u2026" }) : items.length === 0 ? /* @__PURE__ */ jsx("div", { className: "p-6 text-center text-sm text-muted-foreground", children: query ? empty : initial }) : grouped.map((section, s) => /* @__PURE__ */ jsxs("div", { children: [
-                section.group && /* @__PURE__ */ jsx("div", { className: "px-3 pt-2 pb-1 text-[10px] font-semibold tracking-[0.08em] text-muted-foreground uppercase", children: section.group }),
-                section.items.map((item) => {
-                  index += 1;
-                  const active = index === cursor;
-                  const myIndex = index;
-                  return /* @__PURE__ */ jsxs(
-                    "button",
-                    {
-                      type: "button",
-                      "data-command-item": true,
-                      onMouseEnter: () => setCursor(myIndex),
-                      onClick: () => select(item),
-                      className: cn(
+              /* @__PURE__ */ jsx(
+                "div",
+                {
+                  ref: listRef,
+                  id: listId,
+                  role: "listbox",
+                  "aria-label": labels?.title ?? "Search",
+                  className: "max-h-[55vh] overflow-y-auto p-1.5",
+                  tabIndex: -1,
+                  children: loading && items.length === 0 ? /* @__PURE__ */ jsx("div", { className: "p-8 text-center text-sm text-muted-foreground", children: "\u2026" }) : items.length === 0 ? /* @__PURE__ */ jsx("div", { className: "p-6 text-center text-sm text-muted-foreground", children: query ? empty : initial }) : grouped.map((section, s) => /* @__PURE__ */ jsxs("div", { children: [
+                    section.group && /* @__PURE__ */ jsx("div", { className: "px-3 pt-2 pb-1 text-[10px] font-semibold tracking-[0.08em] text-muted-foreground uppercase", children: section.group }),
+                    section.items.map((item) => {
+                      index += 1;
+                      const active = index === cursor;
+                      const myIndex = index;
+                      const rowClass = cn(
                         "flex w-full items-start gap-2.5 rounded-xl px-3 py-2 text-left transition-colors outline-none",
                         active ? "bg-foreground/5" : "hover:bg-foreground/5"
-                      ),
-                      children: [
+                      );
+                      const body = /* @__PURE__ */ jsxs(Fragment, { children: [
                         item.icon && /* @__PURE__ */ jsx("span", { className: "mt-0.5 shrink-0 text-muted-foreground", children: item.icon }),
                         /* @__PURE__ */ jsxs("span", { className: "min-w-0 flex-1", children: [
                           /* @__PURE__ */ jsx("span", { className: "block truncate text-sm", children: item.title }),
                           item.description && /* @__PURE__ */ jsx("span", { className: "text-caption block truncate", children: item.description })
                         ] })
-                      ]
-                    },
-                    item.id
-                  );
-                })
-              ] }, section.group ?? s)) })
+                      ] });
+                      const shared = {
+                        id: `${listId}-${myIndex}`,
+                        role: "option",
+                        "aria-selected": active,
+                        "data-command-item": true,
+                        onMouseEnter: () => setCursor(myIndex),
+                        className: rowClass
+                      };
+                      return item.href ? /* @__PURE__ */ jsx(
+                        Link,
+                        {
+                          href: item.href,
+                          ...shared,
+                          onClick: () => {
+                            item.onSelect?.();
+                            onClose();
+                          },
+                          children: body
+                        },
+                        item.id
+                      ) : /* @__PURE__ */ jsx(
+                        "button",
+                        {
+                          type: "button",
+                          ...shared,
+                          onClick: () => select(item),
+                          children: body
+                        },
+                        item.id
+                      );
+                    })
+                  ] }, section.group ?? s))
+                }
+              ),
+              footer != null && /* @__PURE__ */ jsx("div", { className: "text-caption flex items-center justify-between gap-3 border-t border-border px-4 py-2.5", children: footer })
             ]
           }
         )
@@ -1384,5 +1432,5 @@ function useCommandPaletteShortcut(onOpen) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-AWZNI4OO.js.map
-//# sourceMappingURL=chunk-AWZNI4OO.js.map
+//# sourceMappingURL=chunk-X3M5646E.js.map
+//# sourceMappingURL=chunk-X3M5646E.js.map

@@ -176,6 +176,14 @@ patch = fixes, anything may change between 0.x releases).
   sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
 ### Added
+- **`CommandPalette` rows can be real links.** Give an item an `href` and the row
+  renders as an anchor through the adapter's `Link` instead of a `<button>`, so
+  ⌘-click, middle-click and "open in new tab" work. A search result *is* a link;
+  losing that meant a reader checking three results had to reopen the palette
+  between each one. Also gained a `footer` slot (result counts / keyboard
+  legend), a spinner in the input row while `loading` keeps the previous results
+  on screen, and proper `role="listbox"` / `role="option"` /
+  `aria-activedescendant` wiring so the highlighted row is announced.
 - **`useDismissOnOutside`** — one hook replacing six hand-rolled copies of
   "close this panel when the user presses outside it" (`CustomSelect`,
   `Combobox`, `ThemeToggle`, `LanguageSwitcher`, `ModelSelect`, `AccountMenu`).

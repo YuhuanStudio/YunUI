@@ -43,7 +43,7 @@ import {
 } from "yunui/patterns";
 import {
   NumberInput,
-  SearchInput, Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, CommandPalette, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
+  SearchInput, Kbd, Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, CommandPalette, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
 import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
 import {
   CapabilitySelector,
@@ -1389,12 +1389,14 @@ export function ArchiveCalendarDemo() {
 export function CommandPaletteDemo() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  // `href` rows render as real anchors, so ⌘-click and "open in new tab" work;
+  // `onSelect` rows stay buttons. A palette usually needs both.
   const all = [
-    { id: "1", title: "Button", description: "Primitives", group: "Components" },
-    { id: "2", title: "Marketing Hero", description: "Patterns", group: "Components" },
-    { id: "3", title: "Agent Timeline", description: "AI", group: "Components" },
-    { id: "4", title: "Getting started", description: "Install and wire the adapter", group: "Docs" },
-    { id: "5", title: "Design tokens", description: "Themes and palettes", group: "Docs" },
+    { id: "1", title: "Button", description: "Primitives", group: "Components", href: "/docs/components/button" },
+    { id: "2", title: "Marketing Hero", description: "Patterns", group: "Components", href: "/docs/patterns/marketing-hero" },
+    { id: "3", title: "Agent Timeline", description: "AI", group: "Components", href: "/docs/ai/agent-timeline" },
+    { id: "4", title: "Getting started", description: "Install and wire the adapter", group: "Docs", href: "/docs" },
+    { id: "5", title: "Design tokens", description: "Themes and palettes", group: "Docs", href: "/docs/tokens" },
   ];
   const items = query
     ? all.filter((i) => i.title.toLowerCase().includes(query.toLowerCase()))
@@ -1409,9 +1411,19 @@ export function CommandPaletteDemo() {
         onClose={() => setOpen(false)}
         query={query}
         onQueryChange={setQuery}
-        items={items.map((i) => ({ ...i, onSelect: () => {} }))}
+        items={items}
         empty="No matches."
         labels={{ placeholder: "Search components and docs…", title: "Search", close: "Close" }}
+        footer={
+          <>
+            <span>{items.length} result{items.length === 1 ? "" : "s"}</span>
+            <span className="flex items-center gap-3">
+              <span><Kbd>↑</Kbd><Kbd>↓</Kbd> Select</span>
+              <span><Kbd>Enter</Kbd> Open</span>
+              <span><Kbd>Esc</Kbd> Close</span>
+            </span>
+          </>
+        }
       />
     </>
   );

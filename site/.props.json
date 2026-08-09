@@ -1692,7 +1692,21 @@
       "type": "ReactNode",
       "required": false,
       "defaultValue": null,
-      "description": "Brand row above the card — usually a logo + wordmark linking home."
+      "description": "Brand row above the card — the logo + wordmark. Rendered inside a\ncentered flex row; pass the image and the name as siblings."
+    },
+    {
+      "name": "cardClassName",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Extra classes on the card box itself (the wrapper takes `className`)."
+    },
+    {
+      "name": "centered",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Centers everything in the card — for confirmation and status screens."
     },
     {
       "name": "children",
@@ -1702,11 +1716,32 @@
       "description": "The form (or whatever the screen is for)."
     },
     {
+      "name": "error",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "A block above the form for a failed submit — rendered in the soft-error\nbox these screens all use. Falsy values render nothing."
+    },
+    {
       "name": "footer",
       "type": "ReactNode",
       "required": false,
       "defaultValue": null,
       "description": "Content under the card — \"Don't have an account?\", legal links."
+    },
+    {
+      "name": "homeHref",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "When set, the brand row becomes a link to this destination (usually \"/\")."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional medallion / spinner above the heading, centered."
     },
     {
       "name": "subtitle",
@@ -1720,14 +1755,14 @@
       "type": "ReactNode",
       "required": false,
       "defaultValue": null,
-      "description": "Card heading, centered."
+      "description": "Card heading."
     },
     {
       "name": "width",
       "type": "\"sm\" | \"md\"",
       "required": false,
       "defaultValue": "sm",
-      "description": "Width of the column. `sm` suits a sign-in form; `md` suits screens with\nmore to say (verification, callbacks)."
+      "description": "Width of the column. `sm` suits a sign-in form; `md` suits the wider\nerror / not-found screens."
     }
   ],
   "AvatarUploader": [
@@ -3110,6 +3145,13 @@
       "description": "Override the `<main>` classes — defaults to `flex-1 pt-28` (clears the\nfixed navbar). Pass your own offset for a taller/shorter bar."
     },
     {
+      "name": "mainId",
+      "type": "string",
+      "required": false,
+      "defaultValue": "main-content",
+      "description": "`id` on the `<main>` element — the target a \"skip to main content\" link\njumps to. Defaults to `\"main-content\"`, the conventional value, so the\nskip link in a consumer's root layout actually lands somewhere. Pass\n`undefined` explicitly if a page must not carry the id (e.g. two shells\non one page)."
+    },
+    {
       "name": "navbar",
       "type": "ReactNode",
       "required": false,
@@ -4143,6 +4185,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Rendered when there is a query but no results."
+    },
+    {
+      "name": "footer",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "A hint bar under the list — result counts, keyboard legends. Omit it and\nthe bar is not rendered at all."
     },
     {
       "name": "initial",

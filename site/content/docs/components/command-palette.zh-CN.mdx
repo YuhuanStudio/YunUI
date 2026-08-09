@@ -52,8 +52,33 @@ items={[
 ]}
 ```
 
+## 链接与命令
+
+给项目加上 `href`，那一行就会透过适配器的 `Link` 渲染成真正的锚点——⌘ 点击、中键点击、「在新分页开启」全都可用，状态栏也会显示目的地。不加则渲染为执行 `onSelect` 的 `<button>`。
+
+这个区分比看起来重要：搜索结果**就是**链接，读者想看三则不该每看一则就重开一次面板。而命令（「切换深色模式」）不是链接，应该保持按钮。
+
+## 底部提示列
+
+`footer` 会在列表下方渲染一条提示列——左边结果数、右边键盘图例，用 `justify-between` 排版。不传这个属性就不会渲染这条列。
+
+```tsx
+footer={
+  <>
+    <span>{items.length} 则</span>
+    <span className="flex items-center gap-3">
+      <span><Kbd>↑</Kbd><Kbd>↓</Kbd> 选择</span>
+      <span><Kbd>Enter</Kbd> 开启</span>
+      <span><Kbd>Esc</Kbd> 关闭</span>
+    </span>
+  </>
+}
+```
+
 ## 细节
 
+- 列表是真正的 `role="listbox"`，每一行是 `role="option"`，输入框则是带 `aria-activedescendant` 的 `role="combobox"`——因此方向键移动时屏幕阅读器会念出当前行，而焦点始终留在输入框。
+- `loading` 会在输入框那一行显示旋转指示，同时保留画面上既有的结果；只有在没有东西可留时列表才会清空。
 - 输入框是 `16px`;再小 iOS Safari 就会在聚焦时放大整页。
 - 面板打开时页面停止滚动，浮层通过 portal 渲染，因此不会被任何祖先的 `overflow` 裁切。
 - `useCommandPaletteShortcut` 是分开的，已有快捷键层的宿主可以略过它。

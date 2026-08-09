@@ -52,8 +52,33 @@ items={[
 ]}
 ```
 
+## Links vs commands
+
+Give an item `href` and its row renders as a real anchor through the adapter's `Link`, so ⌘-click, middle-click and "open in new tab" all work and the destination shows in the status bar. Leave it off and the row is a `<button>` that runs `onSelect`.
+
+That distinction matters more than it looks: a search result *is* a link, and a reader checking three of them should not have to reopen the palette between each one. A command ("Toggle dark mode") is not a link and should stay a button.
+
+## The footer bar
+
+`footer` renders a hint strip under the list — a result count on the left, a keyboard legend on the right, laid out with `justify-between`. Omit the prop and no bar is rendered.
+
+```tsx
+footer={
+  <>
+    <span>{items.length} results</span>
+    <span className="flex items-center gap-3">
+      <span><Kbd>↑</Kbd><Kbd>↓</Kbd> Select</span>
+      <span><Kbd>Enter</Kbd> Open</span>
+      <span><Kbd>Esc</Kbd> Close</span>
+    </span>
+  </>
+}
+```
+
 ## Notes
 
+- The list is a real `role="listbox"` of `role="option"` rows, and the input is a `role="combobox"` carrying `aria-activedescendant` — so a screen reader announces the highlighted row as the arrow keys move it, without focus ever leaving the input.
+- `loading` shows a spinner in the input row while previous results stay on screen; the list only blanks when there is nothing to keep.
 - The input is `16px`; anything smaller and iOS Safari zooms the page when it takes focus.
 - The body stops scrolling while the palette is open, and the overlay renders in a portal so no ancestor's `overflow` can clip it.
 - `useCommandPaletteShortcut` is separate, so a host that already owns a shortcut layer can skip it.

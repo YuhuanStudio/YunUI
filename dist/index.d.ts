@@ -1474,6 +1474,13 @@ interface CommandPaletteItem {
     group?: string;
     /** Run on select. */
     onSelect?: () => void;
+    /**
+     * Navigate here on select. When set, the row renders as a real anchor
+     * (through the adapter's `Link`) rather than a button — so ⌘-click,
+     * middle-click and "open in new tab" work, and the destination shows in the
+     * status bar. A search result is a link; a command is a button.
+     */
+    href?: string;
 }
 interface CommandPaletteProps {
     open: boolean;
@@ -1489,6 +1496,11 @@ interface CommandPaletteProps {
     empty?: ReactNode;
     /** Rendered before anything is typed — recents, shortcuts, tips. */
     initial?: ReactNode;
+    /**
+     * A hint bar under the list — result counts, keyboard legends. Omit it and
+     * the bar is not rendered at all.
+     */
+    footer?: ReactNode;
     /** Every string this renders. */
     labels?: {
         placeholder?: string;
@@ -1509,7 +1521,7 @@ interface CommandPaletteProps {
  * without touching the mouse; the cursor resets whenever the results change so
  * it never points at a row that has scrolled out from under it.
  */
-declare function CommandPalette({ open, onClose, query, onQueryChange, items, loading, empty, initial, labels, className, }: CommandPaletteProps): React$1.ReactPortal | null;
+declare function CommandPalette({ open, onClose, query, onQueryChange, items, loading, empty, initial, footer, labels, className, }: CommandPaletteProps): React$1.ReactPortal | null;
 /**
  * Opens the palette on ⌘K / Ctrl-K. Kept separate so a host that already owns a
  * shortcut layer can skip it.

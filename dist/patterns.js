@@ -1,5 +1,5 @@
 "use client";
-import './chunk-AWZNI4OO.js';
+import './chunk-X3M5646E.js';
 import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
 export { Footer } from './chunk-HJ6AUOR7.js';
 import './chunk-WXBTUYKT.js';

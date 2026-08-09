@@ -3,6 +3,7 @@
 import {
     useCallback,
     useEffect,
+    useId,
     useMemo,
     useRef,
     useState,
@@ -11,6 +12,8 @@ import {
 import { createPortal } from "react-dom";
 import { Search, X } from "lucide-react";
 import { cn } from "../lib/cn";
+import { useYunUI } from "../adapters/context";
+import { Spinner } from "./index";
 
 export interface CommandPaletteItem {
     id: string;
@@ -24,6 +27,13 @@ export interface CommandPaletteItem {
     group?: string;
     /** Run on select. */
     onSelect?: () => void;
+    /**
+     * Navigate here on select. When set, the row renders as a real anchor
+     * (through the adapter's `Link`) rather than a button — so ⌘-click,
+     * middle-click and "open in new tab" work, and the destination shows in the
+     * status bar. A search result is a link; a command is a button.
+     */
+    href?: string;
 }
 
 export interface CommandPaletteProps {
@@ -40,6 +50,11 @@ export interface CommandPaletteProps {
     empty?: ReactNode;
     /** Rendered before anything is typed — recents, shortcuts, tips. */
     initial?: ReactNode;
+    /**
+     * A hint bar under the list — result counts, keyboard legends. Omit it and
+     * the bar is not rendered at all.
+     */
+    footer?: ReactNode;
     /** Every string this renders. */
     labels?: { placeholder?: string; title?: string; close?: string };
     className?: string;
@@ -66,13 +81,16 @@ export function CommandPalette({
     loading = false,
     empty,
     initial,
+    footer,
     labels,
     className,
 }: CommandPaletteProps) {
+    const { Link } = useYunUI();
     const [cursor, setCursor] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
+    const listId = useId();
 
     useEffect(() => setMounted(true), []);
 
@@ -124,8 +142,17 @@ export function CommandPalette({
             return;
         }
         if (event.key === "Enter") {
+            const item = items[cursor];
+            // An href row is an anchor: let the browser follow it (which also
+            // keeps ⌘-Enter opening a new tab) and just close behind it.
+            if (item?.href) {
+                listRef.current
+                    ?.querySelectorAll<HTMLElement>("[data-command-item]")
+                    [cursor]?.click();
+                return;
+            }
             event.preventDefault();
-            select(items[cursor]);
+            select(item);
         }
     };
 
@@ -171,7 +198,14 @@ export function CommandPalette({
                         // 16px: anything smaller and iOS Safari zooms the page in
                         // when the field takes focus.
                         className="h-12 flex-1 bg-transparent text-[16px] outline-none placeholder:text-muted-foreground"
+                        autoComplete="off"
+                        spellCheck={false}
+                        role="combobox"
+                        aria-expanded={items.length > 0}
+                        aria-controls={listId}
+                        aria-activedescendant={items.length ? `${listId}-${cursor}` : undefined}
                     />
+                    {loading && <Spinner className="h-4 w-4 shrink-0" />}
                     <button
                         type="button"
                         onClick={onClose}
@@ -182,8 +216,15 @@ export function CommandPalette({
                     </button>
                 </div>
 
-                <div ref={listRef} className="max-h-[55vh] overflow-y-auto p-1.5" tabIndex={-1}>
-                    {loading ? (
+                <div
+                    ref={listRef}
+                    id={listId}
+                    role="listbox"
+                    aria-label={labels?.title ?? "Search"}
+                    className="max-h-[55vh] overflow-y-auto p-1.5"
+                    tabIndex={-1}
+                >
+                    {loading && items.length === 0 ? (
                         <div className="p-8 text-center text-sm text-muted-foreground">…</div>
                     ) : items.length === 0 ? (
                         <div className="p-6 text-center text-sm text-muted-foreground">
@@ -201,18 +242,12 @@ export function CommandPalette({
                                     index += 1;
                                     const active = index === cursor;
                                     const myIndex = index;
-                                    return (
-                                        <button
-                                            key={item.id}
-                                            type="button"
-                                            data-command-item
-                                            onMouseEnter={() => setCursor(myIndex)}
-                                            onClick={() => select(item)}
-                                            className={cn(
-                                                "flex w-full items-start gap-2.5 rounded-xl px-3 py-2 text-left transition-colors outline-none",
-                                                active ? "bg-foreground/5" : "hover:bg-foreground/5",
-                                            )}
-                                        >
+                                    const rowClass = cn(
+                                        "flex w-full items-start gap-2.5 rounded-xl px-3 py-2 text-left transition-colors outline-none",
+                                        active ? "bg-foreground/5" : "hover:bg-foreground/5",
+                                    );
+                                    const body = (
+                                        <>
                                             {item.icon && (
                                                 <span className="mt-0.5 shrink-0 text-muted-foreground">
                                                     {item.icon}
@@ -226,6 +261,36 @@ export function CommandPalette({
                                                     </span>
                                                 )}
                                             </span>
+                                        </>
+                                    );
+                                    const shared = {
+                                        id: `${listId}-${myIndex}`,
+                                        role: "option" as const,
+                                        "aria-selected": active,
+                                        "data-command-item": true,
+                                        onMouseEnter: () => setCursor(myIndex),
+                                        className: rowClass,
+                                    };
+                                    return item.href ? (
+                                        <Link
+                                            key={item.id}
+                                            href={item.href}
+                                            {...shared}
+                                            onClick={() => {
+                                                item.onSelect?.();
+                                                onClose();
+                                            }}
+                                        >
+                                            {body}
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            {...shared}
+                                            onClick={() => select(item)}
+                                        >
+                                            {body}
                                         </button>
                                     );
                                 })}
@@ -233,6 +298,12 @@ export function CommandPalette({
                         ))
                     )}
                 </div>
+
+                {footer != null && (
+                    <div className="text-caption flex items-center justify-between gap-3 border-t border-border px-4 py-2.5">
+                        {footer}
+                    </div>
+                )}
             </div>
         </div>,
         document.body,
