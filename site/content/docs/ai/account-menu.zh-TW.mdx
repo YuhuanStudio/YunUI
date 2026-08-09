@@ -23,7 +23,7 @@ import { AccountMenu } from "@yuhuanowo/yunui/ai";
 工作階段 cookie 通常是 `httpOnly`，頁面讀不到，只有伺服器能回答。在答案還沒回來時，先猜「未登入」再換成頭像，會讓**每一次頁面載入都看起來像把讀者登出了**——所以這裡先把空間留住。
 
 <ComponentPreview title="未登入">
-  <AccountMenu user={null} signInHref="/login" labels={{ signIn: "Sign in" }} />
+  <AccountMenu user={null} signInHref="#" labels={{ signIn: "Sign in" }} />
 </ComponentPreview>
 
 ## 已登入

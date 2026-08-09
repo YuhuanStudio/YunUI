@@ -357,6 +357,13 @@ declare const Table: React$1.ForwardRefExoticComponent<React$1.TableHTMLAttribut
     /** Class applied to the outer scroll/overflow wrapper. */
     containerClassName?: string;
     /**
+     * Accessible name for the scroll region, used only when the table is
+     * actually overflowing and therefore focusable (e.g. "Transactions,
+     * scrollable"). The library ships no copy, so without it the region is
+     * focusable but unnamed.
+     */
+    scrollLabel?: string;
+    /**
      * Stack each row into a labelled card below the `md` breakpoint, so dense
      * many-column tables stay readable on narrow screens instead of forcing a
      * horizontal scroll. Pair with `<TableCell label="…">` to label each value.

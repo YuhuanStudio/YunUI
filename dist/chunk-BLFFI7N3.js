@@ -1,5 +1,5 @@
 "use client";
-import { cn, useFocusTrap, useEscapeKey, useBodyScrollLock, useModalBehavior, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
+import { cn, useScrollableTabStop, useFocusTrap, useEscapeKey, useBodyScrollLock, useModalBehavior, useAnchoredPosition, useDismissOnOutside } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React7 from 'react';
 import { forwardRef, useRef, useState, useEffect, useCallback, useId } from 'react';
@@ -508,7 +508,8 @@ function Combobox({
                         rounded-xl border border-(--border-default) bg-(--bg-elevated)
                         hover:border-(--border-strong) hover:bg-(--bg-hover)
                         focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary
-                        truncate transition-all duration-200 text-sm
+                        truncate transition-all duration-200
+                        text-base md:text-sm
                         ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                         ${selectedIconPath ? "pl-10 pr-20" : "px-3 pr-20"}
                     `
@@ -860,18 +861,32 @@ var Stack = React7.forwardRef(
   ({ gap = 4, ...props }, ref) => /* @__PURE__ */ jsx(Flex, { ref, direction: "col", gap, ...props })
 );
 Stack.displayName = "Stack";
-var Table = React7.forwardRef(({ className, containerClassName, responsive, ...props }, ref) => /* @__PURE__ */ jsx("div", { className: cn("relative w-full overflow-x-auto", containerClassName), children: /* @__PURE__ */ jsx(
-  "table",
-  {
-    ref,
-    className: cn(
-      "w-full caption-bottom border-collapse text-sm",
-      responsive && "yunui-table-responsive",
-      className
-    ),
-    ...props
-  }
-) }));
+var Table = React7.forwardRef(({ className, containerClassName, responsive, scrollLabel, ...props }, ref) => {
+  const scrollRef = React7.useRef(null);
+  const tabIndex = useScrollableTabStop(scrollRef);
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      ref: scrollRef,
+      tabIndex,
+      role: tabIndex === 0 && scrollLabel ? "region" : void 0,
+      "aria-label": tabIndex === 0 ? scrollLabel : void 0,
+      className: cn("relative w-full overflow-x-auto outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg", containerClassName),
+      children: /* @__PURE__ */ jsx(
+        "table",
+        {
+          ref,
+          className: cn(
+            "w-full caption-bottom border-collapse text-sm",
+            responsive && "yunui-table-responsive",
+            className
+          ),
+          ...props
+        }
+      )
+    }
+  );
+});
 Table.displayName = "Table";
 var TableHeader = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "thead",
@@ -2433,5 +2448,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem };
-//# sourceMappingURL=chunk-GWUEUP5K.js.map
-//# sourceMappingURL=chunk-GWUEUP5K.js.map
+//# sourceMappingURL=chunk-BLFFI7N3.js.map
+//# sourceMappingURL=chunk-BLFFI7N3.js.map

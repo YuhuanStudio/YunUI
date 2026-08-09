@@ -408,7 +408,10 @@ export function ModelSelect({
                                     aria-expanded={isOpen}
                                     aria-controls="yunui-ms-listbox"
                                     aria-activedescendant={activeId ? rowDomId(activeId) : undefined}
-                                    className="w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
+                                    // 16px on mobile: iOS Safari zooms the whole page when a focused input
+                                    // is under 16px, and this one opens inside a dropdown, so the zoom
+                                    // lands mid-interaction.
+                                    className="w-full pl-9 pr-8 py-2 text-base md:text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                                 />
                                 {search && (
                                     <button type="button" onClick={() => setSearch("")} title={L.clearSearch} aria-label={L.clearSearch} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">

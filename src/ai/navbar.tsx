@@ -123,9 +123,11 @@ export function Navbar({
     return (
         <nav
             style={{ top: "max(1.5rem, env(safe-area-inset-top))" }}
-            /* Centered with inset-x-0 + mx-auto, NOT -translate-x-1/2: a CSS backdrop-filter is
-               dead inside a transformed ancestor, so a transform here would kill the frosted-glass
-               blur on the mobile menu / dropdowns nested below (they'd just bleed the page through). */
+            /* Centered with inset-x-0 + mx-auto, NOT -translate-x-1/2: a transformed ancestor
+               is a backdrop root, so a transform here would kill any backdrop-filter nested
+               below. (Note that this bar's OWN backdrop-blur is already a backdrop root for
+               anything inside it — which is why the mobile menu above is opaque rather than
+               frosted. Verified by measurement, not by eye.) */
             className="fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between"
         >
             {/* Logo */}
@@ -202,7 +204,15 @@ export function Navbar({
                     {/* Frosted glass, but at /95 not /85: the nav centers without a transform so the
                         blur works, yet over a same-toned page an 85% panel still read as see-through.
                         95% keeps the frost while making the menu opaque enough to not bleed content. */}
-                    <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover/95 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
+                    {/* Opaque, and with no `backdrop-blur`: this panel is nested inside a
+                            nav that has its own `backdrop-filter`, which makes the nav a
+                            BACKDROP ROOT — a nested backdrop-filter then samples an empty
+                            backdrop and does exactly nothing. Measured: forcing the panel's
+                            backdrop-filter to `none` produced a byte-identical screenshot,
+                            while removing the NAV's changed it. So the blur here was never
+                            real, and the 95% fill just let the page bleed through as
+                            legible text behind the menu. */}
+                        <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
                         {links.map((link) => (
                             <Link
                                 key={link.href}

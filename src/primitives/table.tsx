@@ -8,6 +8,7 @@
 import * as React from "react";
 import { ChevronDown, ChevronUp, ChevronsUpDown } from "lucide-react";
 import { cn } from "../lib/cn";
+import { useScrollableTabStop } from "../lib/hooks";
 
 /**
  * Table root — wraps a `<table>` in an overflow container so wide tables scroll
@@ -20,14 +21,34 @@ export const Table = React.forwardRef<
         /** Class applied to the outer scroll/overflow wrapper. */
         containerClassName?: string;
         /**
+         * Accessible name for the scroll region, used only when the table is
+         * actually overflowing and therefore focusable (e.g. "Transactions,
+         * scrollable"). The library ships no copy, so without it the region is
+         * focusable but unnamed.
+         */
+        scrollLabel?: string;
+        /**
          * Stack each row into a labelled card below the `md` breakpoint, so dense
          * many-column tables stay readable on narrow screens instead of forcing a
          * horizontal scroll. Pair with `<TableCell label="…">` to label each value.
          */
         responsive?: boolean;
     }
->(({ className, containerClassName, responsive, ...props }, ref) => (
-    <div className={cn("relative w-full overflow-x-auto", containerClassName)}>
+>(({ className, containerClassName, responsive, scrollLabel, ...props }, ref) => {
+    const scrollRef = React.useRef<HTMLDivElement>(null);
+    // Focusable ONLY while the table really overflows: Safari and Firefox do
+    // not focus scroll containers on their own, so without this the columns
+    // past the right edge are unreachable by keyboard — and a permanent
+    // tabIndex would put a dead stop on every table that fits.
+    const tabIndex = useScrollableTabStop(scrollRef);
+    return (
+    <div
+        ref={scrollRef}
+        tabIndex={tabIndex}
+        role={tabIndex === 0 && scrollLabel ? "region" : undefined}
+        aria-label={tabIndex === 0 ? scrollLabel : undefined}
+        className={cn("relative w-full overflow-x-auto outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg", containerClassName)}
+    >
         <table
             ref={ref}
             className={cn(
@@ -38,7 +59,8 @@ export const Table = React.forwardRef<
             {...props}
         />
     </div>
-));
+    );
+});
 Table.displayName = "Table";
 
 /** Table header group (`<thead>`); contains the column-header row(s). */

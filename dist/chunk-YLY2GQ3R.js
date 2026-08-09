@@ -130,6 +130,23 @@ function useDismissOnOutside(open, onDismiss, ref, options) {
     };
   }, [open, escape, ref, extraRefs]);
 }
+function useScrollableTabStop(ref, axis = "x") {
+  const [overflowing, setOverflowing] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const measure = () => {
+      const over = axis === "x" ? el.scrollWidth - el.clientWidth > 1 : el.scrollHeight - el.clientHeight > 1;
+      setOverflowing(over);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    for (const child of Array.from(el.children)) ro.observe(child);
+    return () => ro.disconnect();
+  }, [ref, axis]);
+  return overflowing ? 0 : void 0;
+}
 function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
@@ -228,6 +245,6 @@ function useAnchoredPosition(open, panelRef, opts) {
   return pos;
 }
 
-export { cn, useAnchoredPosition, useBodyScrollLock, useDismissOnOutside, useEscapeKey, useFocusTrap, useModalBehavior };
-//# sourceMappingURL=chunk-5ZWUGRS7.js.map
-//# sourceMappingURL=chunk-5ZWUGRS7.js.map
+export { cn, useAnchoredPosition, useBodyScrollLock, useDismissOnOutside, useEscapeKey, useFocusTrap, useModalBehavior, useScrollableTabStop };
+//# sourceMappingURL=chunk-YLY2GQ3R.js.map
+//# sourceMappingURL=chunk-YLY2GQ3R.js.map

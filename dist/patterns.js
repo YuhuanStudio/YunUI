@@ -1,11 +1,11 @@
 "use client";
-import './chunk-X3M5646E.js';
+import './chunk-ZXVO6LHZ.js';
 import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
 export { Footer } from './chunk-HJ6AUOR7.js';
-import './chunk-WXBTUYKT.js';
+import './chunk-VJ4AIGVS.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-GWUEUP5K.js';
-import { cn } from './chunk-5ZWUGRS7.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-BLFFI7N3.js';
+import { cn } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
@@ -303,7 +303,7 @@ function FAQ({ items, defaultOpenIndex = 0 }) {
 }
 var actionClass = cn(
   "inline-flex items-center gap-1.5 px-2 py-1 text-xs",
-  "text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors rounded-md hover:bg-fd-accent"
+  "text-muted-foreground hover:text-accent-foreground transition-colors rounded-md hover:bg-accent"
 );
 function LLMCopyButton({ markdownUrl, labels }) {
   const [copied, setCopied] = useState(false);

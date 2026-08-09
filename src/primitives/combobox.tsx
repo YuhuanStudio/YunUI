@@ -218,7 +218,8 @@ export function Combobox({
                         rounded-xl border border-(--border-default) bg-(--bg-elevated)
                         hover:border-(--border-strong) hover:bg-(--bg-hover)
                         focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary
-                        truncate transition-all duration-200 text-sm
+                        truncate transition-all duration-200
+                        text-base md:text-sm
                         ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                         ${selectedIconPath ? "pl-10 pr-20" : "px-3 pr-20"}
                     `}

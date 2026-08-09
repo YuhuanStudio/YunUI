@@ -23,7 +23,7 @@ import { AccountMenu } from "@yuhuanowo/yunui/ai";
 会话 cookie 通常是 `httpOnly`，页面读不到，只有服务器能回答。在答案还没回来时，先猜「未登录」再换成头像，会让**每一次页面加载都看起来像把读者登出了**——所以这里先把空间留住。
 
 <ComponentPreview title="未登录">
-  <AccountMenu user={null} signInHref="/login" labels={{ signIn: "Sign in" }} />
+  <AccountMenu user={null} signInHref="#" labels={{ signIn: "Sign in" }} />
 </ComponentPreview>
 
 ## 已登录

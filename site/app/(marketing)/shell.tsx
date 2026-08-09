@@ -31,7 +31,12 @@ function Navbar({ pathname }: { pathname: string }) {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between">
+    /* Centred with `inset-x-0 mx-auto`, NOT `left-1/2 -translate-x-1/2`.
+       A translate on this element makes it a backdrop root, which kills the
+       `backdrop-filter` on the mobile menu nested inside it — the page then
+       bleeds through the panel unblurred. Measured in both Chromium and
+       WebKit: the hero headline was readable straight through the open menu. */
+    <nav className="fixed top-6 inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between">
       {/* Logo — mark + wordmark, links home */}
       <Link
         href="/"
@@ -105,7 +110,10 @@ function Navbar({ pathname }: { pathname: string }) {
       {menuOpen && (
         <>
           <div className="md:hidden fixed inset-0 -z-10" onClick={() => setMenuOpen(false)} />
-          <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background/95 backdrop-blur-xl border border-border rounded-2xl shadow-lg flex flex-col gap-0.5">
+          {/* Opaque, no backdrop-blur: the nav above has its own backdrop-filter and is
+              therefore a backdrop root, so a nested one does nothing at all. The 95%
+              fill was letting the hero headline read straight through the open menu. */}
+          <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background border border-border rounded-2xl shadow-lg flex flex-col gap-0.5">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}

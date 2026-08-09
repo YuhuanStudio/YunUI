@@ -13,7 +13,9 @@ const BODY = CHANGELOG_MD.replace(/^#\s+Changelog\s*\n/, "");
 export default function ChangelogPage() {
   const t = useTranslations("changelog");
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16 md:py-24">
+    // A <div>, not a <main>: the marketing Shell already wraps every page in
+    // <main>, and nesting a second one gives /changelog two "main" landmarks.
+    <div className="mx-auto w-full max-w-3xl px-6 py-16 md:py-24">
       <header className="mb-10 border-b border-border pb-8">
         <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-(--accent-muted) bg-(--accent-subtle)/80 px-3 py-1 text-xs font-medium">
           v{PKG_VERSION}
@@ -22,6 +24,6 @@ export default function ChangelogPage() {
         <p className="mt-3 max-w-xl text-muted-foreground">{t("subtitle")}</p>
       </header>
       <MarkdownRenderer content={BODY} />
-    </main>
+    </div>
   );
 }

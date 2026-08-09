@@ -1,6 +1,6 @@
 "use client";
-import { Spinner } from './chunk-GWUEUP5K.js';
-import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
+import { Spinner } from './chunk-BLFFI7N3.js';
+import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React3 from 'react';
 import { forwardRef, useState, useEffect, useRef, useId, useMemo, useCallback } from 'react';
@@ -221,7 +221,7 @@ function CustomSelect({
                 onChange: (e) => setSearchQuery(e.target.value),
                 placeholder: t("search"),
                 "aria-label": t("search"),
-                className: "w-full pl-9 pr-8 py-1.5 text-sm rounded-lg\n                                        bg-(--bg-muted) border border-transparent\n                                        focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
+                className: "w-full pl-9 pr-8 py-1.5 text-base md:text-sm rounded-lg\n                                        bg-(--bg-muted) border border-transparent\n                                        focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
               }
             ),
             loading ? /* @__PURE__ */ jsx(
@@ -1432,5 +1432,5 @@ function useCommandPaletteShortcut(onOpen) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-X3M5646E.js.map
-//# sourceMappingURL=chunk-X3M5646E.js.map
+//# sourceMappingURL=chunk-ZXVO6LHZ.js.map
+//# sourceMappingURL=chunk-ZXVO6LHZ.js.map

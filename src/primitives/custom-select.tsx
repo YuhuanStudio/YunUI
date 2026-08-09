@@ -285,7 +285,7 @@ export function CustomSelect({
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder={t("search")}
                                     aria-label={t("search")}
-                                    className="w-full pl-9 pr-8 py-1.5 text-sm rounded-lg
+                                    className="w-full pl-9 pr-8 py-1.5 text-base md:text-sm rounded-lg
                                         bg-(--bg-muted) border border-transparent
                                         focus:border-primary focus:outline-none focus:bg-(--bg-elevated) transition-colors"
                                 />

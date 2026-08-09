@@ -23,7 +23,7 @@ import { AccountMenu } from "@yuhuanowo/yunui/ai";
 A session cookie is usually `httpOnly`, so the page cannot read it and only the server can answer. While the answer is pending, guessing "signed out" and then swapping to an avatar makes **every page load look like it signed the reader out** — so this holds the space instead.
 
 <ComponentPreview title="Signed out">
-  <AccountMenu user={null} signInHref="/login" labels={{ signIn: "Sign in" }} />
+  <AccountMenu user={null} signInHref="#" labels={{ signIn: "Sign in" }} />
 </ComponentPreview>
 
 ## Signed in

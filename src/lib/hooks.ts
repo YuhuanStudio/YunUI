@@ -6,7 +6,7 @@
  * Used by modals, dialogs, and other overlays to close on Escape key.
  */
 
-import { useEffect, useCallback, useRef, type RefObject } from "react";
+import { useEffect, useCallback, useRef, useState, type RefObject } from "react";
 
 /**
  * Hook that calls the callback when Escape key is pressed
@@ -276,4 +276,59 @@ export function useDismissOnOutside(
         };
         // `extraRefs` is a caller-owned array; depend on its identity, not contents.
     }, [open, escape, ref, extraRefs]);
+}
+
+/**
+ * Make a scroll container keyboard-reachable, but only while it actually
+ * scrolls.
+ *
+ * Chrome quietly makes overflowing scroll containers focusable; Safari and
+ * Firefox do not. So a wide `<table>` of plain cells — no links, no buttons —
+ * has *no* keyboard route to the columns past the right edge in those engines:
+ * the content is simply unreachable. The usual fix is a permanent
+ * `tabIndex={0}`, which then adds a dead tab stop to every table that fits.
+ *
+ * This measures instead. It returns `0` while the element overflows and
+ * `undefined` when it does not, re-checking on resize and on content changes.
+ *
+ * @param ref The scrolling element.
+ * @param axis Which overflow to watch. @defaultValue "x"
+ *
+ * @example
+ * ```tsx
+ * const ref = useRef<HTMLDivElement>(null);
+ * const tabIndex = useScrollableTabStop(ref);
+ * return <div ref={ref} tabIndex={tabIndex} className="overflow-x-auto">…</div>;
+ * ```
+ */
+export function useScrollableTabStop(
+    ref: RefObject<HTMLElement | null>,
+    axis: "x" | "y" = "x"
+): 0 | undefined {
+    const [overflowing, setOverflowing] = useState(false);
+
+    useEffect(() => {
+        const el = ref.current;
+        if (!el || typeof ResizeObserver === "undefined") return;
+
+        const measure = () => {
+            // 1px of slack: sub-pixel layout rounding otherwise reports a
+            // permanent overflow on tables that visually fit exactly.
+            const over =
+                axis === "x"
+                    ? el.scrollWidth - el.clientWidth > 1
+                    : el.scrollHeight - el.clientHeight > 1;
+            setOverflowing(over);
+        };
+
+        measure();
+        const ro = new ResizeObserver(measure);
+        ro.observe(el);
+        // The children are what overflow — watching only the box misses a row
+        // being added to an already-sized table.
+        for (const child of Array.from(el.children)) ro.observe(child);
+        return () => ro.disconnect();
+    }, [ref, axis]);
+
+    return overflowing ? 0 : undefined;
 }

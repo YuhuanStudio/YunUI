@@ -4,9 +4,13 @@ import { Check, Copy, ExternalLink, FileText } from "lucide-react";
 import { useState, useCallback } from "react";
 import { cn } from "../lib/cn";
 
+// YunUI theme colours, not `fd-*`: the fd family is declared only inside the
+// true-black scope, never in `@theme`, so `text-fd-muted-foreground` and
+// `hover:bg-fd-accent` generated NO css in a consumer without fumadocs — these
+// two buttons shipped unstyled outside YunUI's own docs site.
 const actionClass = cn(
   "inline-flex items-center gap-1.5 px-2 py-1 text-xs",
-  "text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors rounded-md hover:bg-fd-accent"
+  "text-muted-foreground hover:text-accent-foreground transition-colors rounded-md hover:bg-accent"
 );
 
 export interface LLMCopyButtonProps {

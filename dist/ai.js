@@ -1,8 +1,8 @@
 "use client";
 import { capabilityIconColor, copyToClipboard } from './chunk-HJ6AUOR7.js';
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-HJ6AUOR7.js';
-import { TextShimmer, ThemeToggle } from './chunk-WXBTUYKT.js';
-import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-5ZWUGRS7.js';
+import { TextShimmer, ThemeToggle } from './chunk-VJ4AIGVS.js';
+import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { memo, useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -677,7 +677,7 @@ function ModelSelect({
                     "aria-expanded": isOpen,
                     "aria-controls": "yunui-ms-listbox",
                     "aria-activedescendant": activeId ? rowDomId(activeId) : void 0,
-                    className: "w-full pl-9 pr-8 py-2 text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
+                    className: "w-full pl-9 pr-8 py-2 text-base md:text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                   }
                 ),
                 search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
@@ -1877,13 +1877,13 @@ function ModelTypeIcon({ type, size = 16 }) {
   return /* @__PURE__ */ jsx(Bot, { size, className: "text-muted-foreground" });
 }
 var variants = {
-  primary: "bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/80 disabled:bg-fd-secondary disabled:text-fd-secondary-foreground",
-  outline: "border hover:bg-fd-accent hover:text-fd-accent-foreground",
-  ghost: "hover:bg-fd-accent hover:text-fd-accent-foreground",
-  secondary: "border bg-fd-secondary text-fd-secondary-foreground hover:bg-fd-accent hover:text-fd-accent-foreground"
+  primary: "bg-primary text-primary-foreground hover:bg-primary/80 disabled:bg-secondary disabled:text-secondary-foreground",
+  outline: "border border-border hover:bg-accent hover:text-accent-foreground",
+  ghost: "hover:bg-accent hover:text-accent-foreground",
+  secondary: "border border-border bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
 };
 var buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md p-2 text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring",
+  "inline-flex items-center justify-center rounded-md p-2 text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
   {
     variants: {
       variant: variants,
@@ -2101,7 +2101,7 @@ function Navbar({
         ] }),
         variant === "public" && menuOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
           /* @__PURE__ */ jsx("div", { className: "md:hidden fixed inset-0 -z-10", "aria-hidden": "true", onClick: () => setMenuOpen(false) }),
-          /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover/95 backdrop-blur-2xl border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
+          /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
             links.map((link) => /* @__PURE__ */ jsx(
               Link,
               {

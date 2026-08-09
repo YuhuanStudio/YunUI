@@ -175,6 +175,40 @@ patch = fixes, anything may change between 0.x releases).
   `AgentTimeline`, which renders the same agent-turn data as an inline ordered
   sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
+### Fixed
+- **Nested frosted glass never worked, and the code blamed the wrong thing.** The
+  mobile menu inside `Navbar` carried `bg-popover/95 backdrop-blur-2xl`, but the
+  bar it is nested in has its own `backdrop-filter` — which makes that bar a
+  *backdrop root*, so a nested `backdrop-filter` samples an empty backdrop and
+  renders nothing. Proven by measurement: forcing the panel's backdrop-filter to
+  `none` produced a byte-identical screenshot, while removing the bar's changed
+  it. The 95% fill meant the page read straight through the open menu — the hero
+  headline was legible behind it. The panel is opaque now, with the dead blur
+  removed. The `Navbar` comment that attributed this to `transform` has been
+  corrected.
+- **Three more inputs were 14px on mobile**, so iOS Safari zoomed the page on
+  focus — and two of them (`Combobox`, `CustomSelect`) open *inside a dropdown*,
+  so the zoom landed mid-interaction. `ModelSelect`'s search too. All now
+  `text-base md:text-sm`, matching the earlier fix to Input/Textarea/etc.
+- **`LLMCopyButton`, `ViewOptions` and `buttonVariants` shipped unstyled.** They
+  were written against `fd-*` utilities, but the `--color-fd-*` variables are
+  declared only inside YunUI's true-black scope, never in `@theme` — so Tailwind
+  generates no `bg-fd-primary` / `hover:bg-fd-accent` / `ring-fd-ring` at all in
+  a consumer that has not separately installed fumadocs' theme. Confirmed absent
+  from YunNEWS's built stylesheet. Rewritten onto YunUI's own registered colours.
+- **`Table`'s scroll wrapper is now keyboard-reachable when it overflows.**
+  Chrome makes overflowing scroll containers focusable on its own; Safari and
+  Firefox do not, so a wide table of plain cells had no keyboard route to the
+  columns past the right edge. New `useScrollableTabStop` measures actual
+  overflow, so tables that fit gain no dead tab stop, and `scrollLabel` names the
+  region when it does become focusable.
+- **Live docs previews linked to routes this site does not have** — the Footer
+  preview offered /models, /pricing, /about, /blog, /careers; Navbar /models and
+  /pricing; LinkRow /help; Notification /notifications; AccountMenu /login. All
+  eight 404'd when clicked. Demo links now point at `#`.
+- **`/changelog` had two `<main>` landmarks** — the marketing shell already wraps
+  every page in one.
+
 ### Added
 - **`CommandPalette` rows can be real links.** Give an item an `href` and the row
   renders as an anchor through the adapter's `Link` instead of a `<button>`, so
