@@ -111,6 +111,13 @@ patch = fixes, anything may change between 0.x releases).
   on base, still clearly below `--text-secondary` so the three-step hierarchy
   survives. Light is unchanged — its soft tint is #f4f4f5, where the existing
   value already measures 4.81:1.
+- **`--color-fd-muted-foreground` had no bridge in light or dark either.** Only
+  `true-black` overrode it, so the other two themes inherited fumadocs' own
+  #737373 — which clears AA on pure white (4.74:1) and fails on every surface it
+  actually lands on: 4.39:1 on #f6f6f6, 4.35 on #f5f5f5, 4.20 on #f1f1f1. Now
+  bridged to `--text-tertiary` in all themes (4.89 / 4.84 / 4.68, 5.28 on
+  white). Found on Yunxin's docs, whose surfaces are slightly grey; YunUI's own
+  site sits on white and never showed it.
 - **The whole `true-black` fumadocs bridge was losing the cascade.** Fumadocs
   ships its LIGHT token defaults as `:root:not(.dark)` **unlayered**.
   `true-black` sets `class="true-black"` with no `dark`, so that selector

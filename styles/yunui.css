@@ -2883,6 +2883,13 @@ html {
 .dark {
   --color-fd-card: var(--bg-card);
   --color-fd-card-foreground: var(--text-primary);
+  /* Fumadocs' own muted ink is #737373, which clears AA on pure white (4.74:1)
+     and fails on every surface it actually lands on — 4.39:1 on #f6f6f6, 4.35
+     on #f5f5f5, 4.20 on #f1f1f1. Only `true-black` had a bridge for this token,
+     so light and dark inherited the failure. `--text-tertiary` is the
+     equivalent step in YunUI's ramp and is tuned against the surfaces:
+     4.89 / 4.84 / 4.68 respectively, 5.28 on white. */
+  --color-fd-muted-foreground: var(--text-tertiary);
 }
 
 /* Shiki dual themes in the `true-black` theme.
