@@ -50,6 +50,43 @@ Use `variant="minimal"` to drop the center links and auth buttons — useful for
   <Navbar appName="Acme AI" variant="minimal" />
 </ComponentPreview>
 
+## Slots
+
+The bar is built for hosts that need more than a logo and links. Each slot is
+optional; leave them off and nothing changes.
+
+| Slot | Where it lands |
+| --- | --- |
+| `brand` | Replaces the logo + wordmark inside the home link — pass a mark-only logo or a custom lockup. |
+| `actions` | Extra controls in the right cluster, before the language/theme pills. Desktop only, like the rest of that cluster. |
+| `languageSwitcher` / `themeToggle` | The two standard pills. |
+| `account` | Signed-in control; replaces the sign in / sign up pair on desktop and mobile. |
+| `mobileMenuHeader` | Top of the mobile menu, above the links. |
+| `mobileMenuFooter` | Bottom of the mobile menu. **Replaces** the automatic language row there, so you can lay that row out yourself. |
+| `label` | Accessible name for the `<nav>` landmark — needed on any page with more than one nav. |
+
+These exist because two apps forked this component rather than use it: YunUI's
+own site needed a mark-only brand and a GitHub link, and YunNEWS needed a search
+button. Neither was expressible, so both copied the bar. That is a design
+failure in the API, not in the consumers — the slots are the fix.
+
+```tsx
+<Navbar
+  appName="YunUI"
+  brand={<Logo size={24} />}
+  links={NAV_LINKS}
+  currentPath={pathname}
+  actions={<GithubLink />}
+  languageSwitcher={<LanguageSwitcher variant="pill" … />}
+  mobileMenuFooter={
+    <div className="flex items-center justify-between px-2 py-1">
+      <LanguageSwitcher variant="pill" … />
+      <GithubLink />
+    </div>
+  }
+/>
+```
+
 ## Props
 
 <PropsTable name="Navbar" />

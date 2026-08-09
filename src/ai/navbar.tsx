@@ -42,6 +42,38 @@ interface NavbarProps {
      * sign in again.
      */
     account?: ReactNode;
+    /**
+     * Replaces the logo + wordmark block entirely. Pass a mark-only logo, a
+     * custom lockup, anything — it is still wrapped in the link to `homeHref`.
+     * Without this, a brand that is a single glyph had to be faked through
+     * `logoSrc`/`appName`, which is why YunUI's own site and YunNEWS each kept
+     * a private copy of this bar.
+     */
+    brand?: ReactNode;
+    /**
+     * Extra controls in the right-hand cluster, before the language/theme
+     * pills — a GitHub link, a search button. Desktop only, matching the rest
+     * of that cluster; put the mobile equivalent in `mobileMenuHeader`.
+     */
+    actions?: ReactNode;
+    /** Rendered at the TOP of the mobile menu, above the links. */
+    mobileMenuHeader?: ReactNode;
+    /**
+     * The bottom region of the mobile menu, under the divider. Passing this
+     * REPLACES the automatic `languageSwitcher` row there — so a host that
+     * wants the language pill alongside something else (a GitHub link, a
+     * status chip) lays that row out itself instead of getting two rows.
+     * Leave it off and the language row appears on its own, as before.
+     */
+    mobileMenuFooter?: ReactNode;
+    /**
+     * Accessible name for the `<nav>` landmark. A page with more than one nav
+     * needs each one named, or a screen reader offers several identical
+     * "navigation" regions.
+     */
+    label?: string;
+    /** Extra classes on the `<nav>` element. */
+    className?: string;
 }
 
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
@@ -58,6 +90,12 @@ export function Navbar({
     loginHref = "/login",
     signupHref = "/signup",
     account,
+    brand,
+    actions,
+    mobileMenuHeader,
+    mobileMenuFooter,
+    label,
+    className,
 }: NavbarProps) {
     const { Link, Image } = useYunUI();
     const [scrollSection, setScrollSection] = useState<string>("");
@@ -128,12 +166,17 @@ export function Navbar({
                below. (Note that this bar's OWN backdrop-blur is already a backdrop root for
                anything inside it — which is why the mobile menu above is opaque rather than
                frosted. Verified by measurement, not by eye.) */
-            className="fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between"
+            aria-label={label}
+            className={`fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between${className ? ` ${className}` : ""}`}
         >
             {/* Logo */}
             <Link href={homeHref} className="flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200">
-                <Image src={logoSrc} alt={appName} width={28} height={28} className="w-7 h-7 shrink-0" />
-                <span className="font-semibold text-sm tracking-tight truncate">{appName}</span>
+                {brand ?? (
+                    <>
+                        <Image src={logoSrc} alt={appName} width={28} height={28} className="w-7 h-7 shrink-0" />
+                        <span className="font-semibold text-sm tracking-tight truncate">{appName}</span>
+                    </>
+                )}
             </Link>
 
             {/* Nav Links */}
@@ -161,6 +204,7 @@ export function Navbar({
                 language switcher and auth buttons move into the menu so the bar
                 never overflows / truncates the brand on a phone. */}
             <div className="flex items-center gap-1.5 shrink-0">
+                {actions && <span className="hidden md:flex items-center gap-1.5">{actions}</span>}
                 <span className="hidden md:flex items-center gap-1.5">{languageSwitcher}</span>
                 {themeToggle ?? <ThemeToggle variant="pill" />}
 
@@ -213,6 +257,7 @@ export function Navbar({
                             real, and the 95% fill just let the page bleed through as
                             legible text behind the menu. */}
                         <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
+                        {mobileMenuHeader}
                         {links.map((link) => (
                             <Link
                                 key={link.href}
@@ -224,9 +269,10 @@ export function Navbar({
                             </Link>
                         ))}
                         <div className="my-1 border-t border-border" />
-                        {languageSwitcher && (
-                            <div className="px-2 py-1.5">{languageSwitcher}</div>
-                        )}
+                        {mobileMenuFooter ??
+                            (languageSwitcher && (
+                                <div className="px-2 py-1.5">{languageSwitcher}</div>
+                            ))}
                         {!account && (
                             <>
                                 <Link

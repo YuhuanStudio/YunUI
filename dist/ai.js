@@ -1995,7 +1995,13 @@ function Navbar({
   homeHref = "/",
   loginHref = "/login",
   signupHref = "/signup",
-  account
+  account,
+  brand,
+  actions,
+  mobileMenuHeader,
+  mobileMenuFooter,
+  label,
+  className
 }) {
   const { Link, Image } = useYunUI();
   const [scrollSection, setScrollSection] = useState("");
@@ -2047,12 +2053,13 @@ function Navbar({
     "nav",
     {
       style: { top: "max(1.5rem, env(safe-area-inset-top))" },
-      className: "fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between",
+      "aria-label": label,
+      className: `fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between${className ? ` ${className}` : ""}`,
       children: [
-        /* @__PURE__ */ jsxs(Link, { href: homeHref, className: "flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: [
+        /* @__PURE__ */ jsx(Link, { href: homeHref, className: "flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: brand ?? /* @__PURE__ */ jsxs(Fragment, { children: [
           /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 28, height: 28, className: "w-7 h-7 shrink-0" }),
           /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm tracking-tight truncate", children: appName })
-        ] }),
+        ] }) }),
         variant === "public" && /* @__PURE__ */ jsx("div", { className: "hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2", children: links.map((link) => /* @__PURE__ */ jsxs(
           Link,
           {
@@ -2066,6 +2073,7 @@ function Navbar({
           link.href
         )) }),
         /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 shrink-0", children: [
+          actions && /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: actions }),
           /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
           themeToggle ?? /* @__PURE__ */ jsx(ThemeToggle, { variant: "pill" }),
           variant !== "minimal" && account,
@@ -2102,6 +2110,7 @@ function Navbar({
         variant === "public" && menuOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
           /* @__PURE__ */ jsx("div", { className: "md:hidden fixed inset-0 -z-10", "aria-hidden": "true", onClick: () => setMenuOpen(false) }),
           /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
+            mobileMenuHeader,
             links.map((link) => /* @__PURE__ */ jsx(
               Link,
               {
@@ -2113,7 +2122,7 @@ function Navbar({
               link.href
             )),
             /* @__PURE__ */ jsx("div", { className: "my-1 border-t border-border" }),
-            languageSwitcher && /* @__PURE__ */ jsx("div", { className: "px-2 py-1.5", children: languageSwitcher }),
+            mobileMenuFooter ?? (languageSwitcher && /* @__PURE__ */ jsx("div", { className: "px-2 py-1.5", children: languageSwitcher })),
             !account && /* @__PURE__ */ jsxs(Fragment, { children: [
               /* @__PURE__ */ jsx(
                 Link,

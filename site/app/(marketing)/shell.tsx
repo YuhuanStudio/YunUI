@@ -1,21 +1,18 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import Link from "next/link";
+import { type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "yunui";
-import { Footer, GithubIcon, LanguageSwitcher } from "yunui/ai";
+import { Footer, GithubIcon, LanguageSwitcher, Navbar as YunUINavbar } from "yunui/ai";
 import { Logo } from "@/components/logo";
 import { LOCALES, LOCALE_NAMES } from "@/i18n/config";
 import { useLocale, useSetLocale } from "@/app/locale-provider";
 
-// Floating pill Navbar — styled exactly like Yunxin's public Navbar
-// (yunui/ai Navbar), but the right side carries a GitHub link + language
-// switcher + ThemeToggle instead of auth buttons (this is a marketing site).
+// The site's nav IS YunUI's Navbar now — it used to be a fork, kept only
+// because the API had no way to say "a mark-only brand" or "put a GitHub link
+// in the right-hand cluster". Those are slots now (`brand`, `actions`,
+// `mobileMenuFooter`), so the fork is gone and this file just fills them.
 function Navbar({ pathname }: { pathname: string }) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const t = useTranslations("nav");
   const locale = useLocale();
   const setLocale = useSetLocale();
@@ -27,127 +24,47 @@ function Navbar({ pathname }: { pathname: string }) {
     { label: t("changelog"), href: "/changelog" },
   ];
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const languageSwitcher = (
+    <LanguageSwitcher
+      variant="pill"
+      locales={LOCALES.map((loc) => ({ value: loc, label: LOCALE_NAMES[loc] }))}
+      currentLocale={locale}
+      onChange={(l) => setLocale(l as (typeof LOCALES)[number])}
+    />
+  );
+
+  const github = (
+    <a
+      href="https://github.com/YuhuanStudio/YunUI"
+      target="_blank"
+      rel="noreferrer noopener"
+      aria-label={t("github")}
+      className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+    >
+      <GithubIcon />
+    </a>
+  );
 
   return (
-    /* Centred with `inset-x-0 mx-auto`, NOT `left-1/2 -translate-x-1/2`.
-       A translate on this element makes it a backdrop root, which kills the
-       `backdrop-filter` on the mobile menu nested inside it — the page then
-       bleeds through the panel unblurred. Measured in both Chromium and
-       WebKit: the hero headline was readable straight through the open menu. */
-    <nav className="fixed top-6 inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between">
-      {/* Logo — mark + wordmark, links home */}
-      <Link
-        href="/"
-        aria-label={t("home")}
-        className="flex items-center rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200"
-      >
-        <Logo size={24} />
-      </Link>
-
-      {/* Center links with the animated underline + active state */}
-      <div className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="group relative px-2 lg:px-3 py-2 whitespace-nowrap min-w-15 text-center"
-          >
-            <span
-              className={`text-sm relative z-10 ${
-                isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"
-              }`}
-            >
-              {link.label}
-            </span>
-            <span
-              className={`absolute bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 bg-foreground rounded-full transition-all duration-200 ${
-                isActive(link.href) ? "w-8" : "w-0 group-hover:w-8"
-              }`}
-            />
-          </Link>
-        ))}
-      </div>
-
-      {/* Right side — GitHub + language hide on mobile (they move into the menu)
-          so the bar stays logo + theme + hamburger and never crowds the wordmark. */}
-      <div className="flex items-center gap-1.5 shrink-0">
-        <a
-          href="https://github.com/YuhuanStudio/YunUI"
-          target="_blank"
-          rel="noreferrer noopener"
-          aria-label={t("github")}
-          className="hidden md:flex w-9 h-9 rounded-full items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
-        >
-          <GithubIcon />
-        </a>
-        {/* Dogfood yunui's LanguageSwitcher; the host owns the locale state +
-            cookie side-effect, fed in via props. Sits left of the ThemeToggle. */}
-        <span className="hidden md:flex items-center">
-          <LanguageSwitcher
-            variant="pill"
-            locales={LOCALES.map((loc) => ({ value: loc, label: LOCALE_NAMES[loc] }))}
-            currentLocale={locale}
-            onChange={(l) => setLocale(l as (typeof LOCALES)[number])}
-          />
-        </span>
-        <ThemeToggle variant="pill" />
-
-        {/* Mobile menu toggle */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen((o) => !o)}
-          className="md:hidden w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors"
-          aria-label={t("menu")}
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
-
-      {/* Mobile menu dropdown */}
-      {menuOpen && (
-        <>
-          <div className="md:hidden fixed inset-0 -z-10" onClick={() => setMenuOpen(false)} />
-          {/* Opaque, no backdrop-blur: the nav above has its own backdrop-filter and is
-              therefore a backdrop root, so a nested one does nothing at all. The 95%
-              fill was letting the hero headline read straight through the open menu. */}
-          <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-background border border-border rounded-2xl shadow-lg flex flex-col gap-0.5">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className={`px-4 py-2.5 rounded-xl text-sm transition-colors hover:bg-foreground/5 ${
-                  isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="my-1 border-t border-border" />
-            <div className="flex items-center justify-between px-2 py-1">
-              <LanguageSwitcher
-                variant="pill"
-                locales={LOCALES.map((loc) => ({ value: loc, label: LOCALE_NAMES[loc] }))}
-                currentLocale={locale}
-                onChange={(l) => setLocale(l as (typeof LOCALES)[number])}
-              />
-              <a
-                href="https://github.com/YuhuanStudio/YunUI"
-                target="_blank"
-                rel="noreferrer noopener"
-                aria-label={t("github")}
-                className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
-              >
-                <GithubIcon />
-              </a>
-            </div>
-          </div>
-        </>
-      )}
-    </nav>
+    <YunUINavbar
+      appName="YunUI"
+      brand={<Logo size={24} />}
+      homeHref="/"
+      links={NAV_LINKS}
+      currentPath={pathname}
+      labels={{ menu: t("menu") }}
+      languageSwitcher={languageSwitcher}
+      actions={github}
+      // A marketing site has no sign-in: passing an empty account slot keeps the
+      // bar from offering auth buttons this project does not have.
+      account={<></>}
+      mobileMenuFooter={
+        <div className="flex items-center justify-between px-2 py-1">
+          {languageSwitcher}
+          {github}
+        </div>
+      }
+    />
   );
 }
 

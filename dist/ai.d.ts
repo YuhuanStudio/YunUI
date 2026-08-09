@@ -429,9 +429,41 @@ interface NavbarProps {
      * sign in again.
      */
     account?: ReactNode;
+    /**
+     * Replaces the logo + wordmark block entirely. Pass a mark-only logo, a
+     * custom lockup, anything — it is still wrapped in the link to `homeHref`.
+     * Without this, a brand that is a single glyph had to be faked through
+     * `logoSrc`/`appName`, which is why YunUI's own site and YunNEWS each kept
+     * a private copy of this bar.
+     */
+    brand?: ReactNode;
+    /**
+     * Extra controls in the right-hand cluster, before the language/theme
+     * pills — a GitHub link, a search button. Desktop only, matching the rest
+     * of that cluster; put the mobile equivalent in `mobileMenuHeader`.
+     */
+    actions?: ReactNode;
+    /** Rendered at the TOP of the mobile menu, above the links. */
+    mobileMenuHeader?: ReactNode;
+    /**
+     * The bottom region of the mobile menu, under the divider. Passing this
+     * REPLACES the automatic `languageSwitcher` row there — so a host that
+     * wants the language pill alongside something else (a GitHub link, a
+     * status chip) lays that row out itself instead of getting two rows.
+     * Leave it off and the language row appears on its own, as before.
+     */
+    mobileMenuFooter?: ReactNode;
+    /**
+     * Accessible name for the `<nav>` landmark. A page with more than one nav
+     * needs each one named, or a screen reader offers several identical
+     * "navigation" regions.
+     */
+    label?: string;
+    /** Extra classes on the `<nav>` element. */
+    className?: string;
 }
 /** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
-declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, account, }: NavbarProps): React.JSX.Element;
+declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, account, brand, actions, mobileMenuHeader, mobileMenuFooter, label, className, }: NavbarProps): React.JSX.Element;
 
 interface AccountMenuUser {
     /** Display name. Falls back to `fallbackName` when absent. */

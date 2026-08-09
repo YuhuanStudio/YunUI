@@ -50,6 +50,22 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
   <Navbar appName="Acme AI" variant="minimal" />
 </ComponentPreview>
 
+## 插槽
+
+這個導覽列是為「不只有 logo 與連結」的宿主設計的。每個插槽都是可選的，不傳就跟原本一樣。
+
+| 插槽 | 落點 |
+| --- | --- |
+| `brand` | 取代首頁連結內的 logo ＋字標——可傳只有圖示的 logo 或自訂組合。 |
+| `actions` | 右側群組中、語言／主題藥丸之前的額外控制項。與該群組其餘部分一樣僅桌機顯示。 |
+| `languageSwitcher` / `themeToggle` | 兩個標準藥丸。 |
+| `account` | 已登入時的控制項；在桌機與行動裝置都會取代登入／註冊那一組。 |
+| `mobileMenuHeader` | 行動選單頂部，連結之上。 |
+| `mobileMenuFooter` | 行動選單底部。會**取代**該處自動出現的語言列，讓你自己排版那一行。 |
+| `label` | `<nav>` 地標的無障礙名稱——頁面上有多個 nav 時必須給。 |
+
+這些插槽之所以存在，是因為有兩個應用寧可 fork 這個元件也不用它：YunUI 自己的站台需要只有圖示的品牌與一個 GitHub 連結，YunNEWS 需要一個搜尋按鈕。兩者都無法表達，於是各自複製了一份。那是 API 的設計失敗，不是消費端的問題——插槽就是修正。
+
 ## 屬性
 
 <PropsTable name="Navbar" />

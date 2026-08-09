@@ -225,6 +225,16 @@ patch = fixes, anything may change between 0.x releases).
   every page in one.
 
 ### Added
+- **`Navbar` gained the slots its two forks needed.** YunUI's own marketing site
+  and YunNEWS each kept a private copy of this bar — not out of reluctance, but
+  because the API could not express "a mark-only brand" or "a GitHub link / a
+  search button in the right-hand cluster". New: `brand`, `actions`,
+  `mobileMenuHeader`, `mobileMenuFooter`, `label` (the `<nav>` accessible name)
+  and `className`. `mobileMenuFooter` deliberately *replaces* the automatic
+  language row in the mobile menu, so a host can lay that row out itself instead
+  of getting two. YunUI's site fork is retired in this release.
+- **`MembershipCard`** — the Fellows membership card, extracted class for class
+  from Yunxin, which was the one place it existed.
 - **`CommandPalette` rows can be real links.** Give an item an `href` and the row
   renders as an anchor through the adapter's `Link` instead of a `<button>`, so
   ⌘-click, middle-click and "open in new tab" work. A search result *is* a link;
