@@ -603,16 +603,39 @@ var Switch = forwardRef(
   }
 );
 Switch.displayName = "Switch";
-function AnimatedNumber({ value, suffix = "", decimals = 0 }) {
-  const animatedValue = useSpring(0, { stiffness: 50, damping: 15 });
-  const displayValue = useTransform(animatedValue, (latest) => {
-    const numStr = decimals > 0 ? latest.toFixed(decimals) : Math.round(latest).toString();
-    return Number(numStr).toString() + suffix;
+function format(value, decimals, suffix) {
+  const numStr = decimals > 0 ? value.toFixed(decimals) : Math.round(value).toString();
+  return Number(numStr).toString() + suffix;
+}
+function AnimatedNumber({
+  value,
+  suffix = "",
+  decimals = 0,
+  immediate
+}) {
+  const [autoImmediate, setAutoImmediate] = useState(() => {
+    const env = globalThis.process;
+    return env?.env?.NODE_ENV === "test";
   });
   useEffect(() => {
-    animatedValue.set(value);
-  }, [animatedValue, value]);
-  return /* @__PURE__ */ jsx(motion.span, { children: displayValue });
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setAutoImmediate((was) => was || mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  const skip = immediate ?? autoImmediate;
+  const animatedValue = useSpring(0, { stiffness: 50, damping: 15 });
+  const displayValue = useTransform(
+    animatedValue,
+    (latest) => format(latest, decimals, suffix)
+  );
+  useEffect(() => {
+    if (skip) animatedValue.jump(value);
+    else animatedValue.set(value);
+  }, [animatedValue, value, skip]);
+  return /* @__PURE__ */ jsx(motion.span, { children: skip ? format(value, decimals, suffix) : displayValue });
 }
 var TONE_VAR = {
   accent: "var(--color-accent)",
@@ -1432,5 +1455,5 @@ function useCommandPaletteShortcut(onOpen) {
 }
 
 export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-ZXVO6LHZ.js.map
-//# sourceMappingURL=chunk-ZXVO6LHZ.js.map
+//# sourceMappingURL=chunk-Q6DTMV2C.js.map
+//# sourceMappingURL=chunk-Q6DTMV2C.js.map

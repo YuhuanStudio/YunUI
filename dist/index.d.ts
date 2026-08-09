@@ -1077,12 +1077,23 @@ interface AnimatedNumberProps {
     suffix?: string;
     /** Decimal places; trailing zeros are stripped (100.00 → 100). */
     decimals?: number;
+    /**
+     * Skip the animation and print `value` immediately.
+     *
+     * Left undefined, this turns itself on in the two cases where a spring is
+     * wrong rather than merely unwanted: when the reader has asked for reduced
+     * motion, and under a test runner. In jsdom nothing drives the animation
+     * frame, so a spring never leaves 0 — a component that counted up would
+     * assert as `"0"` forever, which is why Yunxin's copy of this carried its own
+     * `NODE_ENV === "test"` escape hatch. Pass an explicit boolean to override.
+     */
+    immediate?: boolean;
 }
 /**
  * A number that springs from 0 up to `value` on mount / when `value` changes.
  * Starts at 0 on both server and client, so it is SSR-hydration safe.
  */
-declare function AnimatedNumber({ value, suffix, decimals }: AnimatedNumberProps): React$1.JSX.Element;
+declare function AnimatedNumber({ value, suffix, decimals, immediate, }: AnimatedNumberProps): React$1.JSX.Element;
 
 type SparklineTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
 interface SparklineProps extends Omit<React.SVGProps<SVGSVGElement>, "color"> {

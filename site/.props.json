@@ -3937,6 +3937,13 @@
       "description": "Decimal places; trailing zeros are stripped (100.00 → 100)."
     },
     {
+      "name": "immediate",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Skip the animation and print `value` immediately.\n\nLeft undefined, this turns itself on in the two cases where a spring is\nwrong rather than merely unwanted: when the reader has asked for reduced\nmotion, and under a test runner. In jsdom nothing drives the animation\nframe, so a spring never leaves 0 — a component that counted up would\nassert as `\"0\"` forever, which is why Yunxin's copy of this carried its own\n`NODE_ENV === \"test\"` escape hatch. Pass an explicit boolean to override."
+    },
+    {
       "name": "suffix",
       "type": "string",
       "required": false,
