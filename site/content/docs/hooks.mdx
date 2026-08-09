@@ -1,0 +1,118 @@
+import { Kbd } from "yunui";
+
+Ten hooks ship alongside the components. They are the parts of a component's
+behaviour that a host regularly needs on its own — a bespoke dropdown still has
+to dismiss on an outside press, a bespoke drawer still has to trap focus.
+
+## Import
+
+```tsx
+import {
+  useEscapeKey,
+  useDismissOnOutside,
+  useAnchoredPosition,
+  useFocusTrap,
+  useBodyScrollLock,
+  useModalBehavior,
+  useScrollableTabStop,
+} from "@yuhuanowo/yunui";
+```
+
+## The adapter
+
+### `useYunUI()`
+
+Everything a component must not hard-code: `Link`, `Image`, `useRouter`, `useT`
+and `iconBasePath`, as supplied by whatever `YunUIProvider` the app mounted.
+
+```tsx
+const { Link, Image, useT } = useYunUI();
+const t = useT("myNamespace");
+```
+
+This is why the library binds no router and no i18n library: a component asks
+the host for those, and the host decides whether they come from Next, from
+React Router, or from nothing at all (the provider ships sane fallbacks, so a
+component still renders in a plain Vite app). See
+[Getting Started](/docs) for wiring it up.
+
+## Overlays
+
+### `useDismissOnOutside(open, onDismiss, ref, options?)`
+
+Closes a floating panel when the pointer goes down outside it, and on Escape
+unless you turn that off with `{ escape: false }`.
+
+Six components in this library hand-rolled this and no two agreed: four
+registered the document listener permanently — it ran on every click in the host
+app whether the panel was open or not — and four listened for `mousedown` only,
+so tapping away on a phone did not reliably close them. This is the union of the
+correct halves: listeners exist **only while `open`**, and cover mouse and touch.
+
+```tsx
+const ref = useRef<HTMLDivElement>(null);
+const [open, setOpen] = useState(false);
+useDismissOnOutside(open, () => setOpen(false), ref);
+```
+
+Pass `{ extraRefs: [panelRef] }` when the panel is portalled, so its DOM is not
+a descendant of the trigger and would otherwise count as "outside".
+
+### `useAnchoredPosition(open, panelRef, options?)`
+
+Viewport collision for a **hand-rolled** floating panel. Radix-based ones
+(`Select`, `Popover`, `DropdownMenu`) flip and shift by themselves; anything you
+position with `absolute` does not, and runs off the bottom of a phone.
+
+Returns `{ shift, maxHeight, placement }` — a horizontal offset, a height cap,
+and `"top"` / `"bottom"` — keeping the panel inside the viewport *and* inside any
+scrolling or clipping ancestor. It measures with untransformed `offset*` values,
+so a scale/translate animation in flight does not skew the result.
+
+```tsx
+const { shift, maxHeight, placement } = useAnchoredPosition(open, panelRef);
+<div ref={panelRef} style={{ marginLeft: shift, maxHeight }}
+     className={placement === "top" ? "bottom-full mb-2" : "top-full mt-2"} />
+```
+
+### `useEscapeKey(onEscape, enabled?)`
+
+Escape alone. A document-level listener on purpose: WebKit does not focus a
+`<button>` on click, so a container-scoped `onKeyDown` never receives the key
+after a mouse user opens the panel.
+
+### `useModalBehavior(isOpen, onClose)`
+
+`useEscapeKey` + `useBodyScrollLock` together — the pair every modal needs.
+
+### `useBodyScrollLock(locked?)`
+
+Stops the page behind an overlay from scrolling, and restores the previous
+`overflow` on unmount rather than assuming it was `visible`.
+
+### `useFocusTrap(ref, active)`
+
+Cycles <Kbd>Tab</Kbd> within the container while `active`, and restores focus to
+whatever had it when the trap opened.
+
+## Layout
+
+### `useScrollableTabStop(ref, axis?)`
+
+Returns `0` while the element actually overflows and `undefined` when it does
+not, so you can make a scroll container focusable **only when there is something
+to scroll**.
+
+Chrome quietly makes overflowing scroll containers focusable; Safari and Firefox
+do not — so a wide table of plain cells (no links, no buttons) has no keyboard
+route at all to the columns past the right edge. The usual fix is a permanent
+`tabIndex={0}`, which then adds a dead tab stop to every table that fits. This
+measures instead, re-checking on resize and on content changes.
+
+```tsx
+const ref = useRef<HTMLDivElement>(null);
+const tabIndex = useScrollableTabStop(ref);
+<div ref={ref} tabIndex={tabIndex} className="overflow-x-auto">…</div>
+```
+
+`Table` already uses it. Reach for it on any other `overflow-*` wrapper you own.

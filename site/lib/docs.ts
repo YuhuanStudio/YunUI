@@ -191,6 +191,51 @@ export const docs: DocEntry[] = [
     keywords: "install tailwind source adapters provider getting started setup",
   },
   {
+    slugs: ["hooks"],
+    title: { en: "Hooks", "zh-CN": "Hooks", "zh-TW": "Hooks" },
+    description: {
+      en: "The ten hooks that ship with the components — outside-press dismissal, viewport-aware panel placement, focus trapping, scroll locking.",
+      "zh-CN": "随组件提供的十个 hook——点击外部关闭、感知视口的浮层定位、焦点困住、捲动锁定。",
+      "zh-TW": "隨元件提供的十個 hook——點擊外部關閉、感知視口的浮層定位、焦點困住、捲動鎖定。",
+    },
+    load: {
+      en: () => import("@/content/docs/hooks.mdx"),
+      "zh-CN": () => import("@/content/docs/hooks.zh-CN.mdx"),
+      "zh-TW": () => import("@/content/docs/hooks.zh-TW.mdx"),
+    },
+    keywords: "hooks useEscapeKey useDismissOnOutside useAnchoredPosition useFocusTrap useBodyScrollLock useModalBehavior useScrollableTabStop outside click dismiss focus trap scroll lock",
+  },
+  {
+    slugs: ["theming"],
+    title: { en: "Theming", "zh-CN": "主题", "zh-TW": "主題" },
+    description: {
+      en: "Switch brand / accent / neutral palettes at runtime through data-* attributes — applyTheme, useYunUITheme, and twelve presets.",
+      "zh-CN": "透过 data-* 属性在执行期切换 brand／accent／neutral 调色盘——applyTheme、useYunUITheme 与十二组预设。",
+      "zh-TW": "透過 data-* 屬性在執行期切換 brand／accent／neutral 調色盤——applyTheme、useYunUITheme 與十二組預設。",
+    },
+    load: {
+      en: () => import("@/content/docs/theming.mdx"),
+      "zh-CN": () => import("@/content/docs/theming.zh-CN.mdx"),
+      "zh-TW": () => import("@/content/docs/theming.zh-TW.mdx"),
+    },
+    keywords: "theming theme tokens palette brand accent neutral applyTheme readTheme useYunUITheme presets dark light scheme runtime",
+  },
+  {
+    slugs: ["utilities"],
+    title: { en: "Utilities", "zh-CN": "工具函数", "zh-TW": "工具函式" },
+    description: {
+      en: "cn, the date formatters, the provider-icon helpers and the capability colour map.",
+      "zh-CN": "cn、日期格式化、provider 图标辅助函数与能力色对照表。",
+      "zh-TW": "cn、日期格式化、provider 圖示輔助函式與能力色對照表。",
+    },
+    load: {
+      en: () => import("@/content/docs/utilities.mdx"),
+      "zh-CN": () => import("@/content/docs/utilities.zh-CN.mdx"),
+      "zh-TW": () => import("@/content/docs/utilities.zh-TW.mdx"),
+    },
+    keywords: "utilities cn clsx tailwind-merge formatDate formatDateTime getIconPath getProviderName normalizeProviderId capability colors helpers",
+  },
+  {
     slugs: ["components"],
     title: { en: "Components", "zh-CN": "组件", "zh-TW": "元件" },
     description: {
@@ -1634,7 +1679,7 @@ export const docs: DocEntry[] = [
 export const groups: DocGroup[] = [
   {
     title: { en: "Getting Started", "zh-CN": "快速开始", "zh-TW": "快速開始" },
-    pages: ["", "components"],
+    pages: ["", "components", "theming", "hooks", "utilities"],
   },
   {
     title: { en: "Buttons & Actions", "zh-CN": "按钮与操作", "zh-TW": "按鈕與操作" },

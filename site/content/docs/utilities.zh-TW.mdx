@@ -1,0 +1,63 @@
+隨元件一起提供的小函式，因為宿主遲早會需要同樣的這幾個。
+
+## `cn(...inputs)`
+
+一次呼叫同時做 `clsx` ＋ `tailwind-merge`。它會拼接條件式 class **並且**解決 Tailwind 衝突，讓最後寫的那個勝出——單純的字串串接做不到這件事。
+
+```tsx
+import { cn } from "@yuhuanowo/yunui";
+
+cn("px-4 py-2", isActive && "bg-primary", className)
+cn("p-4", "p-6")   // → "p-6"，而不是 "p-4 p-6"
+```
+
+第二行正是重點：這裡每個元件都接受 `className`，而那個 `className` 必須能**覆蓋**元件的預設值——只有在合併時能辨識衝突，這件事才成立。
+
+## 日期
+
+四個基於 `Intl.DateTimeFormat` 的格式化函式，都接受 `Date`、ISO 字串或時間戳，外加一個 locale（預設 `en`）。
+
+```tsx
+import { formatDate, formatDateTime, formatShortDate, formatLongDate } from "@yuhuanowo/yunui";
+```
+
+| 函式 | 輸出範例 |
+| --- | --- |
+| `formatDate` | Jan 5, 2026 |
+| `formatDateTime` | Jan 5, 2026, 3:24 PM |
+| `formatShortDate` | 1/5/26 |
+| `formatLongDate` | January 5, 2026 |
+
+`BlogPostHeader` 與 `ArchiveCalendar` 都用這幾個，因此宿主只要傳入同一個 locale，日期就會與介面其餘部分一致。
+
+## Provider 圖示
+
+AI 供應商／模型圖示集的輔助函式。素材**不隨套件打包**——請自行託管，並透過轉接層把 `iconBasePath` 指過去。
+
+```tsx
+import {
+  getIconPath, getProviderName, normalizeProviderId,
+  getProviderIconOptions, getModelDeveloperId, getDeveloperIconPath,
+} from "@yuhuanowo/yunui/ai";
+```
+
+| 函式 | 回傳 |
+| --- | --- |
+| `normalizeProviderId(id)` | 正規化後的 id——統一別名與大小寫，讓 `"OpenAI"`、`"open-ai"`、`"openai"` 視為同一個。 |
+| `getIconPath(id)` | 該供應商圖示的路徑，沒有則回傳 `null`。 |
+| `getProviderName(id)` | 該 id 的顯示名稱。 |
+| `getProviderIconOptions()` | 所有已知供應商的 `{ value, label }[]`——用來做選擇器。 |
+| `getModelDeveloperId(model)` | 模型 id 背後的開發者（例如 `gpt-4o` → `openai`）。 |
+| `getDeveloperIconPath(developer)` | 該開發者的圖示路徑。 |
+
+遇到未知 id 時，這些函式一律回傳 `null` 而不拋錯，圖示元件也會退回中性字符——函式庫沒聽過的模型絕不該弄壞一個頁面。
+
+## 能力色
+
+```tsx
+import { capabilityIconColor, capabilityBadgeColor, CAPABILITY_COLORS } from "@yuhuanowo/yunui/ai";
+```
+
+一張從能力鍵（`vision`、`thinking`、`function_calling`…）到圖示顏色與徽章 class 的對照表，因此同一個能力在 `ModelCard`、`CapabilityBadge`，以及你自己渲染的地方都是同一個顏色。
+
+class 是刻意完整寫出的。`text-${hue}-500` 會編譯成空的——Tailwind 掃描的是原始碼文字，永遠看不到內插後的結果。

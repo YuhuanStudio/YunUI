@@ -1,0 +1,76 @@
+Small functions that ship with the components, because a host inevitably needs
+the same ones.
+
+## `cn(...inputs)`
+
+`clsx` + `tailwind-merge` in one call. Joins conditional class names **and**
+resolves Tailwind conflicts so the last one wins, which plain string
+concatenation does not.
+
+```tsx
+import { cn } from "@yuhuanowo/yunui";
+
+cn("px-4 py-2", isActive && "bg-primary", className)
+cn("p-4", "p-6")   // → "p-6", not "p-4 p-6"
+```
+
+That second line is the whole point: every component here takes a `className`
+that must be able to *override* its defaults, which only works if the merge is
+conflict-aware.
+
+## Dates
+
+Four formatters over `Intl.DateTimeFormat`, each taking a `Date`, an ISO string
+or a timestamp, plus a locale (defaults to `en`).
+
+```tsx
+import { formatDate, formatDateTime, formatShortDate, formatLongDate } from "@yuhuanowo/yunui";
+```
+
+| Function | Example output |
+| --- | --- |
+| `formatDate` | Jan 5, 2026 |
+| `formatDateTime` | Jan 5, 2026, 3:24 PM |
+| `formatShortDate` | 1/5/26 |
+| `formatLongDate` | January 5, 2026 |
+
+`BlogPostHeader` and `ArchiveCalendar` use these, so a host that passes the same
+locale gets dates that match the rest of its UI.
+
+## Provider icons
+
+Helpers for the AI provider/model icon set. The assets are **not bundled** —
+host them yourself and point `iconBasePath` at them through the adapter.
+
+```tsx
+import {
+  getIconPath, getProviderName, normalizeProviderId,
+  getProviderIconOptions, getModelDeveloperId, getDeveloperIconPath,
+} from "@yuhuanowo/yunui/ai";
+```
+
+| Function | Returns |
+| --- | --- |
+| `normalizeProviderId(id)` | The canonical id — folds aliases and casing, so `"OpenAI"`, `"open-ai"` and `"openai"` agree. |
+| `getIconPath(id)` | Path to the provider's icon, or `null` when there is none. |
+| `getProviderName(id)` | Display name for an id. |
+| `getProviderIconOptions()` | `{ value, label }[]` for every known provider — for a picker. |
+| `getModelDeveloperId(model)` | The developer behind a model id (e.g. `gpt-4o` → `openai`). |
+| `getDeveloperIconPath(developer)` | Icon path for that developer. |
+
+Every one of them returns `null` rather than throwing on an unknown id, and the
+icon components fall back to a neutral glyph — a model the library has never
+heard of must never break a page.
+
+## Capability colours
+
+```tsx
+import { capabilityIconColor, capabilityBadgeColor, CAPABILITY_COLORS } from "@yuhuanowo/yunui/ai";
+```
+
+One map from a capability key (`vision`, `thinking`, `function_calling`, …) to
+its icon colour and its badge classes, so a capability is the same colour in
+`ModelCard`, in `CapabilityBadge` and anywhere you render your own.
+
+The classes are written out in full on purpose. `text-${hue}-500` would compile
+to nothing — Tailwind scans source text and never sees the interpolated result.

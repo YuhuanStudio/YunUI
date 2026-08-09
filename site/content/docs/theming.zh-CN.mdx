@@ -1,0 +1,76 @@
+设计 token 分三层——**scheme**（原始调色盘）→ **function**（哪个调色盘负责哪个角色）→ **theme**（浅色与深色最终解析到的语义变量 `--{role}-{family}-{intensity}`）。
+
+只有中间那层可以在执行期切换，而且是透过元素上的 `data-*` 属性切换。这就是全部的 API：不需要 context provider，不需要重新产生 CSS，不会闪烁。
+
+## 导入
+
+```tsx
+import {
+  applyTheme,
+  readTheme,
+  useYunUITheme,
+  YUNUI_PALETTES,
+  YUNUI_THEME_PRESETS,
+} from "@yuhuanowo/yunui";
+```
+
+## `applyTheme(theme, el?)`
+
+把给定的角色写到 `<html>`（或 `el`）上。某个角色传 `null` 即可清除，回到样式表的预设值。
+
+```tsx
+applyTheme({ brand: "violet", accent: "pink", neutral: "slate" });
+applyTheme({ accent: null });          // 回到预设 accent
+```
+
+| 角色 | 决定什么颜色 |
+| --- | --- |
+| `brand` | 主要操作、链接、作用中导览项下方的色条。 |
+| `accent` | 次级强调——徽章、highlight、eyebrow 药丸。 |
+| `neutral` | 灰阶：表面、边框、正文。 |
+| `solid` | `color`／`contrast`／`inverse`——实心填色如何决定其上的文字色。 |
+| `surface` | `filled` 或 `translucent`。 |
+| `scheme` | `light` 或 `dark`。 |
+| `accentSource` | `brand`（accent 跟随品牌色相）或 `mono`。 |
+
+## `useYunUITheme()`
+
+同一件事，但以 React state 的形式——回传目前主题与一个 setter，属性由它替你写入。
+
+```tsx
+const [theme, setTheme] = useYunUITheme();
+<button onClick={() => setTheme({ brand: "cyan" })}>Cyan</button>
+```
+
+## `readTheme(el?)`
+
+把属性读回来。适合用于保存使用者选择，或用于伺服器已写好属性的 SSR 首屏。
+
+## 调色盘与预设
+
+`YUNUI_PALETTES` 是调色盘名称清单——遍历它就能做出一个选择器。`YUNUI_THEME_PRESETS` 是十二组精选的 brand／accent／neutral 组合：
+
+| 预设 | brand · accent · neutral |
+| --- | --- |
+| `aurora` | blue · violet · slate |
+| `sunset` | orange · pink · sand |
+| `forest` | green · lime · gray |
+| `ocean` | cyan · teal · slate |
+| `grape` | violet · magenta · dusk |
+| `ember` | red · amber · sand |
+| `lagoon` | teal · emerald · mint |
+| `blossom` | pink · fuchsia · rose |
+| `royal` | indigo · blue · slate |
+| `citrus` | lime · yellow · sand |
+| `orchid` | plum · violet · dusk |
+| `mono` | gray · gray · gray |
+
+```tsx
+{Object.entries(YUNUI_THEME_PRESETS).map(([key, preset]) => (
+  <button key={key} onClick={() => applyTheme(preset)}>{preset.label}</button>
+))}
+```
+
+## 说明
+
+这一层是**附加的**。它不会动到旧有的扁平变量，因此从不呼叫 `applyTheme` 的消费方渲染结果与先前完全一致。可以逐个组件迁移到语义 token。

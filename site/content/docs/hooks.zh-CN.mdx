@@ -1,0 +1,90 @@
+import { Kbd } from "yunui";
+
+除了组件之外，本库还提供十个 hook。它们是宿主经常需要单独取用的那部分行为——自订的下拉仍然要在点击外部时关闭，自订的抽屉仍然要困住焦点。
+
+## 导入
+
+```tsx
+import {
+  useEscapeKey,
+  useDismissOnOutside,
+  useAnchoredPosition,
+  useFocusTrap,
+  useBodyScrollLock,
+  useModalBehavior,
+  useScrollableTabStop,
+} from "@yuhuanowo/yunui";
+```
+
+## 适配层
+
+### `useYunUI()`
+
+组件不该写死的一切：`Link`、`Image`、`useRouter`、`useT` 与 `iconBasePath`，由应用挂载的那个 `YunUIProvider` 提供。
+
+```tsx
+const { Link, Image, useT } = useYunUI();
+const t = useT("myNamespace");
+```
+
+这正是本库不绑定路由器、不绑定 i18n 套件的原因：组件向宿主索取这些东西，由宿主决定它们来自 Next、React Router，还是根本没有（provider 自带合理的 fallback，因此组件在纯 Vite 应用里也照样渲染）。接线方式见 [快速开始](/docs)。
+
+## 浮层
+
+### `useDismissOnOutside(open, onDismiss, ref, options?)`
+
+当指标在面板外按下时关闭它；除非传入 `{ escape: false }`，否则也会在 Escape 时关闭。
+
+本库里有六个组件各自手写过这段逻辑，而且没有两个是一致的：其中四个把监听器**常驻**注册——面板关着时，使用者在整个应用的每一次点击它都在跑；同样那四个只监听 `mousedown`，所以在手机上点旁边并不一定关得掉。这个 hook 取各自正确的一半：监听器**只在 `open` 期间存在**，而且同时涵盖滑鼠与触控。
+
+```tsx
+const ref = useRef<HTMLDivElement>(null);
+const [open, setOpen] = useState(false);
+useDismissOnOutside(open, () => setOpen(false), ref);
+```
+
+面板若是透过 portal 渲染（DOM 不在触发元素底下，否则会被判定成「外部」），请传 `{ extraRefs: [panelRef] }`。
+
+### `useAnchoredPosition(open, panelRef, options?)`
+
+给**手写**浮层用的视口碰撞处理。以 Radix 为基础的（`Select`、`Popover`、`DropdownMenu`）会自己翻转与位移；凡是你用 `absolute` 自己定位的都不会，于是会跑到手机画面底部之外。
+
+回传 `{ shift, maxHeight, placement }`——水平偏移、高度上限，以及 `"top"`／`"bottom"`——让面板留在视口内**以及**任何会捲动或裁切的祖先内。它用未套用 transform 的 `offset*` 量测，因此进行中的缩放／位移动画不会干扰结果。
+
+```tsx
+const { shift, maxHeight, placement } = useAnchoredPosition(open, panelRef);
+<div ref={panelRef} style={{ marginLeft: shift, maxHeight }}
+     className={placement === "top" ? "bottom-full mb-2" : "top-full mt-2"} />
+```
+
+### `useEscapeKey(onEscape, enabled?)`
+
+只处理 Escape。刻意使用 document 层级的监听器：WebKit 点击 `<button>` 时不会给它焦点，所以滑鼠使用者打开面板后，绑在容器上的 `onKeyDown` 根本收不到这个键。
+
+### `useModalBehavior(isOpen, onClose)`
+
+`useEscapeKey` ＋ `useBodyScrollLock` 的组合——每个 modal 都需要的那一对。
+
+### `useBodyScrollLock(locked?)`
+
+阻止浮层后方的页面捲动，并在卸载时还原**先前的** `overflow`，而不是假设它原本是 `visible`。
+
+### `useFocusTrap(ref, active)`
+
+在 `active` 期间让 <Kbd>Tab</Kbd> 在容器内循环，并在结束时把焦点还给打开它之前的元素。
+
+## 版面
+
+### `useScrollableTabStop(ref, axis?)`
+
+元素真的溢出时回传 `0`，没有溢出时回传 `undefined`——因此你可以让捲动容器**只在真的有东西可捲时**才可聚焦。
+
+Chrome 会默默让溢出的捲动容器可聚焦；Safari 与 Firefox 不会——所以一个只有纯文字储存格（没有链接、没有按钮）的宽表格，右侧超出边界的栏位在键盘上完全到不了。常见做法是永久加上 `tabIndex={0}`，但那会让每一个本来就放得下的表格多出一个没用的 tab 停靠点。这个 hook 改为实际量测，并在尺寸或内容变动时重新检查。
+
+```tsx
+const ref = useRef<HTMLDivElement>(null);
+const tabIndex = useScrollableTabStop(ref);
+<div ref={ref} tabIndex={tabIndex} className="overflow-x-auto">…</div>
+```
+
+`Table` 已经在用它。你自己写的任何 `overflow-*` 容器也可以用。

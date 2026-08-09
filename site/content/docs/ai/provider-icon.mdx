@@ -89,6 +89,21 @@ Pass a `provider` id (e.g. `openai`, `anthropic`, `google`, `deepseek`, `mistral
 
 <PropsTable name="ModelAvatar" />
 
+## `ProviderIconImg`
+
+The bare `<img>` behind `ProviderIcon` — no wrapper, no fallback chrome, just the
+asset at the size you ask for. Reach for it when you are building your own tile
+and want to own the surrounding box.
+
+```tsx
+import { ProviderIconImg } from "@yuhuanowo/yunui/ai";
+
+<ProviderIconImg provider="openai" size={16} />
+```
+
+Like everything in this family it degrades rather than throws: an unknown
+provider renders nothing instead of a broken-image glyph.
+
 ## ModelTypeIcon props
 
 <PropsTable name="ModelTypeIcon" />

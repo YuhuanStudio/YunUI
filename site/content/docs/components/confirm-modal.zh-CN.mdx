@@ -41,6 +41,22 @@ export function ConfirmModalDemo() {
 }
 ```
 
+## `ConfirmCloseDialog`
+
+针对一个反覆出现的情境的窄版手足组件：使用者正要关闭一个还有未保存修改的东西。
+
+```tsx
+import { ConfirmCloseDialog } from "@yuhuanowo/yunui";
+
+<ConfirmCloseDialog
+  isOpen={showConfirm}
+  onDiscard={close}
+  onKeepEditing={() => setShowConfirm(false)}
+/>
+```
+
+它完全不带文案——字串来自 `useYunUI().useT` 的 `components.confirmCloseDialog`，因为「放弃」与「继续编辑」的措辞通常是应用自己想掌握的。它会困住焦点、锁住页面捲动、按 Escape 关闭，并且把初始焦点放在**继续编辑**而不是放弃上，这样误按 Return 不会把成果丢掉。
+
 ## 属性
 
 <PropsTable name="ConfirmModal" />

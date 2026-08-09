@@ -1332,6 +1332,57 @@ declare function useDismissOnOutside(open: boolean, onDismiss: () => void, ref: 
     escape?: boolean;
     extraRefs?: RefObject<HTMLElement | null>[];
 }): void;
+/**
+ * Make a scroll container keyboard-reachable, but only while it actually
+ * scrolls.
+ *
+ * Chrome quietly makes overflowing scroll containers focusable; Safari and
+ * Firefox do not. So a wide `<table>` of plain cells — no links, no buttons —
+ * has *no* keyboard route to the columns past the right edge in those engines:
+ * the content is simply unreachable. The usual fix is a permanent
+ * `tabIndex={0}`, which then adds a dead tab stop to every table that fits.
+ *
+ * This measures instead. It returns `0` while the element overflows and
+ * `undefined` when it does not, re-checking on resize and on content changes.
+ *
+ * @param ref The scrolling element.
+ * @param axis Which overflow to watch. @defaultValue "x"
+ *
+ * @example
+ * ```tsx
+ * const ref = useRef<HTMLDivElement>(null);
+ * const tabIndex = useScrollableTabStop(ref);
+ * return <div ref={ref} tabIndex={tabIndex} className="overflow-x-auto">…</div>;
+ * ```
+ */
+declare function useScrollableTabStop(ref: RefObject<HTMLElement | null>, axis?: "x" | "y"): 0 | undefined;
+
+interface AnchoredPosition {
+    /** Horizontal nudge (px) to keep the panel on-screen. Apply as `marginLeft`
+     *  — it never collides with `transform` (framer-motion / `animate-in`) or the
+     *  panel's left/right anchor. */
+    shift: number;
+    /** Cap (px) so the panel can't run off the edge; pair with an internal scroll
+     *  region (`flex-1 min-h-0` / `overflow-y-auto`). */
+    maxHeight?: number;
+    /** Which side of the trigger to render on. `"top"` when there isn't room
+     *  below but there is above — the consumer flips `top-full mt-*` to
+     *  `bottom-full mb-*`. Defaults to `"bottom"`. */
+    placement: "top" | "bottom";
+}
+/**
+ * Viewport-collision for HAND-ROLLED floating panels (the Radix ones flip/shift
+ * on their own). Given the open state and a ref to the absolutely-positioned
+ * panel, returns a horizontal `shift`, a `maxHeight`, and a `placement` that keep
+ * it inside the viewport and any scroll/clipping ancestor — flipping above the
+ * trigger when the usable space below is too small and there's more room above.
+ * Measures via untransformed `offset*` / `getBoundingClientRect` so an in-flight
+ * scale/translate animation doesn't skew it.
+ */
+declare function useAnchoredPosition(open: boolean, panelRef: React.RefObject<HTMLElement | null>, opts?: {
+    gutter?: number;
+    minHeight?: number;
+}): AnchoredPosition;
 
 /**
  * Runtime theming for YunUI's token system.
@@ -1546,4 +1597,4 @@ declare function CommandPalette({ open, onClose, query, onQueryChange, items, lo
  */
 declare function useCommandPaletteShortcut(onOpen: () => void): void;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, CommandPalette, type CommandPaletteItem, type CommandPaletteProps, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, type LabelProps, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, type SelectOption, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, TextShimmer, type TextShimmerProps, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useBodyScrollLock, useCommandPaletteShortcut, useDismissOnOutside, useEscapeKey, useFocusTrap, useModalBehavior, useYunUITheme };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, CommandPalette, type CommandPaletteItem, type CommandPaletteProps, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, type LabelProps, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, type SelectOption, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, TextShimmer, type TextShimmerProps, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useAnchoredPosition, useBodyScrollLock, useCommandPaletteShortcut, useDismissOnOutside, useEscapeKey, useFocusTrap, useModalBehavior, useScrollableTabStop, useYunUITheme };

@@ -60,7 +60,12 @@ export {
   useBodyScrollLock,
   useModalBehavior,
   useFocusTrap,
+  useScrollableTabStop,
 } from "./lib/hooks";
+// Floating-panel placement. Exported because hand-rolled dropdowns in consumer
+// apps hit the same viewport-collision problem this solves, and were otherwise
+// left to re-derive it (or ship panels that run off the bottom of a phone).
+export { useAnchoredPosition } from "./lib/use-anchored-position";
 
 // Runtime theming (drives the design-token system via data-* attributes)
 export {

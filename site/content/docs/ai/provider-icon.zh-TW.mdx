@@ -89,6 +89,18 @@ import {
 
 <PropsTable name="ModelAvatar" />
 
+## `ProviderIconImg`
+
+`ProviderIcon` 背後那個純 `<img>`——沒有外框、沒有 fallback 裝飾，就只是你指定尺寸的那張圖。當你要自己做圖塊、想自行掌控外圍盒子時用它。
+
+```tsx
+import { ProviderIconImg } from "@yuhuanowo/yunui/ai";
+
+<ProviderIconImg provider="openai" size={16} />
+```
+
+跟這一族的其他成員一樣，它會優雅退化而不是拋錯：未知的供應商會渲染成空的，而不是破圖字符。
+
 ## ModelTypeIcon 屬性
 
 <PropsTable name="ModelTypeIcon" />

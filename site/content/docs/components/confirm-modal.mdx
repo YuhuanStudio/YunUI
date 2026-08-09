@@ -41,6 +41,27 @@ export function ConfirmModalDemo() {
 }
 ```
 
+## `ConfirmCloseDialog`
+
+A narrower sibling for the one case that keeps recurring: the reader is about to
+close something with unsaved edits.
+
+```tsx
+import { ConfirmCloseDialog } from "@yuhuanowo/yunui";
+
+<ConfirmCloseDialog
+  isOpen={showConfirm}
+  onDiscard={close}
+  onKeepEditing={() => setShowConfirm(false)}
+/>
+```
+
+It takes no copy at all — its strings come from `useYunUI().useT` under
+`components.confirmCloseDialog`, because "discard" versus "keep editing" is
+wording an app usually wants to own. It traps focus, locks body scroll, closes
+on Escape, and puts initial focus on **Keep editing** rather than Discard, so a
+stray Return does not throw the work away.
+
 ## Props
 
 <PropsTable name="ConfirmModal" />

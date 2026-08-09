@@ -176,6 +176,18 @@ patch = fixes, anything may change between 0.x releases).
   sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
 ### Documentation
+- **The library's non-component API had no documentation at all.** Ten hooks, the
+  whole runtime theming API, `cn`, the four date formatters, the provider-icon
+  helpers and the capability colour map were exported and mentioned **nowhere**
+  in the docs corpus — a consumer could not discover `useDismissOnOutside`,
+  `applyTheme` or `getIconPath` short of reading `dist`. Three new pages, in all
+  three locales: **Hooks**, **Theming** and **Utilities**.
+- **`useAnchoredPosition` and `useScrollableTabStop` are now exported.** Both were
+  internal, and both solve problems consumers hit on their own — hand-rolled
+  dropdowns running off the bottom of a phone, and scroll containers Safari and
+  Firefox will not focus.
+- Filled the last four naming gaps: `useYunUI` (on Hooks), `Tfoot` (Table),
+  `ConfirmCloseDialog` (Confirm Modal) and `ProviderIconImg` (Provider Icon).
 - **The fourteen compound sub-exports are documented.** `CardHeader`/`CardTitle`/
   `CardDescription`/`CardContent`/`CardFooter`, `SelectLabel`/`SelectSeparator`/
   `SelectScrollUpButton`/`SelectScrollDownButton`, `DropdownMenuGroup`/

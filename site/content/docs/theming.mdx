@@ -1,0 +1,86 @@
+The design tokens are three layers — **scheme** (raw palettes) → **function**
+(which palette fills which role) → **theme** (the semantic
+`--{role}-{family}-{intensity}` variables light and dark mode resolve to).
+
+Only the middle layer is switchable at runtime, and it switches through `data-*`
+attributes on an element. That is the whole API: no context provider, no CSS
+regeneration, no flash.
+
+## Import
+
+```tsx
+import {
+  applyTheme,
+  readTheme,
+  useYunUITheme,
+  YUNUI_PALETTES,
+  YUNUI_THEME_PRESETS,
+} from "@yuhuanowo/yunui";
+```
+
+## `applyTheme(theme, el?)`
+
+Writes the given roles onto `<html>` (or `el`). Pass `null` for a role to clear
+it and fall back to the stylesheet's default.
+
+```tsx
+applyTheme({ brand: "violet", accent: "pink", neutral: "slate" });
+applyTheme({ accent: null });          // back to the default accent
+```
+
+| Role | What it colours |
+| --- | --- |
+| `brand` | Primary actions, links, the accent bar under an active nav item. |
+| `accent` | Secondary emphasis — badges, highlights, the eyebrow pill. |
+| `neutral` | Greys: surfaces, borders, body text. |
+| `solid` | `color` / `contrast` / `inverse` — how a solid fill picks its ink. |
+| `surface` | `filled` or `translucent`. |
+| `scheme` | `light` or `dark`. |
+| `accentSource` | `brand` (accent follows the brand hue) or `mono`. |
+
+## `useYunUITheme()`
+
+The same thing as React state — returns the current theme and a setter that
+writes the attributes for you.
+
+```tsx
+const [theme, setTheme] = useYunUITheme();
+<button onClick={() => setTheme({ brand: "cyan" })}>Cyan</button>
+```
+
+## `readTheme(el?)`
+
+Reads the attributes back. Useful for persisting a choice, or for an SSR-safe
+first paint where the server has already written the attributes.
+
+## Palettes and presets
+
+`YUNUI_PALETTES` is the list of palette names — iterate it to build a picker.
+`YUNUI_THEME_PRESETS` is twelve curated brand/accent/neutral triples:
+
+| Preset | brand · accent · neutral |
+| --- | --- |
+| `aurora` | blue · violet · slate |
+| `sunset` | orange · pink · sand |
+| `forest` | green · lime · gray |
+| `ocean` | cyan · teal · slate |
+| `grape` | violet · magenta · dusk |
+| `ember` | red · amber · sand |
+| `lagoon` | teal · emerald · mint |
+| `blossom` | pink · fuchsia · rose |
+| `royal` | indigo · blue · slate |
+| `citrus` | lime · yellow · sand |
+| `orchid` | plum · violet · dusk |
+| `mono` | gray · gray · gray |
+
+```tsx
+{Object.entries(YUNUI_THEME_PRESETS).map(([key, preset]) => (
+  <button key={key} onClick={() => applyTheme(preset)}>{preset.label}</button>
+))}
+```
+
+## Note
+
+This layer is **additive**. It does not touch the legacy flat variables, so a
+consumer that never calls `applyTheme` renders exactly as before. Migrate onto
+the semantic tokens component by component.

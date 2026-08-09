@@ -1,0 +1,76 @@
+設計 token 分三層——**scheme**（原始調色盤）→ **function**（哪個調色盤負責哪個角色）→ **theme**（淺色與深色最終解析到的語義變數 `--{role}-{family}-{intensity}`）。
+
+只有中間那層可以在執行期切換，而且是透過元素上的 `data-*` 屬性切換。這就是全部的 API：不需要 context provider，不需要重新產生 CSS，不會閃爍。
+
+## 匯入
+
+```tsx
+import {
+  applyTheme,
+  readTheme,
+  useYunUITheme,
+  YUNUI_PALETTES,
+  YUNUI_THEME_PRESETS,
+} from "@yuhuanowo/yunui";
+```
+
+## `applyTheme(theme, el?)`
+
+把給定的角色寫到 `<html>`（或 `el`）上。某個角色傳 `null` 即可清除，回到樣式表的預設值。
+
+```tsx
+applyTheme({ brand: "violet", accent: "pink", neutral: "slate" });
+applyTheme({ accent: null });          // 回到預設 accent
+```
+
+| 角色 | 決定什麼顏色 |
+| --- | --- |
+| `brand` | 主要操作、連結、作用中導覽項下方的色條。 |
+| `accent` | 次級強調——徽章、highlight、eyebrow 藥丸。 |
+| `neutral` | 灰階：表面、邊框、內文。 |
+| `solid` | `color`／`contrast`／`inverse`——實心填色如何決定其上的文字色。 |
+| `surface` | `filled` 或 `translucent`。 |
+| `scheme` | `light` 或 `dark`。 |
+| `accentSource` | `brand`（accent 跟隨品牌色相）或 `mono`。 |
+
+## `useYunUITheme()`
+
+同一件事，但以 React state 的形式——回傳目前主題與一個 setter，屬性由它替你寫入。
+
+```tsx
+const [theme, setTheme] = useYunUITheme();
+<button onClick={() => setTheme({ brand: "cyan" })}>Cyan</button>
+```
+
+## `readTheme(el?)`
+
+把屬性讀回來。適合用於保存使用者選擇，或用於伺服器已寫好屬性的 SSR 首屏。
+
+## 調色盤與預設
+
+`YUNUI_PALETTES` 是調色盤名稱清單——走訪它就能做出一個選擇器。`YUNUI_THEME_PRESETS` 是十二組精選的 brand／accent／neutral 組合：
+
+| 預設 | brand · accent · neutral |
+| --- | --- |
+| `aurora` | blue · violet · slate |
+| `sunset` | orange · pink · sand |
+| `forest` | green · lime · gray |
+| `ocean` | cyan · teal · slate |
+| `grape` | violet · magenta · dusk |
+| `ember` | red · amber · sand |
+| `lagoon` | teal · emerald · mint |
+| `blossom` | pink · fuchsia · rose |
+| `royal` | indigo · blue · slate |
+| `citrus` | lime · yellow · sand |
+| `orchid` | plum · violet · dusk |
+| `mono` | gray · gray · gray |
+
+```tsx
+{Object.entries(YUNUI_THEME_PRESETS).map(([key, preset]) => (
+  <button key={key} onClick={() => applyTheme(preset)}>{preset.label}</button>
+))}
+```
+
+## 說明
+
+這一層是**附加的**。它不會動到舊有的扁平變數，因此從不呼叫 `applyTheme` 的消費端渲染結果與先前完全一致。可以逐個元件遷移到語義 token。
