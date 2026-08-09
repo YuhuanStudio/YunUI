@@ -1,10 +1,10 @@
 "use client";
-import './chunk-Y2UOFEUP.js';
+import './chunk-RNMZWPZF.js';
 import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-6YVN22VI.js';
 export { Footer } from './chunk-6YVN22VI.js';
 import './chunk-T6KIQUH3.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-G3VL22AX.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-A4EQAODL.js';
 import { cn } from './chunk-YLY2GQ3R.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -966,7 +966,7 @@ function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay = 0, i
           topRow,
           /* @__PURE__ */ jsx("div", { className: cn("text-2xl font-semibold mb-1", toneCfg?.value), children: value }),
           /* @__PURE__ */ jsx("div", { className: cn("text-sm", mutedInk), children: label }),
-          subtext && /* @__PURE__ */ jsx("div", { className: cn("text-xs mt-1", toneCfg ? "text-foreground/60" : "text-muted-foreground/60"), children: subtext })
+          subtext && /* @__PURE__ */ jsx("div", { className: cn("text-xs mt-1", toneCfg ? "text-foreground/75" : "text-muted-foreground"), children: subtext })
         ]
       }
     );
@@ -1005,7 +1005,7 @@ function FellowsBanner({
           /* @__PURE__ */ jsxs("div", { className: "min-w-0", children: [
             /* @__PURE__ */ jsx("h3", { className: "font-semibold text-sm", children: title }),
             /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: description }),
-            features.length > 0 && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground/70 mt-1", children: features.join(" \xB7 ") })
+            features.length > 0 && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground mt-1", children: features.join(" \xB7 ") })
           ] })
         ] }),
         /* @__PURE__ */ jsxs("span", { className: "shrink-0 w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium group-hover:bg-primary/15 transition-colors", children: [
@@ -1838,7 +1838,7 @@ function Banner({
       /* @__PURE__ */ jsx("span", { className: cn("text-sm font-medium", t.text), children: title }),
       description && /* @__PURE__ */ jsx("span", { className: cn("text-sm ml-2 hidden sm:inline opacity-70", t.text), children: description })
     ] }),
-    meta != null && /* @__PURE__ */ jsx("span", { className: "text-[10px] text-muted-foreground/70 shrink-0", children: meta }),
+    meta != null && /* @__PURE__ */ jsx("span", { className: "text-[10px] text-muted-foreground shrink-0", children: meta }),
     actions && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-2 shrink-0", children: actions }),
     dismissible && /* @__PURE__ */ jsx(
       "button",
@@ -1889,9 +1889,9 @@ function NotificationItem({
     icon != null && /* @__PURE__ */ jsx("div", { className: cn("shrink-0 rounded-lg p-1.5", iconClassName ?? "bg-muted"), children: icon }),
     /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
       /* @__PURE__ */ jsx("p", { className: cn("text-sm leading-snug truncate", unread ? "font-medium" : "text-muted-foreground"), children: title }),
-      body && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground/60 mt-0.5 line-clamp-1", children: body })
+      body && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground mt-0.5 line-clamp-1", children: body })
     ] }),
-    time != null && /* @__PURE__ */ jsx("span", { className: "shrink-0 self-center text-[10px] text-muted-foreground/50", children: time })
+    time != null && /* @__PURE__ */ jsx("span", { className: "shrink-0 self-center text-[10px] text-muted-foreground", children: time })
   ] });
   const rowClass = cn("flex items-center gap-2.5 px-3 py-2.5", dismissible ? "pr-9" : "pr-3");
   return /* @__PURE__ */ jsxs("div", { className: cn("group/notif relative rounded-xl hover:bg-foreground/5 transition-colors", className), children: [

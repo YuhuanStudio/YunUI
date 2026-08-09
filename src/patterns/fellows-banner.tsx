@@ -37,7 +37,7 @@ export function FellowsBanner({
           <h3 className="font-semibold text-sm">{title}</h3>
           <p className="text-sm text-muted-foreground">{description}</p>
           {features.length > 0 && (
-            <p className="text-xs text-muted-foreground/70 mt-1">{features.join(" · ")}</p>
+            <p className="text-xs text-muted-foreground mt-1">{features.join(" · ")}</p>
           )}
         </div>
       </div>

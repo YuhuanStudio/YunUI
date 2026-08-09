@@ -113,7 +113,11 @@ export function StatCard({ icon: Icon, label, value, subtext, trend, tone, delay
                 {topRow}
                 <div className={cn("text-2xl font-semibold mb-1", toneCfg?.value)}>{value}</div>
                 <div className={cn("text-sm", mutedInk)}>{label}</div>
-                {subtext && <div className={cn("text-xs mt-1", toneCfg ? "text-foreground/60" : "text-muted-foreground/60")}>{subtext}</div>}
+                {/* No /60 on the muted ink: `text-muted-foreground` is already the
+                    faintest step in the ramp, and knocking it to 60% put this
+                    12px line at 2.42:1 on a white card — measured on Yunxin's
+                    analytics stat grid. */}
+                {subtext && <div className={cn("text-xs mt-1", toneCfg ? "text-foreground/75" : "text-muted-foreground")}>{subtext}</div>}
             </div>
         );
     }

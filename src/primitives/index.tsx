@@ -1493,7 +1493,7 @@ export function PageLoader({ title, subtitle, className, ...props }: PageLoaderP
                             <p className="text-muted-foreground text-sm font-medium">{title}</p>
                         )}
                         {subtitle && (
-                            <p className="text-muted-foreground/60 text-xs">{subtitle}</p>
+                            <p className="text-muted-foreground text-xs">{subtitle}</p>
                         )}
                     </div>
                 )}

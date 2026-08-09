@@ -108,7 +108,7 @@ export function Banner({
                         <span className={cn("text-sm ml-2 hidden sm:inline opacity-70", t.text)}>{description}</span>
                     )}
                 </div>
-                {meta != null && <span className="text-[10px] text-muted-foreground/70 shrink-0">{meta}</span>}
+                {meta != null && <span className="text-[10px] text-muted-foreground shrink-0">{meta}</span>}
                 {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
                 {dismissible && (
                     <button

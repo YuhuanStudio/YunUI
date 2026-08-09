@@ -97,9 +97,12 @@ export function NotificationItem({
                 <p className={cn("text-sm leading-snug truncate", unread ? "font-medium" : "text-muted-foreground")}>
                     {title}
                 </p>
-                {body && <p className="text-xs text-muted-foreground/60 mt-0.5 line-clamp-1">{body}</p>}
+                {/* No alpha on the muted ink: `text-muted-foreground` is already the
+                    faintest step in the ramp, and fading it further put small text
+                    under 2.5:1 — measured 2.42:1 on a 12px line. */}
+                {body && <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{body}</p>}
             </div>
-            {time != null && <span className="shrink-0 self-center text-[10px] text-muted-foreground/50">{time}</span>}
+            {time != null && <span className="shrink-0 self-center text-[10px] text-muted-foreground">{time}</span>}
         </>
     );
 
