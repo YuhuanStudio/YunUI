@@ -1,8 +1,24 @@
+/**
+ * Accessibility sweep of Yunxin's AUTHENTICATED routes.
+ *
+ *   (cd ../../Yunxin/frontend && pnpm build && pnpm start -p 3300)
+ *   node visual/axe-authed.mjs
+ *
+ * Two things make this different from visual/axe.mjs:
+ *  - the gate is SERVER-side (Yunxin/frontend/src/proxy.ts checks a
+ *    `yunxin_session` cookie), so mocking /api/auth/me is not enough — without
+ *    the cookie every route 302s to /login before any JS runs, and the sweep
+ *    silently audits the login page instead;
+ *  - every /api/** call is fulfilled with an empty-but-valid payload, so the
+ *    pages render their real chrome and empty states rather than an error
+ *    boundary. Empty states are where a11y defects tend to hide.
+ */
 import { chromium } from '@playwright/test';
 import fs from 'fs';
 const AXE = fs.readFileSync(new URL('node_modules/axe-core/axe.min.js', `file://${process.cwd()}/`), 'utf8');
 const BASE = 'http://localhost:3300';
-const ROUTES = ['/dashboard', '/dashboard/analytics', '/dashboard/logs'];
+const ROUTES = ['/dashboard', '/dashboard/api-keys', '/dashboard/billing', '/dashboard/models',
+                '/dashboard/analytics', '/dashboard/logs', '/dashboard/notifications', '/dashboard/fellows'];
 const USER = { id: 1, email: "a11y@example.com", name: "A11y Sweep", display_name: "A11y Sweep",
                avatar_url: null, is_admin: false, is_active: true, role: "user", credits: 1000 };
 
