@@ -1,4 +1,4 @@
-import { Card, Badge, Button } from "yunui";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Badge, Button } from "yunui";
 
 渲染标准 `.card` 样式的表面容器——与原始 `className="card"` 用法外观一致，但收敛为一个组件。传入 `hover` 可获得交互式抬升效果。
 
@@ -55,6 +55,37 @@ import { Card } from "@yuhuanowo/yunui";
     <p className="font-medium mb-1">Upgrade your plan</p>
     <p className="text-caption mb-4">Unlock higher rate limits and priority support.</p>
     <Button variant="primary" size="sm">Upgrade</Button>
+  </Card>
+</ComponentPreview>
+
+## 组成
+
+`Card` 单独用就够了，但它同时提供下面五个插槽——当多张卡片需要把标题与操作对齐时用它们，而不是每张卡各自发明一套内距。
+
+| 部件 | 作用 |
+| --- | --- |
+| `Card` | 表面本身（边框、圆角、背景、可选 `hover`）。 |
+| `CardHeader` | 头部区域，`p-6`，子元素以 `space-y-1.5` 堆叠。 |
+| `CardTitle` | 标题——渲染为真正的 `<h3>`，让页面保有文件大纲。 |
+| `CardDescription` | 标题下方的淡出说明行。 |
+| `CardContent` | 主体区域；`p-6 pt-0`，紧贴头部下方。 |
+| `CardFooter` | 操作／附注列；`p-6 pt-0`，flex 且垂直居中。 |
+
+每个部件都会转发 ref 与全部标准 `<div>`（或 `<h3>`／`<p>`）属性。
+
+<ComponentPreview title="组成">
+  <Card className="w-80">
+    <CardHeader>
+      <CardTitle>Monthly usage</CardTitle>
+      <CardDescription>Resets on the 1st.</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p className="text-2xl font-semibold tabular-nums">2,481,930</p>
+      <p className="text-caption">tokens of 5,000,000</p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="secondary" size="sm">View breakdown</Button>
+    </CardFooter>
   </Card>
 </ComponentPreview>
 

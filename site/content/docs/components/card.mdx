@@ -1,4 +1,4 @@
-import { Card, Badge, Button } from "yunui";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Badge, Button } from "yunui";
 
 A surface container rendering the canonical `.card` style — the same look as raw `className="card"` usages, consolidated into one component. Pass `hover` for an interactive lift.
 
@@ -55,6 +55,39 @@ import { Card } from "@yuhuanowo/yunui";
     <p className="font-medium mb-1">Upgrade your plan</p>
     <p className="text-caption mb-4">Unlock higher rate limits and priority support.</p>
     <Button variant="primary" size="sm">Upgrade</Button>
+  </Card>
+</ComponentPreview>
+
+## Parts
+
+`Card` is usable on its own, but it also ships the five slots below — reach for
+them when several cards must line their titles and actions up with each other,
+rather than each one inventing its own padding.
+
+| Part | Role |
+| --- | --- |
+| `Card` | The surface itself (border, radius, background, optional `hover`). |
+| `CardHeader` | Header region, `p-6`, stacks its children with `space-y-1.5`. |
+| `CardTitle` | The heading — renders a real `<h3>`, so the page keeps a document outline. |
+| `CardDescription` | Muted supporting line under the title. |
+| `CardContent` | Body region; `p-6 pt-0`, so it sits flush under the header. |
+| `CardFooter` | Actions/meta row; `p-6 pt-0`, flex with centered items. |
+
+Every part forwards its ref and all standard `<div>` (or `<h3>`/`<p>`) props.
+
+<ComponentPreview title="Parts">
+  <Card className="w-80">
+    <CardHeader>
+      <CardTitle>Monthly usage</CardTitle>
+      <CardDescription>Resets on the 1st.</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p className="text-2xl font-semibold tabular-nums">2,481,930</p>
+      <p className="text-caption">tokens of 5,000,000</p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="secondary" size="sm">View breakdown</Button>
+    </CardFooter>
   </Card>
 </ComponentPreview>
 

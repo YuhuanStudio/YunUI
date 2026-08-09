@@ -727,7 +727,7 @@ export const docs: DocEntry[] = [
       "zh-CN": "MotionDiv 与 MotionSpan——YunUI 对 Framer Motion 的再导出，让应用共用已打包的那一份，而非引入第二份。",
       "zh-TW": "MotionDiv 與 MotionSpan——YunUI 對 Framer Motion 的再匯出，讓應用共用已打包的那一份，而非引入第二份。",
     },
-    "motion framer animation animate transition variants gesture spring exit presence",
+    "motion framer animation animate transition variants gesture spring exit presence fadein staggercontainer staggeritem stagger",
   ),
   comp(
     "number-input",

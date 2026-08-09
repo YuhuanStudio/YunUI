@@ -34,6 +34,30 @@ import { MotionDiv, MotionSpan } from "@yuhuanowo/yunui";
   </div>
 </ComponentPreview>
 
+## 共用的动画变体预设
+
+除了组件之外还附带三个现成的 variant 物件，让淡入与交错出场在各处都是同一套：
+
+| 匯出 | 作用 |
+| --- | --- |
+| `fadeIn` | 进场淡入并上升 10px、离场淡出并上移 10px，0.2 秒。它是一整组 `initial`／`animate`／`exit`／`transition`——用展开传入，不要嵌套。 |
+| `staggerContainer` | 让每个子元素之间相隔 0.05 秒。放在外层容器上。 |
+| `staggerItem` | 淡入并上升 20px。放在 `staggerContainer` 的每个子元素上。 |
+
+```tsx
+import { MotionDiv, fadeIn, staggerContainer, staggerItem } from "@yuhuanowo/yunui";
+
+<MotionDiv {...fadeIn}>Appears once</MotionDiv>
+
+<MotionDiv variants={staggerContainer} initial="initial" animate="animate">
+  {items.map((item) => (
+    <MotionDiv key={item.id} variants={staggerItem}>{item.label}</MotionDiv>
+  ))}
+</MotionDiv>
+```
+
+`fadeIn` 是用展开当属性传；`staggerContainer` 与 `staggerItem` 是 **variants**，要放在 `variants` 属性上，并由具名的 `initial`／`animate` 字串驱动——把两种用法混着写，是交错动画没反应最常见的原因。
+
 ## 什么时候不该用
 
 优先考虑 CSS。悬停浮起、淡入、旋转指示——这些用 `transition-*` 与 `animate-*` 工具类即可，运行时零成本。Motion 的价值在于进出场编排、布局动画、手势驱动的位移与弹簧物理。

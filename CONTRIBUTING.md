@@ -6,6 +6,22 @@ Everything app-specific is injected by the consumer (via props or the adapter
 layer). Follow these rules so a component works in YunUI's showcase, in Yunxin,
 and in any future consumer.
 
+**What "never copy" means in practice.** A component may ship an English
+*default* for a string it cannot render without — the accessible name on a close
+button, a "Previous"/"Next", an empty-state line — **as long as the host can
+replace it** through a prop (`labels`, `closeLabel`, `allLabel`, …). The default
+exists so the component is usable untranslated, not so it can dictate wording.
+
+```tsx
+aria-label={closeLabel ?? "Close"}   // ✓ a default
+aria-label="Close"                    // ✗ copy the host cannot reach
+```
+
+Adding a visible or assistive-tech-visible string means adding its prop in the
+same change. Check yourself with
+`rg 'aria-label="[A-Za-z]|title="[A-Za-z]' src --glob '!**/__tests__/**'`:
+every hit should be an expression with a `??`, never a bare literal.
+
 ## Project layout
 
 | Path | What goes here |

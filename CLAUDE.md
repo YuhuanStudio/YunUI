@@ -63,8 +63,19 @@ driven from JS via `applyTheme()` / `useYunUITheme()`.
 
 ## Conventions
 
-- Components carry **no copy** and bind **no i18n library** — text goes through
-  `useYunUI().useT`; routing/images via the adapter; data via props. See CONTRIBUTING.md.
+- Components own **no copy the host cannot replace**, and bind **no i18n library**.
+  Body text comes from props or `useYunUI().useT`; routing/images via the adapter;
+  data via props. See CONTRIBUTING.md.
+  - The one allowance: a component may ship an **English default** for a string
+    it cannot render without — an `aria-label`, a "Close", a "Previous"/"Next" —
+    *provided the host can override it* via a prop (`labels`, `closeLabel`,
+    `allLabel`, …). The default is a fallback so the component is usable
+    untranslated, never the only option. `?? "Close"` is fine; a bare
+    `aria-label="Close"` with no prop behind it is a bug.
+  - Concretely: if you add a user-visible or assistive-tech-visible string,
+    add the prop in the same change, and document it. Grep for regressions with
+    `rg 'aria-label="[A-Za-z]|title="[A-Za-z]' src --glob '!**/__tests__/**'`
+    — every hit should be a JSX expression with a `??`, not a bare literal.
 - AI icon assets are **not bundled**; consumers host them and set `iconBasePath`.
   Icon components must degrade gracefully (fallback, no crash) when assets/ids are missing.
 - Docs demos: write the JSX children inside `<ComponentPreview>`; the `code` tab is

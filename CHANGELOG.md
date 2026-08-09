@@ -175,6 +175,21 @@ patch = fixes, anything may change between 0.x releases).
   `AgentTimeline`, which renders the same agent-turn data as an inline ordered
   sequence of typed blocks. No consumer shipped against `AgentSteps`.
 
+### Documentation
+- **The fourteen compound sub-exports are documented.** `CardHeader`/`CardTitle`/
+  `CardDescription`/`CardContent`/`CardFooter`, `SelectLabel`/`SelectSeparator`/
+  `SelectScrollUpButton`/`SelectScrollDownButton`, `DropdownMenuGroup`/
+  `DropdownMenuPortal` and the `fadeIn`/`staggerContainer`/`staggerItem` variant
+  presets were all exported from the barrel and appeared **nowhere** in the docs
+  corpus — not even named on their family pages. Now on Card, Select,
+  DropdownMenu and Motion, in all three locales, with a live Card-parts preview.
+- **The "components carry no copy" rule now says what the code actually does.**
+  The library ships English *defaults* behind overridable props (`labels`,
+  `closeLabel`, …), which is a different and defensible rule — but CLAUDE.md and
+  CONTRIBUTING.md claimed zero copy, so the two could never both be true. Both
+  now state the real contract, with the grep that checks it. That grep currently
+  returns nothing: no bare `aria-label="…"` literals remain in `src/`.
+
 ### Fixed
 - **Nested frosted glass never worked, and the code blamed the wrong thing.** The
   mobile menu inside `Navbar` carried `bg-popover/95 backdrop-blur-2xl`, but the

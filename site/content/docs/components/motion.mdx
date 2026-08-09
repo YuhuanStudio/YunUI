@@ -34,6 +34,33 @@ They are the Framer Motion components unchanged, so every `initial` / `animate` 
   </div>
 </ComponentPreview>
 
+## Shared variant presets
+
+Three ready-made variant objects ship alongside the components, so a fade or a
+staggered list is the same fade and the same stagger everywhere:
+
+| Export | What it does |
+| --- | --- |
+| `fadeIn` | Fade + 10px rise on enter, fade + 10px lift on exit, 0.2s. A complete set of `initial`/`animate`/`exit`/`transition` — spread it, don't nest it. |
+| `staggerContainer` | Puts 0.05s between each child's animation. Goes on the wrapper. |
+| `staggerItem` | Fade + 20px rise. Goes on each child of a `staggerContainer`. |
+
+```tsx
+import { MotionDiv, fadeIn, staggerContainer, staggerItem } from "@yuhuanowo/yunui";
+
+<MotionDiv {...fadeIn}>Appears once</MotionDiv>
+
+<MotionDiv variants={staggerContainer} initial="initial" animate="animate">
+  {items.map((item) => (
+    <MotionDiv key={item.id} variants={staggerItem}>{item.label}</MotionDiv>
+  ))}
+</MotionDiv>
+```
+
+`fadeIn` is spread as props; `staggerContainer` and `staggerItem` are **variants**,
+so they go on the `variants` prop and are driven by the named `initial`/`animate`
+strings — mixing the two forms is the usual reason a stagger does nothing.
+
 ## When not to use these
 
 Reach for CSS first. A hover lift, a fade-in, a spinner — those are `transition-*` and `animate-*` utilities, and they cost nothing at runtime. Motion earns its keep for enter/exit choreography, layout animation, gesture-driven movement and spring physics.
