@@ -10,13 +10,24 @@ import { CodeDemo } from "@yuhuanowo/yunui/patterns";
 
 ## 範例
 
-`CodeDemo` 不接收任何屬性——程式碼片段和標籤均已內建。直接放進頁面即可。
+程式碼片段本身已內建，但片段裡屬於**你的服務**的每個值都是屬性。預設值指向
+`https://api.example.com/v1`，因此還沒設定前也能正常呈現。
 
-<ComponentPreview
-  title="CodeDemo"
-  code={`import { CodeDemo } from "@yuhuanowo/yunui/patterns";
-
-<CodeDemo />`}
->
+<ComponentPreview title="CodeDemo">
   <CodeDemo />
 </ComponentPreview>
+
+### 指向自己的閘道
+
+<ComponentPreview title="自訂閘道">
+  <CodeDemo
+    baseUrl="https://api.acme.dev/v1"
+    model="acme-large"
+    apiKeyPlaceholder="sk-..."
+    prompt="Summarise this."
+  />
+</ComponentPreview>
+
+## 屬性
+
+<PropsTable name="CodeDemo" />

@@ -10,13 +10,24 @@ import { CodeDemo } from "@yuhuanowo/yunui/patterns";
 
 ## 示例
 
-`CodeDemo` 不接收任何属性——代码片段和标签均已内置。直接放进页面即可。
+代码片段本身已内置，但片段里属于**你的服务**的每个值都是属性。默认值指向
+`https://api.example.com/v1`，因此还没配置前也能正常呈现。
 
-<ComponentPreview
-  title="CodeDemo"
-  code={`import { CodeDemo } from "@yuhuanowo/yunui/patterns";
-
-<CodeDemo />`}
->
+<ComponentPreview title="CodeDemo">
   <CodeDemo />
 </ComponentPreview>
+
+### 指向自己的网关
+
+<ComponentPreview title="自定义网关">
+  <CodeDemo
+    baseUrl="https://api.acme.dev/v1"
+    model="acme-large"
+    apiKeyPlaceholder="sk-..."
+    prompt="Summarise this."
+  />
+</ComponentPreview>
+
+## 属性
+
+<PropsTable name="CodeDemo" />

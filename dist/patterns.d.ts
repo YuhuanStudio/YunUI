@@ -4,7 +4,24 @@ export { F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d a
 
 declare function BackgroundEffects(): React$1.JSX.Element;
 
-declare function CodeDemo(): React$1.JSX.Element;
+interface CodeDemoProps {
+    /** The OpenAI-compatible base URL the snippets point at. */
+    baseUrl?: string;
+    /** Model id used in the example request. */
+    model?: string;
+    /** Placeholder shown where the reader's key goes. */
+    apiKeyPlaceholder?: string;
+    /** Message body sent in the example request. */
+    prompt?: string;
+    /** Tab labels. Defaults are language names, but they stay overridable. */
+    labels?: {
+        python?: string;
+        javascript?: string;
+        curl?: string;
+    };
+    className?: string;
+}
+declare function CodeDemo({ baseUrl, model, apiKeyPlaceholder, prompt, labels, className, }?: CodeDemoProps): React$1.JSX.Element;
 
 interface FAQItem {
     /** The question heading. */

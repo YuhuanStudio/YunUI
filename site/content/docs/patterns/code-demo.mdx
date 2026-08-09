@@ -10,13 +10,25 @@ import { CodeDemo } from "@yuhuanowo/yunui/patterns";
 
 ## Example
 
-`CodeDemo` takes no props — the snippets and tabs are built in. Drop it straight into the page.
+The snippets are built in, but every value in them that belongs to *your*
+service is a prop. The defaults point at `https://api.example.com/v1` so the
+component renders sensibly before you configure it.
 
-<ComponentPreview
-  title="CodeDemo"
-  code={`import { CodeDemo } from "@yuhuanowo/yunui/patterns";
-
-<CodeDemo />`}
->
+<ComponentPreview title="CodeDemo">
   <CodeDemo />
 </ComponentPreview>
+
+### Pointing it at your gateway
+
+<ComponentPreview title="Custom gateway">
+  <CodeDemo
+    baseUrl="https://api.acme.dev/v1"
+    model="acme-large"
+    apiKeyPlaceholder="sk-..."
+    prompt="Summarise this."
+  />
+</ComponentPreview>
+
+## Props
+
+<PropsTable name="CodeDemo" />

@@ -214,54 +214,60 @@ function CodeBlock({
     ) : code }) }) })
   ] });
 }
-var codeSnippets = {
-  python: `import openai
+function snippets(baseUrl, model, apiKey, prompt) {
+  const j = (s) => JSON.stringify(s);
+  const sq = (s) => `'${s.replace(/'/g, "\\'")}'`;
+  return {
+    python: `import openai
 
 client = openai.OpenAI(
-    base_url="https://api.example.com/v1",
-    api_key="your_api_key"
+    base_url=${j(baseUrl)},
+    api_key=${j(apiKey)}
 )
 
 response = client.chat.completions.create(
-    model="deepseek-r1",
-    messages=[{"role": "user", "content": "Hello!"}]
+    model=${j(model)},
+    messages=[{"role": "user", "content": ${j(prompt)}}]
 )
 
 print(response.choices[0].message.content)`,
-  javascript: `import OpenAI from 'openai';
+    javascript: `import OpenAI from 'openai';
 
 const client = new OpenAI({
-  baseURL: 'https://api.example.com/v1',
-  apiKey: 'your_api_key'
+  baseURL: ${sq(baseUrl)},
+  apiKey: ${sq(apiKey)}
 });
 
 const response = await client.chat.completions.create({
-  model: 'deepseek-r1',
-  messages: [{ role: 'user', content: 'Hello!' }]
+  model: ${sq(model)},
+  messages: [{ role: 'user', content: ${sq(prompt)} }]
 });
 
 console.log(response.choices[0].message.content);`,
-  curl: `curl https://api.example.com/v1/chat/completions \\
-  -H "Authorization: Bearer your_api_key" \\
+    curl: `curl ${baseUrl}/chat/completions \\
+  -H "Authorization: Bearer ${apiKey}" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "model": "deepseek-r1",
-    "messages": [{"role": "user", "content": "Hello!"}]
+    "model": ${j(model)},
+    "messages": [{"role": "user", "content": ${j(prompt)}}]
   }'`
-};
-function CodeDemo() {
+  };
+}
+function CodeDemo({
+  baseUrl = "https://api.example.com/v1",
+  model = "deepseek-r1",
+  apiKeyPlaceholder = "your_api_key",
+  prompt = "Hello!",
+  labels,
+  className
+} = {}) {
+  const code = snippets(baseUrl, model, apiKeyPlaceholder, prompt);
   const tabs = [
-    { id: "python", label: "Python", code: codeSnippets.python, language: "python" },
-    { id: "javascript", label: "Node.js", code: codeSnippets.javascript, language: "javascript" },
-    { id: "curl", label: "cURL", code: codeSnippets.curl, language: "bash" }
+    { id: "python", label: labels?.python ?? "Python", code: code.python, language: "python" },
+    { id: "javascript", label: labels?.javascript ?? "Node.js", code: code.javascript, language: "javascript" },
+    { id: "curl", label: labels?.curl ?? "cURL", code: code.curl, language: "bash" }
   ];
-  return /* @__PURE__ */ jsx("div", { className: "w-full max-w-2xl mx-auto", children: /* @__PURE__ */ jsx(
-    CodeBlock,
-    {
-      code: codeSnippets.python,
-      tabs
-    }
-  ) });
+  return /* @__PURE__ */ jsx("div", { className: className ?? "w-full max-w-2xl mx-auto", children: /* @__PURE__ */ jsx(CodeBlock, { code: code.python, tabs }) });
 }
 function FAQ({ items, defaultOpenIndex = 0 }) {
   const [openIndex, setOpenIndex] = useState(defaultOpenIndex);
