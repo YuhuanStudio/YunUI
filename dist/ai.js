@@ -2074,7 +2074,7 @@ function Navbar({
         )) }),
         /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 shrink-0", children: [
           actions && /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: actions }),
-          /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
+          languageSwitcher && /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
           themeToggle ?? /* @__PURE__ */ jsx(ThemeToggle, { variant: "pill" }),
           variant !== "minimal" && account,
           variant !== "minimal" && !account && /* @__PURE__ */ jsxs(Fragment, { children: [

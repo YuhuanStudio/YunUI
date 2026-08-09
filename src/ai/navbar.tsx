@@ -205,7 +205,12 @@ export function Navbar({
                 never overflows / truncates the brand on a phone. */}
             <div className="flex items-center gap-1.5 shrink-0">
                 {actions && <span className="hidden md:flex items-center gap-1.5">{actions}</span>}
-                <span className="hidden md:flex items-center gap-1.5">{languageSwitcher}</span>
+                {/* Only rendered when there is something to render: an empty flex
+                    child still consumes one `gap-1.5`, which quietly shifted the
+                    whole right cluster on hosts that pass no language switcher. */}
+                {languageSwitcher && (
+                    <span className="hidden md:flex items-center gap-1.5">{languageSwitcher}</span>
+                )}
                 {themeToggle ?? <ThemeToggle variant="pill" />}
 
                 {/* Account control, or the auth buttons when signed out. */}
