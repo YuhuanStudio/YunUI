@@ -101,6 +101,20 @@ patch = fixes, anything may change between 0.x releases).
   this only matches *literal* attributes, which is exactly why it survived; that
   gap is now documented next to the check, and the rest of `src/` was swept for
   the same shape.
+- **`Modal`'s focus trap never armed, and the trap leaked.** Two defects, found
+  by driving a real dialog in Chromium and WebKit rather than by reading the
+  hook. `useFocusTrap` bailed on `if (!container) return` with deps of `enabled`
+  plus a ref object whose identity never changes — so once it bailed it never
+  ran again, and portal dialogs render `null` until their SSR-safety `mounted`
+  state is set, so the container arrives a commit later. `Sheet`, `ConfirmModal`
+  and `ConfirmCloseDialog` pass `&& mounted`; `Modal` passed bare `isOpen` and
+  its trap silently did nothing — a dialog opened with focus still on the button
+  behind it. Separately the keydown listener was bound to the container, which
+  only fires for keys pressed while focus is *already* inside — the one case a
+  trap does not need to handle — so Tab from outside walked straight past it. It
+  is on `document` in the capture phase now, and the hook retries on the next
+  frame instead of giving up, so the next component to get this wrong degrades
+  to a frame of delay rather than to silence.
 - **`CodeDemo` was hardcoded to one gateway.** All three snippets baked in
   `https://api.example.com/v1` and `deepseek-r1`, and the docs stated it "takes
   no props" — so any app but the original rendered a landing page telling readers
