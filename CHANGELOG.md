@@ -111,6 +111,17 @@ patch = fixes, anything may change between 0.x releases).
   on base, still clearly below `--text-secondary` so the three-step hierarchy
   survives. Light is unchanged — its soft tint is #f4f4f5, where the existing
   value already measures 4.81:1.
+- **The whole `true-black` fumadocs bridge was losing the cascade.** Fumadocs
+  ships its LIGHT token defaults as `:root:not(.dark)` **unlayered**.
+  `true-black` sets `class="true-black"` with no `dark`, so that selector
+  matches it — and unlayered CSS beats every `@layer` regardless of specificity,
+  so the `.true-black` bridge in `@layer components` never applied. Docs body
+  text rendered at fumadocs' light `#525252` on black: **2.53:1**. Moving it out
+  of the layer was necessary but not sufficient: `:root:not(.dark)` is (0,2,0)
+  and a bare `.true-black` is (0,1,0), so it still lost. The bridge is now
+  `:root.true-black:not(.dark)` at (0,3,0), unlayered, deliberately one step
+  above. Found by sweeping accessibility in `true-black` for the first time —
+  see `site/visual/axe-theme.mjs`.
 - **Code blocks rendered the LIGHT syntax theme in the `true-black` theme —
   1.35:1.** Fumadocs emits `--shiki-light` / `--shiki-dark` per token and flips
   them with `.dark .shiki … code span`. next-themes maps one theme to one class,

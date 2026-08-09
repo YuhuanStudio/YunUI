@@ -2878,12 +2878,8 @@ html {
    for `github-light-default`. On #f1f1f1 the comment token (#6e7781) measured
    4.03:1; on white it is 4.55:1. Every intermediate grey still failed, so this
    is white or nothing. */
-:root,
-.light {
-  --color-fd-card: var(--bg-card);
-  --color-fd-card-foreground: var(--text-primary);
-}
-
+:root:not(.true-black),
+.light,
 .dark {
   --color-fd-card: var(--bg-card);
   --color-fd-card-foreground: var(--text-primary);
@@ -2914,4 +2910,40 @@ html {
 .true-black .shiki:not(.not-fumadocs-codeblock *),
 .true-black code.shiki:not(.not-fumadocs-code *) {
   color: var(--shiki-dark);
+}
+
+/* Fumadocs tokens in the `true-black` theme — unlayered, and it has to be.
+   Fumadocs ships its LIGHT defaults as `:root:not(.dark)` with no `@layer`.
+   `true-black` sets `class="true-black"` and no `dark`, so that selector
+   matches it, and unlayered CSS beats every layer regardless of specificity —
+   so the `.true-black` bridge in `@layer components` lost silently. Docs body
+   text came out at fumadocs' light `#525252` on black: 2.53:1.
+
+   The layered block above is kept as the single place to edit these values;
+   this mirror exists purely to win the cascade. Keep the two in step. */
+/* `:root.true-black:not(.dark)` is (0,3,0), deliberately one step above
+   fumadocs' `:root:not(.dark)` at (0,2,0). Being unlayered is necessary but not
+   sufficient — a bare `.true-black` is only (0,1,0) and still lost. The
+   `:not(.dark)` is redundant by construction (next-themes sets exactly one
+   class) and is there to carry the specificity, and to say out loud which
+   selector this is fighting. */
+:root.true-black:not(.dark),
+:root[data-theme="true-black"]:not(.dark) {
+  --color-fd-background: #000000;
+  --color-fd-foreground: #d4d4d8;
+  --color-fd-muted: #111111;
+  --color-fd-muted-foreground: rgba(161, 161, 170, 0.8);
+  --color-fd-popover: #141414;
+  --color-fd-popover-foreground: #d4d4d8;
+  --color-fd-card: #0a0a0a;
+  --color-fd-card-foreground: #d4d4d8;
+  --color-fd-border: rgba(255, 255, 255, 0.08);
+  --color-fd-primary: #d4d4d8;
+  --color-fd-primary-foreground: #000000;
+  --color-fd-secondary: #111111;
+  --color-fd-secondary-foreground: #d4d4d8;
+  --color-fd-accent: rgba(255, 255, 255, 0.06);
+  --color-fd-accent-foreground: #d4d4d8;
+  --color-fd-ring: #404040;
+  --color-fd-overlay: rgba(0, 0, 0, 0.7);
 }
