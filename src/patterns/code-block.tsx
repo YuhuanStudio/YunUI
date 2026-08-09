@@ -155,7 +155,11 @@ function highlightCode(code: string): string {
     const lines = code.split('\n');
     return lines.map((line, i) => {
         const rendered = renderLine(line) || '&nbsp;';
-        return `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-muted) text-xs opacity-0 group-hover:opacity-50 transition-opacity">${i + 1}</span><span class="table-cell">${rendered}</span></div>`;
+        // Line numbers: --text-tertiary at full opacity on hover, not --text-muted
+    // at 50%. They are meant to be quiet — they only appear on hover at all —
+    // but #52525b is 2.57:1 before the opacity even applies, and half of that
+    // is invisible. Being subtle and being unreadable are different goals.
+    return `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${rendered}</span></div>`;
     }).join('');
 }
 
@@ -267,7 +271,7 @@ export function CodeBlock({
                                 className="table"
                                 dangerouslySetInnerHTML={{
                                     __html: highlightedHtml || code.split('\n').map((line, i) =>
-                                        `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-muted) text-xs opacity-0 group-hover:opacity-50 transition-opacity">${i + 1}</span><span class="table-cell">${escapeHtml(line) || '&nbsp;'}</span></div>`
+                                        `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${escapeHtml(line) || '&nbsp;'}</span></div>`
                                     ).join('')
                                 }}
                             />

@@ -412,13 +412,11 @@
   --color-fd-border: rgba(255, 255, 255, 0.08);
 }
 
-/* True Black — Fumadocs shiki code block */
-.true-black .shiki:not(.not-fumadocs-codeblock *) {
-  code span {
-    color: var(--shiki-dark);
-    font-style: var(--shiki-dark-font-style);
-  }
-}
+/* True Black — Fumadocs shiki code block.
+   Moved OUT of `@layer components`: see the unlayered block at the end of this
+   file. Leaving it here made it lose to fumadocs' own rule in
+   `@layer utilities`, which comes later in the layer order — and layer order
+   beats specificity outright. */
 
 /* True Black - Override hardcoded white colors for reduced eye strain */
 .true-black .text-white {
@@ -2860,3 +2858,38 @@ html {
 }
 
 } /* end @layer components */
+
+/* =====================================================
+   UNLAYERED OVERRIDES
+   Rules here deliberately sit outside every `@layer`, because unlayered CSS
+   wins against all layered CSS regardless of specificity. That is the only
+   reliable way to override a third-party rule that lives in a later layer than
+   anything we can write.
+   ===================================================== */
+
+/* Shiki dual themes in the `true-black` theme.
+   Fumadocs emits `--shiki-light` / `--shiki-dark` per token and switches with
+   `.dark .shiki … code span { color: var(--shiki-dark) }`. Our third theme sets
+   `class="true-black"` WITHOUT `dark` (next-themes maps one theme to one
+   class), so that switch never fired and every code block rendered the LIGHT
+   syntax theme on a near-black page: measured 1.35:1 for plain code text
+   (#24292E on #0a0a0a). Unreadable.
+
+   An equivalent `.true-black` rule did exist, but inside `@layer components`,
+   where fumadocs' own `.shiki … code span { color: var(--shiki-light) }` in
+   `@layer utilities` beat it — later layer wins, specificity is not consulted.
+   Unlayered, it wins.
+
+   Both DOM shapes are covered: fumadocs puts `.shiki` on the wrapping <figure>
+   for block code, and on the <code> itself elsewhere. Only the first had a
+   `true-black` counterpart. */
+.true-black .shiki:not(.not-fumadocs-codeblock *) code span,
+.true-black code.shiki:not(.not-fumadocs-code *) span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+}
+
+.true-black .shiki:not(.not-fumadocs-codeblock *),
+.true-black code.shiki:not(.not-fumadocs-code *) {
+  color: var(--shiki-dark);
+}

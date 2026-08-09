@@ -136,7 +136,7 @@ function highlightCode(code) {
   const lines = code.split("\n");
   return lines.map((line, i) => {
     const rendered = renderLine(line) || "&nbsp;";
-    return `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-muted) text-xs opacity-0 group-hover:opacity-50 transition-opacity">${i + 1}</span><span class="table-cell">${rendered}</span></div>`;
+    return `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${rendered}</span></div>`;
   }).join("");
 }
 function CodeBlock({
@@ -207,7 +207,7 @@ function CodeBlock({
         className: "table",
         dangerouslySetInnerHTML: {
           __html: highlightedHtml || code.split("\n").map(
-            (line, i) => `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-muted) text-xs opacity-0 group-hover:opacity-50 transition-opacity">${i + 1}</span><span class="table-cell">${escapeHtml(line) || "&nbsp;"}</span></div>`
+            (line, i) => `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${escapeHtml(line) || "&nbsp;"}</span></div>`
           ).join("")
         }
       }
