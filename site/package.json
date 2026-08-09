@@ -15,7 +15,8 @@
     "predev": "node scripts/sync-icons.mjs && node scripts/gen-changelog.mjs",
     "gen:changelog": "node scripts/gen-changelog.mjs",
     "a11y": "node visual/axe.mjs",
-    "a11y:authed": "node visual/axe-authed.mjs"
+    "a11y:authed": "node visual/axe-authed.mjs",
+    "a11y:news-admin": "node visual/axe-news-admin.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
