@@ -218,12 +218,18 @@
   /* Text */
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
-  /* Lightened for dark, and measured against the *elevated* surface, not just
-     the base one. Tertiary text lands on cards, code-block headers and inputs
-     far more often than on the page background, and #18181b is the harder of
-     the two. 5.44 on base / 4.85 on elevated, still weaker than
-     --text-secondary so the three-step hierarchy survives. */
-  --text-tertiary: #85858e;
+  /* Lightened for dark, and measured against the LIGHTEST surface it lands on,
+     not the base one. The previous value was tuned against `--bg-elevated`
+     (#18181b) on the reasoning that cards are harder than the page background —
+     correct as far as it went, but it missed the soft status tints
+     (`bg-accent-soft`, `bg-info-soft`, … at #27272a), which are lighter still.
+     At #85858e that was 4.07:1, and axe caught `.text-label` failing inside
+     tinted cards on three Yunshu pages once the sidebar heading above it was
+     fixed.
+     #91919a measures 4.77 on the soft tints / 5.67 on elevated / 6.37 on base,
+     and stays clearly below --text-secondary (#a1a1aa, 5.81 on the tints) so
+     the three-step hierarchy survives. */
+  --text-tertiary: #91919a;
   --text-muted: #52525b;
 
   /* Accent */
@@ -276,12 +282,10 @@
   /* Text - Reduced contrast for eye comfort */
   --text-primary: #d4d4d8;
   --text-secondary: #a1a1aa;
-  /* Lightened for dark, and measured against the *elevated* surface, not just
-     the base one. Tertiary text lands on cards, code-block headers and inputs
-     far more often than on the page background, and #18181b is the harder of
-     the two. 5.44 on base / 4.85 on elevated, still weaker than
-     --text-secondary so the three-step hierarchy survives. */
-  --text-tertiary: #85858e;
+  /* Same value and the same reasoning as the dark theme above: measured
+     against the lightest surface tertiary text lands on (the soft status tints
+     at #27272a), not just the base. */
+  --text-tertiary: #91919a;
   --text-muted: #52525b;
 
   /* Accent - Softer white */

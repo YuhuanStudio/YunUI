@@ -101,6 +101,16 @@ patch = fixes, anything may change between 0.x releases).
   this only matches *literal* attributes, which is exactly why it survived; that
   gap is now documented next to the check, and the rest of `src/` was swept for
   the same shape.
+- **`--text-tertiary` was tuned against the wrong surface in dark.** It was
+  measured against `--bg-elevated` (#18181b) on the reasoning that cards are
+  harder than the page background — right as far as it went, but it missed the
+  soft status tints (`bg-accent-soft`, `bg-info-soft`, … at #27272a), which are
+  lighter still. At #85858e that is 4.07:1, so `.text-label` inside a tinted
+  card failed AA. This only became visible once the `.nav-section` failure above
+  stopped masking it. Now #91919a: 4.77 on the tints / 5.67 on elevated / 6.37
+  on base, still clearly below `--text-secondary` so the three-step hierarchy
+  survives. Light is unchanged — its soft tint is #f4f4f5, where the existing
+  value already measures 4.81:1.
 - **`.nav-section` failed AA on every page that has a sidebar.** The uppercase
   10px section headings ("PLAYGROUND", "GENERATE", …) used `--text-muted`, which
   in dark is `#52525b` on `#09090b` — 2.57:1, against a 4.5:1 requirement that
