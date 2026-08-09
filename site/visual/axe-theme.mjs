@@ -10,10 +10,15 @@
  * with no `dark` beside it and every `.dark`-keyed rule silently stopped
  * matching. A theme that no sweep ever visits is a theme nothing is checked in.
  *
- * The theme is applied by setting `document.documentElement.className`, which
- * is exactly what next-themes does (one theme → one class). Do NOT "help" by
- * adding `dark` alongside `true-black` when testing — that is the mistake that
- * made the bug invisible.
+ * The theme is applied the way a user applies it: write next-themes' storage
+ * key, then load the page and let the app put itself into that state.
+ *
+ * Do NOT set `document.documentElement.className` instead. next-themes also
+ * writes `data-theme` and `style="color-scheme"`, and YunUI's tokens key off
+ * `.dark, [data-theme="dark"]` — so overwriting only the class leaves the old
+ * `data-theme` behind and produces a hybrid no user can reach. That harness bug
+ * reported a page full of contrast failures in a "light" theme that was
+ * actually still dark underneath.
  */
 import { chromium } from "@playwright/test";
 import fs from "fs";
@@ -36,11 +41,23 @@ for (const { name, url, vp, cookies } of targets) {
   });
   if (cookies) await ctx.addCookies(cookies);
   const page = await ctx.newPage();
-  await page.goto(url, { waitUntil: "networkidle" }).catch(() => {});
-  await page.evaluate((t) => {
-    document.documentElement.className = t;
+  // Seed the theme before any app code runs, so the page renders in it directly.
+  await page.addInitScript((t) => {
+    try {
+      localStorage.setItem("theme", t);
+    } catch {
+      /* storage disabled — the app falls back to its default, reported as-is */
+    }
   }, theme);
+  await page.goto(url, { waitUntil: "networkidle" }).catch(() => {});
   await page.waitForTimeout(700);
+  const applied = await page.evaluate(() => ({
+    cls: document.documentElement.className,
+    attr: document.documentElement.getAttribute("data-theme"),
+  }));
+  if (applied.cls !== theme && applied.attr !== theme) {
+    console.log(`  (note) ${name}: app resolved to class="${applied.cls}" data-theme="${applied.attr}" — it may not offer "${theme}"`);
+  }
   await page.addScriptTag({ content: AXE });
   const res = await page.evaluate(
     async () =>
