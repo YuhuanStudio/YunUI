@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useCallback, useEffect, useState, useLayoutEffect } from 'react';
+import { useRef, useCallback, useEffect, useReducer, useState, useLayoutEffect } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -70,10 +70,14 @@ function useModalBehavior(isOpen, onClose) {
 }
 var FOCUSABLE_SELECTOR = 'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
 function useFocusTrap(containerRef, enabled = true) {
+  const [tick, retry] = useReducer((n) => n + 1, 0);
   useEffect(() => {
     if (!enabled) return;
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      const raf = requestAnimationFrame(retry);
+      return () => cancelAnimationFrame(raf);
+    }
     const previouslyFocused = document.activeElement;
     const getFocusable = () => Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR));
     const initial = getFocusable();
@@ -98,12 +102,12 @@ function useFocusTrap(containerRef, enabled = true) {
         first.focus();
       }
     };
-    container.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown, true);
     return () => {
-      container.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keydown", onKeyDown, true);
       previouslyFocused?.focus?.();
     };
-  }, [enabled, containerRef]);
+  }, [enabled, containerRef, tick]);
 }
 function useDismissOnOutside(open, onDismiss, ref, options) {
   const onDismissRef = useRef(onDismiss);
@@ -246,5 +250,5 @@ function useAnchoredPosition(open, panelRef, opts) {
 }
 
 export { cn, useAnchoredPosition, useBodyScrollLock, useDismissOnOutside, useEscapeKey, useFocusTrap, useModalBehavior, useScrollableTabStop };
-//# sourceMappingURL=chunk-YLY2GQ3R.js.map
-//# sourceMappingURL=chunk-YLY2GQ3R.js.map
+//# sourceMappingURL=chunk-V7VJKZ5Q.js.map
+//# sourceMappingURL=chunk-V7VJKZ5Q.js.map

@@ -6,7 +6,7 @@
  * Used by modals, dialogs, and other overlays to close on Escape key.
  */
 
-import { useEffect, useCallback, useRef, useState, type RefObject } from "react";
+import { useEffect, useCallback, useRef, useState, type RefObject, useReducer } from "react";
 
 /**
  * Hook that calls the callback when Escape key is pressed
@@ -166,10 +166,24 @@ export function useFocusTrap(
     containerRef: RefObject<HTMLElement | null>,
     enabled: boolean = true
 ): void {
+    // Bumped to re-run the effect when the container node arrives a commit late.
+    const [tick, retry] = useReducer((n: number) => n + 1, 0);
+
     useEffect(() => {
         if (!enabled) return;
         const container = containerRef.current;
-        if (!container) return;
+        if (!container) {
+            // The node does NOT always exist on the render that flips `enabled`.
+            // Portal-based dialogs render `null` until an SSR-safety `mounted`
+            // state is set, so the container appears one commit later. `return`
+            // here used to be permanent — the deps are `enabled` and a ref
+            // object that never changes identity, so the effect never ran again
+            // and the trap silently did nothing for the whole life of the
+            // dialog. `Modal` shipped exactly that: focus stayed on the button
+            // behind the dialog, and Tab walked back out into the page.
+            const raf = requestAnimationFrame(retry);
+            return () => cancelAnimationFrame(raf);
+        }
 
         const previouslyFocused = document.activeElement as HTMLElement | null;
 
@@ -201,13 +215,18 @@ export function useFocusTrap(
             }
         };
 
-        container.addEventListener("keydown", onKeyDown);
+        // On `document`, in the capture phase — NOT on the container. A listener
+        // on the container only fires for keys pressed while focus is already
+        // inside it, which is precisely the case a trap does not need to handle.
+        // When focus starts outside (the opener button, or anything that moved
+        // it), Tab never reached the container and walked straight out.
+        document.addEventListener("keydown", onKeyDown, true);
         return () => {
-            container.removeEventListener("keydown", onKeyDown);
+            document.removeEventListener("keydown", onKeyDown, true);
             // Restore focus to where it was before the trap opened.
             previouslyFocused?.focus?.();
         };
-    }, [enabled, containerRef]);
+    }, [enabled, containerRef, tick]);
 }
 
 /**

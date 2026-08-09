@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { render, fireEvent } from "@testing-library/react";
-import { useRef } from "react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
+import { useEffect, useRef, useState } from "react";
 import { useFocusTrap } from "../lib/hooks";
 import { Sheet } from "../primitives/sheet";
 
@@ -60,5 +60,35 @@ describe("Sheet focus trap", () => {
     getByTestId("y").focus();
     fireEvent.keyDown(dialog, { key: "Tab" });
     expect(dialog.contains(document.activeElement)).toBe(true);
+  });
+
+  // The two gaps that let Modal ship a trap that never armed. Both were
+  // invisible to the tests above, which render the container immediately and
+  // fire Tab *on the panel* — i.e. they only ever exercised the happy path.
+  it("arms once the container appears a commit later", async () => {
+    function LateTrap() {
+      const ref = useRef<HTMLDivElement>(null);
+      const [mounted, setMounted] = useState(false);
+      useFocusTrap(ref, true);
+      useEffect(() => { setMounted(true); }, []);
+      if (!mounted) return null;
+      return (
+        <div ref={ref} data-testid="panel" tabIndex={-1}>
+          <button data-testid="late-a">A</button>
+        </div>
+      );
+    }
+    const { findByTestId } = render(<LateTrap />);
+    const a = await findByTestId("late-a");
+    await waitFor(() => expect(document.activeElement).toBe(a));
+  });
+
+  it("traps Tab even when focus starts outside the container", () => {
+    const { getByTestId } = render(<Trap />);
+    getByTestId("outside").focus();
+    // Dispatched on the focused element, which is NOT inside the panel — a
+    // listener bound to the panel would never see this.
+    fireEvent.keyDown(getByTestId("outside"), { key: "Tab" });
+    expect(getByTestId("panel").contains(document.activeElement)).toBe(true);
   });
 });

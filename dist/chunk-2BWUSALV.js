@@ -1,5 +1,5 @@
 "use client";
-import { cn, useScrollableTabStop, useFocusTrap, useEscapeKey, useBodyScrollLock, useModalBehavior, useAnchoredPosition, useDismissOnOutside } from './chunk-YLY2GQ3R.js';
+import { cn, useScrollableTabStop, useFocusTrap, useEscapeKey, useBodyScrollLock, useModalBehavior, useAnchoredPosition, useDismissOnOutside } from './chunk-V7VJKZ5Q.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import * as React7 from 'react';
 import { forwardRef, useRef, useState, useEffect, useCallback, useId } from 'react';
@@ -2362,7 +2362,7 @@ function Modal({
   }, []);
   useEscapeKey(handleClose, isOpen);
   useBodyScrollLock(isOpen);
-  useFocusTrap(modalRef, isOpen);
+  useFocusTrap(modalRef, isOpen && mounted);
   useEffect(() => {
     if (isOpen && internalIsClosing) {
       setInternalIsClosing(false);
@@ -2450,5 +2450,5 @@ function Modal({
 }
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Column, Combobox, ConfirmModal, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, Flex, Grid, IconButton, InlineCode, InlineStatus, Input, Kbd, Label3 as Label, Modal, MotionDiv, MotionSpan, NumberInput, PageLoader, Pagination, PasswordInput, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, SearchInput, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Sheet, Skeleton, Slider, Spinner, Stack, StatusIndicator, Steps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, Textarea, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, fadeIn, staggerContainer, staggerItem };
-//# sourceMappingURL=chunk-FQY573F3.js.map
-//# sourceMappingURL=chunk-FQY573F3.js.map
+//# sourceMappingURL=chunk-2BWUSALV.js.map
+//# sourceMappingURL=chunk-2BWUSALV.js.map

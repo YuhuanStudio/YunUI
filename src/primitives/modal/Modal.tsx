@@ -139,7 +139,11 @@ export function Modal({
 
     // Focus management — move focus into the dialog on open, trap Tab/Shift+Tab
     // inside it, and restore focus to the opener on close (a11y: no focus escape).
-    useFocusTrap(modalRef, isOpen);
+    // `&& mounted` matters: the portal renders null until `mounted` is set, so
+    // without it the trap is asked to install itself against a node that does
+    // not exist yet. Sheet, ConfirmModal and ConfirmCloseDialog all pass it;
+    // this was the one that did not, and its focus trap never armed.
+    useFocusTrap(modalRef, isOpen && mounted);
 
     // Reset closing state when modal reopens
     useEffect(() => {
