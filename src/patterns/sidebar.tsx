@@ -1,6 +1,6 @@
 "use client";
 
-import { type ElementType, type ReactNode, useEffect, useRef } from "react";
+import { type ElementType, type ReactNode, useEffect, useMemo, useRef } from "react";
 import { X, PanelLeftClose } from "lucide-react";
 import { IconButton } from "../index";
 import { useYunUI } from "../adapters/context";
@@ -72,10 +72,22 @@ export interface SidebarProps {
     ariaLabel?: string;
 }
 
-function isItemActive(item: SidebarNavItem, currentPath: string, homeHref: string): boolean {
-    if (currentPath === item.href) return true;
-    if (item.href !== homeHref && currentPath.startsWith(item.href)) return true;
-    return item.match?.some((m) => currentPath.startsWith(m)) ?? false;
+/** How strongly an item claims `currentPath`: the length of its longest matching prefix, or
+ *  -1 when nothing matches.
+ *
+ *  A prefix only counts on a path-segment boundary, so `/reports` never claims `/reports-archive`.
+ *  The caller compares strengths across the whole nav and lights only the strongest, because a
+ *  parent entry is a prefix of every child: on `/dashboard/playground`, plain `startsWith` lit
+ *  both "Overview" (`/dashboard`) and "Playground" at once. */
+function matchStrength(item: SidebarNavItem, currentPath: string, homeHref: string): number {
+    let best = -1;
+    for (const prefix of [item.href, ...(item.match ?? [])]) {
+        if (currentPath === prefix) best = Math.max(best, prefix.length);
+        else if (prefix !== homeHref && currentPath.startsWith(prefix.replace(/\/$/, "") + "/")) {
+            best = Math.max(best, prefix.length);
+        }
+    }
+    return best;
 }
 
 /** App navigation sidebar: logo, grouped nav sections with active-state matching, a mobile drawer, desktop collapse, and a footer slot. */
@@ -103,6 +115,18 @@ export function Sidebar({
 }: SidebarProps) {
     const { Link, Image } = useYunUI();
     const navRef = useRef<HTMLElement>(null);
+
+    // The whole nav decides together: only the item with the longest matching prefix lights up,
+    // so a section root does not stay highlighted alongside the child page you are actually on.
+    const strongestMatch = useMemo(
+        () =>
+            sections.reduce(
+                (best, section) =>
+                    section.items.reduce((inner, item) => Math.max(inner, matchStrength(item, currentPath, homeHref)), best),
+                -1,
+            ),
+        [sections, currentPath, homeHref],
+    );
 
     // Persist + restore the nav scroll position across navigations (Yunxin parity).
     useEffect(() => {
@@ -196,7 +220,9 @@ export function Sidebar({
                         <div key={i} className={i > 0 ? "mt-4" : ""}>
                             {section.title && <div className="nav-section">{section.title}</div>}
                             {section.items.map((item) => {
-                                const active = isItemActive(item, currentPath, homeHref);
+                                const active =
+                                    strongestMatch >= 0 &&
+                                    matchStrength(item, currentPath, homeHref) === strongestMatch;
                                 const Icon = item.icon;
                                 const content = (
                                     <>
