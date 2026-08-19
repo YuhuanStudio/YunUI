@@ -738,10 +738,15 @@ function NavStateIndicator({
     }
   );
 }
-function isItemActive(item, currentPath, homeHref) {
-  if (currentPath === item.href) return true;
-  if (item.href !== homeHref && currentPath.startsWith(item.href)) return true;
-  return item.match?.some((m) => currentPath.startsWith(m)) ?? false;
+function matchStrength(item, currentPath, homeHref) {
+  let best = -1;
+  for (const prefix of [item.href, ...item.match ?? []]) {
+    if (currentPath === prefix) best = Math.max(best, prefix.length);
+    else if (prefix !== homeHref && currentPath.startsWith(prefix.replace(/\/$/, "") + "/")) {
+      best = Math.max(best, prefix.length);
+    }
+  }
+  return best;
 }
 function Sidebar({
   appName,
@@ -767,6 +772,13 @@ function Sidebar({
 }) {
   const { Link, Image } = useYunUI();
   const navRef = useRef(null);
+  const strongestMatch = useMemo(
+    () => sections.reduce(
+      (best, section) => section.items.reduce((inner, item) => Math.max(inner, matchStrength(item, currentPath, homeHref)), best),
+      -1
+    ),
+    [sections, currentPath, homeHref]
+  );
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return;
@@ -829,7 +841,7 @@ function Sidebar({
           children != null ? /* @__PURE__ */ jsx("div", { className: "flex min-h-0 flex-1 flex-col", children }) : /* @__PURE__ */ jsx("nav", { ref: navRef, className: "flex-1 overflow-y-auto py-3 px-3", children: loading ? /* @__PURE__ */ jsx("div", { className: "space-y-2 animate-pulse", children: Array.from({ length: 5 }).map((_, i) => /* @__PURE__ */ jsx("div", { className: "h-9 rounded-lg bg-foreground/5" }, i)) }) : sections.map((section, i) => /* @__PURE__ */ jsxs("div", { className: i > 0 ? "mt-4" : "", children: [
             section.title && /* @__PURE__ */ jsx("div", { className: "nav-section", children: section.title }),
             section.items.map((item) => {
-              const active = isItemActive(item, currentPath, homeHref);
+              const active = strongestMatch >= 0 && matchStrength(item, currentPath, homeHref) === strongestMatch;
               const Icon = item.icon;
               const content = /* @__PURE__ */ jsxs(Fragment, { children: [
                 /* @__PURE__ */ jsx(NavStateIndicator, { active }),
