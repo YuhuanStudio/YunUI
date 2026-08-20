@@ -1,7 +1,7 @@
 "use client";
 import './chunk-SJGVA3AF.js';
-import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-6YVN22VI.js';
-export { Footer } from './chunk-6YVN22VI.js';
+import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-LEBQPP4B.js';
+export { Footer } from './chunk-LEBQPP4B.js';
 import './chunk-GAXVET76.js';
 import { ImageLightbox } from './chunk-QEIBYOG2.js';
 import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-2BWUSALV.js';
@@ -9,7 +9,7 @@ import { cn } from './chunk-V7VJKZ5Q.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, ArrowUp, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Quote, ChevronDown, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, ArrowUp, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, DatabaseZap, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Quote, ChevronDown, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
   return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 -z-10 h-full w-full pointer-events-none select-none overflow-hidden bg-(--bg-base)", children: /* @__PURE__ */ jsx(
@@ -1186,6 +1186,10 @@ function CapabilityBadge({ capability, short = false }) {
     vision: { icon: Eye, iconColor: capabilityIconColor("vision"), color: capabilityBadgeColor("vision"), labelKey: "vision" },
     thinking: { icon: Brain, iconColor: capabilityIconColor("thinking"), color: capabilityBadgeColor("thinking"), labelKey: "thinking" },
     image_edit: { icon: Image, iconColor: capabilityIconColor("image_edit"), color: capabilityBadgeColor("image_edit"), labelKey: "imageEdit" },
+    // Whether the model CAN reuse a cached prompt — a separate question from what caching
+    // costs. An unquoted or zero cache price says nothing about the capability.
+    prompt_caching: { icon: DatabaseZap, iconColor: capabilityIconColor("prompt_caching"), color: capabilityBadgeColor("prompt_caching"), labelKey: "promptCaching" },
+    context_caching: { icon: DatabaseZap, iconColor: capabilityIconColor("context_caching"), color: capabilityBadgeColor("context_caching"), labelKey: "contextCaching" },
     negative_prompt: { icon: Ban, iconColor: capabilityIconColor("negative_prompt"), color: capabilityBadgeColor("negative_prompt"), labelKey: "negativePrompt" },
     seed_control: { icon: Fingerprint, iconColor: capabilityIconColor("seed_control"), color: capabilityBadgeColor("seed_control"), labelKey: "seedControl" },
     lora: { icon: Layers, iconColor: capabilityIconColor("lora"), color: capabilityBadgeColor("lora"), labelKey: "loraSupport" },

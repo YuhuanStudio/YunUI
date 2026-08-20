@@ -690,6 +690,8 @@
       "vision": "Vision",
       "thinking": "Thinking",
       "imageEdit": "Image Edit",
+      "promptCaching": "Prompt Caching",
+      "contextCaching": "Context Caching",
       "negativePrompt": "Negative Prompt",
       "seedControl": "Seed Control",
       "loraSupport": "LoRA Support",

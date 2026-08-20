@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, EyeOff, Clock, CheckCircle, XCircle, Zap, FileText, FileCode, MessageSquare, Waves, Code, Brain, Ban, Fingerprint, Layers, SlidersHorizontal, Image as ImageIcon, Award } from "lucide-react";
+import { Eye, EyeOff, Clock, CheckCircle, XCircle, Zap, FileText, FileCode, MessageSquare, Waves, Code, Brain, Ban, Fingerprint, Layers, SlidersHorizontal, Image as ImageIcon, Award, DatabaseZap } from "lucide-react";
 import { useYunUI } from "../adapters/context";
 import { capabilityIconColor, capabilityBadgeColor } from "../ai/capability-colors";
 
@@ -42,6 +42,10 @@ export function CapabilityBadge({ capability, short = false }: { capability: str
         vision: { icon: Eye, iconColor: capabilityIconColor("vision"), color: capabilityBadgeColor("vision"), labelKey: "vision" },
         thinking: { icon: Brain, iconColor: capabilityIconColor("thinking"), color: capabilityBadgeColor("thinking"), labelKey: "thinking" },
         image_edit: { icon: ImageIcon, iconColor: capabilityIconColor("image_edit"), color: capabilityBadgeColor("image_edit"), labelKey: "imageEdit" },
+        // Whether the model CAN reuse a cached prompt — a separate question from what caching
+        // costs. An unquoted or zero cache price says nothing about the capability.
+        prompt_caching: { icon: DatabaseZap, iconColor: capabilityIconColor("prompt_caching"), color: capabilityBadgeColor("prompt_caching"), labelKey: "promptCaching" },
+        context_caching: { icon: DatabaseZap, iconColor: capabilityIconColor("context_caching"), color: capabilityBadgeColor("context_caching"), labelKey: "contextCaching" },
         negative_prompt: { icon: Ban, iconColor: capabilityIconColor("negative_prompt"), color: capabilityBadgeColor("negative_prompt"), labelKey: "negativePrompt" },
         seed_control: { icon: Fingerprint, iconColor: capabilityIconColor("seed_control"), color: capabilityBadgeColor("seed_control"), labelKey: "seedControl" },
         lora: { icon: Layers, iconColor: capabilityIconColor("lora"), color: capabilityBadgeColor("lora"), labelKey: "loraSupport" },

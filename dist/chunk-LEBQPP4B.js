@@ -107,6 +107,14 @@ var CAPABILITY_COLORS = {
     icon: "text-orange-600",
     badge: "bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20"
   },
+  prompt_caching: {
+    icon: "text-emerald-600",
+    badge: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20"
+  },
+  context_caching: {
+    icon: "text-emerald-600",
+    badge: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20"
+  },
   negative_prompt: {
     icon: "text-red-600",
     badge: "bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20"
@@ -140,5 +148,5 @@ function capabilityBadgeColor(key) {
 }
 
 export { DiscordIcon, Footer, GithubIcon, InstagramIcon, capabilityBadgeColor, capabilityIconColor, copyToClipboard };
-//# sourceMappingURL=chunk-6YVN22VI.js.map
-//# sourceMappingURL=chunk-6YVN22VI.js.map
+//# sourceMappingURL=chunk-LEBQPP4B.js.map
+//# sourceMappingURL=chunk-LEBQPP4B.js.map

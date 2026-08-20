@@ -1,6 +1,6 @@
 "use client";
-import { capabilityIconColor, copyToClipboard } from './chunk-6YVN22VI.js';
-export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-6YVN22VI.js';
+import { capabilityIconColor, copyToClipboard } from './chunk-LEBQPP4B.js';
+export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-LEBQPP4B.js';
 import { TextShimmer, ThemeToggle } from './chunk-GAXVET76.js';
 import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-V7VJKZ5Q.js';
 import { useYunUI } from './chunk-3RT24MSH.js';

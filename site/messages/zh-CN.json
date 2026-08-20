@@ -690,6 +690,8 @@
       "vision": "视觉",
       "thinking": "思考",
       "imageEdit": "图像编辑",
+      "promptCaching": "提示缓存",
+      "contextCaching": "上下文缓存",
       "negativePrompt": "负面提示词",
       "seedControl": "种子控制",
       "loraSupport": "LoRA 支持",
