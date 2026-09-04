@@ -28,6 +28,7 @@ describe("AI icon helpers tolerate missing ids", () => {
 
   it("still resolves a known provider", () => {
     expect(getIconPath("openai")).toContain("openai");
+    expect(getIconPath("gmi")).toBe("/icons/providers/gmi.svg");
     expect(getProviderName("openai")).toBe("OpenAI");
   });
 

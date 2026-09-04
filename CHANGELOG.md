@@ -12,6 +12,8 @@ patch = fixes, anything may change between 0.x releases).
 ## [Unreleased]
 
 ### Fixed
+- **GMI Cloud now has a provider icon and canonical display name.** The `gmi`
+  provider previously fell through to the monogram tile in every consumer.
 - **Every overlay animation was dead.** `animate-in` / `animate-out` / `fade-in-0` /
   `zoom-in-95` / `slide-in-from-*` come from the `tailwindcss-animate` plugin, which
   is Tailwind **v3-only**. Under v4 every one of those classes compiled to *nothing*,

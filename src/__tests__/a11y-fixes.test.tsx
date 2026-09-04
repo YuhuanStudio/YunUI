@@ -172,6 +172,7 @@ describe("getProviderName resolution", () => {
     expect(getProviderName("openai")).toBe("OpenAI");
     expect(getProviderName("openai")).toBe(ProviderNames["openai"]);
     expect(getProviderName("anthropic")).toBe(ProviderNames["anthropic"]);
+    expect(getProviderName("gmi")).toBe("GMI Cloud");
   });
 
   it("does not false-resolve 2-char junk input to a real provider (capitalizes instead)", () => {
