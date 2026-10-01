@@ -11,6 +11,7 @@ import {
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import { cn } from "../lib/cn";
 import { useContentT } from "./use-content-t";
+import { useContentDarkMode } from "./use-content-dark-mode";
 
 export interface CodeBlockEditPayload {
   code: string;
@@ -158,8 +159,8 @@ const shikiLanguageAliases: Record<string, ShikiLanguage> = {
  * text token in either mode, and are visually near-identical.
  */
 const shikiThemes = {
-  "github-dark": () => import("shiki/themes/github-dark-default.mjs"),
-  "github-light": () => import("shiki/themes/github-light-default.mjs"),
+  "github-dark-default": () => import("shiki/themes/github-dark-default.mjs"),
+  "github-light-default": () => import("shiki/themes/github-light-default.mjs"),
 } as const;
 
 type ShikiTheme = keyof typeof shikiThemes;
@@ -236,24 +237,6 @@ function resolveShikiLanguage(language: string): ShikiLanguage | "plaintext" {
   return shikiLanguageAliases[normalized] ?? "plaintext";
 }
 
-function useIsDarkMode() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const check = () =>
-      setIsDark(document.documentElement.classList.contains("dark"));
-    check();
-    const observer = new MutationObserver(check);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  return isDark;
-}
-
 /**
  * Syntax-highlighted code block powered by Shiki (accurate, VS Code-grade
  * highlighting for common application and LLM output languages). Shiki core,
@@ -273,7 +256,7 @@ export function CodeBlock({
   const [copied, setCopied] = useState(false);
   const [highlightedCode, setHighlightedCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
-  const isDark = useIsDarkMode();
+  const isDark = useContentDarkMode();
   const t = useContentT();
 
   const code = useMemo(
@@ -296,7 +279,7 @@ export function CodeBlock({
     async function highlight() {
       setIsLoading(true);
       try {
-        const theme = isDark ? "github-dark" : "github-light";
+        const theme = isDark ? "github-dark-default" : "github-light-default";
         const lang = resolveShikiLanguage(language || "plaintext");
 
         const html = await highlightToHtml(code, {

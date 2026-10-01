@@ -28,6 +28,10 @@ interface PaginationProps extends Omit<React.HTMLAttributes<HTMLElement>, "onCha
     siblingCount?: number;
     /** Accessible name for the wrapping nav landmark. @defaultValue "Pagination" */
     ariaLabel?: string;
+    /** @deprecated Use labels.previous. Retained for 0.2.17 compatibility. */
+    previousLabel?: string;
+    /** @deprecated Use labels.next. Retained for 0.2.17 compatibility. */
+    nextLabel?: string;
     /** Every string the control announces. Matches `BlogPagination.labels`. */
     labels?: {
         /** Previous-page button. @defaultValue "Go to previous page" */
@@ -105,6 +109,8 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
             siblingCount = 1,
             ariaLabel = "Pagination",
             labels,
+            previousLabel,
+            nextLabel,
             className,
             ...props
         },
@@ -125,7 +131,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
             >
                 <button
                     type="button"
-                    aria-label={labels?.previous ?? "Go to previous page"}
+                    aria-label={labels?.previous ?? previousLabel ?? "Go to previous page"}
                     disabled={isFirst}
                     onClick={() => !isFirst && onPageChange(page - 1)}
                     className={navButton}
@@ -162,7 +168,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
 
                 <button
                     type="button"
-                    aria-label={labels?.next ?? "Go to next page"}
+                    aria-label={labels?.next ?? nextLabel ?? "Go to next page"}
                     disabled={isLast}
                     onClick={() => !isLast && onPageChange(page + 1)}
                     className={navButton}

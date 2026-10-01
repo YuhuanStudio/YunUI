@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/cn";
 import { useContentT } from "./use-content-t";
 import { ImageLightbox } from "./image-lightbox";
+import { useContentDarkMode } from "./use-content-dark-mode";
 
 export interface MermaidDiagramProps {
   chart: string;
@@ -100,7 +101,7 @@ export function MermaidDiagram({
   const [svg, setSvg] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
-  const [themeTick, setThemeTick] = useState(0);
+  const isDark = useContentDarkMode();
   const [zoomOpen, setZoomOpen] = useState(false);
   const t = useContentT();
 
@@ -118,10 +119,6 @@ export function MermaidDiagram({
 
       try {
         const mermaid = (await import("mermaid")).default;
-        const isDark =
-          typeof document !== "undefined" &&
-          document.documentElement.classList.contains("dark");
-
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "default",
@@ -175,18 +172,7 @@ export function MermaidDiagram({
     // host adapter that returns a fresh translator each render would otherwise
     // retrigger this effect endlessly.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chart, themeTick]);
-
-  // Re-render when the light/dark class on <html> changes.
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    const observer = new MutationObserver(() => setThemeTick((n) => n + 1));
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-    return () => observer.disconnect();
-  }, []);
+  }, [chart, isDark]);
 
   if (error) {
     return (
@@ -238,6 +224,12 @@ export function MermaidDiagram({
       <div
         ref={containerRef}
         onClick={enableZoom ? () => setZoomOpen(true) : undefined}
+        onKeyDown={enableZoom ? (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setZoomOpen(true);
+          }
+        } : undefined}
         role={enableZoom ? "button" : undefined}
         aria-label={enableZoom ? t("zoomDiagram", "Zoom diagram") : undefined}
         /* Unconditional, and it fixes two things at once. With zoom on, a

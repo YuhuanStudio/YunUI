@@ -29,6 +29,12 @@ The demo below feeds a single markdown string exercising headings, a table, a ta
 />
 ```
 
+`linkOrigin` optionally supplies a stable site origin for link classification in both SSR and the browser. Same-origin absolute links are treated as internal; other absolute links are external. Without `linkOrigin`, absolute HTTP(S) and protocol-relative URLs are external, while relative and fragment links are internal.
+
+```tsx
+<MarkdownRenderer content={markdown} linkOrigin="https://example.com" />
+```
+
 ## Props
 
 <PropsTable name="MarkdownRenderer" />

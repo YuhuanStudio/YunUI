@@ -25,6 +25,12 @@ export interface MarkdownRendererProps {
    */
   urlTransform?: (url: string) => string;
   /**
+   * Stable origin used to recognize same-origin absolute links, in SSR and the
+   * browser alike (e.g. "https://example.com"). Without it, absolute HTTP(S)
+   * links open externally; relative and fragment links remain internal.
+   */
+  linkOrigin?: string;
+  /**
    * When provided, code blocks show an "Edit" button that calls this with the
    * code payload (e.g. open it in an editor). Hidden if unset.
    */
@@ -51,6 +57,7 @@ export function MarkdownRenderer({
   content,
   className,
   urlTransform,
+  linkOrigin,
   onCodeEdit,
   renderLink,
 }: MarkdownRendererProps) {
@@ -152,10 +159,15 @@ export function MarkdownRenderer({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       img: ({ node, ...props }: any) => <ContentImage {...props} />,
 
-      a: ({ href, children, ...props }) => {
-        const host =
-          typeof window !== "undefined" ? window.location.host : "";
-        const isExternal = href?.startsWith("http") && !href?.includes(host);
+      a: ({ href, children, node: _node, ...props }) => {
+        let isExternal = Boolean(href && /^(https?:)?\/\//i.test(href));
+        if (isExternal && linkOrigin) {
+          try {
+            isExternal = new URL(href!, linkOrigin).origin !== new URL(linkOrigin).origin;
+          } catch {
+            // A malformed origin must not change server/client rendering.
+          }
+        }
         const override = renderLink?.({ href, children, isExternal: Boolean(isExternal) });
         if (override !== undefined) return override;
 
@@ -321,7 +333,7 @@ export function MarkdownRenderer({
         <del className="text-(--text-tertiary) line-through">{children}</del>
       ),
     }),
-    [onCodeEdit, renderLink],
+    [onCodeEdit, renderLink, linkOrigin],
   );
 
   return (

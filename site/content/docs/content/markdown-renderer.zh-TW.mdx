@@ -29,6 +29,12 @@ import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
 />
 ```
 
+`linkOrigin` 可選提供穩定的網站 origin，讓 SSR 與瀏覽器使用相同規則判斷連結。同源絕對連結視為站內連結，其他絕對連結視為外連。不傳 `linkOrigin` 時，絕對 HTTP(S) 與協定相對 URL 視為外連，相對連結和片段連結視為站內連結。
+
+```tsx
+<MarkdownRenderer content={markdown} linkOrigin="https://example.com" />
+```
+
 ## 屬性
 
 <PropsTable name="MarkdownRenderer" />

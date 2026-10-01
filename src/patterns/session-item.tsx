@@ -35,6 +35,14 @@ export interface SessionItemProps {
     /** Revoke handler — when set (and not current), shows the revoke button. */
     onRevoke?: () => void;
     revoking?: boolean;
+    /** @deprecated Use labels.current. Retained for 0.2.17 compatibility. */
+    currentLabel?: ReactNode;
+    /** @deprecated Use labels.inactive. Retained for 0.2.17 compatibility. */
+    inactiveLabel?: ReactNode;
+    /** @deprecated Use labels.running. Retained for 0.2.17 compatibility. */
+    runningLabel?: ReactNode;
+    /** @deprecated Use labels.revoke. Retained for 0.2.17 compatibility. */
+    revokeLabel?: string;
     /** Every string this row renders. See CONTRIBUTING.md — a component
      *  needing more than one auxiliary string groups them here. */
     labels?: {
@@ -63,6 +71,10 @@ export function SessionItem({
     onRevoke,
     revoking,
     labels,
+    currentLabel,
+    inactiveLabel,
+    runningLabel,
+    revokeLabel,
     className,
 }: SessionItemProps) {
     return (
@@ -84,19 +96,19 @@ export function SessionItem({
                     data-session-activity-rail
                 />
             )}
-            {running && labels?.running != null && <span className="sr-only">{labels?.running}</span>}
+            {running && (labels?.running ?? runningLabel) != null && <span className="sr-only">{labels?.running ?? runningLabel}</span>}
             {icon != null && <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">{icon}</div>}
             <div className="flex-1 min-w-0">
                 <div className="flex min-w-0 items-center gap-2">
                     <span className="block min-w-0 flex-1 truncate text-xs font-medium">{name}</span>
                     {current && (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0">
-                            {labels?.current}
+                            {labels?.current ?? currentLabel}
                         </span>
                     )}
                     {inactive && (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0">
-                            {labels?.inactive}
+                            {labels?.inactive ?? inactiveLabel}
                         </span>
                     )}
                 </div>
@@ -123,8 +135,8 @@ export function SessionItem({
                     type="button"
                     onClick={onRevoke}
                     disabled={revoking}
-                    aria-label={labels?.revoke}
-                    title={labels?.revoke}
+                    aria-label={labels?.revoke ?? revokeLabel}
+                    title={labels?.revoke ?? revokeLabel}
                     className="p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                     {revoking ? <Loader2 size={12} className="animate-spin" /> : <LogOut size={12} />}

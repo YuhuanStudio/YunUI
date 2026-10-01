@@ -15,6 +15,8 @@ export default defineConfig({
   testDir: "./visual",
   snapshotDir: "./visual/__snapshots__",
   fullyParallel: true,
+  workers: 3,
+  timeout: 45_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "github" : "list",
@@ -34,19 +36,16 @@ export default defineConfig({
     viewport: { width: 1440, height: 1000 },
   },
   projects: [
-    // Chromium only, deliberately.
-    //
-    // WebKit was in here and could not hold a baseline: at a 40 px budget it
-    // flaked on three or four of twelve tests per run, and it still flaked at
-    // 900 px — its rendering of these shots is not reproducible run to run.
-    // A gate that cries wolf gets ignored. WebKit keeps its coverage where it
-    // IS deterministic and where it genuinely differs: the a11y sweeps.
+    // Pixel baselines are Chromium-only; WebKit runs behavioral contracts and
+    // captures because its exact pixel output was not reproducible across runs.
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    // Deterministic content/keyboard/theme contracts, without pixel baselines.
+    { name: "webkit", testMatch: "**/content.spec.ts", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: {
     command: `pnpm build && pnpm start -p ${PORT}`,
     url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI || process.env.PLAYWRIGHT_REUSE_SERVER === "1",
     timeout: 240_000,
   },
 });

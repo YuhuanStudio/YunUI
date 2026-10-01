@@ -126,11 +126,13 @@ Without a provider, YunUI uses zero-dependency defaults (`<a>` / `<img>` / ident
 
 **Utilities / hooks** (exported from `@yuhuanowo/yunui`): `cn`, `toast` / `Toaster` (sonner-based), `MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`, `useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`.
 
-> **`yunui/ai` icons — bundled, served via CDN by default.** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` resolve `/providers/*.png` and `/models/*.png` under `iconBasePath`, which **defaults to the bundled set on jsDelivr** (`https://cdn.jsdelivr.net/npm/@yuhuanowo/yunui@0.2/icons`) — so icons work with **zero setup**. To **self-host and/or extend** with your own icons, copy the package's `icons/` (or this repo's `site/public/icons/`) into your app and point the adapter at it: `<YunUIProvider adapters={{ iconBasePath: "/icons" }}>`. A single custom icon URL can be passed via a component's `iconUrl` prop and is used as-is. **next/image** users: self-host, or allow `cdn.jsdelivr.net` in `images.remotePatterns`.
+> **`yunui/ai` icon assets ship in the package, separate from the JavaScript bundle, and are served via CDN by default.** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` resolve `/providers/*.png` and `/models/*.png` under `iconBasePath`, which **defaults to the package icons on jsDelivr** (`https://cdn.jsdelivr.net/npm/@yuhuanowo/yunui@0.2/icons`) — so icons work with **zero setup**. To **self-host and/or extend** with your own icons, copy the package's `icons/` (or this repo's `site/public/icons/`) into your app and point the adapter at it: `<YunUIProvider adapters={{ iconBasePath: "/icons" }}>`. A single custom icon URL can be passed via a component's `iconUrl` prop and is used as-is. **next/image** users: self-host, or allow `cdn.jsdelivr.net` in `images.remotePatterns`.
 >
 > Likewise, `./_deferred/ai-search` (the docs AI search) is **not exported** — it is bound to `@ai-sdk/react` + a chat stack, making it a product feature rather than a general component; exporting it would force an ai-sdk peer dependency on the library.
 
 ---
+
+MarkdownRenderer accepts optional `linkOrigin` to classify same-origin absolute links consistently during SSR and in the browser. Without it, absolute HTTP(S) and protocol-relative links are external, while relative links stay internal. `ImageLightbox` accepts an optional accessible `label` (defaults to the image alt text or the content translation); it traps focus, exposes a modal dialog, and locks background scrolling.
 
 ## Themes
 

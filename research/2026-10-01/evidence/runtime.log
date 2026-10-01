@@ -1,0 +1,30 @@
+{"name":"chromium","theme":"light","width":390,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"chromium","theme":"light","width":768,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"chromium","theme":"light","width":1440,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+content-theme light 2 [
+  { bg: 'rgba(0, 0, 0, 0)', fg: 'rgb(10, 10, 10)' },
+  { bg: 'rgba(0, 0, 0, 0)', fg: 'rgb(9, 9, 11)' }
+]
+{"name":"chromium","theme":"dark","width":390,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"chromium","theme":"dark","width":768,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"chromium","theme":"dark","width":1440,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+content-theme dark 2 [
+  { bg: 'rgba(0, 0, 0, 0)', fg: 'rgb(235, 235, 235)' },
+  { bg: 'rgba(0, 0, 0, 0)', fg: 'rgb(255, 255, 255)' }
+]
+{"name":"chromium","theme":"true-black","width":390,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"chromium","theme":"true-black","width":768,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"chromium","theme":"true-black","width":1440,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+content-theme true-black 2 [
+  { bg: 'rgba(0, 0, 0, 0)', fg: 'rgb(212, 212, 216)' },
+  { bg: 'rgba(0, 0, 0, 0)', fg: 'rgb(212, 212, 216)' }
+]
+{"name":"webkit","theme":"light","width":390,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"light","width":768,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"light","width":1440,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"dark","width":390,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"dark","width":768,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"dark","width":1440,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"true-black","width":390,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"true-black","width":768,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}
+{"name":"webkit","theme":"true-black","width":1440,"overflow":false,"violations":[],"errors":["Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."]}

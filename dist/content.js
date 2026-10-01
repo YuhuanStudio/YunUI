@@ -1,7 +1,7 @@
 "use client";
-import { useContentT, ImageLightbox } from './chunk-QEIBYOG2.js';
-export { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-2BWUSALV.js';
+import { useContentT, ImageLightbox } from './chunk-ST6TSBVQ.js';
+export { ImageLightbox } from './chunk-ST6TSBVQ.js';
+import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-YKWRCA2S.js';
 import { cn } from './chunk-V7VJKZ5Q.js';
 import './chunk-3RT24MSH.js';
 import * as React2 from 'react';
@@ -18,6 +18,21 @@ import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import katex from 'katex';
 
+function useContentDarkMode() {
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    const root = document.documentElement;
+    const check = () => {
+      const theme = root.getAttribute("data-theme");
+      setDark(root.classList.contains("dark") || root.classList.contains("true-black") || theme === "dark" || theme === "true-black");
+    };
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(root, { attributes: true, attributeFilter: ["class", "data-theme"] });
+    return () => observer.disconnect();
+  }, []);
+  return dark;
+}
 var languageNames = {
   js: "JavaScript",
   javascript: "JavaScript",
@@ -121,8 +136,8 @@ var shikiLanguageAliases = {
   zsh: "bash"
 };
 var shikiThemes = {
-  "github-dark": () => import('shiki/themes/github-dark-default.mjs'),
-  "github-light": () => import('shiki/themes/github-light-default.mjs')
+  "github-dark-default": () => import('shiki/themes/github-dark-default.mjs'),
+  "github-light-default": () => import('shiki/themes/github-light-default.mjs')
 };
 var contentHighlighterPromise;
 var languageLoadPromises = /* @__PURE__ */ new Map();
@@ -179,20 +194,6 @@ function resolveShikiLanguage(language) {
   if (normalized in shikiLanguages) return normalized;
   return shikiLanguageAliases[normalized] ?? "plaintext";
 }
-function useIsDarkMode() {
-  const [isDark, setIsDark] = useState(false);
-  useEffect(() => {
-    const check = () => setIsDark(document.documentElement.classList.contains("dark"));
-    check();
-    const observer = new MutationObserver(check);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"]
-    });
-    return () => observer.disconnect();
-  }, []);
-  return isDark;
-}
 function CodeBlock({
   children,
   language = "plaintext",
@@ -205,7 +206,7 @@ function CodeBlock({
   const [copied, setCopied] = useState(false);
   const [highlightedCode, setHighlightedCode] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const isDark = useIsDarkMode();
+  const isDark = useContentDarkMode();
   const t = useContentT();
   const code = useMemo(
     () => typeof children === "string" ? children.trim() : String(children).trim(),
@@ -222,7 +223,7 @@ function CodeBlock({
     async function highlight() {
       setIsLoading(true);
       try {
-        const theme = isDark ? "github-dark" : "github-light";
+        const theme = isDark ? "github-dark-default" : "github-light-default";
         const lang = resolveShikiLanguage(language || "plaintext");
         const html = await highlightToHtml(code, {
           lang,
@@ -396,7 +397,7 @@ function MermaidDiagram({
   const [svg, setSvg] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [themeTick, setThemeTick] = useState(0);
+  const isDark = useContentDarkMode();
   const [zoomOpen, setZoomOpen] = useState(false);
   const t = useContentT();
   useEffect(() => {
@@ -407,7 +408,6 @@ function MermaidDiagram({
       const diagramId = `yunui-mermaid-${mermaidSeq += 1}`;
       try {
         const mermaid = (await import('mermaid')).default;
-        const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "default",
@@ -445,16 +445,7 @@ function MermaidDiagram({
     return () => {
       cancelled = true;
     };
-  }, [chart, themeTick]);
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    const observer = new MutationObserver(() => setThemeTick((n) => n + 1));
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"]
-    });
-    return () => observer.disconnect();
-  }, []);
+  }, [chart, isDark]);
   if (error) {
     return /* @__PURE__ */ jsx(
       "div",
@@ -498,6 +489,12 @@ function MermaidDiagram({
       {
         ref: containerRef,
         onClick: enableZoom ? () => setZoomOpen(true) : void 0,
+        onKeyDown: enableZoom ? (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setZoomOpen(true);
+          }
+        } : void 0,
         role: enableZoom ? "button" : void 0,
         "aria-label": enableZoom ? t("zoomDiagram", "Zoom diagram") : void 0,
         tabIndex: 0,
@@ -667,6 +664,7 @@ function MarkdownRenderer({
   content,
   className,
   urlTransform,
+  linkOrigin,
   onCodeEdit,
   renderLink
 }) {
@@ -767,9 +765,14 @@ function MarkdownRenderer({
       pre: ({ children }) => /* @__PURE__ */ jsx(Fragment, { children }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       img: ({ node, ...props }) => /* @__PURE__ */ jsx(ContentImage, { ...props }),
-      a: ({ href, children, ...props }) => {
-        const host = typeof window !== "undefined" ? window.location.host : "";
-        const isExternal = href?.startsWith("http") && !href?.includes(host);
+      a: ({ href, children, node: _node, ...props }) => {
+        let isExternal = Boolean(href && /^(https?:)?\/\//i.test(href));
+        if (isExternal && linkOrigin) {
+          try {
+            isExternal = new URL(href, linkOrigin).origin !== new URL(linkOrigin).origin;
+          } catch {
+          }
+        }
         const override = renderLink?.({ href, children, isExternal: Boolean(isExternal) });
         if (override !== void 0) return override;
         return /* @__PURE__ */ jsxs(
@@ -864,7 +867,7 @@ function MarkdownRenderer({
       sup: ({ children }) => /* @__PURE__ */ jsx("sup", { className: "text-xs", children }),
       del: ({ children }) => /* @__PURE__ */ jsx("del", { className: "text-(--text-tertiary) line-through", children })
     }),
-    [onCodeEdit, renderLink]
+    [onCodeEdit, renderLink, linkOrigin]
   );
   return /* @__PURE__ */ jsx(
     "div",

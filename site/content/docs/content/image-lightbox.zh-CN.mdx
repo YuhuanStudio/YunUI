@@ -1,5 +1,7 @@
 一个受控的全屏图片查看器，通过 portal 渲染到 `document.body`。它支持缩放、旋转、下载与键盘快捷键（`Esc` 关闭、`+` / `-` 缩放、`R` 旋转）。它就是 [`ContentImage`](/docs/content/content-image) 点击时打开的查看器，但你也可以为任意图片自行驱动它：持有打开状态并传入 `isOpen` / `onClose`。
 
+对话框会限制键盘焦点、设置 `aria-modal="true"`、关闭后恢复焦点，并在打开时锁定背景滚动。可通过可选的 `label` 属性设置对话框的无障碍名称；默认使用 `alt`，若为空则使用宿主提供的内容翻译（“Image preview”）。
+
 ## 导入
 
 ```tsx

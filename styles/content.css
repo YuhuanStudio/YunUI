@@ -12,7 +12,9 @@
  * container's left padding; `code` is sized to its widest line (below) so this
  * background spans the whole line even when the block scrolls horizontally. */
 .highlighted-line {
-  background-color: color-mix(in oklab, var(--accent, #6366f1) 12%, transparent);
+  /* Keep syntax tokens above AA on the tinted canvas (12% put red at 4.17:1
+   * in light mode). The solid leading rail still marks the highlighted line. */
+  background-color: color-mix(in oklab, var(--accent, #6366f1) 4%, transparent);
   border-left: 3px solid var(--accent, #6366f1);
   margin-left: -16px;
   padding-left: 13px;

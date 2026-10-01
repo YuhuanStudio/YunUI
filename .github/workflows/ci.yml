@@ -92,13 +92,22 @@ jobs:
       # could not be given an accessible name at all, six components rendering
       # ARIA roles with no name, and badges failing AA — none of which typecheck,
       # tests or a build would ever notice.
-      - name: Install Playwright (chromium)
-        run: pnpm --filter yunui-site exec playwright install --with-deps chromium
+      - name: Install Playwright (chromium and webkit)
+        run: pnpm --filter yunui-site exec playwright install --with-deps chromium webkit
       - name: Accessibility sweep
         run: |
           pnpm --filter yunui-site start -p 3000 &
           npx --yes wait-on http://localhost:3000/docs --timeout 90000
           pnpm --filter yunui-site a11y
+      - name: Content browser regressions (both engines, all themes and sizes)
+        run: PLAYWRIGHT_REUSE_SERVER=1 VISUAL_PORT=3000 pnpm --filter yunui-site exec playwright test content.spec.ts
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-evidence
+          path: site/test-results/
+          retention-days: 14
       - name: Lint package (publint)
         run: pnpm exec publint
 

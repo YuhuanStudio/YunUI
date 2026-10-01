@@ -1,10 +1,10 @@
 "use client";
-import './chunk-SJGVA3AF.js';
+import './chunk-AFVENY4D.js';
 import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-LEBQPP4B.js';
 export { Footer } from './chunk-LEBQPP4B.js';
 import './chunk-GAXVET76.js';
-import { ImageLightbox } from './chunk-QEIBYOG2.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-2BWUSALV.js';
+import { ImageLightbox } from './chunk-ST6TSBVQ.js';
+import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-YKWRCA2S.js';
 import { cn } from './chunk-V7VJKZ5Q.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -1274,6 +1274,10 @@ function SessionItem({
   onRevoke,
   revoking,
   labels,
+  currentLabel,
+  inactiveLabel,
+  runningLabel,
+  revokeLabel,
   className
 }) {
   return /* @__PURE__ */ jsxs(
@@ -1297,13 +1301,13 @@ function SessionItem({
             "data-session-activity-rail": true
           }
         ),
-        running && labels?.running != null && /* @__PURE__ */ jsx("span", { className: "sr-only", children: labels?.running }),
+        running && (labels?.running ?? runningLabel) != null && /* @__PURE__ */ jsx("span", { className: "sr-only", children: labels?.running ?? runningLabel }),
         icon != null && /* @__PURE__ */ jsx("div", { className: "w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0", children: icon }),
         /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
           /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-2", children: [
             /* @__PURE__ */ jsx("span", { className: "block min-w-0 flex-1 truncate text-xs font-medium", children: name }),
-            current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0", children: labels?.current }),
-            inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0", children: labels?.inactive })
+            current && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-success shrink-0", children: labels?.current ?? currentLabel }),
+            inactive && /* @__PURE__ */ jsx("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full badge-neutral shrink-0", children: labels?.inactive ?? inactiveLabel })
           ] }),
           detail && /* @__PURE__ */ jsx("div", { className: "text-[10px] text-(--text-tertiary) mt-0.5 truncate", children: detail }),
           (ip != null || time != null) && /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-2 mt-1 text-[10px] text-(--text-tertiary)", children: [
@@ -1323,8 +1327,8 @@ function SessionItem({
             type: "button",
             onClick: onRevoke,
             disabled: revoking,
-            "aria-label": labels?.revoke,
-            title: labels?.revoke,
+            "aria-label": labels?.revoke ?? revokeLabel,
+            title: labels?.revoke ?? revokeLabel,
             className: "p-1.5 hover:bg-error-soft rounded text-(--text-tertiary) hover:text-error transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring",
             children: revoking ? /* @__PURE__ */ jsx(Loader2, { size: 12, className: "animate-spin" }) : /* @__PURE__ */ jsx(LogOut, { size: 12 })
           }
@@ -1937,6 +1941,9 @@ function NotificationPanel({
   loading,
   empty,
   labels,
+  unreadLabel,
+  loadingLabel,
+  emptyLabel,
   footer,
   children,
   className
@@ -1953,15 +1960,15 @@ function NotificationPanel({
           /* @__PURE__ */ jsx("h3", { className: "text-sm font-semibold", children: title }),
           unreadCount > 0 && /* @__PURE__ */ jsxs("span", { className: "text-[10px] font-medium text-primary", children: [
             unreadCount,
-            labels?.unread ? /* @__PURE__ */ jsxs(Fragment, { children: [
+            labels?.unread ?? unreadLabel ? /* @__PURE__ */ jsxs(Fragment, { children: [
               " ",
-              labels.unread
+              labels?.unread ?? unreadLabel
             ] }) : null
           ] })
         ] }),
-        /* @__PURE__ */ jsx("div", { className: "max-h-[400px] overflow-y-auto px-2 pb-2 flex flex-col gap-1", children: loading ? /* @__PURE__ */ jsx("div", { className: "p-4 text-center text-sm text-muted-foreground", children: labels?.loading }) : empty ? /* @__PURE__ */ jsxs("div", { className: "p-6 text-center", children: [
+        /* @__PURE__ */ jsx("div", { className: "max-h-[400px] overflow-y-auto px-2 pb-2 flex flex-col gap-1", children: loading ? /* @__PURE__ */ jsx("div", { className: "p-4 text-center text-sm text-muted-foreground", children: labels?.loading ?? loadingLabel }) : empty ? /* @__PURE__ */ jsxs("div", { className: "p-6 text-center", children: [
           /* @__PURE__ */ jsx(Bell, { size: 24, className: "mx-auto mb-2 text-muted-foreground/40" }),
-          /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: labels?.empty })
+          /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: labels?.empty ?? emptyLabel })
         ] }) : children }),
         footer && /* @__PURE__ */ jsx("div", { className: "text-center text-xs text-muted-foreground hover:text-foreground transition-colors [&>a]:block [&>a]:py-2.5", children: footer })
       ]

@@ -532,6 +532,14 @@ interface SessionItemProps {
     /** Revoke handler — when set (and not current), shows the revoke button. */
     onRevoke?: () => void;
     revoking?: boolean;
+    /** @deprecated Use labels.current. Retained for 0.2.17 compatibility. */
+    currentLabel?: ReactNode;
+    /** @deprecated Use labels.inactive. Retained for 0.2.17 compatibility. */
+    inactiveLabel?: ReactNode;
+    /** @deprecated Use labels.running. Retained for 0.2.17 compatibility. */
+    runningLabel?: ReactNode;
+    /** @deprecated Use labels.revoke. Retained for 0.2.17 compatibility. */
+    revokeLabel?: string;
     /** Every string this row renders. See CONTRIBUTING.md — a component
      *  needing more than one auxiliary string groups them here. */
     labels?: {
@@ -546,7 +554,7 @@ interface SessionItemProps {
     };
     className?: string;
 }
-declare function SessionItem({ icon, name, detail, ip, time, current, inactive, selected, running, onRevoke, revoking, labels, className, }: SessionItemProps): React$1.JSX.Element;
+declare function SessionItem({ icon, name, detail, ip, time, current, inactive, selected, running, onRevoke, revoking, labels, currentLabel, inactiveLabel, runningLabel, revokeLabel, className, }: SessionItemProps): React$1.JSX.Element;
 
 interface NavStateIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
     /** Shows the indicator in its selected state. */
@@ -727,6 +735,12 @@ interface NotificationPanelProps {
     loading?: boolean;
     /** When true (and not loading) the empty state replaces the children. */
     empty?: boolean;
+    /** @deprecated Use labels.unread. Retained for 0.2.17 compatibility. */
+    unreadLabel?: ReactNode;
+    /** @deprecated Use labels.loading. Retained for 0.2.17 compatibility. */
+    loadingLabel?: ReactNode;
+    /** @deprecated Use labels.empty. Retained for 0.2.17 compatibility. */
+    emptyLabel?: ReactNode;
     /** Every string the panel renders besides `title`. See CONTRIBUTING.md. */
     labels?: {
         /** Word rendered after the unread count (e.g. "unread"). */
@@ -742,7 +756,7 @@ interface NotificationPanelProps {
     children?: ReactNode;
     className?: string;
 }
-declare function NotificationPanel({ title, unreadCount, loading, empty, labels, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
+declare function NotificationPanel({ title, unreadCount, loading, empty, labels, unreadLabel, loadingLabel, emptyLabel, footer, children, className, }: NotificationPanelProps): React$1.JSX.Element;
 
 interface SettingRowProps {
     title: ReactNode;

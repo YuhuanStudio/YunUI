@@ -29,6 +29,12 @@ import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
 />
 ```
 
+`linkOrigin` 可选提供稳定的网站 origin，使 SSR 与浏览器使用相同规则判断链接。同源绝对链接视为站内链接，其他绝对链接视为外链。不传 `linkOrigin` 时，绝对 HTTP(S) 与协议相对 URL 视为外链，相对链接和片段链接视为站内链接。
+
+```tsx
+<MarkdownRenderer content={markdown} linkOrigin="https://example.com" />
+```
+
 ## 属性
 
 <PropsTable name="MarkdownRenderer" />

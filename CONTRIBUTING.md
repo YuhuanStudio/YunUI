@@ -37,11 +37,15 @@ taste:
 | one auxiliary string | `<thing>Label` — `closeLabel`, `dismissLabel`, `retryLabel` |
 | **two or more** auxiliary strings | a single `labels` object |
 
-The threshold matters in both directions. Four scattered `*Label` props is a
-prop list nobody can scan (`SessionItem` had `currentLabel`, `inactiveLabel`,
-`runningLabel`, `revokeLabel`); but `labels={{ back: "…" }}` for a lone string is
-worse than `backLabel="…"`, so don't group one. Sibling components must agree —
-`Pagination` and `BlogPagination` both take `labels: { previous, next }`.
+The threshold matters in both directions. Use one `labels` object for multiple
+related strings; keep a single auxiliary string as `<thing>Label`. Deprecated
+individual props remain supported for compatibility: `SessionItem` has
+`currentLabel`, `inactiveLabel`, `runningLabel`, and `revokeLabel`;
+`NotificationPanel` has `unreadLabel`, `loadingLabel`, and `emptyLabel`;
+`Pagination` has `previousLabel` and `nextLabel`; `ChatComposer` has
+`sendLabel` and `stopLabel`. If both forms are supplied, the `labels` value
+wins for that field. Sibling components should agree — `Pagination` and
+`BlogPagination` both take `labels: { previous, next }`.
 
 ## Project layout
 
@@ -90,11 +94,13 @@ No `useBranding()`, `useAuth()`, `fetch`, `localStorage`, etc. inside a componen
 Take them as props; let the consumer wire a thin wrapper (see Yunxin's `navbar.tsx`
 / `provider-icons.tsx` for the pattern).
 
-### 4. Icon assets are not bundled
+### 4. Icon assets are separate from the JavaScript bundle
 
 `yunui/ai` icons resolve to `<iconBasePath>/providers|models/*.png` (see
-`iconBasePath` adapter). Do not import binary assets into the bundle; the consumer
-hosts them.
+`iconBasePath` adapter). The published package includes these files under
+`icons/`, and the default adapter serves them from jsDelivr at the `@0.2` line.
+Consumers may override `iconBasePath` to self-host or extend the icon set. Do not
+import binary assets into the JavaScript bundle.
 
 ### 5. Styling
 

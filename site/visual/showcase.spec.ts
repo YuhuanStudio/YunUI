@@ -9,7 +9,13 @@ const setBrand = (page: Page, brand = "violet") =>
   }, brand);
 
 const setDark = (page: Page) =>
-  page.evaluate(() => document.documentElement.classList.add("dark"));
+  page.evaluate(() => {
+    localStorage.setItem("theme", "dark");
+    document.documentElement.classList.remove("light", "true-black");
+    document.documentElement.classList.add("dark");
+    document.documentElement.setAttribute("data-theme", "dark");
+    document.documentElement.style.colorScheme = "dark";
+  });
 
 /**
  * Element-level screenshots capture the FIXED navbar wherever it happens to be

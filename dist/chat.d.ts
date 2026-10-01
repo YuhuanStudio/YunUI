@@ -77,6 +77,10 @@ interface ChatComposerProps {
     allowSendEmpty?: boolean;
     /** Max rows before the textarea scrolls. @defaultValue 8 */
     maxRows?: number;
+    /** @deprecated Use labels.send. Retained for 0.2.17 compatibility. */
+    sendLabel?: string;
+    /** @deprecated Use labels.stop. Retained for 0.2.17 compatibility. */
+    stopLabel?: string;
     /** Accessible names for the composer's buttons. */
     labels?: {
         /** Send button. @defaultValue "Send" */
@@ -91,7 +95,7 @@ interface ChatComposerProps {
  * newline), a send/stop button, and slots for attachment previews and a left
  * toolbar. Presentational and controlled — the host owns state and side effects.
  */
-declare function ChatComposer({ value, onChange, onSend, onStop, loading, disabled, placeholder, attachments, toolbar, sendDisabled, allowSendEmpty, maxRows, labels, className, }: ChatComposerProps): React.JSX.Element;
+declare function ChatComposer({ value, onChange, onSend, onStop, loading, disabled, placeholder, attachments, toolbar, sendDisabled, allowSendEmpty, maxRows, labels, sendLabel, stopLabel, className, }: ChatComposerProps): React.JSX.Element;
 
 interface ChatHeaderProps {
     /** Left cluster — sidebar toggle, title, model selector, … */

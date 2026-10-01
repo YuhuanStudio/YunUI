@@ -3,7 +3,7 @@
 How YunUI is structured as a *system* (not just a pile of components extracted
 from one app). Read this before adding or reorganizing components.
 
-## 1. Three layers, three entry points
+## 1. Three layers, six JavaScript entry points
 
 YunUI is deliberately split so the core stays general-purpose and the app-domain
 pieces are quarantined:
@@ -14,8 +14,10 @@ pieces are quarantined:
 | **Patterns** | `@yuhuanowo/yunui/patterns` | StatCard, PageHeader, Sidebar, Footer, FAQ, CodeBlock, BlogCard, page/media states… | Page-level compositions. Still generic, but bigger than a primitive. |
 | **App domain** | `@yuhuanowo/yunui/ai` | ModelCard, ProviderIcon/ModelIcon, CapabilitySelector, ThinkingBlock, Navbar, LanguageSwitcher… | LLM/AI-gateway-shaped product UI. **Only import if you're building that kind of product.** |
 
-Plus `@yuhuanowo/yunui/adapters` (framework injection) and
-`@yuhuanowo/yunui/css` (the stylesheet).
+`@yuhuanowo/yunui/content` provides Markdown/content rendering and
+`@yuhuanowo/yunui/chat` provides chat UI blocks. The six JavaScript entry points
+are `.`, `/patterns`, `/ai`, `/content`, `/chat`, and `/adapters`;
+`@yuhuanowo/yunui/css` is a stylesheet entry.
 
 > Origin note: YunUI was extracted *from* the Yunxin app. The `/ai` split is what
 > keeps that origin from leaking into the core — a generic app stays on `.` +
@@ -23,9 +25,11 @@ Plus `@yuhuanowo/yunui/adapters` (framework injection) and
 
 ## 2. Adapter pattern (no framework lock-in)
 
-Components carry **no copy** and bind **no framework**. Routing, images, i18n and
+Components carry **no app-owned copy** and bind **no framework**. Routing, images, i18n and
 the icon base path are injected once at the root via `YunUIProvider`
-(`@yuhuanowo/yunui/adapters`). Without a provider, zero-dependency defaults are
+(`@yuhuanowo/yunui/adapters`). AI icon files ship in package `icons/` (outside
+the JS bundle) and default to jsDelivr `@0.2`; consumers can self-host by
+overriding `iconBasePath`. Without a provider, zero-dependency defaults are
 used (`<a>`/`<img>`/identity translation). So the same component renders in any
 React app, and Yunxin's Next.js/next-intl wiring lives in Yunxin, not here.
 

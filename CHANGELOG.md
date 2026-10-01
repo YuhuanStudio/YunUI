@@ -11,6 +11,43 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+## [0.2.18] - 2026-10-01
+
+Maintenance release consolidating the changes since 0.2.17. Existing label
+props remain supported; no package split or broad component refactor is included.
+
+### Added
+- **Shared product compositions:** `AccountMenu`, `ArchiveCalendar`, `SectionNav`,
+  `AuthShell`, `DashboardPage`, `StatGrid`, `TableState`, `MembershipCard`, and
+  the marketing kit (`SectionHeading`, `Eyebrow`, `FeatureCard`, `MarketingHero`,
+  `HeroAccent`, `ProseArticle`, `BackLink`, `PullQuote`, `CTASection`).
+- **`CommandPalette`** and `useCommandPaletteShortcut`, plus public
+  `useAnchoredPosition`, `useDismissOnOutside` and `useScrollableTabStop` hooks.
+- **Caching capability badge** distinct from other model capabilities.
+- **`MarkdownRenderer.linkOrigin`** supplies a stable host origin for absolute
+  internal links. Without it, HTTP(S) and protocol-relative links open externally;
+  relative and fragment links stay internal, consistently during SSR and hydration.
+- **`ImageLightbox.label`** overrides its accessible dialog name.
+
+### Fixed
+- **Content syntax highlighting works again.** Shiki now renders with the same
+  canonical `github-light-default` / `github-dark-default` names it loads, rather
+  than silently falling back to plaintext after a missing-theme error.
+- **Highlighted code lines preserve syntax contrast.** Their soft tint is reduced
+  so restored syntax tokens also pass AA on highlighted rows in the showcase.
+- **InlineCode documentation hydrates cleanly.** Its three localized previews
+  no longer produce invalid nested paragraphs during MDX rendering.
+- **Markdown external links no longer trigger hydration errors.** Their rendering
+  no longer depends on `window.location`, and configured internal links compare
+  exact URL origins instead of matching a hostname substring.
+- **Content engines recognize `true-black` and `data-theme`.** Shiki and Mermaid
+  follow all supported theme markers, including runtime changes.
+- **Keyboard-operable diagram previews.** Enter/Space open Mermaid zoom; the
+  lightbox has dialog semantics, contains focus, restores the trigger on close,
+  and shares nested body scroll locking with the other overlays.
+- **Sidebar active matching** no longer highlights a section root alongside its
+  child route; compiled package artifacts include that fix.
+
 ### Fixed
 - **GMI Cloud now has a provider icon and canonical display name.** The `gmi`
   provider previously fell through to the monogram tile in every consumer.
@@ -87,12 +124,14 @@ patch = fixes, anything may change between 0.x releases).
   a `labels` object for two or more. One-string components are deliberately left
   alone — `labels={{ back: "…" }}` is worse than `backLabel="…"`.
 
-  **Breaking**, for four components:
+  **Backward-compatible migration**, for four components:
   `SessionItem` `currentLabel`/`inactiveLabel`/`runningLabel`/`revokeLabel` →
   `labels.{current,inactive,running,revoke}`; `NotificationPanel`
   `unreadLabel`/`loadingLabel`/`emptyLabel` → `labels.{unread,loading,empty}`;
   `Pagination` `previousLabel`/`nextLabel` → `labels.{previous,next}`;
   `ChatComposer` `sendLabel`/`stopLabel` → `labels.{send,stop}`.
+  The old props are retained as deprecated aliases in this release. `labels`
+  takes precedence per field, so existing 0.2.17 consumers keep their copy.
 
 ### Fixed
 - **`Pagination` announced its page buttons in English, always.** Every numbered
@@ -190,9 +229,10 @@ patch = fixes, anything may change between 0.x releases).
   — the failure mode behind `bg-error/10`, `hover:bg-error-soft` and the dead
   `tailwindcss-animate` classes, all of which look perfectly ordinary in review —
   and also fails on `fd-*` leakage from fumadocs; and the axe sweep now exits
-  non-zero. Visual regression stays a local tool (`pnpm test:visual`) and is
-  chromium-only: WebKit could not hold a baseline in the Playwright container,
-  flaking on three or four of twelve tests per run even at a 900 px budget.
+  non-zero, including failed routes and browser runtime errors. CI additionally
+  runs content functional regressions in Chromium and WebKit across light, dark
+  and true-black at mobile, tablet and desktop widths, and uploads browser evidence.
+  Pixel baselines remain Chromium-only; WebKit uses behavioral checks and captures.
 
 ## [0.2.17] - 2026-08-06
 
@@ -1226,7 +1266,16 @@ patch = fixes, anything may change between 0.x releases).
 - tsup build → ESM + `.d.ts`, code-split shared adapter context, `"use client"`
   preserved, deps externalized at Yunxin's exact versions.
 
-[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.9...HEAD
+[Unreleased]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.18...HEAD
+[0.2.18]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.17...v0.2.18
+[0.2.17]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.16...v0.2.17
+[0.2.16]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.15...v0.2.16
+[0.2.15]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.14...v0.2.15
+[0.2.14]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.13...v0.2.14
+[0.2.13]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.12...v0.2.13
+[0.2.12]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.11...v0.2.12
+[0.2.11]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.10...v0.2.11
+[0.2.10]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.9...v0.2.10
 [0.2.9]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.8...v0.2.9
 [0.2.8]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.7...v0.2.8
 [0.2.7]: https://github.com/YuhuanStudio/YunUI/compare/v0.2.6...v0.2.7

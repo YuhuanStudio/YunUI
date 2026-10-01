@@ -147,6 +147,12 @@ export interface NotificationPanelProps {
     loading?: boolean;
     /** When true (and not loading) the empty state replaces the children. */
     empty?: boolean;
+    /** @deprecated Use labels.unread. Retained for 0.2.17 compatibility. */
+    unreadLabel?: ReactNode;
+    /** @deprecated Use labels.loading. Retained for 0.2.17 compatibility. */
+    loadingLabel?: ReactNode;
+    /** @deprecated Use labels.empty. Retained for 0.2.17 compatibility. */
+    emptyLabel?: ReactNode;
     /** Every string the panel renders besides `title`. See CONTRIBUTING.md. */
     labels?: {
         /** Word rendered after the unread count (e.g. "unread"). */
@@ -169,6 +175,9 @@ export function NotificationPanel({
     loading,
     empty,
     labels,
+    unreadLabel,
+    loadingLabel,
+    emptyLabel,
     footer,
     children,
     className,
@@ -185,18 +194,18 @@ export function NotificationPanel({
                 {unreadCount > 0 && (
                     <span className="text-[10px] font-medium text-primary">
                         {unreadCount}
-                        {labels?.unread ? <> {labels.unread}</> : null}
+                        {(labels?.unread ?? unreadLabel) ? <> {labels?.unread ?? unreadLabel}</> : null}
                     </span>
                 )}
             </div>
 
             <div className="max-h-[400px] overflow-y-auto px-2 pb-2 flex flex-col gap-1">
                 {loading ? (
-                    <div className="p-4 text-center text-sm text-muted-foreground">{labels?.loading}</div>
+                    <div className="p-4 text-center text-sm text-muted-foreground">{labels?.loading ?? loadingLabel}</div>
                 ) : empty ? (
                     <div className="p-6 text-center">
                         <Bell size={24} className="mx-auto mb-2 text-muted-foreground/40" />
-                        <p className="text-sm text-muted-foreground">{labels?.empty}</p>
+                        <p className="text-sm text-muted-foreground">{labels?.empty ?? emptyLabel}</p>
                     </div>
                 ) : (
                     children

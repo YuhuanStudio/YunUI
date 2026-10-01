@@ -466,6 +466,10 @@ interface PaginationProps extends Omit<React$1.HTMLAttributes<HTMLElement>, "onC
     siblingCount?: number;
     /** Accessible name for the wrapping nav landmark. @defaultValue "Pagination" */
     ariaLabel?: string;
+    /** @deprecated Use labels.previous. Retained for 0.2.17 compatibility. */
+    previousLabel?: string;
+    /** @deprecated Use labels.next. Retained for 0.2.17 compatibility. */
+    nextLabel?: string;
     /** Every string the control announces. Matches `BlogPagination.labels`. */
     labels?: {
         /** Previous-page button. @defaultValue "Go to previous page" */

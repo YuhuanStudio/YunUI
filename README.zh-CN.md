@@ -115,15 +115,19 @@ import { useTranslations } from "next-intl";
 | `@yuhuanowo/yunui/css` | 设计系统样式(token 变量、`@theme` 映射、`.btn`/`.card`/`.glass` 等全局类、动画 keyframes) |
 | `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` 与适配器接口 |
 | `@yuhuanowo/yunui/patterns` | 页面级组件:FAQ、StatCard(`tone`/`inline`/`valueFirst` 变体)、BlogCard、CodeBlock、Sidebar、PageHeader、BackgroundEffects 等 |
+| `@yuhuanowo/yunui/content` | 内容渲染组件：`MarkdownRenderer`（GFM + KaTeX + Shiki + Mermaid + 提示框 + 惰性缩放图片）、`CodeBlock` / `InlineCode`、`CalloutBlock`、`MathRenderer`、`MermaidDiagram`、`ContentImage`、`ImageLightbox` |
+| `@yuhuanowo/yunui/chat` | 插槽式聊天 UI：`ChatMessage`、`ChatMessageList`、`ChatComposer`、`ChatHeader` |
 | `@yuhuanowo/yunui/ai` | AI 产品域组件(prop 驱动,无 API 直连):ProviderIcon / ModelIcon / ModelTypeIcon、ModelCard、CapabilitySelector、Navbar、Footer、LanguageSwitcher、ThinkingBlock、IDBadge … |
 
 **工具 / hooks**(从 `@yuhuanowo/yunui` 导出):`cn`、`toast` / `Toaster`(基于 sonner)、`MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`、`useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`。
 
-> ⚠️ **`yunui/ai` 的图标素材需要你自备。** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` 会从 `/icons/providers/*.png`、`/icons/models/*.png` 加载图标 —— 这些素材**不随 npm 包发布**(包里只有 `dist` / `styles`)。消费方需把对应图标托管到 `iconBasePath` 指向的位置(默认 `/icons`,可从本仓库 `site/public/icons/` 取),否则图标会显示为裂图。base path 可通过适配器配置:`<YunUIProvider adapters={{ iconBasePath: "/assets/icons" }}>`(也可指向 CDN)。单个自定义图标 URL 通过组件 `iconUrl` prop 传入,原样使用。
+> **`yunui/ai` 图标素材随 npm 包发布在 `icons/`，但不在 JavaScript bundle 中；默认通过 jsDelivr 提供。** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` 从 `iconBasePath` 下的 `/providers/*.png`、`/models/*.png` 加载图标，默认使用 `https://cdn.jsdelivr.net/npm/@yuhuanowo/yunui@0.2/icons`。消费方也可自行托管包内的 `icons/` 并配置 `<YunUIProvider adapters={{ iconBasePath: "/icons" }}>`。单个自定义图标 URL 通过组件 `iconUrl` prop 传入,原样使用。
 >
 > 同样,`./_deferred/ai-search`(文档 AI 搜索)**未导出** —— 它绑定 `@ai-sdk/react` + 聊天栈,是产品功能而非通用组件,导出会给库强加 ai-sdk peer 依赖。
 
 ---
+
+Markdown 渲染器可选接收 `linkOrigin`，让 SSR 与浏览器以相同 origin 判断绝对链接是否站内。不传时，绝对 HTTP(S) 与协议相对链接视为外链，相对链接仍视为站内。`ImageLightbox` 可用 `label` 设置无障碍名称（默认取图片 alt 或内容翻译）；它会限制焦点、声明模态对话框并锁定背景滚动。
 
 ## 主题
 

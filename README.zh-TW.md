@@ -115,15 +115,19 @@ import { useTranslations } from "next-intl";
 | `@yuhuanowo/yunui/css` | 設計系統樣式(token 變數、`@theme` 對應、`.btn`/`.card`/`.glass` 等全域類別、動畫 keyframes) |
 | `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` 與轉接器介面 |
 | `@yuhuanowo/yunui/patterns` | 頁面級元件:FAQ、StatCard(`tone`/`inline`/`valueFirst` 變體)、BlogCard、CodeBlock、Sidebar、PageHeader、BackgroundEffects 等 |
+| `@yuhuanowo/yunui/content` | 內容渲染元件：`MarkdownRenderer`（GFM + KaTeX + Shiki + Mermaid + 提示框 + 惰性縮放圖片）、`CodeBlock` / `InlineCode`、`CalloutBlock`、`MathRenderer`、`MermaidDiagram`、`ContentImage`、`ImageLightbox` |
+| `@yuhuanowo/yunui/chat` | 插槽式聊天 UI：`ChatMessage`、`ChatMessageList`、`ChatComposer`、`ChatHeader` |
 | `@yuhuanowo/yunui/ai` | AI 產品域元件(prop 驅動,無 API 直連):ProviderIcon / ModelIcon / ModelTypeIcon、ModelCard、CapabilitySelector、Navbar、Footer、LanguageSwitcher、ThinkingBlock、IDBadge … |
 
 **工具 / hooks**(從 `@yuhuanowo/yunui` 匯出):`cn`、`toast` / `Toaster`(基於 sonner)、`MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`、`useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`。
 
-> ⚠️ **`yunui/ai` 的圖示素材需要你自備。** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` 會從 `/icons/providers/*.png`、`/icons/models/*.png` 載入圖示 —— 這些素材**不隨 npm 套件發佈**(套件裡只有 `dist` / `styles`)。消費方需把對應圖示託管到 `iconBasePath` 指向的位置(預設 `/icons`,可從本倉庫 `site/public/icons/` 取),否則圖示會顯示為裂圖。base path 可透過轉接器設定:`<YunUIProvider adapters={{ iconBasePath: "/assets/icons" }}>`(也可指向 CDN)。單個自訂圖示 URL 透過元件 `iconUrl` prop 傳入,原樣使用。
+> **`yunui/ai` 圖示素材隨 npm 套件發佈於 `icons/`，但不在 JavaScript bundle 中；預設透過 jsDelivr 提供。** `ProviderIcon` / `ModelIcon` / `ModelAvatar` / `ModelCard` 從 `iconBasePath` 下的 `/providers/*.png`、`/models/*.png` 載入圖示，預設使用 `https://cdn.jsdelivr.net/npm/@yuhuanowo/yunui@0.2/icons`。消費方也可自行託管套件內的 `icons/` 並設定 `<YunUIProvider adapters={{ iconBasePath: "/icons" }}>`。單個自訂圖示 URL 透過元件 `iconUrl` prop 傳入,原樣使用。
 >
 > 同樣,`./_deferred/ai-search`(文件 AI 搜尋)**未匯出** —— 它綁定 `@ai-sdk/react` + 聊天堆疊,是產品功能而非通用元件,匯出會給函式庫強加 ai-sdk peer 相依。
 
 ---
+
+Markdown 渲染器可選接收 `linkOrigin`，讓 SSR 與瀏覽器以相同 origin 判斷絕對連結是否站內。不傳時，絕對 HTTP(S) 與協定相對連結視為外連，相對連結仍視為站內。`ImageLightbox` 可用 `label` 設定無障礙名稱（預設取圖片 alt 或內容翻譯）；它會限制焦點、宣告模態對話框並鎖定背景捲動。
 
 ## 主題
 

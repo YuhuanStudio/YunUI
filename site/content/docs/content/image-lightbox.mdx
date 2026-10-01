@@ -1,5 +1,7 @@
 A controlled, full-screen image viewer rendered into a portal on `document.body`. It supports zoom, rotate, download and keyboard shortcuts (`Esc` to close, `+` / `-` to zoom, `R` to rotate). It's the viewer that [`ContentImage`](/docs/content/content-image) opens on click, but you can drive it yourself for any image: hold the open state and pass `isOpen` / `onClose`.
 
+The dialog traps keyboard focus, sets `aria-modal="true"`, restores focus after closing, and locks background scrolling while open. Set the optional `label` prop to provide the dialog's accessible name; by default it uses `alt`, then the host's content translation (“Image preview”).
+
 ## Import
 
 ```tsx

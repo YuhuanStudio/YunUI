@@ -10,9 +10,8 @@
  * a dozen real defects, including a Checkbox that could not be given an
  * accessible name at all.
  *
- * Known remaining: one `color-contrast` from Shiki's `github-light` token
- * palette (#e36209 at 3.48:1) and one from fumadocs' own TOC. Both are
- * third-party palettes, not YunUI's.
+ * Failed routes and browser runtime errors are failures too: an unrendered
+ * page is not an accessibility pass.
  */
 import { chromium } from '@playwright/test';
 import fs from 'fs';
@@ -27,11 +26,13 @@ const DEFAULT_TARGETS = [
 const targets = process.argv[2] ? JSON.parse(process.argv[2]) : DEFAULT_TARGETS;
 const b = await chromium.launch();
 const all = {};
+const failures = [];
 for (const { name, url, vp } of targets) {
   const p = await b.newPage({ viewport: { width: vp ?? 1440, height: 900 } });
+  p.on('pageerror', error => failures.push(`${name}: ${error.message}`));
   try {
     const res = await p.goto(url, { waitUntil: 'networkidle', timeout: 25000 });
-    if (!res || res.status() >= 400) { console.log(`${name}: HTTP ${res?.status()}`); await p.close(); continue; }
+    if (!res || res.status() >= 400) { throw new Error(`HTTP ${res?.status()}`); }
     await p.waitForTimeout(1200);
     await p.addScriptTag({ content: AXE });
     const r = await p.evaluate(async () => await window.axe.run(document, {
@@ -44,7 +45,7 @@ for (const { name, url, vp } of targets) {
       for (const n of v.nodes.slice(0, 2)) all[key].nodes.push(`${name}: ${n.target.join(' ')} — ${(n.failureSummary||'').split('\n')[1]?.trim()||''}`.slice(0,190));
     }
     console.log(`${name.padEnd(28)} ${r.violations.length} violation types`);
-  } catch (e) { console.log(`${name}: ERROR ${e.message.slice(0,80)}`); }
+  } catch (e) { failures.push(`${name}: ${e.message}`); }
   await p.close();
 }
 await b.close();
@@ -58,4 +59,5 @@ for (const [id, v] of Object.entries(all).sort((a,b)=>(order[a[1].impact]??9)-(o
 
 // Non-zero exit so CI gates on this rather than printing into the void.
 const total = Object.keys(all).length;
-if (total) { console.error(`\n${total} violation type(s) — failing.`); process.exit(1); }
+if (failures.length) console.error(failures.join('\n'));
+if (total || failures.length) { console.error(`\n${total} violation type(s), ${failures.length} runtime/route failure(s) — failing.`); process.exit(1); }

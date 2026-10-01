@@ -41,6 +41,12 @@ interface MarkdownRendererProps {
      */
     urlTransform?: (url: string) => string;
     /**
+     * Stable origin used to recognize same-origin absolute links, in SSR and the
+     * browser alike (e.g. "https://example.com"). Without it, absolute HTTP(S)
+     * links open externally; relative and fragment links remain internal.
+     */
+    linkOrigin?: string;
+    /**
      * When provided, code blocks show an "Edit" button that calls this with the
      * code payload (e.g. open it in an editor). Hidden if unset.
      */
@@ -62,7 +68,7 @@ interface MarkdownRendererProps {
  * and lazy, zoomable images. Requires `katex/dist/katex.min.css` and the YunUI
  * content styles to be imported by the host app.
  */
-declare function MarkdownRenderer({ content, className, urlTransform, onCodeEdit, renderLink, }: MarkdownRendererProps): React.JSX.Element;
+declare function MarkdownRenderer({ content, className, urlTransform, linkOrigin, onCodeEdit, renderLink, }: MarkdownRendererProps): React.JSX.Element;
 
 type CalloutType = "note" | "tip" | "important" | "warning" | "caution" | "success";
 interface CalloutBlockProps {
@@ -123,6 +129,8 @@ interface ImageLightboxProps {
     /** Image URL to view. Omit when providing custom `children` (e.g. an SVG). */
     src?: string;
     alt?: string;
+    /** Accessible dialog name; defaults to alt or the host's content translation. */
+    label?: string;
     isOpen: boolean;
     onClose: () => void;
     /**
@@ -136,7 +144,7 @@ interface ImageLightboxProps {
  * (Esc / +/- / R). Views an image (`src`) or any custom `children` (e.g. an
  * inline SVG diagram). Rendered into a portal on `document.body`.
  */
-declare function ImageLightbox({ src, alt, isOpen, onClose, children }: ImageLightboxProps): React.ReactPortal | null;
+declare function ImageLightbox({ src, alt, label, isOpen, onClose, children }: ImageLightboxProps): React.JSX.Element | null;
 
 interface ContentImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     /** Open a zoom/rotate/download lightbox on click. @defaultValue true */

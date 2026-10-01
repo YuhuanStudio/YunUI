@@ -76,7 +76,9 @@ driven from JS via `applyTheme()` / `useYunUITheme()`.
     add the prop in the same change, and document it. Grep for regressions with
     `rg 'aria-label="[A-Za-z]|title="[A-Za-z]' src --glob '!**/__tests__/**'`
     — every hit should be a JSX expression with a `??`, not a bare literal.
-- AI icon assets are **not bundled**; consumers host them and set `iconBasePath`.
+- AI icon assets live in the published package's `icons/` directory, but are **not
+  part of the JavaScript bundle**. The default `iconBasePath` serves them from
+  jsDelivr's `@0.2` package line; consumers may self-host and override the path.
   Icon components must degrade gracefully (fallback, no crash) when assets/ids are missing.
 - Docs demos: write the JSX children inside `<ComponentPreview>`; the `code` tab is
   auto-derived from that source by `site/lib/mdx-plugins/remark-demo-source.mjs`.
@@ -98,14 +100,20 @@ Every UI change must be screenshotted and visually inspected across the full mat
 - **Multiple device sizes:** at least mobile (~390px), tablet (~768px), desktop (~1440px).
 - **Both themes:** light and dark (and, when the change touches palettes, an opt-in brand).
 
-How: drive the built site / app with Playwright (`site/visual/` already has the config,
-`capture.mjs`, and the `chromium`+`webkit` projects). Start the target (`pnpm build && pnpm
+How: drive the built site / app with Playwright (`site/playwright.config.ts`
+provides Chromium pixel baselines and Chromium + WebKit content regressions). Start the target (`pnpm build && pnpm
 start`, or the consumer's server), capture the changed sections/pages across the matrix,
 then **actually open the PNGs and inspect them** — don't just confirm the files exist.
 Install browsers once with `npx playwright install chromium webkit`.
 
 Report findings honestly: if a diagram is stuck loading, a layout breaks at mobile, or
 dark mode has contrast issues, say so and fix it — that's the whole point of looking.
+
+`site/visual/content.spec.ts` checks real highlights, hydration, keyboard/dialog
+behavior, overflow and accessibility in both engines at 390 / 768 / 1440px in
+light, dark and true-black. CI runs this matrix and retains browser evidence.
+WebKit has no committed pixel baselines because those proved non-deterministic;
+its functional checks and manually inspected captures remain required.
 
 ## Releasing (only when asked)
 

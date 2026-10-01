@@ -1069,6 +1069,20 @@
       "description": "Force-disable the send button even with text (e.g. invalid state)."
     },
     {
+      "name": "sendLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.send. Retained for 0.2.17 compatibility."
+    },
+    {
+      "name": "stopLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.stop. Retained for 0.2.17 compatibility."
+    },
+    {
       "name": "toolbar",
       "type": "ReactNode",
       "required": false,
@@ -1381,6 +1395,13 @@
       "description": ""
     },
     {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible dialog name; defaults to alt or the host's content translation."
+    },
+    {
       "name": "onClose",
       "type": "() => void",
       "required": true,
@@ -1460,6 +1481,13 @@
       "required": true,
       "defaultValue": null,
       "description": ""
+    },
+    {
+      "name": "linkOrigin",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Stable origin used to recognize same-origin absolute links, in SSR and the\nbrowser alike (e.g. \"https://example.com\"). Without it, absolute HTTP(S)\nlinks open externally; relative and fragment links remain internal."
     },
     {
       "name": "onCodeEdit",
@@ -3159,6 +3187,13 @@
       "description": "When true (and not loading) the empty state replaces the children."
     },
     {
+      "name": "emptyLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.empty. Retained for 0.2.17 compatibility."
+    },
+    {
       "name": "footer",
       "type": "ReactNode",
       "required": false,
@@ -3180,6 +3215,13 @@
       "description": ""
     },
     {
+      "name": "loadingLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.loading. Retained for 0.2.17 compatibility."
+    },
+    {
       "name": "title",
       "type": "ReactNode",
       "required": true,
@@ -3192,6 +3234,13 @@
       "required": false,
       "defaultValue": "0",
       "description": "Unread count shown in the header; hidden when 0."
+    },
+    {
+      "name": "unreadLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.unread. Retained for 0.2.17 compatibility."
     }
   ],
   "PageHeader": [
@@ -3542,6 +3591,13 @@
       "description": "Marks the current session — shows a badge and hides the revoke button."
     },
     {
+      "name": "currentLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.current. Retained for 0.2.17 compatibility."
+    },
+    {
       "name": "detail",
       "type": "ReactNode",
       "required": false,
@@ -3561,6 +3617,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Dims the row and shows an \"inactive\" badge."
+    },
+    {
+      "name": "inactiveLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.inactive. Retained for 0.2.17 compatibility."
     },
     {
       "name": "ip",
@@ -3591,6 +3654,13 @@
       "description": "Revoke handler — when set (and not current), shows the revoke button."
     },
     {
+      "name": "revokeLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.revoke. Retained for 0.2.17 compatibility."
+    },
+    {
       "name": "revoking",
       "type": "boolean",
       "required": false,
@@ -3603,6 +3673,13 @@
       "required": false,
       "defaultValue": null,
       "description": "Shows a pulsing leading activity rail and exposes aria-busy."
+    },
+    {
+      "name": "runningLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.running. Retained for 0.2.17 compatibility."
     },
     {
       "name": "selected",
@@ -9552,6 +9629,13 @@
       "description": "Every string the control announces. Matches `BlogPagination.labels`."
     },
     {
+      "name": "nextLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.next. Retained for 0.2.17 compatibility."
+    },
+    {
       "name": "onPageChange",
       "type": "(page: number) => void",
       "required": true,
@@ -9564,6 +9648,13 @@
       "required": true,
       "defaultValue": null,
       "description": "The active page (1-based)."
+    },
+    {
+      "name": "previousLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "@deprecated Use labels.previous. Retained for 0.2.17 compatibility."
     },
     {
       "name": "siblingCount",
