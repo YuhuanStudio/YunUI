@@ -33,13 +33,13 @@ export function ChatAttachment({
   ...props
 }: ChatAttachmentProps) {
   const boundedProgress =
-    typeof progress === "number" ? Math.max(0, Math.min(100, progress)) : undefined;
+    typeof progress === "number" && Number.isFinite(progress) ? Math.max(0, Math.min(100, progress)) : undefined;
 
   return (
     <div
       className={cn(
-        "group relative flex min-w-0 items-center gap-2.5 rounded-xl border border-border/70 bg-muted/35 px-2.5 py-2",
-        "transition-colors hover:bg-muted/60",
+        "group relative flex min-w-0 items-center gap-2 rounded-lg border border-border/70 bg-muted/50 px-2 py-1.5 text-foreground",
+        "transition-colors hover:bg-muted/70",
         // Was a bare `error` colour name with an alpha modifier, which emits
         // nothing: `error` is a CSS custom property, not a registered Tailwind
         // palette colour, so the tint was invisible. The `-soft` helpers are real.
@@ -48,14 +48,14 @@ export function ChatAttachment({
       )}
       {...props}
     >
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted text-muted-foreground">
+      <div className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-md text-muted-foreground">
         {preview ?? icon ?? <FileText aria-hidden className="h-4 w-4" />}
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="truncate text-xs font-medium text-foreground">{name}</div>
-        {meta ? (
-          <div className={cn("truncate text-[11px] text-muted-foreground", status === "error" && "text-error")}>
+        <div className="truncate text-[11.5px] font-medium leading-4 text-foreground">{name}</div>
+        {meta != null ? (
+          <div className={cn("truncate text-[10.5px] leading-4 text-muted-foreground", status === "error" && "text-error")}>
             {meta}
           </div>
         ) : null}

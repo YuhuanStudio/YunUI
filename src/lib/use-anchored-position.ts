@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 // SSR-safe layout effect: useLayoutEffect on the client, no-op on the server
 // (effects don't run during SSR, and this avoids React's dev warning).
@@ -14,6 +14,8 @@ export interface AnchoredPosition {
     /** Cap (px) so the panel can't run off the edge; pair with an internal scroll
      *  region (`flex-1 min-h-0` / `overflow-y-auto`). */
     maxHeight?: number;
+    /** Optional width cap for panels that must fit a narrow clipping ancestor. */
+    maxWidth?: number;
     /** Which side of the trigger to render on. `"top"` when there isn't room
      *  below but there is above — the consumer flips `top-full mt-*` to
      *  `bottom-full mb-*`. Defaults to `"bottom"`. */
@@ -84,19 +86,14 @@ function getClippingBounds(element: HTMLElement): ClippingBounds {
 export function useAnchoredPosition(
     open: boolean,
     panelRef: React.RefObject<HTMLElement | null>,
-    opts?: { gutter?: number; minHeight?: number },
+    opts?: { gutter?: number; minHeight?: number; maxWidth?: number },
 ): AnchoredPosition {
     const gutter = opts?.gutter ?? 8;
     const minHeight = opts?.minHeight ?? 160;
-    const [pos, setPos] = useState<AnchoredPosition>({ shift: 0, maxHeight: undefined, placement: "bottom" });
-    // The shift currently baked into the panel's margin — subtract it to recover
-    // the natural box on each recompute (otherwise it would drift).
-    const shiftRef = useRef(0);
-
+    const [pos, setPos] = useState<AnchoredPosition>({ shift: 0, maxHeight: undefined, maxWidth: undefined, placement: "bottom" });
     useIsoLayoutEffect(() => {
         if (!open) {
-            shiftRef.current = 0;
-            setPos({ shift: 0, maxHeight: undefined, placement: "bottom" });
+            setPos({ shift: 0, maxHeight: undefined, maxWidth: undefined, placement: "bottom" });
             return;
         }
         const el = panelRef.current;
@@ -109,11 +106,24 @@ export function useAnchoredPosition(
         const compute = () => {
             const parentRect = parent.getBoundingClientRect();
             const bounds = getClippingBounds(el);
+            const availableWidth = Math.max(0, bounds.right - bounds.left - gutter * 2);
+            const maxWidth = opts?.maxWidth === undefined
+                ? undefined
+                : Math.min(opts.maxWidth, availableWidth);
+            const naturalWidth = maxWidth === undefined
+                ? el.offsetWidth
+                : Math.min(el.offsetWidth, maxWidth);
 
             // Natural (un-shifted) box in viewport coords. offsetLeft includes the
-            // applied marginLeft, so remove the current shift first.
-            const naturalLeft = parentRect.left + el.offsetLeft - shiftRef.current;
-            const naturalRight = naturalLeft + el.offsetWidth;
+            // horizontal margin currently applied to the DOM. Read the committed
+            // inline margins instead of a ref to the next React state: ResizeObserver
+            // or scroll can fire between measuring and React committing a new shift.
+            // margin-left moves the box right; margin-right moves it left. offsetLeft
+            // stays untransformed, which matters for animated panels.
+            const appliedShift = (Number.parseFloat(el.style.marginLeft) || 0)
+                - (Number.parseFloat(el.style.marginRight) || 0);
+            const naturalLeft = parentRect.left + el.offsetLeft - appliedShift;
+            const naturalRight = naturalLeft + naturalWidth;
             let dx = 0;
             if (naturalRight > bounds.right - gutter) dx = bounds.right - gutter - naturalRight;
             if (naturalLeft + dx < bounds.left + gutter) dx = bounds.left + gutter - naturalLeft;
@@ -133,25 +143,23 @@ export function useAnchoredPosition(
             // wins over the preferred minimum on genuinely small containers.
             const maxHeight = naturalHeight > side ? side : undefined;
 
-            shiftRef.current = dx;
             setPos((current) => (
                 current.shift === dx
                 && current.maxHeight === maxHeight
+                && current.maxWidth === maxWidth
                 && current.placement === placement
                     ? current
-                    : { shift: dx, maxHeight, placement }
+                    : { shift: dx, maxHeight, maxWidth, placement }
             ));
         };
 
-        // Coalesce SCROLL into one measurement per frame. compute() reads layout
-        // (getBoundingClientRect / scrollHeight); a panel subscribes to the scroll
-        // of every ancestor via capture, so running compute synchronously on each
-        // scroll event forces a reflow per event and thrashes on fast scroll. rAF
-        // batches a burst of scroll callbacks into a single pass. Resize and the
-        // ResizeObserver stay synchronous: they're low-frequency and signal a real
-        // box change that must remeasure promptly (no one-frame placement flash).
+        // Coalesce scroll and ResizeObserver measurements into one frame. A resize
+        // observer may run before the browser has laid out a just-committed margin
+        // correction; measuring synchronously there can apply that correction twice.
+        // The initial open measurement and window resize remain synchronous, while
+        // this frame reads the committed, untransformed offsets after layout.
         let frame = 0;
-        const scheduleScroll = () => {
+        const scheduleMeasure = () => {
             if (frame) return;
             frame = requestAnimationFrame(() => {
                 frame = 0;
@@ -166,21 +174,21 @@ export function useAnchoredPosition(
         // without emitting a window resize event. Observe every box that feeds
         // the calculation so placement and height stay current.
         const resizeObserver = typeof ResizeObserver !== "undefined"
-            ? new ResizeObserver(compute)
+            ? new ResizeObserver(scheduleMeasure)
             : null;
         if (resizeObserver) {
             const observed = new Set<HTMLElement>([el, parent, ...getClippingAncestors(el)]);
             observed.forEach((element) => resizeObserver.observe(element));
         }
         window.addEventListener("resize", compute);
-        window.addEventListener("scroll", scheduleScroll, { capture: true, passive: true });
+        window.addEventListener("scroll", scheduleMeasure, { capture: true, passive: true });
         return () => {
             if (frame) cancelAnimationFrame(frame);
             resizeObserver?.disconnect();
             window.removeEventListener("resize", compute);
-            window.removeEventListener("scroll", scheduleScroll, true);
+            window.removeEventListener("scroll", scheduleMeasure, true);
         };
-    }, [open, gutter, minHeight, panelRef]);
+    }, [open, gutter, minHeight, opts?.maxWidth, panelRef]);
 
     return pos;
 }

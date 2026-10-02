@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { useRef, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import {
   Waves,
   Eye,
@@ -79,21 +79,47 @@ export function ModelCard({
   className = "",
 }: ModelCardProps) {
   const { Image } = useYunUI();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const selectionOnPointerDown = useRef<string | null>(null);
   const shownCaps = capabilities.filter((c) => CAPABILITY_ICONS[c]).slice(0, 4);
+
+  const handleCardPointerDown = () => {
+    selectionOnPointerDown.current = window.getSelection()?.toString() ?? "";
+  };
+
+  const handleCardClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!onClick) return;
+    const target = event.target;
+    if (target instanceof Element && target.closest("button, a, input, select, textarea, label, summary, [contenteditable='true'], [tabindex]:not([tabindex='-1']), [role='button'], [role='link'], [role='menuitem'], [role='checkbox'], [role='radio'], [role='switch'], [role='combobox'], [role='textbox'], [role='slider'], [role='option'], [role='tab'], [role='treeitem'], [data-model-card-interactive]")) return;
+    const selection = window.getSelection();
+    const selectedText = selection?.toString() ?? "";
+    const previousSelection = selectionOnPointerDown.current;
+    selectionOnPointerDown.current = null;
+    if (selectedText && previousSelection !== null && selectedText !== previousSelection && selection?.anchorNode && cardRef.current?.contains(selection.anchorNode)) return;
+    if (selectedText && previousSelection === null && selection?.anchorNode && cardRef.current?.contains(selection.anchorNode)) return;
+    onClick();
+  };
 
   return (
     <div
-      onClick={onClick}
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onKeyDown={(e) => {
-        if (onClick && (e.key === "Enter" || e.key === " ")) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      className={`card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`}
+      ref={cardRef}
+      onPointerDown={handleCardPointerDown}
+      onClick={handleCardClick}
+      className={`card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col relative ${className}`}
     >
+      {onClick && (
+        <button
+          type="button"
+          aria-label={name}
+          data-model-card-action
+          onClick={(event) => {
+            event.stopPropagation();
+            onClick();
+          }}
+          className="absolute inset-0 z-0 rounded-[inherit] border-0 bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        />
+      )}
+      <div className={onClick ? "relative z-[1] flex flex-1 flex-col" : undefined}>
       {/* Header: icon + capability chips */}
       <div className="flex items-start justify-between mb-3">
         {icon}
@@ -138,7 +164,7 @@ export function ModelCard({
 
       {/* Description */}
       <div className="text-xs text-muted-foreground line-clamp-2 mb-3 min-h-[2.5em]">
-        {description || <span className="opacity-40">{labels?.noDescription ?? "No description"}</span>}
+        {description ?? <span className="opacity-40">{labels?.noDescription ?? "No description"}</span>}
       </div>
 
       {/* Footer: developer + context/tier/price */}
@@ -158,8 +184,9 @@ export function ModelCard({
               {tier}
             </span>
           )}
-          {price && <span className="font-mono">{price}</span>}
+          {price != null && <span className="font-mono">{price}</span>}
         </div>
+      </div>
       </div>
     </div>
   );

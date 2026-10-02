@@ -1,10 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Check as CheckIcon, Copy as CopyIcon } from "lucide-react";
 import { cn } from "../lib/cn";
 import { useYunUI } from "../adapters/context";
 import { copyToClipboard } from "../lib/clipboard";
+import {
+    CODE_BLOCK_FOLD_THRESHOLD,
+    captureCodeBlockScroll,
+    codeLineCount,
+    codeLineCountLabel,
+    previewCode,
+    restoreCodeBlockScroll,
+    scheduleCodeBlockScrollRestore,
+    translateCodeBlockLabel,
+    type CodeBlockScrollSnapshot,
+} from "../lib/code-block";
+
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 interface Tab {
     /** Unique tab id. */
@@ -24,7 +37,7 @@ interface CodeBlockProps {
     language?: string;
     /** Filename shown in the header instead of the language badge. */
     filename?: string;
-    /** Show line numbers in the gutter. @defaultValue true */
+    /** Show line numbers in the gutter. @defaultValue false */
     showLineNumbers?: boolean;
     /** Show the copy-to-clipboard button. @defaultValue true */
     copyable?: boolean;
@@ -113,6 +126,9 @@ function tokenizeLine(line: string): Token[] {
             }
         }
 
+        // Keep unmatched quotes/backticks and characters outside the ASCII
+        // tokenizer's grammar visible instead of silently dropping them.
+        tokens.push({ type: 'text', value: line[pos] });
         pos++;
         remaining = line.slice(pos);
     }
@@ -151,136 +167,262 @@ function renderLine(line: string): string {
     }).join('');
 }
 
-function highlightCode(code: string): string {
+function highlightCode(code: string, showLineNumbers: boolean): string {
     const lines = code.split('\n');
     return lines.map((line, i) => {
-        const rendered = renderLine(line) || '&nbsp;';
+        const rendered = renderLine(line) || '<br />';
         // Line numbers: --text-tertiary at full opacity on hover, not --text-muted
     // at 50%. They are meant to be quiet — they only appear on hover at all —
     // but #52525b is 2.57:1 before the opacity even applies, and half of that
     // is invisible. Being subtle and being unreadable are different goals.
-    return `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${rendered}</span></div>`;
+    const lineNumber = showLineNumbers
+        ? `<span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span>`
+        : '';
+    return `<div class="table-row group">${lineNumber}<span class="table-cell">${rendered}</span></div>`;
     }).join('');
 }
 
-/** Styled code block with a window-chrome header, optional tabs, line numbers, basic syntax highlighting, and copy. */
+/** Lightweight-tokenized code with compact metadata, selectable formats, full copy, and long-code disclosure. */
 export function CodeBlock({
     code,
     language = "text",
     filename,
-    showLineNumbers = true,
+    showLineNumbers = false,
     copyable = true,
     className,
     tabs,
 }: CodeBlockProps) {
-    const t = useYunUI().useT("common");
+    const translate = useYunUI().useT("common");
     const [copied, setCopied] = useState(false);
-    const [highlightedHtml, setHighlightedHtml] = useState('');
-    const [activeTab, setActiveTab] = useState(0);
+    const [copyError, setCopyError] = useState(false);
+    const [expanded, setExpanded] = useState(false);
+    const [activeTabId, setActiveTabId] = useState<string | null>(null);
+    const codeRegionRef = useRef<HTMLPreElement>(null);
+    const headerRef = useRef<HTMLDivElement>(null);
+    const copyButtonRef = useRef<HTMLButtonElement>(null);
+    const disclosureRef = useRef<HTMLButtonElement>(null);
+    const disclosureScroll = useRef<CodeBlockScrollSnapshot | null>(null);
+    const restoreExpandedFocus = useRef(false);
+    const restoreDisclosureFocus = useRef(false);
+    const codeBlockId = useId();
+    const copyRequestRef = useRef(0);
+    const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const hasTabs = Boolean(tabs?.length);
+    const activeTabData = hasTabs
+        ? tabs?.find((tab) => tab.id === activeTabId) ?? tabs?.[0]
+        : undefined;
+    const resolvedActiveTabId = activeTabData?.id ?? null;
+    const currentCode = activeTabData ? activeTabData.code : code;
+    const currentLanguage = activeTabData?.language || language;
+    const previousCopyPayloadRef = useRef(currentCode);
+    const lineCount = codeLineCount(currentCode);
+    const foldable = lineCount > CODE_BLOCK_FOLD_THRESHOLD;
+    const shownCode = foldable && !expanded ? previewCode(currentCode) : currentCode;
+    const highlightedHtml = useMemo(
+        () => highlightCode(shownCode, showLineNumbers),
+        [shownCode, showLineNumbers],
+    );
 
-    // Use active tab code if tabs are provided, otherwise use the code prop
-    const currentCode = tabs?.[activeTab]?.code || code;
-    const currentLanguage = tabs?.[activeTab]?.language || language;
+    const codeRegionLabel = translateCodeBlockLabel(
+        translate,
+        "scrollRegion",
+        `${currentLanguage} code, ${codeLineCountLabel(lineCount)}`,
+        { language: currentLanguage, count: lineCount },
+    );
+    const copyFullLabel = translateCodeBlockLabel(translate, "copyFull", "Copy full code");
+    const copyErrorLabel = translateCodeBlockLabel(
+        translate,
+        "copyError",
+        "Clipboard access was denied. Select the code and copy it manually.",
+    );
+    const scrollCueLabel = translateCodeBlockLabel(translate, "scrollHorizontally", "Scroll horizontally");
+    const showAllLabel = translateCodeBlockLabel(
+        translate,
+        "showAll",
+        `Show all ${lineCount} lines`,
+        { count: lineCount },
+    );
+    const showLessLabel = translateCodeBlockLabel(translate, "showLess", "Show less");
+    const tabGroupLabel = translateCodeBlockLabel(translate, "tabGroup", "Code sample formats");
 
-    useEffect(() => {
-        setHighlightedHtml(highlightCode(currentCode));
+    useIsomorphicLayoutEffect(() => {
+        if (activeTabId !== resolvedActiveTabId) setActiveTabId(resolvedActiveTabId);
+    }, [activeTabId, resolvedActiveTabId]);
+
+    useIsomorphicLayoutEffect(() => {
+        if (previousCopyPayloadRef.current === currentCode) return;
+        previousCopyPayloadRef.current = currentCode;
+        copyRequestRef.current += 1;
+        setCopied(false);
+        setCopyError(false);
+        if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+        copyTimeoutRef.current = null;
     }, [currentCode]);
 
+    useEffect(() => () => {
+        copyRequestRef.current += 1;
+        if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+    }, []);
+
+    useIsomorphicLayoutEffect(() => {
+        if (!disclosureScroll.current) return;
+        const snapshot = disclosureScroll.current;
+        if (expanded && restoreExpandedFocus.current) {
+            restoreExpandedFocus.current = false;
+            codeRegionRef.current?.focus({ preventScroll: true });
+        }
+        if (!expanded && restoreDisclosureFocus.current) {
+            restoreDisclosureFocus.current = false;
+            disclosureRef.current?.focus({ preventScroll: true });
+        }
+        restoreCodeBlockScroll(snapshot);
+        return scheduleCodeBlockScrollRestore(snapshot, () => {
+            if (disclosureScroll.current === snapshot) disclosureScroll.current = null;
+        });
+    }, [expanded]);
+
     const handleCopy = async () => {
-        if (!(await copyToClipboard(currentCode))) return;
+        const requestId = ++copyRequestRef.current;
+        const payload = currentCode;
+        if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+        copyTimeoutRef.current = null;
+        setCopied(false);
+        setCopyError(false);
+        if (!(await copyToClipboard(payload))) {
+            if (requestId !== copyRequestRef.current) return;
+            setCopied(false);
+            setCopyError(true);
+            return;
+        }
+        if (requestId !== copyRequestRef.current) return;
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        copyTimeoutRef.current = setTimeout(() => {
+            if (requestId !== copyRequestRef.current) return;
+            setCopied(false);
+            copyTimeoutRef.current = null;
+        }, 2000);
     };
 
-    const handleTabChange = (index: number) => {
-        setActiveTab(index);
+    const handleTabChange = (id: string) => {
+        setActiveTabId(id);
+        setCopied(false);
+        setCopyError(false);
     };
 
-    // max-w-full + min-w-0: in a flex/grid parent the card would otherwise grow
-    // to the (wide) code's intrinsic width and overflow the page on mobile —
-    // instead it stays within its container and the <pre> scrolls.
+    const toggleExpanded = () => {
+        const nextExpanded = !expanded;
+        disclosureScroll.current = captureCodeBlockScroll(disclosureRef.current);
+        restoreExpandedFocus.current = nextExpanded;
+        restoreDisclosureFocus.current = !nextExpanded;
+        setExpanded(nextExpanded);
+    };
+
+    const handleCodeKeyDown = (event: React.KeyboardEvent<HTMLPreElement>) => {
+        const region = event.currentTarget;
+        if (foldable && expanded && event.key === "Tab") {
+            const headerButtons = headerRef.current?.querySelectorAll<HTMLButtonElement>("button");
+            const previousControl = copyButtonRef.current ?? headerButtons?.[headerButtons.length - 1] ?? null;
+            const nextControl = event.shiftKey ? previousControl : disclosureRef.current;
+            if (nextControl) {
+                event.preventDefault();
+                nextControl.focus();
+                return;
+            }
+        }
+        const before = region.scrollLeft;
+        if (event.key === "ArrowRight" && region.scrollWidth > region.clientWidth) {
+            region.scrollLeft += 48;
+        } else if (event.key === "ArrowLeft" && region.scrollWidth > region.clientWidth) {
+            region.scrollLeft -= 48;
+        } else {
+            return;
+        }
+        if (region.scrollLeft !== before) event.preventDefault();
+    };
+
+    const legacyCopy = translate("copy");
+    const legacyCopied = translate("copied");
+    const copyText = !legacyCopy || legacyCopy === "copy" || legacyCopy.endsWith(".copy") ? "Copy" : legacyCopy;
+    const copiedText = !legacyCopied || legacyCopied === "copied" || legacyCopied.endsWith(".copied") ? "Copied" : legacyCopied;
+
     return (
-        <div className={cn("card overflow-hidden max-w-full min-w-0", className)}>
-            <div className="flex items-center justify-between px-4 py-2.5 border-b border-(--border-hairline) bg-(--bg-elevated)">
-                <div className="flex items-center gap-2.5">
-                    <div className="flex gap-1">
-                        <div className="w-2 h-2 rounded-full bg-(--error) opacity-80" />
-                        <div className="w-2 h-2 rounded-full bg-(--warning) opacity-80" />
-                        <div className="w-2 h-2 rounded-full bg-(--success) opacity-80" />
-                    </div>
-                    {tabs && tabs.length > 0 ? (
-                        <div className="flex items-center gap-1">
-                            {tabs.map((tab, index) => (
+        <div className={cn("my-3 w-full min-w-0 overflow-hidden rounded-lg border border-(--border-hairline) bg-(--bg-base)", className)}>
+            <div ref={headerRef} className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-b border-(--border-hairline) bg-(--bg-elevated) px-2 py-1.5">
+                <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
+                    {hasTabs ? (
+                        <div role="group" aria-label={tabGroupLabel} className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
+                            {tabs!.map((tab) => (
                                 <button
+                                    type="button"
                                     key={tab.id}
-                                    onClick={() => handleTabChange(index)}
+                                    aria-pressed={activeTabData?.id === tab.id}
+                                    onClick={() => handleTabChange(tab.id)}
                                     className={cn(
-                                        "px-3 py-1 rounded-md text-xs font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                                        activeTab === index
+                                        "min-h-6 min-w-0 max-w-full break-words rounded-md px-2 py-1 text-left text-xs font-medium leading-tight transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                                        activeTabData?.id === tab.id
                                             ? "bg-(--accent-subtle) text-(--text-primary)"
-                                            : "text-(--text-tertiary) hover:text-(--text-secondary) hover:bg-(--accent-subtle)/50"
+                                            : "text-(--text-secondary) hover:bg-(--accent-subtle)/50",
                                     )}
                                 >
                                     {tab.label}
                                 </button>
                             ))}
                         </div>
-                    ) : filename ? (
-                        <span className="text-xs font-medium text-(--text-secondary) font-mono">
-                            {filename}
-                        </span>
                     ) : (
-                        <span className="badge text-xs">{currentLanguage}</span>
+                        <span className={cn("min-w-0 flex-1 truncate font-mono text-xs font-medium text-(--text-secondary)", !filename && "font-sans")} title={filename || currentLanguage}>
+                            {filename || currentLanguage}
+                        </span>
+                    )}
+                    {filename && !hasTabs && (
+                        <span className="shrink-0 rounded bg-(--bg-base) px-1.5 py-0.5 text-[10px] text-(--text-secondary)">
+                            {currentLanguage}
+                        </span>
+                    )}
+                    <span className="shrink-0 text-[10px] text-(--text-secondary)">
+                        {translateCodeBlockLabel(translate, "lineCount", codeLineCountLabel(lineCount), { count: lineCount })}
+                    </span>
+                    {currentCode.split("\n").some((line) => line.length > 72) && (
+                        <span className="shrink-0 text-[10px] text-(--text-secondary)">
+                            {scrollCueLabel} <span aria-hidden="true">→</span>
+                        </span>
                     )}
                 </div>
                 {copyable && (
                     <button
+                        ref={copyButtonRef}
+                        type="button"
+                        aria-label={copied ? copiedText : copyFullLabel}
                         onClick={handleCopy}
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="ml-auto inline-flex min-h-6 shrink-0 items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-(--text-secondary) transition-colors hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
-                        {copied ? (
-                            <>
-                                <CheckIcon className="w-3.5 h-3.5 text-(--success)" />
-                                <span className="text-(--success)">{t('copied')}</span>
-                            </>
-                        ) : (
-                            <>
-                                <CopyIcon className="w-3.5 h-3.5 text-(--text-tertiary)" />
-                                <span className="text-(--text-tertiary)">{t('copy')}</span>
-                            </>
-                        )}
+                        {copied ? <CheckIcon className="h-3.5 w-3.5 text-(--success)" /> : <CopyIcon className="h-3.5 w-3.5" />}
+                        <span className={copied ? "text-(--success)" : "text-(--text-secondary)"}>{copied ? copiedText : copyText}</span>
                     </button>
                 )}
             </div>
-
-            <div className="p-4 bg-(--bg-base)">
-                {/* tabIndex, because this scrolls. A region that overflows and
-                    is not focusable can be scrolled with a mouse or a finger
-                    and by no other means: a keyboard user cannot reach it, so
-                    whatever is past the right edge of a long command is simply
-                    unreadable to them. WCAG 2.1.1, and axe reports it as
-                    scrollable-region-focusable.
-
-                    No role and no label: the content is already a <pre>, and
-                    announcing a wrapper adds a stop on the way to it without
-                    saying anything the code does not. */}
-                <pre className="text-sm overflow-x-auto" tabIndex={0}>
-                    <code className="font-mono" style={{ color: 'var(--text-primary)' }}>
-                        {showLineNumbers ? (
-                            <div
-                                className="table"
-                                dangerouslySetInnerHTML={{
-                                    __html: highlightedHtml || code.split('\n').map((line, i) =>
-                                        `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${escapeHtml(line) || '&nbsp;'}</span></div>`
-                                    ).join('')
-                                }}
-                            />
-                        ) : (
-                            code
-                        )}
-                    </code>
-                </pre>
-            </div>
+            {copyError && <p role="alert" className="border-b border-(--border-hairline) px-2 py-1 text-xs text-(--text-secondary)">{copyErrorLabel}</p>}
+            <pre
+                ref={codeRegionRef}
+                id={`${codeBlockId}-code`}
+                tabIndex={0}
+                aria-label={codeRegionLabel}
+                onKeyDown={handleCodeKeyDown}
+                className={cn("m-0 max-w-full overflow-x-auto overflow-y-hidden whitespace-pre bg-(--bg-base) px-2 py-2 font-mono text-sm leading-[1.5] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring", showLineNumbers && "code-with-line-numbers")}
+            >
+                <code className="font-mono text-(--text-primary)" dangerouslySetInnerHTML={{ __html: highlightedHtml }} />
+            </pre>
+            {foldable && (
+                <button
+                    ref={disclosureRef}
+                    type="button"
+                    aria-expanded={expanded}
+                    aria-controls={`${codeBlockId}-code`}
+                    onClick={toggleExpanded}
+                    className="flex min-h-7 w-full items-center border-t border-(--border-hairline) px-2 py-1 text-left text-xs text-(--text-secondary) transition-colors hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                >
+                    {expanded ? showLessLabel : showAllLabel}
+                </button>
+            )}
         </div>
     );
 }

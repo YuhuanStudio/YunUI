@@ -7,12 +7,16 @@ import { Dialog, DialogContent, DialogTitle, Input, Switch } from "../index";
 import { SessionItem, Sidebar } from "../patterns";
 
 describe("source and package regression contracts", () => {
-    it("keeps the composer text aligned to the compact top edge", () => {
+    it("keeps the composer text in the top row above host controls", () => {
         render(<ChatComposer value="Draft" onChange={() => {}} onSend={() => {}} />);
         const textbox = screen.getByRole("textbox");
+        const composer = textbox.closest('[data-yunui="chat-composer"]');
+        const send = screen.getByRole("button", { name: "Send" });
 
-        expect(textbox.parentElement).toHaveClass("items-start", "px-3", "pt-2");
-        expect(textbox).toHaveClass("min-h-7", "py-0");
+        expect(composer).toBeInTheDocument();
+        expect(textbox.parentElement).toHaveClass("min-w-0", "px-0.5", "pt-1");
+        expect(textbox).toHaveClass("min-h-[68px]");
+        expect(textbox.compareDocumentPosition(send) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     });
 
     it("keeps an input icon centred on the field when an error row appears", () => {

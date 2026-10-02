@@ -94,7 +94,15 @@ No `useBranding()`, `useAuth()`, `fetch`, `localStorage`, etc. inside a componen
 Take them as props; let the consumer wire a thin wrapper (see Yunxin's `navbar.tsx`
 / `provider-icons.tsx` for the pattern).
 
-### 4. Icon assets are separate from the JavaScript bundle
+### 4. Markdown content is untrusted input
+
+Keep the raw-HTML sanitizer in the MarkdownRenderer pipeline before KaTeX or
+other trusted renderers. Custom `urlTransform` results must continue through
+React Markdown's safe-protocol filter. Preserve supported GFM formatting and
+code-language markers when changing the sanitizer schema; cover allowed content
+and rejected HTML/URL cases when changing this behavior.
+
+### 5. Icon assets are separate from the JavaScript bundle
 
 `yunui/ai` icons resolve to `<iconBasePath>/providers|models/*.png` (see
 `iconBasePath` adapter). The published package includes these files under
@@ -102,7 +110,7 @@ Take them as props; let the consumer wire a thin wrapper (see Yunxin's `navbar.t
 Consumers may override `iconBasePath` to self-host or extend the icon set. Do not
 import binary assets into the JavaScript bundle.
 
-### 5. Styling
+### 6. Styling
 
 Use the design-system tokens and global classes (`.btn`, `.card`, `.glass`,
 `bg-(--bg-elevated)`, etc.) from `styles/yunui.css`. New tokens/global classes go

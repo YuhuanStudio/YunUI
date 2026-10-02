@@ -1,5 +1,9 @@
 # CLAUDE.md — working notes for YunUI
 
+Read `AGENTS.md` for the consumer-adoption contract and the owner's per-design
+review requirement for AI refactoring. New AI visuals and interactions need a
+concrete owner-approved draft before production implementation.
+
 A versioned React 19 + Tailwind v4 design system, originally extracted from the
 Yunxin app and being generalized into a standalone system. Published as
 `@yuhuanowo/yunui`.

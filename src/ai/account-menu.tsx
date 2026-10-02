@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ElementType, type ReactNode } from "react";
 import { CircleUserRound, LogOut } from "lucide-react";
 import { cn } from "../lib/cn";
 import { useYunUI } from "../adapters/context";
 import { useDismissOnOutside } from "../lib/hooks";
+import { useAnchoredPosition } from "../lib/use-anchored-position";
 
 export interface AccountMenuUser {
     /** Display name. Falls back to `fallbackName` when absent. */
@@ -75,12 +76,61 @@ export function AccountMenu({
     const { Link } = useYunUI();
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
+    const { shift, maxHeight, placement } = useAnchoredPosition(open, menuRef);
+    const menuId = `${useId()}-account-menu`;
 
     const signInLabel = labels?.signIn ?? "Sign in";
     const signOutLabel = labels?.signOut ?? "Sign out";
     const fallbackName = labels?.fallbackName ?? "Account";
 
-    useDismissOnOutside(open, () => setOpen(false), ref);
+    useDismissOnOutside(open, () => setOpen(false), ref, { escape: false });
+
+    const identityKey = user == null
+        ? String(user)
+        : JSON.stringify([user.name ?? "", user.email ?? "", user.avatarUrl ?? ""]);
+    useEffect(() => setOpen(false), [identityKey]);
+
+    useEffect(() => {
+        if (!open) return;
+        const focusableItems = () => Array.from(
+            menuRef.current?.querySelectorAll<HTMLElement>("[role='menuitem']:not([aria-disabled='true'])") ?? [],
+        );
+        const focusFirstItem = () => focusableItems()[0]?.focus();
+        const frame = requestAnimationFrame(focusFirstItem);
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                event.stopPropagation();
+                setOpen(false);
+                triggerRef.current?.focus();
+                return;
+            }
+            if (event.key === "Tab") {
+                setOpen(false);
+                return;
+            }
+            const items = focusableItems();
+            if (!items.length) return;
+            const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+            let nextIndex: number | undefined;
+            if (event.key === "ArrowDown") nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % items.length;
+            else if (event.key === "ArrowUp") nextIndex = currentIndex < 0 ? items.length - 1 : (currentIndex - 1 + items.length) % items.length;
+            else if (event.key === "Home") nextIndex = 0;
+            else if (event.key === "End") nextIndex = items.length - 1;
+            if (nextIndex !== undefined) {
+                event.preventDefault();
+                event.stopPropagation();
+                items[nextIndex]?.focus();
+            }
+        };
+        document.addEventListener("keydown", onKeyDown, true);
+        return () => {
+            cancelAnimationFrame(frame);
+            document.removeEventListener("keydown", onKeyDown, true);
+        };
+    }, [open]);
 
     // Not answered yet — hold the space so the navbar does not shift when it is.
     if (user === undefined) {
@@ -107,9 +157,11 @@ export function AccountMenu({
     return (
         <div ref={ref} className={cn("relative", className)}>
             <button
+                ref={triggerRef}
                 type="button"
                 onClick={() => setOpen((v) => !v)}
                 aria-haspopup="menu"
+                aria-controls={open ? menuId : undefined}
                 aria-expanded={open}
                 aria-label={labels?.menu ?? name}
                 className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full transition-colors hover:bg-foreground/5 outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -124,8 +176,11 @@ export function AccountMenu({
 
             {open && (
                 <div
+                    id={menuId}
+                    ref={menuRef}
                     role="menu"
-                    className="absolute right-0 top-full z-50 mt-2 w-56 rounded-2xl border border-border bg-popover/95 p-1.5 shadow-lg shadow-black/5 backdrop-blur-2xl"
+                    style={{ marginRight: -shift, maxHeight }}
+                    className={`absolute right-0 ${placement === "top" ? "bottom-full mb-2" : "top-full mt-2"} z-50 w-56 overflow-y-auto rounded-2xl border border-border bg-popover/95 p-1.5 shadow-lg shadow-black/5 backdrop-blur-2xl`}
                 >
                     <div className="border-b border-border px-3 py-2.5">
                         <p className="truncate text-sm font-medium">{name}</p>
@@ -159,6 +214,7 @@ export function AccountMenu({
                             <Link
                                 key={item.key}
                                 href={item.href ?? "#"}
+                                role="menuitem"
                                 onClick={() => setOpen(false)}
                                 className={rowClass}
                             >

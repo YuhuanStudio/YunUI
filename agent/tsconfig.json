@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "paths": {
+      "@yuhuanowo/yunui": ["src/index.ts"],
+      "@yuhuanowo/yunui/*": ["src/*/index.ts"]
+    }
+  },
+  "include": ["recipes/**/*.tsx"],
+  "exclude": ["../node_modules", "../dist", "../src/**/_deferred/**"]
+}

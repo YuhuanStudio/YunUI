@@ -1,12 +1,12 @@
 "use client";
-import { useContentT, ImageLightbox } from './chunk-ST6TSBVQ.js';
-export { ImageLightbox } from './chunk-ST6TSBVQ.js';
-import { Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-YKWRCA2S.js';
-import { cn } from './chunk-V7VJKZ5Q.js';
+import { useContentT, ImageLightbox, codeLineCount, previewCode, codeLineCountLabel, restoreCodeBlockScroll, scheduleCodeBlockScrollRestore, CODE_BLOCK_FOLD_THRESHOLD, captureCodeBlockScroll } from './chunk-7ODIO7IG.js';
+export { ImageLightbox } from './chunk-7ODIO7IG.js';
+import { copyToClipboard } from './chunk-P6LU2FWV.js';
+import { cn, Alert, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './chunk-ALP6SDRA.js';
 import './chunk-3RT24MSH.js';
 import * as React2 from 'react';
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import ReactMarkdown from 'react-markdown';
+import { useRef, useState, useEffect, useId, useMemo, useCallback, useLayoutEffect } from 'react';
+import ReactMarkdown, { defaultUrlTransform } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeRaw from 'rehype-raw';
@@ -15,7 +15,8 @@ import rehypeSlug from 'rehype-slug';
 import { Edit3, Check, Copy, CheckCircle2, XOctagon, AlertTriangle, AlertCircle, Lightbulb, Info, ExternalLink, Link2 } from 'lucide-react';
 import { createHighlighterCore } from 'shiki/core';
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
-import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
+import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import katex from 'katex';
 
 function useContentDarkMode() {
@@ -33,6 +34,8 @@ function useContentDarkMode() {
   }, []);
   return dark;
 }
+var NO_HIGHLIGHT_LINES = [];
+var useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 var languageNames = {
   js: "JavaScript",
   javascript: "JavaScript",
@@ -191,28 +194,74 @@ function resolveShikiLanguage(language) {
   if (!normalized || normalized === "text" || normalized === "plaintext") {
     return "plaintext";
   }
-  if (normalized in shikiLanguages) return normalized;
-  return shikiLanguageAliases[normalized] ?? "plaintext";
+  if (Object.prototype.hasOwnProperty.call(shikiLanguages, normalized)) return normalized;
+  return Object.prototype.hasOwnProperty.call(shikiLanguageAliases, normalized) ? shikiLanguageAliases[normalized] : "plaintext";
 }
 function CodeBlock({
   children,
   language = "plaintext",
   showLineNumbers = false,
-  highlightLines = [],
+  highlightLines = NO_HIGHLIGHT_LINES,
   filename,
   className,
   onEdit
 }) {
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [highlightedCode, setHighlightedCode] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const isDark = useContentDarkMode();
   const t = useContentT();
+  const copyRequestRef = useRef(0);
+  const copyTimeoutRef = useRef(null);
+  const codeSurfaceRef = useRef(null);
+  const copyButtonRef = useRef(null);
+  const disclosureRef = useRef(null);
+  const restoreExpandedFocus = useRef(false);
+  const restoreDisclosureFocus = useRef(false);
+  const disclosureScroll = useRef(null);
+  const codeBlockId = useId();
   const code = useMemo(
-    () => typeof children === "string" ? children.trim() : String(children).trim(),
+    () => typeof children === "string" ? children : String(children),
     [children]
   );
-  const displayLanguage = languageNames[language?.toLowerCase()] || language?.toUpperCase() || "CODE";
+  const previousCopyPayloadRef = useRef(code);
+  const lineCount = codeLineCount(code);
+  const foldable = lineCount > CODE_BLOCK_FOLD_THRESHOLD;
+  const shownCode = foldable && !expanded ? previewCode(code) : code;
+  const displayLanguage = (Object.prototype.hasOwnProperty.call(languageNames, language.toLowerCase()) ? languageNames[language.toLowerCase()] : language.toUpperCase()) || "CODE";
+  const codeRegionLabel = t(
+    "codeBlock.scrollRegion",
+    `${displayLanguage} code, ${codeLineCountLabel(lineCount)}`,
+    { language: displayLanguage, count: lineCount }
+  );
+  const copyFullLabel = t("codeBlock.copyFull", "Copy full code");
+  const editLabel = t("edit", "Edit");
+  const copyErrorLabel = t(
+    "codeBlock.copyError",
+    "Clipboard access was denied. Select the code and copy it manually."
+  );
+  const scrollCueLabel = t("codeBlock.scrollHorizontally", "Scroll horizontally");
+  const showAllLabel = t(
+    "codeBlock.showAll",
+    `Show all ${lineCount} lines`,
+    { count: lineCount }
+  );
+  const showLessLabel = t("codeBlock.showLess", "Show less");
+  useIsomorphicLayoutEffect(() => {
+    if (previousCopyPayloadRef.current === code) return;
+    previousCopyPayloadRef.current = code;
+    copyRequestRef.current += 1;
+    setCopied(false);
+    setCopyError(false);
+    if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+    copyTimeoutRef.current = null;
+  }, [code]);
+  useEffect(() => () => {
+    copyRequestRef.current += 1;
+    if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+  }, []);
   const handleEdit = useCallback(() => {
     if (!onEdit) return;
     const ext = langExtMap[language?.toLowerCase()] || language || "txt";
@@ -225,10 +274,17 @@ function CodeBlock({
       try {
         const theme = isDark ? "github-dark-default" : "github-light-default";
         const lang = resolveShikiLanguage(language || "plaintext");
-        const html = await highlightToHtml(code, {
+        const html = await highlightToHtml(shownCode, {
           lang,
           theme,
           transformers: [
+            {
+              pre(node) {
+                node.properties.tabIndex = 0;
+                node.properties["aria-label"] = codeRegionLabel;
+                node.properties.class = `${node.properties.class || ""} yunui-code-scroll`.trim();
+              }
+            },
             {
               line(node, line) {
                 if (showLineNumbers) node.properties["data-line"] = line;
@@ -246,7 +302,7 @@ function CodeBlock({
       } catch {
         if (!cancelled) {
           setHighlightedCode(
-            `<pre class="shiki"><code>${escapeHtml(code)}</code></pre>`
+            `<pre class="shiki yunui-code-scroll" tabindex="0" aria-label="${escapeHtml(codeRegionLabel)}"><code>${escapeHtml(shownCode)}</code></pre>`
           );
           setIsLoading(false);
         }
@@ -256,71 +312,173 @@ function CodeBlock({
     return () => {
       cancelled = true;
     };
-  }, [code, language, isDark, showLineNumbers, highlightLines]);
+  }, [shownCode, language, isDark, showLineNumbers, highlightLines, codeRegionLabel]);
   const handleCopy = async () => {
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(code);
-      } else {
-        const textArea = document.createElement("textarea");
-        textArea.value = code;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textArea);
-      }
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2e3);
-    } catch {
+    const requestId = ++copyRequestRef.current;
+    const payload = code;
+    if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+    copyTimeoutRef.current = null;
+    setCopied(false);
+    setCopyError(false);
+    if (!await copyToClipboard(payload)) {
+      if (requestId !== copyRequestRef.current) return;
+      setCopied(false);
+      setCopyError(true);
+      return;
     }
+    if (requestId !== copyRequestRef.current) return;
+    setCopied(true);
+    copyTimeoutRef.current = setTimeout(() => {
+      if (requestId !== copyRequestRef.current) return;
+      setCopied(false);
+      copyTimeoutRef.current = null;
+    }, 2e3);
   };
-  const btnBase = "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  const toggleExpanded = () => {
+    const nextExpanded = !expanded;
+    disclosureScroll.current = captureCodeBlockScroll(disclosureRef.current);
+    restoreExpandedFocus.current = nextExpanded;
+    restoreDisclosureFocus.current = !nextExpanded;
+    setIsLoading(true);
+    setExpanded(nextExpanded);
+  };
+  useIsomorphicLayoutEffect(() => {
+    const snapshot = disclosureScroll.current;
+    if (!snapshot) return;
+    if (!expanded && restoreDisclosureFocus.current) {
+      restoreDisclosureFocus.current = false;
+      disclosureRef.current?.focus({ preventScroll: true });
+    }
+    if (expanded && !isLoading && restoreExpandedFocus.current) {
+      const codeRegion = codeSurfaceRef.current?.querySelector("pre.yunui-code-scroll");
+      if (codeRegion) {
+        restoreExpandedFocus.current = false;
+        codeRegion.focus({ preventScroll: true });
+      }
+    }
+    restoreCodeBlockScroll(snapshot);
+    return scheduleCodeBlockScrollRestore(snapshot, () => {
+      if (disclosureScroll.current === snapshot && !isLoading) disclosureScroll.current = null;
+    });
+  }, [expanded, isLoading, highlightedCode]);
+  const handleCodeKeyDown = useCallback((event) => {
+    const region = event.target;
+    if (!(region instanceof HTMLElement) || region.tagName !== "PRE" || region.tabIndex < 0) return;
+    if (foldable && expanded && event.key === "Tab") {
+      const nextControl = event.shiftKey ? copyButtonRef.current : disclosureRef.current;
+      if (nextControl) {
+        event.preventDefault();
+        nextControl.focus();
+      }
+      return;
+    }
+    const before = region.scrollLeft;
+    if (event.key === "ArrowRight" && region.scrollWidth > region.clientWidth) {
+      region.scrollLeft += 48;
+    } else if (event.key === "ArrowLeft" && region.scrollWidth > region.clientWidth) {
+      region.scrollLeft -= 48;
+    } else {
+      return;
+    }
+    if (region.scrollLeft !== before) event.preventDefault();
+  }, [expanded, foldable]);
+  const btnBase = "inline-flex min-h-6 shrink-0 items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-(--text-secondary) transition-colors hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring";
   return /* @__PURE__ */ jsxs(
     "div",
     {
       className: cn(
-        "card group my-4 overflow-hidden max-w-full min-w-0",
+        "my-3 w-full min-w-0 overflow-hidden rounded-lg border border-(--border-hairline) bg-(--bg-base)",
         className
       ),
       children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2.5 border-b border-(--border-hairline) bg-(--bg-elevated)", children: [
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5", children: [
-            /* @__PURE__ */ jsxs("div", { className: "flex gap-1", children: [
-              /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--error) opacity-80" }),
-              /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--warning) opacity-80" }),
-              /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--success) opacity-80" })
-            ] }),
-            filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-(--text-secondary) font-mono", children: filename }) : /* @__PURE__ */ jsx("span", { className: "badge text-xs", children: displayLanguage })
+        /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-b border-(--border-hairline) bg-(--bg-elevated) px-2 py-1.5", children: [
+          /* @__PURE__ */ jsx(
+            "span",
+            {
+              className: cn(
+                "min-w-0 flex-1 truncate font-mono text-xs font-medium text-(--text-secondary)",
+                filename && "min-w-32",
+                !filename && "font-sans"
+              ),
+              title: filename || displayLanguage,
+              children: filename || displayLanguage
+            }
+          ),
+          filename && /* @__PURE__ */ jsx("span", { className: "shrink-0 rounded bg-(--bg-base) px-1.5 py-0.5 text-[10px] text-(--text-tertiary)", children: displayLanguage }),
+          /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[10px] text-(--text-secondary)", children: t("codeBlock.lineCount", codeLineCountLabel(lineCount), { count: lineCount }) }),
+          code.split("\n").some((line) => line.length > 72) && /* @__PURE__ */ jsxs("span", { className: "shrink-0 text-[10px] text-(--text-secondary)", children: [
+            scrollCueLabel,
+            " ",
+            /* @__PURE__ */ jsx("span", { "aria-hidden": "true", children: "\u2192" })
           ] }),
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
-            onEdit && /* @__PURE__ */ jsxs("button", { onClick: handleEdit, className: cn(btnBase, "text-(--text-secondary)"), children: [
-              /* @__PURE__ */ jsx(Edit3, { className: "w-3.5 h-3.5" }),
-              t("edit", "Edit")
-            ] }),
-            /* @__PURE__ */ jsx("button", { onClick: handleCopy, className: btnBase, children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
-              /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5 text-(--success)" }),
-              /* @__PURE__ */ jsx("span", { className: "text-(--success)", children: t("copied", "Copied") })
-            ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-              /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5 text-(--text-secondary)" }),
-              /* @__PURE__ */ jsx("span", { className: "text-(--text-secondary)", children: t("copy", "Copy") })
-            ] }) })
+          /* @__PURE__ */ jsxs("div", { className: "ml-auto flex shrink-0 items-center gap-1", children: [
+            onEdit && /* @__PURE__ */ jsxs(
+              "button",
+              {
+                type: "button",
+                onClick: handleEdit,
+                className: btnBase,
+                "aria-label": editLabel,
+                children: [
+                  /* @__PURE__ */ jsx(Edit3, { className: "w-3.5 h-3.5" }),
+                  editLabel
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                ref: copyButtonRef,
+                type: "button",
+                onClick: handleCopy,
+                className: btnBase,
+                "aria-label": copied ? t("codeBlock.copied", t("copied", "Copied")) : copyFullLabel,
+                children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
+                  /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5 text-(--success)" }),
+                  /* @__PURE__ */ jsx("span", { className: "text-(--success)", children: t("copied", "Copied") })
+                ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+                  /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5 text-(--text-secondary)" }),
+                  /* @__PURE__ */ jsx("span", { className: "text-(--text-secondary)", children: t("copy", "Copy") })
+                ] })
+              }
+            )
           ] })
         ] }),
         /* @__PURE__ */ jsx(
           "div",
           {
-            tabIndex: 0,
-            className: cn(
-              "overflow-x-auto overflow-y-auto p-4 max-h-100 bg-(--bg-base)",
-              showLineNumbers && "code-with-line-numbers"
-            ),
-            children: isLoading ? /* @__PURE__ */ jsx("pre", { className: "text-sm font-mono", children: /* @__PURE__ */ jsx("code", { children: code }) }) : /* @__PURE__ */ jsx(
+            ref: codeSurfaceRef,
+            id: `${codeBlockId}-code`,
+            onKeyDownCapture: handleCodeKeyDown,
+            className: cn("min-w-0 px-2 py-2", showLineNumbers && "code-with-line-numbers"),
+            children: isLoading ? /* @__PURE__ */ jsx(
+              "pre",
+              {
+                className: "yunui-code-scroll text-sm font-mono",
+                tabIndex: 0,
+                "aria-label": codeRegionLabel,
+                children: /* @__PURE__ */ jsx("code", { children: shownCode })
+              }
+            ) : /* @__PURE__ */ jsx(
               "div",
               {
                 className: "shiki-wrapper text-sm [&_pre]:bg-transparent! [&_code]:bg-transparent!",
                 dangerouslySetInnerHTML: { __html: highlightedCode }
               }
             )
+          }
+        ),
+        copyError && /* @__PURE__ */ jsx("p", { role: "alert", className: "border-t border-(--border-hairline) px-2 py-1 text-xs text-(--text-secondary)", children: copyErrorLabel }),
+        foldable && /* @__PURE__ */ jsx(
+          "button",
+          {
+            ref: disclosureRef,
+            type: "button",
+            "aria-expanded": expanded,
+            "aria-controls": `${codeBlockId}-code`,
+            onClick: toggleExpanded,
+            className: "flex min-h-7 w-full items-center border-t border-(--border-hairline) px-2 py-1 text-left text-xs text-(--text-secondary) transition-colors hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring",
+            children: expanded ? showLessLabel : showAllLabel
           }
         )
       ]
@@ -335,8 +493,8 @@ function InlineCode({
     "code",
     {
       className: cn(
-        "px-1.5 py-0.5 mx-0.5 rounded text-sm font-mono",
-        "bg-(--accent-subtle) text-(--text-primary) border border-(--border-hairline)",
+        "yunui-inline-code px-[3px] py-px rounded-sm text-[0.92em] font-mono",
+        "bg-(--accent-subtle) text-(--text-primary)",
         "wrap-break-word",
         className
       ),
@@ -568,98 +726,343 @@ function parseCalloutType(text) {
 }
 var ContentImage = React2.memo(function ContentImage2({
   enableLightbox = true,
+  zoomLabel,
   className,
+  style,
   alt = "",
   src,
+  srcSet,
   onError,
   onLoad,
+  onClick,
+  onKeyDown,
+  role,
+  tabIndex,
+  "aria-label": ariaLabel,
   ...rest
 }) {
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const imgRef = useRef(null);
-  const wrapperRef = useRef(null);
   const t = useContentT();
   const srcString = typeof src === "string" ? src : "";
-  const valid = srcString && srcString !== "#" && srcString !== "undefined" && srcString !== "null";
+  const srcSetString = typeof srcSet === "string" ? srcSet : void 0;
+  const valid = Boolean(srcString && srcString !== "#" && srcString !== "undefined" && srcString !== "null");
+  const generationRef = useRef({ src: srcString, srcSet: srcSetString, generation: 0 });
+  if (generationRef.current.src !== srcString || generationRef.current.srcSet !== srcSetString) {
+    generationRef.current = {
+      src: srcString,
+      srcSet: srcSetString,
+      generation: generationRef.current.generation + 1
+    };
+  }
+  const generation = generationRef.current.generation;
+  const lightboxEpochRef = useRef({ enabled: enableLightbox, epoch: 0 });
+  if (lightboxEpochRef.current.enabled !== enableLightbox) {
+    lightboxEpochRef.current = {
+      enabled: enableLightbox,
+      epoch: lightboxEpochRef.current.epoch + 1
+    };
+  }
+  const lightboxEpoch = lightboxEpochRef.current.epoch;
+  const [status, setStatus] = useState(null);
+  const [requestedGeneration, setRequestedGeneration] = useState(null);
+  const [openState, setOpenState] = useState(null);
+  const [insideLink, setInsideLink] = useState(false);
+  const imgRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const currentStatus = status?.generation === generation ? status.value : "loading";
+  const loaded = currentStatus === "loaded";
+  const failed = currentStatus === "failed";
+  const canZoom = enableLightbox && loaded && !insideLink;
+  const lightboxOpen = enableLightbox && openState?.generation === generation && openState.lightboxEpoch === lightboxEpoch;
+  const accessibleZoomLabel = zoomLabel ?? `${t("zoomImage", "Zoom image")}${alt ? `: ${alt}` : ""}`;
   useEffect(() => {
+    setInsideLink(Boolean(imgRef.current?.closest("a")));
     if (!wrapperRef.current || !valid) return;
-    const container = document.querySelector('[data-scroll-container="true"]');
-    const root = container && container.contains(wrapperRef.current) ? container : null;
+    const root = wrapperRef.current.closest('[data-scroll-container="true"]');
+    const image = imgRef.current;
+    if (!image) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setRequestedGeneration(generation);
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && imgRef.current) {
-            imgRef.current.src = srcString;
+        if (generationRef.current.generation !== generation || !image.isConnected) return;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setRequestedGeneration(generation);
             observer.unobserve(entry.target);
+            break;
           }
-        });
+        }
       },
-      {
-        root,
-        rootMargin: "300px 0px",
-        threshold: 0.01
-      }
+      { root, rootMargin: "300px 0px", threshold: 0.01 }
     );
     observer.observe(wrapperRef.current);
     return () => observer.disconnect();
-  }, [srcString, valid]);
+  }, [srcString, valid, generation]);
   if (!valid) return null;
-  if (failed) {
-    return /* @__PURE__ */ jsx("span", { className: "inline-block", children: /* @__PURE__ */ jsx("span", { className: "bg-error-soft px-3 py-2 rounded-xl border border-error-soft text-center", children: /* @__PURE__ */ jsxs("span", { className: "text-error text-sm", children: [
-      "\u{1F5BC}\uFE0F ",
-      t("imageLoadingFailed", "Image failed to load")
-    ] }) }) });
-  }
+  const isCurrentImage = (event) => generationRef.current.generation === generation && event.currentTarget === imgRef.current;
+  const handleLoad = (event) => {
+    onLoad?.(event);
+    if (isCurrentImage(event)) setStatus({ generation, value: "loaded" });
+  };
+  const handleError = (event) => {
+    onError?.(event);
+    if (isCurrentImage(event)) setStatus({ generation, value: "failed" });
+  };
+  const openPreview = (event) => {
+    if (onClick) onClick(event);
+    if (event.defaultPrevented || !canZoom || imgRef.current?.closest("a")) return;
+    event.currentTarget.focus();
+    event.stopPropagation();
+    setOpenState({ generation, lightboxEpoch });
+  };
+  const handleKeyDown = (event) => {
+    onKeyDown?.(event);
+    if (event.defaultPrevented || !canZoom || imgRef.current?.closest("a")) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      event.stopPropagation();
+      event.currentTarget.focus();
+      setOpenState({ generation, lightboxEpoch });
+    }
+  };
   return /* @__PURE__ */ jsxs(
     "span",
     {
       ref: wrapperRef,
       className: "inline-block max-w-full overflow-hidden relative",
       style: {
-        minHeight: loaded ? "auto" : "200px",
-        minWidth: loaded ? "auto" : "200px"
+        minHeight: loaded || failed ? "auto" : "200px",
+        minWidth: loaded || failed ? "auto" : "200px"
       },
       children: [
-        !loaded && /* @__PURE__ */ jsx("span", { className: "absolute inset-0 flex items-center justify-center bg-(--bg-elevated) rounded-xl", children: /* @__PURE__ */ jsx("span", { className: "w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin block" }) }),
+        !loaded && !failed && /* @__PURE__ */ jsx("span", { className: "absolute inset-0 flex items-center justify-center bg-(--bg-elevated) rounded-xl", "aria-hidden": "true", children: /* @__PURE__ */ jsx("span", { className: "w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin block" }) }),
+        failed && /* @__PURE__ */ jsx("span", { className: "inline-flex items-center justify-center bg-error-soft px-3 py-2 rounded-xl border border-error-soft text-center", children: /* @__PURE__ */ jsxs("span", { className: "text-error text-sm", children: [
+          "\u{1F5BC}\uFE0F ",
+          t("imageLoadingFailed", "Image failed to load")
+        ] }) }),
         /* @__PURE__ */ jsx(
           "img",
           {
             ref: imgRef,
             alt,
+            src: requestedGeneration === generation ? srcString : void 0,
+            srcSet: requestedGeneration === generation ? srcSetString : void 0,
             className: cn(
               "max-w-full h-auto rounded-xl shadow-sm border border-(--border-hairline) transition-opacity duration-300",
               loaded ? "opacity-100" : "opacity-0",
-              enableLightbox && loaded && "cursor-zoom-in",
+              canZoom && "cursor-zoom-in",
+              canZoom && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary",
+              failed && "hidden",
               className
             ),
-            style: { maxHeight: "80vh" },
-            onLoad: (e) => {
-              setLoaded(true);
-              onLoad?.(e);
-            },
-            onError: (e) => {
-              setFailed(true);
-              onError?.(e);
-            },
-            onClick: enableLightbox ? () => setLightboxOpen(true) : void 0,
+            style: { ...style, maxHeight: style?.maxHeight ?? "80vh" },
+            role: loaded && !failed ? role ?? (canZoom ? "button" : void 0) : void 0,
+            tabIndex: loaded && !failed ? tabIndex ?? (canZoom ? 0 : void 0) : void 0,
+            "aria-label": ariaLabel ?? (canZoom ? accessibleZoomLabel : void 0),
+            onLoad: handleLoad,
+            onError: handleError,
+            onClick: openPreview,
+            onKeyDown: handleKeyDown,
             ...rest
-          }
+          },
+          generation
         ),
         enableLightbox && /* @__PURE__ */ jsx(
           ImageLightbox,
           {
             src: srcString,
             alt,
+            label: t("imagePreview", "Image preview") + (alt ? `: ${alt}` : ""),
             isOpen: lightboxOpen,
-            onClose: () => setLightboxOpen(false)
+            onClose: () => setOpenState(null)
           }
         )
       ]
     }
   );
 });
+var schema = {
+  ...defaultSchema,
+  clobberPrefix: "user-content-",
+  tagNames: [...defaultSchema.tagNames ?? [], "mark", "abbr"],
+  strip: [...defaultSchema.strip ?? [], "style", "iframe", "object", "embed", "svg", "math", "template", "form"],
+  attributes: {
+    ...defaultSchema.attributes,
+    "*": (defaultSchema.attributes?.["*"] ?? []).filter((attribute) => attribute !== "tabIndex" && attribute !== "accessKey"),
+    code: [[
+      "className",
+      /^language-[\w+-]+$/,
+      "math-inline",
+      "math-display",
+      "showLineNumbers",
+      /^\{[\d,-]+\}$/,
+      /^filename-[A-Za-z0-9._~%\-]{1,1152}$/
+    ]]
+  }
+};
+function visit(node, callback) {
+  callback(node);
+  if ("children" in node) for (const child of node.children) visit(child, callback);
+}
+function rehypeSanitizeMarkdown() {
+  const sanitize = rehypeSanitize(schema);
+  return (tree) => {
+    const ids = /* @__PURE__ */ new Set();
+    visit(tree, (node) => {
+      if (node.type === "element") {
+        for (const key of ["id", "name"]) {
+          const value = node.properties[key];
+          if (typeof value === "string") ids.add(value);
+        }
+      }
+    });
+    const clean = sanitize(tree);
+    const cleanIds = /* @__PURE__ */ new Set();
+    visit(clean, (node) => {
+      if (node.type !== "element") return;
+      for (const key of ["id", "name"]) {
+        const value = node.properties[key];
+        if (typeof value === "string") cleanIds.add(value);
+      }
+    });
+    visit(clean, (node) => {
+      if (node.type !== "element") return;
+      const href = node.properties.href;
+      if (typeof href !== "string" || !href.startsWith("#")) return;
+      let target;
+      try {
+        target = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+      const prefixed = `${schema.clobberPrefix}${target}`;
+      if (ids.has(target) && cleanIds.has(prefixed)) node.properties.href = `#${encodeURIComponent(prefixed)}`;
+    });
+    return clean;
+  };
+}
+
+// src/content/remark-code-meta.ts
+var MAX_META_LENGTH = 1024;
+var MAX_FILENAME_LENGTH = 128;
+var MAX_HIGHLIGHT_RANGES = 32;
+var filenameClassPattern = /^filename-[A-Za-z0-9._~%\-]{1,1152}$/;
+var languagePattern = /^[A-Za-z0-9_+-]{1,32}$/;
+var highlightPattern = /^\{((?:\d{1,16}(?:-\d{1,16})?)(?:,\d{1,16}(?:-\d{1,16})?)*)\}$/;
+var controlCharacterPattern = /[\u0000-\u001f\u007f]/;
+function tokenizeMeta(meta) {
+  if (meta.length > MAX_META_LENGTH) return [];
+  const tokens = [];
+  let token = "";
+  let quote;
+  let tokenStarted = false;
+  const finishToken = () => {
+    if (tokenStarted) tokens.push(token);
+    token = "";
+    tokenStarted = false;
+  };
+  for (let index = 0; index < meta.length; index += 1) {
+    const character = meta[index];
+    if (quote) {
+      if (character === "\\" && index + 1 < meta.length) {
+        const next = meta[index + 1];
+        if (next === quote || next === "\\") {
+          token += next;
+          index += 1;
+        } else {
+          token += character;
+        }
+      } else if (character === quote) {
+        quote = void 0;
+      } else {
+        token += character;
+      }
+      tokenStarted = true;
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      tokenStarted = true;
+    } else if (/\s/.test(character)) {
+      finishToken();
+    } else {
+      token += character;
+      tokenStarted = true;
+    }
+  }
+  if (!quote) finishToken();
+  return tokens;
+}
+function isHighlightRange(value) {
+  const match = highlightPattern.exec(value);
+  return Boolean(match && match[1].split(",").length <= MAX_HIGHLIGHT_RANGES);
+}
+function encodeFilename(value) {
+  if (!value || value.length > MAX_FILENAME_LENGTH || controlCharacterPattern.test(value)) return void 0;
+  try {
+    const encoded = encodeURIComponent(value).replace(
+      /[!'()*]/g,
+      (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`
+    );
+    return encoded.length <= MAX_FILENAME_LENGTH * 9 ? encoded : void 0;
+  } catch {
+    return void 0;
+  }
+}
+function decodeCodeFilenameClass(value) {
+  if (!filenameClassPattern.test(value)) return void 0;
+  try {
+    const filename = decodeURIComponent(value.slice("filename-".length));
+    if (!filename || filename.length > MAX_FILENAME_LENGTH || controlCharacterPattern.test(filename)) return void 0;
+    return filename;
+  } catch {
+    return void 0;
+  }
+}
+function parseFenceOptions(meta) {
+  const options = { showLineNumbers: false };
+  for (const token of tokenizeMeta(meta)) {
+    if (token === "showLineNumbers") {
+      options.showLineNumbers = true;
+    } else if (!options.highlightRange && isHighlightRange(token)) {
+      options.highlightRange = token;
+    } else if (!options.filename && token.startsWith("filename=")) {
+      const encoded = encodeFilename(token.slice("filename=".length));
+      if (encoded) options.filename = encoded;
+    }
+  }
+  return options;
+}
+function visit2(node, callback) {
+  callback(node);
+  if (Array.isArray(node.children)) {
+    for (const child of node.children) visit2(child, callback);
+  }
+}
+function remarkCodeMeta() {
+  return (tree) => {
+    visit2(tree, (node) => {
+      if (node.type !== "code" || typeof node.meta !== "string") return;
+      const options = parseFenceOptions(node.meta);
+      if (!options.showLineNumbers && !options.highlightRange && !options.filename) return;
+      const className = [];
+      if (typeof node.lang === "string") {
+        const language = node.lang.trim().split(/\s+/)[0];
+        if (languagePattern.test(language)) className.push(`language-${language}`);
+      }
+      if (options.showLineNumbers) className.push("showLineNumbers");
+      if (options.highlightRange) className.push(options.highlightRange);
+      if (options.filename) className.push(`filename-${options.filename}`);
+      const existing = node.data && typeof node.data === "object" ? node.data : {};
+      node.data = {
+        ...existing,
+        hProperties: { className }
+      };
+    });
+  };
+}
 function MarkdownRenderer({
   content,
   className,
@@ -682,11 +1085,11 @@ function MarkdownRenderer({
           ]
         }
       ),
-      h2: ({ children, id }) => /* @__PURE__ */ jsxs(
+      h2: ({ children, id, className: headingClass }) => /* @__PURE__ */ jsxs(
         "h2",
         {
           id,
-          className: "group flex items-center gap-2 text-xl font-bold mt-6 mb-3 scroll-mt-20",
+          className: cn("group flex items-center gap-2 text-xl font-bold mt-6 mb-3 scroll-mt-20", headingClass),
           children: [
             children,
             id && /* @__PURE__ */ jsx(HeadingAnchor, { id })
@@ -741,6 +1144,8 @@ function MarkdownRenderer({
       code: ({ children, className: codeClass }) => {
         const match = /language-(\w+)/.exec(codeClass || "");
         const language = match ? match[1] : "";
+        const filenameClass = typeof codeClass === "string" ? codeClass.split(/\s+/).find((token) => token.startsWith("filename-")) : void 0;
+        const filename = filenameClass ? decodeCodeFilenameClass(filenameClass) : void 0;
         const codeString = String(children).replace(/\n$/, "");
         if (language === "mermaid") {
           return /* @__PURE__ */ jsx(MermaidDiagram, { chart: codeString });
@@ -748,13 +1153,14 @@ function MarkdownRenderer({
         if (codeClass || codeString.includes("\n")) {
           const showLineNumbers = codeClass?.includes("showLineNumbers");
           const highlightMatch = codeClass?.match(/\{([^}]+)\}/);
-          const highlightLines = highlightMatch ? parseLineHighlights(highlightMatch[1]) : [];
+          const highlightLines = highlightMatch ? parseLineHighlights(highlightMatch[1], codeString.split("\n").length) : [];
           return /* @__PURE__ */ jsx(
             CodeBlock,
             {
               language,
               showLineNumbers,
               highlightLines,
+              filename,
               onEdit: onCodeEdit,
               children: codeString
             }
@@ -819,12 +1225,13 @@ function MarkdownRenderer({
       th: ({ children }) => /* @__PURE__ */ jsx("th", { className: "px-4 py-2 text-left text-sm font-semibold text-(--text-primary)", children }),
       td: ({ children }) => /* @__PURE__ */ jsx("td", { className: "px-4 py-2 text-sm border-t border-(--border-hairline)", children }),
       ul: ({ children }) => /* @__PURE__ */ jsx("ul", { className: "my-3 ml-6 list-disc space-y-1 [&>li]:pl-1", children }),
-      ol: ({ children }) => /* @__PURE__ */ jsx("ol", { className: "my-3 ml-6 list-decimal space-y-1 [&>li]:pl-1", children }),
-      li: ({ children, className: liClass }) => {
+      ol: ({ children, start }) => /* @__PURE__ */ jsx("ol", { start, className: "my-3 ml-6 list-decimal space-y-1 [&>li]:pl-1", children }),
+      li: ({ children, className: liClass, id }) => {
         const isTaskItem = liClass?.includes("task-list-item");
         return /* @__PURE__ */ jsx(
           "li",
           {
+            id,
             className: cn(
               "leading-relaxed",
               isTaskItem && "list-none -ml-6 flex items-start gap-2"
@@ -833,7 +1240,7 @@ function MarkdownRenderer({
           }
         );
       },
-      input: ({ type, checked, ...props }) => {
+      input: ({ node: _node, type, checked, ...props }) => {
         if (type === "checkbox") {
           return /* @__PURE__ */ jsx(
             "input",
@@ -885,9 +1292,9 @@ function MarkdownRenderer({
       children: /* @__PURE__ */ jsx(
         ReactMarkdown,
         {
-          remarkPlugins: [remarkGfm, remarkMath],
-          rehypePlugins: [rehypeRaw, rehypeKatex, rehypeSlug],
-          urlTransform,
+          remarkPlugins: [remarkGfm, remarkMath, remarkCodeMeta],
+          rehypePlugins: [rehypeRaw, rehypeSlug, rehypeSanitizeMarkdown, rehypeKatex],
+          urlTransform: (url) => defaultUrlTransform(urlTransform ? urlTransform(url) : url),
           components,
           children: content
         }
@@ -915,7 +1322,7 @@ function HeadingAnchor({ id }) {
       href: `#${id}`,
       onClick: handleClick,
       className: cn(
-        "opacity-0 group-hover:opacity-100 transition-opacity",
+        "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity rounded outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "text-(--text-tertiary) hover:text-(--text-primary)",
         copied && "text-success"
       ),
@@ -924,21 +1331,21 @@ function HeadingAnchor({ id }) {
     }
   );
 }
-function parseLineHighlights(input) {
-  const lines = [];
+function parseLineHighlights(input, lineCount) {
+  const lines = /* @__PURE__ */ new Set();
   for (const part of input.split(",")) {
     const trimmed = part.trim();
     if (trimmed.includes("-")) {
-      const [start, end] = trimmed.split("-").map((n) => parseInt(n.trim(), 10));
-      if (!isNaN(start) && !isNaN(end)) {
-        for (let i = start; i <= end; i++) lines.push(i);
+      const [start, end] = trimmed.split("-").map((n) => Number(n.trim()));
+      if (Number.isSafeInteger(start) && Number.isSafeInteger(end) && start > 0 && end >= start) {
+        for (let i = start; i <= Math.min(end, lineCount); i++) lines.add(i);
       }
     } else {
-      const num = parseInt(trimmed, 10);
-      if (!isNaN(num)) lines.push(num);
+      const num = Number(trimmed);
+      if (Number.isSafeInteger(num) && num > 0 && num <= lineCount) lines.add(num);
     }
   }
-  return lines;
+  return [...lines];
 }
 function MathRenderer({ math, block = false, className }) {
   const containerRef = useRef(null);

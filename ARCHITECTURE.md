@@ -14,6 +14,10 @@ pieces are quarantined:
 | **Patterns** | `@yuhuanowo/yunui/patterns` | StatCard, PageHeader, Sidebar, Footer, FAQ, CodeBlock, BlogCard, page/media states… | Page-level compositions. Still generic, but bigger than a primitive. |
 | **App domain** | `@yuhuanowo/yunui/ai` | ModelCard, ProviderIcon/ModelIcon, CapabilitySelector, ThinkingBlock, Navbar, LanguageSwitcher… | LLM/AI-gateway-shaped product UI. **Only import if you're building that kind of product.** |
 
+The generic `Navbar` is also available from `/patterns`, sharing the exact
+implementation with the compatible `/ai` export. A general website does not
+need to rebuild navigation because the original file lives in the AI folder.
+
 `@yuhuanowo/yunui/content` provides Markdown/content rendering and
 `@yuhuanowo/yunui/chat` provides chat UI blocks. The six JavaScript entry points
 are `.`, `/patterns`, `/ai`, `/content`, `/chat`, and `/adapters`;

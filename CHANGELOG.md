@@ -11,6 +11,127 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Agent Chat implementation
+- Added owner-approved `StreamingText` and `ContextCards` to `/chat`, and
+  `SelectionActions` and `DiffTable` to `/ai`, adapted from pinned Beautiful UI
+  MIT source. Consumers can directly reuse answer sources/follow-ups, retrieved
+  context, selected-passage editing and proposed-change decisions. All stream,
+  retrieval and write outcomes remain host-owned; controls never simulate success.
+- Integrated the new public units into the real chat/docs/showcase, three-language
+  API pages, generated catalogue and typed consumer recipe. Fixed the narrow
+  Chromium CodeBlock filename header by letting its existing controls wrap.
+- Implemented the owner-authorized D4 appearance directly in the public chat,
+  thinking, timeline, run-status and questionnaire components. Conversations
+  use right-aligned user bubbles and inline assistant activity; existing host
+  contracts and legacy type unions remain supported. Model workspace and model
+  card appearances are outside this refactor.
+- Both CodeBlock entries now use a compact 14px surface and fold blocks over
+  16 lines to an eight-line preview. Full-source copy/edit, metadata and syntax
+  rendering remain intact; disclosure preserves the reading position.
+- Tool entries add an optional `outputContent` slot for host-composed public
+  content components. Docs, showcase and typed consumer recipes use the actual
+  components and keep runtime data and execution in the host.
+- Integrated the approved D3 changes into ChatComposer, chat message/header/
+  attachment, thinking, timeline and run status, with YunUI themes, typography,
+  Avatar and form controls. Further Beautiful UI visual migration remains under
+  owner review; D3 does not complete the whole AI redesign.
+- Host-controlled source/command/model menus support caret-safe completion,
+  immutable data and accessible keyboard navigation. Legacy imports and named
+  timeline/status unions remain compatible; new entries have separate types.
+- Added controlled ApprovalQuestion with stable answer IDs, busy and dismiss
+  callbacks, separate from tool authorization. Consumer recipes retain rejected
+  drafts and newer edits while a send is awaiting host acceptance.
+- Updated public documentation and recipes; MIT provenance and notices are
+  included in the package. No simulated backend execution is shipped.
+
+### Documentation backend
+- Search now indexes English, Simplified Chinese and Traditional Chinese page
+  titles and summaries so localized component names return the relevant docs.
+- Unsupported vector search returns a clear HTTP 400 instead of an internal
+  server error; full-text search behavior remains compatible.
+
+### AI and chat control fixes
+- Provider/model icons retry the new source after provider, URL or icon base
+  changes instead of carrying a previous image failure into the new identity.
+- ModelSelect uses instance-specific, collision-safe option/listbox IDs and
+  accepts host pin/unpin labels. Provider group names such as `__proto__` cannot
+  collide with object prototype keys.
+- ModelSelect separates Pin controls from option ownership, preserves keyboard
+  focus after regrouping, handles Escape throughout an open picker, and uses
+  readable existing tokens for provider labels and metadata.
+- Navbar responds to its own container width to avoid overlapping navigation
+  in narrow layouts. Account and language popovers apply collision shifts
+  correctly when anchored to the right edge.
+- AccountMenu supports its declared menu keyboard navigation and restores focus
+  after Escape. Account identity changes close stale menus. LanguageSwitcher
+  exposes accurate disclosure semantics, disables pending choices and keeps
+  buttons from submitting a surrounding form.
+- ModelSelect honors disabled options for pointer and keyboard selection, and
+  returns focus to its trigger after Escape or selection.
+- Collapsed AgentTimeline details are inert and hidden from assistive technology
+  while retaining the existing disclosure animation.
+- Approval actions and ChatComposer Stop are disabled without host callbacks.
+  ChatComposer preserves IME commit Enter events identified by keyCode 229.
+
+### Agent adoption
+- Generated catalogue of real public exports, exact imports, custom props,
+  aliases and installed declaration paths; typed recipes compose YunUI's current
+  landing, dashboard and chat components.
+- `yunui list/find/info`, a read-only strict integration doctor, and opt-in
+  `yunui init` project guidance for Codex/Claude. Initialization preserves owner
+  instructions, handles package aliases and CSS-relative dist scanning, and
+  avoids network installs or global configuration edits.
+- Consumer origin audit identifies copied native controls and surfaces avatar /
+  empty-state candidates for review. Generic Navbar is available from `/patterns`
+  as the same implementation as the compatible `/ai` export.
+- Strict doctor excludes tests, stories, generated code and reference/research
+  drafts. Commented, quoted and type-only imports cannot masquerade as active
+  runtime CSS integration; real static/dynamic imports and HTML links still work.
+- AI refactor drafts require owner review of each appearance and interaction
+  design; Beautiful UI source is retained as a pinned local reference checkout.
+
+### Security
+- **Untrusted Markdown HTML is sanitized by default.** Scripts, iframe/srcdoc,
+  embedded objects, raw SVG/MathML, forms, styles, event handlers and unsafe
+  attributes are removed before trusted KaTeX rendering. Standard formatting,
+  GFM, callouts and code rendering remain supported. This closes a reproduced
+  iframe/srcdoc script-execution path in 0.2.18.
+- **URL rewrites retain safe-protocol filtering.** A host `urlTransform` cannot
+  accidentally reintroduce `javascript:` or `data:` links after input cleanup.
+- **Safe heading and footnote IDs.** Raw and generated IDs receive the
+  `user-content-` prefix against DOM clobbering; local links follow those IDs.
+- **Bounded line highlights.** Requested code ranges are capped at actual code
+  length rather than looping over arbitrarily large numeric ranges.
+
+### Fixed
+- **Code payloads retain indentation and blank lines**, and tabbed blocks display
+  the selected source, including intentionally empty tabs. Content highlighting
+  settles without repeated effects when no highlight-line array is supplied.
+- **Clipboard failures do not claim success.** Legacy fallback nodes are removed
+  even when copying throws, and focus returns to the invoking control. Code block
+  edit, copy and tab buttons do not submit a surrounding host form.
+- **Markdown fences forward supported metadata** for line numbers, bounded line
+  highlights and filenames through a narrow sanitizer allowlist.
+- **ContentImage retries on `src` or `srcSet` changes**, resets stale load/error
+  states and closes an old preview; delayed events from previous images are ignored.
+- **Image previews are keyboard accessible.** Enter/Space open a named zoom action
+  after load, focus is visible and restored on close, and caller handlers compose
+  with built-in behavior (including `preventDefault`). Images inside links keep
+  link navigation without nested zoom controls. `zoomLabel` overrides the name.
+- **Lazy images work without IntersectionObserver** by loading eagerly; both src
+  and srcSet otherwise wait until the image is near its scroll viewport.
+- **Markdown navigation preserves footnotes and ordered-list start values**;
+  heading copy links become visible on keyboard focus.
+- **Auxiliary accessibility and keyboard sweeps fail on incomplete checks**:
+  navigation/HTTP errors, redirects to login, wrong themes, browser errors and
+  unreachable or invisible focused controls no longer produce a false pass.
+
+### Validation
+- Regression coverage exercises image resource changes, keyboard previews,
+  unsafe HTML/URLs, headings/footnotes/math, and real harness failure fixtures.
+  Browser verification covers Chromium and WebKit, all three themes and mobile,
+  tablet and desktop. Existing screenshot baselines are preserved.
+
 ## [0.2.18] - 2026-10-01
 
 Maintenance release consolidating the changes since 0.2.17. Existing label

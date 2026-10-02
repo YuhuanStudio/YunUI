@@ -1,57 +1,138 @@
 "use client";
-import { capabilityIconColor, copyToClipboard } from './chunk-LEBQPP4B.js';
-export { DiscordIcon, Footer, GithubIcon, InstagramIcon } from './chunk-LEBQPP4B.js';
-import { TextShimmer, ThemeToggle } from './chunk-GAXVET76.js';
-import { cn, useAnchoredPosition, useDismissOnOutside } from './chunk-V7VJKZ5Q.js';
+import { capabilityIconColor } from './chunk-7HKJHDJL.js';
+export { DiscordIcon, Footer, GithubIcon, InstagramIcon, Navbar } from './chunk-7HKJHDJL.js';
+import { TextShimmer } from './chunk-QA5K76X3.js';
+import { copyToClipboard } from './chunk-P6LU2FWV.js';
+import { mergeLabels } from './chunk-GRUB2GXF.js';
+import { cn, Button, RadioGroup, RadioGroupItem, Checkbox, useAnchoredPosition, useDismissOnOutside, Badge } from './chunk-ALP6SDRA.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
-import { memo, useState, useEffect, useRef, useMemo } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, ChevronUp, ChevronDown, Check, Copy, Image, PauseCircle, Search, X, Sparkles, Bot, Globe, Menu, CircleUserRound, LogOut, ShieldAlert, Wrench, FileText, Terminal, Loader2, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
+import { memo, useState, useId, useRef, useCallback, useEffect, useMemo, useLayoutEffect } from 'react';
+import { Pin, MessageSquare, Waves, Code, Eye, Brain, Pencil, Ban, Fingerprint, Layers, SlidersHorizontal, Mic, Video, Music, Box, Radio, Sparkles, ChevronDown, X, ArrowRight, Check, CircleAlert, Clock3, Loader2, RefreshCw, ArrowUp, ChevronRight, Copy, Image, PauseCircle, Search, Bot, Globe, CircleUserRound, LogOut, FileText, Terminal, Wrench, CircleHelp, Scissors, ThumbsUp, Type, Shield, Shuffle, Volume2, Headphones, Palette, Hash } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
+import { motion } from 'framer-motion';
 import { cva } from 'class-variance-authority';
 
-function ThinkingBlock({ content, isStreaming, defaultOpen = false, renderContent }) {
-  const t = useYunUI().useT("common.thinking");
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-  return /* @__PURE__ */ jsxs("div", { className: "my-2 rounded-xl border border-border bg-muted/30 overflow-hidden", children: [
+function ThinkingBlock({
+  content,
+  isStreaming = false,
+  defaultOpen = false,
+  open,
+  onOpenChange,
+  steps = [],
+  selectedStepId,
+  onStepSelect,
+  labels,
+  renderContent
+}) {
+  const translate = useYunUI().useT("common.thinking");
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const contentId = `${useId()}-thinking-content`;
+  const controlled = open !== void 0;
+  const isOpen = controlled ? open : internalOpen;
+  const canToggle = !controlled || Boolean(onOpenChange);
+  const fallback = (key, value) => {
+    try {
+      const translated = translate(key);
+      return translated && translated !== key && !translated.endsWith(`.${key}`) ? translated : value;
+    } catch {
+      return value;
+    }
+  };
+  const copy = {
+    title: labels?.title ?? fallback("label", "Thinking"),
+    active: labels?.active ?? fallback("active", "Thinking"),
+    inProgress: labels?.inProgress ?? fallback("inProgress", "In progress"),
+    completed: labels?.completed ?? fallback("completed", "Completed"),
+    failed: labels?.failed ?? fallback("failed", "Failed"),
+    cancelled: labels?.cancelled ?? fallback("cancelled", "Cancelled"),
+    pending: labels?.pending ?? fallback("pending", "Pending")
+  };
+  const requestOpen = () => {
+    if (!canToggle) return;
+    const next = !isOpen;
+    if (!controlled) setInternalOpen(next);
+    onOpenChange?.(next);
+  };
+  const statusLabel = (status) => ({
+    pending: copy.pending,
+    running: copy.active,
+    done: copy.completed,
+    failed: copy.failed,
+    cancelled: copy.cancelled
+  })[status];
+  const statusIcon2 = (status) => {
+    const common = "h-3.5 w-3.5 shrink-0";
+    switch (status) {
+      case "running":
+        return /* @__PURE__ */ jsx(Loader2, { "aria-hidden": true, className: cn(common, "motion-safe:animate-spin text-primary") });
+      case "done":
+        return /* @__PURE__ */ jsx(Check, { "aria-hidden": true, className: cn(common, "text-(--success)") });
+      case "failed":
+        return /* @__PURE__ */ jsx(CircleAlert, { "aria-hidden": true, className: cn(common, "text-(--error)") });
+      case "cancelled":
+        return /* @__PURE__ */ jsx(X, { "aria-hidden": true, className: cn(common, "text-muted-foreground") });
+      default:
+        return /* @__PURE__ */ jsx(Clock3, { "aria-hidden": true, className: cn(common, "text-muted-foreground/60") });
+    }
+  };
+  return /* @__PURE__ */ jsxs("section", { className: "@container/think my-2 w-full min-w-0", "data-yunui": "thinking-block", children: [
     /* @__PURE__ */ jsxs(
       "button",
       {
-        onClick: () => setIsOpen(!isOpen),
+        type: "button",
+        onClick: requestOpen,
+        disabled: !canToggle,
         "aria-expanded": isOpen,
-        className: "w-full flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+        "aria-controls": contentId,
+        className: "group flex min-h-8 w-fit max-w-full items-center gap-2 rounded-md px-1.5 text-left text-[13px] text-muted-foreground transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default",
         children: [
-          /* @__PURE__ */ jsx("div", { className: cn(
-            "flex items-center justify-center w-5 h-5 rounded-md bg-muted text-muted-foreground",
-            isStreaming && "animate-pulse"
-          ), children: /* @__PURE__ */ jsx(Brain, { size: 11 }) }),
-          /* @__PURE__ */ jsx("span", { className: "font-medium whitespace-nowrap", children: t("label") }),
-          isStreaming && /* @__PURE__ */ jsx("span", { className: "text-[10px] uppercase tracking-wider font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded whitespace-nowrap", children: t("active") }),
-          /* @__PURE__ */ jsx("div", { className: "ml-auto", children: isOpen ? /* @__PURE__ */ jsx(ChevronUp, { size: 14, className: "text-muted-foreground/70" }) : /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: "text-muted-foreground/70" }) })
+          /* @__PURE__ */ jsx(Sparkles, { "aria-hidden": true, className: cn("h-3.5 w-3.5 shrink-0", isStreaming ? "text-primary" : "text-muted-foreground") }),
+          isStreaming ? /* @__PURE__ */ jsx(TextShimmer, { text: copy.title, role: "status", className: "min-w-0 truncate font-medium text-foreground" }) : /* @__PURE__ */ jsx("span", { className: "min-w-0 truncate font-medium text-foreground", children: copy.title }),
+          isStreaming ? /* @__PURE__ */ jsx("span", { "aria-hidden": true, className: "h-1.5 w-1.5 shrink-0 rounded-full bg-primary motion-safe:animate-pulse" }) : null,
+          /* @__PURE__ */ jsx(ChevronDown, { "aria-hidden": true, className: cn("h-3.5 w-3.5 shrink-0 transition-transform motion-reduce:transition-none", isOpen && "rotate-180") })
         ]
       }
     ),
-    /* @__PURE__ */ jsx(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsx(
-      motion.div,
+    /* @__PURE__ */ jsx(
+      "div",
       {
-        initial: { height: 0, opacity: 0 },
-        animate: { height: "auto", opacity: 1 },
-        exit: { height: 0, opacity: 0 },
-        transition: { duration: 0.2, ease: "easeInOut" },
-        children: /* @__PURE__ */ jsx("div", { className: "px-3 pb-2.5 pt-1.5 text-xs text-muted-foreground leading-relaxed border-t border-border/50", children: content ? /* @__PURE__ */ jsxs("div", { className: "text-muted-foreground", children: [
+        id: contentId,
+        "aria-hidden": !isOpen,
+        inert: !isOpen,
+        className: cn(
+          "grid min-w-0 transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none",
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        ),
+        children: /* @__PURE__ */ jsx("div", { className: "min-h-0 overflow-hidden", children: steps.length ? /* @__PURE__ */ jsx("ol", { "aria-label": copy.title, className: "ml-2 mt-1 flex min-w-0 flex-col gap-0.5 border-l border-border/70 py-1 pl-3", children: steps.map((step) => {
+          const contentNode = /* @__PURE__ */ jsxs(Fragment, { children: [
+            statusIcon2(step.status),
+            /* @__PURE__ */ jsx("span", { className: cn("min-w-0 text-left text-[12.5px] text-foreground", step.mono && "font-mono text-xs"), children: step.label }),
+            step.meta != null ? /* @__PURE__ */ jsx("span", { "data-yunui": "thinking-block-step-meta", className: "col-start-2 min-w-0 break-words text-[11px] tabular-nums text-muted-foreground @min-[360px]/think:col-start-3 @min-[360px]/think:max-w-[10rem] @min-[360px]/think:text-right", children: step.meta }) : null,
+            /* @__PURE__ */ jsx("span", { className: "sr-only", children: statusLabel(step.status) })
+          ] });
+          return /* @__PURE__ */ jsxs("li", { "data-yunui": "thinking-block-step", className: "min-w-0", children: [
+            onStepSelect ? /* @__PURE__ */ jsx(
+              "button",
+              {
+                type: "button",
+                "aria-pressed": selectedStepId === step.id,
+                onClick: () => onStepSelect(step.id),
+                className: cn("grid min-h-8 w-full min-w-0 grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-2 gap-y-0.5 rounded-sm px-1.5 text-left transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring @min-[360px]/think:grid-cols-[0.875rem_minmax(0,1fr)_auto]", selectedStepId === step.id && "bg-muted/60"),
+                children: contentNode
+              }
+            ) : /* @__PURE__ */ jsx("div", { className: "grid min-h-8 min-w-0 grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-2 gap-y-0.5 px-1.5 @min-[360px]/think:grid-cols-[0.875rem_minmax(0,1fr)_auto]", children: contentNode }),
+            step.detail != null ? /* @__PURE__ */ jsx("div", { "data-yunui": "thinking-block-step-detail", className: "ml-5 border-l border-border/70 py-1 pl-2.5 text-xs leading-relaxed text-muted-foreground", children: step.detail }) : null
+          ] }, step.id);
+        }) }) : content ? /* @__PURE__ */ jsxs("div", { className: "ml-2 mt-1 border-l border-border/70 py-1 pl-3 pr-2 text-[13px] leading-relaxed text-muted-foreground", children: [
           renderContent ? renderContent(content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: content }),
-          isStreaming && /* @__PURE__ */ jsx(
-            motion.span,
-            {
-              animate: { opacity: [0.4, 1, 0.4] },
-              transition: { duration: 1.2, repeat: Infinity },
-              className: "inline-block w-1 h-3 bg-muted-foreground/60 ml-0.5 align-middle"
-            }
-          )
-        ] }) : /* @__PURE__ */ jsx("span", { className: "italic opacity-50", children: t("inProgress") }) })
+          isStreaming ? /* @__PURE__ */ jsx("span", { "aria-hidden": true, className: "ml-1 inline-block h-3 w-1 animate-pulse bg-muted-foreground/70 align-middle motion-reduce:animate-none" }) : null
+        ] }) : isStreaming ? /* @__PURE__ */ jsx("p", { className: "ml-2 mt-1 border-l border-border/70 py-1 pl-3 text-[12px] text-muted-foreground", children: copy.inProgress }) : null })
       }
-    ) })
+    )
   ] });
+}
+function domIdPart(value) {
+  return Array.from(value, (character) => character.codePointAt(0)?.toString(16) ?? "0").join("-") || "empty";
 }
 var ICONS = {
   terminal: Terminal,
@@ -59,206 +140,447 @@ var ICONS = {
   globe: Globe,
   image: Image,
   file: FileText,
-  tool: Wrench
+  tool: Wrench,
+  think: Sparkles,
+  write: Pencil,
+  run: Terminal,
+  read: FileText
 };
-function Rail({ children, tone = "muted", isLast }) {
-  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center self-stretch", children: [
-    /* @__PURE__ */ jsx(
-      "span",
-      {
-        className: cn(
-          "relative z-10 mt-0.5 flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-background ring-1 transition-colors",
-          tone === "muted" && "text-muted-foreground ring-border",
-          tone === "running" && "text-primary ring-primary/40",
-          tone === "error" && "text-(--error) ring-(--error)/40",
-          tone === "warn" && "text-(--warning) ring-(--warning)/40"
-        ),
-        children
-      }
-    ),
-    !isLast && /* @__PURE__ */ jsx("span", { className: "my-1 w-0.5 flex-1 rounded-full bg-border" })
-  ] });
+function useDisclosure({ id, open: controlledOpen, defaultOpen = false, onToggleRow }) {
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const controlled = controlledOpen !== void 0;
+  const open = controlled ? controlledOpen : internalOpen;
+  const canToggle = !controlled || Boolean(onToggleRow);
+  const toggle = () => {
+    if (!canToggle) return;
+    const next = !open;
+    if (!controlled) setInternalOpen(next);
+    onToggleRow?.(id, next);
+  };
+  return { open, canToggle, toggle };
 }
-function Collapse({ open, children }) {
+function Collapse({ open, children, id }) {
   return /* @__PURE__ */ jsx(
     "div",
     {
+      id,
+      "aria-hidden": !open,
+      inert: !open,
       className: cn(
-        "grid transition-[grid-template-rows,opacity] duration-200 ease-out motion-reduce:transition-none",
+        "grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none",
         open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
       ),
       children: /* @__PURE__ */ jsx("div", { className: "min-h-0 overflow-hidden", children })
     }
   );
 }
-function Chevron({ open }) {
-  return /* @__PURE__ */ jsx(ChevronDown, { size: 14, className: cn("shrink-0 text-muted-foreground/50 transition-transform duration-200", open && "rotate-180") });
+function statusIcon(status) {
+  if (status === "running") return /* @__PURE__ */ jsx(Loader2, { "aria-hidden": true, className: "h-3.5 w-3.5 shrink-0 motion-safe:animate-spin text-primary" });
+  if (status === "done") return /* @__PURE__ */ jsx(Check, { "aria-hidden": true, className: "h-3.5 w-3.5 shrink-0 text-(--success)" });
+  if (status === "error" || status === "failed") return /* @__PURE__ */ jsx(CircleAlert, { "aria-hidden": true, className: "h-3.5 w-3.5 shrink-0 text-(--error)" });
+  if (status === "cancelled") return /* @__PURE__ */ jsx(X, { "aria-hidden": true, className: "h-3.5 w-3.5 shrink-0 text-muted-foreground" });
+  return /* @__PURE__ */ jsx(Clock3, { "aria-hidden": true, className: "h-3.5 w-3.5 shrink-0 text-muted-foreground/60" });
 }
-function ReasoningRow({ block, isLast, renderContent }) {
-  const [open, setOpen] = useState(block.defaultOpen ?? false);
+function statusText(status, labels) {
+  if (status === "done") return labels.completed ?? "Completed";
+  if (status === "failed") return labels.failed ?? "Failed";
+  if (status === "cancelled") return labels.cancelled ?? "Cancelled";
+  if (status === "error") return labels.error ?? "Error";
+  if (status === "pending") return labels.pending ?? "Pending";
+  return labels.running ?? "Running";
+}
+function toneClass(tone) {
+  if (tone === "add") return "text-(--success)";
+  if (tone === "del") return "text-(--error)";
+  return "text-muted-foreground";
+}
+function ReasoningRow({ block, labels, onToggleRow, renderContent }) {
+  const instanceId = useId();
   const expandable = Boolean(block.content.trim());
-  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
-    /* @__PURE__ */ jsx(Rail, { tone: block.active ? "running" : "muted", isLast, children: /* @__PURE__ */ jsxs("span", { className: "relative flex items-center justify-center", children: [
-      block.active ? /* @__PURE__ */ jsx(
-        "span",
-        {
-          "aria-hidden": "true",
-          className: "absolute h-4 w-4 animate-ping rounded-full bg-primary/15 motion-reduce:hidden"
-        }
-      ) : null,
-      /* @__PURE__ */ jsx(
-        Brain,
-        {
-          size: 13,
-          strokeWidth: 1.75,
-          className: cn(block.active && "animate-pulse motion-reduce:animate-none")
-        }
-      )
-    ] }) }),
-    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs(
-      "div",
+  const disclosure = useDisclosure({ id: block.id, open: block.open, defaultOpen: block.defaultOpen, onToggleRow });
+  const title = `${instanceId}-reasoning-${domIdPart(block.id)}`;
+  return /* @__PURE__ */ jsxs("div", { "data-yunui": "agent-timeline-reasoning-disclosure", className: "min-w-0 py-1", children: [
+    /* @__PURE__ */ jsxs(
+      "button",
       {
-        "data-yunui": "agent-timeline-reasoning-disclosure",
-        className: cn(
-          "overflow-hidden rounded-lg",
-          expandable && "border border-border/60 bg-muted/20"
-        ),
+        type: "button",
+        disabled: !expandable || !disclosure.canToggle,
+        "aria-expanded": expandable ? disclosure.open : void 0,
+        "aria-controls": expandable ? title : void 0,
+        onClick: disclosure.toggle,
+        className: "flex min-h-8 w-full items-center gap-2 rounded-lg px-2 text-left transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default",
         children: [
-          /* @__PURE__ */ jsxs(
-            "button",
-            {
-              type: "button",
-              onClick: () => expandable && setOpen(!open),
-              "aria-expanded": expandable ? open : void 0,
-              className: cn(
-                "flex h-[30px] w-full items-center gap-2 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-                expandable ? "cursor-pointer rounded-none px-2.5 hover:bg-muted/40" : "cursor-default rounded-md px-1.5"
-              ),
-              children: [
-                block.active ? /* @__PURE__ */ jsx(
-                  TextShimmer,
-                  {
-                    text: block.label,
-                    className: "min-w-0 flex-1 truncate text-[13px]",
-                    "data-agent-timeline-active": "true"
-                  }
-                ) : /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-[13px] text-muted-foreground", children: block.label }),
-                expandable ? /* @__PURE__ */ jsx(Chevron, { open }) : null
-              ]
-            }
-          ),
-          expandable ? /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsx(
-            "div",
-            {
-              "data-yunui": "agent-timeline-reasoning-content",
-              className: "border-t border-border/50 px-2.5 pb-2.5 pt-2 text-[12.5px] leading-relaxed text-muted-foreground",
-              children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content })
-            }
-          ) }) : null
+          /* @__PURE__ */ jsx(Sparkles, { "aria-hidden": true, size: 14, className: cn("shrink-0", block.active ? "text-primary" : "text-muted-foreground") }),
+          block.active ? /* @__PURE__ */ jsx(TextShimmer, { text: block.label, active: true, "data-agent-timeline-active": "true", className: "min-w-0 flex-1 truncate text-[13px]" }) : /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate text-[13px] text-foreground", children: block.label }),
+          block.active ? /* @__PURE__ */ jsx("span", { className: "sr-only", children: labels.running ?? "Running" }) : null,
+          expandable ? /* @__PURE__ */ jsx(ChevronDown, { "aria-hidden": true, size: 14, className: cn("shrink-0 text-muted-foreground transition-transform", disclosure.open && "rotate-180") }) : null
         ]
       }
-    ) })
+    ),
+    expandable ? /* @__PURE__ */ jsx(Collapse, { id: title, open: disclosure.open, children: /* @__PURE__ */ jsx("div", { "data-yunui": "agent-timeline-reasoning-content", className: "ml-8 border-l border-border pl-3 pr-2 py-2 text-sm leading-relaxed text-muted-foreground", children: renderContent ? renderContent(block.content) : /* @__PURE__ */ jsx("div", { className: "whitespace-pre-wrap", children: block.content }) }) }) : null
   ] });
 }
-function ToolRow({ block, isLast }) {
-  const [open, setOpen] = useState(false);
+function ToolRow({ block, labels, onToggleRow, onToggleDiff }) {
+  const instanceId = useId();
+  const expandable = Boolean(block.command || block.output || block.outputContent != null || block.details?.length || block.files?.length);
+  const disclosure = useDisclosure({ id: block.id, open: block.open, defaultOpen: block.defaultOpen, onToggleRow });
+  const [openDiff, setOpenDiff] = useState(null);
   const Icon = ICONS[block.icon ?? "tool"];
-  const error = block.status === "error";
-  const expandable = !!block.output || !!block.command;
-  const tone = block.status === "running" ? "running" : error ? "error" : "muted";
-  return /* @__PURE__ */ jsxs("div", { className: cn("flex gap-2.5", block.indent && "pl-6"), children: [
-    /* @__PURE__ */ jsx(Rail, { tone, isLast, children: block.status === "running" ? /* @__PURE__ */ jsx(Loader2, { size: 13, className: "animate-spin" }) : /* @__PURE__ */ jsx(Icon, { size: 13, strokeWidth: 1.75 }) }),
-    /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1 pb-2", children: [
-      /* @__PURE__ */ jsxs(
-        "button",
+  const detailId = `${instanceId}-tool-${domIdPart(block.id)}`;
+  return /* @__PURE__ */ jsxs("div", { className: cn("min-w-0", block.indent && "ml-5"), "data-yunui": "agent-tool-row", children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "button",
+        disabled: !expandable || !disclosure.canToggle,
+        "aria-expanded": expandable ? disclosure.open : void 0,
+        "aria-controls": expandable ? detailId : void 0,
+        onClick: disclosure.toggle,
+        className: "group flex min-h-8 w-full min-w-0 items-center gap-2 rounded-lg px-2 text-left transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default",
+        children: [
+          /* @__PURE__ */ jsx(Icon, { "aria-hidden": true, size: 14, className: "shrink-0 text-muted-foreground" }),
+          /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[13px] font-medium text-foreground", children: block.verb }),
+          block.summary || block.command ? /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate rounded-md bg-muted px-1.5 py-0.5 font-mono text-[11.5px] text-muted-foreground", children: block.summary ?? block.command }) : /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1" }),
+          statusIcon(block.status),
+          /* @__PURE__ */ jsx("span", { className: "sr-only", children: statusText(block.status, labels) }),
+          expandable ? /* @__PURE__ */ jsx(ChevronDown, { "aria-hidden": true, size: 14, className: cn("shrink-0 text-muted-foreground transition-transform", disclosure.open && "rotate-180") }) : null
+        ]
+      }
+    ),
+    expandable ? /* @__PURE__ */ jsx(Collapse, { id: detailId, open: disclosure.open, children: /* @__PURE__ */ jsxs("div", { className: "ml-6 mr-2 mt-0.5 border-l border-border/70 py-1.5 pl-3", children: [
+      block.command ? /* @__PURE__ */ jsxs("div", { className: "mb-1.5 font-mono text-xs text-foreground/80", children: [
+        "$ ",
+        block.command
+      ] }) : null,
+      block.outputContent != null ? /* @__PURE__ */ jsx("div", { role: "region", "aria-label": labels.toolOutput?.(block.verb) ?? `${block.verb} output`, className: "min-w-0", children: block.outputContent }) : block.output ? /* @__PURE__ */ jsx("pre", { role: "region", "aria-label": labels.toolOutput?.(block.verb) ?? `${block.verb} output`, tabIndex: 0, className: "max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-sm bg-muted/30 px-2 py-1.5 font-mono text-xs text-foreground/80", children: block.output }) : null,
+      block.details?.length ? /* @__PURE__ */ jsx("div", { className: "mt-2 flex flex-col gap-1", children: block.details.map((detail) => /* @__PURE__ */ jsx("div", { className: cn("flex items-baseline justify-between gap-3 text-xs", toneClass(detail.tone ?? "context"), detail.mono && "font-mono"), children: /* @__PURE__ */ jsx("span", { className: "min-w-0 whitespace-pre-wrap", children: detail.text }) }, detail.id)) }) : null,
+      block.files?.length ? /* @__PURE__ */ jsx("div", { className: "mt-2 flex flex-wrap gap-1.5", children: block.files.map((file, fileIndex) => {
+        const fileOpen = openDiff === file.id;
+        const canShowLines = Boolean(file.lines?.length || onToggleDiff);
+        const diffId = `${instanceId}-diff-${fileIndex}-${domIdPart(file.id)}`;
+        const chip = /* @__PURE__ */ jsxs(Fragment, { children: [
+          /* @__PURE__ */ jsx("span", { className: "min-w-0 truncate", children: file.file }),
+          /* @__PURE__ */ jsxs("span", { className: "shrink-0 text-(--success) tabular-nums", children: [
+            "+",
+            file.additions
+          ] }),
+          file.deletions ? /* @__PURE__ */ jsxs("span", { className: "shrink-0 text-(--error) tabular-nums", children: [
+            "\u2212",
+            file.deletions
+          ] }) : null
+        ] });
+        return /* @__PURE__ */ jsxs("span", { className: "min-w-0", children: [
+          canShowLines ? /* @__PURE__ */ jsx("button", { type: "button", "aria-expanded": fileOpen, "aria-controls": file.lines?.length ? diffId : void 0, "aria-label": labels.showDiff?.(file.file) ?? `Show diff for ${file.file}`, onClick: () => {
+            const next = fileOpen ? null : file.id;
+            setOpenDiff(next);
+            onToggleDiff?.(file.id, next !== null);
+          }, className: "inline-flex max-w-full items-center gap-2 rounded-full bg-muted/50 px-2 py-1 font-mono text-[11px] text-muted-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", children: chip }) : /* @__PURE__ */ jsx("span", { className: "inline-flex max-w-full items-center gap-2 rounded-full bg-muted/50 px-2 py-1 font-mono text-[11px] text-muted-foreground", children: chip }),
+          file.lines?.length ? /* @__PURE__ */ jsx(Collapse, { open: fileOpen, id: diffId, children: /* @__PURE__ */ jsx("pre", { className: "mt-1 max-h-48 overflow-auto rounded-sm bg-muted/30 p-2 font-mono text-[11px]", children: file.lines.map((line) => /* @__PURE__ */ jsxs("span", { className: cn("block whitespace-pre-wrap", toneClass(line.tone)), children: [
+            line.text,
+            "\n"
+          ] }, line.id)) }) }) : null
+        ] }, file.id);
+      }) }) : null
+    ] }) }) : null
+  ] });
+}
+function TaskRow({ block, labels, onToggleRow }) {
+  const instanceId = useId();
+  const expandable = Boolean(block.details?.length);
+  const disclosure = useDisclosure({ id: block.id, open: block.open, defaultOpen: block.defaultOpen, onToggleRow });
+  const detailId = `${instanceId}-task-${domIdPart(block.id)}`;
+  return /* @__PURE__ */ jsxs("div", { "data-yunui": "agent-task-row", className: "min-w-0", children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "button",
+        disabled: !expandable || !disclosure.canToggle,
+        "aria-expanded": expandable ? disclosure.open : void 0,
+        "aria-controls": expandable ? detailId : void 0,
+        onClick: disclosure.toggle,
+        className: "flex min-h-10 w-full min-w-0 items-center gap-2.5 rounded-sm px-2.5 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default",
+        children: [
+          statusIcon(block.status),
+          block.status === "done" || block.status === "failed" || block.status === "cancelled" ? /* @__PURE__ */ jsx("span", { className: cn("shrink-0 text-[11px] font-medium", block.status === "done" ? "text-(--success)" : block.status === "failed" ? "text-(--error)" : "text-muted-foreground"), children: statusText(block.status, labels) }) : /* @__PURE__ */ jsx("span", { className: "sr-only", children: statusText(block.status, labels) }),
+          /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate text-[13px] font-medium text-foreground", children: block.label }),
+          block.amount != null ? /* @__PURE__ */ jsx("span", { className: "shrink-0 text-xs tabular-nums text-muted-foreground", children: block.amount }) : null,
+          block.step !== void 0 && block.status === "running" ? /* @__PURE__ */ jsx("span", { className: "shrink-0 font-mono text-[11px] tabular-nums text-muted-foreground", children: block.step }) : null,
+          expandable ? /* @__PURE__ */ jsx(ChevronDown, { "aria-hidden": true, size: 14, className: cn("shrink-0 text-muted-foreground transition-transform", disclosure.open && "rotate-180") }) : null
+        ]
+      }
+    ),
+    expandable ? /* @__PURE__ */ jsx(Collapse, { id: detailId, open: disclosure.open, children: /* @__PURE__ */ jsx("div", { className: "ml-5 border-l border-border/70 py-1.5 pl-3 pr-2", children: block.details?.map((detail) => /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-3 py-1 text-xs", children: [
+      /* @__PURE__ */ jsx("span", { className: "min-w-0 text-muted-foreground", children: detail.label }),
+      detail.meta != null ? /* @__PURE__ */ jsx("span", { className: "shrink-0 font-mono tabular-nums text-muted-foreground/80", children: detail.meta }) : null
+    ] }, detail.id)) }) }) : null
+  ] });
+}
+function ApprovalRow({ block, isLast, onApprove, onReject, labels }) {
+  return /* @__PURE__ */ jsxs("div", { className: "min-w-0 py-1.5", "data-yunui": "agent-approval-row", "data-last": isLast || void 0, "aria-busy": block.busy || void 0, children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-2", children: [
+      /* @__PURE__ */ jsx(CircleAlert, { "aria-hidden": true, size: 14, className: "shrink-0 text-muted-foreground" }),
+      /* @__PURE__ */ jsx("span", { className: "min-w-0 truncate text-[13px] font-medium text-foreground", children: block.title }),
+      /* @__PURE__ */ jsx("span", { className: "shrink-0 font-mono text-[11px] text-muted-foreground", children: block.verb }),
+      block.decision ? /* @__PURE__ */ jsx(Badge, { variant: block.decision === "approved" ? "success" : "error", children: block.decidedLabel ?? block.decision }) : null
+    ] }),
+    block.message != null ? /* @__PURE__ */ jsx("p", { className: "ml-6 mt-1 text-[12.5px] text-muted-foreground", children: block.message }) : null,
+    block.argsText ? /* @__PURE__ */ jsx("pre", { tabIndex: 0, role: "region", "aria-label": `${block.title}: ${block.verb}`, className: "ml-6 mt-1 max-h-40 overflow-auto whitespace-pre-wrap bg-muted/30 px-2 py-1.5 font-mono text-[11.5px] text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring", children: block.argsText }) : null,
+    !block.decision ? /* @__PURE__ */ jsxs("div", { className: "ml-6 mt-2 flex flex-wrap items-center gap-2", children: [
+      /* @__PURE__ */ jsx(Button, { type: "button", size: "sm", variant: "primary", disabled: block.disabled || block.busy || !onApprove, onClick: () => {
+        if (!block.disabled && !block.busy) onApprove?.(block.id);
+      }, children: block.allowLabel }),
+      /* @__PURE__ */ jsx(Button, { type: "button", size: "sm", variant: "outline", disabled: block.disabled || block.busy || !onReject, onClick: () => {
+        if (!block.disabled && !block.busy) onReject?.(block.id);
+      }, children: block.denyLabel }),
+      block.busy ? /* @__PURE__ */ jsx("span", { role: "status", className: "text-xs text-muted-foreground", children: labels?.waitingForHost ?? "Waiting for host\u2026" }) : null
+    ] }) : null
+  ] });
+}
+function AgentTimeline({
+  blocks,
+  renderContent,
+  onApprove,
+  onReject,
+  labels,
+  open,
+  defaultOpen = true,
+  onOpenChange,
+  onToggleRow,
+  onToggleDiff,
+  className
+}) {
+  const contentId = `${useId()}-timeline-content`;
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const controlled = open !== void 0;
+  const isOpen = controlled ? open : internalOpen;
+  const canToggle = !controlled || Boolean(onOpenChange);
+  const visible = blocks.filter((block) => !(block.kind === "reasoning" && !block.content.trim() && !block.active));
+  if (!visible.length) return null;
+  const counts = {
+    steps: visible.length,
+    reasoning: visible.filter((block) => block.kind === "reasoning").length,
+    tools: visible.filter((block) => block.kind === "tool").length,
+    tasks: visible.filter((block) => block.kind === "task").length,
+    approvals: visible.filter((block) => block.kind === "approval").length
+  };
+  const summary = labels?.summary?.(counts) ?? labels?.stepCount?.(counts.steps) ?? (counts.steps ? `${counts.steps} ${counts.steps === 1 ? "step" : "steps"}` : labels?.process ?? "Process");
+  const requestOpen = () => {
+    if (!canToggle) return;
+    const next = !isOpen;
+    if (!controlled) setInternalOpen(next);
+    onOpenChange?.(next);
+  };
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex min-w-0 flex-col", className), "data-yunui": "agent-timeline", children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "button",
+        disabled: !canToggle,
+        "aria-expanded": isOpen,
+        "aria-controls": contentId,
+        onClick: requestOpen,
+        className: "flex min-h-8 w-fit max-w-full items-center gap-2 rounded-sm px-1.5 text-left text-[13px] font-medium text-muted-foreground transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default",
+        children: [
+          /* @__PURE__ */ jsx(Sparkles, { "aria-hidden": true, className: "h-3.5 w-3.5 shrink-0 text-muted-foreground" }),
+          /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate", children: summary }),
+          /* @__PURE__ */ jsx(ChevronDown, { "aria-hidden": true, size: 14, className: cn("shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180") })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsx(Collapse, { open: isOpen, id: contentId, children: /* @__PURE__ */ jsx("div", { className: "mt-1 flex min-w-0 flex-col gap-0.5", children: visible.map((block, index) => {
+      if (block.kind === "reasoning") return /* @__PURE__ */ jsx(ReasoningRow, { block, labels: labels ?? {}, onToggleRow, renderContent }, block.id);
+      if (block.kind === "tool") return /* @__PURE__ */ jsx(ToolRow, { block, labels: labels ?? {}, onToggleRow, onToggleDiff }, block.id);
+      if (block.kind === "task") return /* @__PURE__ */ jsx(TaskRow, { block, labels: labels ?? {}, onToggleRow }, block.id);
+      return /* @__PURE__ */ jsx(ApprovalRow, { block, isLast: index === visible.length - 1, onApprove, onReject, labels }, block.id);
+    }) }) })
+  ] });
+}
+var DEFAULT_LABELS = {
+  dismiss: "Dismiss questions",
+  back: "Back",
+  next: "Next",
+  skip: "Skip",
+  submit: "Submit answers",
+  submitting: "Submitting\u2026",
+  otherPlaceholder: "Something else\u2026"
+};
+function domPart(value) {
+  return Array.from(value, (character) => character.codePointAt(0)?.toString(16) ?? "0").join("-") || "empty";
+}
+function ApprovalQuestion({
+  questions,
+  activeQuestionId,
+  answers,
+  onAnswersChange,
+  onActiveQuestionChange,
+  onSkip,
+  onSubmit,
+  onDismiss,
+  submitting = false,
+  disabled = false,
+  labels,
+  className
+}) {
+  const generatedId = useId();
+  const questionIndex = questions.findIndex((question2) => question2.id === activeQuestionId);
+  const question = questions[questionIndex];
+  if (!question) return null;
+  const copy = {
+    dismiss: labels?.dismiss ?? DEFAULT_LABELS.dismiss,
+    back: labels?.back ?? DEFAULT_LABELS.back,
+    next: labels?.next ?? DEFAULT_LABELS.next,
+    skip: labels?.skip ?? DEFAULT_LABELS.skip,
+    submit: labels?.submit ?? DEFAULT_LABELS.submit,
+    submitting: labels?.submitting ?? DEFAULT_LABELS.submitting,
+    otherPlaceholder: labels?.otherPlaceholder ?? DEFAULT_LABELS.otherPlaceholder
+  };
+  const answer = answers[question.id] ?? { optionIds: [] };
+  const hasSelection = answer.optionIds.some(
+    (id) => question.options.some((option) => option.id === id && !option.disabled)
+  );
+  const hasOtherText = Boolean(question.other && answer.optionIds.includes(question.other.id) && answer.otherText?.trim());
+  const canContinue = question.required === false || hasSelection || hasOtherText;
+  const isLast = questionIndex === questions.length - 1;
+  const updateAnswer = (next) => {
+    onAnswersChange({ ...answers, [question.id]: next });
+  };
+  const toggleOption = (optionId) => {
+    const option = question.options.find((item) => item.id === optionId);
+    const isOtherOption = question.other?.id === optionId;
+    if (!option && !isOtherOption || option?.disabled) return;
+    const current = answer.optionIds;
+    const selected = current.includes(optionId);
+    const optionIds = question.type === "single" ? [optionId] : selected ? current.filter((id) => id !== optionId) : [...current, optionId];
+    updateAnswer({
+      ...answer,
+      optionIds,
+      ...question.type === "single" && question.other && optionId !== question.other.id ? { otherText: "" } : {}
+    });
+  };
+  const continueQuestion = () => {
+    if (!canContinue) return;
+    if (isLast) {
+      onSubmit?.(answers);
+      return;
+    }
+    if (onActiveQuestionChange) onActiveQuestionChange(questions[questionIndex + 1].id);
+  };
+  return /* @__PURE__ */ jsxs("section", { "data-yunui": "approval-question", className: cn("w-full max-w-md rounded-xl border border-border/70 bg-card p-3.5 shadow-none", className), "aria-labelledby": `${generatedId}-title`, "aria-busy": submitting || void 0, children: [
+    /* @__PURE__ */ jsxs("div", { className: "mb-2.5 flex items-start justify-between gap-3", children: [
+      /* @__PURE__ */ jsxs("div", { className: "min-w-0", children: [
+        /* @__PURE__ */ jsxs("div", { "aria-live": "polite", "aria-atomic": "true", children: [
+          /* @__PURE__ */ jsx("p", { className: "mb-1 text-xs text-muted-foreground", children: labels?.progress?.(questionIndex + 1, questions.length) ?? `Question ${questionIndex + 1} of ${questions.length}` }),
+          /* @__PURE__ */ jsx("h3", { id: `${generatedId}-title`, className: "text-sm font-semibold text-foreground", children: question.title })
+        ] }),
+        question.message != null ? /* @__PURE__ */ jsx("div", { className: "mt-1 text-xs text-muted-foreground", children: question.message }) : null
+      ] }),
+      onDismiss ? /* @__PURE__ */ jsx(Button, { type: "button", variant: "ghost", size: "icon", className: "h-6 w-6 shrink-0 text-muted-foreground", disabled: disabled || submitting, onClick: onDismiss, "aria-label": copy.dismiss, children: /* @__PURE__ */ jsx(X, { "aria-hidden": true, className: "h-3.5 w-3.5" }) }) : null
+    ] }),
+    /* @__PURE__ */ jsxs("fieldset", { className: "min-w-0", "aria-labelledby": `${generatedId}-title`, children: [
+      /* @__PURE__ */ jsx("legend", { className: "sr-only", children: question.title }),
+      question.type === "single" ? /* @__PURE__ */ jsxs(
+        RadioGroup,
         {
-          type: "button",
-          onClick: () => expandable && setOpen(!open),
-          "aria-expanded": open,
-          className: cn(
-            "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-            expandable ? "hover:bg-muted/50 cursor-pointer" : "cursor-default"
-          ),
+          value: answer.optionIds.find((id) => id === question.other?.id || question.options.some((option) => option.id === id)) ?? "",
+          onValueChange: toggleOption,
+          disabled: disabled || submitting,
+          orientation: "vertical",
+          className: "gap-0",
           children: [
-            /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[13px] font-medium text-foreground", children: block.verb }),
-            block.summary && /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate font-mono text-[11.5px] text-muted-foreground", children: block.summary }),
-            /* @__PURE__ */ jsxs("span", { className: cn("flex shrink-0 items-center gap-2", !block.summary && "ml-auto"), children: [
-              block.status === "done" && /* @__PURE__ */ jsx(Check, { size: 14, className: "text-(--success)" }),
-              error && /* @__PURE__ */ jsx("span", { className: "rounded bg-(--error)/10 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-wide text-(--error)", children: "error" }),
-              expandable && /* @__PURE__ */ jsx(Chevron, { open })
-            ] })
+            question.options.map((option) => {
+              const checked = answer.optionIds.includes(option.id);
+              const inputId = `${generatedId}-${domPart(question.id)}-${domPart(option.id)}`;
+              const labelId = `${inputId}-label`;
+              return /* @__PURE__ */ jsx("div", { className: cn("transition-colors", checked && "bg-muted/50", !option.disabled && !disabled && !submitting && "hover:bg-muted/50"), children: /* @__PURE__ */ jsxs("label", { htmlFor: inputId, className: cn("flex min-h-9 cursor-pointer items-start gap-2.5 px-2 py-1.5", (option.disabled || disabled || submitting) && "cursor-not-allowed opacity-50"), children: [
+                /* @__PURE__ */ jsx(RadioGroupItem, { id: inputId, value: option.id, disabled: disabled || submitting || option.disabled, "aria-labelledby": labelId, className: "mt-0.5" }),
+                /* @__PURE__ */ jsxs("span", { id: labelId, className: "min-w-0 flex-1 text-sm text-foreground", children: [
+                  /* @__PURE__ */ jsx("span", { className: "block", children: option.label }),
+                  option.detail != null ? /* @__PURE__ */ jsx("span", { className: "mt-0.5 block text-xs text-muted-foreground", children: option.detail }) : null
+                ] })
+              ] }) }, option.id);
+            }),
+            question.other ? (() => {
+              const otherSelected = answer.optionIds.includes(question.other.id);
+              const otherId = `${generatedId}-${domPart(question.id)}-${domPart(question.other.id)}`;
+              const otherLabelId = `${otherId}-label`;
+              return /* @__PURE__ */ jsxs("div", { className: cn("transition-colors", otherSelected && "bg-muted/50", !disabled && !submitting && "hover:bg-muted/50"), children: [
+                /* @__PURE__ */ jsxs("label", { htmlFor: otherId, className: cn("flex min-h-9 cursor-pointer items-center gap-2.5 px-2 py-1.5 text-sm text-foreground", (disabled || submitting) && "cursor-not-allowed opacity-50"), children: [
+                  /* @__PURE__ */ jsx(RadioGroupItem, { id: otherId, value: question.other.id, disabled: disabled || submitting, "aria-labelledby": otherLabelId }),
+                  /* @__PURE__ */ jsx("span", { id: otherLabelId, children: question.other.label })
+                ] }),
+                otherSelected ? /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    value: answer.otherText ?? "",
+                    disabled: disabled || submitting,
+                    onChange: (event) => updateAnswer({ ...answer, otherText: event.target.value }),
+                    placeholder: question.other.placeholder ?? copy.otherPlaceholder,
+                    "aria-label": question.other.placeholder ?? copy.otherPlaceholder,
+                    className: "mb-2 ml-9 w-[calc(100%-2.75rem)] rounded-md border border-border bg-background px-2.5 py-1.5 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  }
+                ) : null
+              ] }, question.other.id);
+            })() : null
           ]
         }
-      ),
-      /* @__PURE__ */ jsx(Collapse, { open, children: /* @__PURE__ */ jsxs("div", { className: cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-(--error)/20 bg-(--error)/5" : "border-border bg-muted/40"), children: [
-        block.command && /* @__PURE__ */ jsxs("div", { className: cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-(--error)/20" : "border-border/60"), children: [
-          /* @__PURE__ */ jsx("span", { className: "select-none text-muted-foreground/40", children: "$" }),
-          /* @__PURE__ */ jsx("span", { className: "truncate", children: block.command })
-        ] }),
-        /* @__PURE__ */ jsx(
-          "div",
-          {
-            tabIndex: 0,
-            role: "region",
-            "aria-label": `${block.verb} output`,
-            className: cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-(--error)" : "text-foreground/80"),
-            children: block.output || "\u2014"
-          }
-        )
-      ] }) })
+      ) : /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-0", children: [
+        question.options.map((option) => {
+          const checked = answer.optionIds.includes(option.id);
+          const inputId = `${generatedId}-${domPart(question.id)}-${domPart(option.id)}`;
+          const labelId = `${inputId}-label`;
+          return /* @__PURE__ */ jsxs("label", { htmlFor: inputId, className: cn("flex min-h-9 cursor-pointer items-start gap-2.5 px-2 py-1.5 transition-colors", checked && "bg-muted/50", !option.disabled && !disabled && !submitting && "hover:bg-muted/50", (option.disabled || disabled || submitting) && "cursor-not-allowed opacity-50"), children: [
+            /* @__PURE__ */ jsx(Checkbox, { id: inputId, checked, disabled: disabled || submitting || option.disabled, onCheckedChange: () => toggleOption(option.id), "aria-labelledby": labelId, className: "mt-0.5" }),
+            /* @__PURE__ */ jsxs("span", { id: labelId, className: "min-w-0 flex-1 text-sm text-foreground", children: [
+              /* @__PURE__ */ jsx("span", { className: "block", children: option.label }),
+              option.detail != null ? /* @__PURE__ */ jsx("span", { className: "mt-0.5 block text-xs text-muted-foreground", children: option.detail }) : null
+            ] })
+          ] }, option.id);
+        }),
+        question.other ? (() => {
+          const otherSelected = answer.optionIds.includes(question.other.id);
+          const otherId = `${generatedId}-${domPart(question.id)}-${domPart(question.other.id)}`;
+          const otherLabelId = `${otherId}-label`;
+          return /* @__PURE__ */ jsxs("div", { className: cn("transition-colors", otherSelected && "bg-muted/50"), children: [
+            /* @__PURE__ */ jsxs("label", { htmlFor: otherId, className: cn("flex min-h-9 cursor-pointer items-center gap-2.5 px-2 py-1.5 text-sm text-foreground transition-colors", !disabled && !submitting && "hover:bg-muted/50", (disabled || submitting) && "cursor-not-allowed opacity-50"), children: [
+              /* @__PURE__ */ jsx(Checkbox, { id: otherId, checked: otherSelected, disabled: disabled || submitting, onCheckedChange: () => toggleOption(question.other.id), "aria-labelledby": otherLabelId }),
+              /* @__PURE__ */ jsx("span", { id: otherLabelId, children: question.other.label })
+            ] }),
+            otherSelected ? /* @__PURE__ */ jsx(
+              "input",
+              {
+                value: answer.otherText ?? "",
+                disabled: disabled || submitting,
+                onChange: (event) => updateAnswer({ ...answer, otherText: event.target.value }),
+                placeholder: question.other.placeholder ?? copy.otherPlaceholder,
+                "aria-label": question.other.placeholder ?? copy.otherPlaceholder,
+                className: "mb-2 ml-9 w-[calc(100%-2.75rem)] rounded-md border border-border bg-background px-2.5 py-1.5 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              }
+            ) : null
+          ] });
+        })() : null
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxs("div", { className: "mt-3 flex items-center justify-between gap-2", children: [
+      /* @__PURE__ */ jsx(Button, { type: "button", variant: "ghost", size: "sm", disabled: disabled || submitting || questionIndex === 0 || !onActiveQuestionChange, onClick: () => onActiveQuestionChange?.(questions[questionIndex - 1].id), children: copy.back }),
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsx(Button, { type: "button", variant: "ghost", size: "sm", disabled: disabled || submitting || !onSkip, onClick: () => onSkip?.(question.id), children: copy.skip }),
+        /* @__PURE__ */ jsxs(Button, { type: "button", variant: "primary", size: "sm", disabled: disabled || submitting || !canContinue || (isLast ? !onSubmit : !onActiveQuestionChange), onClick: continueQuestion, children: [
+          isLast ? submitting ? copy.submitting : copy.submit : copy.next,
+          !isLast ? /* @__PURE__ */ jsx(ArrowRight, { "aria-hidden": true, className: "ml-1 h-3.5 w-3.5" }) : null
+        ] })
+      ] })
     ] })
   ] });
-}
-function ApprovalRow({ block, isLast, onApprove, onReject }) {
-  return /* @__PURE__ */ jsxs("div", { className: "flex gap-2.5", children: [
-    /* @__PURE__ */ jsx(Rail, { tone: "warn", isLast, children: /* @__PURE__ */ jsx(ShieldAlert, { size: 13, strokeWidth: 1.75 }) }),
-    /* @__PURE__ */ jsx("div", { className: "min-w-0 flex-1 pb-2", children: /* @__PURE__ */ jsxs("div", { className: "rounded-lg border border-(--warning)/25 bg-(--warning)/[0.06] px-3 py-2.5", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-[13px] font-medium text-foreground", children: [
-        /* @__PURE__ */ jsx("span", { children: block.title }),
-        /* @__PURE__ */ jsx("span", { className: "font-mono text-xs text-muted-foreground", children: block.verb })
-      ] }),
-      block.message && /* @__PURE__ */ jsx("p", { className: "mt-1.5 text-[12.5px] text-muted-foreground", children: block.message }),
-      block.argsText && /* @__PURE__ */ jsx(
-        "pre",
-        {
-          tabIndex: 0,
-          role: "region",
-          "aria-label": `${block.title}: ${block.verb}`,
-          className: "mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-          children: block.argsText
-        }
-      ),
-      /* @__PURE__ */ jsx("div", { className: "mt-2.5 flex items-center gap-2", children: block.decision ? /* @__PURE__ */ jsx("span", { className: cn("text-xs font-medium", block.decision === "approved" ? "text-(--success)" : "text-(--error)"), children: block.decidedLabel }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onApprove?.(block.id), className: "rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring", children: block.allowLabel }),
-        /* @__PURE__ */ jsx("button", { type: "button", onClick: () => onReject?.(block.id), className: "rounded-md border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring", children: block.denyLabel })
-      ] }) })
-    ] }) })
-  ] });
-}
-function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }) {
-  const visible = blocks.filter((b) => !(b.kind === "reasoning" && !b.content.trim() && !b.active));
-  if (!visible.length) return null;
-  return /* @__PURE__ */ jsx("div", { className: cn("flex flex-col", className), children: visible.map((b, i) => {
-    const isLast = i === visible.length - 1;
-    switch (b.kind) {
-      case "reasoning":
-        return /* @__PURE__ */ jsx(ReasoningRow, { block: b, isLast, renderContent }, b.id);
-      case "tool":
-        return /* @__PURE__ */ jsx(ToolRow, { block: b, isLast }, b.id);
-      case "approval":
-        return /* @__PURE__ */ jsx(ApprovalRow, { block: b, isLast, onApprove, onReject }, b.id);
-      default:
-        return null;
-    }
-  }) });
 }
 function AgentRunStatus({
   label,
   phase = "thinking",
-  active = phase !== "waiting",
+  active = !["waiting", "completed", "failed", "cancelled"].includes(phase),
   className,
   ...props
 }) {
+  const terminal = phase === "completed" || phase === "failed" || phase === "cancelled";
+  const Icon = phase === "completed" ? Check : phase === "failed" ? CircleAlert : phase === "cancelled" ? X : phase === "waiting" ? Clock3 : phase === "thinking" && active ? Sparkles : active ? Loader2 : Clock3;
   return /* @__PURE__ */ jsxs(
     "div",
     {
@@ -268,46 +590,435 @@ function AgentRunStatus({
       "data-yunui": "agent-run-status",
       "data-phase": phase,
       "data-active": active || void 0,
-      className: cn(
-        "flex min-h-9 w-fit max-w-full min-w-0 items-center gap-2 py-1 text-[13.5px] text-muted-foreground",
-        className
-      ),
+      className: cn("flex min-h-8 w-fit max-w-full min-w-0 items-center gap-2 py-1 text-[13px] text-muted-foreground", className),
       ...props,
       children: [
+        /* @__PURE__ */ jsx(
+          Icon,
+          {
+            "data-run-status-indicator": true,
+            "aria-hidden": true,
+            className: cn(
+              "h-3.5 w-3.5 shrink-0",
+              active && !terminal && phase === "thinking" ? "text-primary" : "",
+              active && !terminal && phase !== "thinking" ? "motion-safe:animate-spin text-primary" : "",
+              phase === "completed" ? "text-(--success)" : "",
+              phase === "failed" ? "text-(--error)" : ""
+            )
+          }
+        ),
         /* @__PURE__ */ jsx(
           TextShimmer,
           {
             text: label,
-            active,
+            active: active && !terminal,
             "data-run-status-label": true,
-            className: "min-w-0 max-w-xl truncate font-medium"
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          "span",
-          {
-            "data-run-status-pulse": true,
-            "aria-hidden": "true",
-            className: cn(
-              "flex shrink-0 items-center gap-0.5 transition-opacity",
-              active ? "opacity-80" : "opacity-0"
-            ),
-            children: [0, 1, 2].map((index) => /* @__PURE__ */ jsx(
-              "span",
-              {
-                className: "h-1 w-1 rounded-full bg-primary/60 motion-safe:animate-pulse",
-                style: {
-                  animationDelay: `${index * 180}ms`,
-                  animationDuration: "1.1s"
-                }
-              },
-              index
-            ))
+            className: "min-w-0 max-w-xl truncate font-medium text-foreground"
           }
         )
       ]
     }
   );
+}
+var CATEGORY_TONE = {
+  accent: "bg-accent",
+  muted: "bg-muted-foreground",
+  warning: "bg-warning-solid-medium"
+};
+function IncludedMark({ included, tone }) {
+  return /* @__PURE__ */ jsx(
+    "span",
+    {
+      "aria-hidden": "true",
+      className: cn(
+        "flex size-[18px] shrink-0 items-center justify-center rounded-[5px] transition-[background-color,color,transform] duration-150",
+        included ? tone === "error" ? "bg-(--error) text-[var(--bg-base)]" : "bg-(--success) text-[var(--bg-base)]" : "bg-muted text-muted-foreground shadow-[0_0_0_1px_var(--border-default)]"
+      ),
+      style: { transform: included ? "scale(1)" : "scale(0.92)" },
+      children: included ? /* @__PURE__ */ jsx(Check, { "aria-hidden": "true", className: "size-3", strokeWidth: 3 }) : null
+    }
+  );
+}
+function stateText(state, labels, count) {
+  if (state === "busy") return labels.busy ?? "Applying changes\u2026";
+  if (state === "applied") return labels.applied?.(count) ?? `${count} ${count === 1 ? "edit" : "edits"} applied`;
+  if (state === "error") return labels.error ?? "Could not apply changes";
+  if (state === "cancelled") return labels.cancelled ?? "Changes cancelled";
+  if (state === "disabled") return labels.disabled ?? "Changes unavailable";
+  return null;
+}
+function DiffTable({
+  rows,
+  selectedIds,
+  onSelectionChange,
+  onApply,
+  onReject,
+  state = "idle",
+  statusMessage,
+  resultCount,
+  labels,
+  className
+}) {
+  const selected = new Set(selectedIds);
+  const changeRows = rows.filter((row) => row.change !== "unchanged");
+  const selectableRows = changeRows.filter((row) => !row.disabled);
+  const validSelected = selectableRows.filter((row) => selected.has(row.id));
+  const selectedValues = validSelected.map((row) => row.id);
+  const removals = validSelected.filter((row) => row.change === "remove").length;
+  const additions = validSelected.filter((row) => row.change === "add").length;
+  const changeCount = removals + additions;
+  const locked = state !== "idle";
+  const requestStatus = stateText(state, labels ?? {}, resultCount ?? changeCount);
+  const toggleRow = (row) => {
+    if (locked || row.disabled || row.change === "unchanged" || !onSelectionChange) return;
+    const next = new Set(selectedValues);
+    if (next.has(row.id)) next.delete(row.id);
+    else next.add(row.id);
+    onSelectionChange(selectableRows.filter((candidate) => next.has(candidate.id)).map((candidate) => candidate.id));
+  };
+  const renderRow = (row) => {
+    const changed = row.change !== "unchanged";
+    const included = changed && !row.disabled && selected.has(row.id);
+    const removed = row.change === "remove";
+    const interactive = changed && !row.disabled && !locked && Boolean(onSelectionChange);
+    const tint = included ? removed ? "bg-error-soft" : "bg-success-soft" : "";
+    const cellTone = included ? removed ? "text-error" : "text-success" : "";
+    const accessibleLabel = row.accessibleLabel ?? row.primary;
+    return /* @__PURE__ */ jsxs(
+      "tr",
+      {
+        tabIndex: interactive ? 0 : void 0,
+        "aria-label": changed ? labels?.includeRow?.(accessibleLabel) ?? `Include change: ${accessibleLabel}` : void 0,
+        "aria-selected": changed ? included : void 0,
+        "aria-disabled": changed && !interactive ? true : void 0,
+        onClick: interactive ? () => toggleRow(row) : void 0,
+        onKeyDown: interactive ? (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleRow(row);
+          }
+        } : void 0,
+        className: cn(
+          "border-b border-border transition-[background-color,filter,opacity] duration-150 last:border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+          tint,
+          interactive && "cursor-pointer hover:brightness-[0.985]"
+        ),
+        children: [
+          /* @__PURE__ */ jsx("td", { className: cn("px-3 @max-[320px]/diff:px-2 py-2.5 text-[13px] font-medium tabular-nums text-foreground transition-colors duration-200", cellTone), children: row.primary }),
+          /* @__PURE__ */ jsx("td", { className: "px-3 @max-[320px]/diff:px-2 py-2.5", children: /* @__PURE__ */ jsxs("span", { className: "inline-flex h-5 min-w-0 max-w-full items-center gap-1.5 rounded-full bg-muted px-2 @max-[320px]/diff:px-1.5 text-[11.5px] font-medium shadow-[0_0_0_1px_var(--border-default)]", children: [
+            row.categoryTone ? /* @__PURE__ */ jsx("span", { className: cn("size-1.5 shrink-0 rounded-full", CATEGORY_TONE[row.categoryTone]), "aria-hidden": "true" }) : null,
+            /* @__PURE__ */ jsx("span", { className: "min-w-0 truncate text-[var(--text-secondary)]", children: row.category })
+          ] }) }),
+          /* @__PURE__ */ jsx(
+            "td",
+            {
+              className: cn("px-3 @max-[320px]/diff:px-2 py-2.5 text-[12.5px] text-[var(--text-secondary)] transition-colors duration-200", cellTone, included && removed && "line-through"),
+              style: included && removed ? { textDecorationColor: "color-mix(in srgb, var(--error) 50%, transparent)" } : void 0,
+              children: /* @__PURE__ */ jsxs("span", { className: "flex items-center justify-between gap-2", children: [
+                /* @__PURE__ */ jsx("span", { className: "min-w-0 truncate", children: row.secondary }),
+                changed ? /* @__PURE__ */ jsx(IncludedMark, { included, tone: removed ? "error" : "success" }) : null
+              ] })
+            }
+          )
+        ]
+      },
+      row.id
+    );
+  };
+  return /* @__PURE__ */ jsx("div", { className: cn("@container/diff w-full max-w-[380px]", className), "data-yunui": "diff-table", "data-diff-state": state, children: /* @__PURE__ */ jsxs("div", { className: "relative overflow-hidden rounded-xl border border-border bg-card shadow-sm", children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-3 border-b border-border px-3 py-2.5", children: [
+      /* @__PURE__ */ jsx("span", { className: "min-w-0 text-[12.5px] font-medium text-foreground", children: labels?.title ?? "Proposed changes" }),
+      state === "idle" && changeCount > 0 ? /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[11px] text-[var(--text-secondary)]", children: labels?.hint ?? "Select the changes to apply" }) : null
+    ] }),
+    /* @__PURE__ */ jsxs("table", { className: "w-full table-fixed border-collapse text-left", children: [
+      /* @__PURE__ */ jsxs("colgroup", { children: [
+        /* @__PURE__ */ jsx("col", { className: "w-[34%] @max-[320px]/diff:w-[40%]" }),
+        /* @__PURE__ */ jsx("col", { className: "w-[30%] @max-[320px]/diff:w-[28%]" }),
+        /* @__PURE__ */ jsx("col", { className: "w-[36%] @max-[320px]/diff:w-[32%]" })
+      ] }),
+      /* @__PURE__ */ jsx("thead", { children: /* @__PURE__ */ jsx("tr", { className: "border-b border-border", children: [labels?.primaryColumn ?? "Item", labels?.categoryColumn ?? "Category", labels?.secondaryColumn ?? "Details"].map((heading, index) => /* @__PURE__ */ jsx("th", { scope: "col", className: "px-3 @max-[320px]/diff:px-2 py-2.5 whitespace-nowrap text-[12px] font-medium text-[var(--text-secondary)]", children: heading }, index)) }) }),
+      /* @__PURE__ */ jsx("tbody", { children: rows.map(renderRow) })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "flex min-h-11 items-center justify-between gap-3 @max-[320px]/diff:flex-wrap border-t border-border px-2.5 py-2", children: state === "idle" ? /* @__PURE__ */ jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsx("span", { className: "min-w-0 @max-[320px]/diff:w-full text-[11.5px] tabular-nums text-[var(--text-secondary)]", "aria-live": "polite", children: labels?.selectionSummary?.(removals, additions) ?? `${removals} ${removals === 1 ? "removal" : "removals"} \xB7 ${additions} ${additions === 1 ? "addition" : "additions"}` }),
+      /* @__PURE__ */ jsxs("span", { className: "flex shrink-0 items-center gap-1.5 @max-[320px]/diff:ml-auto", children: [
+        onReject ? /* @__PURE__ */ jsx(Button, { type: "button", variant: "ghost", size: "sm", className: "h-7 rounded-full px-2.5 text-[12px]", onClick: () => onReject(selectedValues), children: labels?.reject ?? "Reject" }) : null,
+        /* @__PURE__ */ jsx(
+          Button,
+          {
+            type: "button",
+            variant: "primary",
+            size: "sm",
+            className: "h-7 rounded-full px-3 text-[12px]",
+            disabled: !onApply || changeCount === 0,
+            onClick: () => {
+              if (onApply && changeCount > 0) onApply(selectedValues);
+            },
+            children: labels?.apply?.(changeCount) ?? `Apply ${changeCount} ${changeCount === 1 ? "change" : "changes"}`
+          }
+        )
+      ] })
+    ] }) : /* @__PURE__ */ jsx("span", { role: "status", "aria-live": "polite", className: "min-w-0 text-[11.5px] text-[var(--text-secondary)]", children: statusMessage ?? requestStatus }) })
+  ] }) });
+}
+var DEFAULT_LABELS2 = {
+  keep: "Keep",
+  discard: "Discard",
+  placeholder: "Describe edits",
+  submitInstruction: "Submit custom instruction",
+  customAction: "Custom instruction",
+  working: "Working",
+  error: "The edit request failed. Original text is unchanged.",
+  cancelled: "Edit request cancelled. Original text is unchanged.",
+  retry: "Try again",
+  showMoreActions: "Show more actions",
+  showFewerActions: "Show fewer actions",
+  result: "Suggested edit"
+};
+var iconProps = { size: 14, strokeWidth: 1.8, "aria-hidden": true };
+var DEFAULT_ACTIONS = [
+  { id: "Explain", action: "Explain", icon: /* @__PURE__ */ jsx(CircleHelp, { ...iconProps }) },
+  { id: "Improve", action: "Improve", busyLabel: "Improving", icon: /* @__PURE__ */ jsx(Sparkles, { ...iconProps }) },
+  { id: "Shorten", action: "Shorten", busyLabel: "Shortening", icon: /* @__PURE__ */ jsx(Scissors, { ...iconProps }) },
+  { id: "Tone", action: "Change tone", busyLabel: "Changing tone", icon: /* @__PURE__ */ jsx(ThumbsUp, { ...iconProps }) },
+  { id: "Grammar", action: "Fix grammar", icon: /* @__PURE__ */ jsx(Type, { ...iconProps }) }
+];
+var useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+function SelectionActions({
+  lead = "",
+  selectedText,
+  resultText,
+  state = "idle",
+  actions = DEFAULT_ACTIONS,
+  busyLabel,
+  labels,
+  disabled = false,
+  onAction,
+  onAccept,
+  onDismiss,
+  onRetry,
+  className
+}) {
+  const copy = mergeLabels(DEFAULT_LABELS2, labels);
+  const [prompt, setPrompt] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const [anchor, setAnchor] = useState({ x: 0, y: 0 });
+  const [positioned, setPositioned] = useState(false);
+  const [maxBarWidth, setMaxBarWidth] = useState(0);
+  const hostRef = useRef(null);
+  const selectionRef = useRef(null);
+  const barRef = useRef(null);
+  const frameRef = useRef(null);
+  const previousSelectionRef = useRef(selectedText);
+  const place = useCallback(() => {
+    if (typeof window === "undefined") return;
+    if (frameRef.current) {
+      if (frameRef.current.kind === "raf") window.cancelAnimationFrame(frameRef.current.id);
+      else window.clearTimeout(frameRef.current.id);
+    }
+    const measure = () => {
+      frameRef.current = null;
+      const host = hostRef.current;
+      const selected = selectionRef.current;
+      if (!host || !selected) return;
+      const bounds = selected.getBoundingClientRect();
+      const lines = Array.from(selected.getClientRects());
+      const lastLine = lines.at(-1);
+      const hostBounds = host.getBoundingClientRect();
+      if (!lastLine || bounds.width === 0 || bounds.height === 0 || hostBounds.width === 0) {
+        setPositioned(false);
+        return;
+      }
+      const availableWidth = Math.max(0, Math.min(hostBounds.width - 16, window.innerWidth - 48));
+      setMaxBarWidth((current) => Math.abs(current - availableWidth) < 1 ? current : availableWidth);
+      const barWidth = barRef.current?.getBoundingClientRect().width ?? 0;
+      const hostPadding = Math.min(8, hostBounds.width / 2);
+      const halfBar = Math.min(barWidth / 2, Math.max(0, hostBounds.width / 2 - hostPadding));
+      const minX = hostPadding + halfBar;
+      const maxX = Math.max(minX, hostBounds.width - hostPadding - halfBar);
+      const next = {
+        x: Math.round(Math.min(maxX, Math.max(minX, bounds.left - hostBounds.left + bounds.width / 2))),
+        y: Math.round(lastLine.bottom - hostBounds.top + 8)
+      };
+      setAnchor((current) => current.x === next.x && current.y === next.y ? current : next);
+      setPositioned(true);
+    };
+    frameRef.current = typeof window.requestAnimationFrame === "function" ? { id: window.requestAnimationFrame(measure), kind: "raf" } : { id: window.setTimeout(measure, 0), kind: "timeout" };
+  }, []);
+  useIsomorphicLayoutEffect(() => {
+    if (previousSelectionRef.current !== selectedText) {
+      previousSelectionRef.current = selectedText;
+      setPrompt("");
+      setExpanded(false);
+    }
+    place();
+  }, [place, selectedText, resultText, state, lead]);
+  useEffect(() => {
+    const host = hostRef.current;
+    const selected = selectionRef.current;
+    if (!host) return;
+    const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => place()) : null;
+    if (resizeObserver) {
+      resizeObserver.observe(host);
+      if (selected) resizeObserver.observe(selected);
+      if (barRef.current) resizeObserver.observe(barRef.current);
+    }
+    window.addEventListener("resize", place);
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", place);
+      if (frameRef.current) {
+        if (frameRef.current.kind === "raf") window.cancelAnimationFrame(frameRef.current.id);
+        else window.clearTimeout(frameRef.current.id);
+        frameRef.current = null;
+      }
+    };
+  }, [place]);
+  const busy = state === "busy";
+  const hasResult = state === "result" && typeof resultText === "string";
+  const locked = busy || disabled;
+  const visibleText = hasResult ? resultText : selectedText;
+  const activity = busyLabel ?? labels?.working ?? DEFAULT_LABELS2.working;
+  const run = (action, instruction) => {
+    if (locked || !onAction) return;
+    setExpanded(false);
+    onAction(action, instruction);
+  };
+  const submitPrompt = (event) => {
+    event.preventDefault();
+    const instruction = prompt.trim();
+    if (!instruction) return;
+    run(labels?.customAction ?? DEFAULT_LABELS2.customAction, instruction);
+  };
+  return /* @__PURE__ */ jsx("div", { className: cn("@container/selection w-full max-w-[460px]", className), "data-yunui": "selection-actions", "data-selection-state": state, children: /* @__PURE__ */ jsxs("div", { ref: hostRef, "data-yunui": "selection-actions-host", className: "relative pb-12", children: [
+    /* @__PURE__ */ jsxs("p", { className: "text-[13px] leading-relaxed text-foreground", children: [
+      lead,
+      /* @__PURE__ */ jsxs("span", { ref: selectionRef, "data-yunui": "selection-actions-selected", style: hasResult && resultText === "" ? { display: "inline-block", minWidth: 1, minHeight: "1em" } : void 0, className: "box-decoration-clone rounded-[3px] bg-accent-subtle text-foreground", children: [
+        hasResult ? /* @__PURE__ */ jsxs("span", { className: "sr-only", children: [
+          copy.result,
+          ": "
+        ] }) : null,
+        visibleText
+      ] })
+    ] }),
+    /* @__PURE__ */ jsx(
+      "div",
+      {
+        "data-yunui": "selection-actions-anchor",
+        className: "absolute left-0 top-0 z-10",
+        style: {
+          transform: `translate3d(${anchor.x}px, ${anchor.y}px, 0) translateX(-50%)`,
+          transition: "transform 320ms cubic-bezier(0.77,0,0.175,1), opacity 180ms ease-out",
+          opacity: positioned ? 1 : 0,
+          pointerEvents: positioned ? "auto" : "none",
+          willChange: "transform"
+        },
+        "aria-hidden": !positioned,
+        inert: !positioned,
+        children: /* @__PURE__ */ jsxs(
+          "div",
+          {
+            ref: barRef,
+            className: cn(
+              "flex w-fit max-w-[calc(100vw-48px)] items-center justify-center gap-0.5 rounded-full border border-border bg-card p-1 font-sans text-foreground shadow-lg",
+              state === "error" || state === "cancelled" || busy ? "min-h-9" : "h-9 overflow-hidden"
+            ),
+            style: maxBarWidth > 0 ? { maxWidth: maxBarWidth } : void 0,
+            children: [
+              busy ? /* @__PURE__ */ jsxs("span", { role: "status", className: "inline-flex min-w-0 max-w-full items-center gap-1.5 whitespace-normal break-words px-2.5 py-1 text-[12.5px] text-[var(--text-secondary)]", children: [
+                /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "size-3 shrink-0 rounded-full border-[1.5px] border-border border-t-foreground motion-safe:animate-spin" }),
+                activity,
+                "\u2026"
+              ] }) : null,
+              hasResult ? /* @__PURE__ */ jsxs(Fragment, { children: [
+                /* @__PURE__ */ jsxs(Button, { type: "button", variant: "primary", size: "sm", className: "h-7 shrink-0 rounded-full px-2.5 text-[12.5px]", disabled: disabled || !onAccept, onClick: () => {
+                  if (resultText !== void 0) onAccept?.(resultText);
+                }, children: [
+                  /* @__PURE__ */ jsx(Check, { "aria-hidden": "true", size: 14 }),
+                  copy.keep
+                ] }),
+                onDismiss ? /* @__PURE__ */ jsxs(Button, { type: "button", variant: "ghost", size: "sm", className: "h-7 shrink-0 rounded-full px-2.5 text-[12.5px]", disabled, onClick: onDismiss, children: [
+                  /* @__PURE__ */ jsx(X, { "aria-hidden": "true", size: 14 }),
+                  copy.discard
+                ] }) : null,
+                /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "mx-0.5 h-4 w-px shrink-0 bg-border" }),
+                onRetry ? /* @__PURE__ */ jsx(Button, { type: "button", variant: "ghost", size: "icon", className: "size-7 shrink-0 rounded-full p-0", disabled, "aria-label": copy.retry, onClick: onRetry, children: /* @__PURE__ */ jsx(RefreshCw, { "aria-hidden": "true", size: 14 }) }) : null
+              ] }) : null,
+              state === "error" || state === "cancelled" ? /* @__PURE__ */ jsxs(Fragment, { children: [
+                /* @__PURE__ */ jsx("span", { role: "status", className: "min-w-0 max-w-[min(18rem,calc(100vw-8rem))] whitespace-normal break-words px-2 py-1 text-[11px] leading-snug text-[var(--text-secondary)]", children: state === "error" ? labels?.error ?? DEFAULT_LABELS2.error : labels?.cancelled ?? DEFAULT_LABELS2.cancelled }),
+                onDismiss ? /* @__PURE__ */ jsx(Button, { type: "button", variant: "ghost", size: "sm", className: "h-7 shrink-0 rounded-full px-2.5 text-[12.5px]", disabled, onClick: onDismiss, children: copy.discard }) : null,
+                onRetry ? /* @__PURE__ */ jsx(Button, { type: "button", variant: "ghost", size: "icon", className: "size-7 shrink-0 rounded-full p-0", disabled, "aria-label": copy.retry, onClick: onRetry, children: /* @__PURE__ */ jsx(RefreshCw, { "aria-hidden": "true", size: 14 }) }) : null
+              ] }) : null,
+              state === "idle" ? /* @__PURE__ */ jsxs(Fragment, { children: [
+                /* @__PURE__ */ jsx(
+                  "div",
+                  {
+                    className: "flex min-w-0 items-center overflow-hidden transition-[max-width,opacity,transform] duration-300",
+                    "aria-hidden": expanded,
+                    inert: expanded,
+                    style: { maxWidth: expanded ? 0 : 145, opacity: expanded ? 0 : 1, transform: expanded ? "translateX(-8px)" : "translateX(0)", transitionTimingFunction: "cubic-bezier(0.23,1,0.32,1)" },
+                    children: /* @__PURE__ */ jsxs("form", { className: "flex h-7 w-[145px] min-w-0 shrink-0 items-center max-[420px]:w-[94px] @max-[360px]/selection:w-[94px]", onSubmit: submitPrompt, children: [
+                      /* @__PURE__ */ jsx(
+                        "input",
+                        {
+                          value: prompt,
+                          onChange: (event) => setPrompt(event.target.value),
+                          "aria-label": copy.placeholder,
+                          placeholder: copy.placeholder,
+                          disabled: disabled || !onAction,
+                          className: "h-7 w-full min-w-0 bg-transparent py-0 pr-2.5 pl-3 text-[12.5px] text-foreground placeholder:text-muted-foreground focus:outline-none max-[420px]:pr-0 max-[420px]:pl-2 @max-[360px]/selection:pr-0 @max-[360px]/selection:pl-2"
+                        }
+                      ),
+                      /* @__PURE__ */ jsx("button", { type: "submit", "aria-label": copy.submitInstruction, disabled: disabled || !onAction || !prompt.trim(), className: "mr-1 flex size-6 shrink-0 items-center justify-center rounded-full text-foreground hover:bg-muted disabled:opacity-40", children: /* @__PURE__ */ jsx(ArrowUp, { "aria-hidden": "true", size: 13 }) })
+                    ] })
+                  }
+                ),
+                /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "mx-1 h-4 w-px shrink-0 bg-border" }),
+                /* @__PURE__ */ jsx(
+                  "div",
+                  {
+                    "data-yunui": "selection-actions-scroll",
+                    className: "flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto overflow-y-hidden overscroll-x-contain [scrollbar-width:none]",
+                    children: (expanded ? actions : actions.slice(0, 2)).map((item) => /* @__PURE__ */ jsxs(
+                      Button,
+                      {
+                        type: "button",
+                        variant: "ghost",
+                        size: "sm",
+                        className: "h-7 shrink-0 rounded-full px-2.5 text-[12px]",
+                        disabled: disabled || !onAction,
+                        onClick: () => run(item.action ?? item.id),
+                        children: [
+                          item.icon,
+                          item.label ?? item.id
+                        ]
+                      },
+                      item.id
+                    ))
+                  }
+                ),
+                actions.length > 2 ? /* @__PURE__ */ jsxs(Fragment, { children: [
+                  /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "mx-0.5 h-4 w-px shrink-0 bg-border" }),
+                  /* @__PURE__ */ jsx(
+                    "button",
+                    {
+                      type: "button",
+                      "aria-label": expanded ? copy.showFewerActions : copy.showMoreActions,
+                      "aria-expanded": expanded,
+                      disabled,
+                      onClick: () => setExpanded((value) => !value),
+                      className: "flex size-7 shrink-0 items-center justify-center rounded-full text-foreground transition-[background-color,transform] hover:bg-muted active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      children: /* @__PURE__ */ jsx(ChevronRight, { "aria-hidden": "true", size: 14, style: { transform: expanded ? "rotate(180deg)" : void 0 } })
+                    }
+                  )
+                ] }) : null
+              ] }) : null
+            ]
+          }
+        )
+      }
+    )
+  ] }) });
 }
 function IDBadge({
   text,
@@ -369,47 +1080,73 @@ function ModelCard({
   className = ""
 }) {
   const { Image } = useYunUI();
+  const cardRef = useRef(null);
+  const selectionOnPointerDown = useRef(null);
   const shownCaps = capabilities.filter((c) => CAPABILITY_ICONS[c]).slice(0, 4);
+  const handleCardPointerDown = () => {
+    selectionOnPointerDown.current = window.getSelection()?.toString() ?? "";
+  };
+  const handleCardClick = (event) => {
+    if (!onClick) return;
+    const target = event.target;
+    if (target instanceof Element && target.closest("button, a, input, select, textarea, label, summary, [contenteditable='true'], [tabindex]:not([tabindex='-1']), [role='button'], [role='link'], [role='menuitem'], [role='checkbox'], [role='radio'], [role='switch'], [role='combobox'], [role='textbox'], [role='slider'], [role='option'], [role='tab'], [role='treeitem'], [data-model-card-interactive]")) return;
+    const selection = window.getSelection();
+    const selectedText = selection?.toString() ?? "";
+    const previousSelection = selectionOnPointerDown.current;
+    selectionOnPointerDown.current = null;
+    if (selectedText && previousSelection !== null && selectedText !== previousSelection && selection?.anchorNode && cardRef.current?.contains(selection.anchorNode)) return;
+    if (selectedText && previousSelection === null && selection?.anchorNode && cardRef.current?.contains(selection.anchorNode)) return;
+    onClick();
+  };
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      onClick,
-      role: onClick ? "button" : void 0,
-      tabIndex: onClick ? 0 : void 0,
-      onKeyDown: (e) => {
-        if (onClick && (e.key === "Enter" || e.key === " ")) {
-          e.preventDefault();
-          onClick();
-        }
-      },
-      className: `card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`,
+      ref: cardRef,
+      onPointerDown: handleCardPointerDown,
+      onClick: handleCardClick,
+      className: `card card-interactive p-4 text-left w-full group cursor-pointer flex flex-col relative ${className}`,
       children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between mb-3", children: [
-          icon,
-          /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1", children: shownCaps.map((cap) => {
-            const { icon: Icon, color } = CAPABILITY_ICONS[cap];
-            return /* @__PURE__ */ jsx("div", { className: "p-1 rounded-md bg-muted/50", title: cap, children: /* @__PURE__ */ jsx(Icon, { size: 11, className: color }) }, cap);
-          }) })
-        ] }),
-        /* @__PURE__ */ jsx("div", { className: "mb-2", children: /* @__PURE__ */ jsxs("div", { className: "font-medium text-sm group-hover:text-foreground flex items-center gap-1.5", children: [
-          /* @__PURE__ */ jsx("span", { className: "truncate", children: name }),
-          nonofficial && /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[10px] px-1.5 py-0.5 rounded badge-warning font-medium whitespace-nowrap", children: labels?.nonofficial ?? "Unofficial" }),
-          suspended && /* @__PURE__ */ jsxs("span", { className: "shrink-0 inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded badge-warning font-medium whitespace-nowrap", children: [
-            /* @__PURE__ */ jsx(PauseCircle, { size: 10 }),
-            labels?.suspended ?? "Suspended"
-          ] })
-        ] }) }),
-        ids.length > 0 && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1.5 mb-3", children: ids.map((id, idx) => /* @__PURE__ */ jsx(IDBadge, { text: id }, idx)) }),
-        /* @__PURE__ */ jsx("div", { className: "text-xs text-muted-foreground line-clamp-2 mb-3 min-h-[2.5em]", children: description || /* @__PURE__ */ jsx("span", { className: "opacity-40", children: labels?.noDescription ?? "No description" }) }),
-        /* @__PURE__ */ jsxs("div", { className: "mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 text-[11px] text-muted-foreground pt-3 border-t border-border", children: [
-          /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-1.5 min-w-0", children: [
-            developer?.iconUrl && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-muted", style: { width: 12, height: 12 }, children: /* @__PURE__ */ jsx(Image, { src: developer.iconUrl, alt: developer.label, width: 12, height: 12, className: "object-cover" }) }),
-            developer?.label && /* @__PURE__ */ jsx("span", { className: "truncate min-w-0", children: developer.label })
+        onClick && /* @__PURE__ */ jsx(
+          "button",
+          {
+            type: "button",
+            "aria-label": name,
+            "data-model-card-action": true,
+            onClick: (event) => {
+              event.stopPropagation();
+              onClick();
+            },
+            className: "absolute inset-0 z-0 rounded-[inherit] border-0 bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: onClick ? "relative z-[1] flex flex-1 flex-col" : void 0, children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between mb-3", children: [
+            icon,
+            /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1", children: shownCaps.map((cap) => {
+              const { icon: Icon, color } = CAPABILITY_ICONS[cap];
+              return /* @__PURE__ */ jsx("div", { className: "p-1 rounded-md bg-muted/50", title: cap, children: /* @__PURE__ */ jsx(Icon, { size: 11, className: color }) }, cap);
+            }) })
           ] }),
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
-            context && /* @__PURE__ */ jsx("span", { className: "bg-muted px-1.5 py-0.5 rounded-sm font-medium", children: context }),
-            tier && tier !== "free" && /* @__PURE__ */ jsx("span", { className: "bg-warning-soft text-warning px-1.5 py-0.5 rounded-sm font-medium", children: tier }),
-            price && /* @__PURE__ */ jsx("span", { className: "font-mono", children: price })
+          /* @__PURE__ */ jsx("div", { className: "mb-2", children: /* @__PURE__ */ jsxs("div", { className: "font-medium text-sm group-hover:text-foreground flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsx("span", { className: "truncate", children: name }),
+            nonofficial && /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[10px] px-1.5 py-0.5 rounded badge-warning font-medium whitespace-nowrap", children: labels?.nonofficial ?? "Unofficial" }),
+            suspended && /* @__PURE__ */ jsxs("span", { className: "shrink-0 inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded badge-warning font-medium whitespace-nowrap", children: [
+              /* @__PURE__ */ jsx(PauseCircle, { size: 10 }),
+              labels?.suspended ?? "Suspended"
+            ] })
+          ] }) }),
+          ids.length > 0 && /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-1.5 mb-3", children: ids.map((id, idx) => /* @__PURE__ */ jsx(IDBadge, { text: id }, idx)) }),
+          /* @__PURE__ */ jsx("div", { className: "text-xs text-muted-foreground line-clamp-2 mb-3 min-h-[2.5em]", children: description ?? /* @__PURE__ */ jsx("span", { className: "opacity-40", children: labels?.noDescription ?? "No description" }) }),
+          /* @__PURE__ */ jsxs("div", { className: "mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 text-[11px] text-muted-foreground pt-3 border-t border-border", children: [
+            /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-1.5 min-w-0", children: [
+              developer?.iconUrl && /* @__PURE__ */ jsx("div", { className: "rounded-md overflow-hidden bg-muted", style: { width: 12, height: 12 }, children: /* @__PURE__ */ jsx(Image, { src: developer.iconUrl, alt: developer.label, width: 12, height: 12, className: "object-cover" }) }),
+              developer?.label && /* @__PURE__ */ jsx("span", { className: "truncate min-w-0", children: developer.label })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+              context && /* @__PURE__ */ jsx("span", { className: "bg-muted px-1.5 py-0.5 rounded-sm font-medium", children: context }),
+              tier && tier !== "free" && /* @__PURE__ */ jsx("span", { className: "bg-warning-soft text-warning px-1.5 py-0.5 rounded-sm font-medium", children: tier }),
+              price != null && /* @__PURE__ */ jsx("span", { className: "font-mono", children: price })
+            ] })
           ] })
         ] })
       ]
@@ -512,9 +1249,13 @@ function ModelSelect({
     all: "All",
     pinned: "Pinned",
     noResults: "No models found",
+    pin: "Pin",
+    unpin: "Unpin",
     ...labels
   };
   const [isOpen, setIsOpen] = useState(false);
+  const instanceId = useId();
+  const listboxId = `yunui-ms-${instanceId}-listbox`;
   const [search, setSearch] = useState("");
   const [activeGroup, setActiveGroup] = useState(null);
   const [activeFilters, setActiveFilters] = useState([]);
@@ -524,9 +1265,40 @@ function ModelSelect({
     setActiveGroup(null);
   }, [filterResetKey]);
   const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    const onEscape = (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      event.stopPropagation();
+      setIsOpen(false);
+      requestAnimationFrame(() => triggerRef.current?.focus());
+    };
+    document.addEventListener("keydown", onEscape, true);
+    return () => document.removeEventListener("keydown", onEscape, true);
+  }, [isOpen]);
   const inputRef = useRef(null);
   const listRef = useRef(null);
   const panelRef = useRef(null);
+  const pinFocusRef = useRef(null);
+  useEffect(() => {
+    const request = pinFocusRef.current;
+    if (!request) return;
+    if (!isOpen) {
+      pinFocusRef.current = null;
+      return;
+    }
+    if (request.source.isConnected) return;
+    pinFocusRef.current = null;
+    if (document.activeElement === document.body) {
+      listRef.current?.querySelector(`button[data-pin-id="${rowDomId(request.id)}"]`)?.focus();
+    }
+  }, [pinned, isOpen]);
+  const togglePin = (id, source) => {
+    pinFocusRef.current = document.activeElement === source ? { id, source } : null;
+    onTogglePin?.(id);
+  };
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
   const pinnedSet = useMemo(() => new Set(pinned ?? []), [pinned]);
   useDismissOnOutside(isOpen, () => setIsOpen(false), rootRef, { escape: false });
@@ -542,17 +1314,17 @@ function ModelSelect({
     return () => clearTimeout(t);
   }, [isOpen, value]);
   const groups = useMemo(() => {
-    const counts = {};
+    const counts = /* @__PURE__ */ Object.create(null);
     for (const o of options) counts[o.group] = (counts[o.group] || 0) + 1;
     return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([g]) => g);
   }, [options]);
   const groupLabel = useMemo(() => {
-    const m = {};
+    const m = /* @__PURE__ */ Object.create(null);
     for (const o of options) if (o.groupLabel) m[o.group] = o.groupLabel;
     return m;
   }, [options]);
   const groupIcon = useMemo(() => {
-    const m = {};
+    const m = /* @__PURE__ */ Object.create(null);
     for (const o of options) if (o.groupIcon && !(o.group in m)) m[o.group] = o.groupIcon;
     return m;
   }, [options]);
@@ -571,9 +1343,9 @@ function ModelSelect({
       return true;
     });
   }, [options, search, activeGroup, activeFilters, filters]);
-  const pinnedList = filtered.filter((o) => pinnedSet.has(o.id));
+  const pinnedList = useMemo(() => filtered.filter((o) => pinnedSet.has(o.id)), [filtered, pinnedSet]);
   const grouped = useMemo(() => {
-    const acc = {};
+    const acc = /* @__PURE__ */ Object.create(null);
     for (const o of filtered) {
       if (pinnedSet.has(o.id)) continue;
       (acc[o.group] ??= []).push(o);
@@ -587,9 +1359,9 @@ function ModelSelect({
     const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
     if (atTop && e.deltaY < 0 || atBottom && e.deltaY > 0) e.preventDefault();
   };
-  const select = (id) => {
-    onChange(id);
+  const closeAndRestoreFocus = () => {
     setIsOpen(false);
+    requestAnimationFrame(() => triggerRef.current?.focus());
   };
   const panelMaxHeight = maxHeight == null ? "min(32rem, calc(100dvh - 7rem))" : `min(${maxHeight}px, 32rem, calc(100dvh - 7rem))`;
   const flatOptions = useMemo(() => {
@@ -597,32 +1369,39 @@ function ModelSelect({
     for (const opts of Object.values(grouped)) out.push(...opts);
     return out;
   }, [pinnedList, grouped]);
+  const enabledOptions = useMemo(() => flatOptions.filter((option) => !option.disabled), [flatOptions]);
+  const select = (id) => {
+    const option = options.find((item) => item.id === id);
+    if (!option || option.disabled) return;
+    onChange(id);
+    closeAndRestoreFocus();
+  };
   const [activeIndex, setActiveIndex] = useState(-1);
   useEffect(() => {
     setActiveIndex(-1);
-  }, [isOpen, search, activeGroup, activeFilters]);
+  }, [isOpen, search, activeGroup, activeFilters, enabledOptions]);
   const clearActiveOnPointer = () => setActiveIndex((i) => i === -1 ? i : -1);
   useEffect(() => {
-    const id = flatOptions[activeIndex]?.id;
+    const id = enabledOptions[activeIndex]?.id;
     if (!isOpen || !id || !listRef.current) return;
     listRef.current.querySelector(`[data-model-id="${CSS.escape(id)}"]`)?.scrollIntoView({ block: "nearest" });
-  }, [activeIndex, isOpen, flatOptions]);
-  const activeId = flatOptions[activeIndex]?.id;
-  const rowDomId = (id) => `yunui-ms-opt-${id.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+  }, [activeIndex, isOpen, enabledOptions]);
+  const activeId = enabledOptions[activeIndex]?.id;
+  const rowDomId = (id) => `yunui-ms-${instanceId}-opt-${Array.from(id, (char) => char.codePointAt(0).toString(16)).join("-")}`;
   const onSearchKeyDown = (e) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, flatOptions.length - 1));
+      setActiveIndex((i) => Math.min(i + 1, enabledOptions.length - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((i) => i < 0 ? flatOptions.length - 1 : Math.max(i - 1, 0));
+      setActiveIndex((i) => i < 0 ? enabledOptions.length - 1 : Math.max(i - 1, 0));
     } else if (e.key === "Enter") {
       e.preventDefault();
-      const o = flatOptions[activeIndex] ?? flatOptions[0];
+      const o = enabledOptions[activeIndex] ?? enabledOptions[0];
       if (o) select(o.id);
     } else if (e.key === "Escape") {
       e.preventDefault();
-      setIsOpen(false);
+      closeAndRestoreFocus();
     }
   };
   return (
@@ -632,10 +1411,12 @@ function ModelSelect({
       /* @__PURE__ */ jsxs(
         "button",
         {
+          ref: triggerRef,
           type: "button",
           onClick: () => setIsOpen((o) => !o),
           "aria-expanded": isOpen,
           "aria-haspopup": "listbox",
+          "aria-controls": isOpen ? listboxId : void 0,
           className: cn(
             "flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring"
@@ -675,56 +1456,57 @@ function ModelSelect({
                     "aria-label": L.search,
                     role: "combobox",
                     "aria-expanded": isOpen,
-                    "aria-controls": "yunui-ms-listbox",
-                    "aria-activedescendant": activeId ? rowDomId(activeId) : void 0,
+                    "aria-controls": listboxId,
+                    "aria-activedescendant": activeId != null ? rowDomId(activeId) : void 0,
                     className: "w-full pl-9 pr-8 py-2 text-base md:text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                   }
                 ),
-                search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
+                search && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setSearch(""), title: L.clearSearch, "aria-label": L.clearSearch, className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 min-w-6 min-h-6 inline-flex items-center justify-center rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 13 }) })
               ] }),
               filters && filters.length > 0 && /* @__PURE__ */ jsx(HScrollRow, { className: "mt-2", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1 px-2.5 pb-2 w-max", children: [
                 filters.map((f) => {
                   const on = activeFilters.includes(f.key);
                   return /* @__PURE__ */ jsx("button", { type: "button", title: f.title, "aria-label": f.title, "aria-pressed": on, onClick: () => setActiveFilters((p) => p.includes(f.key) ? p.filter((k) => k !== f.key) : [...p, f.key]), className: cn("shrink-0 p-1 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring", on ? "bg-foreground/10" : "hover:bg-muted"), children: f.node }, f.key);
                 }),
-                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
+                activeFilters.length > 0 && /* @__PURE__ */ jsx("button", { type: "button", onClick: () => setActiveFilters([]), title: L.clearFilters, "aria-label": L.clearFilters, className: "shrink-0 p-1 min-w-6 min-h-6 inline-flex items-center justify-center rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring", children: /* @__PURE__ */ jsx(X, { size: 14 }) })
               ] }) })
             ] }),
             groups.length > 1 && /* @__PURE__ */ jsx("div", { className: "border-b border-border/50", children: /* @__PURE__ */ jsx(HScrollRow, { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-1 px-2.5 pt-2 pb-2.5 w-max", children: [
-              /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), "aria-pressed": !activeGroup, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
+              /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup(null), "aria-pressed": !activeGroup, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-(--text-secondary) hover:bg-muted/80"), children: [
                 L.all,
                 " (",
                 options.length,
                 ")"
               ] }),
-              groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), "aria-pressed": activeGroup === g, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80"), children: [
-                groupIcon[g],
+              groups.map((g) => /* @__PURE__ */ jsxs("button", { type: "button", onClick: () => setActiveGroup((c) => c === g ? null : g), "aria-pressed": activeGroup === g, className: cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-(--text-secondary) hover:bg-muted/80"), children: [
+                /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "inline-flex", children: groupIcon[g] }),
                 groupLabel[g] ?? g
               ] }, g))
             ] }) }) }),
-            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, id: "yunui-ms-listbox", role: "listbox", className: "flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain", children: [
-              pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { className: "px-1.5 py-1.5 border-b border-border/40", children: [
-                /* @__PURE__ */ jsxs("div", { className: "text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
+            /* @__PURE__ */ jsxs("div", { ref: listRef, onWheel, onMouseMove: clearActiveOnPointer, className: "flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain", children: [
+              /* @__PURE__ */ jsx("div", { id: listboxId, role: "listbox", "aria-label": L.placeholder, "aria-owns": flatOptions.length ? flatOptions.map((option) => rowDomId(option.id)).join(" ") : `${listboxId}-empty` }),
+              pinnedList.length > 0 && /* @__PURE__ */ jsxs("div", { role: "presentation", className: "px-1.5 py-1.5 border-b border-border/40", children: [
+                /* @__PURE__ */ jsxs("div", { "aria-hidden": "true", className: "text-[10px] font-medium text-(--text-secondary) uppercase tracking-wide px-2 mb-1 flex items-center gap-1", children: [
                   /* @__PURE__ */ jsx(Pin, { size: 9 }),
                   " ",
                   L.pinned
                 ] }),
-                pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+                pinnedList.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: true, isPinnable: !!onTogglePin, pinLabel: L.pin, unpinLabel: L.unpin, pinnedLabel: L.pinned, onSelect: () => select(o.id), onTogglePin: (source) => togglePin(o.id, source) }, o.id))
               ] }),
-              /* @__PURE__ */ jsx("div", { className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { className: "mb-3 last:mb-0", children: [
-                /* @__PURE__ */ jsx("div", { className: "sticky top-0 z-10 pt-1 pb-1.5", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 rounded-xl bg-muted px-3 py-2", children: [
+              /* @__PURE__ */ jsx("div", { role: "presentation", className: "px-1.5 py-1.5", children: Object.entries(grouped).map(([g, opts]) => /* @__PURE__ */ jsxs("div", { role: "presentation", className: "mb-3 last:mb-0", children: [
+                /* @__PURE__ */ jsx("div", { "aria-hidden": "true", className: "sticky top-0 z-10 pt-1 pb-1.5", children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 rounded-xl bg-muted px-3 py-2", children: [
                   groupIcon[g],
-                  /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold", children: groupLabel[g] ?? g }),
-                  /* @__PURE__ */ jsx("span", { className: "ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-muted-foreground bg-foreground/10 px-1.5 py-0.5 rounded-md", children: opts.length })
+                  /* @__PURE__ */ jsx("span", { className: "text-xs font-semibold text-(--text-secondary)", children: groupLabel[g] ?? g }),
+                  /* @__PURE__ */ jsx("span", { className: "ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-(--text-secondary) bg-foreground/10 px-1.5 py-0.5 rounded-md", children: opts.length })
                 ] }) }),
-                opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, onSelect: () => select(o.id), onTogglePin: () => onTogglePin?.(o.id) }, o.id))
+                opts.map((o) => /* @__PURE__ */ jsx(ModelRow, { domId: rowDomId(o.id), active: o.id === activeId, option: o, selected: o.id === value, pinned: false, isPinnable: !!onTogglePin, pinLabel: L.pin, unpinLabel: L.unpin, pinnedLabel: L.pinned, onSelect: () => select(o.id), onTogglePin: (source) => togglePin(o.id, source) }, o.id))
               ] }, g)) }),
-              filtered.length === 0 && /* @__PURE__ */ jsxs("div", { className: "py-12 text-center text-muted-foreground", children: [
+              filtered.length === 0 && /* @__PURE__ */ jsxs("div", { id: `${listboxId}-empty`, role: "option", "aria-disabled": "true", "aria-selected": "false", className: "py-12 text-center text-muted-foreground", children: [
                 /* @__PURE__ */ jsx(Sparkles, { size: 28, className: "mx-auto mb-3 opacity-40" }),
                 /* @__PURE__ */ jsx("p", { className: "text-sm", children: L.noResults })
               ] })
             ] }),
-            renderFooter && filtered.length > 0 && /* @__PURE__ */ jsx("div", { className: "border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-muted-foreground", children: renderFooter(filtered.length) })
+            renderFooter && filtered.length > 0 && /* @__PURE__ */ jsx("div", { className: "border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-(--text-secondary)", children: renderFooter(filtered.length) })
           ]
         }
       )
@@ -739,16 +1521,17 @@ var ModelRow = memo(function ModelRow2({
   pinned,
   isPinnable,
   onSelect,
-  onTogglePin
+  onTogglePin,
+  pinLabel,
+  unpinLabel,
+  pinnedLabel
 }) {
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      id: domId,
       "data-model-id": option.id,
-      role: "option",
-      "aria-selected": selected,
-      onClick: onSelect,
+      role: "presentation",
+      onClick: option.disabled ? void 0 : onSelect,
       className: cn(
         "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
         // A clear gray fill on both states (selected solid, hover lighter)
@@ -758,38 +1541,54 @@ var ModelRow = memo(function ModelRow2({
         active && "bg-muted ring-2 ring-ring/40"
       ),
       children: [
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxs(
           "div",
           {
-            style: { left: "5px" },
-            className: cn(
-              "absolute top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
-              selected ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1.5 group-hover:opacity-50 group-hover:translate-x-0"
-            )
+            id: domId,
+            role: "option",
+            "aria-selected": selected,
+            "aria-description": `${pinned ? `${pinnedLabel}, ` : ""}${option.groupLabel ?? option.group}`,
+            "aria-disabled": option.disabled || void 0,
+            className: "flex flex-1 min-w-0 items-center gap-3 self-stretch",
+            children: [
+              /* @__PURE__ */ jsx(
+                "div",
+                {
+                  style: { left: "5px" },
+                  className: cn(
+                    "absolute top-1/2 w-1 h-6 rounded-full bg-primary transition-all duration-150 -translate-y-1/2",
+                    selected ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1.5 group-hover:opacity-50 group-hover:translate-x-0"
+                  )
+                }
+              ),
+              option.icon,
+              /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
+                /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
+                  /* @__PURE__ */ jsx("span", { className: "font-medium truncate", children: option.label }),
+                  option.badges
+                ] }),
+                option.detail
+              ] }),
+              option.meta && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1 shrink-0", children: option.meta })
+            ]
           }
         ),
-        option.icon,
-        /* @__PURE__ */ jsxs("div", { className: "flex-1 min-w-0", children: [
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
-            /* @__PURE__ */ jsx("span", { className: "font-medium truncate", children: option.label }),
-            option.badges
-          ] }),
-          option.detail
-        ] }),
-        option.meta && /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1 shrink-0", children: option.meta }),
         isPinnable && /* @__PURE__ */ jsx(
           "button",
           {
             type: "button",
+            "data-pin-id": domId,
+            "aria-pressed": pinned,
+            "aria-describedby": domId,
             onClick: (e) => {
               e.stopPropagation();
-              onTogglePin();
+              onTogglePin(e.currentTarget);
             },
             className: cn(
-              "p-1.5 rounded-md transition-all shrink-0 lg:opacity-0 lg:group-hover:opacity-100",
-              pinned ? "text-foreground opacity-100 hover:bg-muted/50" : "text-muted-foreground/40 opacity-60 hover:text-foreground/70 hover:bg-muted/50"
+              "p-1.5 rounded-md transition-all shrink-0 lg:opacity-0 lg:group-hover:opacity-100 lg:focus-visible:opacity-100 outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              pinned ? "text-foreground opacity-100 hover:bg-muted/50" : "text-(--text-secondary) hover:text-foreground hover:bg-muted/50"
             ),
-            "aria-label": pinned ? "Unpin" : "Pin",
+            "aria-label": pinned ? unpinLabel : pinLabel,
             children: /* @__PURE__ */ jsx(Pin, { size: 14, className: pinned ? "fill-current" : "" })
           }
         )
@@ -1558,7 +2357,30 @@ function ProviderIcon({
   rounded = false,
   iconUrl
 }) {
-  const { Image, iconBasePath } = useYunUI();
+  const { iconBasePath } = useYunUI();
+  const sourceKey = JSON.stringify([provider ?? "", iconUrl ?? null, iconBasePath]);
+  return /* @__PURE__ */ jsx(
+    ProviderIconStateful,
+    {
+      provider,
+      className,
+      size,
+      rounded,
+      iconUrl,
+      iconBasePath
+    },
+    sourceKey
+  );
+}
+function ProviderIconStateful({
+  provider,
+  className = "",
+  size = 20,
+  rounded = false,
+  iconUrl,
+  iconBasePath
+}) {
+  const { Image } = useYunUI();
   const [customError, setCustomError] = useState(false);
   const [pathError, setPathError] = useState(false);
   const effectiveIconUrl = iconUrl;
@@ -1757,7 +2579,32 @@ function ModelIcon({
   size = 20,
   rounded = false
 }) {
-  const { Image, iconBasePath } = useYunUI();
+  const { iconBasePath } = useYunUI();
+  const sourceKey = JSON.stringify([iconUrl ?? null, developer ?? null, provider ?? "", iconBasePath]);
+  return /* @__PURE__ */ jsx(
+    ModelIconStateful,
+    {
+      iconUrl,
+      developer,
+      provider,
+      className,
+      size,
+      rounded,
+      iconBasePath
+    },
+    sourceKey
+  );
+}
+function ModelIconStateful({
+  iconUrl,
+  developer,
+  provider,
+  className = "",
+  size = 20,
+  rounded = false,
+  iconBasePath
+}) {
+  const { Image } = useYunUI();
   const [failedPriority, setFailedPriority] = useState(0);
   const getRadiusClass = () => {
     if (size <= 14) return "rounded-sm";
@@ -1914,22 +2761,27 @@ function LanguageSwitcher({
   const containerRef = useRef(null);
   const triggerRef = useRef(null);
   const panelRef = useRef(null);
+  const id = useId();
+  const panelId = `${id}-language-options`;
   const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
   useDismissOnOutside(isOpen, () => setIsOpen(false), containerRef, { escape: false });
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => {
       if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
         setIsOpen(false);
         triggerRef.current?.focus();
       }
     };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.addEventListener("keydown", onKey, true);
+    return () => document.removeEventListener("keydown", onKey, true);
   }, [isOpen]);
   const handleLocaleChange = (newLocale) => {
-    if (newLocale === currentLocale || pending) return;
+    if (pending) return;
     setIsOpen(false);
+    if (newLocale === currentLocale) return;
     onChange(newLocale);
   };
   const currentLabel = locales.find((l) => l.value === currentLocale)?.label ?? currentLocale;
@@ -1941,12 +2793,13 @@ function LanguageSwitcher({
         "button",
         {
           ref: triggerRef,
+          type: "button",
           onClick: () => setIsOpen(!isOpen),
           className: "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           disabled: pending,
-          "aria-label": label,
+          "aria-label": `${label}: ${currentLabel}`,
           "aria-expanded": isOpen,
-          "aria-haspopup": "listbox",
+          "aria-controls": isOpen ? panelId : void 0,
           children: [
             /* @__PURE__ */ jsx(Globe, { size: 14, className: "shrink-0" }),
             /* @__PURE__ */ jsx("span", { className: "whitespace-nowrap", children: currentLabel })
@@ -1956,12 +2809,13 @@ function LanguageSwitcher({
         "button",
         {
           ref: triggerRef,
+          type: "button",
           onClick: () => setIsOpen(!isOpen),
           className: "w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           disabled: pending,
-          "aria-label": label,
+          "aria-label": `${label}: ${currentLabel}`,
           "aria-expanded": isOpen,
-          "aria-haspopup": "listbox",
+          "aria-controls": isOpen ? panelId : void 0,
           children: /* @__PURE__ */ jsx(Globe, { className: "h-[1.2rem] w-[1.2rem]" })
         }
       ),
@@ -1969,13 +2823,21 @@ function LanguageSwitcher({
         "div",
         {
           ref: panelRef,
-          style: { marginLeft: shift, maxHeight },
+          id: panelId,
+          role: "group",
+          "aria-label": label,
+          "aria-busy": pending || void 0,
+          style: { ...align === "left" ? { marginLeft: shift } : { marginRight: -shift }, maxHeight },
           className: `absolute ${align === "left" ? "left-0" : "right-0"} ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-popover/95 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`,
           children: /* @__PURE__ */ jsx("div", { className: "p-1 flex-1 min-h-0 overflow-y-auto", children: locales.map((lang) => /* @__PURE__ */ jsx(
             "button",
             {
+              type: "button",
+              disabled: pending,
+              "aria-pressed": currentLocale === lang.value,
               onClick: () => handleLocaleChange(lang.value),
-              className: `dropdown-item w-full text-left ${currentLocale === lang.value ? "active" : ""}`,
+              className: `dropdown-item w-full text-left !text-[var(--text-secondary)] ${currentLocale === lang.value ? "active" : ""}`,
+              style: currentLocale === lang.value ? { color: "var(--text-primary)" } : void 0,
               children: /* @__PURE__ */ jsx("span", { className: "flex-1", children: lang.label })
             },
             lang.value
@@ -1983,172 +2845,6 @@ function LanguageSwitcher({
         }
       )
     ] })
-  );
-}
-function Navbar({
-  appName,
-  logoSrc = "/favicon.ico",
-  links = [],
-  currentPath = "/",
-  variant = "public",
-  labels,
-  languageSwitcher,
-  themeToggle,
-  homeHref = "/",
-  loginHref = "/login",
-  signupHref = "/signup",
-  account,
-  brand,
-  actions,
-  mobileMenuHeader,
-  mobileMenuFooter,
-  label,
-  className
-}) {
-  const { Link, Image } = useYunUI();
-  const [scrollSection, setScrollSection] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const signIn = labels?.signIn ?? "Sign In";
-  const signUp = labels?.signUp ?? "Sign Up";
-  const menuLabel = labels?.menu ?? "Menu";
-  const activeSection = useMemo(() => {
-    return currentPath === "/" ? scrollSection : "";
-  }, [currentPath, scrollSection]);
-  useEffect(() => {
-    if (currentPath !== "/") return;
-    const sections = document.querySelectorAll("section[id]");
-    if (sections.length === 0) return;
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 150;
-      let currentSection = "";
-      sections.forEach((section) => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-          currentSection = `#${section.id}`;
-        }
-      });
-      setScrollSection(currentSection);
-    };
-    handleScroll();
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [currentPath]);
-  const isActive = (path) => {
-    if (currentPath === path) return true;
-    if (path.startsWith("/#")) {
-      return currentPath === "/" && activeSection === path.slice(1);
-    }
-    return false;
-  };
-  return /* @__PURE__ */ jsxs(
-    "nav",
-    {
-      style: { top: "max(1.5rem, env(safe-area-inset-top))" },
-      "aria-label": label,
-      className: `fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between${className ? ` ${className}` : ""}`,
-      children: [
-        /* @__PURE__ */ jsx(Link, { href: homeHref, className: "flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200", children: brand ?? /* @__PURE__ */ jsxs(Fragment, { children: [
-          /* @__PURE__ */ jsx(Image, { src: logoSrc, alt: appName, width: 28, height: 28, className: "w-7 h-7 shrink-0" }),
-          /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm tracking-tight truncate", children: appName })
-        ] }) }),
-        variant === "public" && /* @__PURE__ */ jsx("div", { className: "hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2", children: links.map((link) => /* @__PURE__ */ jsxs(
-          Link,
-          {
-            href: link.href,
-            className: "group relative px-2 lg:px-3 py-2 whitespace-nowrap min-w-15 text-center",
-            children: [
-              /* @__PURE__ */ jsx("span", { className: `text-sm relative z-10 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`, children: link.label }),
-              /* @__PURE__ */ jsx("span", { className: `absolute bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 bg-foreground rounded-full transition-all duration-200 yunui-accent-bg ${isActive(link.href) ? "w-8" : "w-0 group-hover:w-8"}` })
-            ]
-          },
-          link.href
-        )) }),
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5 shrink-0", children: [
-          actions && /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: actions }),
-          languageSwitcher && /* @__PURE__ */ jsx("span", { className: "hidden md:flex items-center gap-1.5", children: languageSwitcher }),
-          themeToggle ?? /* @__PURE__ */ jsx(ThemeToggle, { variant: "pill" }),
-          variant !== "minimal" && account,
-          variant !== "minimal" && !account && /* @__PURE__ */ jsxs(Fragment, { children: [
-            /* @__PURE__ */ jsx(
-              Link,
-              {
-                href: loginHref,
-                className: "hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center",
-                children: signIn
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              Link,
-              {
-                href: signupHref,
-                className: "hidden md:inline-block px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on",
-                children: signUp
-              }
-            )
-          ] }),
-          variant === "public" && /* @__PURE__ */ jsx(
-            "button",
-            {
-              type: "button",
-              onClick: () => setMenuOpen((o) => !o),
-              className: "md:hidden w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors",
-              "aria-label": menuLabel,
-              "aria-expanded": menuOpen,
-              children: menuOpen ? /* @__PURE__ */ jsx(X, { className: "w-5 h-5" }) : /* @__PURE__ */ jsx(Menu, { className: "w-5 h-5" })
-            }
-          )
-        ] }),
-        variant === "public" && menuOpen && /* @__PURE__ */ jsxs(Fragment, { children: [
-          /* @__PURE__ */ jsx("div", { className: "md:hidden fixed inset-0 -z-10", "aria-hidden": "true", onClick: () => setMenuOpen(false) }),
-          /* @__PURE__ */ jsxs("div", { className: "md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5", children: [
-            mobileMenuHeader,
-            links.map((link) => /* @__PURE__ */ jsx(
-              Link,
-              {
-                href: link.href,
-                onClick: () => setMenuOpen(false),
-                className: `px-4 py-2.5 rounded-xl text-sm transition-colors hover:bg-foreground/5 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`,
-                children: link.label
-              },
-              link.href
-            )),
-            /* @__PURE__ */ jsx("div", { className: "my-1 border-t border-border" }),
-            mobileMenuFooter ?? (languageSwitcher && /* @__PURE__ */ jsx("div", { className: "px-2 py-1.5", children: languageSwitcher })),
-            !account && /* @__PURE__ */ jsxs(Fragment, { children: [
-              /* @__PURE__ */ jsx(
-                Link,
-                {
-                  href: loginHref,
-                  onClick: () => setMenuOpen(false),
-                  className: "px-4 py-2.5 rounded-xl text-sm text-muted-foreground transition-colors hover:bg-foreground/5",
-                  children: signIn
-                }
-              ),
-              /* @__PURE__ */ jsx(
-                Link,
-                {
-                  href: signupHref,
-                  onClick: () => setMenuOpen(false),
-                  className: "mt-0.5 px-4 py-2.5 rounded-xl text-sm font-medium text-center bg-foreground text-background hover:bg-foreground/90 transition-colors yunui-accent-bg yunui-accent-on",
-                  children: signUp
-                }
-              )
-            ] })
-          ] })
-        ] })
-      ]
-    }
   );
 }
 function AccountMenu({
@@ -2162,10 +2858,55 @@ function AccountMenu({
   const { Link } = useYunUI();
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const triggerRef = useRef(null);
+  const menuRef = useRef(null);
+  const { shift, maxHeight, placement } = useAnchoredPosition(open, menuRef);
+  const menuId = `${useId()}-account-menu`;
   const signInLabel = labels?.signIn ?? "Sign in";
   const signOutLabel = labels?.signOut ?? "Sign out";
   const fallbackName = labels?.fallbackName ?? "Account";
-  useDismissOnOutside(open, () => setOpen(false), ref);
+  useDismissOnOutside(open, () => setOpen(false), ref, { escape: false });
+  const identityKey = user == null ? String(user) : JSON.stringify([user.name ?? "", user.email ?? "", user.avatarUrl ?? ""]);
+  useEffect(() => setOpen(false), [identityKey]);
+  useEffect(() => {
+    if (!open) return;
+    const focusableItems = () => Array.from(
+      menuRef.current?.querySelectorAll("[role='menuitem']:not([aria-disabled='true'])") ?? []
+    );
+    const focusFirstItem = () => focusableItems()[0]?.focus();
+    const frame = requestAnimationFrame(focusFirstItem);
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        setOpen(false);
+        triggerRef.current?.focus();
+        return;
+      }
+      if (event.key === "Tab") {
+        setOpen(false);
+        return;
+      }
+      const items2 = focusableItems();
+      if (!items2.length) return;
+      const currentIndex = items2.indexOf(document.activeElement);
+      let nextIndex;
+      if (event.key === "ArrowDown") nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % items2.length;
+      else if (event.key === "ArrowUp") nextIndex = currentIndex < 0 ? items2.length - 1 : (currentIndex - 1 + items2.length) % items2.length;
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = items2.length - 1;
+      if (nextIndex !== void 0) {
+        event.preventDefault();
+        event.stopPropagation();
+        items2[nextIndex]?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKeyDown, true);
+    };
+  }, [open]);
   if (user === void 0) {
     return /* @__PURE__ */ jsx("span", { "aria-hidden": true, className: cn("block h-9 w-9", className) });
   }
@@ -2188,9 +2929,11 @@ function AccountMenu({
     /* @__PURE__ */ jsx(
       "button",
       {
+        ref: triggerRef,
         type: "button",
         onClick: () => setOpen((v) => !v),
         "aria-haspopup": "menu",
+        "aria-controls": open ? menuId : void 0,
         "aria-expanded": open,
         "aria-label": labels?.menu ?? name,
         className: "flex h-9 w-9 items-center justify-center overflow-hidden rounded-full transition-colors hover:bg-foreground/5 outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -2203,8 +2946,11 @@ function AccountMenu({
     open && /* @__PURE__ */ jsxs(
       "div",
       {
+        id: menuId,
+        ref: menuRef,
         role: "menu",
-        className: "absolute right-0 top-full z-50 mt-2 w-56 rounded-2xl border border-border bg-popover/95 p-1.5 shadow-lg shadow-black/5 backdrop-blur-2xl",
+        style: { marginRight: -shift, maxHeight },
+        className: `absolute right-0 ${placement === "top" ? "bottom-full mb-2" : "top-full mt-2"} z-50 w-56 overflow-y-auto rounded-2xl border border-border bg-popover/95 p-1.5 shadow-lg shadow-black/5 backdrop-blur-2xl`,
         children: [
           /* @__PURE__ */ jsxs("div", { className: "border-b border-border px-3 py-2.5", children: [
             /* @__PURE__ */ jsx("p", { className: "truncate text-sm font-medium", children: name }),
@@ -2234,6 +2980,7 @@ function AccountMenu({
               Link,
               {
                 href: item.href ?? "#",
+                role: "menuitem",
                 onClick: () => setOpen(false),
                 className: rowClass,
                 children: body
@@ -2263,6 +3010,6 @@ function AccountMenu({
   ] });
 }
 
-export { AccountMenu, AgentRunStatus, AgentTimeline, CapabilityIcon, CapabilitySelector, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { AccountMenu, AgentRunStatus, AgentTimeline, ApprovalQuestion, CapabilityIcon, CapabilitySelector, DiffTable, IDBadge, LanguageSwitcher, ModelAvatar, ModelCard, ModelIcon, ModelManagerCard, ModelSelect, ModelTypeIcon, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, SelectionActions, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
 //# sourceMappingURL=ai.js.map
 //# sourceMappingURL=ai.js.map

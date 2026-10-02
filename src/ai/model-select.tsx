@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect, memo, type ReactNode } from "react";
+import { useState, useMemo, useRef, useEffect, useId, memo, type ReactNode } from "react";
 import { Search, Pin, ChevronDown, X, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "../lib/cn";
@@ -144,6 +144,8 @@ export interface ModelSelectLabels {
     all?: string;
     pinned?: string;
     noResults?: string;
+    pin?: string;
+    unpin?: string;
 }
 
 export interface ModelSelectProps {
@@ -194,9 +196,13 @@ export function ModelSelect({
         all: "All",
         pinned: "Pinned",
         noResults: "No models found",
+        pin: "Pin",
+        unpin: "Unpin",
         ...labels,
     };
     const [isOpen, setIsOpen] = useState(false);
+    const instanceId = useId();
+    const listboxId = `yunui-ms-${instanceId}-listbox`;
     const [search, setSearch] = useState("");
     const [activeGroup, setActiveGroup] = useState<string | null>(null);
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -209,9 +215,37 @@ export function ModelSelect({
         setActiveGroup(null);
     }, [filterResetKey]);
     const rootRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    useEffect(() => {
+        if (!isOpen) return;
+        const onEscape = (event: KeyboardEvent) => {
+            if (event.key !== "Escape") return;
+            event.preventDefault();
+            event.stopPropagation();
+            setIsOpen(false);
+            requestAnimationFrame(() => triggerRef.current?.focus());
+        };
+        document.addEventListener("keydown", onEscape, true);
+        return () => document.removeEventListener("keydown", onEscape, true);
+    }, [isOpen]);
     const inputRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
+    const pinFocusRef = useRef<{ id: string; source: HTMLButtonElement } | null>(null);
+    useEffect(() => {
+        const request = pinFocusRef.current;
+        if (!request) return;
+        if (!isOpen) { pinFocusRef.current = null; return; }
+        if (request.source.isConnected) return;
+        pinFocusRef.current = null;
+        if (document.activeElement === document.body) {
+            listRef.current?.querySelector<HTMLButtonElement>(`button[data-pin-id="${rowDomId(request.id)}"]`)?.focus();
+        }
+    }, [pinned, isOpen]);
+    const togglePin = (id: string, source: HTMLButtonElement) => {
+        pinFocusRef.current = document.activeElement === source ? { id, source } : null;
+        onTogglePin?.(id);
+    };
     // Keep the floating panel inside the viewport (the Radix dropdowns flip/shift
     // on their own; this hand-rolled one needs explicit collision handling).
     const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
@@ -238,17 +272,17 @@ export function ModelSelect({
 
     // Providers (groups) sorted by descending count.
     const groups = useMemo(() => {
-        const counts: Record<string, number> = {};
+        const counts: Record<string, number> = Object.create(null);
         for (const o of options) counts[o.group] = (counts[o.group] || 0) + 1;
         return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([g]) => g);
     }, [options]);
     const groupLabel = useMemo(() => {
-        const m: Record<string, string> = {};
+        const m: Record<string, string> = Object.create(null);
         for (const o of options) if (o.groupLabel) m[o.group] = o.groupLabel;
         return m;
     }, [options]);
     const groupIcon = useMemo(() => {
-        const m: Record<string, ReactNode> = {};
+        const m: Record<string, ReactNode> = Object.create(null);
         for (const o of options) if (o.groupIcon && !(o.group in m)) m[o.group] = o.groupIcon;
         return m;
     }, [options]);
@@ -269,9 +303,9 @@ export function ModelSelect({
         });
     }, [options, search, activeGroup, activeFilters, filters]);
 
-    const pinnedList = filtered.filter((o) => pinnedSet.has(o.id));
+    const pinnedList = useMemo(() => filtered.filter((o) => pinnedSet.has(o.id)), [filtered, pinnedSet]);
     const grouped = useMemo(() => {
-        const acc: Record<string, ModelSelectOption[]> = {};
+        const acc: Record<string, ModelSelectOption[]> = Object.create(null);
         for (const o of filtered) {
             if (pinnedSet.has(o.id)) continue;
             (acc[o.group] ??= []).push(o);
@@ -288,7 +322,10 @@ export function ModelSelect({
         if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) e.preventDefault();
     };
 
-    const select = (id: string) => { onChange(id); setIsOpen(false); };
+    const closeAndRestoreFocus = () => {
+        setIsOpen(false);
+        requestAnimationFrame(() => triggerRef.current?.focus());
+    };
     const panelMaxHeight = maxHeight == null
         ? "min(32rem, calc(100dvh - 7rem))"
         : `min(${maxHeight}px, 32rem, calc(100dvh - 7rem))`;
@@ -301,41 +338,48 @@ export function ModelSelect({
         for (const opts of Object.values(grouped)) out.push(...opts);
         return out;
     }, [pinnedList, grouped]);
+    const enabledOptions = useMemo(() => flatOptions.filter((option) => !option.disabled), [flatOptions]);
+    const select = (id: string) => {
+        const option = options.find((item) => item.id === id);
+        if (!option || option.disabled) return;
+        onChange(id);
+        closeAndRestoreFocus();
+    };
     // -1 = no keyboard highlight yet. The ring only appears once the user
     // actually arrow-keys, so it never sits on the top row by default or fights
     // the mouse hover state.
     const [activeIndex, setActiveIndex] = useState(-1);
     // Reset the highlight whenever the visible set changes or the panel opens.
-    useEffect(() => { setActiveIndex(-1); }, [isOpen, search, activeGroup, activeFilters]);
+    useEffect(() => { setActiveIndex(-1); }, [isOpen, search, activeGroup, activeFilters, enabledOptions]);
     // Pointer use cedes the highlight back to hover (avoids a stuck ring +
     // hover fill showing at once).
     const clearActiveOnPointer = () => setActiveIndex((i) => (i === -1 ? i : -1));
     // Keep the highlighted row scrolled into view.
     useEffect(() => {
-        const id = flatOptions[activeIndex]?.id;
+        const id = enabledOptions[activeIndex]?.id;
         if (!isOpen || !id || !listRef.current) return;
         listRef.current
             .querySelector<HTMLElement>(`[data-model-id="${CSS.escape(id)}"]`)
             ?.scrollIntoView({ block: "nearest" });
-    }, [activeIndex, isOpen, flatOptions]);
-    const activeId = flatOptions[activeIndex]?.id;
-    const rowDomId = (id: string) => `yunui-ms-opt-${id.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+    }, [activeIndex, isOpen, enabledOptions]);
+    const activeId = enabledOptions[activeIndex]?.id;
+    const rowDomId = (id: string) => `yunui-ms-${instanceId}-opt-${Array.from(id, char => char.codePointAt(0)!.toString(16)).join("-")}`;
     const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "ArrowDown") {
             e.preventDefault();
-            setActiveIndex((i) => Math.min(i + 1, flatOptions.length - 1));
+            setActiveIndex((i) => Math.min(i + 1, enabledOptions.length - 1));
         } else if (e.key === "ArrowUp") {
             e.preventDefault();
             // From "no selection" (-1), Up jumps to the last row.
-            setActiveIndex((i) => (i < 0 ? flatOptions.length - 1 : Math.max(i - 1, 0)));
+            setActiveIndex((i) => (i < 0 ? enabledOptions.length - 1 : Math.max(i - 1, 0)));
         } else if (e.key === "Enter") {
             e.preventDefault();
             // No row highlighted yet → Enter takes the top result (classic combobox).
-            const o = flatOptions[activeIndex] ?? flatOptions[0];
+            const o = enabledOptions[activeIndex] ?? enabledOptions[0];
             if (o) select(o.id);
         } else if (e.key === "Escape") {
             e.preventDefault();
-            setIsOpen(false);
+            closeAndRestoreFocus();
         }
     };
 
@@ -344,10 +388,12 @@ export function ModelSelect({
         // label changes; override the width via `className`.
         <div ref={rootRef} className={cn("relative w-64", className)}>
             <button
+                ref={triggerRef}
                 type="button"
                 onClick={() => setIsOpen((o) => !o)}
                 aria-expanded={isOpen}
                 aria-haspopup="listbox"
+                aria-controls={isOpen ? listboxId : undefined}
                 className={cn(
                     "flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-xl text-left group transition-all w-full shadow-sm hover:shadow-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     isOpen ? "border-ring/60 ring-2 ring-ring/25" : "border-border hover:border-ring",
@@ -406,15 +452,15 @@ export function ModelSelect({
                                     aria-label={L.search}
                                     role="combobox"
                                     aria-expanded={isOpen}
-                                    aria-controls="yunui-ms-listbox"
-                                    aria-activedescendant={activeId ? rowDomId(activeId) : undefined}
+                                    aria-controls={listboxId}
+                                    aria-activedescendant={activeId != null ? rowDomId(activeId) : undefined}
                                     // 16px on mobile: iOS Safari zooms the whole page when a focused input
                                     // is under 16px, and this one opens inside a dropdown, so the zoom
                                     // lands mid-interaction.
                                     className="w-full pl-9 pr-8 py-2 text-base md:text-sm bg-muted/50 border border-transparent rounded-xl outline-none focus:border-ring focus:bg-background transition-colors"
                                 />
                                 {search && (
-                                    <button type="button" onClick={() => setSearch("")} title={L.clearSearch} aria-label={L.clearSearch} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                    <button type="button" onClick={() => setSearch("")} title={L.clearSearch} aria-label={L.clearSearch} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5 min-w-6 min-h-6 inline-flex items-center justify-center rounded-md hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
                                         <X size={13} />
                                     </button>
                                 )}
@@ -431,7 +477,7 @@ export function ModelSelect({
                                             );
                                         })}
                                         {activeFilters.length > 0 && (
-                                            <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} aria-label={L.clearFilters} className="shrink-0 p-1 rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                            <button type="button" onClick={() => setActiveFilters([])} title={L.clearFilters} aria-label={L.clearFilters} className="shrink-0 p-1 min-w-6 min-h-6 inline-flex items-center justify-center rounded-md text-muted-foreground hover:bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring">
                                                 <X size={14} />
                                             </button>
                                         )}
@@ -445,12 +491,12 @@ export function ModelSelect({
                             <div className="border-b border-border/50">
                                 <HScrollRow>
                                     <div className="flex gap-1 px-2.5 pt-2 pb-2.5 w-max">
-                                        <button type="button" onClick={() => setActiveGroup(null)} aria-pressed={!activeGroup} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                                        <button type="button" onClick={() => setActiveGroup(null)} aria-pressed={!activeGroup} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", !activeGroup ? "bg-foreground text-background" : "bg-muted text-(--text-secondary) hover:bg-muted/80")}>
                                             {L.all} ({options.length})
                                         </button>
                                         {groups.map((g) => (
-                                            <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} aria-pressed={activeGroup === g} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
-                                                {groupIcon[g]}
+                                            <button key={g} type="button" onClick={() => setActiveGroup((c) => (c === g ? null : g))} aria-pressed={activeGroup === g} className={cn("px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring", activeGroup === g ? "bg-foreground text-background" : "bg-muted text-(--text-secondary) hover:bg-muted/80")}>
+                                                <span aria-hidden="true" className="inline-flex">{groupIcon[g]}</span>
                                                 {groupLabel[g] ?? g}
                                             </button>
                                         ))}
@@ -460,41 +506,45 @@ export function ModelSelect({
                         )}
 
                         {/* List */}
-                        <div ref={listRef} onWheel={onWheel} onMouseMove={clearActiveOnPointer} id="yunui-ms-listbox" role="listbox" className="flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain">
+                        <div ref={listRef} onWheel={onWheel} onMouseMove={clearActiveOnPointer} className="flex-1 min-h-0 max-h-96 overflow-y-auto overscroll-contain">
+                            {/* The accessible listbox owns only option nodes. Pin buttons
+                                remain outside that composite, although the visual rows share
+                                one scroll container. This preserves the existing appearance. */}
+                            <div id={listboxId} role="listbox" aria-label={L.placeholder} aria-owns={flatOptions.length ? flatOptions.map(option => rowDomId(option.id)).join(" ") : `${listboxId}-empty`} />
                             {pinnedList.length > 0 && (
-                                <div className="px-1.5 py-1.5 border-b border-border/40">
-                                    <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide px-2 mb-1 flex items-center gap-1">
+                                <div role="presentation" className="px-1.5 py-1.5 border-b border-border/40">
+                                    <div aria-hidden="true" className="text-[10px] font-medium text-(--text-secondary) uppercase tracking-wide px-2 mb-1 flex items-center gap-1">
                                         <Pin size={9} /> {L.pinned}
                                     </div>
                                     {pinnedList.map((o) => (
-                                        <ModelRow key={o.id} domId={rowDomId(o.id)} active={o.id === activeId} option={o} selected={o.id === value} pinned isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
+                                        <ModelRow key={o.id} domId={rowDomId(o.id)} active={o.id === activeId} option={o} selected={o.id === value} pinned isPinnable={!!onTogglePin} pinLabel={L.pin} unpinLabel={L.unpin} pinnedLabel={L.pinned} onSelect={() => select(o.id)} onTogglePin={(source) => togglePin(o.id, source)} />
                                     ))}
                                 </div>
                             )}
-                            <div className="px-1.5 py-1.5">
+                            <div role="presentation" className="px-1.5 py-1.5">
                                 {Object.entries(grouped).map(([g, opts]) => (
-                                    <div key={g} className="mb-3 last:mb-0">
+                                    <div key={g} role="presentation" className="mb-3 last:mb-0">
                                         {/* Sticky group header styled as a rounded bar that echoes the
                                             model rows (rounded-xl, same gutter) — a deliberate on-brand
                                             label, not a square full-bleed band. SOLID muted fill (no
                                             backdrop-blur): a per-header blur layer stacked on the panel's
                                             blur was 5 backdrop-filters deep, which makes hover/scroll
                                             stutter (esp. Safari). The solid fill occludes rows on its own. */}
-                                        <div className="sticky top-0 z-10 pt-1 pb-1.5">
+                                        <div aria-hidden="true" className="sticky top-0 z-10 pt-1 pb-1.5">
                                             <div className="flex items-center gap-2 rounded-xl bg-muted px-3 py-2">
                                                 {groupIcon[g]}
-                                                <span className="text-xs font-semibold">{groupLabel[g] ?? g}</span>
-                                                <span className="ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-muted-foreground bg-foreground/10 px-1.5 py-0.5 rounded-md">{opts.length}</span>
+                                                <span className="text-xs font-semibold text-(--text-secondary)">{groupLabel[g] ?? g}</span>
+                                                <span className="ml-auto shrink-0 min-w-5 text-center text-[10px] font-semibold tabular-nums text-(--text-secondary) bg-foreground/10 px-1.5 py-0.5 rounded-md">{opts.length}</span>
                                             </div>
                                         </div>
                                         {opts.map((o) => (
-                                            <ModelRow key={o.id} domId={rowDomId(o.id)} active={o.id === activeId} option={o} selected={o.id === value} pinned={false} isPinnable={!!onTogglePin} onSelect={() => select(o.id)} onTogglePin={() => onTogglePin?.(o.id)} />
+                                            <ModelRow key={o.id} domId={rowDomId(o.id)} active={o.id === activeId} option={o} selected={o.id === value} pinned={false} isPinnable={!!onTogglePin} pinLabel={L.pin} unpinLabel={L.unpin} pinnedLabel={L.pinned} onSelect={() => select(o.id)} onTogglePin={(source) => togglePin(o.id, source)} />
                                         ))}
                                     </div>
                                 ))}
                             </div>
                             {filtered.length === 0 && (
-                                <div className="py-12 text-center text-muted-foreground">
+                                <div id={`${listboxId}-empty`} role="option" aria-disabled="true" aria-selected="false" className="py-12 text-center text-muted-foreground">
                                     <Sparkles size={28} className="mx-auto mb-3 opacity-40" />
                                     <p className="text-sm">{L.noResults}</p>
                                 </div>
@@ -502,7 +552,7 @@ export function ModelSelect({
                         </div>
 
                         {renderFooter && filtered.length > 0 && (
-                            <div className="border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-muted-foreground">
+                            <div className="border-t border-border/50 px-3 py-2 bg-muted/30 text-xs text-(--text-secondary)">
                                 {renderFooter(filtered.length)}
                             </div>
                         )}
@@ -521,6 +571,9 @@ const ModelRow = memo(function ModelRow({
     isPinnable,
     onSelect,
     onTogglePin,
+    pinLabel,
+    unpinLabel,
+    pinnedLabel,
 }: {
     option: ModelSelectOption;
     selected: boolean;
@@ -530,15 +583,16 @@ const ModelRow = memo(function ModelRow({
     pinned: boolean;
     isPinnable: boolean;
     onSelect: () => void;
-    onTogglePin: () => void;
+    onTogglePin: (source: HTMLButtonElement) => void;
+    pinLabel: string;
+    unpinLabel: string;
+    pinnedLabel: string;
 }) {
     return (
         <div
-            id={domId}
             data-model-id={option.id}
-            role="option"
-            aria-selected={selected}
-            onClick={onSelect}
+            role="presentation"
+            onClick={option.disabled ? undefined : onSelect}
             className={cn(
                 "relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors",
                 // A clear gray fill on both states (selected solid, hover lighter)
@@ -548,6 +602,14 @@ const ModelRow = memo(function ModelRow({
                 active && "bg-muted ring-2 ring-ring/40",
             )}
         >
+            <div
+                id={domId}
+                role="option"
+                aria-selected={selected}
+                aria-description={`${pinned ? `${pinnedLabel}, ` : ""}${option.groupLabel ?? option.group}`}
+                aria-disabled={option.disabled || undefined}
+                className="flex flex-1 min-w-0 items-center gap-3 self-stretch"
+            >
             {/* Left bar — YunUI's selection signature, mirroring the Sidebar nav
                 item: a faint full-height bar slides in on hover, and a solid bar
                 marks the selected row. */}
@@ -571,15 +633,19 @@ const ModelRow = memo(function ModelRow({
                 {option.detail}
             </div>
             {option.meta && <div className="flex items-center gap-1 shrink-0">{option.meta}</div>}
+            </div>
             {isPinnable && (
                 <button
                     type="button"
-                    onClick={(e) => { e.stopPropagation(); onTogglePin(); }}
+                    data-pin-id={domId}
+                    aria-pressed={pinned}
+                    aria-describedby={domId}
+                    onClick={(e) => { e.stopPropagation(); onTogglePin(e.currentTarget); }}
                     className={cn(
-                        "p-1.5 rounded-md transition-all shrink-0 lg:opacity-0 lg:group-hover:opacity-100",
-                        pinned ? "text-foreground opacity-100 hover:bg-muted/50" : "text-muted-foreground/40 opacity-60 hover:text-foreground/70 hover:bg-muted/50",
+                        "p-1.5 rounded-md transition-all shrink-0 lg:opacity-0 lg:group-hover:opacity-100 lg:focus-visible:opacity-100 outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                        pinned ? "text-foreground opacity-100 hover:bg-muted/50" : "text-(--text-secondary) hover:text-foreground hover:bg-muted/50",
                     )}
-                    aria-label={pinned ? "Unpin" : "Pin"}
+                    aria-label={pinned ? unpinLabel : pinLabel}
                 >
                     <Pin size={14} className={pinned ? "fill-current" : ""} />
                 </button>

@@ -12,7 +12,7 @@ interface ChatMessageProps {
     timestamp?: React.ReactNode;
     /** Inline chips next to the name (model, latency, mode, …). */
     badges?: React.ReactNode;
-    /** Actions revealed on hover below the content (copy, regenerate, …). */
+    /** Actions in normal flow below the content (copy, regenerate, …). */
     actions?: React.ReactNode;
     /** Extra content below the body — reasoning steps, tool details, JSON, … */
     footer?: React.ReactNode;
@@ -24,7 +24,7 @@ interface ChatMessageProps {
 }
 /**
  * A single chat message row: avatar, header (name + badges + timestamp), body,
- * optional footer (reasoning/tools/details) and hover-revealed actions.
+ * optional footer (reasoning/tools/details) and persistent action slots.
  *
  * Fully presentational — no data/model types. Feed the body as children
  * (e.g. `<MarkdownRenderer content={…} />` from `@yuhuanowo/yunui/content`) and
@@ -54,6 +54,43 @@ interface ChatMessageListProps {
  */
 declare function ChatMessageList({ children, empty, autoScroll, stickThreshold, className, }: ChatMessageListProps): React.JSX.Element;
 
+/** A host-owned item shown in the Composer's source or model menu. */
+interface ChatComposerMenuItem {
+    /** Stable host identifier; callbacks return this id rather than the display label. */
+    id: string;
+    label: string;
+    description?: React.ReactNode;
+    icon?: React.ReactNode;
+    disabled?: boolean;
+}
+/** A host command. If present, `insertText` is inserted verbatim at the active slash token or caret. */
+interface ChatComposerCommand extends ChatComposerMenuItem {
+    /** Exact insertion text; whitespace/newlines are not inferred or rewritten. */
+    insertText?: string;
+}
+/** A host-owned model row, optionally grouped with other models. */
+interface ChatComposerModel extends ChatComposerMenuItem {
+    group?: string;
+    groupLabel?: string;
+}
+interface ChatComposerMenuLabels {
+    prompt?: string;
+    sources?: string;
+    commands?: string;
+    model?: string;
+    noSources?: string;
+    noCommands?: string;
+    noModels?: string;
+    noMatchingSources?: string;
+    noMatchingCommands?: string;
+    removeSource?: (label: string) => string;
+}
+interface ChatComposerLabels extends ChatComposerMenuLabels {
+    /** Send button. @defaultValue "Send" */
+    send?: string;
+    /** Stop-generating button. @defaultValue "Stop" */
+    stop?: string;
+}
 interface ChatComposerProps {
     value: string;
     onChange: (value: string) => void;
@@ -64,16 +101,29 @@ interface ChatComposerProps {
     loading?: boolean;
     disabled?: boolean;
     placeholder?: string;
-    /** Attachment chips / previews, rendered above the textarea. */
+    /** Attachment chips / previews, rendered above the textarea. The host owns the content and its actions. */
     attachments?: React.ReactNode;
-    /** Left-aligned toolbar (attach, mode, feature toggles, …). */
+    /** Left-aligned host toolbar (attach, mode, feature toggles, …). */
     toolbar?: React.ReactNode;
+    /** Optional host-owned source list. Supplying `[]` renders the localized empty state. */
+    sourceItems?: readonly ChatComposerMenuItem[];
+    /** Host-owned selected source ids, used for chips and menu selection state. */
+    selectedSourceIds?: readonly string[];
+    /** Host callback for selecting or removing a source. The second argument is the desired selected state. */
+    onSourceToggle?: (id: string, selected: boolean) => void;
+    /** Optional host-owned command list. Commands never infer insertion text from an id or label. */
+    commandItems?: readonly ChatComposerCommand[];
+    /** Host callback for semantic command selection. */
+    onCommandSelect?: (item: ChatComposerCommand) => void;
+    /** Optional host-owned model list. Supplying `[]` renders the localized empty state. */
+    modelItems?: readonly ChatComposerModel[];
+    /** Host-owned selected model id. */
+    selectedModelId?: string;
+    /** Host callback for model selection. Without it, model options are disabled. */
+    onModelChange?: (id: string) => void;
     /** Force-disable the send button even with text (e.g. invalid state). */
     sendDisabled?: boolean;
-    /**
-     * Allow sending with empty text — e.g. when attachments alone make a valid
-     * message. @defaultValue false
-     */
+    /** Allow sending with empty text — e.g. when attachments alone make a valid message. @defaultValue false */
     allowSendEmpty?: boolean;
     /** Max rows before the textarea scrolls. @defaultValue 8 */
     maxRows?: number;
@@ -81,21 +131,16 @@ interface ChatComposerProps {
     sendLabel?: string;
     /** @deprecated Use labels.stop. Retained for 0.2.17 compatibility. */
     stopLabel?: string;
-    /** Accessible names for the composer's buttons. */
-    labels?: {
-        /** Send button. @defaultValue "Send" */
-        send?: string;
-        /** Stop-generating button. @defaultValue "Stop" */
-        stop?: string;
-    };
+    /** Accessible names and menu copy. Existing send/stop overrides remain supported. */
+    labels?: ChatComposerLabels;
     className?: string;
 }
 /**
- * Chat input composer: auto-growing textarea, Enter-to-send (Shift+Enter for a
- * newline), a send/stop button, and slots for attachment previews and a left
- * toolbar. Presentational and controlled — the host owns state and side effects.
+ * Controlled chat input with host-provided attachment, toolbar, source,
+ * command, and model slots. No model, source, upload, or execution behavior is
+ * bundled into this component.
  */
-declare function ChatComposer({ value, onChange, onSend, onStop, loading, disabled, placeholder, attachments, toolbar, sendDisabled, allowSendEmpty, maxRows, labels, sendLabel, stopLabel, className, }: ChatComposerProps): React.JSX.Element;
+declare function ChatComposer({ value, onChange, onSend, onStop, loading, disabled, placeholder, attachments, toolbar, sourceItems, selectedSourceIds, onSourceToggle, commandItems, onCommandSelect, modelItems, selectedModelId, onModelChange, sendDisabled, allowSendEmpty, maxRows, labels, sendLabel, stopLabel, className, }: ChatComposerProps): React.JSX.Element;
 
 interface ChatHeaderProps {
     /** Left cluster — sidebar toggle, title, model selector, … */
@@ -156,4 +201,96 @@ interface ChatAttachmentProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 declare function ChatAttachment({ name, meta, icon, preview, status, progress, actions, className, ...props }: ChatAttachmentProps): React.JSX.Element;
 
-export { ChatAttachment, type ChatAttachmentProps, type ChatAttachmentStatus, ChatComposer, type ChatComposerProps, ChatHeader, type ChatHeaderProps, ChatMessage, ChatMessageList, type ChatMessageListProps, type ChatMessageProps, type ChatRole, GenerationStats, type GenerationStatsProps };
+/** A host-supplied piece of answer text. Text is rendered verbatim, including whitespace. */
+interface StreamingToken {
+    id?: string;
+    text: string;
+    /** Render a source chip at this position. Resolve it with `sourceId`. */
+    cite?: boolean;
+    sourceId?: string;
+}
+/** A host-supplied citation source. `id` is a stable key referenced by citation tokens. */
+interface StreamingSource {
+    id: string;
+    name: string;
+    domain?: string;
+    href?: string;
+    image?: string;
+}
+type StreamingAction = "copy" | "retry" | "positive" | "negative";
+type StreamingTextState = "streaming" | "complete" | "error" | "cancelled" | "empty";
+interface StreamingTextLabels {
+    sources?: string;
+    followUps?: string;
+    actions?: string;
+    copyAnswer?: string;
+    retryAnswer?: string;
+    positiveFeedback?: string;
+    negativeFeedback?: string;
+    streaming?: string;
+    error?: string;
+    cancelled?: string;
+    empty?: string;
+}
+interface StreamingTextProps {
+    /** Exact host-provided token sequence. YunUI does not insert or normalize whitespace. */
+    content: readonly StreamingToken[];
+    sources?: readonly StreamingSource[];
+    followUps?: readonly string[];
+    state?: StreamingTextState;
+    /** Optional host-controlled prefix length while streaming. */
+    visibleCount?: number;
+    /** Controlled source disclosure. Without `onSourcesOpenChange`, it is read-only. */
+    sourcesOpen?: boolean;
+    defaultSourcesOpen?: boolean;
+    onSourcesOpenChange?: (open: boolean) => void;
+    labels?: StreamingTextLabels;
+    onAction?: (action: StreamingAction) => void;
+    onFollowUp?: (text: string, index: number) => void;
+    className?: string;
+}
+/**
+ * Host-controlled adaptation of Beautiful UI's `StreamingText` primitive
+ * (`reference/beautiful-ui/components/primitives/StreamingText.tsx`, MIT,
+ * commit 44a274e598395ab61e7c96c26fda2758780253b7). It retains the source
+ * citation, action, source-list and follow-up layout; the host owns content,
+ * state, source identities and every action callback. It has no timers.
+ */
+declare function StreamingText({ content, sources, followUps, state, visibleCount, sourcesOpen, defaultSourcesOpen, onSourcesOpenChange, labels, onAction, onFollowUp, className, }: StreamingTextProps): React.JSX.Element;
+
+/** One host-owned retrieval chunk shown beneath an answer or beside a conversation. */
+interface ContextChunk {
+    id: string;
+    title: string;
+    body: React.ReactNode;
+    source: string;
+    badge: string;
+    chars?: React.ReactNode;
+    href?: string;
+    badgeTone?: "neutral" | "info" | "success" | "warning" | "destructive";
+    selected?: boolean;
+}
+interface ContextCardsLabels {
+    header?: React.ReactNode;
+    count?: React.ReactNode;
+    empty?: React.ReactNode;
+    include?: string;
+    exclude?: string;
+    openSource?: (source: string) => string;
+}
+interface ContextCardsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+    chunks: readonly ContextChunk[];
+    labels?: ContextCardsLabels;
+    onSourceOpen?: (chunk: ContextChunk) => void;
+    /** The host supplies the next selected value. Without this callback no Include/Exclude control is shown. */
+    onSelectionChange?: (id: string, selected: boolean) => void;
+}
+/**
+ * Host-data adaptation of Beautiful UI's `ContextCards` primitive
+ * (`reference/beautiful-ui/components/primitives/ContextCards.tsx`, MIT,
+ * commit 44a274e598395ab61e7c96c26fda2758780253b7). It keeps the source
+ * multi-card hierarchy while using YunUI semantic tokens and caller-owned data.
+ */
+declare function ContextCards({ chunks, labels, className, onSourceOpen, onSelectionChange, ...props }: ContextCardsProps): React.JSX.Element;
+
+export { ChatAttachment, type ChatAttachmentProps, type ChatAttachmentStatus, ChatComposer, type ChatComposerCommand, type ChatComposerLabels, type ChatComposerMenuItem, type ChatComposerMenuLabels, type ChatComposerModel, type ChatComposerProps, ChatHeader, type ChatHeaderProps, ChatMessage, ChatMessageList, type ChatMessageListProps, type ChatMessageProps, type ChatRole, ContextCards, type ContextCardsLabels, type ContextCardsProps, type ContextChunk, GenerationStats, type GenerationStatsProps, type StreamingAction, type StreamingSource, StreamingText, type StreamingTextLabels, type StreamingTextProps, type StreamingTextState, type StreamingToken };

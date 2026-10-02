@@ -43,12 +43,48 @@ npm i @yuhuanowo/yunui      # or pnpm add / yarn add
 
 Consumers must be on **React 19** and **Tailwind CSS v4** (peer dependencies).
 
+If you import `@yuhuanowo/yunui/content`, install its statically imported
+rendering peers in your app as well: `react-markdown`, `remark-gfm`,
+`remark-math`, `rehype-raw`, `rehype-katex`, `rehype-slug`, `katex`, and `shiki`.
+`mermaid` is loaded on demand and is only needed when rendering Mermaid charts.
+The `yunui doctor` command checks content stylesheet wiring; it does not check
+whether these renderer peers resolve in the host app, so verify with the host
+build.
+
 > Want to keep the import short as `yunui`? Use a package alias:
 > ```jsonc
 > // package.json
 > "dependencies": { "yunui": "npm:@yuhuanowo/yunui@^0.2.0" }
 > ```
-> Then `import { Button } from "yunui"` works — the examples below assume this.
+> Then `import { Button } from "yunui"` works. With that alias, use
+> `@import "yunui/css"` and scan `node_modules/yunui/dist`; the scoped path is
+> not installed alongside the alias. The setup below uses the canonical package.
+
+## Agent integration
+
+The current checkout includes consumer tooling under `scripts/yunui-cli.mjs`.
+It will be available as the `yunui` executable when these changes are released.
+It discovers real exports and APIs, installs project-scoped guidance for Codex
+and Claude, and checks integration before an agent composes UI:
+
+```sh
+yunui init --cwd /path/to/app --css src/app/globals.css
+yunui doctor --cwd /path/to/app --strict
+yunui find composer
+yunui info ./chat/ChatComposer
+```
+
+Use the executable through your package manager after installing a version that
+ships it; in this repository use `node scripts/yunui-cli.mjs`. `init` preserves
+existing AGENTS.md/CLAUDE.md content, adds the relevant project skills, and can
+connect the correct alias-aware stylesheet after the existing Tailwind import.
+It makes no network installs or changes to global agent configuration.
+
+Build with the imported components and their props/slots. The catalogue and
+typed landing/dashboard/chat recipes are packaged under `agent/`; they are
+compositions of YunUI imports, not copied component implementations. Doctor is
+a setup gate; component-origin review, the host's typecheck/build and rendered
+verification are still required. See [consumer skill](agent/skills/yunui/SKILL.md).
 
 ## Setup (3 steps)
 
@@ -120,9 +156,9 @@ Without a provider, YunUI uses zero-dependency defaults (`<a>` / `<img>` / ident
 | `@yuhuanowo/yunui/css` | Design-system stylesheet (token variables, `@theme` mappings, global `.btn` / `.card` / `.glass` classes, animation keyframes) |
 | `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` and the adapter interfaces |
 | `@yuhuanowo/yunui/patterns` | Page-level components: FAQ, StatCard (`tone` / `inline` / `valueFirst` variants), BlogCard, CodeBlock, Sidebar, PageHeader, BackgroundEffects, and more |
-| `@yuhuanowo/yunui/ai` | AI product-domain components (prop-driven, no direct API calls): ProviderIcon / ModelIcon / ModelTypeIcon, ModelCard, CapabilitySelector, Navbar, Footer, LanguageSwitcher, ThinkingBlock, IDBadge, … |
-| `@yuhuanowo/yunui/content` | Content-rendering stack: `MarkdownRenderer` (GFM + KaTeX + Shiki + Mermaid + callouts + lazy zoomable images), `CodeBlock` / `InlineCode`, `CalloutBlock`, `MathRenderer`, `MermaidDiagram`, `ContentImage`, `ImageLightbox`. Heavy engines are **optional peer deps**: Mermaid and Shiki's curated grammar/theme modules load on demand, while unknown code fences fall back to escaped plaintext. Also import `@yuhuanowo/yunui/content.css` + `katex/dist/katex.min.css` |
-| `@yuhuanowo/yunui/chat` | Slot-based chat UI blocks (presentational, no data types): `ChatMessage`, `ChatMessageList` (stick-to-bottom), `ChatComposer`, `ChatHeader`. Pairs with `@yuhuanowo/yunui/content` |
+| `@yuhuanowo/yunui/ai` | AI product-domain components (prop-driven, no direct API calls): ProviderIcon / ModelIcon / ModelTypeIcon, ModelCard, CapabilitySelector, Navbar, Footer, LanguageSwitcher, ThinkingBlock, SelectionActions, DiffTable, IDBadge, … |
+| `@yuhuanowo/yunui/content` | Content-rendering stack: `MarkdownRenderer` (GFM + KaTeX + Shiki + Mermaid + callouts + lazy zoomable images), `CodeBlock` / `InlineCode`, `CalloutBlock`, `MathRenderer`, `MermaidDiagram`, `ContentImage`, `ImageLightbox`. Install the statically imported rendering peers listed above. Mermaid is loaded on demand; unknown code languages fall back to escaped plaintext. Also import `@yuhuanowo/yunui/content.css` + `katex/dist/katex.min.css` |
+| `@yuhuanowo/yunui/chat` | Host-controlled chat UI blocks (no transport or model calls): `ChatMessage`, `ChatMessageList` (stick-to-bottom), `ChatComposer`, `ChatHeader`, `StreamingText` (sources and follow-ups), `ContextCards` (retrieved conversation chunks). Pairs with `@yuhuanowo/yunui/content` |
 
 **Utilities / hooks** (exported from `@yuhuanowo/yunui`): `cn`, `toast` / `Toaster` (sonner-based), `MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`, `useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`.
 
@@ -132,7 +168,7 @@ Without a provider, YunUI uses zero-dependency defaults (`<a>` / `<img>` / ident
 
 ---
 
-MarkdownRenderer accepts optional `linkOrigin` to classify same-origin absolute links consistently during SSR and in the browser. Without it, absolute HTTP(S) and protocol-relative links are external, while relative links stay internal. `ImageLightbox` accepts an optional accessible `label` (defaults to the image alt text or the content translation); it traps focus, exposes a modal dialog, and locks background scrolling.
+MarkdownRenderer sanitizes raw HTML in its Markdown input while retaining supported GFM features. It removes unsafe elements and attributes, and filters rewritten URLs through safe-protocol rules. This is input sanitization, not a claim that all arbitrary content is risk-free. It accepts optional `linkOrigin` to classify same-origin absolute links consistently during SSR and in the browser. Without it, absolute HTTP(S) and protocol-relative links are external, while relative links stay internal. `ImageLightbox` accepts an optional accessible `label` (defaults to the image alt text or the content translation); it traps focus, exposes a modal dialog, and locks background scrolling.
 
 ## Themes
 
@@ -184,3 +220,16 @@ export function Thing() {
 ## License
 
 Apache-2.0 © YuhuanStudio
+
+
+## Repository map
+
+- `src/` + `styles/`: library implementation and tokens.
+- `dist/`: committed, reproducible package outputs; do not hand-edit.
+- `site/`: actual package consumer, three-language docs and browser verification.
+- `agent/`: consumer skill, generated public API catalogue and typed recipes.
+- `scripts/`: build, consumer CLI and validation tooling.
+- [Research index](research/INDEX.md): approvals, provenance, final review and archived experiments.
+- [Reference index](reference/README.md): pinned upstream checkouts kept outside Git/package output.
+
+Research preview bundles and raw browser captures are local artifacts; only curated evidence is versioned.

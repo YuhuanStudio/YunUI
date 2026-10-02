@@ -1,7 +1,7 @@
 "use client";
 
 import { Globe } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import { useAnchoredPosition } from "../lib/use-anchored-position";
 import { useDismissOnOutside } from "../lib/hooks";
 
@@ -46,6 +46,8 @@ export function LanguageSwitcher({
     const containerRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
+    const id = useId();
+    const panelId = `${id}-language-options`;
     const { shift, maxHeight, placement } = useAnchoredPosition(isOpen, panelRef);
 
     // Escape is handled separately below (it also restores focus to the trigger).
@@ -58,17 +60,20 @@ export function LanguageSwitcher({
         if (!isOpen) return;
         const onKey = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
+                e.preventDefault();
+                e.stopPropagation();
                 setIsOpen(false);
                 triggerRef.current?.focus();
             }
         };
-        document.addEventListener("keydown", onKey);
-        return () => document.removeEventListener("keydown", onKey);
+        document.addEventListener("keydown", onKey, true);
+        return () => document.removeEventListener("keydown", onKey, true);
     }, [isOpen]);
 
     const handleLocaleChange = (newLocale: string) => {
-        if (newLocale === currentLocale || pending) return;
+        if (pending) return;
         setIsOpen(false);
+        if (newLocale === currentLocale) return;
         onChange(newLocale);
     };
 
@@ -82,12 +87,13 @@ export function LanguageSwitcher({
             {variant === "pill" ? (
                 <button
                     ref={triggerRef}
+                    type="button"
                     onClick={() => setIsOpen(!isOpen)}
                     className="flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-full text-sm font-medium transition-all bg-(--bg-elevated) hover:bg-(--bg-elevated)/80 border border-(--border-hairline) text-(--text-secondary) hover:text-(--text-primary) disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     disabled={pending}
-                    aria-label={label}
+                    aria-label={`${label}: ${currentLabel}`}
                     aria-expanded={isOpen}
-                    aria-haspopup="listbox"
+                    aria-controls={isOpen ? panelId : undefined}
                 >
                     <Globe size={14} className="shrink-0" />
                     <span className="whitespace-nowrap">{currentLabel}</span>
@@ -95,12 +101,13 @@ export function LanguageSwitcher({
             ) : (
                 <button
                     ref={triggerRef}
+                    type="button"
                     onClick={() => setIsOpen(!isOpen)}
                     className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-foreground/5 transition-colors disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     disabled={pending}
-                    aria-label={label}
+                    aria-label={`${label}: ${currentLabel}`}
                     aria-expanded={isOpen}
-                    aria-haspopup="listbox"
+                    aria-controls={isOpen ? panelId : undefined}
                 >
                     <Globe className="h-[1.2rem] w-[1.2rem]" />
                 </button>
@@ -110,17 +117,25 @@ export function LanguageSwitcher({
             {isOpen && (
                 <div
                     ref={panelRef}
-                    style={{ marginLeft: shift, maxHeight }}
+                    id={panelId}
+                    role="group"
+                    aria-label={label}
+                    aria-busy={pending || undefined}
+                    style={{ ...(align === "left" ? { marginLeft: shift } : { marginRight: -shift }), maxHeight }}
                     className={`absolute ${align === "left" ? "left-0" : "right-0"} ${placement === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"} z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-popover/95 backdrop-blur-2xl text-popover-foreground shadow-lg shadow-black/5 animate-in fade-in-0 zoom-in-95 duration-200`}
                 >
                     <div className="p-1 flex-1 min-h-0 overflow-y-auto">
                         {locales.map((lang) => (
                             <button
                                 key={lang.value}
+                                type="button"
+                                disabled={pending}
+                                aria-pressed={currentLocale === lang.value}
                                 onClick={() => handleLocaleChange(lang.value)}
-                                className={`dropdown-item w-full text-left ${
+                                className={`dropdown-item w-full text-left !text-[var(--text-secondary)] ${
                                     currentLocale === lang.value ? "active" : ""
                                 }`}
+                                style={currentLocale === lang.value ? { color: "var(--text-primary)" } : undefined}
                             >
                                 <span className="flex-1">{lang.label}</span>
                             </button>

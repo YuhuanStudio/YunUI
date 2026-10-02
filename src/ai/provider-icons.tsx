@@ -352,9 +352,33 @@ export function ProviderIcon({
     rounded = false,
     iconUrl,
 }: ProviderIconProps) {
+    const { iconBasePath } = useYunUI();
+    const sourceKey = JSON.stringify([provider ?? "", iconUrl ?? null, iconBasePath]);
+
+    return (
+        <ProviderIconStateful
+            key={sourceKey}
+            provider={provider}
+            className={className}
+            size={size}
+            rounded={rounded}
+            iconUrl={iconUrl}
+            iconBasePath={iconBasePath}
+        />
+    );
+}
+
+function ProviderIconStateful({
+    provider,
+    className = "",
+    size = 20,
+    rounded = false,
+    iconUrl,
+    iconBasePath,
+}: ProviderIconProps & { iconBasePath: string }) {
     // Custom icon URL takes priority when provided as a prop. (Yunxin's app-wide
     // admin-set icon registry is consumer-specific and not bundled here.)
-    const { Image, iconBasePath } = useYunUI();
+    const { Image } = useYunUI();
     const [customError, setCustomError] = useState(false);
     // When the built-in icon asset 404s (icons aren't bundled — host them or set
     // iconBasePath), degrade to the initial/SVG fallback instead of a broken img.
@@ -621,7 +645,33 @@ export function ModelIcon({
     size = 20,
     rounded = false,
 }: ModelIconProps) {
-    const { Image, iconBasePath } = useYunUI();
+    const { iconBasePath } = useYunUI();
+    const sourceKey = JSON.stringify([iconUrl ?? null, developer ?? null, provider ?? "", iconBasePath]);
+
+    return (
+        <ModelIconStateful
+            key={sourceKey}
+            iconUrl={iconUrl}
+            developer={developer}
+            provider={provider}
+            className={className}
+            size={size}
+            rounded={rounded}
+            iconBasePath={iconBasePath}
+        />
+    );
+}
+
+function ModelIconStateful({
+    iconUrl,
+    developer,
+    provider,
+    className = "",
+    size = 20,
+    rounded = false,
+    iconBasePath,
+}: ModelIconProps & { iconBasePath: string }) {
+    const { Image } = useYunUI();
     const [failedPriority, setFailedPriority] = useState(0);
 
     // Dynamic border radius based on size

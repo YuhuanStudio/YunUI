@@ -43,12 +43,26 @@ npm i @yuhuanowo/yunui      # 或 pnpm add / yarn add
 
 要求消費方使用 **React 19** 與 **Tailwind CSS v4**(peerDependencies)。
 
+若匯入 `@yuhuanowo/yunui/content`，也要在應用中安裝此入口靜態匯入的渲染 peer：
+`react-markdown`、`remark-gfm`、`remark-math`、`rehype-raw`、`rehype-katex`、
+`rehype-slug`、`katex` 和 `shiki`。`mermaid` 會按需載入，只有渲染 Mermaid 圖表時才需要。
+`yunui doctor` 會檢查 content 樣式接入，但不會檢查這些渲染 peer 是否能由宿主應用解析；
+請透過宿主專案建置驗證。
+
 > 想讓 import 保持短名 `yunui`?用套件別名:
 > ```jsonc
 > // package.json
 > "dependencies": { "yunui": "npm:@yuhuanowo/yunui@^0.2.0" }
 > ```
-> 之後 `import { Button } from "yunui"` 即可,下文範例同理。
+> 之後可用 `import { Button } from "yunui"`。別名安裝時 CSS 也要用
+> `yunui/css`，掃描路徑為 `node_modules/yunui/dist`；不會同時安裝 scoped 路徑。
+> 下方接入範例使用 canonical 套件名稱。
+
+## Agent 接入
+
+此 checkout 已包含未發布的 agent 接入工具。安裝有提供 CLI 的版本後，透過專案套件管理器執行 `yunui init --css src/app/globals.css`，再跑 `yunui doctor --strict` 與 `yunui audit --strict`。目前可用 `node scripts/yunui-cli.mjs` 測試。初始化會保留既有 AGENTS.md／CLAUDE.md，加入 Codex／Claude 專案 skills，並計算正確的別名與 CSS 相對掃描路徑。
+
+用 `yunui find`／`yunui info` 查實際匯出、props 與 installed declarations；`agent/recipes/` 提供直接 import 的 landing、dashboard、chat 組合。Doctor 檢查接入，audit 檢查控制項來源與疑似重製 UI；仍需 host build、人工來源審查與渲染驗證。
 
 ## 接入(3 步)
 
@@ -115,9 +129,9 @@ import { useTranslations } from "next-intl";
 | `@yuhuanowo/yunui/css` | 設計系統樣式(token 變數、`@theme` 對應、`.btn`/`.card`/`.glass` 等全域類別、動畫 keyframes) |
 | `@yuhuanowo/yunui/adapters` | `YunUIProvider` / `useYunUI` 與轉接器介面 |
 | `@yuhuanowo/yunui/patterns` | 頁面級元件:FAQ、StatCard(`tone`/`inline`/`valueFirst` 變體)、BlogCard、CodeBlock、Sidebar、PageHeader、BackgroundEffects 等 |
-| `@yuhuanowo/yunui/content` | 內容渲染元件：`MarkdownRenderer`（GFM + KaTeX + Shiki + Mermaid + 提示框 + 惰性縮放圖片）、`CodeBlock` / `InlineCode`、`CalloutBlock`、`MathRenderer`、`MermaidDiagram`、`ContentImage`、`ImageLightbox` |
-| `@yuhuanowo/yunui/chat` | 插槽式聊天 UI：`ChatMessage`、`ChatMessageList`、`ChatComposer`、`ChatHeader` |
-| `@yuhuanowo/yunui/ai` | AI 產品域元件(prop 驅動,無 API 直連):ProviderIcon / ModelIcon / ModelTypeIcon、ModelCard、CapabilitySelector、Navbar、Footer、LanguageSwitcher、ThinkingBlock、IDBadge … |
+| `@yuhuanowo/yunui/content` | 內容渲染元件：`MarkdownRenderer`（GFM + KaTeX + Shiki + Mermaid + 提示框 + 惰性縮放圖片）、`CodeBlock` / `InlineCode`、`CalloutBlock`、`MathRenderer`、`MermaidDiagram`、`ContentImage`、`ImageLightbox`。需安裝上文列出的靜態渲染 peer；Mermaid 按需載入。未知程式語言會回退為跳脫後的純文字。 |
+| `@yuhuanowo/yunui/chat` | 插槽式聊天 UI：`ChatMessage`、`ChatMessageList`、`ChatComposer`、`ChatHeader`、`StreamingText`、`ContextCards` |
+| `@yuhuanowo/yunui/ai` | AI 產品域元件(prop 驅動,無 API 直連):ProviderIcon / ModelIcon / ModelTypeIcon、ModelCard、CapabilitySelector、Navbar、Footer、LanguageSwitcher、ThinkingBlock、SelectionActions、DiffTable、IDBadge … |
 
 **工具 / hooks**(從 `@yuhuanowo/yunui` 匯出):`cn`、`toast` / `Toaster`(基於 sonner)、`MotionDiv` / `MotionSpan` / `fadeIn` / `staggerContainer` / `staggerItem`、`useEscapeKey` / `useBodyScrollLock` / `useModalBehavior`。
 
@@ -127,7 +141,7 @@ import { useTranslations } from "next-intl";
 
 ---
 
-Markdown 渲染器可選接收 `linkOrigin`，讓 SSR 與瀏覽器以相同 origin 判斷絕對連結是否站內。不傳時，絕對 HTTP(S) 與協定相對連結視為外連，相對連結仍視為站內。`ImageLightbox` 可用 `label` 設定無障礙名稱（預設取圖片 alt 或內容翻譯）；它會限制焦點、宣告模態對話框並鎖定背景捲動。
+Markdown 渲染器會清理原始 HTML，同時保留支援的 GFM 功能；危險元素和屬性會被移除，改寫後的 URL 也會經過安全協定過濾。這是輸入清理措施，不代表任意內容都絕對安全。另外，Markdown 渲染器可選接收 `linkOrigin`，讓 SSR 與瀏覽器以相同 origin 判斷絕對連結是否站內。不傳時，絕對 HTTP(S) 與協定相對連結視為外連，相對連結仍視為站內。`ImageLightbox` 可用 `label` 設定無障礙名稱（預設取圖片 alt 或內容翻譯）；它會限制焦點、宣告模態對話框並鎖定背景捲動。
 
 ## 主題
 

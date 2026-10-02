@@ -29,17 +29,19 @@ export function ChatHeader({
 }: ChatHeaderProps) {
   return (
     <div
+      data-yunui="chat-header"
       className={cn(
-        "h-14 flex items-center justify-between gap-3 px-4 border-b border-(--border-hairline)",
-        "bg-(--bg-card)/95 backdrop-blur supports-[backdrop-filter]:bg-(--bg-card)/60",
+        "flex min-h-[54px] shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-border bg-background px-3 py-2.5 text-sm sm:h-[62px] sm:flex-nowrap sm:px-6 sm:py-0",
         className,
       )}
     >
       {children ?? (
         <>
-          <div className="flex items-center gap-3 min-w-0">{left}</div>
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex min-w-0 flex-1 items-center gap-3">{left}</div>
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             {status}
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
             {actions}
           </div>
         </>

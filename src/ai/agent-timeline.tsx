@@ -1,26 +1,58 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import {
-    Brain, Terminal, Search, Globe, Image as ImageIcon, FileText, Wrench,
-    ChevronDown, Check, Loader2, ShieldAlert,
+    Check, ChevronDown, CircleAlert, Clock3, FileText, Globe,
+    Image as ImageIcon, Loader2, Pencil, Search, Sparkles, Terminal, Wrench, X,
 } from "lucide-react";
+import { Badge, Button } from "../primitives";
 import { cn } from "../lib/cn";
 import { TextShimmer } from "../primitives/text-shimmer";
 
 /**
- * AgentTimeline — the *process* lane of an agent turn: the reasoning traces,
- * tool call+result, and approval prompts, drawn as a connected vertical timeline
- * (a node per step linked by a rail, with smooth height-animated disclosures).
- * It deliberately does NOT render the assistant's own prose — interim narration
- * and the final answer belong to the *communication* lane and are rendered as
- * plain markdown by the consumer, outside the timeline. Purely presentational,
- * prop-driven and copy-free: the consumer maps its records onto
- * {@link AgentTimelineBlock}, localizes every label, and supplies a renderer.
+ * AgentTimeline — host-fed activity, tool and task rows. The compact summary,
+ * disclosure, inline detail and diff-chip interactions adapt Beautiful UI's
+ * `ToolChips.tsx`, `TaskRows.tsx` and `ThinkingState.tsx` from commit
+ * 44a274e598395ab61e7c96c26fda2758780253b7 (MIT). YunUI uses its existing
+ * tokens, Badge, TextShimmer and Lucide icons. No demo fixtures or timers are
+ * embedded; statuses and partial output come from the host.
  */
 
+/** Kept at the original six icons for compatibility with complete Record maps. */
 export type AgentTimelineIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
+/** Additional icon names used only by the additive entry API. */
+export type AgentTimelineEntryIconName = AgentTimelineIconName | "think" | "write" | "run" | "read";
+/** Kept unchanged for compatibility with existing exhaustive status switches. */
 export type AgentTimelineToolStatus = "running" | "done" | "error";
+export type AgentTimelineTaskStatus = "pending" | "running" | "done" | "failed" | "cancelled";
+export type AgentTimelineDiffTone = "add" | "del" | "context";
+
+export interface AgentTimelineToolDetail {
+    id: string;
+    text: ReactNode;
+    tone?: AgentTimelineDiffTone;
+    mono?: boolean;
+}
+
+export interface AgentTimelineDiffLine {
+    id: string;
+    text: string;
+    tone: AgentTimelineDiffTone;
+}
+
+export interface AgentTimelineFileChange {
+    id: string;
+    file: string;
+    additions: number;
+    deletions?: number;
+    lines?: readonly AgentTimelineDiffLine[];
+}
+
+export interface AgentTimelineTaskDetail {
+    id: string;
+    label: ReactNode;
+    meta?: ReactNode;
+}
 
 export type AgentTimelineBlock =
     | {
@@ -29,61 +61,146 @@ export type AgentTimelineBlock =
           active?: boolean
           /** Opens the disclosure on first render while retaining user control. */
           defaultOpen?: boolean
+          /** Controlled row disclosure; pair with `onToggleRow`. */
+          open?: boolean
       }
     | {
           kind: "tool"; id: string; verb: string; summary?: string
           status: AgentTimelineToolStatus; icon?: AgentTimelineIconName
           command?: string; output?: string
-          // Nest this row one level in (e.g. a subagent under its dispatch call).
+          /** Host-supplied structured detail lines and file diffs. */
+          details?: readonly AgentTimelineToolDetail[]
+          files?: readonly AgentTimelineFileChange[]
           indent?: boolean
+          defaultOpen?: boolean
+          open?: boolean
       }
     | {
+          /** A host tool-decision request; distinct from the ApprovalQuestion survey component. */
           kind: "approval"; id: string; title: string; verb: string; message?: string
           argsText?: string; allowLabel: string; denyLabel: string
           decision?: "approved" | "rejected"; decidedLabel?: string
+          /** Host-controlled in-flight acknowledgement; does not imply a decision. */
+          busy?: boolean
+          /** Host may disable the decision controls while retaining the request. */
+          disabled?: boolean
       };
 
+/** New task rows are additive; the older AgentTimelineBlock union stays closed. */
+export interface AgentTimelineTaskBlock {
+    kind: "task";
+    id: string;
+    label: string;
+    amount?: ReactNode;
+    status: AgentTimelineTaskStatus;
+    step?: number;
+    details?: readonly AgentTimelineTaskDetail[];
+    defaultOpen?: boolean;
+    open?: boolean;
+}
+
+/** Broader tool row used only in the additive AgentTimelineEntry API. */
+export type AgentTimelineToolEntryBlock = Omit<Extract<AgentTimelineBlock, { kind: "tool" }>, "icon" | "status" | "output"> & {
+    icon?: AgentTimelineEntryIconName;
+    status: AgentTimelineToolStatus | "cancelled";
+    /** Additive rich host output slot; takes precedence over the legacy text output. */
+    output?: string;
+    outputContent?: ReactNode;
+};
+
+/** Use this additive entry when a tool call is explicitly cancelled. */
+export type AgentTimelineCancelledToolBlock = Omit<AgentTimelineToolEntryBlock, "status"> & { status: "cancelled" };
+export type AgentTimelineEntry = AgentTimelineBlock | AgentTimelineTaskBlock | AgentTimelineToolEntryBlock;
+
+export interface AgentTimelineSummary {
+    steps: number;
+    reasoning: number;
+    tools: number;
+    tasks: number;
+    approvals: number;
+}
+
+export interface AgentTimelineLabels {
+    /** Localize the summary from actual block counts; no message count is inferred. */
+    summary?: (counts: AgentTimelineSummary) => string;
+    stepCount?: (count: number) => string;
+    process?: string;
+    completed?: string;
+    failed?: string;
+    cancelled?: string;
+    pending?: string;
+    running?: string;
+    error?: string;
+    waitingForHost?: string;
+    toolOutput?: (verb: string) => string;
+    showDiff?: (file: string) => string;
+}
+
 export interface AgentTimelineProps {
-    blocks: AgentTimelineBlock[];
-    /** Render reasoning text (e.g. markdown). Plain text by default. */
+    blocks: AgentTimelineEntry[];
+    /** Render reasoning text (e.g. with a Markdown renderer). Plain text by default. */
     renderContent?: (text: string) => ReactNode;
     onApprove?: (id: string) => void;
     onReject?: (id: string) => void;
+    labels?: AgentTimelineLabels;
+    /** Controlled run summary. Without onOpenChange it is read-only. */
+    open?: boolean;
+    /** The global summary starts open to retain the previous visible-row default. */
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    onToggleRow?: (id: string, open: boolean) => void;
+    onToggleDiff?: (id: string, open: boolean) => void;
     className?: string;
 }
 
-const ICONS: Record<AgentTimelineIconName, typeof Terminal> = {
-    terminal: Terminal, search: Search, globe: Globe, image: ImageIcon, file: FileText, tool: Wrench,
-};
-
-type NodeTone = "muted" | "running" | "error" | "warn";
-
-/** A timeline node (the dot on the rail) + the connector line down to the next row. */
-function Rail({ children, tone = "muted", isLast }: { children: ReactNode; tone?: NodeTone; isLast: boolean }) {
-    return (
-        <div className="flex flex-col items-center self-stretch">
-            <span
-                className={cn(
-                    "relative z-10 mt-0.5 flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-background ring-1 transition-colors",
-                    tone === "muted" && "text-muted-foreground ring-border",
-                    tone === "running" && "text-primary ring-primary/40",
-                    tone === "error" && "text-(--error) ring-(--error)/40",
-                    tone === "warn" && "text-(--warning) ring-(--warning)/40",
-                )}
-            >
-                {children}
-            </span>
-            {!isLast && <span className="my-1 w-0.5 flex-1 rounded-full bg-border" />}
-        </div>
-    );
+/** Injective, selector-safe encoding: punctuation/Unicode IDs must not alias. */
+function domIdPart(value: string) {
+    return Array.from(value, (character) => character.codePointAt(0)?.toString(16) ?? "0").join("-") || "empty";
 }
 
-/** Smoothly height-animated disclosure (grid-rows 0fr→1fr; no JS measurement). */
-function Collapse({ open, children }: { open: boolean; children: ReactNode }) {
+const ICONS: Record<AgentTimelineEntryIconName, typeof Terminal> = {
+    terminal: Terminal,
+    search: Search,
+    globe: Globe,
+    image: ImageIcon,
+    file: FileText,
+    tool: Wrench,
+    think: Sparkles,
+    write: Pencil,
+    run: Terminal,
+    read: FileText,
+};
+
+type OpenProps = {
+    id: string;
+    open?: boolean;
+    defaultOpen?: boolean;
+    onToggleRow?: (id: string, open: boolean) => void;
+};
+
+function useDisclosure({ id, open: controlledOpen, defaultOpen = false, onToggleRow }: OpenProps) {
+    const [internalOpen, setInternalOpen] = useState(defaultOpen);
+    const controlled = controlledOpen !== undefined;
+    const open = controlled ? controlledOpen : internalOpen;
+    const canToggle = !controlled || Boolean(onToggleRow);
+    const toggle = () => {
+        if (!canToggle) return;
+        const next = !open;
+        if (!controlled) setInternalOpen(next);
+        onToggleRow?.(id, next);
+    };
+    return { open, canToggle, toggle };
+}
+
+/** Grid-based height animation keeps the D4 disclosure geometry and excludes closed content from AT/Tab. */
+function Collapse({ open, children, id }: { open: boolean; children: ReactNode; id?: string }) {
     return (
         <div
+            id={id}
+            aria-hidden={!open}
+            inert={!open}
             className={cn(
-                "grid transition-[grid-template-rows,opacity] duration-200 ease-out motion-reduce:transition-none",
+                "grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none",
                 open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
             )}
         >
@@ -92,192 +209,273 @@ function Collapse({ open, children }: { open: boolean; children: ReactNode }) {
     );
 }
 
-function Chevron({ open }: { open: boolean }) {
-    return <ChevronDown size={14} className={cn("shrink-0 text-muted-foreground/50 transition-transform duration-200", open && "rotate-180")} />;
+function statusIcon(status: AgentTimelineToolStatus | AgentTimelineTaskStatus | "cancelled") {
+    if (status === "running") return <Loader2 aria-hidden className="h-3.5 w-3.5 shrink-0 motion-safe:animate-spin text-primary" />;
+    if (status === "done") return <Check aria-hidden className="h-3.5 w-3.5 shrink-0 text-(--success)" />;
+    if (status === "error" || status === "failed") return <CircleAlert aria-hidden className="h-3.5 w-3.5 shrink-0 text-(--error)" />;
+    if (status === "cancelled") return <X aria-hidden className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />;
+    return <Clock3 aria-hidden className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />;
 }
 
-function ReasoningRow({ block, isLast, renderContent }: { block: Extract<AgentTimelineBlock, { kind: "reasoning" }>; isLast: boolean; renderContent?: (t: string) => ReactNode }) {
-    const [open, setOpen] = useState(block.defaultOpen ?? false);
+function statusText(status: AgentTimelineToolStatus | AgentTimelineTaskStatus | "cancelled", labels: AgentTimelineLabels) {
+    if (status === "done") return labels.completed ?? "Completed";
+    if (status === "failed") return labels.failed ?? "Failed";
+    if (status === "cancelled") return labels.cancelled ?? "Cancelled";
+    if (status === "error") return labels.error ?? "Error";
+    if (status === "pending") return labels.pending ?? "Pending";
+    return labels.running ?? "Running";
+}
+
+function toneClass(tone: AgentTimelineDiffTone) {
+    if (tone === "add") return "text-(--success)";
+    if (tone === "del") return "text-(--error)";
+    return "text-muted-foreground";
+}
+
+function ReasoningRow({ block, labels, onToggleRow, renderContent }: {
+    block: Extract<AgentTimelineBlock, { kind: "reasoning" }>;
+    labels: AgentTimelineLabels;
+    onToggleRow?: (id: string, open: boolean) => void;
+    renderContent?: (text: string) => ReactNode;
+}) {
+    const instanceId = useId();
     const expandable = Boolean(block.content.trim());
+    const disclosure = useDisclosure({ id: block.id, open: block.open, defaultOpen: block.defaultOpen, onToggleRow });
+    const title = `${instanceId}-reasoning-${domIdPart(block.id)}`;
     return (
-        <div className="flex gap-2.5">
-            <Rail tone={block.active ? "running" : "muted"} isLast={isLast}>
-                <span className="relative flex items-center justify-center">
-                    {block.active ? (
-                        <span
-                            aria-hidden="true"
-                            className="absolute h-4 w-4 animate-ping rounded-full bg-primary/15 motion-reduce:hidden"
-                        />
-                    ) : null}
-                    <Brain
-                        size={13}
-                        strokeWidth={1.75}
-                        className={cn(block.active && "animate-pulse motion-reduce:animate-none")}
-                    />
-                </span>
-            </Rail>
-            <div className="min-w-0 flex-1 pb-2">
-                <div
-                    data-yunui="agent-timeline-reasoning-disclosure"
-                    className={cn(
-                        "overflow-hidden rounded-lg",
-                        expandable && "border border-border/60 bg-muted/20",
-                    )}
-                >
-                    <button
-                        type="button"
-                        onClick={() => expandable && setOpen(!open)}
-                        aria-expanded={expandable ? open : undefined}
-                        className={cn(
-                            "flex h-[30px] w-full items-center gap-2 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-                            expandable
-                                ? "cursor-pointer rounded-none px-2.5 hover:bg-muted/40"
-                                : "cursor-default rounded-md px-1.5",
-                        )}
-                    >
-                        {block.active ? (
-                            <TextShimmer
-                                text={block.label}
-                                className="min-w-0 flex-1 truncate text-[13px]"
-                                data-agent-timeline-active="true"
-                            />
-                        ) : (
-                            <span className="flex-1 truncate text-[13px] text-muted-foreground">{block.label}</span>
-                        )}
-                        {expandable ? <Chevron open={open} /> : null}
-                    </button>
-                    {expandable ? (
-                        <Collapse open={open}>
-                            <div
-                                data-yunui="agent-timeline-reasoning-content"
-                                className="border-t border-border/50 px-2.5 pb-2.5 pt-2 text-[12.5px] leading-relaxed text-muted-foreground"
-                            >
-                                {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
-                            </div>
-                        </Collapse>
-                    ) : null}
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function ToolRow({ block, isLast }: { block: Extract<AgentTimelineBlock, { kind: "tool" }>; isLast: boolean }) {
-    const [open, setOpen] = useState(false);
-    const Icon = ICONS[block.icon ?? "tool"];
-    const error = block.status === "error";
-    const expandable = !!block.output || !!block.command;
-    const tone: NodeTone = block.status === "running" ? "running" : error ? "error" : "muted";
-    return (
-        <div className={cn("flex gap-2.5", block.indent && "pl-6")}>
-            <Rail tone={tone} isLast={isLast}>
-                {block.status === "running" ? <Loader2 size={13} className="animate-spin" /> : <Icon size={13} strokeWidth={1.75} />}
-            </Rail>
-            <div className="min-w-0 flex-1 pb-2">
-                <button
-                    type="button" onClick={() => expandable && setOpen(!open)} aria-expanded={open}
-                    className={cn(
-                        "flex h-[30px] w-full items-center gap-2 rounded-md px-1.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-                        expandable ? "hover:bg-muted/50 cursor-pointer" : "cursor-default",
-                    )}
-                >
-                    <span className="shrink-0 text-[13px] font-medium text-foreground">{block.verb}</span>
-                    {block.summary && <span className="min-w-0 flex-1 truncate font-mono text-[11.5px] text-muted-foreground">{block.summary}</span>}
-                    <span className={cn("flex shrink-0 items-center gap-2", !block.summary && "ml-auto")}>
-                        {block.status === "done" && <Check size={14} className="text-(--success)" />}
-                        {error && <span className="rounded bg-(--error)/10 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-wide text-(--error)">error</span>}
-                        {expandable && <Chevron open={open} />}
-                    </span>
-                </button>
-                <Collapse open={open}>
-                    <div className={cn("mt-1.5 overflow-hidden rounded-lg border font-mono text-xs", error ? "border-(--error)/20 bg-(--error)/5" : "border-border bg-muted/40")}>
-                        {block.command && (
-                            <div className={cn("flex items-center gap-1.5 border-b px-3 py-1.5 text-muted-foreground", error ? "border-(--error)/20" : "border-border/60")}>
-                                <span className="select-none text-muted-foreground/40">$</span>
-                                <span className="truncate">{block.command}</span>
-                            </div>
-                        )}
-                        <div
-                            tabIndex={0}
-                            role="region"
-                            aria-label={`${block.verb} output`}
-                            className={cn("max-h-72 overflow-auto whitespace-pre-wrap break-words px-3 py-2.5 leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", error ? "text-(--error)" : "text-foreground/80")}
-                        >
-                            {block.output || "—"}
-                        </div>
+        <div data-yunui="agent-timeline-reasoning-disclosure" className="min-w-0 py-1">
+            <button
+                type="button"
+                disabled={!expandable || !disclosure.canToggle}
+                aria-expanded={expandable ? disclosure.open : undefined}
+                aria-controls={expandable ? title : undefined}
+                onClick={disclosure.toggle}
+                className="flex min-h-8 w-full items-center gap-2 rounded-lg px-2 text-left transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default"
+            >
+                <Sparkles aria-hidden size={14} className={cn("shrink-0", block.active ? "text-primary" : "text-muted-foreground")} />
+                {block.active ? <TextShimmer text={block.label} active data-agent-timeline-active="true" className="min-w-0 flex-1 truncate text-[13px]" /> : <span className="min-w-0 flex-1 truncate text-[13px] text-foreground">{block.label}</span>}
+                {block.active ? <span className="sr-only">{labels.running ?? "Running"}</span> : null}
+                {expandable ? <ChevronDown aria-hidden size={14} className={cn("shrink-0 text-muted-foreground transition-transform", disclosure.open && "rotate-180")} /> : null}
+            </button>
+            {expandable ? (
+                <Collapse id={title} open={disclosure.open}>
+                    <div data-yunui="agent-timeline-reasoning-content" className="ml-8 border-l border-border pl-3 pr-2 py-2 text-sm leading-relaxed text-muted-foreground">
+                        {renderContent ? renderContent(block.content) : <div className="whitespace-pre-wrap">{block.content}</div>}
                     </div>
                 </Collapse>
-            </div>
+            ) : null}
         </div>
     );
 }
 
-function ApprovalRow({ block, isLast, onApprove, onReject }: { block: Extract<AgentTimelineBlock, { kind: "approval" }>; isLast: boolean; onApprove?: (id: string) => void; onReject?: (id: string) => void }) {
+function ToolRow({ block, labels, onToggleRow, onToggleDiff }: {
+    block: AgentTimelineToolEntryBlock;
+    labels: AgentTimelineLabels;
+    onToggleRow?: (id: string, open: boolean) => void;
+    onToggleDiff?: (id: string, open: boolean) => void;
+}) {
+    const instanceId = useId();
+    const expandable = Boolean(block.command || block.output || block.outputContent != null || block.details?.length || block.files?.length);
+    const disclosure = useDisclosure({ id: block.id, open: block.open, defaultOpen: block.defaultOpen, onToggleRow });
+    const [openDiff, setOpenDiff] = useState<string | null>(null);
+    const Icon = ICONS[block.icon ?? "tool"];
+    const detailId = `${instanceId}-tool-${domIdPart(block.id)}`;
     return (
-        <div className="flex gap-2.5">
-            <Rail tone="warn" isLast={isLast}><ShieldAlert size={13} strokeWidth={1.75} /></Rail>
-            <div className="min-w-0 flex-1 pb-2">
-                <div className="rounded-lg border border-(--warning)/25 bg-(--warning)/[0.06] px-3 py-2.5">
-                    <div className="flex items-center gap-2 text-[13px] font-medium text-foreground">
-                        <span>{block.title}</span>
-                        <span className="font-mono text-xs text-muted-foreground">{block.verb}</span>
+        <div className={cn("min-w-0", block.indent && "ml-5")} data-yunui="agent-tool-row">
+            <button
+                type="button"
+                disabled={!expandable || !disclosure.canToggle}
+                aria-expanded={expandable ? disclosure.open : undefined}
+                aria-controls={expandable ? detailId : undefined}
+                onClick={disclosure.toggle}
+                className="group flex min-h-8 w-full min-w-0 items-center gap-2 rounded-lg px-2 text-left transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default"
+            >
+                <Icon aria-hidden size={14} className="shrink-0 text-muted-foreground" />
+                <span className="shrink-0 text-[13px] font-medium text-foreground">{block.verb}</span>
+                {block.summary || block.command ? (
+                    <span className="min-w-0 flex-1 truncate rounded-md bg-muted px-1.5 py-0.5 font-mono text-[11.5px] text-muted-foreground">
+                        {block.summary ?? block.command}
+                    </span>
+                ) : <span className="min-w-0 flex-1" />}
+                {statusIcon(block.status)}
+                <span className="sr-only">{statusText(block.status, labels)}</span>
+                {expandable ? <ChevronDown aria-hidden size={14} className={cn("shrink-0 text-muted-foreground transition-transform", disclosure.open && "rotate-180")} /> : null}
+            </button>
+            {expandable ? (
+                <Collapse id={detailId} open={disclosure.open}>
+                    <div className="ml-6 mr-2 mt-0.5 border-l border-border/70 py-1.5 pl-3">
+                        {block.command ? <div className="mb-1.5 font-mono text-xs text-foreground/80">$ {block.command}</div> : null}
+                        {block.outputContent != null ? (
+                            <div role="region" aria-label={labels.toolOutput?.(block.verb) ?? `${block.verb} output`} className="min-w-0">{block.outputContent}</div>
+                        ) : block.output ? (
+                            <pre role="region" aria-label={labels.toolOutput?.(block.verb) ?? `${block.verb} output`} tabIndex={0} className="max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-sm bg-muted/30 px-2 py-1.5 font-mono text-xs text-foreground/80">{block.output}</pre>
+                        ) : null}
+                        {block.details?.length ? (
+                            <div className="mt-2 flex flex-col gap-1">
+                                {block.details.map((detail) => <div key={detail.id} className={cn("flex items-baseline justify-between gap-3 text-xs", toneClass(detail.tone ?? "context"), detail.mono && "font-mono")}><span className="min-w-0 whitespace-pre-wrap">{detail.text}</span></div>)}
+                            </div>
+                        ) : null}
+                        {block.files?.length ? (
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                                {block.files.map((file, fileIndex) => {
+                                    const fileOpen = openDiff === file.id;
+                                    const canShowLines = Boolean(file.lines?.length || onToggleDiff);
+                                    const diffId = `${instanceId}-diff-${fileIndex}-${domIdPart(file.id)}`;
+                                    const chip = (
+                                        <>
+                                            <span className="min-w-0 truncate">{file.file}</span>
+                                            <span className="shrink-0 text-(--success) tabular-nums">+{file.additions}</span>
+                                            {file.deletions ? <span className="shrink-0 text-(--error) tabular-nums">−{file.deletions}</span> : null}
+                                        </>
+                                    );
+                                    return (
+                                        <span key={file.id} className="min-w-0">
+                                            {canShowLines ? (
+                                                <button type="button" aria-expanded={fileOpen} aria-controls={file.lines?.length ? diffId : undefined} aria-label={labels.showDiff?.(file.file) ?? `Show diff for ${file.file}`} onClick={() => { const next = fileOpen ? null : file.id; setOpenDiff(next); onToggleDiff?.(file.id, next !== null); }} className="inline-flex max-w-full items-center gap-2 rounded-full bg-muted/50 px-2 py-1 font-mono text-[11px] text-muted-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{chip}</button>
+                                            ) : <span className="inline-flex max-w-full items-center gap-2 rounded-full bg-muted/50 px-2 py-1 font-mono text-[11px] text-muted-foreground">{chip}</span>}
+                                            {file.lines?.length ? (
+                                                <Collapse open={fileOpen} id={diffId}>
+                                                    <pre className="mt-1 max-h-48 overflow-auto rounded-sm bg-muted/30 p-2 font-mono text-[11px]">
+                                                        {file.lines.map((line) => <span key={line.id} className={cn("block whitespace-pre-wrap", toneClass(line.tone))}>{line.text}{"\n"}</span>)}
+                                                    </pre>
+                                                </Collapse>
+                                            ) : null}
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                        ) : null}
                     </div>
-                    {block.message && <p className="mt-1.5 text-[12.5px] text-muted-foreground">{block.message}</p>}
-                    {block.argsText && (
-                        <pre
-                            tabIndex={0}
-                            role="region"
-                            aria-label={`${block.title}: ${block.verb}`}
-                            className="mt-1.5 max-h-40 overflow-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11.5px] text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
-                        >
-                            {block.argsText}
-                        </pre>
-                    )}
-                    <div className="mt-2.5 flex items-center gap-2">
-                        {block.decision ? (
-                            <span className={cn("text-xs font-medium", block.decision === "approved" ? "text-(--success)" : "text-(--error)")}>
-                                {block.decidedLabel}
-                            </span>
-                        ) : (
-                            <>
-                                <button type="button" onClick={() => onApprove?.(block.id)} className="rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring">
-                                    {block.allowLabel}
-                                </button>
-                                <button type="button" onClick={() => onReject?.(block.id)} className="rounded-md border border-border px-3 py-1 text-xs font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
-                                    {block.denyLabel}
-                                </button>
-                            </>
-                        )}
+                </Collapse>
+            ) : null}
+        </div>
+    );
+}
+
+function TaskRow({ block, labels, onToggleRow }: {
+    block: AgentTimelineTaskBlock;
+    labels: AgentTimelineLabels;
+    onToggleRow?: (id: string, open: boolean) => void;
+}) {
+    const instanceId = useId();
+    const expandable = Boolean(block.details?.length);
+    const disclosure = useDisclosure({ id: block.id, open: block.open, defaultOpen: block.defaultOpen, onToggleRow });
+    const detailId = `${instanceId}-task-${domIdPart(block.id)}`;
+    return (
+        <div data-yunui="agent-task-row" className="min-w-0">
+            <button
+                type="button"
+                disabled={!expandable || !disclosure.canToggle}
+                aria-expanded={expandable ? disclosure.open : undefined}
+                aria-controls={expandable ? detailId : undefined}
+                onClick={disclosure.toggle}
+                className="flex min-h-10 w-full min-w-0 items-center gap-2.5 rounded-sm px-2.5 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default"
+            >
+                {statusIcon(block.status)}
+                {block.status === "done" || block.status === "failed" || block.status === "cancelled" ? (
+                    <span className={cn("shrink-0 text-[11px] font-medium", block.status === "done" ? "text-(--success)" : block.status === "failed" ? "text-(--error)" : "text-muted-foreground")}>{statusText(block.status, labels)}</span>
+                ) : <span className="sr-only">{statusText(block.status, labels)}</span>}
+                <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-foreground">{block.label}</span>
+                {block.amount != null ? <span className="shrink-0 text-xs tabular-nums text-muted-foreground">{block.amount}</span> : null}
+                {block.step !== undefined && block.status === "running" ? <span className="shrink-0 font-mono text-[11px] tabular-nums text-muted-foreground">{block.step}</span> : null}
+                {expandable ? <ChevronDown aria-hidden size={14} className={cn("shrink-0 text-muted-foreground transition-transform", disclosure.open && "rotate-180")} /> : null}
+            </button>
+            {expandable ? (
+                <Collapse id={detailId} open={disclosure.open}>
+                    <div className="ml-5 border-l border-border/70 py-1.5 pl-3 pr-2">
+                        {block.details?.map((detail) => <div key={detail.id} className="flex items-center justify-between gap-3 py-1 text-xs"><span className="min-w-0 text-muted-foreground">{detail.label}</span>{detail.meta != null ? <span className="shrink-0 font-mono tabular-nums text-muted-foreground/80">{detail.meta}</span> : null}</div>)}
                     </div>
+                </Collapse>
+            ) : null}
+        </div>
+    );
+}
+
+function ApprovalRow({ block, isLast, onApprove, onReject, labels }: { block: Extract<AgentTimelineBlock, { kind: "approval" }>; isLast: boolean; onApprove?: (id: string) => void; onReject?: (id: string) => void; labels?: AgentTimelineLabels }) {
+    return (
+        <div className="min-w-0 py-1.5" data-yunui="agent-approval-row" data-last={isLast || undefined} aria-busy={block.busy || undefined}>
+            <div className="flex min-w-0 items-center gap-2">
+                <CircleAlert aria-hidden size={14} className="shrink-0 text-muted-foreground" />
+                <span className="min-w-0 truncate text-[13px] font-medium text-foreground">{block.title}</span>
+                <span className="shrink-0 font-mono text-[11px] text-muted-foreground">{block.verb}</span>
+                {block.decision ? (
+                    <Badge variant={block.decision === "approved" ? "success" : "error"}>{block.decidedLabel ?? block.decision}</Badge>
+                ) : null}
+            </div>
+            {block.message != null ? <p className="ml-6 mt-1 text-[12.5px] text-muted-foreground">{block.message}</p> : null}
+            {block.argsText ? <pre tabIndex={0} role="region" aria-label={`${block.title}: ${block.verb}`} className="ml-6 mt-1 max-h-40 overflow-auto whitespace-pre-wrap bg-muted/30 px-2 py-1.5 font-mono text-[11.5px] text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring">{block.argsText}</pre> : null}
+            {!block.decision ? (
+                <div className="ml-6 mt-2 flex flex-wrap items-center gap-2">
+                    <Button type="button" size="sm" variant="primary" disabled={block.disabled || block.busy || !onApprove} onClick={() => { if (!block.disabled && !block.busy) onApprove?.(block.id); }}>{block.allowLabel}</Button>
+                    <Button type="button" size="sm" variant="outline" disabled={block.disabled || block.busy || !onReject} onClick={() => { if (!block.disabled && !block.busy) onReject?.(block.id); }}>{block.denyLabel}</Button>
+                    {block.busy ? <span role="status" className="text-xs text-muted-foreground">{labels?.waitingForHost ?? "Waiting for host…"}</span> : null}
                 </div>
-            </div>
+            ) : null}
         </div>
     );
 }
 
-export function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }: AgentTimelineProps) {
-    // A current model call may not have emitted provider reasoning yet. Keep
-    // that one active row as a non-expandable stage indicator; historical
-    // empty rows still disappear so rail connectors remain accurate.
-    const visible = blocks.filter((b) => !(
-        b.kind === "reasoning" && !b.content.trim() && !b.active
-    ));
+export function AgentTimeline({
+    blocks,
+    renderContent,
+    onApprove,
+    onReject,
+    labels,
+    open,
+    defaultOpen = true,
+    onOpenChange,
+    onToggleRow,
+    onToggleDiff,
+    className,
+}: AgentTimelineProps) {
+    const contentId = `${useId()}-timeline-content`;
+    const [internalOpen, setInternalOpen] = useState(defaultOpen);
+    const controlled = open !== undefined;
+    const isOpen = controlled ? open : internalOpen;
+    const canToggle = !controlled || Boolean(onOpenChange);
+    const visible = blocks.filter((block) => !(block.kind === "reasoning" && !block.content.trim() && !block.active));
     if (!visible.length) return null;
+
+    const counts: AgentTimelineSummary = {
+        steps: visible.length,
+        reasoning: visible.filter((block) => block.kind === "reasoning").length,
+        tools: visible.filter((block) => block.kind === "tool").length,
+        tasks: visible.filter((block) => block.kind === "task").length,
+        approvals: visible.filter((block) => block.kind === "approval").length,
+    };
+    const summary = labels?.summary?.(counts) ?? labels?.stepCount?.(counts.steps) ??
+        (counts.steps ? `${counts.steps} ${counts.steps === 1 ? "step" : "steps"}` : labels?.process ?? "Process");
+    const requestOpen = () => {
+        if (!canToggle) return;
+        const next = !isOpen;
+        if (!controlled) setInternalOpen(next);
+        onOpenChange?.(next);
+    };
+
     return (
-        <div className={cn("flex flex-col", className)}>
-            {visible.map((b, i) => {
-                const isLast = i === visible.length - 1;
-                switch (b.kind) {
-                    case "reasoning":
-                        return <ReasoningRow key={b.id} block={b} isLast={isLast} renderContent={renderContent} />;
-                    case "tool":
-                        return <ToolRow key={b.id} block={b} isLast={isLast} />;
-                    case "approval":
-                        return <ApprovalRow key={b.id} block={b} isLast={isLast} onApprove={onApprove} onReject={onReject} />;
-                    default:
-                        return null;
-                }
-            })}
+        <div className={cn("flex min-w-0 flex-col", className)} data-yunui="agent-timeline">
+            <button
+                type="button"
+                disabled={!canToggle}
+                aria-expanded={isOpen}
+                aria-controls={contentId}
+                onClick={requestOpen}
+                className="flex min-h-8 w-fit max-w-full items-center gap-2 rounded-sm px-1.5 text-left text-[13px] font-medium text-muted-foreground transition-colors hover:bg-muted/50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:cursor-default"
+            >
+                <Sparkles aria-hidden className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                <span className="min-w-0 flex-1 truncate">{summary}</span>
+                <ChevronDown aria-hidden size={14} className={cn("shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180")} />
+            </button>
+            <Collapse open={isOpen} id={contentId}>
+                <div className="mt-1 flex min-w-0 flex-col gap-0.5">
+                    {visible.map((block, index) => {
+                        if (block.kind === "reasoning") return <ReasoningRow key={block.id} block={block} labels={labels ?? {}} onToggleRow={onToggleRow} renderContent={renderContent} />;
+                        if (block.kind === "tool") return <ToolRow key={block.id} block={block} labels={labels ?? {}} onToggleRow={onToggleRow} onToggleDiff={onToggleDiff} />;
+                        if (block.kind === "task") return <TaskRow key={block.id} block={block} labels={labels ?? {}} onToggleRow={onToggleRow} />;
+                        return <ApprovalRow key={block.id} block={block} isLast={index === visible.length - 1} onApprove={onApprove} onReject={onReject} labels={labels} />;
+                    })}
+                </div>
+            </Collapse>
         </div>
     );
 }

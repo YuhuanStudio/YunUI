@@ -63,7 +63,7 @@ describe("AgentTimeline", () => {
       />
     );
 
-    const trigger = screen.getByRole("button", { name: "Checked evidence" });
+    const trigger = screen.getByRole("button", { name: /Checked evidence/ });
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByText("Compared the claim with the attached source.")).toBeVisible();
     const content = screen.getByText("Compared the claim with the attached source.").closest(
@@ -72,10 +72,10 @@ describe("AgentTimeline", () => {
     const disclosure = content?.closest(
       '[data-yunui="agent-timeline-reasoning-disclosure"]',
     );
-    expect(disclosure).toHaveClass("border");
-    expect(disclosure).toHaveClass("rounded-lg");
-    expect(content).toHaveClass("border-t");
-    expect(content?.className).not.toContain("border-l");
+    expect(disclosure).toHaveAttribute("data-yunui", "agent-timeline-reasoning-disclosure");
+    const collapsed = content?.parentElement?.parentElement;
+    expect(collapsed).toHaveAttribute("aria-hidden", "false");
+    expect(collapsed).not.toHaveAttribute("inert");
   });
 
   it("keeps an active model stage visible without inventing an empty disclosure", () => {
@@ -94,7 +94,7 @@ describe("AgentTimeline", () => {
       />
     );
 
-    const stage = screen.getByRole("button", { name: "Checking evidence" });
+    const stage = screen.getByRole("button", { name: /Checking evidence/ });
     expect(stage).not.toHaveAttribute("aria-expanded");
     expect(
       stage.closest('[data-yunui="agent-timeline-reasoning-disclosure"]'),
@@ -115,8 +115,8 @@ describe("AgentRunStatus", () => {
     expect(status).toHaveAttribute("data-active", "true");
     expect(status).toHaveTextContent("Reviewing the evidence");
     expect(container.querySelectorAll('[data-run-status-label]')).toHaveLength(1);
-    expect(container.querySelector('[data-run-status-motion]')).toBeNull();
-    expect(container.querySelectorAll('[data-run-status-pulse] > span')).toHaveLength(3);
+    expect(container.querySelector('[data-run-status-indicator]')).toBeInTheDocument();
+    expect(container.querySelector('[data-run-status-pulse]')).toBeNull();
   });
 
   it("preserves the same row while waiting without decorative motion", () => {
@@ -125,11 +125,18 @@ describe("AgentRunStatus", () => {
     );
 
     expect(screen.getByRole("status")).not.toHaveAttribute("data-active");
-    expect(container.querySelector('[data-run-status-pulse]')).toHaveClass("opacity-0");
+    expect(container.querySelector('[data-run-status-indicator]')).toBeInTheDocument();
     // TextShimmer exposes its label as sr-only text, not `aria-label` (which
     // ARIA prohibits on a role-less span and browsers ignore), so query by the
     // shimmer element rather than by label.
     expect(container.querySelector('[data-yunui="text-shimmer"]')).toHaveAttribute("data-active", "false");
+  });
+
+  it("accepts terminal runtime phases without showing active motion", () => {
+    renderWithProvider(<AgentRunStatus label="Run failed" phase="failed" />);
+    const status = screen.getByRole("status");
+    expect(status).toHaveAttribute("data-phase", "failed");
+    expect(status).not.toHaveAttribute("data-active");
   });
 });
 
@@ -401,7 +408,11 @@ describe("Navbar", () => {
   });
 
   it("renders nav links with hrefs in the public variant", () => {
-    renderWithProvider(<Navbar appName="Yunxin" links={links} />);
+    const { container } = renderWithProvider(<Navbar appName="Yunxin" links={links} />);
+    const nav = container.querySelector("nav");
+    expect(nav).toHaveClass("@container/yunui-nav");
+    expect(container.querySelector("nav > div.absolute")?.className).toContain("@min-[720px]/yunui-nav:flex");
+    expect(screen.getByRole("button", { name: "Menu" }).className).toContain("@min-[720px]/yunui-nav:hidden");
     expect(screen.getByRole("link", { name: "Pricing" })).toHaveAttribute("href", "/pricing");
     expect(screen.getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs");
   });

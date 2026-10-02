@@ -44,11 +44,30 @@
   background: transparent !important;
 }
 
+/* Compact, readable code viewports are focusable on the actual scrolling
+ * element. The same contract is used for the lightweight patterns renderer. */
+.yunui-code-scroll {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  tab-size: 2;
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre;
+  outline: none;
+}
+
+.yunui-code-scroll:focus-visible {
+  outline: 2px solid var(--ring, var(--accent, #6366f1));
+  outline-offset: -2px;
+}
+
 .shiki-wrapper code {
   display: block;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.875rem;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.55;
   /* Shiki separates its block-level `.line` spans with literal "\n" text nodes.
    * Under `white-space: pre` those newlines render as an EXTRA empty line after
    * every line (double-spacing). Collapse them here; each `.line` re-enables
@@ -128,4 +147,17 @@
 .footnote-ref {
   font-size: 0.75em;
   vertical-align: super;
+}
+
+/* Inline Markdown code should read like a small highlighted token, not a box
+ * that widens every word and changes paragraph rhythm. */
+.yunui-inline-code {
+  margin: 0;
+  padding: 1px 3px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--accent-subtle, color-mix(in oklab, currentColor 7%, transparent));
+  color: var(--text-primary, currentColor);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
 }

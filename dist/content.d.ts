@@ -37,7 +37,7 @@ interface MarkdownRendererProps {
     className?: string;
     /**
      * Rewrite image/link URLs before rendering (e.g. prefix a backend host or
-     * proxy). Defaults to identity.
+     * proxy). Rewritten URLs still pass the renderer's safe-protocol filter.
      */
     urlTransform?: (url: string) => string;
     /**
@@ -147,18 +147,20 @@ interface ImageLightboxProps {
 declare function ImageLightbox({ src, alt, label, isOpen, onClose, children }: ImageLightboxProps): React.JSX.Element | null;
 
 interface ContentImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-    /** Open a zoom/rotate/download lightbox on click. @defaultValue true */
+    /** Open a zoom/rotate/download lightbox on click or keyboard activation. @defaultValue true */
     enableLightbox?: boolean;
+    /** Accessible name for the zoom action. Defaults to a translated label plus the image alt text. */
+    zoomLabel?: string;
 }
 /**
  * Lazy, flicker-free image for rendered content. Defers loading until the image
- * scrolls near the viewport (IntersectionObserver), fades in on load, shows a
- * spinner placeholder, and (by default) opens a full-screen lightbox on click.
+ * scrolls near the viewport, fades in on load, shows a spinner placeholder, and
+ * (by default) opens a full-screen lightbox on click or keyboard activation.
  *
  * URLs are used as-is — resolve/rewrite them upstream (e.g. via the markdown
  * renderer's `urlTransform`).
  */
-declare const ContentImage: React.MemoExoticComponent<({ enableLightbox, className, alt, src, onError, onLoad, ...rest }: ContentImageProps) => React.JSX.Element | null>;
+declare const ContentImage: React.MemoExoticComponent<({ enableLightbox, zoomLabel, className, style, alt, src, srcSet, onError, onLoad, onClick, onKeyDown, role, tabIndex, "aria-label": ariaLabel, ...rest }: ContentImageProps) => React.JSX.Element | null>;
 
 interface InlineCitationProps {
     /** Compact label shown beside the supported claim. */

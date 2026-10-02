@@ -20,8 +20,10 @@ export async function copyToClipboard(text: string): Promise<boolean> {
         /* fall through to the legacy path below */
     }
 
+    let textarea: HTMLTextAreaElement | undefined;
+    const previousFocus = typeof document !== "undefined" ? document.activeElement : null;
     try {
-        const textarea = document.createElement("textarea");
+        textarea = document.createElement("textarea");
         textarea.value = text;
         textarea.setAttribute("readonly", "");
         textarea.style.position = "fixed";
@@ -29,9 +31,13 @@ export async function copyToClipboard(text: string): Promise<boolean> {
         document.body.appendChild(textarea);
         textarea.select();
         const ok = document.execCommand("copy");
-        document.body.removeChild(textarea);
         return ok;
     } catch {
         return false;
+    } finally {
+        textarea?.remove();
+        if (typeof HTMLElement !== "undefined" && previousFocus instanceof HTMLElement && previousFocus.isConnected) {
+            previousFocus.focus({ preventScroll: true });
+        }
     }
 }

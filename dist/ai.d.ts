@@ -2,32 +2,90 @@ import * as React from 'react';
 import { ReactNode, HTMLAttributes, ElementType } from 'react';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import { VariantProps } from 'class-variance-authority';
-export { D as DiscordIcon, F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial, G as GithubIcon, I as InstagramIcon } from './footer-BoFu7Wqq.js';
+export { D as DiscordIcon, F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial, G as GithubIcon, I as InstagramIcon, N as NavLink, e as Navbar } from './footer-BCd-S806.js';
 
+/** A host-owned step in an agent reasoning/search/coding trace. */
+type ThinkingStepStatus = "pending" | "running" | "done" | "failed" | "cancelled";
+interface ThinkingBlockStep {
+    id: string;
+    label: string;
+    detail?: ReactNode;
+    meta?: ReactNode;
+    status: ThinkingStepStatus;
+    mono?: boolean;
+}
+interface ThinkingBlockLabels {
+    title?: string;
+    active?: string;
+    inProgress?: string;
+    completed?: string;
+    failed?: string;
+    cancelled?: string;
+    pending?: string;
+}
 interface ThinkingBlockProps {
     content: string;
     isStreaming?: boolean;
     defaultOpen?: boolean;
-    /**
-     * Render the reasoning content (e.g. with a Markdown renderer). Defaults to
-     * plain pre-wrapped text so YunUI carries no markdown dependency.
-     */
+    /** Controlled disclosure state. Without `onOpenChange`, the trigger is read-only. */
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    /** Host-supplied detail rows (Steps / Search / Coding / Reasoning). */
+    steps?: readonly ThinkingBlockStep[];
+    selectedStepId?: string;
+    onStepSelect?: (id: string) => void;
+    labels?: ThinkingBlockLabels;
+    /** Render reasoning text (e.g. with a Markdown renderer). Defaults to plain pre-wrapped text. */
     renderContent?: (content: string) => ReactNode;
 }
-declare function ThinkingBlock({ content, isStreaming, defaultOpen, renderContent }: ThinkingBlockProps): React.JSX.Element;
+/**
+ * Compact, host-fed reasoning disclosure based on Beautiful UI's
+ * `components/primitives/ThinkingState.tsx` at commit
+ * `44a274e598395ab61e7c96c26fda2758780253b7` (MIT). It adopts the source's
+ * sparkle header, plain status row and indented trace geometry, while the host
+ * remains the only source of content and step state. It contains no run timer.
+ */
+declare function ThinkingBlock({ content, isStreaming, defaultOpen, open, onOpenChange, steps, selectedStepId, onStepSelect, labels, renderContent, }: ThinkingBlockProps): React.JSX.Element;
 
 /**
- * AgentTimeline — the *process* lane of an agent turn: the reasoning traces,
- * tool call+result, and approval prompts, drawn as a connected vertical timeline
- * (a node per step linked by a rail, with smooth height-animated disclosures).
- * It deliberately does NOT render the assistant's own prose — interim narration
- * and the final answer belong to the *communication* lane and are rendered as
- * plain markdown by the consumer, outside the timeline. Purely presentational,
- * prop-driven and copy-free: the consumer maps its records onto
- * {@link AgentTimelineBlock}, localizes every label, and supplies a renderer.
+ * AgentTimeline — host-fed activity, tool and task rows. The compact summary,
+ * disclosure, inline detail and diff-chip interactions adapt Beautiful UI's
+ * `ToolChips.tsx`, `TaskRows.tsx` and `ThinkingState.tsx` from commit
+ * 44a274e598395ab61e7c96c26fda2758780253b7 (MIT). YunUI uses its existing
+ * tokens, Badge, TextShimmer and Lucide icons. No demo fixtures or timers are
+ * embedded; statuses and partial output come from the host.
  */
+/** Kept at the original six icons for compatibility with complete Record maps. */
 type AgentTimelineIconName = "terminal" | "search" | "globe" | "image" | "file" | "tool";
+/** Additional icon names used only by the additive entry API. */
+type AgentTimelineEntryIconName = AgentTimelineIconName | "think" | "write" | "run" | "read";
+/** Kept unchanged for compatibility with existing exhaustive status switches. */
 type AgentTimelineToolStatus = "running" | "done" | "error";
+type AgentTimelineTaskStatus = "pending" | "running" | "done" | "failed" | "cancelled";
+type AgentTimelineDiffTone = "add" | "del" | "context";
+interface AgentTimelineToolDetail {
+    id: string;
+    text: ReactNode;
+    tone?: AgentTimelineDiffTone;
+    mono?: boolean;
+}
+interface AgentTimelineDiffLine {
+    id: string;
+    text: string;
+    tone: AgentTimelineDiffTone;
+}
+interface AgentTimelineFileChange {
+    id: string;
+    file: string;
+    additions: number;
+    deletions?: number;
+    lines?: readonly AgentTimelineDiffLine[];
+}
+interface AgentTimelineTaskDetail {
+    id: string;
+    label: ReactNode;
+    meta?: ReactNode;
+}
 type AgentTimelineBlock = {
     kind: "reasoning";
     id: string;
@@ -37,6 +95,8 @@ type AgentTimelineBlock = {
     active?: boolean;
     /** Opens the disclosure on first render while retaining user control. */
     defaultOpen?: boolean;
+    /** Controlled row disclosure; pair with `onToggleRow`. */
+    open?: boolean;
 } | {
     kind: "tool";
     id: string;
@@ -46,8 +106,14 @@ type AgentTimelineBlock = {
     icon?: AgentTimelineIconName;
     command?: string;
     output?: string;
+    /** Host-supplied structured detail lines and file diffs. */
+    details?: readonly AgentTimelineToolDetail[];
+    files?: readonly AgentTimelineFileChange[];
     indent?: boolean;
+    defaultOpen?: boolean;
+    open?: boolean;
 } | {
+    /** A host tool-decision request; distinct from the ApprovalQuestion survey component. */
     kind: "approval";
     id: string;
     title: string;
@@ -58,33 +124,275 @@ type AgentTimelineBlock = {
     denyLabel: string;
     decision?: "approved" | "rejected";
     decidedLabel?: string;
+    /** Host-controlled in-flight acknowledgement; does not imply a decision. */
+    busy?: boolean;
+    /** Host may disable the decision controls while retaining the request. */
+    disabled?: boolean;
 };
+/** New task rows are additive; the older AgentTimelineBlock union stays closed. */
+interface AgentTimelineTaskBlock {
+    kind: "task";
+    id: string;
+    label: string;
+    amount?: ReactNode;
+    status: AgentTimelineTaskStatus;
+    step?: number;
+    details?: readonly AgentTimelineTaskDetail[];
+    defaultOpen?: boolean;
+    open?: boolean;
+}
+/** Broader tool row used only in the additive AgentTimelineEntry API. */
+type AgentTimelineToolEntryBlock = Omit<Extract<AgentTimelineBlock, {
+    kind: "tool";
+}>, "icon" | "status" | "output"> & {
+    icon?: AgentTimelineEntryIconName;
+    status: AgentTimelineToolStatus | "cancelled";
+    /** Additive rich host output slot; takes precedence over the legacy text output. */
+    output?: string;
+    outputContent?: ReactNode;
+};
+/** Use this additive entry when a tool call is explicitly cancelled. */
+type AgentTimelineCancelledToolBlock = Omit<AgentTimelineToolEntryBlock, "status"> & {
+    status: "cancelled";
+};
+type AgentTimelineEntry = AgentTimelineBlock | AgentTimelineTaskBlock | AgentTimelineToolEntryBlock;
+interface AgentTimelineSummary {
+    steps: number;
+    reasoning: number;
+    tools: number;
+    tasks: number;
+    approvals: number;
+}
+interface AgentTimelineLabels {
+    /** Localize the summary from actual block counts; no message count is inferred. */
+    summary?: (counts: AgentTimelineSummary) => string;
+    stepCount?: (count: number) => string;
+    process?: string;
+    completed?: string;
+    failed?: string;
+    cancelled?: string;
+    pending?: string;
+    running?: string;
+    error?: string;
+    waitingForHost?: string;
+    toolOutput?: (verb: string) => string;
+    showDiff?: (file: string) => string;
+}
 interface AgentTimelineProps {
-    blocks: AgentTimelineBlock[];
-    /** Render reasoning text (e.g. markdown). Plain text by default. */
+    blocks: AgentTimelineEntry[];
+    /** Render reasoning text (e.g. with a Markdown renderer). Plain text by default. */
     renderContent?: (text: string) => ReactNode;
     onApprove?: (id: string) => void;
     onReject?: (id: string) => void;
+    labels?: AgentTimelineLabels;
+    /** Controlled run summary. Without onOpenChange it is read-only. */
+    open?: boolean;
+    /** The global summary starts open to retain the previous visible-row default. */
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    onToggleRow?: (id: string, open: boolean) => void;
+    onToggleDiff?: (id: string, open: boolean) => void;
     className?: string;
 }
-declare function AgentTimeline({ blocks, renderContent, onApprove, onReject, className }: AgentTimelineProps): React.JSX.Element | null;
+declare function AgentTimeline({ blocks, renderContent, onApprove, onReject, labels, open, defaultOpen, onOpenChange, onToggleRow, onToggleDiff, className, }: AgentTimelineProps): React.JSX.Element | null;
+
+/** A stable-id answer choice in a host-owned questionnaire. */
+interface ApprovalQuestionOption {
+    id: string;
+    label: ReactNode;
+    detail?: ReactNode;
+    disabled?: boolean;
+}
+interface ApprovalQuestionOtherOption {
+    /** Stable ID stored in `optionIds`; do not use the option's array index. */
+    id: string;
+    label: ReactNode;
+    placeholder?: string;
+}
+/** Data for one question. This collects answers; it does not authorize a tool action. */
+interface ApprovalQuestionData {
+    id: string;
+    title: string;
+    message?: ReactNode;
+    type: "single" | "multiple";
+    options: readonly ApprovalQuestionOption[];
+    other?: ApprovalQuestionOtherOption;
+    required?: boolean;
+}
+interface ApprovalQuestionAnswer {
+    optionIds: readonly string[];
+    otherText?: string;
+}
+type ApprovalQuestionAnswers = Readonly<Record<string, ApprovalQuestionAnswer>>;
+interface ApprovalQuestionLabels {
+    dismiss?: string;
+    back?: string;
+    next?: string;
+    skip?: string;
+    submit?: string;
+    submitting?: string;
+    otherPlaceholder?: string;
+    progress?: (current: number, total: number) => string;
+}
+interface ApprovalQuestionProps {
+    questions: readonly ApprovalQuestionData[];
+    /** The host controls which stable question ID is visible. */
+    activeQuestionId: string;
+    /** Controlled answers keyed by stable question ID, containing stable option IDs. */
+    answers: ApprovalQuestionAnswers;
+    onAnswersChange: (answers: ApprovalQuestionAnswers) => void;
+    onActiveQuestionChange?: (id: string) => void;
+    onSkip?: (questionId: string) => void;
+    onSubmit?: (answers: ApprovalQuestionAnswers) => void;
+    /** Requests dismissal; the host decides whether to hide or cancel this question. */
+    onDismiss?: () => void;
+    /** Host-controlled request in flight; choices and navigation are disabled until it changes. */
+    submitting?: boolean;
+    /** Host-controlled read-only state. */
+    disabled?: boolean;
+    labels?: ApprovalQuestionLabels;
+    className?: string;
+}
+/** Controlled, explicit-step questionnaire adapted from Beautiful UI ApprovalCard's
+ * question/choice interaction (commit 44a274e598395ab61e7c96c26fda2758780253b7,
+ * components/primitives/ApprovalCard.tsx, MIT). It deliberately uses stable host
+ * IDs rather than array indexes, and a questionnaire submit never approves or
+ * executes a tool. Upstream MIT attribution is preserved in
+ * `licenses/beautiful-ui-MIT.txt`.
+ */
+declare function ApprovalQuestion({ questions, activeQuestionId, answers, onAnswersChange, onActiveQuestionChange, onSkip, onSubmit, onDismiss, submitting, disabled, labels, className, }: ApprovalQuestionProps): React.JSX.Element | null;
 
 type AgentRunPhase = "thinking" | "acting" | "observing" | "reflecting" | "responding" | "waiting";
+type AgentRunTerminalPhase = "completed" | "failed" | "cancelled";
+/** Additive runtime phase type; `AgentRunPhase` remains the legacy activity union. */
+type AgentRunState = AgentRunPhase | AgentRunTerminalPhase;
 interface AgentRunStatusProps extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
     /** Runtime-owned summary of the one activity currently in progress. */
     label: string;
-    phase?: AgentRunPhase;
+    phase?: AgentRunState;
     /** Keeps the row layout stable while disabling decorative motion. */
     active?: boolean;
 }
 /**
- * A layout-stable live surface for the current agent activity.
- *
- * This is deliberately separate from AgentTimeline: the status stays in one
- * place for the whole run while timeline rows become durable process history.
- * Consumers provide localized runtime text; YunUI owns motion and geometry.
+ * Single-line activity state based on Beautiful UI's compact status header in
+ * `components/primitives/ThinkingState.tsx` at commit
+ * `44a274e598395ab61e7c96c26fda2758780253b7` (MIT). This row stays separate
+ * from AgentTimeline so the host can show a current activity without adding a
+ * second status badge to every durable process row.
  */
 declare function AgentRunStatus({ label, phase, active, className, ...props }: AgentRunStatusProps): React.JSX.Element;
+
+/** Host-provided row in a proposed data change. */
+type DiffTableState = "idle" | "busy" | "applied" | "error" | "cancelled" | "disabled";
+type DiffTableChange = "remove" | "add" | "unchanged";
+type DiffTableCategoryTone = "accent" | "muted" | "warning";
+interface DiffTableRow {
+    /** Stable host ID used by `selectedIds` and callbacks. */
+    id: string;
+    /** Primary cell and default accessible name for the row control. */
+    primary: string;
+    category: ReactNode;
+    secondary: ReactNode;
+    change: DiffTableChange;
+    categoryTone?: DiffTableCategoryTone;
+    accessibleLabel?: string;
+    /** Keeps a changed row visible as context; it cannot be selected or applied. */
+    disabled?: boolean;
+}
+interface DiffTableLabels {
+    title?: ReactNode;
+    hint?: ReactNode;
+    primaryColumn?: ReactNode;
+    categoryColumn?: ReactNode;
+    secondaryColumn?: ReactNode;
+    selectionSummary?: (removals: number, additions: number) => ReactNode;
+    apply?: (count: number) => ReactNode;
+    reject?: ReactNode;
+    applied?: (count: number) => ReactNode;
+    busy?: ReactNode;
+    error?: ReactNode;
+    cancelled?: ReactNode;
+    disabled?: ReactNode;
+    includeRow?: (label: string) => string;
+}
+interface DiffTableProps {
+    rows: readonly DiffTableRow[];
+    /** Controlled IDs for included additions/removals. */
+    selectedIds: readonly string[];
+    onSelectionChange?: (selectedIds: readonly string[]) => void;
+    /** Host callbacks; the component never marks a request successful itself. */
+    onApply?: (selectedIds: readonly string[]) => void;
+    onReject?: (selectedIds: readonly string[]) => void;
+    state?: DiffTableState;
+    /** Optional host-rendered request detail for non-idle states. */
+    statusMessage?: ReactNode;
+    /** Use when the host clears `selectedIds` after apply but wants to retain result count. */
+    resultCount?: number;
+    labels?: DiffTableLabels;
+    className?: string;
+}
+/**
+ * Review proposed row changes while keeping selection, apply/reject requests,
+ * and request outcomes under host control. Adapted from the pinned MIT source
+ * `reference/beautiful-ui/components/primitives/DiffTable.tsx` at
+ * `44a274e598395ab61e7c96c26fda2758780253b7`.
+ */
+declare function DiffTable({ rows, selectedIds, onSelectionChange, onApply, onReject, state, statusMessage, resultCount, labels, className, }: DiffTableProps): React.JSX.Element;
+
+/** One host-owned action in the contextual selection bar. */
+interface SelectionAction {
+    /** Stable host action identifier; callbacks receive `action ?? id`. */
+    id: string;
+    /** Optional localized visible label; defaults to the stable ID. */
+    label?: ReactNode;
+    icon?: ReactNode;
+    /** Value reported to the host callback; defaults to `id`. */
+    action?: string;
+    /** Host-provided activity label for this action while the host reports busy. */
+    busyLabel?: string;
+}
+type SelectionActionsState = "idle" | "busy" | "result" | "error" | "cancelled";
+interface SelectionActionsLabels {
+    keep?: string;
+    discard?: string;
+    placeholder?: string;
+    submitInstruction?: string;
+    customAction?: string;
+    working?: string;
+    error?: string;
+    cancelled?: string;
+    retry?: string;
+    showMoreActions?: string;
+    showFewerActions?: string;
+    result?: string;
+}
+interface SelectionActionsProps {
+    /** Optional prose immediately before the selected passage. */
+    lead?: ReactNode;
+    selectedText: string;
+    /** Host-provided rewrite. It is never generated by this component. */
+    resultText?: string;
+    /** Host owns all request state; no internal request timer or optimistic result. */
+    state?: SelectionActionsState;
+    /** Host-owned actions. Omitting this uses the general-purpose default action set. */
+    actions?: readonly SelectionAction[];
+    /** Current host activity label; used only while `state="busy"`. */
+    busyLabel?: ReactNode;
+    labels?: SelectionActionsLabels;
+    disabled?: boolean;
+    onAction?: (action: string, instruction?: string) => void;
+    onAccept?: (result: string) => void;
+    onDismiss?: () => void;
+    onRetry?: () => void;
+    className?: string;
+}
+/**
+ * Contextual actions anchored below host-selected text. The host supplies the
+ * passage, generated result, request lifecycle, and callbacks. Adapted from the
+ * pinned MIT source `reference/beautiful-ui/components/primitives/SelectionActions.tsx`
+ * at `44a274e598395ab61e7c96c26fda2758780253b7`.
+ */
+declare function SelectionActions({ lead, selectedText, resultText, state, actions, busyLabel, labels, disabled, onAction, onAccept, onDismiss, onRetry, className, }: SelectionActionsProps): React.JSX.Element;
 
 interface ModelCardProps {
     /** Model display name. */
@@ -165,6 +473,8 @@ interface ModelSelectLabels {
     all?: string;
     pinned?: string;
     noResults?: string;
+    pin?: string;
+    unpin?: string;
 }
 interface ModelSelectProps {
     options: ModelSelectOption[];
@@ -281,8 +591,8 @@ declare function ModelTypeIcon({ type, size }: {
 }): React.JSX.Element;
 
 declare const buttonVariants: (props?: ({
-    variant?: "outline" | "primary" | "ghost" | "secondary" | null | undefined;
-    color?: "outline" | "primary" | "ghost" | "secondary" | null | undefined;
+    variant?: "primary" | "secondary" | "ghost" | "outline" | null | undefined;
+    color?: "primary" | "secondary" | "ghost" | "outline" | null | undefined;
     size?: "sm" | "icon" | "icon-sm" | "icon-xs" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 /** Variant props for {@link buttonVariants}: `variant`/`color` (primary, outline, ghost, secondary) and `size` (sm, icon, icon-sm, icon-xs). */
@@ -389,82 +699,6 @@ interface LanguageSwitcherProps {
 /** Locale picker dropdown; the host owns the actual locale change (cookie/reload). */
 declare function LanguageSwitcher({ locales, currentLocale, onChange, variant, align, label, pending, className, }: LanguageSwitcherProps): React.JSX.Element;
 
-interface NavLink {
-    /** Destination href (supports `/#section` anchors for scroll-spy on the home page). */
-    href: string;
-    /** Link text. */
-    label: string;
-}
-interface NavbarProps {
-    /** Brand name shown next to the logo. */
-    appName: string;
-    /** Logo image src (default: /favicon.ico). */
-    logoSrc?: string;
-    /** Center navigation links. The host builds these from branding/flags/i18n. */
-    links?: NavLink[];
-    /** Current route, used for active-link + scroll-spy. @defaultValue "/" */
-    currentPath?: string;
-    /** `public` (full nav + auth) or `minimal` (no links/auth). @defaultValue "public" */
-    variant?: "public" | "minimal";
-    /** Localized auth labels. */
-    labels?: {
-        signIn?: string;
-        signUp?: string;
-        menu?: string;
-    };
-    /** Right-side control slots; the host injects the configured switcher. */
-    languageSwitcher?: ReactNode;
-    /** Defaults to YunUI's ThemeToggle. */
-    themeToggle?: ReactNode;
-    /** Where the logo links to. @defaultValue "/" */
-    homeHref?: string;
-    /** Sign-in link destination. @defaultValue "/login" */
-    loginHref?: string;
-    /** Sign-up link destination. @defaultValue "/signup" */
-    signupHref?: string;
-    /**
-     * Signed-in account control — pass an `AccountMenu`. When present it
-     * REPLACES the sign in / sign up buttons (desktop and mobile), so a reader
-     * who is already signed in sees their avatar rather than an invitation to
-     * sign in again.
-     */
-    account?: ReactNode;
-    /**
-     * Replaces the logo + wordmark block entirely. Pass a mark-only logo, a
-     * custom lockup, anything — it is still wrapped in the link to `homeHref`.
-     * Without this, a brand that is a single glyph had to be faked through
-     * `logoSrc`/`appName`, which is why YunUI's own site and YunNEWS each kept
-     * a private copy of this bar.
-     */
-    brand?: ReactNode;
-    /**
-     * Extra controls in the right-hand cluster, before the language/theme
-     * pills — a GitHub link, a search button. Desktop only, matching the rest
-     * of that cluster; put the mobile equivalent in `mobileMenuHeader`.
-     */
-    actions?: ReactNode;
-    /** Rendered at the TOP of the mobile menu, above the links. */
-    mobileMenuHeader?: ReactNode;
-    /**
-     * The bottom region of the mobile menu, under the divider. Passing this
-     * REPLACES the automatic `languageSwitcher` row there — so a host that
-     * wants the language pill alongside something else (a GitHub link, a
-     * status chip) lays that row out itself instead of getting two rows.
-     * Leave it off and the language row appears on its own, as before.
-     */
-    mobileMenuFooter?: ReactNode;
-    /**
-     * Accessible name for the `<nav>` landmark. A page with more than one nav
-     * needs each one named, or a screen reader offers several identical
-     * "navigation" regions.
-     */
-    label?: string;
-    /** Extra classes on the `<nav>` element. */
-    className?: string;
-}
-/** Floating top navigation bar: logo, center links with scroll-spy, theme/language slots, and auth buttons with a mobile menu. */
-declare function Navbar({ appName, logoSrc, links, currentPath, variant, labels, languageSwitcher, themeToggle, homeHref, loginHref, signupHref, account, brand, actions, mobileMenuHeader, mobileMenuFooter, label, className, }: NavbarProps): React.JSX.Element;
-
 interface AccountMenuUser {
     /** Display name. Falls back to `fallbackName` when absent. */
     name?: string | null;
@@ -522,4 +756,4 @@ interface AccountMenuProps {
  */
 declare function AccountMenu({ user, items, signInHref, onSignOut, labels, className, }: AccountMenuProps): React.JSX.Element;
 
-export { AccountMenu, type AccountMenuItem, type AccountMenuProps, type AccountMenuUser, type AgentRunPhase, AgentRunStatus, type AgentRunStatusProps, AgentTimeline, type AgentTimelineBlock, type AgentTimelineIconName, type AgentTimelineProps, type AgentTimelineToolStatus, type ButtonProps, CapabilityIcon, CapabilitySelector, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, type NavLink, Navbar, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, ThinkingBlock, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };
+export { AccountMenu, type AccountMenuItem, type AccountMenuProps, type AccountMenuUser, type AgentRunPhase, type AgentRunState, AgentRunStatus, type AgentRunStatusProps, type AgentRunTerminalPhase, AgentTimeline, type AgentTimelineBlock, type AgentTimelineCancelledToolBlock, type AgentTimelineDiffLine, type AgentTimelineDiffTone, type AgentTimelineEntry, type AgentTimelineEntryIconName, type AgentTimelineFileChange, type AgentTimelineIconName, type AgentTimelineLabels, type AgentTimelineProps, type AgentTimelineSummary, type AgentTimelineTaskBlock, type AgentTimelineTaskDetail, type AgentTimelineTaskStatus, type AgentTimelineToolDetail, type AgentTimelineToolEntryBlock, type AgentTimelineToolStatus, ApprovalQuestion, type ApprovalQuestionAnswer, type ApprovalQuestionAnswers, type ApprovalQuestionData, type ApprovalQuestionLabels, type ApprovalQuestionOption, type ApprovalQuestionOtherOption, type ApprovalQuestionProps, type ButtonProps, CapabilityIcon, CapabilitySelector, DiffTable, type DiffTableCategoryTone, type DiffTableChange, type DiffTableLabels, type DiffTableProps, type DiffTableRow, type DiffTableState, IDBadge, type LanguageOption, LanguageSwitcher, ModelAvatar, ModelCard, type ModelCardProps, ModelIcon, ModelManagerCard, type ModelManagerCardProps, type ModelManagerField, ModelSelect, type ModelSelectFilter, type ModelSelectLabels, type ModelSelectOption, type ModelSelectProps, ModelTypeIcon, PROVIDER_ICON_SLUGS, ProviderAvatar, ProviderIcon, ProviderIconImg, ProviderNames, type SelectionAction, SelectionActions, type SelectionActionsLabels, type SelectionActionsProps, type SelectionActionsState, ThinkingBlock, type ThinkingBlockLabels, type ThinkingBlockProps, type ThinkingBlockStep, type ThinkingStepStatus, buttonVariants, getDeveloperIconPath, getIconPath, getModelDeveloperId, getProviderIconOptions, getProviderName, isKnownCapability, normalizeProviderId };

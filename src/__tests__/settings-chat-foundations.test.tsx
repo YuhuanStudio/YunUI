@@ -45,16 +45,22 @@ describe("settings and chat foundations", () => {
       <ChatAttachment name="paper.pdf" meta="Uploading" status="loading" progress={42} />,
     );
     expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "42");
+    for (const invalid of [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]) {
+      rerender(<ChatAttachment name="paper.pdf" status="loading" progress={invalid} />);
+      expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    }
   });
 
-  it("supports compact transcript rhythm", () => {
-    const { container } = render(
-      <ChatMessage role="assistant" density="compact" actions={<button type="button">Copy</button>}>
+  it("preserves message content and host actions in compact transcripts", () => {
+    const onCopy = vi.fn();
+    render(
+      <ChatMessage role="assistant" density="compact" footer={<span>Host detail</span>} actions={<button type="button" onClick={onCopy}>Copy</button>}>
         Answer
       </ChatMessage>,
     );
-    expect(container.firstChild).toHaveClass("py-4");
-    expect(container.firstChild).not.toHaveClass("py-6");
-    expect(screen.getByRole("button", { name: "Copy" }).parentElement?.parentElement).toHaveClass("h-0");
+    expect(screen.getByText("Answer")).toBeInTheDocument();
+    expect(screen.getByText("Host detail")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Copy" }));
+    expect(onCopy).toHaveBeenCalledOnce();
   });
 });

@@ -1,14 +1,14 @@
 "use client";
-import './chunk-AFVENY4D.js';
-import { capabilityBadgeColor, capabilityIconColor, copyToClipboard } from './chunk-LEBQPP4B.js';
-export { Footer } from './chunk-LEBQPP4B.js';
-import './chunk-GAXVET76.js';
-import { ImageLightbox } from './chunk-ST6TSBVQ.js';
-import { Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-YKWRCA2S.js';
-import { cn } from './chunk-V7VJKZ5Q.js';
+import './chunk-X5DHLSQ5.js';
+import { capabilityBadgeColor, capabilityIconColor } from './chunk-7HKJHDJL.js';
+export { Footer, Navbar } from './chunk-7HKJHDJL.js';
+import './chunk-QA5K76X3.js';
+import { codeLineCount, previewCode, translateCodeBlockLabel, codeLineCountLabel, restoreCodeBlockScroll, scheduleCodeBlockScrollRestore, ImageLightbox, CODE_BLOCK_FOLD_THRESHOLD, captureCodeBlockScroll } from './chunk-7ODIO7IG.js';
+import { copyToClipboard } from './chunk-P6LU2FWV.js';
+import { cn, Button, Card, Badge, Avatar, AvatarImage, AvatarFallback, IconButton, Spinner, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './chunk-ALP6SDRA.js';
 import { useYunUI } from './chunk-3RT24MSH.js';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useRef, useId, useMemo, useEffect, useCallback, useLayoutEffect } from 'react';
 import { AlertCircle, RefreshCw, Check, Copy, Plus, FileText, ExternalLink, Calendar, Clock, User, ChevronLeft, ChevronRight, ArrowUp, PanelLeftClose, X, ArrowUpRight, ArrowDownRight, GraduationCap, ArrowRight, Award, Waves, SlidersHorizontal, Layers, Fingerprint, Ban, DatabaseZap, Image, Brain, Eye, Code, MessageSquare, XCircle, Zap, CheckCircle, FileCode, EyeOff, Sparkles, Globe, Loader2, LogOut, Pause, Play, Download, Grid, List, Bell, Trash2, Camera, Quote, ChevronDown, Info, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 function BackgroundEffects() {
@@ -26,6 +26,7 @@ function BackgroundEffects() {
     }
   ) });
 }
+var useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 function tokenizeLine(line) {
   const tokens = [];
   let remaining = line;
@@ -92,6 +93,7 @@ function tokenizeLine(line) {
         continue;
       }
     }
+    tokens.push({ type: "text", value: line[pos] });
     pos++;
     remaining = line.slice(pos);
   }
@@ -132,86 +134,228 @@ function renderLine(line) {
     }
   }).join("");
 }
-function highlightCode(code) {
+function highlightCode(code, showLineNumbers) {
   const lines = code.split("\n");
   return lines.map((line, i) => {
-    const rendered = renderLine(line) || "&nbsp;";
-    return `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${rendered}</span></div>`;
+    const rendered = renderLine(line) || "<br />";
+    const lineNumber = showLineNumbers ? `<span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span>` : "";
+    return `<div class="table-row group">${lineNumber}<span class="table-cell">${rendered}</span></div>`;
   }).join("");
 }
 function CodeBlock({
   code,
   language = "text",
   filename,
-  showLineNumbers = true,
+  showLineNumbers = false,
   copyable = true,
   className,
   tabs
 }) {
-  const t = useYunUI().useT("common");
+  const translate = useYunUI().useT("common");
   const [copied, setCopied] = useState(false);
-  const [highlightedHtml, setHighlightedHtml] = useState("");
-  const [activeTab, setActiveTab] = useState(0);
-  const currentCode = tabs?.[activeTab]?.code || code;
-  const currentLanguage = tabs?.[activeTab]?.language || language;
-  useEffect(() => {
-    setHighlightedHtml(highlightCode(currentCode));
+  const [copyError, setCopyError] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [activeTabId, setActiveTabId] = useState(null);
+  const codeRegionRef = useRef(null);
+  const headerRef = useRef(null);
+  const copyButtonRef = useRef(null);
+  const disclosureRef = useRef(null);
+  const disclosureScroll = useRef(null);
+  const restoreExpandedFocus = useRef(false);
+  const restoreDisclosureFocus = useRef(false);
+  const codeBlockId = useId();
+  const copyRequestRef = useRef(0);
+  const copyTimeoutRef = useRef(null);
+  const hasTabs = Boolean(tabs?.length);
+  const activeTabData = hasTabs ? tabs?.find((tab) => tab.id === activeTabId) ?? tabs?.[0] : void 0;
+  const resolvedActiveTabId = activeTabData?.id ?? null;
+  const currentCode = activeTabData ? activeTabData.code : code;
+  const currentLanguage = activeTabData?.language || language;
+  const previousCopyPayloadRef = useRef(currentCode);
+  const lineCount = codeLineCount(currentCode);
+  const foldable = lineCount > CODE_BLOCK_FOLD_THRESHOLD;
+  const shownCode = foldable && !expanded ? previewCode(currentCode) : currentCode;
+  const highlightedHtml = useMemo(
+    () => highlightCode(shownCode, showLineNumbers),
+    [shownCode, showLineNumbers]
+  );
+  const codeRegionLabel = translateCodeBlockLabel(
+    translate,
+    "scrollRegion",
+    `${currentLanguage} code, ${codeLineCountLabel(lineCount)}`,
+    { language: currentLanguage, count: lineCount }
+  );
+  const copyFullLabel = translateCodeBlockLabel(translate, "copyFull", "Copy full code");
+  const copyErrorLabel = translateCodeBlockLabel(
+    translate,
+    "copyError",
+    "Clipboard access was denied. Select the code and copy it manually."
+  );
+  const scrollCueLabel = translateCodeBlockLabel(translate, "scrollHorizontally", "Scroll horizontally");
+  const showAllLabel = translateCodeBlockLabel(
+    translate,
+    "showAll",
+    `Show all ${lineCount} lines`,
+    { count: lineCount }
+  );
+  const showLessLabel = translateCodeBlockLabel(translate, "showLess", "Show less");
+  const tabGroupLabel = translateCodeBlockLabel(translate, "tabGroup", "Code sample formats");
+  useIsomorphicLayoutEffect(() => {
+    if (activeTabId !== resolvedActiveTabId) setActiveTabId(resolvedActiveTabId);
+  }, [activeTabId, resolvedActiveTabId]);
+  useIsomorphicLayoutEffect(() => {
+    if (previousCopyPayloadRef.current === currentCode) return;
+    previousCopyPayloadRef.current = currentCode;
+    copyRequestRef.current += 1;
+    setCopied(false);
+    setCopyError(false);
+    if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+    copyTimeoutRef.current = null;
   }, [currentCode]);
+  useEffect(() => () => {
+    copyRequestRef.current += 1;
+    if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+  }, []);
+  useIsomorphicLayoutEffect(() => {
+    if (!disclosureScroll.current) return;
+    const snapshot = disclosureScroll.current;
+    if (expanded && restoreExpandedFocus.current) {
+      restoreExpandedFocus.current = false;
+      codeRegionRef.current?.focus({ preventScroll: true });
+    }
+    if (!expanded && restoreDisclosureFocus.current) {
+      restoreDisclosureFocus.current = false;
+      disclosureRef.current?.focus({ preventScroll: true });
+    }
+    restoreCodeBlockScroll(snapshot);
+    return scheduleCodeBlockScrollRestore(snapshot, () => {
+      if (disclosureScroll.current === snapshot) disclosureScroll.current = null;
+    });
+  }, [expanded]);
   const handleCopy = async () => {
-    if (!await copyToClipboard(currentCode)) return;
+    const requestId = ++copyRequestRef.current;
+    const payload = currentCode;
+    if (copyTimeoutRef.current !== null) clearTimeout(copyTimeoutRef.current);
+    copyTimeoutRef.current = null;
+    setCopied(false);
+    setCopyError(false);
+    if (!await copyToClipboard(payload)) {
+      if (requestId !== copyRequestRef.current) return;
+      setCopied(false);
+      setCopyError(true);
+      return;
+    }
+    if (requestId !== copyRequestRef.current) return;
     setCopied(true);
-    setTimeout(() => setCopied(false), 2e3);
+    copyTimeoutRef.current = setTimeout(() => {
+      if (requestId !== copyRequestRef.current) return;
+      setCopied(false);
+      copyTimeoutRef.current = null;
+    }, 2e3);
   };
-  const handleTabChange = (index) => {
-    setActiveTab(index);
+  const handleTabChange = (id) => {
+    setActiveTabId(id);
+    setCopied(false);
+    setCopyError(false);
   };
-  return /* @__PURE__ */ jsxs("div", { className: cn("card overflow-hidden max-w-full min-w-0", className), children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-4 py-2.5 border-b border-(--border-hairline) bg-(--bg-elevated)", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5", children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex gap-1", children: [
-          /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--error) opacity-80" }),
-          /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--warning) opacity-80" }),
-          /* @__PURE__ */ jsx("div", { className: "w-2 h-2 rounded-full bg-(--success) opacity-80" })
-        ] }),
-        tabs && tabs.length > 0 ? /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1", children: tabs.map((tab, index) => /* @__PURE__ */ jsx(
+  const toggleExpanded = () => {
+    const nextExpanded = !expanded;
+    disclosureScroll.current = captureCodeBlockScroll(disclosureRef.current);
+    restoreExpandedFocus.current = nextExpanded;
+    restoreDisclosureFocus.current = !nextExpanded;
+    setExpanded(nextExpanded);
+  };
+  const handleCodeKeyDown = (event) => {
+    const region = event.currentTarget;
+    if (foldable && expanded && event.key === "Tab") {
+      const headerButtons = headerRef.current?.querySelectorAll("button");
+      const previousControl = copyButtonRef.current ?? headerButtons?.[headerButtons.length - 1] ?? null;
+      const nextControl = event.shiftKey ? previousControl : disclosureRef.current;
+      if (nextControl) {
+        event.preventDefault();
+        nextControl.focus();
+        return;
+      }
+    }
+    const before = region.scrollLeft;
+    if (event.key === "ArrowRight" && region.scrollWidth > region.clientWidth) {
+      region.scrollLeft += 48;
+    } else if (event.key === "ArrowLeft" && region.scrollWidth > region.clientWidth) {
+      region.scrollLeft -= 48;
+    } else {
+      return;
+    }
+    if (region.scrollLeft !== before) event.preventDefault();
+  };
+  const legacyCopy = translate("copy");
+  const legacyCopied = translate("copied");
+  const copyText = !legacyCopy || legacyCopy === "copy" || legacyCopy.endsWith(".copy") ? "Copy" : legacyCopy;
+  const copiedText = !legacyCopied || legacyCopied === "copied" || legacyCopied.endsWith(".copied") ? "Copied" : legacyCopied;
+  return /* @__PURE__ */ jsxs("div", { className: cn("my-3 w-full min-w-0 overflow-hidden rounded-lg border border-(--border-hairline) bg-(--bg-base)", className), children: [
+    /* @__PURE__ */ jsxs("div", { ref: headerRef, className: "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-b border-(--border-hairline) bg-(--bg-elevated) px-2 py-1.5", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-1 flex-wrap items-center gap-1", children: [
+        hasTabs ? /* @__PURE__ */ jsx("div", { role: "group", "aria-label": tabGroupLabel, className: "flex min-w-0 flex-1 flex-wrap items-center gap-1", children: tabs.map((tab) => /* @__PURE__ */ jsx(
           "button",
           {
-            onClick: () => handleTabChange(index),
+            type: "button",
+            "aria-pressed": activeTabData?.id === tab.id,
+            onClick: () => handleTabChange(tab.id),
             className: cn(
-              "px-3 py-1 rounded-md text-xs font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              activeTab === index ? "bg-(--accent-subtle) text-(--text-primary)" : "text-(--text-tertiary) hover:text-(--text-secondary) hover:bg-(--accent-subtle)/50"
+              "min-h-6 min-w-0 max-w-full break-words rounded-md px-2 py-1 text-left text-xs font-medium leading-tight transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              activeTabData?.id === tab.id ? "bg-(--accent-subtle) text-(--text-primary)" : "text-(--text-secondary) hover:bg-(--accent-subtle)/50"
             ),
             children: tab.label
           },
           tab.id
-        )) }) : filename ? /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-(--text-secondary) font-mono", children: filename }) : /* @__PURE__ */ jsx("span", { className: "badge text-xs", children: currentLanguage })
+        )) }) : /* @__PURE__ */ jsx("span", { className: cn("min-w-0 flex-1 truncate font-mono text-xs font-medium text-(--text-secondary)", !filename && "font-sans"), title: filename || currentLanguage, children: filename || currentLanguage }),
+        filename && !hasTabs && /* @__PURE__ */ jsx("span", { className: "shrink-0 rounded bg-(--bg-base) px-1.5 py-0.5 text-[10px] text-(--text-secondary)", children: currentLanguage }),
+        /* @__PURE__ */ jsx("span", { className: "shrink-0 text-[10px] text-(--text-secondary)", children: translateCodeBlockLabel(translate, "lineCount", codeLineCountLabel(lineCount), { count: lineCount }) }),
+        currentCode.split("\n").some((line) => line.length > 72) && /* @__PURE__ */ jsxs("span", { className: "shrink-0 text-[10px] text-(--text-secondary)", children: [
+          scrollCueLabel,
+          " ",
+          /* @__PURE__ */ jsx("span", { "aria-hidden": "true", children: "\u2192" })
+        ] })
       ] }),
-      copyable && /* @__PURE__ */ jsx(
+      copyable && /* @__PURE__ */ jsxs(
         "button",
         {
+          ref: copyButtonRef,
+          type: "button",
+          "aria-label": copied ? copiedText : copyFullLabel,
           onClick: handleCopy,
-          className: "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
-            /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5 text-(--success)" }),
-            /* @__PURE__ */ jsx("span", { className: "text-(--success)", children: t("copied") })
-          ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-            /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5 text-(--text-tertiary)" }),
-            /* @__PURE__ */ jsx("span", { className: "text-(--text-tertiary)", children: t("copy") })
-          ] })
+          className: "ml-auto inline-flex min-h-6 shrink-0 items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-(--text-secondary) transition-colors hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          children: [
+            copied ? /* @__PURE__ */ jsx(Check, { className: "h-3.5 w-3.5 text-(--success)" }) : /* @__PURE__ */ jsx(Copy, { className: "h-3.5 w-3.5" }),
+            /* @__PURE__ */ jsx("span", { className: copied ? "text-(--success)" : "text-(--text-secondary)", children: copied ? copiedText : copyText })
+          ]
         }
       )
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "p-4 bg-(--bg-base)", children: /* @__PURE__ */ jsx("pre", { className: "text-sm overflow-x-auto", tabIndex: 0, children: /* @__PURE__ */ jsx("code", { className: "font-mono", style: { color: "var(--text-primary)" }, children: showLineNumbers ? /* @__PURE__ */ jsx(
-      "div",
+    copyError && /* @__PURE__ */ jsx("p", { role: "alert", className: "border-b border-(--border-hairline) px-2 py-1 text-xs text-(--text-secondary)", children: copyErrorLabel }),
+    /* @__PURE__ */ jsx(
+      "pre",
       {
-        className: "table",
-        dangerouslySetInnerHTML: {
-          __html: highlightedHtml || code.split("\n").map(
-            (line, i) => `<div class="table-row group"><span class="table-cell select-none text-right pr-4 w-8 text-(--text-tertiary) text-xs opacity-0 group-hover:opacity-100 transition-opacity">${i + 1}</span><span class="table-cell">${escapeHtml(line) || "&nbsp;"}</span></div>`
-          ).join("")
-        }
+        ref: codeRegionRef,
+        id: `${codeBlockId}-code`,
+        tabIndex: 0,
+        "aria-label": codeRegionLabel,
+        onKeyDown: handleCodeKeyDown,
+        className: cn("m-0 max-w-full overflow-x-auto overflow-y-hidden whitespace-pre bg-(--bg-base) px-2 py-2 font-mono text-sm leading-[1.5] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring", showLineNumbers && "code-with-line-numbers"),
+        children: /* @__PURE__ */ jsx("code", { className: "font-mono text-(--text-primary)", dangerouslySetInnerHTML: { __html: highlightedHtml } })
       }
-    ) : code }) }) })
+    ),
+    foldable && /* @__PURE__ */ jsx(
+      "button",
+      {
+        ref: disclosureRef,
+        type: "button",
+        "aria-expanded": expanded,
+        "aria-controls": `${codeBlockId}-code`,
+        onClick: toggleExpanded,
+        className: "flex min-h-7 w-full items-center border-t border-(--border-hairline) px-2 py-1 text-left text-xs text-(--text-secondary) transition-colors hover:bg-(--accent-subtle) outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring",
+        children: expanded ? showLessLabel : showAllLabel
+      }
+    )
   ] });
 }
 function snippets(baseUrl, model, apiKey, prompt) {

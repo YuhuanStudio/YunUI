@@ -167,13 +167,13 @@ export function Navbar({
                anything inside it — which is why the mobile menu above is opaque rather than
                frosted. Verified by measurement, not by eye.) */
             aria-label={label}
-            className={`fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between${className ? ` ${className}` : ""}`}
+            className={`@container/yunui-nav fixed inset-x-0 mx-auto z-50 px-6 py-2.5 max-w-6xl w-[calc(100%-48px)] bg-background/80 backdrop-blur-xl border border-border rounded-full shadow-md flex items-center justify-between${className ? ` ${className}` : ""}`}
         >
             {/* Logo */}
             <Link href={homeHref} className="flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -mx-2 hover:bg-foreground/5 transition-colors duration-200">
                 {brand ?? (
                     <>
-                        <Image src={logoSrc} alt={appName} width={28} height={28} className="w-7 h-7 shrink-0" />
+                        <Image src={logoSrc} alt="" width={28} height={28} className="w-7 h-7 shrink-0" />
                         <span className="font-semibold text-sm tracking-tight truncate">{appName}</span>
                     </>
                 )}
@@ -181,10 +181,10 @@ export function Navbar({
 
             {/* Nav Links */}
             {variant === "public" && (
-                <div className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2">
-                    {links.map((link) => (
+                <div className="hidden @min-[720px]/yunui-nav:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2">
+                    {links.map((link, index) => (
                         <Link
-                            key={link.href}
+                            key={`${index}:${link.href}:${link.label}`}
                             href={link.href}
                             className="group relative px-2 lg:px-3 py-2 whitespace-nowrap min-w-15 text-center"
                         >
@@ -204,12 +204,12 @@ export function Navbar({
                 language switcher and auth buttons move into the menu so the bar
                 never overflows / truncates the brand on a phone. */}
             <div className="flex items-center gap-1.5 shrink-0">
-                {actions && <span className="hidden md:flex items-center gap-1.5">{actions}</span>}
+                {actions && <span className="hidden @min-[720px]/yunui-nav:flex items-center gap-1.5">{actions}</span>}
                 {/* Only rendered when there is something to render: an empty flex
                     child still consumes one `gap-1.5`, which quietly shifted the
                     whole right cluster on hosts that pass no language switcher. */}
                 {languageSwitcher && (
-                    <span className="hidden md:flex items-center gap-1.5">{languageSwitcher}</span>
+                    <span className="hidden @min-[720px]/yunui-nav:flex items-center gap-1.5">{languageSwitcher}</span>
                 )}
                 {themeToggle ?? <ThemeToggle variant="pill" />}
 
@@ -219,13 +219,13 @@ export function Navbar({
                     <>
                         <Link
                             href={loginHref}
-                            className="hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center"
+                            className="hidden @min-[720px]/yunui-nav:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 whitespace-nowrap min-w-15 text-center"
                         >
                             {signIn}
                         </Link>
                         <Link
                             href={signupHref}
-                            className="hidden md:inline-block px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on"
+                            className="hidden @min-[720px]/yunui-nav:inline-block px-4 py-2 bg-foreground text-background text-sm font-medium rounded-lg hover:bg-foreground/90 hover:shadow-md transition-all duration-200 whitespace-nowrap min-w-20 text-center yunui-accent-bg yunui-accent-on"
                         >
                             {signUp}
                         </Link>
@@ -237,7 +237,7 @@ export function Navbar({
                     <button
                         type="button"
                         onClick={() => setMenuOpen((o) => !o)}
-                        className="md:hidden w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors"
+                        className="@min-[720px]/yunui-nav:hidden w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors"
                         aria-label={menuLabel}
                         aria-expanded={menuOpen}
                     >
@@ -249,7 +249,7 @@ export function Navbar({
             {/* Mobile menu */}
             {variant === "public" && menuOpen && (
                 <>
-                    <div className="md:hidden fixed inset-0 -z-10" aria-hidden="true" onClick={() => setMenuOpen(false)} />
+                    <div className="@min-[720px]/yunui-nav:hidden fixed inset-0 -z-10" aria-hidden="true" onClick={() => setMenuOpen(false)} />
                     {/* Frosted glass, but at /95 not /85: the nav centers without a transform so the
                         blur works, yet over a same-toned page an 85% panel still read as see-through.
                         95% keeps the frost while making the menu opaque enough to not bleed content. */}
@@ -261,11 +261,11 @@ export function Navbar({
                             while removing the NAV's changed it. So the blur here was never
                             real, and the 95% fill just let the page bleed through as
                             legible text behind the menu. */}
-                        <div className="md:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
+                        <div className="@min-[720px]/yunui-nav:hidden absolute top-full left-0 right-0 mt-3 p-2 bg-popover border border-border rounded-2xl shadow-lg shadow-black/5 flex flex-col gap-0.5">
                         {mobileMenuHeader}
-                        {links.map((link) => (
+                        {links.map((link, index) => (
                             <Link
-                                key={link.href}
+                                key={`${index}:${link.href}:${link.label}`}
                                 href={link.href}
                                 onClick={() => setMenuOpen(false)}
                                 className={`px-4 py-2.5 rounded-xl text-sm transition-colors hover:bg-foreground/5 ${isActive(link.href) ? "text-foreground font-medium" : "text-muted-foreground"}`}

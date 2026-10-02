@@ -6,6 +6,8 @@
 //   • app domain (here) -> "@yuhuanowo/yunui/ai"       (ModelCard, ProviderIcon, …)
 // Import these only if you're building an LLM/AI-gateway-shaped product; a
 // generic app should stay on the core + patterns entries.
+// Generic Navbar/Footer are also available from /patterns; their legacy /ai
+// exports remain compatible and do not imply AI-specific runtime behavior.
 //
 // All are prop-driven with framework deps injected via yunui/adapters; none
 // import app contexts, the API client, or localStorage directly.
@@ -15,19 +17,66 @@
 // primitive), so shipping it would force ai-sdk peer deps onto the library.
 // Intentionally kept out of the package.
 
-export { ThinkingBlock } from "./thinking-block";
+export {
+    ThinkingBlock,
+    type ThinkingBlockProps,
+    type ThinkingBlockLabels,
+    type ThinkingBlockStep,
+    type ThinkingStepStatus,
+} from "./thinking-block";
 export {
     AgentTimeline,
     type AgentTimelineProps,
     type AgentTimelineBlock,
+    type AgentTimelineEntry,
+    type AgentTimelineTaskBlock,
+    type AgentTimelineCancelledToolBlock,
     type AgentTimelineIconName,
+    type AgentTimelineEntryIconName,
     type AgentTimelineToolStatus,
+    type AgentTimelineToolEntryBlock,
+    type AgentTimelineTaskStatus,
+    type AgentTimelineToolDetail,
+    type AgentTimelineTaskDetail,
+    type AgentTimelineFileChange,
+    type AgentTimelineDiffLine,
+    type AgentTimelineDiffTone,
+    type AgentTimelineLabels,
+    type AgentTimelineSummary,
 } from "./agent-timeline";
+export {
+    ApprovalQuestion,
+    type ApprovalQuestionProps,
+    type ApprovalQuestionData,
+    type ApprovalQuestionOption,
+    type ApprovalQuestionOtherOption,
+    type ApprovalQuestionAnswer,
+    type ApprovalQuestionAnswers,
+    type ApprovalQuestionLabels,
+} from "./approval-question";
 export {
     AgentRunStatus,
     type AgentRunStatusProps,
     type AgentRunPhase,
+    type AgentRunTerminalPhase,
+    type AgentRunState,
 } from "./agent-run-status";
+export {
+    DiffTable,
+    type DiffTableProps,
+    type DiffTableRow,
+    type DiffTableChange,
+    type DiffTableState,
+    type DiffTableCategoryTone,
+    type DiffTableLabels,
+} from "./diff-table";
+export {
+    SelectionActions,
+    type SelectionActionsProps,
+    type SelectionActionsState,
+    type SelectionActionsLabels,
+    type SelectionAction,
+} from "./selection-actions";
 export { ModelCard, type ModelCardProps } from "./model-card";
 export {
     ModelSelect,

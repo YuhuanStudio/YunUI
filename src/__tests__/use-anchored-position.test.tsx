@@ -20,6 +20,18 @@ function Fixture({ open }: { open: boolean }) {
     );
 }
 
+function RightAnchoredFixture({ open }: { open: boolean }) {
+    const panelRef = useRef<HTMLDivElement>(null);
+    const position = useAnchoredPosition(open, panelRef);
+    return (
+        <div data-testid="right-clip" style={{ overflowX: "hidden" }}>
+            <div data-testid="right-anchor">
+                <div ref={panelRef} data-testid="right-panel" data-shift={position.shift} style={{ marginRight: -position.shift }} />
+            </div>
+        </div>
+    );
+}
+
 describe("useAnchoredPosition", () => {
     afterEach(() => {
         vi.unstubAllGlobals();
@@ -79,7 +91,7 @@ describe("useAnchoredPosition", () => {
         expect(panel).toHaveAttribute("data-max-height", "82");
     });
 
-    it("remeasures when open panel content changes without a viewport event", () => {
+    it("remeasures when open panel content changes without a viewport event", async () => {
         let notifyResize: (() => void) | undefined;
         const observe = vi.fn();
         const disconnect = vi.fn();
@@ -120,9 +132,58 @@ describe("useAnchoredPosition", () => {
         expect(observe).toHaveBeenCalledWith(anchor);
 
         naturalHeight = 60;
-        act(() => notifyResize?.());
+        await act(async () => {
+            notifyResize?.();
+            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        });
 
         expect(panel).toHaveAttribute("data-placement", "bottom");
         expect(panel).not.toHaveAttribute("data-max-height");
+    });
+
+    it("keeps a right-anchored margin correction stable when ResizeObserver fires", async () => {
+        let notifyResize: (() => void) | undefined;
+        vi.stubGlobal("ResizeObserver", class {
+            constructor(callback: ResizeObserverCallback) {
+                notifyResize = () => callback([], this as unknown as ResizeObserver);
+            }
+            observe = vi.fn();
+            disconnect = vi.fn();
+            unobserve = vi.fn();
+        });
+
+        const { rerender } = render(<RightAnchoredFixture open={false} />);
+        const clip = screen.getByTestId("right-clip");
+        const anchor = screen.getByTestId("right-anchor");
+        const panel = screen.getByTestId("right-panel");
+        Object.defineProperties(panel, {
+            offsetParent: { configurable: true, value: anchor },
+            offsetLeft: {
+                configurable: true,
+                get: () => 40 - (Number.parseFloat((panel as HTMLDivElement).style.marginRight) || 0),
+            },
+            offsetWidth: { configurable: true, value: 240 },
+            scrollHeight: { configurable: true, value: 120 },
+        });
+        clip.getBoundingClientRect = () => ({
+            x: 80, y: 100, top: 100, right: 360, bottom: 600, left: 80,
+            width: 280, height: 500, toJSON: () => ({}),
+        });
+        anchor.getBoundingClientRect = () => ({
+            x: 100, y: 300, top: 300, right: 380, bottom: 340, left: 100,
+            width: 280, height: 40, toJSON: () => ({}),
+        });
+
+        rerender(<RightAnchoredFixture open />);
+        expect(panel).toHaveAttribute("data-shift", "-28");
+        expect((panel as HTMLDivElement).style.marginRight).toBe("28px");
+
+        await act(async () => {
+            notifyResize?.();
+            notifyResize?.();
+            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        });
+        expect(panel).toHaveAttribute("data-shift", "-28");
+        expect((panel as HTMLDivElement).style.marginRight).toBe("28px");
     });
 });

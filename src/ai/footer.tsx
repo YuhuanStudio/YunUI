@@ -108,19 +108,19 @@ export function Footer({
                             into a half column next to the link sections. */}
                         <div className="col-span-2 md:col-span-1">
                             <Link href={homeHref} className="flex items-center gap-2 mb-2">
-                                <Image src={logoSrc} alt={appName} width={24} height={24} />
+                                <Image src={logoSrc} alt="" width={24} height={24} />
                                 <span className="font-semibold">{appName}</span>
                             </Link>
                             {tagline && <p className="text-sm text-muted-foreground">{tagline}</p>}
                         </div>
 
                         {/* Sections */}
-                        {sections.map((section) => (
-                            <div key={section.title}>
-                                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">{section.title}</h4>
+                        {sections.map((section, sectionIndex) => (
+                            <div key={`${sectionIndex}:${section.title}`}>
+                                <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">{section.title}</h2>
                                 <ul className="space-y-1.5 text-sm">
-                                    {section.links.map((link) => (
-                                        <li key={link.href}>
+                                    {section.links.map((link, linkIndex) => (
+                                        <li key={`${sectionIndex}:${linkIndex}:${link.href}:${link.label}`}>
                                             {/* inline-block with vertical padding so the
                                                 tap target clears 24px. Measured on an
                                                 iPhone 14 the links were 17px tall — under
@@ -144,9 +144,9 @@ export function Footer({
                             were 16-18px tap targets — under WCAG 2.2 AA's 24px. The
                             padding restores the visual spacing the gap gave up. */}
                         <div className="flex items-center gap-2">
-                            {social.map((link) => (
+                            {social.map((link, index) => (
                                 <a
-                                    key={link.label}
+                                    key={`${index}:${link.label}:${link.href}`}
                                     href={link.href}
                                     target={link.href.startsWith("/") || link.href.startsWith("mailto:") ? undefined : "_blank"}
                                     rel={link.href.startsWith("/") || link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}

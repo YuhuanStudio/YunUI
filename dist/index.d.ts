@@ -1424,6 +1424,8 @@ interface AnchoredPosition {
     /** Cap (px) so the panel can't run off the edge; pair with an internal scroll
      *  region (`flex-1 min-h-0` / `overflow-y-auto`). */
     maxHeight?: number;
+    /** Optional width cap for panels that must fit a narrow clipping ancestor. */
+    maxWidth?: number;
     /** Which side of the trigger to render on. `"top"` when there isn't room
      *  below but there is above — the consumer flips `top-full mt-*` to
      *  `bottom-full mb-*`. Defaults to `"bottom"`. */
@@ -1441,6 +1443,7 @@ interface AnchoredPosition {
 declare function useAnchoredPosition(open: boolean, panelRef: React.RefObject<HTMLElement | null>, opts?: {
     gutter?: number;
     minHeight?: number;
+    maxWidth?: number;
 }): AnchoredPosition;
 
 /**

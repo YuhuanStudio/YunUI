@@ -15,9 +15,9 @@ export function useContentT() {
   // A fresh function each render would retrigger those effects on every render
   // and, when the effect setStates, loop forever ("Maximum update depth").
   return useCallback(
-    (key: string, fallback: string): string => {
+    (key: string, fallback: string, vars?: Record<string, unknown>): string => {
       try {
-        const value = t(key);
+        const value = t(key, vars);
         // Identity translator returns the key; next-intl returns a namespaced
         // "content.key" miss marker. Treat both as "not translated".
         if (!value || value === key || value.endsWith(`.${key}`)) return fallback;

@@ -1,6 +1,6 @@
 import * as React$1 from 'react';
 import React__default, { ReactNode, ElementType, HTMLAttributes } from 'react';
-export { F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial } from './footer-BoFu7Wqq.js';
+export { F as Footer, a as FooterLink, b as FooterProps, c as FooterSection, d as FooterSocial, N as NavLink, e as Navbar } from './footer-BCd-S806.js';
 
 declare function BackgroundEffects(): React$1.JSX.Element;
 
@@ -55,7 +55,7 @@ interface CodeBlockProps {
     language?: string;
     /** Filename shown in the header instead of the language badge. */
     filename?: string;
-    /** Show line numbers in the gutter. @defaultValue true */
+    /** Show line numbers in the gutter. @defaultValue false */
     showLineNumbers?: boolean;
     /** Show the copy-to-clipboard button. @defaultValue true */
     copyable?: boolean;
@@ -63,7 +63,7 @@ interface CodeBlockProps {
     /** Render multiple switchable code tabs instead of a single `code` block. */
     tabs?: Tab[];
 }
-/** Styled code block with a window-chrome header, optional tabs, line numbers, basic syntax highlighting, and copy. */
+/** Lightweight-tokenized code with compact metadata, selectable formats, full copy, and long-code disclosure. */
 declare function CodeBlock({ code, language, filename, showLineNumbers, copyable, className, tabs, }: CodeBlockProps): React$1.JSX.Element;
 
 interface LLMCopyButtonProps {

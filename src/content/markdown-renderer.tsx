@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useMemo, useState } from "react";
-import ReactMarkdown, { type Components } from "react-markdown";
+import ReactMarkdown, { defaultUrlTransform, type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeRaw from "rehype-raw";
@@ -15,13 +15,15 @@ import { CodeBlock, InlineCode, type CodeBlockEditPayload } from "./code-block";
 import { MermaidDiagram } from "./mermaid-diagram";
 import { CalloutBlock, parseCalloutType } from "./callout-block";
 import { ContentImage } from "./content-image";
+import { rehypeSanitizeMarkdown } from "./sanitize-markdown";
+import { decodeCodeFilenameClass, remarkCodeMeta } from "./remark-code-meta";
 
 export interface MarkdownRendererProps {
   content: string;
   className?: string;
   /**
    * Rewrite image/link URLs before rendering (e.g. prefix a backend host or
-   * proxy). Defaults to identity.
+   * proxy). Rewritten URLs still pass the renderer's safe-protocol filter.
    */
   urlTransform?: (url: string) => string;
   /**
@@ -76,10 +78,10 @@ export function MarkdownRenderer({
           {id && <HeadingAnchor id={id} />}
         </h1>
       ),
-      h2: ({ children, id }) => (
+      h2: ({ children, id, className: headingClass }) => (
         <h2
           id={id}
-          className="group flex items-center gap-2 text-xl font-bold mt-6 mb-3 scroll-mt-20"
+          className={cn("group flex items-center gap-2 text-xl font-bold mt-6 mb-3 scroll-mt-20", headingClass)}
         >
           {children}
           {id && <HeadingAnchor id={id} />}
@@ -126,6 +128,10 @@ export function MarkdownRenderer({
       code: ({ children, className: codeClass }: any) => {
         const match = /language-(\w+)/.exec(codeClass || "");
         const language = match ? match[1] : "";
+        const filenameClass = typeof codeClass === "string"
+          ? codeClass.split(/\s+/).find((token: string) => token.startsWith("filename-"))
+          : undefined;
+        const filename = filenameClass ? decodeCodeFilenameClass(filenameClass) : undefined;
         const codeString = String(children).replace(/\n$/, "");
 
         if (language === "mermaid") {
@@ -136,7 +142,7 @@ export function MarkdownRenderer({
           const showLineNumbers = codeClass?.includes("showLineNumbers");
           const highlightMatch = codeClass?.match(/\{([^}]+)\}/);
           const highlightLines = highlightMatch
-            ? parseLineHighlights(highlightMatch[1])
+            ? parseLineHighlights(highlightMatch[1], codeString.split("\n").length)
             : [];
 
           return (
@@ -144,6 +150,7 @@ export function MarkdownRenderer({
               language={language}
               showLineNumbers={showLineNumbers}
               highlightLines={highlightLines}
+              filename={filename}
               onEdit={onCodeEdit}
             >
               {codeString}
@@ -249,15 +256,16 @@ export function MarkdownRenderer({
       ul: ({ children }) => (
         <ul className="my-3 ml-6 list-disc space-y-1 [&>li]:pl-1">{children}</ul>
       ),
-      ol: ({ children }) => (
-        <ol className="my-3 ml-6 list-decimal space-y-1 [&>li]:pl-1">
+      ol: ({ children, start }) => (
+        <ol start={start} className="my-3 ml-6 list-decimal space-y-1 [&>li]:pl-1">
           {children}
         </ol>
       ),
-      li: ({ children, className: liClass }) => {
+      li: ({ children, className: liClass, id }) => {
         const isTaskItem = liClass?.includes("task-list-item");
         return (
           <li
+            id={id}
             className={cn(
               "leading-relaxed",
               isTaskItem && "list-none -ml-6 flex items-start gap-2",
@@ -268,7 +276,7 @@ export function MarkdownRenderer({
         );
       },
 
-      input: ({ type, checked, ...props }) => {
+      input: ({ node: _node, type, checked, ...props }) => {
         if (type === "checkbox") {
           return (
             <input
@@ -350,9 +358,9 @@ export function MarkdownRenderer({
       )}
     >
       <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug]}
-        urlTransform={urlTransform}
+        remarkPlugins={[remarkGfm, remarkMath, remarkCodeMeta]}
+        rehypePlugins={[rehypeRaw, rehypeSlug, rehypeSanitizeMarkdown, rehypeKatex]}
+        urlTransform={(url) => defaultUrlTransform(urlTransform ? urlTransform(url) : url)}
         components={components}
       >
         {content}
@@ -382,7 +390,7 @@ function HeadingAnchor({ id }: { id: string }) {
       href={`#${id}`}
       onClick={handleClick}
       className={cn(
-        "opacity-0 group-hover:opacity-100 transition-opacity",
+        "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity rounded outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "text-(--text-tertiary) hover:text-(--text-primary)",
         copied && "text-success",
       )}
@@ -393,19 +401,19 @@ function HeadingAnchor({ id }: { id: string }) {
   );
 }
 
-function parseLineHighlights(input: string): number[] {
-  const lines: number[] = [];
+function parseLineHighlights(input: string, lineCount: number): number[] {
+  const lines = new Set<number>();
   for (const part of input.split(",")) {
     const trimmed = part.trim();
     if (trimmed.includes("-")) {
-      const [start, end] = trimmed.split("-").map((n) => parseInt(n.trim(), 10));
-      if (!isNaN(start) && !isNaN(end)) {
-        for (let i = start; i <= end; i++) lines.push(i);
+      const [start, end] = trimmed.split("-").map((n) => Number(n.trim()));
+      if (Number.isSafeInteger(start) && Number.isSafeInteger(end) && start > 0 && end >= start) {
+        for (let i = start; i <= Math.min(end, lineCount); i++) lines.add(i);
       }
     } else {
-      const num = parseInt(trimmed, 10);
-      if (!isNaN(num)) lines.push(num);
+      const num = Number(trimmed);
+      if (Number.isSafeInteger(num) && num > 0 && num <= lineCount) lines.add(num);
     }
   }
-  return lines;
+  return [...lines];
 }

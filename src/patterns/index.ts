@@ -22,6 +22,8 @@ export { SimplePagination } from "./simple-pagination";
 export { CategoryFilter } from "./category-filter";
 
 // Layout / app chrome
+// Same generic navbar implementation; /ai remains a compatible import.
+export { Navbar, type NavLink } from "../ai/navbar";
 export {
   Sidebar,
   type SidebarProps,
