@@ -1,0 +1,27 @@
+host 提供所選段落、狀態和改寫結果。工具列會錨定到這段文字；動作與自訂指令只發出請求。Keep／Discard 回呼交由 host 決定是否更新原文，busy／error／cancelled 都不會自動改寫。
+
+## 匯入
+
+```tsx
+import { SelectionActions } from "@yuhuanowo/yunui/ai";
+```
+
+## 互動範例
+
+下方控制明確模擬 host 回傳狀態，不會送出請求。所有標籤與無障礙文字都可覆寫；缺少回呼時，對應請求控制不可操作。
+
+<ComponentPreview compactPadding title="SelectionActions">
+  <SelectionActionsDemo />
+</ComponentPreview>
+
+## 組合使用
+
+```tsx
+import { SelectionActions } from "@yuhuanowo/yunui/ai";
+
+<SelectionActions selectedText="Use the public components." state="idle" />
+```
+
+## 屬性
+
+<PropsTable name="SelectionActions" />

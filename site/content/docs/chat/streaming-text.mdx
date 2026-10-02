@@ -1,0 +1,27 @@
+Provide exact text tokens, stable source IDs and stream state from the host. One public component renders citations, source disclosure, message actions and follow-ups; it never calls a model or simulates streaming.
+
+## Import
+
+```tsx
+import { StreamingText } from "@yuhuanowo/yunui/chat";
+```
+
+## Interactive example
+
+The controls below explicitly simulate host responses; no request is sent. All labels and accessibility copy can be overridden. Missing callbacks disable the corresponding request controls.
+
+<ComponentPreview compactPadding title="StreamingText">
+  <StreamingTextDemo />
+</ComponentPreview>
+
+## Composition
+
+```tsx
+import { StreamingText } from "@yuhuanowo/yunui/chat";
+
+<StreamingText content={[{ text: "Read the guide. " }, { text: "", sourceId: "guide" }]} sources={[{ id: "guide", name: "Guide", href: "/guide" }]} state="complete" />
+```
+
+## Props
+
+<PropsTable name="StreamingText" />

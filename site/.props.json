@@ -73,7 +73,7 @@
       "name": "active",
       "type": "boolean",
       "required": false,
-      "defaultValue": "phase !== \"waiting\"",
+      "defaultValue": "![\"waiting\", \"completed\", \"failed\", \"cancelled\"].includes(phase)",
       "description": "Keeps the row layout stable while disabling decorative motion."
     },
     {
@@ -85,7 +85,7 @@
     },
     {
       "name": "phase",
-      "type": "\"thinking\" | \"acting\" | \"observing\" | \"reflecting\" | \"responding\" | \"waiting\"",
+      "type": "\"thinking\" | \"acting\" | \"observing\" | \"reflecting\" | \"responding\" | \"waiting\" | \"completed\" | \"failed\" | \"cancelled\"",
       "required": false,
       "defaultValue": "thinking",
       "description": ""
@@ -94,7 +94,7 @@
   "AgentTimeline": [
     {
       "name": "blocks",
-      "type": "AgentTimelineBlock[]",
+      "type": "AgentTimelineEntry[]",
       "required": true,
       "defaultValue": null,
       "description": ""
@@ -107,8 +107,29 @@
       "description": ""
     },
     {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true",
+      "description": "The global summary starts open to retain the previous visible-row default."
+    },
+    {
+      "name": "labels",
+      "type": "AgentTimelineLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
       "name": "onApprove",
       "type": "((id: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
       "required": false,
       "defaultValue": null,
       "description": ""
@@ -121,11 +142,118 @@
       "description": ""
     },
     {
+      "name": "onToggleDiff",
+      "type": "((id: string, open: boolean) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onToggleRow",
+      "type": "((id: string, open: boolean) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Controlled run summary. Without onOpenChange it is read-only."
+    },
+    {
       "name": "renderContent",
       "type": "((text: string) => ReactNode)",
       "required": false,
       "defaultValue": null,
-      "description": "Render reasoning text (e.g. markdown). Plain text by default."
+      "description": "Render reasoning text (e.g. with a Markdown renderer). Plain text by default."
+    }
+  ],
+  "ApprovalQuestion": [
+    {
+      "name": "activeQuestionId",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": "The host controls which stable question ID is visible."
+    },
+    {
+      "name": "answers",
+      "type": "Readonly<Record<string, ApprovalQuestionAnswer>>",
+      "required": true,
+      "defaultValue": null,
+      "description": "Controlled answers keyed by stable question ID, containing stable option IDs."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Host-controlled read-only state."
+    },
+    {
+      "name": "labels",
+      "type": "ApprovalQuestionLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onActiveQuestionChange",
+      "type": "((id: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onAnswersChange",
+      "type": "(answers: Readonly<Record<string, ApprovalQuestionAnswer>>) => void",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onDismiss",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Requests dismissal; the host decides whether to hide or cancel this question."
+    },
+    {
+      "name": "onSkip",
+      "type": "((questionId: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onSubmit",
+      "type": "((answers: Readonly<Record<string, ApprovalQuestionAnswer>>) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "questions",
+      "type": "readonly ApprovalQuestionData[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "submitting",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": "Host-controlled request in flight; choices and navigation are disabled until it changes."
     }
   ],
   "CapabilityIcon": [
@@ -193,6 +321,78 @@
       "required": false,
       "defaultValue": "md",
       "description": "Button size: `sm` or `md` (default)."
+    }
+  ],
+  "DiffTable": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "DiffTableLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onApply",
+      "type": "((selectedIds: readonly string[]) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host callbacks; the component never marks a request successful itself."
+    },
+    {
+      "name": "onReject",
+      "type": "((selectedIds: readonly string[]) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onSelectionChange",
+      "type": "((selectedIds: readonly string[]) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "resultCount",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Use when the host clears `selectedIds` after apply but wants to retain result count."
+    },
+    {
+      "name": "rows",
+      "type": "readonly DiffTableRow[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "selectedIds",
+      "type": "readonly string[]",
+      "required": true,
+      "defaultValue": null,
+      "description": "Controlled IDs for included additions/removals."
+    },
+    {
+      "name": "state",
+      "type": "\"idle\" | \"busy\" | \"applied\" | \"error\" | \"cancelled\" | \"disabled\"",
+      "required": false,
+      "defaultValue": "idle",
+      "description": ""
+    },
+    {
+      "name": "statusMessage",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional host-rendered request detail for non-idle states."
     }
   ],
   "Footer": [
@@ -902,6 +1102,99 @@
       "description": "Icon size in pixels."
     }
   ],
+  "SelectionActions": [
+    {
+      "name": "actions",
+      "type": "readonly SelectionAction[]",
+      "required": false,
+      "defaultValue": "[\n  { id: \"Explain\", action: \"Explain\", icon: <CircleHelp {...iconProps} /> },\n  { id: \"Improve\", action: \"Improve\", busyLabel: \"Improving\", icon: <Sparkles {...iconProps} /> },\n  { id: \"Shorten\", action: \"Shorten\", busyLabel: \"Shortening\", icon: <Scissors {...iconProps} /> },\n  { id: \"Tone\", action: \"Change tone\", busyLabel: \"Changing tone\", icon: <ThumbsUp {...iconProps} /> },\n  { id: \"Grammar\", action: \"Fix grammar\", icon: <Type {...iconProps} /> },\n]",
+      "description": "Host-owned actions. Omitting this uses the general-purpose default action set."
+    },
+    {
+      "name": "busyLabel",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": null,
+      "description": "Current host activity label; used only while `state=\"busy\"`."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "SelectionActionsLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "lead",
+      "type": "ReactNode",
+      "required": false,
+      "defaultValue": "",
+      "description": "Optional prose immediately before the selected passage."
+    },
+    {
+      "name": "onAccept",
+      "type": "((result: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onAction",
+      "type": "((action: string, instruction?: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onDismiss",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onRetry",
+      "type": "(() => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "resultText",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host-provided rewrite. It is never generated by this component."
+    },
+    {
+      "name": "selectedText",
+      "type": "string",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "state",
+      "type": "\"idle\" | \"busy\" | \"result\" | \"error\" | \"cancelled\"",
+      "required": false,
+      "defaultValue": "idle",
+      "description": "Host owns all request state; no internal request timer or optimistic result."
+    }
+  ],
   "ThinkingBlock": [
     {
       "name": "content",
@@ -921,15 +1214,57 @@
       "name": "isStreaming",
       "type": "boolean",
       "required": false,
+      "defaultValue": "false",
+      "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "ThinkingBlockLabels",
+      "required": false,
       "defaultValue": null,
       "description": ""
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onStepSelect",
+      "type": "((id: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Controlled disclosure state. Without `onOpenChange`, the trigger is read-only."
     },
     {
       "name": "renderContent",
       "type": "((content: string) => ReactNode)",
       "required": false,
       "defaultValue": null,
-      "description": "Render the reasoning content (e.g. with a Markdown renderer). Defaults to\nplain pre-wrapped text so YunUI carries no markdown dependency."
+      "description": "Render reasoning text (e.g. with a Markdown renderer). Defaults to plain pre-wrapped text."
+    },
+    {
+      "name": "selectedStepId",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "steps",
+      "type": "readonly ThinkingBlockStep[]",
+      "required": false,
+      "defaultValue": "[]",
+      "description": "Host-supplied detail rows (Steps / Search / Coding / Reasoning)."
     }
   ],
   "ChatAttachment": [
@@ -989,14 +1324,14 @@
       "type": "boolean",
       "required": false,
       "defaultValue": "false",
-      "description": "Allow sending with empty text — e.g. when attachments alone make a valid\nmessage."
+      "description": "Allow sending with empty text — e.g. when attachments alone make a valid message."
     },
     {
       "name": "attachments",
       "type": "ReactNode",
       "required": false,
       "defaultValue": null,
-      "description": "Attachment chips / previews, rendered above the textarea."
+      "description": "Attachment chips / previews, rendered above the textarea. The host owns the content and its actions."
     },
     {
       "name": "className",
@@ -1004,6 +1339,13 @@
       "required": false,
       "defaultValue": null,
       "description": ""
+    },
+    {
+      "name": "commandItems",
+      "type": "readonly ChatComposerCommand[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional host-owned command list. Commands never infer insertion text from an id or label."
     },
     {
       "name": "disabled",
@@ -1014,10 +1356,10 @@
     },
     {
       "name": "labels",
-      "type": "{ send?: string; stop?: string; } | undefined",
+      "type": "ChatComposerLabels",
       "required": false,
       "defaultValue": null,
-      "description": "Accessible names for the composer's buttons."
+      "description": "Accessible names and menu copy. Existing send/stop overrides remain supported."
     },
     {
       "name": "loading",
@@ -1034,6 +1376,13 @@
       "description": "Max rows before the textarea scrolls."
     },
     {
+      "name": "modelItems",
+      "type": "readonly ChatComposerModel[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional host-owned model list. Supplying `[]` renders the localized empty state."
+    },
+    {
       "name": "onChange",
       "type": "(value: string) => void",
       "required": true,
@@ -1041,11 +1390,32 @@
       "description": ""
     },
     {
+      "name": "onCommandSelect",
+      "type": "((item: ChatComposerCommand) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host callback for semantic command selection."
+    },
+    {
+      "name": "onModelChange",
+      "type": "((id: string) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host callback for model selection. Without it, model options are disabled."
+    },
+    {
       "name": "onSend",
       "type": "() => void",
       "required": true,
       "defaultValue": null,
       "description": "Called when the user sends (Enter or the send button)."
+    },
+    {
+      "name": "onSourceToggle",
+      "type": "((id: string, selected: boolean) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host callback for selecting or removing a source. The second argument is the desired selected state."
     },
     {
       "name": "onStop",
@@ -1062,6 +1432,20 @@
       "description": ""
     },
     {
+      "name": "selectedModelId",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Host-owned selected model id."
+    },
+    {
+      "name": "selectedSourceIds",
+      "type": "readonly string[]",
+      "required": false,
+      "defaultValue": "[]",
+      "description": "Host-owned selected source ids, used for chips and menu selection state."
+    },
+    {
       "name": "sendDisabled",
       "type": "boolean",
       "required": false,
@@ -1076,6 +1460,13 @@
       "description": "@deprecated Use labels.send. Retained for 0.2.17 compatibility."
     },
     {
+      "name": "sourceItems",
+      "type": "readonly ChatComposerMenuItem[]",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional host-owned source list. Supplying `[]` renders the localized empty state."
+    },
+    {
       "name": "stopLabel",
       "type": "string",
       "required": false,
@@ -1087,12 +1478,42 @@
       "type": "ReactNode",
       "required": false,
       "defaultValue": null,
-      "description": "Left-aligned toolbar (attach, mode, feature toggles, …)."
+      "description": "Left-aligned host toolbar (attach, mode, feature toggles, …)."
     },
     {
       "name": "value",
       "type": "string",
       "required": true,
+      "defaultValue": null,
+      "description": ""
+    }
+  ],
+  "ContextCards": [
+    {
+      "name": "chunks",
+      "type": "readonly ContextChunk[]",
+      "required": true,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "ContextCardsLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onSelectionChange",
+      "type": "((id: string, selected: boolean) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": "The host supplies the next selected value. Without this callback no Include/Exclude control is shown."
+    },
+    {
+      "name": "onSourceOpen",
+      "type": "((chunk: ContextChunk) => void)",
+      "required": false,
       "defaultValue": null,
       "description": ""
     }
@@ -1177,7 +1598,7 @@
       "type": "ReactNode",
       "required": false,
       "defaultValue": null,
-      "description": "Actions revealed on hover below the content (copy, regenerate, …)."
+      "description": "Actions in normal flow below the content (copy, regenerate, …)."
     },
     {
       "name": "avatar",
@@ -1241,6 +1662,92 @@
       "required": false,
       "defaultValue": null,
       "description": "Right-aligned timestamp (or any node) in the header."
+    }
+  ],
+  "StreamingText": [
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "content",
+      "type": "readonly StreamingToken[]",
+      "required": true,
+      "defaultValue": null,
+      "description": "Exact host-provided token sequence. YunUI does not insert or normalize whitespace."
+    },
+    {
+      "name": "defaultSourcesOpen",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false",
+      "description": ""
+    },
+    {
+      "name": "followUps",
+      "type": "readonly string[]",
+      "required": false,
+      "defaultValue": "[]",
+      "description": ""
+    },
+    {
+      "name": "labels",
+      "type": "StreamingTextLabels",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onAction",
+      "type": "((action: StreamingAction) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onFollowUp",
+      "type": "((text: string, index: number) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "onSourcesOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "defaultValue": null,
+      "description": ""
+    },
+    {
+      "name": "sources",
+      "type": "readonly StreamingSource[]",
+      "required": false,
+      "defaultValue": "[]",
+      "description": ""
+    },
+    {
+      "name": "sourcesOpen",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": null,
+      "description": "Controlled source disclosure. Without `onSourcesOpenChange`, it is read-only."
+    },
+    {
+      "name": "state",
+      "type": "\"streaming\" | \"complete\" | \"error\" | \"cancelled\" | \"empty\"",
+      "required": false,
+      "defaultValue": "complete",
+      "description": ""
+    },
+    {
+      "name": "visibleCount",
+      "type": "number",
+      "required": false,
+      "defaultValue": null,
+      "description": "Optional host-controlled prefix length while streaming."
     }
   ],
   "GenerationStats": [
@@ -1343,7 +1850,7 @@
       "name": "showLineNumbers",
       "type": "boolean",
       "required": false,
-      "defaultValue": "true",
+      "defaultValue": "false",
       "description": "Show line numbers in the gutter."
     },
     {
@@ -1369,7 +1876,14 @@
       "type": "boolean",
       "required": false,
       "defaultValue": null,
-      "description": "Open a zoom/rotate/download lightbox on click."
+      "description": "Open a zoom/rotate/download lightbox on click or keyboard activation."
+    },
+    {
+      "name": "zoomLabel",
+      "type": "string",
+      "required": false,
+      "defaultValue": null,
+      "description": "Accessible name for the zoom action. Defaults to a translated label plus the image alt text."
     }
   ],
   "ImageLightbox": [
@@ -1508,7 +2022,7 @@
       "type": "((url: string) => string)",
       "required": false,
       "defaultValue": null,
-      "description": "Rewrite image/link URLs before rendering (e.g. prefix a backend host or\nproxy). Defaults to identity."
+      "description": "Rewrite image/link URLs before rendering (e.g. prefix a backend host or\nproxy). Rewritten URLs still pass the renderer's safe-protocol filter."
     }
   ],
   "MathRenderer": [

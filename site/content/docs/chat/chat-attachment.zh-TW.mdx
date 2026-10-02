@@ -2,7 +2,7 @@ import { ChatAttachment } from "yunui/chat";
 import { IconButton } from "yunui";
 import { X } from "lucide-react";
 
-一個由輸入框（排隊待送的檔案）與已送出訊息（已附加的檔案）共用的緊湊附件面。它負責視覺層級、上傳進度樣式與狀態提示;宿主提供已本地化的 `name`／`meta`、可選的 `preview` 縮圖或 `icon`，以及任何 `actions`。
+一個由輸入框（排隊待送的檔案）與已送出訊息（已附加的檔案）共用的緊湊附件列。它負責視覺層級、上傳進度樣式與狀態提示；host 提供本地化的 `name`／`meta`、可選的 `preview` 縮圖或 `icon`，以及 `actions`。YunUI 只呈現狀態，檔案選取、上傳與重試由 host 負責。
 
 ## 匯入
 

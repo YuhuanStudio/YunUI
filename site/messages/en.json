@@ -15,9 +15,31 @@
     "rotate": "Rotate",
     "download": "Download",
     "close": "Close",
-    "formulaRenderFailed": "Formula render failed"
+    "formulaRenderFailed": "Formula render failed",
+    "codeBlock": {
+      "scrollRegion": "{language} code, {count, plural, one {# line} other {# lines}}",
+      "copyFull": "Copy full code",
+      "copyError": "Clipboard access failed. Select the code and copy it manually.",
+      "scrollHorizontally": "Scroll horizontally",
+      "showAll": "Show all {count} lines",
+      "showLess": "Show less",
+      "lineCount": "{count, plural, one {# line} other {# lines}}",
+      "copied": "Copied",
+      "tabGroup": "Code examples"
+    }
   },
   "common": {
+    "codeBlock": {
+      "scrollRegion": "{language} code, {count, plural, one {# line} other {# lines}}",
+      "copyFull": "Copy full code",
+      "copyError": "Clipboard access failed. Select the code and copy it manually.",
+      "scrollHorizontally": "Scroll horizontally",
+      "showAll": "Show all {count} lines",
+      "showLess": "Show less",
+      "lineCount": "{count, plural, one {# line} other {# lines}}",
+      "copied": "Copied",
+      "tabGroup": "Code examples"
+    },
     "copy": "Copy",
     "copied": "Copied!",
     "theme": {

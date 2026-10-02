@@ -1,6 +1,8 @@
-import { ContentImage } from "yunui/content";
+A lazy, flicker-free image for rendered content. It defers loading until it scrolls near the viewport (via `IntersectionObserver`), shows a spinner placeholder, fades in on load, and — by default — opens a full-screen, zoomable [lightbox](/docs/content/image-lightbox) by click or keyboard activation. It extends the native `<img>` props, so `src`, `alt`, `className`, `loading`, etc. all pass straight through; A standalone `ContentImage` uses the supplied URL as-is. When used by `MarkdownRenderer`, the renderer may rewrite the URL with `urlTransform` and then filters the result through its safe-protocol rules. Inside `MarkdownRenderer`, every image is rendered through this component.
 
-A lazy, flicker-free image for rendered content. It defers loading until it scrolls near the viewport (via `IntersectionObserver`), shows a spinner placeholder, fades in on load, and — by default — opens a full-screen, zoomable [lightbox](/docs/content/image-lightbox) on click. It extends the native `<img>` props, so `src`, `alt`, `className`, `loading`, etc. all pass straight through; URLs are used as-is (rewrite them upstream, e.g. with the markdown renderer's `urlTransform`). Inside `MarkdownRenderer`, every image is rendered through this component.
+Loading begins when the image approaches the viewport; if `IntersectionObserver` is unavailable, it loads eagerly. With the default `enableLightbox`, a loaded image can open the lightbox by click, Enter, or Space. Images inside a link keep the link's behavior and do not open the lightbox. Set `enableLightbox={false}` to disable zoom. Changing `src` or `srcSet` resets the image loading state. Turning `enableLightbox` off and back on does not reopen an earlier preview. The optional `zoomLabel` overrides the zoom action name; by default it uses the host's `content.zoomImage` translation (fallback “Zoom image”) plus the image alt text.
+
+Native image props are forwarded. `onLoad`, `onError`, `onClick`, and `onKeyDown` callbacks run when their events occur; calling `preventDefault()` in the click or key handler prevents the default lightbox action.
 
 ## Import
 
@@ -16,11 +18,7 @@ Click the image to open the lightbox.
   title="ContentImage"
   code={`import { ContentImage } from "@yuhuanowo/yunui/content";`}
 >
-  <ContentImage
-    src="https://picsum.photos/seed/yunui/640/360"
-    alt="A random placeholder photo"
-    className="w-80 rounded-xl"
-  />
+  <ContentImageDemo />
 </ComponentPreview>
 
 ## Props

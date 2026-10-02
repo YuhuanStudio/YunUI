@@ -17,6 +17,7 @@ export function ComponentPreview({
   children,
   contained,
   containedHeight = 220,
+  compactPadding = false,
 }: {
   title?: string;
   description?: string;
@@ -26,6 +27,8 @@ export function ComponentPreview({
    *  against the preview box instead of escaping over the docs page. */
   contained?: boolean;
   containedHeight?: number;
+  /** Give full conversational workspaces the width they need on small screens. */
+  compactPadding?: boolean;
 }) {
   const [view, setView] = useState<"preview" | "code">("preview");
   const showCode = view === "code" && !!code;
@@ -66,7 +69,7 @@ export function ComponentPreview({
           className={
             contained
               ? "relative overflow-hidden rounded-2xl border border-border"
-              : "rounded-2xl border border-border p-10 flex flex-wrap items-center justify-center gap-4 min-h-[150px]"
+              : `rounded-2xl border border-border ${compactPadding ? "p-2 sm:p-4" : "p-10"} flex flex-wrap items-center justify-center gap-4 min-h-[150px]`
           }
           style={{
             backgroundImage:

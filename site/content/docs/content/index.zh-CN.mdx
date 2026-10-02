@@ -1,13 +1,15 @@
-内容渲染栈把 LLM / 聊天 / 文档输出变成丰富且安全的 UI：完整的 GitHub 风格 **markdown**、**KaTeX** 数学公式、**Shiki** 高亮代码、**Mermaid** 图表、GitHub 风格**提示框**，以及惰性、可缩放的**图片**。它位于独立的子路径 `@yuhuanowo/yunui/content` 上，因此沉重的渲染引擎（shiki、mermaid）不会影响不需要它们的应用。
+内容渲染栈把 LLM / 聊天 / 文档输出变成丰富且安全的 UI：完整的 GitHub 风格 **markdown**、**KaTeX** 数学公式、**Shiki** 高亮代码、**Mermaid** 图表、GitHub 风格**提示框**，以及惰性、可缩放的**图片**。它位于独立子路径 `@yuhuanowo/yunui/content`，不导入此入口的应用不会包含其中的渲染模块。此入口会静态导入 Shiki 核心、React Markdown 及其 Markdown 插件；只有 Shiki 语法模块／主题和 Mermaid 按需加载。
 
 ## 安装
 
-内容子路径把渲染库声明为**可选的对等依赖**——在你的应用中与 YunUI 一起安装：
+虽然 YunUI 包元数据将这些库标记为**可选 peer 依赖**，但 `@yuhuanowo/yunui/content` barrel 会静态导入 Markdown、数学公式和 Shiki 模块。只要导入此入口，就应在宿主应用中安装这些渲染 peer：
 
 ```bash
 pnpm add @yuhuanowo/yunui react-markdown remark-gfm remark-math \
-  rehype-raw rehype-katex rehype-slug katex shiki mermaid
+  rehype-raw rehype-katex rehype-slug katex shiki
 ```
+
+Mermaid 是动态加载的，只有渲染 Mermaid 图表时才需要安装。`rehype-sanitize` 是 YunUI 的常规依赖。`yunui doctor` 会检查 content 样式接入，但不会验证宿主构建能否解析这些渲染 peer；请运行应用构建检查模块解析。
 
 ## 样式
 
@@ -48,7 +50,7 @@ import {
 
 ## 各个部件
 
-每个渲染器都单独导出，你也可以只把某一项能力放进自己的布局里：
+每个渲染器都作为独立组件导出，可直接放进自己的布局。不过这些命名导出仍来自同一个 `/content` 入口；即使只渲染一个组件，也会解析该入口的静态 peer 依赖：
 
 - [Markdown 渲染器](/docs/content/markdown-renderer) —— 完整的 GFM 管线。
 - [代码块](/docs/content/code-block) —— 带文件名标头、行号与复制的 Shiki 高亮。

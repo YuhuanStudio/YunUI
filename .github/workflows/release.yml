@@ -44,8 +44,14 @@ jobs:
       - name: Test
         run: pnpm test
 
+      - name: Consumer agent catalogue and recipes
+        run: pnpm agents:catalog && pnpm agents:check
+
       - name: Build
         run: pnpm build
+
+      - name: Verify committed generated artifacts
+        run: node scripts/check-generated.mjs
 
       - name: Lint package (publint)
         run: pnpm exec publint

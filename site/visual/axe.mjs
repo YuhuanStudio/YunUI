@@ -14,8 +14,8 @@
  * page is not an accessibility pass.
  */
 import { chromium } from '@playwright/test';
-import fs from 'fs';
-const AXE = fs.readFileSync(new URL('../node_modules/axe-core/axe.min.js', import.meta.url), 'utf8');
+import { assertExpectedPath, assertNoPageErrors, collectPageErrors, exitOnError, gotoChecked, loadAxe, parseJsonList, runAxe, validateAxeTarget } from './sweep-utils.mjs';
+const AXE = loadAxe();
 const DEFAULT_TARGETS = [
   { name: "/", url: "http://localhost:3000/" },
   { name: "/showcase", url: "http://localhost:3000/showcase" },
@@ -23,21 +23,22 @@ const DEFAULT_TARGETS = [
   { name: "/docs", url: "http://localhost:3000/docs" },
   { name: "/changelog", url: "http://localhost:3000/changelog" },
 ];
-const targets = process.argv[2] ? JSON.parse(process.argv[2]) : DEFAULT_TARGETS;
+let targets;
+try { targets = process.argv[2] ? parseJsonList(process.argv[2], 'targets', validateAxeTarget) : DEFAULT_TARGETS; }
+catch (error) { exitOnError(error); process.exit(); }
 const b = await chromium.launch();
 const all = {};
 const failures = [];
 for (const { name, url, vp } of targets) {
   const p = await b.newPage({ viewport: { width: vp ?? 1440, height: 900 } });
-  p.on('pageerror', error => failures.push(`${name}: ${error.message}`));
+  const errors = collectPageErrors(p);
   try {
-    const res = await p.goto(url, { waitUntil: 'networkidle', timeout: 25000 });
-    if (!res || res.status() >= 400) { throw new Error(`HTTP ${res?.status()}`); }
+    await gotoChecked(p, url, { waitUntil: 'networkidle', timeout: 25000 }, name);
+    assertExpectedPath(p, new URL(url).pathname, name);
     await p.waitForTimeout(1200);
-    await p.addScriptTag({ content: AXE });
-    const r = await p.evaluate(async () => await window.axe.run(document, {
-      runOnly: { type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa'] },
-    }));
+    if (!await p.evaluate(() => Boolean(document.body?.innerText.trim()))) throw new Error('page body is empty');
+    const r = await runAxe(p, AXE);
+    assertNoPageErrors(errors, name);
     for (const v of r.violations) {
       const key = v.id;
       all[key] ??= { impact: v.impact, help: v.help, pages: new Set(), nodes: [] };

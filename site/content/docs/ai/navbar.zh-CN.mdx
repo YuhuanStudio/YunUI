@@ -12,13 +12,15 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
 
 导航栏固定在视口顶部。提供 `links` 和 `appName`；宿主通过适配器提供路由。
 
-<ComponentPreview
+<ComponentPreview contained containedHeight={430}
   title="基础用法"
   code={`import { Navbar } from "@yuhuanowo/yunui/ai";
 
 <Navbar
   appName="Acme AI"
   currentPath="/"
+  loginHref="#"
+  signupHref="#"
   links={[
     { href: "/", label: "Home" },
     { href: "#", label: "Models" },
@@ -30,6 +32,8 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
   <Navbar
     appName="Acme AI"
     currentPath="/"
+    loginHref="#"
+    signupHref="#"
     links={[
       { href: "/", label: "Home" },
       { href: "#", label: "Models" },
@@ -38,6 +42,8 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
     ]}
   />
 </ComponentPreview>
+
+此预览将登录和注册目标设为 `#`，避免文档站请求不存在的示例路由。在应用中，请通过 `loginHref` 和 `signupHref` 传入宿主实际提供的路由。
 
 ## 极简变体
 

@@ -1,0 +1,25 @@
+import { Navbar } from "yunui/patterns";
+
+Use the existing YunUI navigation bar for a general website. This is the same
+component as the compatible `/ai` export, with no AI runtime dependency or new
+visual design. It owns the floating header, active-link behavior and mobile menu;
+the host supplies branding, link data, account/actions slots and routing adapters.
+
+## Import
+
+```tsx
+import { Navbar } from "@yuhuanowo/yunui/patterns";
+```
+
+## Example
+
+<ComponentPreview title="Navbar" contained containedHeight={130}>
+  <Navbar appName="Workspace" links={[{ href: "/", label: "Home" }, { href: "/docs", label: "Docs" }]} />
+</ComponentPreview>
+
+Use with `PageLayout` to reserve space below the fixed header. Full API and slot
+examples are on the [shared Navbar page](/docs/ai/navbar).
+
+## Props
+
+<PropsTable name="Navbar" />

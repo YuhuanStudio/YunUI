@@ -40,7 +40,7 @@ export default defineConfig({
     // captures because its exact pixel output was not reproducible across runs.
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
     // Deterministic content/keyboard/theme contracts, without pixel baselines.
-    { name: "webkit", testMatch: "**/content.spec.ts", use: { ...devices["Desktop Safari"] } },
+    { name: "webkit", testMatch: "**/{content,search,chat,agent-chat,model-select,conversation-units}.spec.ts", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: {
     command: `pnpm build && pnpm start -p ${PORT}`,

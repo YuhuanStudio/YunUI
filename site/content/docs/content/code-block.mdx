@@ -1,8 +1,10 @@
 import { CodeBlock, InlineCode } from "yunui/content";
 
-A syntax-highlighted code block powered by [Shiki](https://shiki.style). The highlighter is loaded on demand the first time a block renders, so it never ships in the initial bundle. Shows an optional `filename` header, line numbers, highlighted lines, a copy button, and — when you pass `onEdit` — an "Edit" action that hands back the code payload. Pass the code as the child string.
+A syntax-highlighted code block powered by [Shiki](https://shiki.style). The Shiki core and JavaScript regex engine are part of the statically imported `/content` entry; supported grammar and theme modules load on demand. Unknown languages render as escaped plain text. Shows an optional `filename` header, line numbers, highlighted lines, a copy button, and — when you pass `onEdit` — an "Edit" action that hands back the code payload. Pass the code as the child string. Importing any named component from `@yuhuanowo/yunui/content` requires the entry's static peer dependencies listed in the [Content install guide](/docs/content).
 
 ## Import
+
+The compact surface uses 14px code and no decorative window dots. Up to 16 lines remain fully visible; longer blocks start with 8 lines. Expand/collapse preserves reading position. Copy and Edit always receive the full original string, including indentation and blank lines. Hosts can override disclosure, scroll and failure messages through the `content.codeBlock.*` translation keys.
 
 ```tsx
 import { CodeBlock, InlineCode } from "@yuhuanowo/yunui/content";

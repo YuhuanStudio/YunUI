@@ -12,13 +12,15 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
 
 The bar is fixed to the top of the viewport. Provide `links` and an `appName`; the host supplies routing through the adapters.
 
-<ComponentPreview contained containedHeight={130}
+<ComponentPreview contained containedHeight={430}
   title="Basic"
   code={`import { Navbar } from "@yuhuanowo/yunui/ai";
 
 <Navbar
   appName="Acme AI"
   currentPath="/"
+  loginHref="#"
+  signupHref="#"
   links={[
     { href: "/", label: "Home" },
     { href: "#", label: "Models" },
@@ -30,6 +32,8 @@ The bar is fixed to the top of the viewport. Provide `links` and an `appName`; t
   <Navbar
     appName="Acme AI"
     currentPath="/"
+    loginHref="#"
+    signupHref="#"
     links={[
       { href: "/", label: "Home" },
       { href: "#", label: "Models" },
@@ -38,6 +42,8 @@ The bar is fixed to the top of the viewport. Provide `links` and an `appName`; t
     ]}
   />
 </ComponentPreview>
+
+This preview uses `#` for the sign-in and sign-up destinations so the docs host does not request example routes. In an app, pass `loginHref` and `signupHref` with routes your host actually serves.
 
 ## Minimal variant
 

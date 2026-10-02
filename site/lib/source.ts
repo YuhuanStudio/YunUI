@@ -11,7 +11,7 @@ import { loader } from "fumadocs-core/source";
 import type { VirtualFile, PageData } from "fumadocs-core/source";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { docs, groups, slugKey, getDoc, resolveLocalized } from "./docs";
-import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/i18n/config";
 
 interface DocPageData extends PageData {
   title: string;
@@ -52,10 +52,13 @@ export const pageTree: PageTree.Root = buildPageTree(DEFAULT_LOCALE);
 
 const pages: VirtualFile<{ pageData: DocPageData; metaData: never }>[] = docs.map(
   (d) => {
-    // The static search index is built once at module load; resolve to the
-    // default (English) locale. Per-page `keywords` cover search recall.
+    // The visible search result metadata remains English for compatibility;
+    // the searchable content blob also includes translated metadata below.
     const title = resolveLocalized(d.title, DEFAULT_LOCALE);
     const description = resolveLocalized(d.description, DEFAULT_LOCALE);
+    const localizedMetadata = LOCALES.map((locale) =>
+      [resolveLocalized(d.title, locale), resolveLocalized(d.description, locale)].join(". "),
+    ).join(". ");
     return {
       type: "page",
       path: d.slugs.length === 0 ? "index.mdx" : `${slugKey(d.slugs)}.mdx`,
@@ -68,7 +71,10 @@ const pages: VirtualFile<{ pageData: DocPageData; metaData: never }>[] = docs.ma
           contents: [
             {
               heading: undefined,
-              content: `${title}. ${description} ${d.keywords ?? ""}`.trim(),
+              // Keep English as the visible search-result title/description,
+              // while making each localized page discoverable by its localized
+              // title and summary too.
+              content: `${title}. ${description}. ${localizedMetadata}. ${d.keywords ?? ""}`.trim(),
             },
           ],
         },

@@ -1,0 +1,70 @@
+import { ApprovalQuestion } from "yunui/ai";
+
+A controlled, single- or multiple-choice question for collecting user input during a chat turn. The host supplies question data, stable ids, current answers and navigation callbacks. Submitting answers does **not** approve or execute a tool; use an [`AgentTimeline` approval block](/docs/ai/agent-timeline) for an explicit tool decision.
+
+## Import
+
+```tsx
+import { ApprovalQuestion } from "@yuhuanowo/yunui/ai";
+```
+
+## Example
+
+This preview uses local state and host fixtures only; it sends no request.
+
+<ComponentPreview
+  title="Approval Question"
+  code={`import { ApprovalQuestion } from "@yuhuanowo/yunui/ai";`}
+>
+  <ApprovalQuestionDemo />
+</ComponentPreview>
+
+## Data and state
+
+Use stable question and option ids. For a `single` question the component returns one selected option id; for `multiple` it returns the selected ids. The optional `other` choice has its own stable id and stores its text in the same answer entry.
+
+```tsx
+import { useState } from "react";
+import {
+  ApprovalQuestion,
+  type ApprovalQuestionAnswers,
+  type ApprovalQuestionData,
+} from "@yuhuanowo/yunui/ai";
+
+const questions: ApprovalQuestionData[] = [
+  {
+    id: "scope",
+    title: "Which references should the host use?",
+    type: "multiple",
+    required: true,
+    options: [
+      { id: "docs", label: "Workspace docs" },
+      { id: "notes", label: "Project notes", disabled: false },
+    ],
+    other: { id: "other", label: "Another source", placeholder: "Name it" },
+  },
+];
+const [activeQuestionId, setActiveQuestionId] = useState("scope");
+const [answers, setAnswers] = useState<ApprovalQuestionAnswers>({});
+const [questionOpen, setQuestionOpen] = useState(true);
+
+<ApprovalQuestion
+  questions={questions}
+  activeQuestionId={activeQuestionId}
+  answers={answers}
+  onAnswersChange={setAnswers}
+  onActiveQuestionChange={setActiveQuestionId}
+  onDismiss={() => setQuestionOpen(false)}
+  onSubmit={(result) => saveAnswersForThisTurn(result)}
+/>
+```
+
+The host owns every answer and the active question. The panel advances only after the user chooses **Next** and the host's `onActiveQuestionChange` updates `activeQuestionId`. `onSkip` and `onSubmit` are separate host callbacks; without `onSubmit`, the final Submit button is disabled. An `onDismiss` callback adds a Dismiss control, but the host must use its state (for example, conditionally rendering the panel from `questionOpen`) to hide or restore it. Dismiss never submits an answer. `submitting` and `disabled` freeze all controls, including Dismiss. `labels` localizes the buttons, `progress(current, total)`, the other-choice placeholder and the submitting/dismiss labels.
+
+## Tool approvals are separate
+
+An `ApprovalQuestion` collects a response or clarification. Dismiss only closes it when the host changes its rendering state; it does not approve, reject or submit. It is not an authorization result. Render a tool-decision row with `AgentTimeline` and wire `onApprove` / `onReject` only when the host can perform that decision.
+
+## Props
+
+<PropsTable name="ApprovalQuestion" />

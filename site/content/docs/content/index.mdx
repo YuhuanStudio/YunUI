@@ -1,13 +1,15 @@
-The content-rendering stack turns LLM / chat / documentation output into rich, safe UI: full GitHub-flavored **markdown**, **KaTeX** math, **Shiki**-highlighted code, **Mermaid** diagrams, GitHub-style **callouts**, and lazy, zoomable **images**. It lives on its own subpath, `@yuhuanowo/yunui/content`, so the heavy rendering engines (shiki, mermaid) never touch apps that don't need them.
+The content-rendering stack turns LLM / chat / documentation output into rich, safe UI: full GitHub-flavored **markdown**, **KaTeX** math, **Shiki**-highlighted code, **Mermaid** diagrams, GitHub-style **callouts**, and lazy, zoomable **images**. It lives on its own subpath, `@yuhuanowo/yunui/content`, so apps that do not import this entry do not include its rendering modules. The entry statically imports Shiki's core, React Markdown and its Markdown plugins; only Shiki grammars/themes and Mermaid load on demand.
 
 ## Install
 
-The content subpath declares its rendering libraries as **optional peer dependencies** — install them in your app alongside YunUI:
+Although these packages are optional peers in YunUI's package metadata, the `@yuhuanowo/yunui/content` barrel statically imports the Markdown, math, and Shiki modules. Install these renderer peers in the host app whenever you import this entry:
 
 ```bash
 pnpm add @yuhuanowo/yunui react-markdown remark-gfm remark-math \
-  rehype-raw rehype-katex rehype-slug katex shiki mermaid
+  rehype-raw rehype-katex rehype-slug katex shiki
 ```
+
+Mermaid is dynamically loaded and only needs to be installed when you render Mermaid charts. `rehype-sanitize` is a regular YunUI dependency. `yunui doctor` checks content stylesheet wiring but does not verify that renderer peers resolve in the host build; run the app's build to validate module resolution.
 
 ## Styles
 
@@ -48,7 +50,7 @@ import {
 
 ## The pieces
 
-Each renderer is also exported standalone so you can drop a single capability into your own layout:
+Each renderer is also exported as a standalone component so you can use it directly in your layout. These named exports still come from the same `/content` entry, so they resolve the entry's statically imported peers even if you only render one component:
 
 - [Markdown Renderer](/docs/content/markdown-renderer) — the full GFM pipeline.
 - [Code Block](/docs/content/code-block) — Shiki highlighting with a filename header, line numbers and copy.

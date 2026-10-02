@@ -1,6 +1,6 @@
 import { AgentRunStatus } from "yunui/ai";
 
-A layout-stable live surface for the *one* activity an agent is doing right now — "Reading files", "Running tests", "Writing response" — with a shimmering label and a pulsing dot trio. It is announced politely to assistive tech via `role="status"` / `aria-live`.
+A layout-stable status for the agent's current or terminal phase, announced via `role="status"` / `aria-live`. The host supplies the phase and localized label; the component owns only its status presentation and does not advance a run.
 
 It is deliberately separate from [Agent Timeline](/docs/ai/agent-timeline): the status stays in one place for the whole run, while timeline rows accumulate as durable process history. You supply the localized runtime `label`; YunUI owns the motion and geometry.
 
@@ -18,7 +18,7 @@ import { AgentRunStatus } from "@yuhuanowo/yunui/ai";
 
 ## Phases
 
-`phase` is a semantic hint the host maps its runtime state onto — `thinking`, `acting`, `observing`, `reflecting`, `responding`, `waiting`. The `waiting` phase defaults `active` to `false`, freezing the motion while the layout stays put.
+The legacy `AgentRunPhase` remains `thinking`, `acting`, `observing`, `reflecting`, `responding`, and `waiting`. The `phase` prop also accepts additive terminal values `completed`, `failed`, and `cancelled` through `AgentRunState`; terminal states and `waiting` default to `active={false}`. The host owns every phase transition and its localized label.
 
 <ComponentPreview title="Phases">
   <div className="flex flex-col gap-2">
@@ -26,6 +26,8 @@ import { AgentRunStatus } from "@yuhuanowo/yunui/ai";
     <AgentRunStatus label="Reviewing the results…" phase="observing" />
     <AgentRunStatus label="Writing response…" phase="responding" />
     <AgentRunStatus label="Waiting for approval" phase="waiting" />
+    <AgentRunStatus label="Turn completed" phase="completed" />
+    <AgentRunStatus label="Tool failed" phase="failed" />
   </div>
 </ComponentPreview>
 

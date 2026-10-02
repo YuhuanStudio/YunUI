@@ -1,0 +1,27 @@
+Render retrieved conversation chunks supplied by the host. Stable IDs identify sources and selection; source-open and inclusion callbacks never perform retrieval or read files.
+
+## Import
+
+```tsx
+import { ContextCards } from "@yuhuanowo/yunui/chat";
+```
+
+## Interactive example
+
+The controls below explicitly simulate host responses; no request is sent. All labels and accessibility copy can be overridden. Missing callbacks disable the corresponding request controls.
+
+<ComponentPreview compactPadding title="ContextCards">
+  <ContextCardsDemo />
+</ComponentPreview>
+
+## Composition
+
+```tsx
+import { ContextCards } from "@yuhuanowo/yunui/chat";
+
+<ContextCards chunks={[{ id: "guide", title: "Guide", body: "The host owns retrieval.", source: "Guide.md", badge: "MD", href: "/guide" }]} />
+```
+
+## Props
+
+<PropsTable name="ContextCards" />

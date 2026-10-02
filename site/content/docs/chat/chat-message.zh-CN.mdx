@@ -2,7 +2,7 @@ import { ChatMessage } from "yunui/chat";
 import { Badge } from "yunui";
 import { Copy, RefreshCw } from "lucide-react";
 
-单条聊天消息行：头像、标头（名称 + 徽章 + 时间戳）、通过 `children` 传入的主体、用于推理 / 工具详情的可选 `footer` 插槽，以及悬停显示的 `actions`。它完全是展示型的——`role`（`user` / `assistant` / `system`）决定默认头像与名称，其余每一部分都是插槽。主体可传纯文本，也可传来自 `@yuhuanowo/yunui/content` 的 `MarkdownRenderer`。
+单条聊天消息行：头像、标头（名称 + 徽章 + 时间戳）、通过 `children` 传入的主体、用于推理 / 工具详情的可选 `footer` 插槽，以及可选的 `actions`。操作按钮会在主体下方正常排版，无需悬停即可发现。该组件仅负责呈现：`role`（`user` / `assistant` / `system`）决定默认头像和名称，其余内容由 host 提供。主体可传纯文本，也可传来自 `@yuhuanowo/yunui/content` 的 `MarkdownRenderer`。
 
 ## 导入
 
@@ -12,7 +12,7 @@ import { ChatMessage } from "@yuhuanowo/yunui/chat";
 
 ## 示例
 
-助手行带有一个模型徽章与悬停显示的操作；将鼠标悬停其上即可显示复制 / 重新生成控件。
+助手行带有模型徽章和复制 / 重新生成操作插槽。操作会在消息下方正常排版，触屏、键盘和鼠标用户都能直接找到。
 
 <ComponentPreview
   title="ChatMessage"

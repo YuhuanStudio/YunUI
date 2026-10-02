@@ -1,0 +1,27 @@
+由 host 提供精確文字 token、穩定來源 ID 和串流狀態。引用、來源清單、訊息動作與追問由同一個公開元件呈現；不內建模型請求或假串流計時。
+
+## 匯入
+
+```tsx
+import { StreamingText } from "@yuhuanowo/yunui/chat";
+```
+
+## 互動範例
+
+下方控制明確模擬 host 回傳狀態，不會送出請求。所有標籤與無障礙文字都可覆寫；缺少回呼時，對應請求控制不可操作。
+
+<ComponentPreview compactPadding title="StreamingText">
+  <StreamingTextDemo />
+</ComponentPreview>
+
+## 組合使用
+
+```tsx
+import { StreamingText } from "@yuhuanowo/yunui/chat";
+
+<StreamingText content={[{ text: "Read the guide. " }, { text: "", sourceId: "guide" }]} sources={[{ id: "guide", name: "Guide", href: "/guide" }]} state="complete" />
+```
+
+## 屬性
+
+<PropsTable name="StreamingText" />

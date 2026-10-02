@@ -1,0 +1,27 @@
+The host supplies the selected passage, edit state and result. The toolbar anchors to that passage; actions and custom instructions only request work. Keep/Discard callbacks leave persistence to the host. Busy, error and cancelled states never rewrite the original.
+
+## Import
+
+```tsx
+import { SelectionActions } from "@yuhuanowo/yunui/ai";
+```
+
+## Interactive example
+
+The controls below explicitly simulate host responses; no request is sent. All labels and accessibility copy can be overridden. Missing callbacks disable the corresponding request controls.
+
+<ComponentPreview compactPadding title="SelectionActions">
+  <SelectionActionsDemo />
+</ComponentPreview>
+
+## Composition
+
+```tsx
+import { SelectionActions } from "@yuhuanowo/yunui/ai";
+
+<SelectionActions selectedText="Use the public components." state="idle" />
+```
+
+## Props
+
+<PropsTable name="SelectionActions" />

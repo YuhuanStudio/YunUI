@@ -26,14 +26,20 @@
  *    whose fading skeletons produce a page of false positives.
  */
 import { chromium } from "@playwright/test";
+import { assertExpectedPath, assertLocalBase, assertNoPageErrors, collectPageErrors, exitOnError, gotoChecked, parsePaths, walkTabFocus } from "./sweep-utils.mjs";
 const USER = { id:1, email:"a@b.c", username:"admin", is_admin:true, is_active:true, email_verified:true, balance:100 };
-const PAGES = process.argv[2] ? JSON.parse(process.argv[2]) : ["/dashboard","/dashboard/router","/dashboard/billing","/dashboard/fellows",
+const DEFAULT_PAGES = ["/dashboard","/dashboard/router","/dashboard/billing","/dashboard/fellows",
                "/dashboard/api-keys","/dashboard/admin/users","/dashboard/playground","/dashboard/logs"];
+const BASE = assertLocalBase(process.env.FOCUS_BASE ?? "http://localhost:3213");
+let PAGES;
+try { PAGES = parsePaths(process.argv[2], DEFAULT_PAGES); }
+catch (error) { exitOnError(error); process.exit(); }
 const b = await chromium.launch();
 let bad=0;
-for (const path of PAGES) {
+try { for (const path of PAGES) {
   const ctx = await b.newContext({ viewport:{width:1440,height:1000}, colorScheme:"dark" });
-  await ctx.addCookies([{name:"yunxin_session",value:"probe",domain:"localhost",path:"/"},{name:"NEXT_LOCALE",value:"zh-TW",domain:"localhost",path:"/"}]);
+  const cookieHost = new URL(BASE).hostname;
+  await ctx.addCookies([{name:"yunxin_session",value:"synthetic-focus-fixture",domain:cookieHost,path:"/"},{name:"NEXT_LOCALE",value:"zh-TW",domain:cookieHost,path:"/"}]);
   const p = await ctx.newPage();
   await p.route("**/api/**", r => {
     const u=r.request().url();
@@ -44,27 +50,26 @@ for (const path of PAGES) {
     if (/\/api\/billing\/balance/.test(u)) return r.fulfill({json:{balance:100}});
     return r.fulfill({json:{data:[],total:0}});
   });
-  await p.goto("http://localhost:3213"+path, { waitUntil:"networkidle" }).catch(()=>{});
+  const errors = collectPageErrors(p);
+  await gotoChecked(p, BASE+path, { waitUntil:"networkidle", timeout:30000 }, path);
+  assertExpectedPath(p, path, path);
   await p.waitForTimeout(1400);
-  await p.evaluate(() => document.body.setAttribute("tabindex","-1"));
-  await p.locator("body").focus();
-  let hits=0, sample=null;
-  for (let i=0;i<100;i++) {
-    await p.keyboard.press("Tab");
-    await p.waitForTimeout(80);
-    const d = await p.evaluate(() => {
-      const a=document.activeElement; if(!a||a===document.body) return null;
-      for (let el=a; el && el!==document.documentElement; el=el.parentElement) {
-        const cs=getComputedStyle(el);
-        if (cs.pointerEvents==="none" && Number(cs.opacity)<1)
-          return { label:(a.getAttribute("aria-label")||a.textContent||"").trim().slice(0,24), region:(el.className||"").toString().slice(0,50) };
-      }
-      return null;
-    });
-    if (d) { hits++; sample ??= d; }
+  const ready = await p.evaluate(() => ({
+    body: Boolean(document.body?.innerText.trim()),
+    heading: document.querySelectorAll("h1,h2").length > 0,
+    login: /\/login\/?$/.test(location.pathname),
+    passwordForm: Boolean(document.querySelector('input[type="password"]')),
+    loading: /^\s*(Loading|載入|加载)/i.test(document.querySelector("main")?.innerText ?? ""),
+  }));
+  if (!ready.body || !ready.heading || ready.login || ready.passwordForm || ready.loading) {
+    throw new Error(`${path}: page not ready/authenticated (${JSON.stringify(ready)})`);
   }
-  if (hits) { bad++; console.log(`  ✗ ${path}: ${hits}x — ${JSON.stringify(sample)}`); } else console.log(`  ✓ ${path}`);
+  assertNoPageErrors(errors, path);
+  const hits = await walkTabFocus(p, 100);
+  assertNoPageErrors(errors, path);
+  if (hits.length) { bad++; console.log(`  ✗ ${path}: ${hits.length}x — ${JSON.stringify(hits[0])}`); } else console.log(`  ✓ ${path}`);
   await ctx.close();
-}
-await b.close();
+} } catch (error) { exitOnError(error); }
+finally { await b.close(); }
 console.log(bad ? `\n${bad} page(s) affected` : "\nno page lets keyboard focus into a hidden or disabled region");
+if (bad) process.exitCode=1;

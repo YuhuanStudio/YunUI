@@ -11,6 +11,7 @@
  * every .mdx page can use `<SwitchDemo />` etc. without importing them.
  */
 import { useState } from "react";
+import { ConversationUnitsDemo } from "./conversation-units";
 import {
   StatCard,
   AccountLockedCard,
@@ -44,11 +45,28 @@ import {
 import {
   NumberInput,
   SearchInput, Kbd, Switch, Checkbox, Pagination, NavTabs, Combobox, CustomSelect, SegmentedSelect, Modal, Sheet, ConfirmModal, toast, Button, InlineStatus, FileDropzone, AreaChart, SegmentedBar, Badge, CommandPalette, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "yunui";
-import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader, GenerationStats } from "yunui/chat";
 import {
+  ChatMessage,
+  ChatMessageList,
+  ChatComposer,
+  ChatHeader,
+  GenerationStats,
+  type ChatComposerCommand,
+  type ChatComposerMenuItem,
+  type ChatComposerModel,
+} from "yunui/chat";
+import {
+  AgentRunStatus,
+  AgentTimeline,
+  ApprovalQuestion,
   CapabilitySelector,
   LanguageSwitcher,
   ModelSelect,
+  ThinkingBlock,
+  type AgentRunState,
+  type AgentTimelineEntry,
+  type ApprovalQuestionAnswers,
+  type ApprovalQuestionData,
   type ModelSelectOption,
   ModelManagerCard,
   CapabilityIcon,
@@ -56,9 +74,11 @@ import {
   ModelIcon,
   ProviderIcon,
   AccountMenu,
+  ModelCard,
+  type ThinkingBlockStep,
 } from "yunui/ai";
-import { MarkdownRenderer, ImageLightbox } from "yunui/content";
-import { Coins, LayoutGrid, List, Table as TableIcon, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Paperclip, Copy, RefreshCw, Users, KeyRound, Bookmark, LayoutDashboard } from "lucide-react";
+import { MarkdownRenderer, ImageLightbox, ContentImage, CodeBlock as ContentCodeBlock } from "yunui/content";
+import { Coins, LayoutGrid, List, Table as TableIcon, ShieldAlert, Image as ImageIcon, PanelLeft, AlertTriangle, Crown, Pencil, Power, Trash2, CheckCircle, MessageSquare, CreditCard, Monitor, Smartphone, Code2, HelpCircle, FileText, Shield, Globe, UploadCloud, Maximize2, Bot, Copy, RefreshCw, Users, KeyRound, Bookmark, LayoutDashboard } from "lucide-react";
 
 export function StatCardDemo() {
   return (
@@ -660,15 +680,15 @@ export function ModelManagerCardDemo() {
     <div className="w-full max-w-sm">
       <ModelManagerCard
         selected={selected}
-        selectSlot={<Checkbox checked={selected} onCheckedChange={setSelected} />}
+        selectSlot={<Checkbox aria-label="Select model" checked={selected} onCheckedChange={setSelected} />}
         icon={<ProviderIcon provider="anthropic" size={40} rounded />}
         name="Claude Opus 4.8"
         ids={<IDBadge text="claude-opus-4-8" />}
         actions={
           <>
-            <button className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="Edit"><Pencil size={15} /></button>
-            <button className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="Disable"><Power size={15} /></button>
-            <button className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="Delete"><Trash2 size={15} /></button>
+            <button type="button" aria-label="Edit model" className="p-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" title="Edit"><Pencil size={15} /></button>
+            <button type="button" aria-label="Disable model" className="p-1.5 rounded-lg hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="Disable"><Power size={15} /></button>
+            <button type="button" aria-label="Delete model" className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors" title="Delete"><Trash2 size={15} /></button>
           </>
         }
         fields={[
@@ -676,7 +696,7 @@ export function ModelManagerCardDemo() {
           { label: "Type", value: <span className="text-sm">Chat</span> },
           { label: "Context", value: <span className="text-sm text-muted-foreground">200K</span> },
           { label: "Max output", value: <span className="text-sm text-muted-foreground">128K</span> },
-          { label: "Status", value: <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><CheckCircle size={12} />Approved</span> },
+          { label: "Status", value: <Badge variant="success"><CheckCircle size={12} />Approved</Badge> },
           { label: "Price (in / out)", value: <span className="font-mono text-sm text-muted-foreground">$5 / $25 per M</span>, full: true },
         ]}
         capabilities={{
@@ -684,6 +704,29 @@ export function ModelManagerCardDemo() {
           value: ["chat", "function_calling", "streaming", "thinking"].map((c) => <CapabilityBadge key={c} capability={c} />),
         }}
       />
+    </div>
+  );
+}
+
+/** Interactive host fixture for checking ModelCard activation beside copyable IDs. */
+export function ModelCardInteractiveDemo() {
+  const [selected, setSelected] = useState(false);
+  return (
+    <div className="w-full max-w-xs">
+      <ModelCard
+        name="GPT-4o"
+        icon={<ProviderIcon provider="openai" size={32} rounded />}
+        ids={["gpt-4o", "gpt-4o-latest"]}
+        description="Click the body to select; each model ID remains a separate copy action."
+        capabilities={["vision", "streaming", "function_calling"]}
+        developer={{ label: "OpenAI" }}
+        context="128K"
+        price="$2.50/M"
+        onClick={() => setSelected((value) => !value)}
+      />
+      <output aria-live="polite" className="mt-2 block text-xs text-muted-foreground">
+        {selected ? "Selected for routing" : "No model selected"}
+      </output>
     </div>
   );
 }
@@ -751,10 +794,10 @@ export function ModelSelectDemo() {
       </>
     ),
     detail: (
-      <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-1.5">
+      <div className="text-xs text-(--text-secondary) flex flex-wrap items-center gap-1.5">
         <span className="font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]">{m.id}</span>
         {(m.aliases ?? []).map((a) => (
-          <span key={a} className="font-mono bg-muted/50 px-1.5 py-0.5 rounded text-[11px] text-muted-foreground/70">{a}</span>
+          <span key={a} className="font-mono bg-muted/50 px-1.5 py-0.5 rounded text-[11px] text-(--text-secondary)">{a}</span>
         ))}
         <span className="bg-muted px-1.5 py-0.5 rounded-sm font-medium" title="Context window">{m.context}</span>
       </div>
@@ -1047,6 +1090,36 @@ export function MarkdownRendererDemo() {
   );
 }
 
+const CONTENT_IMAGE_ORIGINAL = "https://picsum.photos/seed/yunui/640/360";
+const CONTENT_IMAGE_REPLACEMENT = "https://picsum.photos/seed/yunui-replacement/640/360";
+const CONTENT_IMAGE_SRCSET = "https://picsum.photos/seed/yunui-srcset/640/360 1x, https://picsum.photos/seed/yunui-srcset/1280/720 2x";
+
+export function ContentImageDemo() {
+  const [src, setSrc] = useState(CONTENT_IMAGE_ORIGINAL);
+  const [srcSet, setSrcSet] = useState<string | undefined>();
+  return (
+    <div className="flex flex-col items-center gap-3" data-testid="content-image-demo">
+      <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="Image source controls">
+        <button type="button" className="btn btn-secondary" onClick={() => { setSrc("/__yunui_content_image_fixture__/404.svg"); setSrcSet(undefined); }}>
+          Fail image load
+        </button>
+        <button type="button" className="btn btn-secondary" onClick={() => { setSrc(CONTENT_IMAGE_REPLACEMENT); setSrcSet(undefined); }}>
+          Load replacement image
+        </button>
+        <button type="button" className="btn btn-secondary" onClick={() => setSrcSet(CONTENT_IMAGE_SRCSET)}>
+          Switch srcSet only
+        </button>
+      </div>
+      <ContentImage
+        src={src}
+        srcSet={srcSet}
+        alt="A random placeholder photo"
+        className="w-80 rounded-xl"
+      />
+    </div>
+  );
+}
+
 export function ImageLightboxDemo() {
   const [open, setOpen] = useState(false);
   const src = "https://picsum.photos/seed/yunui-lightbox/1280/720";
@@ -1066,115 +1139,236 @@ export function ImageLightboxDemo() {
 
 // ---- Chat pattern (yunui/chat) --------------------------------------------
 
-const CHAT_ASSISTANT_MD = `Here's a quick plan:
-
-1. **Install** \`@yuhuanowo/yunui\` and wrap your app in \`YunUIProvider\`.
-2. Compose \`ChatMessage\` rows inside a \`ChatMessageList\`.
-3. Render markdown bodies with \`MarkdownRenderer\` from the content subpath.
-
-\`\`\`tsx
-<ChatMessageList>
-  <ChatMessage role="user">Hi!</ChatMessage>
-</ChatMessageList>
-\`\`\`
-
-Ready when you are.`;
-
-const chatActions = (
-  <>
-    <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
-      <Copy className="w-3.5 h-3.5" /> Copy
-    </button>
-    <button type="button" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
-      <RefreshCw className="w-3.5 h-3.5" /> Regenerate
-    </button>
-  </>
-);
-
-/** Realistic mini chat: header + smart-scroll list + stateful composer. */
+/** Full chat workspace composed from the public chat, AI and content exports. */
 export function ChatDemo() {
+  type AgentPreviewState = "idle" | "working" | "approval" | "done" | "error";
   const [value, setValue] = useState("");
-  const [extra, setExtra] = useState<string[]>([]);
+  const [extraMessages, setExtraMessages] = useState<string[]>([]);
+  const [selectedSourceIds, setSelectedSourceIds] = useState<string[]>(["workspace-docs"]);
+  const [selectedModelId, setSelectedModelId] = useState("host-reasoning");
+  const [previewState, setPreviewState] = useState<AgentPreviewState>("idle");
+  const [approvalDecision, setApprovalDecision] = useState<"approved" | "rejected" | null>(null);
+  const [errorKind, setErrorKind] = useState<"failed" | "declined">("failed");
+  const [hostEvent, setHostEvent] = useState("No host callback has run yet.");
+  const [questionVisible, setQuestionVisible] = useState(true);
+  const [activeQuestionId, setActiveQuestionId] = useState("scope");
+  const [answers, setAnswers] = useState<ApprovalQuestionAnswers>({});
+  const shortCode = 'const route = "/docs/patterns/navbar";\nconst locales = ["en", "zh-CN", "zh-TW"];\nawait verifyRoute(route, locales);';
+  const toolCode = Array.from({ length: 12 }, (_, index) => `const result${index + 1} = await checkRoute("/docs/patterns/navbar", "en");`).join("\n");
+  const longCode = Array.from({ length: 80 }, (_, index) => `const result${index + 1} = await checkRoute("/docs/patterns/navbar", "en");`).join("\n");
+  const handleCodeEdit = ({ code, filename }: { code: string; filename: string }) => setHostEvent(`Host edit received ${filename} (${code.split("\n").length} lines).`);
 
+  const questions: readonly ApprovalQuestionData[] = [
+    {
+      id: "scope",
+      title: "Which sources should I check?",
+      message: "Choose the references that are relevant to the review.",
+      type: "multiple",
+      options: [
+        { id: "docs", label: "Workspace docs", detail: "Guides and release notes" },
+        { id: "notes", label: "Project notes", detail: "Implementation notes" },
+      ],
+      other: { id: "other", label: "Another source", placeholder: "Name the source" },
+    },
+    {
+      id: "format",
+      title: "How should I format the summary?",
+      type: "single",
+      options: [
+        { id: "short", label: "Short summary" },
+        { id: "steps", label: "Step-by-step" },
+      ],
+    },
+  ];
+
+  const stateStatus: Record<AgentPreviewState, { label: string; phase: AgentRunState }> = {
+    idle: { label: "Ready", phase: "waiting" },
+    working: { label: "Checking the Navbar docs…", phase: "acting" },
+    approval: { label: "Approval required", phase: "waiting" },
+    done: { label: approvalDecision === "approved" ? "Documentation checks passed" : "Route checks completed", phase: "completed" },
+    error: errorKind === "declined"
+      ? { label: "Request declined", phase: "cancelled" }
+      : { label: "Documentation test failed", phase: "failed" },
+  };
+  const assistantResponse: Record<AgentPreviewState, string> = {
+    idle: "I’ll check the Navbar docs in English, Simplified Chinese and Traditional Chinese before the release.",
+    working: "I’m checking the Navbar route in all three locales now.",
+    approval: "The route check is ready. Would you like to run the documentation test command?",
+    done: approvalDecision === "approved"
+      ? "The Navbar docs route rendered in all three locales, and the documentation checks passed."
+      : "The Navbar docs route rendered in all three locales.",
+    error: errorKind === "declined"
+      ? "The Navbar route check is complete. The documentation test request was declined, so it was not run."
+      : "The Navbar route check is complete. The documentation test command ran and failed; the route result is still available.",
+  };
+
+  const blocksByState: Record<AgentPreviewState, AgentTimelineEntry[]> = {
+    idle: [],
+    working: [
+      { kind: "tool", id: "tool-search", verb: "Render", summary: "/docs/patterns/navbar", status: "running", icon: "globe" },
+      { kind: "tool", id: "tool-api", verb: "Read", summary: "ChatComposer API", status: "done", icon: "read", output: "The composer value, menus and send callback are owned by the host." },
+      { kind: "tool", id: "tool-code", verb: "Review", summary: "CodeBlock output", status: "done", icon: "file", outputContent: <ContentCodeBlock language="typescript" filename="verification.ts" onEdit={handleCodeEdit}>{toolCode}</ContentCodeBlock> },
+      { kind: "tool", id: "tool-tests", verb: "Run", summary: "Documentation tests", status: "running", icon: "terminal", command: "pnpm test", output: "Waiting for the host tool result." },
+    ],
+    approval: [
+      { kind: "approval", id: "approval-command", title: "Run documentation checks", verb: "pnpm test", message: "Review the requested command before it runs.", argsText: "$ pnpm test", allowLabel: "Allow", denyLabel: "Deny" },
+    ],
+    done: [
+      { kind: "task", id: "task-search-done", label: "Check documentation routes", amount: "3 locales", status: "done", details: [{ id: "task-detail-reviewed", label: "Navbar page rendered", meta: "3 / 3" }] },
+      ...(approvalDecision === "approved" ? [
+        { kind: "approval" as const, id: "approval-command-done", title: "Run documentation checks", verb: "pnpm test", message: "The reviewed action was allowed.", decision: "approved" as const, decidedLabel: "Allowed", allowLabel: "Allow", denyLabel: "Deny" },
+        { kind: "tool" as const, id: "tool-test-done", verb: "Run", summary: "pnpm test", status: "done" as const, icon: "terminal" as const, command: "pnpm test", output: "Unit tests passed." },
+      ] : []),
+    ],
+    error: [
+      { kind: "reasoning", id: "reason-error", label: errorKind === "declined" ? "Request declined" : "Test command failed", content: errorKind === "declined" ? "The route check completed. The requested command was declined and was not run." : "The route check completed. The approved documentation test command ran and returned an error." },
+      { kind: "task", id: "task-search-error", label: "Check documentation routes", amount: "3 locales", status: "done", details: [{ id: "task-detail-route-complete", label: "Navbar page rendered", meta: "3 / 3" }] },
+      { kind: "tool", id: "tool-search-error", verb: "Render", summary: "/docs/patterns/navbar", status: "done", icon: "globe", command: "GET /docs/patterns/navbar", output: "200 in English, Simplified Chinese and Traditional Chinese." },
+      ...(errorKind === "declined" ? [
+        { kind: "approval" as const, id: "approval-command-error", title: "Run documentation checks", verb: "pnpm test", message: "The reviewed action was rejected; the command was not run.", decision: "rejected" as const, decidedLabel: "Rejected", allowLabel: "Allow", denyLabel: "Deny" },
+      ] : [
+        { kind: "task" as const, id: "task-build-error", label: "Run documentation checks", amount: "1 command", status: "failed" as const, details: [{ id: "task-detail-error", label: "Typecheck failed", meta: "exit 2" }] },
+        { kind: "tool" as const, id: "tool-build-error", verb: "Run", summary: "pnpm test", status: "error" as const, icon: "terminal" as const, command: "pnpm test", output: "Typecheck failed in the project configuration." },
+      ]),
+    ],
+  };
+
+  const runStatus = stateStatus[previewState];
   const send = () => {
     const text = value.trim();
     if (!text) return;
-    setExtra((e) => [...e, text]);
+    setExtraMessages((current) => [...current, text]);
+    setHostEvent(`onSend received “${text}”; no service request was sent.`);
     setValue("");
   };
 
+  const skipQuestion = (questionId: string) => {
+    const currentIndex = questions.findIndex((question) => question.id === questionId);
+    const next = questions[currentIndex + 1];
+    if (next) setActiveQuestionId(next.id);
+    setHostEvent("Question skip callback received.");
+  };
+
+
   return (
-    <div
-      className="w-full max-w-2xl flex flex-col rounded-2xl border bg-card overflow-hidden"
-      style={{ height: 480 }}
-    >
-      <ChatHeader
-        className="border-b"
-        left={
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="w-7 h-7 rounded-full bg-muted border flex items-center justify-center">
-              <Bot className="w-4 h-4 text-muted-foreground" />
-            </div>
-            <span className="text-sm font-medium truncate">Assistant</span>
-          </div>
-        }
-        status={
-          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            Online
-          </span>
-        }
-        actions={
-          <Button variant="ghost" size="sm" onClick={() => setExtra([])}>
-            Clear
-          </Button>
-        }
-      />
-
-      <ChatMessageList className="px-4">
-        <ChatMessage role="user" name="You" timestamp="9:41 AM">
-          How do I compose a chat UI with YunUI?
-        </ChatMessage>
-        <ChatMessage
-          role="assistant"
-          name="Assistant"
-          timestamp="9:41 AM"
-          badges={
-            <>
-              <Badge>gpt-4o</Badge>
-              <GenerationStats tokens={2570} latencyMs={51611} />
-            </>
-          }
-          actions={chatActions}
-        >
-          <MarkdownRenderer content={CHAT_ASSISTANT_MD} />
-        </ChatMessage>
-        {extra.map((m, i) => (
-          <ChatMessage key={i} role="user" name="You" timestamp="now">
-            {m}
-          </ChatMessage>
-        ))}
-      </ChatMessageList>
-
-      <div className="p-3 border-t">
-        <ChatComposer
-          value={value}
-          onChange={setValue}
-          onSend={send}
-          placeholder="Send a message…"
-          toolbar={
-            <Button variant="ghost" size="sm">
-              <Paperclip className="w-4 h-4" />
-              Attach
+    <div data-testid="chat-demo-root" className="w-full max-w-3xl space-y-3 text-left">
+      <div data-testid="chat-demo-controls" className="space-y-2 rounded-xl border border-border bg-card p-3">
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Agent state fixture">
+          {(["idle", "working", "approval", "done", "error"] as const).map((state) => (
+            <Button key={state} size="sm" variant={previewState === state ? "primary" : "ghost"} aria-pressed={previewState === state} onClick={() => {
+              setPreviewState(state);
+              setApprovalDecision(null);
+              setErrorKind("failed");
+              if (state === "approval") {
+                setQuestionVisible(true);
+                setActiveQuestionId("scope");
+                setAnswers({});
+              }
+            }}>
+              {state[0].toUpperCase() + state.slice(1)}
             </Button>
+          ))}
+        </div>
+        {previewState === "approval" && !questionVisible ? (
+          <Button variant="secondary" size="sm" onClick={() => setQuestionVisible(true)}>
+            Restore questions
+          </Button>
+        ) : null}
+        <p data-testid="chat-demo-host-event" role="status" className="text-xs text-muted-foreground">{hostEvent}</p>
+        <p className="text-xs text-muted-foreground">These controls use local documentation data. Questionnaire answers are separate from tool approval; only Allow or Deny decides the command, and no command is sent or run.</p>
+      </div>
+      <div className="flex h-[min(820px,85vh)] min-h-[640px] flex-col overflow-hidden rounded-2xl border border-border bg-background">
+        <ChatHeader
+          className="border-b"
+          left={
+            <div className="flex min-w-0 items-center gap-2">
+              <div className="min-w-0">
+                <span className="block truncate text-sm font-medium">Release review</span>
+                <span className="block text-xs text-(--text-secondary)">Agent Chat · YunUI workspace</span>
+              </div>
+            </div>
           }
+          actions={<Button variant="ghost" size="sm" onClick={() => setExtraMessages([])}>Clear</Button>}
         />
+
+        <ChatMessageList className="px-4 md:px-6" empty={<span className="text-sm text-muted-foreground">Start a conversation.</span>}>
+          <ChatMessage role="user" density="compact">
+            Can you check the Navbar docs before the release?
+          </ChatMessage>
+          <ChatMessage
+            role="assistant"
+            density="compact"
+            name="YunUI agent"
+            badges={<AgentRunStatus label={runStatus.label} phase={runStatus.phase} />}
+          >
+            <MarkdownRenderer content={assistantResponse[previewState]} />
+            {previewState === "working" ? <ThinkingBlock
+              content=""
+              isStreaming
+              defaultOpen
+              steps={[
+                { id: "route", label: "Render the Navbar page", meta: "3 locales", status: "done" },
+                { id: "composer", label: "Review ChatComposer API", meta: "chat-composer.tsx", status: "running" },
+                { id: "timeline", label: "Review AgentTimeline API", meta: "agent-timeline.tsx", status: "pending" },
+              ]}
+              labels={{ title: "Checking the Navbar docs…", active: "Running", completed: "Done", pending: "Queued" }}
+            /> : null}
+            {previewState === "done" ? <div className="space-y-3">
+              <ContentCodeBlock language="typescript" filename="route-checks.ts" onEdit={handleCodeEdit}>{shortCode}</ContentCodeBlock>
+              <ContentCodeBlock language="typescript" filename="all-routes.ts" onEdit={handleCodeEdit}>{longCode}</ContentCodeBlock>
+              <ConversationUnitsDemo onHostEvent={setHostEvent} />
+            </div> : null}
+          <AgentTimeline
+            blocks={blocksByState[previewState]}
+            onApprove={(id) => { setApprovalDecision("approved"); setPreviewState("done"); setHostEvent(`Approval callback received for ${id}; the local success fixture is shown.`); }}
+            onReject={(id) => { setApprovalDecision("rejected"); setErrorKind("declined"); setPreviewState("error"); setHostEvent(`Rejection callback received for ${id}; the command was not run.`); }}
+            labels={{ summary: ({ tools }) => `${tools} tool ${tools === 1 ? "call" : "calls"}` }}
+          />
+          {previewState === "approval" && questionVisible ? (
+            <div data-testid="chat-demo-question">
+              <ApprovalQuestion
+                questions={questions}
+                activeQuestionId={activeQuestionId}
+                answers={answers}
+                onAnswersChange={setAnswers}
+                onActiveQuestionChange={setActiveQuestionId}
+                onSkip={skipQuestion}
+                onDismiss={() => { setQuestionVisible(false); setHostEvent("Question dismissed; the tool decision is still pending."); }}
+                onSubmit={() => setHostEvent("Host received the questionnaire answers. No tool decision was made.")}
+                labels={{ progress: (current, total) => `Question ${current} of ${total}`, dismiss: "Dismiss questions" }}
+              />
+            </div>
+          ) : null}
+          </ChatMessage>
+          {extraMessages.map((message, i) => (
+            <ChatMessage key={`local-${i}`} role="user" density="compact">{message}</ChatMessage>
+          ))}
+        </ChatMessageList>
+
+        <div className="p-3">
+          <ChatComposer
+            value={value}
+            onChange={setValue}
+            onSend={send}
+            onStop={() => { setPreviewState("idle"); setHostEvent("onStop callback received; no service request was sent."); }}
+            loading={previewState === "working"}
+            placeholder="Type @ for sources or / for commands"
+            sourceItems={CHAT_COMPOSER_SOURCES}
+            selectedSourceIds={selectedSourceIds}
+            onSourceToggle={(id, selected) => setSelectedSourceIds((current) => selected ? [...current.filter((item) => item !== id), id] : current.filter((item) => item !== id))}
+            commandItems={CHAT_COMPOSER_COMMANDS}
+            onCommandSelect={(item) => setHostEvent(`Host command callback received: ${item.label}.`)}
+            modelItems={CHAT_COMPOSER_MODELS}
+            selectedModelId={selectedModelId}
+            onModelChange={(id) => { setSelectedModelId(id); setHostEvent(`Host selected model id: ${id}.`); }}
+            labels={{ sources: "Sources", commands: "Commands", model: "Select a model", send: "Send", stop: "Stop" }}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
-/** Standalone controlled composer with a send log and a stop/loading cycle. */
 export function GenerationStatsDemo() {
   return (
     <div className="w-full max-w-xl space-y-4 text-left">
@@ -1198,45 +1392,173 @@ export function GenerationStatsDemo() {
   );
 }
 
+const CHAT_COMPOSER_SOURCES: ChatComposerMenuItem[] = [
+  { id: "workspace-docs", label: "Workspace docs", description: "Release notes and API guides", icon: <FileText className="h-4 w-4" /> },
+  { id: "web-search", label: "Web search", description: "Public product documentation", icon: <Globe className="h-4 w-4" /> },
+  { id: "restricted", label: "Shared drive", description: "Not available in this workspace", disabled: true, icon: <Shield className="h-4 w-4" /> },
+];
+
+const CHAT_COMPOSER_COMMANDS: ChatComposerCommand[] = [
+  {
+    id: "summarize",
+    label: "summarize",
+    description: "Summarize selected sources",
+    insertText: "Summarize the selected context: ",
+    icon: <Pencil className="h-4 w-4" />,
+  },
+  {
+    id: "review",
+    label: "review",
+    description: "Review the selected sources",
+    icon: <CheckCircle className="h-4 w-4" />,
+  },
+];
+
+const CHAT_COMPOSER_MODELS: ChatComposerModel[] = [
+  { id: "host-reasoning", label: "Reasoning model", description: "Detailed analysis", group: "recommended", groupLabel: "Recommended", icon: <Bot className="h-4 w-4" /> },
+  { id: "host-fast", label: "Fast model", description: "Short summaries", group: "recommended", groupLabel: "Recommended", icon: <Bot className="h-4 w-4" /> },
+];
+
+/** Real public ChatComposer with host-owned menu fixtures and no backend. */
 export function ChatComposerDemo() {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [log, setLog] = useState<string[]>([]);
+  const [selectedSourceIds, setSelectedSourceIds] = useState<string[]>(["workspace-docs"]);
+  const [selectedModelId, setSelectedModelId] = useState("host-reasoning");
+  const [notice, setNotice] = useState("Menus use fixture data supplied by this docs host.");
 
   const send = () => {
     const text = value.trim();
     if (!text) return;
-    setLog((l) => [...l, text]);
+    setNotice(`onSend received: ${text} (no request is sent by this demo).`);
     setValue("");
-    setLoading(true);
-    setTimeout(() => setLoading(false), 1400);
   };
 
   return (
-    <div className="w-full max-w-xl space-y-3 text-left">
-      {log.length > 0 && (
-        <div className="space-y-1 text-sm text-muted-foreground">
-          {log.map((m, i) => (
-            <div key={i} className="truncate">
-              Sent: {m}
-            </div>
-          ))}
-        </div>
-      )}
+    <div data-testid="chat-composer-demo" className="w-full max-w-xl space-y-3 text-left">
+      <p role="status" className="text-xs text-muted-foreground">{notice}</p>
       <ChatComposer
         value={value}
         onChange={setValue}
         onSend={send}
-        onStop={() => setLoading(false)}
+        onStop={() => { setLoading(false); setNotice("Host onStop callback received; no request is running in this demo."); }}
         loading={loading}
-        placeholder="Send a message… (Enter to send, Shift+Enter for a newline)"
-        toolbar={
-          <Button variant="ghost" size="sm">
-            <Paperclip className="w-4 h-4" />
-            Attach
-          </Button>
-        }
+        placeholder="Type @ for sources or / for commands"
+        sourceItems={CHAT_COMPOSER_SOURCES}
+        selectedSourceIds={selectedSourceIds}
+        onSourceToggle={(id, selected) => setSelectedSourceIds((current) => selected ? [...current.filter((item) => item !== id), id] : current.filter((item) => item !== id))}
+        commandItems={CHAT_COMPOSER_COMMANDS}
+        onCommandSelect={(item) => setNotice(`Host command callback received: ${item.label}.`)}
+        modelItems={CHAT_COMPOSER_MODELS}
+        selectedModelId={selectedModelId}
+        onModelChange={(id) => { setSelectedModelId(id); setNotice(`Host selected model id: ${id}.`); }}
+        labels={{
+          sources: "Sources",
+          commands: "Commands",
+          model: "Select a model",
+          noSources: "No sources configured by this host",
+          noCommands: "No commands configured by this host",
+          noModels: "No models configured by this host",
+          noMatchingSources: "No matching sources",
+          noMatchingCommands: "No matching commands",
+          removeSource: (label) => `Remove ${label}`,
+          send: "Send",
+          stop: "Stop",
+        }}
       />
+      <Button variant="ghost" size="sm" onClick={() => setLoading((current) => !current)}>
+        {loading ? "Exit Stop preview" : "Preview Stop state"}
+      </Button>
+    </div>
+  );
+}
+
+/** Controlled step disclosure with host-supplied lifecycle rows. */
+export function ThinkingBlockDemo() {
+  const [open, setOpen] = useState(true);
+  const [selectedStepId, setSelectedStepId] = useState("read");
+  const steps: ThinkingBlockStep[] = [
+    { id: "read", label: "Read workspace guidance", detail: "The host supplied this fixture step.", meta: "2 files", status: "done" },
+    { id: "compare", label: "Compare the examples", detail: "Check the public component contracts before answering.", meta: "3 pages", status: "running" },
+    { id: "answer", label: "Write the response", detail: "Waiting for the host to finish the preceding step.", status: "pending" },
+  ];
+
+  return (
+    <div className="w-full max-w-lg space-y-2 text-left">
+      <ThinkingBlock
+        content="The host owns the partial reasoning text and step events. This component does not advance a trace or contact a model."
+        steps={steps}
+        selectedStepId={selectedStepId}
+        onStepSelect={setSelectedStepId}
+        open={open}
+        onOpenChange={setOpen}
+        labels={{ title: "Agent trace", active: "Running", completed: "Done", pending: "Queued" }}
+      />
+      <p role="status" className="text-xs text-muted-foreground">Host-selected step: {selectedStepId}</p>
+    </div>
+  );
+}
+
+/** A host-controlled questionnaire; answers are fixture state local to this doc. */
+export function ApprovalQuestionDemo() {
+  const questions: readonly ApprovalQuestionData[] = [
+    {
+      id: "scope",
+      title: "Which sources should I check?",
+      message: "Choose the references relevant to this release review.",
+      type: "multiple",
+      options: [
+        { id: "workspace-docs", label: "Workspace docs", detail: "Guides and release notes" },
+        { id: "project-notes", label: "Project notes", detail: "Previous decisions" },
+      ],
+      other: { id: "other", label: "Another source", placeholder: "Name the source" },
+    },
+    {
+      id: "format",
+      title: "How should I format the findings?",
+      type: "single",
+      options: [
+        { id: "summary", label: "Short summary" },
+        { id: "steps", label: "Step-by-step" },
+      ],
+    },
+  ];
+  const [activeQuestionId, setActiveQuestionId] = useState("scope");
+  const [answers, setAnswers] = useState<ApprovalQuestionAnswers>({});
+  const [notice, setNotice] = useState("Answers stay in this local preview.");
+  const [submitting, setSubmitting] = useState(false);
+  const [questionVisible, setQuestionVisible] = useState(true);
+
+  const moveToNext = (questionId: string) => {
+    const index = questions.findIndex((question) => question.id === questionId);
+    const next = questions[index + 1];
+    if (next) setActiveQuestionId(next.id);
+  };
+
+  return (
+    <div data-testid="approval-question-demo" className="w-full max-w-md space-y-3 text-left">
+      <Button variant="ghost" size="sm" onClick={() => setSubmitting((current) => !current)}>
+        {submitting ? "Exit submitting preview" : "Preview submitting state"}
+      </Button>
+      {questionVisible ? (
+        <ApprovalQuestion
+          questions={questions}
+          activeQuestionId={activeQuestionId}
+          answers={answers}
+          onAnswersChange={setAnswers}
+          onActiveQuestionChange={setActiveQuestionId}
+          onSkip={(id) => { setNotice("Question skipped in the local preview."); moveToNext(id); }}
+          onSubmit={(result) => setNotice(`${Object.keys(result).length} answer(s) collected locally; no tool was approved.`)}
+          onDismiss={() => { setQuestionVisible(false); setNotice("Question dismissed. Restore it to continue answering."); }}
+          submitting={submitting}
+          labels={{ progress: (current, total) => `Question ${current} of ${total}`, submitting: "Saving answers…", dismiss: "Dismiss questions" }}
+        />
+      ) : (
+        <Button variant="secondary" size="sm" onClick={() => { setQuestionVisible(true); setActiveQuestionId("scope"); }}>
+          Restore questions
+        </Button>
+      )}
+      <p role="status" className="text-xs text-muted-foreground">{notice}</p>
     </div>
   );
 }

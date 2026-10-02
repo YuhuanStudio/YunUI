@@ -29,6 +29,12 @@ import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
 />
 ```
 
+Markdown 输入中的原始 HTML 会在标题 ID 生成后、KaTeX 数学公式渲染前进行清理。常见格式以及 GFM 表格、任务列表复选框、提示框和代码高亮等受支持的 Markdown 功能会保留。危险或不支持的原始 HTML 会被清除，包括脚本、iframe、嵌入对象、内联事件处理器和内联样式等不安全属性。这是渲染器的输入清理措施，不代表任意内容都绝对安全。
+
+`urlTransform` 可改写图片和链接 URL，但改写后的结果仍会经过 React Markdown 的安全协议过滤。相对 URL 以及 `http:`、`https:`、`mailto:`、`irc:`、`ircs:` 和 `xmpp:` 等支持的协议会保留；`javascript:`、`data:` 等不安全协议会被拒绝。
+
+清理后的 ID 会添加 `user-content-` 前缀以避免 DOM clobbering；匹配的本地片段链接也会同步调整，仍可跳转到对应 ID。
+
 `linkOrigin` 可选提供稳定的网站 origin，使 SSR 与浏览器使用相同规则判断链接。同源绝对链接视为站内链接，其他绝对链接视为外链。不传 `linkOrigin` 时，绝对 HTTP(S) 与协议相对 URL 视为外链，相对链接和片段链接视为站内链接。
 
 ```tsx

@@ -1,0 +1,27 @@
+呈現 host 檢索回傳的多個內容片段。用穩定 ID 傳遞來源與選取狀態；來源開啟和納入回呼不會啟動檢索或讀取檔案。
+
+## 匯入
+
+```tsx
+import { ContextCards } from "@yuhuanowo/yunui/chat";
+```
+
+## 互動範例
+
+下方控制明確模擬 host 回傳狀態，不會送出請求。所有標籤與無障礙文字都可覆寫；缺少回呼時，對應請求控制不可操作。
+
+<ComponentPreview compactPadding title="ContextCards">
+  <ContextCardsDemo />
+</ComponentPreview>
+
+## 組合使用
+
+```tsx
+import { ContextCards } from "@yuhuanowo/yunui/chat";
+
+<ContextCards chunks={[{ id: "guide", title: "Guide", body: "The host owns retrieval.", source: "Guide.md", badge: "MD", href: "/guide" }]} />
+```
+
+## 屬性
+
+<PropsTable name="ContextCards" />

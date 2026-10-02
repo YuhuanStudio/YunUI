@@ -1,6 +1,6 @@
 import { AgentRunStatus } from "yunui/ai";
 
-一个布局稳定的实时状态面，用于呈现代理当下正在进行的*单一*活动——“读取文件中”、“运行测试中”、“撰写回复中”——搭配扫光标签与三点脉动指示。它通过 `role="status"` / `aria-live` 以礼貌方式向辅助技术播报。
+一个布局稳定的状态面，用于呈现 agent 当前或终态，并通过 `role="status"` / `aria-live` 播报。阶段和本地化标签由 host 提供；组件只负责状态呈现，不会推进执行流程。
 
 它刻意与 [Agent Timeline](/docs/ai/agent-timeline) 分开：状态在整个回合中固定停留在同一处，而时间轴的每一行则累积成持久的处理历史。你提供已本地化的实时 `label`;YunUI 负责动态与几何。
 
@@ -18,7 +18,7 @@ import { AgentRunStatus } from "@yuhuanowo/yunui/ai";
 
 ## 阶段
 
-`phase` 是一个语义提示，由宿主将其实时状态映射上去——`thinking`、`acting`、`observing`、`reflecting`、`responding`、`waiting`。`waiting` 阶段会将 `active` 默认为 `false`，冻结动态但保持布局不变。
+旧的 `AgentRunPhase` 仍包含 `thinking`、`acting`、`observing`、`reflecting`、`responding` 和 `waiting`。`phase` 还可通过新增的 `AgentRunState` 接受终态 `completed`、`failed` 和 `cancelled`；这些终态与 `waiting` 默认 `active={false}`。阶段变化及其本地化标签由 host 管理。
 
 <ComponentPreview title="阶段">
   <div className="flex flex-col gap-2">
@@ -26,6 +26,8 @@ import { AgentRunStatus } from "@yuhuanowo/yunui/ai";
     <AgentRunStatus label="Reviewing the results…" phase="observing" />
     <AgentRunStatus label="Writing response…" phase="responding" />
     <AgentRunStatus label="Waiting for approval" phase="waiting" />
+    <AgentRunStatus label="回合已完成" phase="completed" />
+    <AgentRunStatus label="工具执行失败" phase="failed" />
   </div>
 </ComponentPreview>
 

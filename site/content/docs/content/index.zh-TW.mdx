@@ -1,13 +1,15 @@
-內容渲染堆疊把 LLM / 聊天 / 文件輸出變成豐富且安全的 UI：完整的 GitHub 風格 **markdown**、**KaTeX** 數學公式、**Shiki** 高亮程式碼、**Mermaid** 圖表、GitHub 風格**提示框**，以及惰性、可縮放的**圖片**。它位於獨立的子路徑 `@yuhuanowo/yunui/content` 上，因此沉重的渲染引擎（shiki、mermaid）不會影響不需要它們的應用。
+內容渲染堆疊把 LLM / 聊天 / 文件輸出變成豐富且安全的 UI：完整的 GitHub 風格 **markdown**、**KaTeX** 數學公式、**Shiki** 高亮程式碼、**Mermaid** 圖表、GitHub 風格**提示框**，以及惰性、可縮放的**圖片**。它位於獨立子路徑 `@yuhuanowo/yunui/content`，未匯入此入口的應用不會包含其中的渲染模組。此入口會靜態匯入 Shiki 核心、React Markdown 及其 Markdown 外掛；只有 Shiki 語法模組／主題和 Mermaid 會按需載入。
 
 ## 安裝
 
-內容子路徑把渲染函式庫宣告為**可選的對等相依**——在你的應用中與 YunUI 一起安裝：
+雖然 YunUI 套件中繼資料將這些函式庫標記為**可選 peer 相依**，但 `@yuhuanowo/yunui/content` barrel 會靜態匯入 Markdown、數學公式和 Shiki 模組。只要匯入此入口，就應在宿主應用中安裝這些渲染 peer：
 
 ```bash
 pnpm add @yuhuanowo/yunui react-markdown remark-gfm remark-math \
-  rehype-raw rehype-katex rehype-slug katex shiki mermaid
+  rehype-raw rehype-katex rehype-slug katex shiki
 ```
+
+Mermaid 是動態載入的，只有渲染 Mermaid 圖表時才需要安裝。`rehype-sanitize` 是 YunUI 的一般相依套件。`yunui doctor` 會檢查 content 樣式接入，但不會驗證宿主建置能否解析這些渲染 peer；請執行應用建置檢查模組解析。
 
 ## 樣式
 
@@ -48,7 +50,7 @@ import {
 
 ## 各個部件
 
-每個渲染器都單獨匯出，你也可以只把某一項能力放進自己的版面裡：
+每個渲染器都以獨立元件匯出，可直接放進自己的版面。不過這些具名匯出仍來自同一個 `/content` 入口；即使只渲染一個元件，也會解析此入口的靜態 peer 相依：
 
 - [Markdown 渲染器](/docs/content/markdown-renderer) —— 完整的 GFM 管線。
 - [程式碼區塊](/docs/content/code-block) —— 帶檔名標頭、行號與複製的 Shiki 高亮。

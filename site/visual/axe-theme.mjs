@@ -21,17 +21,18 @@
  * actually still dark underneath.
  */
 import { chromium } from "@playwright/test";
-import fs from "fs";
+import { assertThemeApplied, assertNoPageErrors, collectPageErrors, exitOnError, gotoChecked, loadAxe, parseJsonList, runAxe, validateAxeTarget } from "./sweep-utils.mjs";
 
-const AXE = fs.readFileSync(new URL("../node_modules/axe-core/axe.min.js", import.meta.url), "utf8");
+const AXE = loadAxe();
 const theme = process.argv[2];
-const targets = JSON.parse(process.argv[3]);
-if (!theme || !targets) {
+if (!new Set(["light", "dark", "true-black"]).has(theme) || !process.argv[3]) {
   console.error("usage: node visual/axe-theme.mjs <theme> '<targets json>'");
-  process.exit(2);
-}
-
-const browser = await chromium.launch();
+  process.exitCode = 2;
+} else {
+let browser;
+try {
+const targets = parseJsonList(process.argv[3], "targets", validateAxeTarget);
+browser = await chromium.launch();
 const all = {};
 
 for (const { name, url, vp, cookies } of targets) {
@@ -41,30 +42,28 @@ for (const { name, url, vp, cookies } of targets) {
   });
   if (cookies) await ctx.addCookies(cookies);
   const page = await ctx.newPage();
+  const errors = collectPageErrors(page);
   // Seed the theme before any app code runs, so the page renders in it directly.
-  await page.addInitScript((t) => {
-    try {
-      localStorage.setItem("theme", t);
-    } catch {
-      /* storage disabled — the app falls back to its default, reported as-is */
-    }
-  }, theme);
-  await page.goto(url, { waitUntil: "networkidle" }).catch(() => {});
+  await page.addInitScript((t) => localStorage.setItem("theme", t), theme);
+  const response = await gotoChecked(page, url, { waitUntil: "networkidle", timeout: 30000 }, name);
   await page.waitForTimeout(700);
-  const applied = await page.evaluate(() => ({
-    cls: document.documentElement.className,
-    attr: document.documentElement.getAttribute("data-theme"),
-  }));
-  if (applied.cls !== theme && applied.attr !== theme) {
-    console.log(`  (note) ${name}: app resolved to class="${applied.cls}" data-theme="${applied.attr}" — it may not offer "${theme}"`);
+  const intendedPath = new URL(url).pathname;
+  const actualPath = new URL(page.url()).pathname;
+  if (!/\/(?:login|log-in|signin|sign-in)\/?$/i.test(intendedPath) && /\/(?:login|log-in|signin|sign-in)\/?$/i.test(actualPath)) {
+    throw new Error(`${name}: redirected to an authentication screen (${actualPath})`);
   }
-  await page.addScriptTag({ content: AXE });
-  const res = await page.evaluate(
-    async () =>
-      await window.axe.run(document, {
-        runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"] },
-      }),
-  );
+  await assertThemeApplied(page, theme, name);
+  const ready = await page.evaluate(() => ({
+    body: document.body?.innerText.trim().length > 0,
+    passwordForm: Boolean(document.querySelector('input[type="password"]')),
+  }));
+  if (!ready.body) throw new Error(`${name}: page body is empty`);
+  if (!/\/(?:login|log-in|signin|sign-in)\/?$/i.test(intendedPath) && ready.passwordForm) {
+    throw new Error(`${name}: page rendered an authentication form instead of the requested content`);
+  }
+  const res = await runAxe(page, AXE);
+  if (response.status() >= 400) throw new Error(`${name}: HTTP ${response.status()}`);
+  assertNoPageErrors(errors, name);
   console.log(`${name.padEnd(28)} ${res.violations.length} violation types`);
   for (const v of res.violations) {
     (all[v.id] ??= { impact: v.impact, help: v.help, nodes: [] }).nodes.push(
@@ -73,7 +72,6 @@ for (const { name, url, vp, cookies } of targets) {
   }
   await ctx.close();
 }
-await browser.close();
 
 const order = { critical: 0, serious: 1, moderate: 2, minor: 3 };
 const ids = Object.keys(all).sort((a, b) => order[all[a].impact] - order[all[b].impact]);
@@ -86,6 +84,12 @@ for (const id of ids) {
 }
 if (ids.length) {
   console.error(`\n${ids.length} violation type(s) in ${theme} — failing.`);
-  process.exit(1);
+  process.exitCode = 1;
 }
-console.log("clean.");
+if (!ids.length) console.log("clean.");
+} catch (error) {
+  exitOnError(error);
+} finally {
+  await browser?.close();
+}
+}

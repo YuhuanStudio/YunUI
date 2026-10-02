@@ -1,0 +1,70 @@
+import { ApprovalQuestion } from "yunui/ai";
+
+一个受控的单选／多选问题，用于在聊天回合中收集用户输入。host 提供问题数据、稳定 id、当前答案和导航回调。提交答案**不会**批准或执行工具；明确的工具决策请使用 [`AgentTimeline` 授权区块](/docs/ai/agent-timeline)。
+
+## 导入
+
+```tsx
+import { ApprovalQuestion } from "@yuhuanowo/yunui/ai";
+```
+
+## 示例
+
+此预览只使用本地状态和 host fixture，不会发送请求。
+
+<ComponentPreview
+  title="审批问答"
+  code={`import { ApprovalQuestion } from "@yuhuanowo/yunui/ai";`}
+>
+  <ApprovalQuestionDemo />
+</ComponentPreview>
+
+## 数据与状态
+
+请使用稳定的问题和选项 id。`single` 问题返回一个选中的选项 id；`multiple` 问题返回多个选项 id。可选的 `other` 选项有自己的稳定 id，其文本保存在同一答案项中。
+
+```tsx
+import { useState } from "react";
+import {
+  ApprovalQuestion,
+  type ApprovalQuestionAnswers,
+  type ApprovalQuestionData,
+} from "@yuhuanowo/yunui/ai";
+
+const questions: ApprovalQuestionData[] = [
+  {
+    id: "scope",
+    title: "Which references should the host use?",
+    type: "multiple",
+    required: true,
+    options: [
+      { id: "docs", label: "Workspace docs" },
+      { id: "notes", label: "Project notes", disabled: false },
+    ],
+    other: { id: "other", label: "Another source", placeholder: "Name it" },
+  },
+];
+const [activeQuestionId, setActiveQuestionId] = useState("scope");
+const [answers, setAnswers] = useState<ApprovalQuestionAnswers>({});
+const [questionOpen, setQuestionOpen] = useState(true);
+
+<ApprovalQuestion
+  questions={questions}
+  activeQuestionId={activeQuestionId}
+  answers={answers}
+  onAnswersChange={setAnswers}
+  onActiveQuestionChange={setActiveQuestionId}
+  onDismiss={() => setQuestionOpen(false)}
+  onSubmit={(result) => saveAnswersForThisTurn(result)}
+/>
+```
+
+所有答案和当前问题都由 host 管理。用户选择 **Next** 后，只有 host 的 `onActiveQuestionChange` 更新 `activeQuestionId` 才会前进。`onSkip` 和 `onSubmit` 是独立的 host 回调；没有提供 `onSubmit` 时，最后的提交按钮会禁用。提供 `onDismiss` 才会显示关闭控件；host 需用自己的状态（例如根据 `questionOpen` 条件渲染面板）将面板隐藏或恢复。Dismiss 不会提交答案。`submitting` 与 `disabled` 会停用所有控件，包括 Dismiss；`labels` 可本地化按钮、`progress(current, total)`、其他选项占位符及提交中/关闭文案。
+
+## 工具授权是另一回事
+
+`ApprovalQuestion` 用于收集回答或补充信息，本身不是授权结果。只有 host 改变渲染状态后，Dismiss 才会隐藏面板；它不批准、拒绝或提交答案。工具决策请使用 `AgentTimeline` 的授权行，并且只在 host 可以执行相应决策时连接 `onApprove` / `onReject`。
+
+## 属性
+
+<PropsTable name="ApprovalQuestion" />

@@ -1,6 +1,6 @@
 import { ThinkingBlock } from "yunui/ai";
 
-用於展示模型推理/「思考」過程的可折疊面板。它自行管理展開狀態，帶有展開/折疊動畫，並在 `isStreaming` 時顯示即時指示。內容預設以保留換行的純文字算繪；傳入 `renderContent` 可接入 Markdown 算繪器。
+由 host 提供推理過程與選用步驟的面板。它可呈現部分純文字或 Markdown，並顯示步驟的 pending/running/done/failed/cancelled 狀態，也可選取由 host 管理的步驟。`ThinkingBlock` 不會推進執行流程；內容、步驟狀態、選取回呼和串流狀態都由 host 提供。
 
 ## 匯入
 
@@ -27,7 +27,7 @@ import { ThinkingBlock } from "@yuhuanowo/yunui/ai";
 
 ## 串流輸出
 
-當 `isStreaming` 為 true 時，標題會顯示活躍徽章，並有一個閃爍游標跟隨文字。
+當 `isStreaming` 為 true 時，緊湊的展開標題使用既有文字 shimmer 動效與小型活動指示。`labels.title` 仍作為標題，進度由宿主提供。
 
 <ComponentPreview
   title="串流"
@@ -45,6 +45,18 @@ import { ThinkingBlock } from "@yuhuanowo/yunui/ai";
     />
   </div>
 </ComponentPreview>
+
+## Host 提供的步驟
+
+`steps` 非空時，面板會顯示 host 的 `ThinkingBlockStep[]`，而非純文字主體。每一步包含穩定的 `id`、標籤、選用詳情/輔助資訊、選用等寬字型樣式，以及 `pending`、`running`、`done`、`failed` 或 `cancelled` 狀態。傳入 `selectedStepId` 和 `onStepSelect` 可接入 host 控制的步驟選取；未提供回呼時，列僅供檢視。
+
+<ComponentPreview title="Host 提供的步驟">
+  <ThinkingBlockDemo />
+</ComponentPreview>
+
+`open` 是受控的展開狀態，應與 `onOpenChange` 配對。不傳 `open` 時，`defaultOpen` 維持原有的非受控展開行為。傳入 `open` 但未提供 `onOpenChange` 時，觸發按鈕為唯讀。
+
+可透過 `labels` 本地化標題以及 pending/running/completed/failed/cancelled 狀態名稱。
 
 ## 屬性
 

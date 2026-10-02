@@ -29,6 +29,10 @@ The demo below feeds a single markdown string exercising headings, a table, a ta
 />
 ```
 
+Raw HTML in the Markdown input is sanitized after heading IDs are generated and before KaTeX math rendering. Common formatting and supported Markdown features such as GFM tables, task-list checkboxes, callouts, and code highlighting remain available. Unsafe or unsupported raw HTML is cleaned: scripts, iframes, embedded objects, inline event handlers, and unsafe attributes such as inline styles are removed. This is input sanitization for this renderer, not a guarantee that arbitrary content is risk-free.
+
+`urlTransform` can rewrite image and link URLs, but the rewritten result still passes through React Markdown's safe-protocol filter. Relative URLs and supported protocols such as `http:`, `https:`, `mailto:`, `irc:`, `ircs:`, and `xmpp:` are accepted; unsafe protocols such as `javascript:` and `data:` are rejected.
+
 `linkOrigin` optionally supplies a stable site origin for link classification in both SSR and the browser. Same-origin absolute links are treated as internal; other absolute links are external. Without `linkOrigin`, absolute HTTP(S) and protocol-relative URLs are external, while relative and fragment links are internal.
 
 ```tsx

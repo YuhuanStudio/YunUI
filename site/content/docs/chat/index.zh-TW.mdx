@@ -1,8 +1,10 @@
-聊天模式是一組用於 AI 聊天介面的展示型、以插槽為基礎的構件：訊息**列**、智慧捲動的訊息**清單**、自動增高的**輸入框**，以及半透明的**標頭**外殼。它不含任何資料或模型型別，也不綁定 i18n——你透過 children 傳入內容（搭配 `@yuhuanowo/yunui/content` 渲染 markdown 訊息主體），並透過插槽注入應用相關的部分。它位於獨立的子路徑 `@yuhuanowo/yunui/chat` 上。
+聊天模式提供訊息列、智慧捲動清單、受控輸入框和響應式標頭。訊息、執行狀態和本地化文案由 host 提供。`ChatComposer` 可選接收 host 提供的 `sourceItems`、`commandItems` 和 `modelItems`；選擇回呼會傳回穩定的 host id，元件本身不會搜尋、上傳、執行命令或呼叫模型。Markdown 訊息主體可使用 `@yuhuanowo/yunui/content` 渲染。聊天 API 仍位於獨立子路徑 `@yuhuanowo/yunui/chat`。
+
+現有訊息、輸入框和標頭屬性／插槽維持可用，消費端可以沿用目前的狀態與回呼接線；新版外觀由 YunUI 公開元件提供，應用不必重畫這些介面或複製其樣式。
 
 ## 安裝
 
-聊天子路徑隨 YunUI 一同發布——除了 YunUI 已內建的依賴（framer-motion、lucide-react）外，無需額外的對等依賴：
+聊天子路徑隨 YunUI 一同發佈。若聊天需要渲染 Markdown 或其他富文字內容，請依[內容概覽](/docs/content)說明安裝選用的 content 對等依賴和樣式：
 
 ```bash
 pnpm add @yuhuanowo/yunui
@@ -21,11 +23,12 @@ import {
 
 ## 組合到一起
 
-一個 `ChatHeader`、一個裝著 `ChatMessage` 列的 `ChatMessageList`（助理主體用 `@yuhuanowo/yunui/content` 的 `MarkdownRenderer` 渲染），以及一個受控的 `ChatComposer`。輸入一則訊息並按 Enter——清單會隨內容增長自動貼到底部。
+工作區範例組合了公開匯出的 `ChatHeader`、`ChatMessageList`、`ChatMessage`、`ChatComposer`、`AgentRunStatus`、`AgentTimeline`、`ApprovalQuestion` 和 `MarkdownRenderer`。來源/模型清單和五種 agent 狀態都是本地文件 fixture；頁面不會送出訊息或工具請求。
 
 <ComponentPreview
-  title="Chat"
-  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";`}
+  compactPadding
+  title="聊天工作區"
+  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";\nimport { AgentRunStatus, AgentTimeline, ApprovalQuestion } from "@yuhuanowo/yunui/ai";\nimport { MarkdownRenderer } from "@yuhuanowo/yunui/content";`}
 >
   <ChatDemo />
 </ComponentPreview>
@@ -34,7 +37,16 @@ import {
 
 每個構件都單獨匯出，你也可以自行拼裝版面：
 
-- [聊天訊息](/docs/chat/chat-message) —— 單列：頭像、標頭、主體、頁尾與懸停操作。
+- [聊天訊息](/docs/chat/chat-message) —— 單列：頭像、標頭、主體、頁尾與常駐操作。
 - [聊天訊息清單](/docs/chat/chat-message-list) —— 帶智慧貼底的捲動容器。
-- [聊天輸入框](/docs/chat/chat-composer) —— 自動增高、Enter 送出的輸入框。
-- [聊天標頭](/docs/chat/chat-header) —— 帶插槽的半透明標頭外殼。
+- [聊天輸入框](/docs/chat/chat-composer) —— 受控輸入框，支援 Enter 送出和選用的 host 來源、命令、模型選單。
+- [Agent 時間軸](/docs/ai/agent-timeline) 與 [授權問題](/docs/ai/approval-question) —— host 提供的活動列與受控問答流程。
+- [聊天標頭](/docs/chat/chat-header) —— 帶插槽的響應式標頭外殼。
+
+
+## 回答與審查元件
+
+- [StreamingText](/docs/chat/streaming-text)
+- [ContextCards](/docs/chat/context-cards)
+- [SelectionActions](/docs/ai/selection-actions)
+- [DiffTable](/docs/ai/diff-table)

@@ -1,0 +1,24 @@
+import { Navbar } from "yunui/patterns";
+
+一般網站也能直接使用現成的 YunUI 導覽列。它與相容的 `/ai` 匯出是同一個
+元件，不包含 AI 執行依賴，也沒有新的視覺設計。元件負責浮動頁首、連結狀態
+與行動端選單；品牌、導覽資料、帳號／操作插槽及路由 adapter 由 host 提供。
+
+## 匯入
+
+```tsx
+import { Navbar } from "@yuhuanowo/yunui/patterns";
+```
+
+## 範例
+
+<ComponentPreview title="Navbar" contained containedHeight={130}>
+  <Navbar appName="Workspace" links={[{ href: "/", label: "Home" }, { href: "/docs", label: "Docs" }]} />
+</ComponentPreview>
+
+與 `PageLayout` 搭配，可為固定頁首保留空間。完整 API 與插槽範例見
+[共用 Navbar 頁面](/docs/ai/navbar)。
+
+## Props
+
+<PropsTable name="Navbar" />

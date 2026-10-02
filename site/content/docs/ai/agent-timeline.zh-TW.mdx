@@ -1,6 +1,6 @@
 import { AgentTimeline } from "yunui/ai";
 
-代理回合的*處理*軌道，以一條相連的垂直時間軸呈現：推理過程、帶有指令與輸出的工具呼叫，以及授權提示——每一項都是軌道上的一個節點，並帶有平滑的高度動畫展開。它刻意**不**算繪助理本身的文字;過程中的敘述與最終答案屬於*溝通*軌道，由你在時間軸之外以 Markdown 算繪。純呈現、不含任何文案——將你的紀錄對映到 `AgentTimelineBlock[]`，並自行本地化每一個標籤。
+助理回合內的緊湊活動元件，包含推理展開區、帶輸出與檔案差異的工具列、任務結果和工具批准。可與 Markdown 回覆一起放在 `ChatMessage` 內。宿主提供 `AgentTimelineEntry[]`、狀態與回呼。舊 `AgentTimelineBlock` 保留 reasoning/tool/approval 聯集；新增 Entry API 支援任務、取消的工具與富內容 `outputContent`。
 
 ## 匯入
 
@@ -70,6 +70,31 @@ import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
 />
 ```
 
+## 任務列、取消與詳情展開
+
+新增的 `AgentTimelineEntry` 支援 `kind: "task"`，狀態為 `pending`、`running`、`done`、`failed` 或 `cancelled`。舊的 `AgentTimelineBlock[]` 仍可直接使用；舊型別維持封閉。已取消的工具請使用 `AgentTimelineCancelledToolBlock` 或 `AgentTimelineEntry[]`。
+
+```tsx
+import { AgentTimeline, type AgentTimelineEntry } from "@yuhuanowo/yunui/ai";
+
+const blocks: AgentTimelineEntry[] = [
+  { kind: "task", id: "review", label: "Review docs", amount: "12 pages", status: "running", step: 3, details: [{ id: "index", label: "Read the index", meta: "3 / 12" }] },
+  { kind: "tool", id: "diff", verb: "Edit", summary: "docs/chat.mdx", status: "done", icon: "terminal", files: [{ id: "chat-doc", file: "docs/chat.mdx", additions: 2, deletions: 1, lines: [{ id: "line-add", text: "Add the menu API", tone: "add" }, { id: "line-del", text: "Remove stale guidance", tone: "del" }] }] },
+  { kind: "tool", id: "cancelled", verb: "Run", summary: "pnpm test", status: "cancelled", icon: "terminal" },
+];
+```
+
+摘要預設展開；reasoning、任務、工具輸出和檔案 diff 列預設收合。可用 `defaultOpen` 設定初始狀態，或搭配 `onToggleRow` / `onToggleDiff` 由 host 控制 `open`。`labels.summary(counts)` 會收到實際的步驟/reasoning/tool/task/approval 計數，不會推算訊息數。
+
+透過 `AgentTimelineLabels` 可替換摘要、process/狀態、輸出和 diff 文案。`waitingForHost` 特別用於本地化等待 host 回應的 busy 狀態，但不會解決授權請求。
+
+工具 `details` 可承載 context/add/delete 列，`files` 可包含統一 diff 列。長輸出保留在各自的捲動區域中。授權列的 `busy` 表示 host 正在準備回應，不會自動解決請求；可透過 `labels.waitingForHost` 本地化此狀態。`onApprove` / `onReject` 仍代表 host 實際作出的工具決策；沒有相應回呼時，決策按鈕會停用。使用者問答請改用[核准問答](/docs/ai/approval-question)。
+
 ## 屬性
 
 <PropsTable name="AgentTimeline" />
+
+新增的 `AgentTimelineToolEntryBlock.outputContent` 插槽可傳入宿主組合的節點，
+例如從 `@yuhuanowo/yunui/content` 匯入的 `CodeBlock` 或 `MarkdownRenderer`。
+它優先於純文字 `output`，顯示在工具的展開內容中。舊版
+`AgentTimelineBlock.output` 仍是字串，工具資料和執行始終由宿主負責。

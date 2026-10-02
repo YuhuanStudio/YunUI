@@ -15,9 +15,31 @@
     "rotate": "旋轉",
     "download": "下載",
     "close": "關閉",
-    "formulaRenderFailed": "公式繪製失敗"
+    "formulaRenderFailed": "公式繪製失敗",
+    "codeBlock": {
+      "scrollRegion": "{language} 程式碼，共 {count} 行",
+      "copyFull": "複製完整程式碼",
+      "copyError": "複製失敗，請選取程式碼後手動複製。",
+      "scrollHorizontally": "可橫向捲動",
+      "showAll": "展開全部 {count} 行",
+      "showLess": "收合程式碼",
+      "lineCount": "{count} 行",
+      "copied": "已複製",
+      "tabGroup": "程式碼範例"
+    }
   },
   "common": {
+    "codeBlock": {
+      "scrollRegion": "{language} 程式碼，共 {count} 行",
+      "copyFull": "複製完整程式碼",
+      "copyError": "複製失敗，請選取程式碼後手動複製。",
+      "scrollHorizontally": "可橫向捲動",
+      "showAll": "展開全部 {count} 行",
+      "showLess": "收合程式碼",
+      "lineCount": "{count} 行",
+      "copied": "已複製",
+      "tabGroup": "程式碼範例"
+    },
     "copy": "複製",
     "copied": "已複製！",
     "theme": {

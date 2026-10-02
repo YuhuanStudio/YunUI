@@ -1,6 +1,6 @@
 import { ThinkingBlock } from "yunui/ai";
 
-A collapsible panel for a model's reasoning/"thinking" trace. It manages its own open state, animates expand/collapse, and shows a live indicator while `isStreaming`. By default the content renders as pre-wrapped plain text; pass `renderContent` to plug in a Markdown renderer.
+A host-fed panel for a reasoning trace and optional steps. It can render partial plain text or Markdown, show per-step pending/running/done/failed/cancelled status, and select a host-owned step. `ThinkingBlock` does not advance a run; the host provides all content, step status, selection callbacks and streaming state.
 
 ## Import
 
@@ -27,7 +27,7 @@ import { ThinkingBlock } from "@yuhuanowo/yunui/ai";
 
 ## Streaming
 
-While `isStreaming` is true the header shows an active badge and a blinking caret follows the text.
+While `isStreaming` is true, the compact disclosure headline uses the existing text-shimmer motion and a small activity indicator. Explicit `labels.title` remains the headline; the host supplies all progress.
 
 <ComponentPreview
   title="Streaming"
@@ -45,6 +45,18 @@ While `isStreaming` is true the header shows an active badge and a blinking care
     />
   </div>
 </ComponentPreview>
+
+## Host-supplied steps
+
+When `steps` is non-empty, the panel shows the host's `ThinkingBlockStep[]` instead of the plain-text body. Each step has a stable `id`, label, optional detail/meta, optional monospace style, and a `pending`, `running`, `done`, `failed`, or `cancelled` status. `selectedStepId` and `onStepSelect` opt into a host-controlled selection; without the callback, rows stay read-only.
+
+<ComponentPreview title="Host-supplied steps">
+  <ThinkingBlockDemo />
+</ComponentPreview>
+
+`open` is the controlled disclosure state; pair it with `onOpenChange`. Without `open`, `defaultOpen` keeps the existing uncontrolled disclosure behavior. If `open` is supplied without `onOpenChange`, the trigger is read-only.
+
+Use `labels` to localize the title and pending/running/completed/failed/cancelled status names.
 
 ## Props
 

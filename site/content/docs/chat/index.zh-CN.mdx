@@ -1,8 +1,10 @@
-聊天模式是一组用于 AI 聊天界面的展示型、基于插槽的构件：消息**行**、智能滚动的消息**列表**、自动增高的**输入框**，以及半透明的**头部**外壳。它不含任何数据或模型类型，也不绑定 i18n——你通过 children 传入内容（搭配 `@yuhuanowo/yunui/content` 渲染 markdown 消息主体），并通过插槽注入应用相关的部分。它位于独立的子路径 `@yuhuanowo/yunui/chat` 上。
+聊天模式提供消息行、智能滚动列表、受控输入框和响应式头部。消息、执行状态和本地化文案由 host 提供。`ChatComposer` 可选接收 host 提供的 `sourceItems`、`commandItems` 和 `modelItems`；选择回调会返回稳定的 host id，组件自身不会搜索、上传、执行命令或调用模型。Markdown 消息主体可以使用 `@yuhuanowo/yunui/content` 渲染。聊天 API 仍位于独立子路径 `@yuhuanowo/yunui/chat`。
+
+现有消息、输入框和头部属性／插槽保持可用，消费者可以沿用当前的状态与回调接线；新版外观由 YunUI 公共组件提供，应用无需重画这些界面或复制其样式。
 
 ## 安装
 
-聊天子路径随 YunUI 一同发布——除了 YunUI 已内置的依赖（framer-motion、lucide-react）外，无需额外的对等依赖：
+聊天子路径随 YunUI 一同发布。若聊天需要渲染 Markdown 或其他富文本内容，请按[内容概览](/docs/content)说明安装可选的 content 对等依赖和样式：
 
 ```bash
 pnpm add @yuhuanowo/yunui
@@ -21,11 +23,12 @@ import {
 
 ## 组合到一起
 
-一个 `ChatHeader`、一个装着 `ChatMessage` 行的 `ChatMessageList`（助手主体用 `@yuhuanowo/yunui/content` 的 `MarkdownRenderer` 渲染），以及一个受控的 `ChatComposer`。输入一条消息并按 Enter——列表会随内容增长自动贴到底部。
+工作区示例组合了公开导出的 `ChatHeader`、`ChatMessageList`、`ChatMessage`、`ChatComposer`、`AgentRunStatus`、`AgentTimeline`、`ApprovalQuestion` 和 `MarkdownRenderer`。来源/模型列表和五种 agent 状态都是本地文档 fixture；页面不会发送消息或工具请求。
 
 <ComponentPreview
-  title="Chat"
-  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";`}
+  compactPadding
+  title="聊天工作区"
+  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";\nimport { AgentRunStatus, AgentTimeline, ApprovalQuestion } from "@yuhuanowo/yunui/ai";\nimport { MarkdownRenderer } from "@yuhuanowo/yunui/content";`}
 >
   <ChatDemo />
 </ComponentPreview>
@@ -34,7 +37,16 @@ import {
 
 每个构件都单独导出，你也可以自行拼装布局：
 
-- [聊天消息](/docs/chat/chat-message) —— 单行：头像、标头、主体、页脚与悬停操作。
+- [聊天消息](/docs/chat/chat-message) —— 单行：头像、标头、主体、页脚与常驻操作。
 - [聊天消息列表](/docs/chat/chat-message-list) —— 带智能贴底的滚动容器。
-- [聊天输入框](/docs/chat/chat-composer) —— 自动增高、Enter 发送的输入框。
-- [聊天头部](/docs/chat/chat-header) —— 带插槽的半透明头部外壳。
+- [聊天输入框](/docs/chat/chat-composer) —— 受控输入框，支持 Enter 发送和可选的 host 来源、命令、模型菜单。
+- [Agent 时间轴](/docs/ai/agent-timeline) 与 [授权问题](/docs/ai/approval-question) —— host 提供的活动行与受控问答流程。
+- [聊天头部](/docs/chat/chat-header) —— 带插槽的响应式头部外壳。
+
+
+## 回答与审查组件
+
+- [StreamingText](/docs/chat/streaming-text)
+- [ContextCards](/docs/chat/context-cards)
+- [SelectionActions](/docs/ai/selection-actions)
+- [DiffTable](/docs/ai/diff-table)

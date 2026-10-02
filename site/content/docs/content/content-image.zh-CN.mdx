@@ -1,6 +1,8 @@
-import { ContentImage } from "yunui/content";
+用于渲染内容的惰性、无闪烁图片。它会在滚动到接近视口时才加载（通过 `IntersectionObserver`），显示旋转占位符，加载完成后淡入，并——默认——在点击或键盘操作时打开全屏、可缩放的[灯箱](/docs/content/image-lightbox)。它扩展原生 `<img>` 属性，因此 `src`、`alt`、`className`、`loading` 等都会直接透传；单独使用 `ContentImage` 时会直接使用传入的 URL。在 `MarkdownRenderer` 中，渲染器可通过 `urlTransform` 改写 URL，并继续按其安全协议规则过滤结果。在 `MarkdownRenderer` 内，每张图片都通过本组件渲染。
 
-用于渲染内容的惰性、无闪烁图片。它会在滚动到接近视口时才加载（通过 `IntersectionObserver`），显示旋转占位符，加载完成后淡入，并——默认——在点击时打开全屏、可缩放的[灯箱](/docs/content/image-lightbox)。它扩展原生 `<img>` 属性，因此 `src`、`alt`、`className`、`loading` 等都会直接透传；URL 按原样使用（请在上游改写，例如用 markdown 渲染器的 `urlTransform`）。在 `MarkdownRenderer` 内，每张图片都通过本组件渲染。
+图片接近视口时开始加载；若环境不支持 `IntersectionObserver`，则会立即加载。默认的 `enableLightbox` 开启后，图片加载完成即可通过点击、Enter 或 Space 打开灯箱。位于链接中的图片保留链接行为，不会打开灯箱。设置 `enableLightbox={false}` 可关闭缩放；更改 `src` 或 `srcSet` 会重置图片加载状态。关闭再开启 `enableLightbox` 不会重新打开之前的预览。可选的 `zoomLabel` 可覆盖缩放操作的无障碍名称；默认使用宿主的 `content.zoomImage` 翻译（回退文本为 “Zoom image”），并附加图片 alt 文本。
+
+原生图片属性会继续透传。`onLoad`、`onError`、`onClick` 和 `onKeyDown` 回调会在相应事件发生时调用；在点击或按键回调中调用 `preventDefault()` 可阻止默认的灯箱操作。
 
 ## 导入
 
@@ -16,11 +18,7 @@ import { ContentImage } from "@yuhuanowo/yunui/content";
   title="ContentImage"
   code={`import { ContentImage } from "@yuhuanowo/yunui/content";`}
 >
-  <ContentImage
-    src="https://picsum.photos/seed/yunui/640/360"
-    alt="A random placeholder photo"
-    className="w-80 rounded-xl"
-  />
+  <ContentImageDemo />
 </ComponentPreview>
 
 ## 属性

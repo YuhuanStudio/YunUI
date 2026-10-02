@@ -1,8 +1,10 @@
-The chat pattern is a set of presentational, slot-based building blocks for AI chat UIs: a message **row**, a smart-scrolling message **list**, an auto-growing **composer**, and a translucent **header** shell. It carries no data or model types and binds no i18n — you feed content through children (pair it with `@yuhuanowo/yunui/content` to render markdown message bodies) and inject app specifics through slots. It lives on its own subpath, `@yuhuanowo/yunui/chat`.
+The chat pattern provides message rows, a smart-scrolling list, a controlled composer, and a responsive header. The host supplies messages, execution state, and localized copy. Optionally pass host-owned `sourceItems`, `commandItems`, and `modelItems` to `ChatComposer`; selection callbacks return stable host ids, and the component does not search, upload, execute a command, or call a model. Markdown message bodies can use `@yuhuanowo/yunui/content`. The chat API remains on its own subpath, `@yuhuanowo/yunui/chat`.
+
+Existing message, composer and header props/slots remain available. Consumers can keep their current state and callback wiring; the updated appearance comes from YunUI's public components, so apps do not need to redraw these surfaces or copy their styles.
 
 ## Install
 
-The chat subpath ships with YunUI — there are no extra peer dependencies beyond what YunUI already bundles (framer-motion, lucide-react):
+The chat subpath ships with YunUI. If your chat renders Markdown or other rich content, install the optional content peers and styles described in the [Content overview](/docs/content).
 
 ```bash
 pnpm add @yuhuanowo/yunui
@@ -21,11 +23,12 @@ import {
 
 ## Everything together
 
-A `ChatHeader`, a `ChatMessageList` holding `ChatMessage` rows (the assistant's body rendered with `MarkdownRenderer` from `@yuhuanowo/yunui/content`), and a controlled `ChatComposer`. Type a message and press Enter — the list sticks to the bottom as it grows.
+The workspace preview composes public `ChatHeader`, `ChatMessageList`, `ChatMessage`, `ChatComposer`, `AgentRunStatus`, `AgentTimeline`, `ApprovalQuestion`, and `MarkdownRenderer` exports. Its source/model lists and five agent states are local documentation fixtures; no message or tool request is sent.
 
 <ComponentPreview
-  title="Chat"
-  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";`}
+  compactPadding
+  title="Chat workspace"
+  code={`import { ChatMessage, ChatMessageList, ChatComposer, ChatHeader } from "@yuhuanowo/yunui/chat";\nimport { AgentRunStatus, AgentTimeline, ApprovalQuestion } from "@yuhuanowo/yunui/ai";\nimport { MarkdownRenderer } from "@yuhuanowo/yunui/content";`}
 >
   <ChatDemo />
 </ComponentPreview>
@@ -34,7 +37,16 @@ A `ChatHeader`, a `ChatMessageList` holding `ChatMessage` rows (the assistant's 
 
 Each block is exported standalone so you can assemble your own layout:
 
-- [Chat Message](/docs/chat/chat-message) — a single row: avatar, header, body, footer and hover actions.
+- [Chat Message](/docs/chat/chat-message) — a single row: avatar, header, body, footer and persistent actions.
 - [Chat Message List](/docs/chat/chat-message-list) — the scroll container with smart stick-to-bottom.
-- [Chat Composer](/docs/chat/chat-composer) — the auto-growing input with Enter-to-send.
-- [Chat Header](/docs/chat/chat-header) — the translucent header shell with slots.
+- [Chat Composer](/docs/chat/chat-composer) — the controlled input with Enter-to-send and optional host-fed source, command and model menus.
+- [Agent Timeline](/docs/ai/agent-timeline) and [Approval Question](/docs/ai/approval-question) — host-fed activity rows and controlled user-question flow.
+- [Chat Header](/docs/chat/chat-header) — the responsive header with slots.
+
+
+## Answer and review units
+
+- [StreamingText](/docs/chat/streaming-text)
+- [ContextCards](/docs/chat/context-cards)
+- [SelectionActions](/docs/ai/selection-actions)
+- [DiffTable](/docs/ai/diff-table)

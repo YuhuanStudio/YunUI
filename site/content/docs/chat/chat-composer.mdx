@@ -1,4 +1,4 @@
-A chat input composer: an auto-growing textarea, Enter-to-send (Shift+Enter for a newline), a send/stop button, and slots for attachment previews and a left toolbar. It's presentational and **controlled** — the host owns the `value`, the send/stop side effects, and any loading state. While `loading`, the send button becomes a stop button that calls `onStop`.
+A controlled chat composer with an auto-growing textarea, Enter-to-send (Shift+Enter for a newline), a send/stop button, and host-owned attachment and toolbar slots. The host may also provide source items for `@` mentions, commands for `/`, and a grouped model list. These menus render only from the supplied data; YunUI does not upload files, search sources, run commands, or call a model. The host owns the selected ids and callbacks.
 
 ## Import
 
@@ -8,7 +8,7 @@ import { ChatComposer } from "@yuhuanowo/yunui/chat";
 
 ## Example
 
-Type and press Enter (or the send button). It logs each message, then simulates a 1.4s "generating" state where the button becomes Stop.
+Use `@` or `/` to filter the host-provided source or command fixtures, or open the model menu. This docs preview records callbacks locally and sends no request.
 
 <ComponentPreview
   title="ChatComposer"
@@ -20,19 +20,44 @@ Type and press Enter (or the send button). It logs each message, then simulates 
 ## Usage
 
 ```tsx
+import {
+  ChatComposer,
+  type ChatComposerCommand,
+  type ChatComposerMenuItem,
+  type ChatComposerModel,
+} from "@yuhuanowo/yunui/chat";
+
 const [value, setValue] = useState("");
-const [loading, setLoading] = useState(false);
+const [selectedSourceIds, setSelectedSourceIds] = useState<string[]>([]);
+const [selectedModelId, setSelectedModelId] = useState<string>();
+const sourceItems: ChatComposerMenuItem[] = [{ id: "docs", label: "Workspace docs" }];
+const commandItems: ChatComposerCommand[] = [
+  { id: "summarize", label: "summarize", insertText: "Summarize this context: " },
+];
+const modelItems: ChatComposerModel[] = [
+  { id: "fast", label: "Fast model", group: "recommended", groupLabel: "Recommended" },
+];
 
 <ChatComposer
   value={value}
   onChange={setValue}
   onSend={() => send(value)}
-  onStop={() => abort()}
-  loading={loading}
+  sourceItems={sourceItems}
+  selectedSourceIds={selectedSourceIds}
+  onSourceToggle={(id, selected) => updateSelectedSources(id, selected)}
+  commandItems={commandItems}
+  onCommandSelect={(item) => handleHostCommand(item)}
+  modelItems={modelItems}
+  selectedModelId={selectedModelId}
+  onModelChange={setSelectedModelId}
   attachments={files.map((f) => <AttachmentChip key={f.id} file={f} />)}
   toolbar={<AttachButton onPick={addFile} />}
 />
 ```
+
+The `@` picker toggles stable source ids. `/` commands insert text only when the host supplies `insertText`; selecting a semantic command without insertion text is handled by `onCommandSelect`. Model data and selection are also host-controlled. Omit a menu's item prop to omit that menu. Supplying items without the corresponding change callback leaves its choices disabled. Use `labels.prompt` to override the textarea's accessible name, along with the menu labels and empty-state copy.
+
+**Compatibility:** existing `value`, `onChange`, `onSend`, `onStop`, `loading`, attachment, and toolbar props keep their behavior. Legacy `sendLabel` and `stopLabel` remain accepted; when both an old prop and `labels.send` / `labels.stop` are provided, `labels` takes precedence.
 
 ## Props
 

@@ -1,4 +1,4 @@
-聊天输入框：自动增高的 textarea、Enter 发送（Shift+Enter 换行）、发送/停止按钮，以及附件预览和左侧工具栏的插槽。它是展示型且**受控**的——`value`、发送/停止的副作用以及任何加载状态都由宿主负责。处于 `loading` 时，发送按钮变为停止按钮并调用 `onStop`。
+受控的聊天输入框，包含自动增高的 textarea、Enter 发送（Shift+Enter 换行）、发送/停止按钮，以及由 host 提供内容的附件和工具栏插槽。host 也可以提供 `@` 来源列表、`/` 命令列表和分组模型列表。这些菜单只根据传入数据呈现；YunUI 不会上传文件、搜索来源、执行命令或调用模型。选中 id 和回调均由 host 管理。
 
 ## 导入
 
@@ -8,7 +8,7 @@ import { ChatComposer } from "@yuhuanowo/yunui/chat";
 
 ## 示例
 
-输入并按 Enter（或点发送按钮）。它会记录每条消息，然后模拟 1.4 秒的「生成中」状态，此时按钮变为停止。
+输入 `@` 或 `/` 可筛选 host 提供的来源或命令示例，也可打开模型菜单。此文档预览只在本地记录回调，不会发送请求。
 
 <ComponentPreview
   title="ChatComposer"
@@ -20,19 +20,44 @@ import { ChatComposer } from "@yuhuanowo/yunui/chat";
 ## 用法
 
 ```tsx
+import {
+  ChatComposer,
+  type ChatComposerCommand,
+  type ChatComposerMenuItem,
+  type ChatComposerModel,
+} from "@yuhuanowo/yunui/chat";
+
 const [value, setValue] = useState("");
-const [loading, setLoading] = useState(false);
+const [selectedSourceIds, setSelectedSourceIds] = useState<string[]>([]);
+const [selectedModelId, setSelectedModelId] = useState<string>();
+const sourceItems: ChatComposerMenuItem[] = [{ id: "docs", label: "Workspace docs" }];
+const commandItems: ChatComposerCommand[] = [
+  { id: "summarize", label: "summarize", insertText: "Summarize this context: " },
+];
+const modelItems: ChatComposerModel[] = [
+  { id: "fast", label: "Fast model", group: "recommended", groupLabel: "Recommended" },
+];
 
 <ChatComposer
   value={value}
   onChange={setValue}
   onSend={() => send(value)}
-  onStop={() => abort()}
-  loading={loading}
+  sourceItems={sourceItems}
+  selectedSourceIds={selectedSourceIds}
+  onSourceToggle={(id, selected) => updateSelectedSources(id, selected)}
+  commandItems={commandItems}
+  onCommandSelect={(item) => handleHostCommand(item)}
+  modelItems={modelItems}
+  selectedModelId={selectedModelId}
+  onModelChange={setSelectedModelId}
   attachments={files.map((f) => <AttachmentChip key={f.id} file={f} />)}
   toolbar={<AttachButton onPick={addFile} />}
 />
 ```
+
+`@` 选择器切换稳定的来源 id。只有 host 提供 `insertText` 时，`/` 命令才会插入文字；没有插入文字的语义命令由 `onCommandSelect` 处理。模型数据与选中值也由 host 控制。省略某个菜单的 items 属性即可隐藏该菜单。提供了 items 但没有对应的变更回调时，选项会保持禁用。可使用 `labels.prompt` 覆盖 textarea 的无障碍名称，也可本地化菜单标签和空状态文案。
+
+**兼容性：**现有 `value`、`onChange`、`onSend`、`onStop`、`loading`、附件和工具栏属性保持原有行为。旧版 `sendLabel`、`stopLabel` 仍可用；若同时传入旧属性与 `labels.send` / `labels.stop`，以 `labels` 为准。
 
 ## 属性
 

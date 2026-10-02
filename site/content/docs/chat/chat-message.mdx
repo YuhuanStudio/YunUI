@@ -2,7 +2,7 @@ import { ChatMessage } from "yunui/chat";
 import { Badge } from "yunui";
 import { Copy, RefreshCw } from "lucide-react";
 
-A single chat message row: an avatar, a header (name + badges + timestamp), the body passed as `children`, an optional `footer` slot for reasoning / tool details, and hover-revealed `actions`. It's fully presentational — the `role` (`user` / `assistant` / `system`) drives the default avatar and name, and every other part is a slot. Feed the body as plain text, or as a rendered `MarkdownRenderer` from `@yuhuanowo/yunui/content`.
+A single chat message row: avatar, header (name + badges + timestamp), `children` body, optional reasoning/tool `footer`, and optional `actions`. Actions render in normal document flow below the body so they remain discoverable without hover. The component is presentational: `role` (`user` / `assistant` / `system`) selects default avatar/name, and the host supplies all other content. Pass plain text or a `MarkdownRenderer` from `@yuhuanowo/yunui/content`.
 
 ## Import
 
@@ -12,7 +12,7 @@ import { ChatMessage } from "@yuhuanowo/yunui/chat";
 
 ## Example
 
-The assistant row carries a model badge and hover-revealed actions; hover it to reveal the Copy / Regenerate controls.
+The assistant row carries a model badge and Copy / Regenerate action slots. Actions stay in normal document flow below the message so touch, keyboard and pointer users can all discover them.
 
 <ComponentPreview
   title="ChatMessage"

@@ -1,8 +1,10 @@
 import { CodeBlock, InlineCode } from "yunui/content";
 
-由 [Shiki](https://shiki.style) 驅動的語法高亮程式碼區塊。高亮器在首次渲染程式碼區塊時按需載入，因此不會打進初始套件。可顯示可選的 `filename` 標頭、行號、高亮行、複製按鈕，以及——在你傳入 `onEdit` 時——回傳程式碼載荷的「編輯」操作。把程式碼作為子字串傳入。
+由 [Shiki](https://shiki.style) 驅動的語法高亮程式碼區塊。Shiki 核心與 JavaScript 正規表示式引擎屬於靜態匯入的 `/content` 入口；支援的語法模組和主題會按需載入。未知語言會渲染為跳脫後的純文字。可顯示可選的 `filename` 標頭、行號、高亮行、複製按鈕，以及——傳入 `onEdit` 時——回傳程式碼載荷的「編輯」操作。把程式碼作為子字串傳入。從 `@yuhuanowo/yunui/content` 匯入任一具名元件都需要安裝此入口的靜態 peer 相依，詳見[內容安裝說明](/docs/content)。
 
 ## 匯入
+
+緊湊樣式使用 14px 程式碼，移除裝飾圓點。最多 16 行完整顯示，更長內容先顯示 8 行，可展開／收合並保留閱讀位置。複製和編輯始終使用完整原文，包括縮排與空行。宿主可透過 `content.codeBlock.*` 翻譯鍵替換展開、捲動和失敗提示。
 
 ```tsx
 import { CodeBlock, InlineCode } from "@yuhuanowo/yunui/content";

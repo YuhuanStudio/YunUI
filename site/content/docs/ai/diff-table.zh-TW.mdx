@@ -1,0 +1,27 @@
+用穩定 row ID 和 selectedIds 控制要納入的新增／刪除。Apply／Reject 僅傳回選取 ID；host 回傳 applied 前不顯示成功。busy／disabled 鎖定操作；error／cancelled 保留資料，由 host 決定重試。
+
+## 匯入
+
+```tsx
+import { DiffTable } from "@yuhuanowo/yunui/ai";
+```
+
+## 互動範例
+
+下方控制明確模擬 host 回傳狀態，不會送出請求。所有標籤與無障礙文字都可覆寫；缺少回呼時，對應請求控制不可操作。
+
+<ComponentPreview compactPadding title="DiffTable">
+  <DiffTableDemo />
+</ComponentPreview>
+
+## 組合使用
+
+```tsx
+import { DiffTable } from "@yuhuanowo/yunui/ai";
+
+<DiffTable rows={[{ id: "add", primary: "Use public imports", category: "Chat", secondary: "Conversation", change: "add" }]} selectedIds={["add"]} state="idle" />
+```
+
+## 屬性
+
+<PropsTable name="DiffTable" />

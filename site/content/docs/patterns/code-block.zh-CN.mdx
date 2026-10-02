@@ -1,6 +1,6 @@
 import { CodeBlock } from "yunui/patterns";
 
-带窗口装饰圆点的代码块，头部显示 `language` 徽章或 `filename`，可选行号、轻量语法高亮，以及复制到剪贴板按钮。传入 `tabs` 可渲染多个可切换的代码面板，而非单一代码块。
+紧凑的 14px 代码块，提供文件名／语言标头、可选行号、轻量高亮和完整源码复制。传入 `tabs` 可切换示例。超过 16 行时先显示 8 行，可展开／收起；复制始终使用当前分页的完整内容。行号默认关闭。
 
 
 > **该用哪一个 CodeBlock？** 这一个不带依赖 —— 它用内建的小型 tokenizer 上色，因此在营销页或文档卡片里呈现片段几乎零成本。[`yunui/content` 的 `CodeBlock`](/docs/content/code-block) 才是 Shiki 版：VS Code 等级的高亮、行标示与编辑操作，代价是要加载语法。真正的代码用那个，示意用这个。

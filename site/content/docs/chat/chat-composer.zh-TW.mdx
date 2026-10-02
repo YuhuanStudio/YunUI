@@ -1,4 +1,4 @@
-聊天輸入框：自動增高的 textarea、Enter 送出（Shift+Enter 換行）、送出/停止按鈕，以及附件預覽和左側工具列的插槽。它是展示型且**受控**的——`value`、送出/停止的副作用以及任何載入狀態都由主端負責。處於 `loading` 時，送出按鈕變為停止按鈕並呼叫 `onStop`。
+受控的聊天輸入框，包含自動增高的 textarea、Enter 送出（Shift+Enter 換行）、送出/停止按鈕，以及由 host 提供內容的附件和工具列插槽。host 也可以提供 `@` 來源清單、`/` 命令清單和分組模型清單。這些選單只根據傳入資料呈現；YunUI 不會上傳檔案、搜尋來源、執行命令或呼叫模型。選取 id 和回呼都由 host 管理。
 
 ## 匯入
 
@@ -8,7 +8,7 @@ import { ChatComposer } from "@yuhuanowo/yunui/chat";
 
 ## 範例
 
-輸入並按 Enter（或點送出按鈕）。它會記錄每一則訊息，然後模擬 1.4 秒的「生成中」狀態，此時按鈕變為停止。
+輸入 `@` 或 `/` 可篩選 host 提供的來源或命令範例，也可開啟模型選單。此文件預覽只在本地記錄回呼，不會送出請求。
 
 <ComponentPreview
   title="ChatComposer"
@@ -20,19 +20,44 @@ import { ChatComposer } from "@yuhuanowo/yunui/chat";
 ## 用法
 
 ```tsx
+import {
+  ChatComposer,
+  type ChatComposerCommand,
+  type ChatComposerMenuItem,
+  type ChatComposerModel,
+} from "@yuhuanowo/yunui/chat";
+
 const [value, setValue] = useState("");
-const [loading, setLoading] = useState(false);
+const [selectedSourceIds, setSelectedSourceIds] = useState<string[]>([]);
+const [selectedModelId, setSelectedModelId] = useState<string>();
+const sourceItems: ChatComposerMenuItem[] = [{ id: "docs", label: "Workspace docs" }];
+const commandItems: ChatComposerCommand[] = [
+  { id: "summarize", label: "summarize", insertText: "Summarize this context: " },
+];
+const modelItems: ChatComposerModel[] = [
+  { id: "fast", label: "Fast model", group: "recommended", groupLabel: "Recommended" },
+];
 
 <ChatComposer
   value={value}
   onChange={setValue}
   onSend={() => send(value)}
-  onStop={() => abort()}
-  loading={loading}
+  sourceItems={sourceItems}
+  selectedSourceIds={selectedSourceIds}
+  onSourceToggle={(id, selected) => updateSelectedSources(id, selected)}
+  commandItems={commandItems}
+  onCommandSelect={(item) => handleHostCommand(item)}
+  modelItems={modelItems}
+  selectedModelId={selectedModelId}
+  onModelChange={setSelectedModelId}
   attachments={files.map((f) => <AttachmentChip key={f.id} file={f} />)}
   toolbar={<AttachButton onPick={addFile} />}
 />
 ```
+
+`@` 選擇器會切換穩定的來源 id。只有 host 提供 `insertText` 時，`/` 命令才會插入文字；沒有插入文字的語意命令由 `onCommandSelect` 處理。模型資料與選取值也由 host 控制。省略某個選單的 items 屬性即可隱藏該選單。提供 items 但未提供對應的變更回呼時，選項會維持停用。可使用 `labels.prompt` 覆寫 textarea 的無障礙名稱，也可本地化選單標籤和空狀態文案。
+
+**相容性：**現有 `value`、`onChange`、`onSend`、`onStop`、`loading`、附件和工具列屬性維持原有行為。舊版 `sendLabel`、`stopLabel` 仍可使用；若同時傳入舊屬性與 `labels.send` / `labels.stop`，以 `labels` 為準。
 
 ## 屬性
 

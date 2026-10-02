@@ -1,0 +1,24 @@
+import { Navbar } from "yunui/patterns";
+
+普通网站也能直接使用现有的 YunUI 导航栏。它与兼容的 `/ai` 导出是同一个
+组件，没有 AI 运行依赖，也没有新的视觉设计。组件负责浮动页头、链接状态
+和移动端菜单；品牌、导航数据、账号／操作插槽和路由 adapter 由 host 提供。
+
+## 导入
+
+```tsx
+import { Navbar } from "@yuhuanowo/yunui/patterns";
+```
+
+## 示例
+
+<ComponentPreview title="Navbar" contained containedHeight={130}>
+  <Navbar appName="Workspace" links={[{ href: "/", label: "Home" }, { href: "/docs", label: "Docs" }]} />
+</ComponentPreview>
+
+配合 `PageLayout` 使用，可为固定页头预留空间。完整 API 和插槽示例见
+[共用 Navbar 页面](/docs/ai/navbar)。
+
+## Props
+
+<PropsTable name="Navbar" />

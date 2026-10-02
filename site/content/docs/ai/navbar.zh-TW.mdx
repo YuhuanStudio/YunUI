@@ -12,13 +12,15 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
 
 導覽列固定在視窗頂部。提供 `links` 與 `appName`；宿主透過配接器提供路由。
 
-<ComponentPreview
+<ComponentPreview contained containedHeight={430}
   title="基礎用法"
   code={`import { Navbar } from "@yuhuanowo/yunui/ai";
 
 <Navbar
   appName="Acme AI"
   currentPath="/"
+  loginHref="#"
+  signupHref="#"
   links={[
     { href: "/", label: "Home" },
     { href: "#", label: "Models" },
@@ -30,6 +32,8 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
   <Navbar
     appName="Acme AI"
     currentPath="/"
+    loginHref="#"
+    signupHref="#"
     links={[
       { href: "/", label: "Home" },
       { href: "#", label: "Models" },
@@ -38,6 +42,8 @@ import { Navbar } from "@yuhuanowo/yunui/ai";
     ]}
   />
 </ComponentPreview>
+
+此預覽將登入與註冊目的地設為 `#`，避免文件站請求不存在的示例路由。在應用中，請透過 `loginHref` 和 `signupHref` 傳入宿主實際提供的路由。
 
 ## 極簡變體
 

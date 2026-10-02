@@ -74,6 +74,33 @@ Use `nonofficial` and `suspended` to flag a model's availability. A `tier` chip 
   </div>
 </ComponentPreview>
 
+## Clickable card with copyable IDs
+
+When `onClick` is provided, the card body selects the model while each ID badge remains its own copy action. This host fixture makes both actions available in the live preview.
+
+<ComponentPreview
+  title="Clickable card and independent copy actions"
+  code={`import { useState } from "react";
+import { ModelCard } from "@yuhuanowo/yunui/ai";
+
+function Example() {
+  const [selected, setSelected] = useState(false);
+  return (
+    <>
+      <ModelCard
+        name="GPT-4o"
+        ids={["gpt-4o", "gpt-4o-latest"]}
+        description="Click the card to select; click an ID to copy."
+        onClick={() => setSelected((value) => !value)}
+      />
+      <output>{selected ? "Selected for routing" : "No model selected"}</output>
+    </>
+  );
+}`}
+>
+  <ModelCardInteractiveDemo />
+</ComponentPreview>
+
 ## Props
 
 <PropsTable name="ModelCard" />

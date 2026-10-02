@@ -1,6 +1,6 @@
 import { AgentTimeline } from "yunui/ai";
 
-The *process* lane of an agent turn, drawn as a connected vertical timeline: reasoning traces, tool calls with their command and output, and approval prompts — each a node on a rail with a smooth height-animated disclosure. It deliberately does **not** render the assistant's own prose; interim narration and the final answer belong to the *communication* lane and are rendered as markdown by you, outside the timeline. Purely presentational and copy-free — map your records onto `AgentTimelineBlock[]` and localize every label yourself.
+Compact activity inside an assistant turn: reasoning disclosures, tool rows with output and file diffs, task results, and tool approvals. Compose it beside the assistant's Markdown content inside `ChatMessage`. The host supplies `AgentTimelineEntry[]`, statuses and callbacks. Legacy `AgentTimelineBlock` retains its reasoning/tool/approval union; the additive entry API supports tasks, cancelled tools and rich `outputContent`.
 
 ## Import
 
@@ -70,6 +70,33 @@ import { MarkdownRenderer } from "@yuhuanowo/yunui/content";
 />
 ```
 
+## Task rows, cancellation and detail disclosures
+
+`AgentTimelineEntry` adds `kind: "task"` rows with `pending`, `running`, `done`, `failed` or `cancelled` status. Existing `AgentTimelineBlock[]` values remain valid; the old type intentionally does not widen. Use `AgentTimelineCancelledToolBlock` (or an `AgentTimelineEntry[]`) for a cancelled tool.
+
+```tsx
+import { AgentTimeline, type AgentTimelineEntry } from "@yuhuanowo/yunui/ai";
+
+const blocks: AgentTimelineEntry[] = [
+  { kind: "task", id: "review", label: "Review docs", amount: "12 pages", status: "running", step: 3, details: [{ id: "index", label: "Read the index", meta: "3 / 12" }] },
+  { kind: "tool", id: "diff", verb: "Edit", summary: "docs/chat.mdx", status: "done", icon: "terminal", files: [{ id: "chat-doc", file: "docs/chat.mdx", additions: 2, deletions: 1, lines: [{ id: "line-add", text: "Add the menu API", tone: "add" }, { id: "line-del", text: "Remove stale guidance", tone: "del" }] }] },
+  { kind: "tool", id: "cancelled", verb: "Run", summary: "pnpm test", status: "cancelled", icon: "terminal" },
+];
+```
+
+The summary defaults open, while reasoning, task, tool-output and file-diff rows default closed. Provide `defaultOpen` for initial row state, or `open` with `onToggleRow` / `onToggleDiff` for host-controlled disclosure. `labels.summary(counts)` receives actual step/reasoning/tool/task/approval counts; it does not infer message counts.
+
+Use `AgentTimelineLabels` to replace the summary, process/status, output and diff copy. In particular, `waitingForHost` labels the busy acknowledgement state without resolving the approval.
+
+Tool `details` can carry context/add/delete rows and `files` can carry unified diff lines. Long output stays inside its own scroll region. An approval row's `busy` state means the host is preparing its acknowledgement and does not resolve the request; use `labels.waitingForHost` to localize that status. `onApprove` / `onReject` still mean an actual host tool decision; without those callbacks the decision buttons are disabled. For a user questionnaire, use [Approval Question](/docs/ai/approval-question) instead.
+
 ## Props
+
+For rendered tool content, the additive `AgentTimelineToolEntryBlock.outputContent`
+slot accepts a host-composed node such as the public `CodeBlock` or
+`MarkdownRenderer` from `@yuhuanowo/yunui/content`. It takes precedence over
+plain `output` and appears inside the tool's disclosure. The legacy
+`AgentTimelineBlock.output` remains a string; the host still owns the content
+and every tool side effect.
 
 <PropsTable name="AgentTimeline" />

@@ -74,13 +74,15 @@ jobs:
         run: pnpm typecheck
       - name: Test
         run: pnpm test
+      - name: Consumer agent catalogue and recipes
+        run: pnpm agents:catalog && pnpm agents:check
       - name: Build
         run: pnpm build
       # `dist/` is committed (consumers install by git pin), so it has to be
       # provably the output of `src/`. Without this it can drift silently and a
       # consumer gets stale components while the source looks correct.
       - name: dist/ reproduces from src/
-        run: git diff --exit-code -- dist/
+        run: node scripts/check-generated.mjs
       - name: Build site
         run: pnpm --filter yunui-site build
       # Catches the class of bug that reading source cannot: a className that
@@ -94,13 +96,15 @@ jobs:
       # tests or a build would ever notice.
       - name: Install Playwright (chromium and webkit)
         run: pnpm --filter yunui-site exec playwright install --with-deps chromium webkit
+      - name: Audit harness failure regression fixtures
+        run: pnpm --filter yunui-site exec node visual/sweep-smoke.mjs
       - name: Accessibility sweep
         run: |
           pnpm --filter yunui-site start -p 3000 &
           npx --yes wait-on http://localhost:3000/docs --timeout 90000
           pnpm --filter yunui-site a11y
-      - name: Content browser regressions (both engines, all themes and sizes)
-        run: PLAYWRIGHT_REUSE_SERVER=1 VISUAL_PORT=3000 pnpm --filter yunui-site exec playwright test content.spec.ts
+      - name: Content, docs API and Agent Chat browser regressions (both engines)
+        run: PLAYWRIGHT_REUSE_SERVER=1 VISUAL_PORT=3000 pnpm --filter yunui-site exec playwright test content.spec.ts search.spec.ts chat.spec.ts agent-chat.spec.ts model-select.spec.ts conversation-units.spec.ts
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4

@@ -1,0 +1,27 @@
+Control proposed additions/removals with stable row IDs and selectedIds. Apply/Reject only return selected IDs; success appears only after the host supplies applied. Busy/disabled lock actions; error/cancelled retain data and the host decides how to retry.
+
+## Import
+
+```tsx
+import { DiffTable } from "@yuhuanowo/yunui/ai";
+```
+
+## Interactive example
+
+The controls below explicitly simulate host responses; no request is sent. All labels and accessibility copy can be overridden. Missing callbacks disable the corresponding request controls.
+
+<ComponentPreview compactPadding title="DiffTable">
+  <DiffTableDemo />
+</ComponentPreview>
+
+## Composition
+
+```tsx
+import { DiffTable } from "@yuhuanowo/yunui/ai";
+
+<DiffTable rows={[{ id: "add", primary: "Use public imports", category: "Chat", secondary: "Conversation", change: "add" }]} selectedIds={["add"]} state="idle" />
+```
+
+## Props
+
+<PropsTable name="DiffTable" />
