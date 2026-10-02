@@ -1,0 +1,248 @@
+{
+  "server": "http://localhost:3958",
+  "foldMatrix": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 270,
+        "windowScrollY": 2130,
+        "codeRect": {
+          "x": 121,
+          "y": 275.953125,
+          "width": 186,
+          "height": 192
+        },
+        "showAllRect": {
+          "x": 113,
+          "y": 475.953125,
+          "width": 202,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 1998,
+        "windowScrollY": 2130,
+        "codeRect": {
+          "x": 121,
+          "y": -1452.046875,
+          "width": 186,
+          "height": 1920
+        },
+        "showLessRect": {
+          "x": 113,
+          "y": 475.953125,
+          "width": 202,
+          "height": 28
+        },
+        "lineCount": 80,
+        "showLessFocused": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 270,
+        "windowScrollY": 2004,
+        "showAllFocused": true,
+        "lineCount": 8
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/fold-3958-chromium-390-light-expanded.png",
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 116,
+        "windowScrollY": 1488,
+        "codeRect": {
+          "x": 415,
+          "y": 276.203125,
+          "width": 648,
+          "height": 192
+        },
+        "showAllRect": {
+          "x": 407,
+          "y": 476.203125,
+          "width": 664,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 1844,
+        "windowScrollY": 1488,
+        "codeRect": {
+          "x": 415,
+          "y": -1451.796875,
+          "width": 648,
+          "height": 1920
+        },
+        "showLessRect": {
+          "x": 407,
+          "y": 476.203125,
+          "width": 664,
+          "height": 28
+        },
+        "lineCount": 80,
+        "showLessFocused": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 116,
+        "windowScrollY": 1354,
+        "showAllFocused": true,
+        "lineCount": 8
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/fold-3958-chromium-1440-dark-expanded.png",
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 281,
+        "windowScrollY": 2183,
+        "codeRect": {
+          "x": 121,
+          "y": 270,
+          "width": 174,
+          "height": 198
+        },
+        "showAllRect": {
+          "x": 113,
+          "y": 476,
+          "width": 190,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 2009,
+        "windowScrollY": 2183,
+        "codeRect": {
+          "x": 121,
+          "y": -1458,
+          "width": 174,
+          "height": 1926
+        },
+        "showLessRect": {
+          "x": 113,
+          "y": 476,
+          "width": 190,
+          "height": 28
+        },
+        "lineCount": 80,
+        "showLessFocused": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 281,
+        "windowScrollY": 2057,
+        "showAllFocused": true,
+        "lineCount": 8
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/fold-3958-webkit-390-light-expanded.png",
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 116,
+        "windowScrollY": 1484,
+        "codeRect": {
+          "x": 413,
+          "y": 275.796875,
+          "width": 640,
+          "height": 192
+        },
+        "showAllRect": {
+          "x": 405,
+          "y": 475.796875,
+          "width": 656,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 1844,
+        "windowScrollY": 1484,
+        "codeRect": {
+          "x": 413,
+          "y": -1452.203125,
+          "width": 640,
+          "height": 1920
+        },
+        "showLessRect": {
+          "x": 405,
+          "y": 475.796875,
+          "width": 656,
+          "height": 28
+        },
+        "lineCount": 80,
+        "showLessFocused": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 116,
+        "windowScrollY": 1349,
+        "showAllFocused": true,
+        "lineCount": 8
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/fold-3958-webkit-1440-dark-expanded.png",
+      "pageErrors": []
+    }
+  ],
+  "locales": [
+    {
+      "locale": "zh-CN",
+      "language": "简体中文",
+      "showAllText": "展开全部 80 行",
+      "copyText": "复制完整代码",
+      "copiedLabel": "已复制",
+      "showLessText": "收起代码",
+      "lineCountBadgeCount": 1,
+      "copiedLines": 80,
+      "expandedLines": 80,
+      "focusedShowLess": true,
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/locale-zh-CN-folded-copy-expanded-1440-light.png",
+      "pageErrors": []
+    },
+    {
+      "locale": "zh-TW",
+      "language": "繁體中文",
+      "showAllText": "展開全部 80 行",
+      "copyText": "複製完整程式碼",
+      "copiedLabel": "已複製",
+      "showLessText": "收合程式碼",
+      "lineCountBadgeCount": 1,
+      "copiedLines": 80,
+      "expandedLines": 80,
+      "focusedShowLess": true,
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/locale-zh-TW-folded-copy-expanded-1440-light.png",
+      "pageErrors": []
+    }
+  ],
+  "summary": {
+    "cases": 4,
+    "locales": 2,
+    "errors": []
+  }
+}

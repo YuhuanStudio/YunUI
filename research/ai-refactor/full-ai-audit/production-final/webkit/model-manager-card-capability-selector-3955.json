@@ -1,0 +1,210 @@
+{
+  "server": "http://localhost:3955/docs/ai/",
+  "engine": "WebKit",
+  "matrix": [
+    {
+      "route": "model-manager-card",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "preview": {
+        "width": 352,
+        "height": 554,
+        "scrollWidth": 352
+      },
+      "documentWidth": 384,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-manager-card-3955-390-light.png"
+    },
+    {
+      "route": "model-manager-card",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "preview": {
+        "width": 352,
+        "height": 554,
+        "scrollWidth": 352
+      },
+      "documentWidth": 384,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-manager-card-3955-390-dark.png"
+    },
+    {
+      "route": "model-manager-card",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "preview": {
+        "width": 730,
+        "height": 554,
+        "scrollWidth": 730
+      },
+      "documentWidth": 762,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-manager-card-3955-768-light.png"
+    },
+    {
+      "route": "model-manager-card",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "preview": {
+        "width": 730,
+        "height": 554,
+        "scrollWidth": 730
+      },
+      "documentWidth": 762,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-manager-card-3955-768-dark.png"
+    },
+    {
+      "route": "model-manager-card",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "preview": {
+        "width": 834,
+        "height": 554,
+        "scrollWidth": 834
+      },
+      "documentWidth": 1434,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-manager-card-3955-1440-light.png"
+    },
+    {
+      "route": "model-manager-card",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "preview": {
+        "width": 834,
+        "height": 554,
+        "scrollWidth": 834
+      },
+      "documentWidth": 1434,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-manager-card-3955-1440-dark.png"
+    },
+    {
+      "route": "capability-selector",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "preview": {
+        "width": 352,
+        "height": 296,
+        "scrollWidth": 352
+      },
+      "documentWidth": 384,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/capability-selector-3955-390-light.png"
+    },
+    {
+      "route": "capability-selector",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "preview": {
+        "width": 352,
+        "height": 296,
+        "scrollWidth": 352
+      },
+      "documentWidth": 384,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/capability-selector-3955-390-dark.png"
+    },
+    {
+      "route": "capability-selector",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "preview": {
+        "width": 730,
+        "height": 242,
+        "scrollWidth": 730
+      },
+      "documentWidth": 762,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/capability-selector-3955-768-light.png"
+    },
+    {
+      "route": "capability-selector",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "preview": {
+        "width": 730,
+        "height": 242,
+        "scrollWidth": 730
+      },
+      "documentWidth": 762,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/capability-selector-3955-768-dark.png"
+    },
+    {
+      "route": "capability-selector",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "preview": {
+        "width": 834,
+        "height": 242,
+        "scrollWidth": 834
+      },
+      "documentWidth": 1434,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/capability-selector-3955-1440-light.png"
+    },
+    {
+      "route": "capability-selector",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "preview": {
+        "width": 834,
+        "height": 242,
+        "scrollWidth": 834
+      },
+      "documentWidth": 1434,
+      "violations": [],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/capability-selector-3955-1440-dark.png"
+    }
+  ],
+  "interactions": [
+    {
+      "route": "model-manager-card",
+      "checkboxInitial": "false",
+      "checkboxAfterClick": "true",
+      "checkboxRestored": "false",
+      "approvedBadgeVisible": true,
+      "actionLabels": [
+        "Edit model",
+        "Disable model",
+        "Delete model"
+      ]
+    },
+    {
+      "route": "capability-selector",
+      "chatInitial": "true",
+      "chatAfterClick": "false",
+      "chatAfterSpace": "true",
+      "availableModelTypeOrDisabledToggles": false,
+      "note": "Current docs fixture only renders the default capability set and selected toggles; no modelType/disabled switch control is present."
+    }
+  ],
+  "errors": [],
+  "axeViolationCount": 0
+}

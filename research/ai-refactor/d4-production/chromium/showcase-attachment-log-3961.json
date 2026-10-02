@@ -1,0 +1,26 @@
+{
+  "route": "/showcase",
+  "baseURL": "http://localhost:3961",
+  "failures": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "httpErrors": [],
+  "origins": [
+    "http://localhost:3961",
+    "https://picsum.photos",
+    "https://avatars.githubusercontent.com",
+    "https://fonts.googleapis.com",
+    "https://github.com",
+    "https://fastly.picsum.photos"
+  ],
+  "screenshots": [
+    "showcase-attachment-3961-390-light.png",
+    "showcase-attachment-3961-390-dark.png",
+    "showcase-attachment-3961-768-light.png",
+    "showcase-attachment-3961-768-dark.png",
+    "showcase-attachment-3961-1440-light.png",
+    "showcase-attachment-3961-1440-dark.png"
+  ],
+  "unexpectedOrigins": []
+}

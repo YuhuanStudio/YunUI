@@ -1,0 +1,39 @@
+$ tsc --noEmit -p agent/tsconfig.json && node --test scripts/tests/*.test.mjs
+✔ strict doctor ignores test-only content imports and retains runtime stylesheet imports (92.923ms)
+✔ test-only CSS imports cannot make an unstyled runtime pass strict doctor (88.056542ms)
+✔ comments and quoted examples cannot masquerade as runtime imports (88.08625ms)
+✔ literal dynamic imports count as runtime package usage (93.749291ms)
+✔ type-only content imports do not require runtime content styles (89.286708ms)
+✔ HTML comments cannot activate a stylesheet, while a real link remains discoverable (178.762291ms)
+✔ reference and research drafts cannot supply strict runtime CSS evidence (95.749333ms)
+✔ audit maps direct aliases, re-exports, and namespace JSX uses; comments and strings are not controls (172.274792ms)
+✔ audit reports definite raw controls and local public-widget imitations (170.716833ms)
+✔ a local wrapper that delegates to the real YunUI export is valid (172.890167ms)
+✔ avatar and empty-state markup are non-blocking human-review candidates (173.054209ms)
+✔ audit reports AST status unknown and strict failure when host TypeScript is unavailable (92.494709ms)
+✔ catalogue records real public exports, aliases, type-only imports, and docs paths (2.089667ms)
+✔ catalogue generation is deterministic (1113.382583ms)
+✔ list, find, and info read only the generated catalogue and show alias imports for the cwd (487.054417ms)
+✔ doctor resolves aliased package, CSS imports, CSS-relative @source, content CSS, adapters, and fonts (166.05675ms)
+✔ doctor does not accept scoped CSS or a nonexistent @source for alias-only installs (163.739542ms)
+✔ doctor resolves installed workspace links under a local dependency name (86.38225ms)
+✔ doctor identifies a GitHub dependency alias from its installed package manifest (84.822792ms)
+✔ doctor scans .yunui/setup.css but ignores generated recipes as runtime usage (87.7485ms)
+✔ doctor does not treat an unimported .yunui/setup.css as active setup (84.662083ms)
+✔ init --css wires setup after Tailwind and produces a strict-doctor-clean consumer (166.906042ms)
+✔ CLI rejects unsupported flags and missing option values (391.532792ms)
+✔ doctor reports an unresolved install without turning optional style notes into hard errors (82.271042ms)
+✔ strict doctor rejects an exported CSS target outside the installed package root (87.55625ms)
+✔ init preserves owner instructions, binds aliases and is byte-idempotent (10.889167ms)
+✔ init rejects manual asset overwrite before changing any other file (5.614417ms)
+✔ init refuses symlinked destinations and leaves their targets untouched (1.965875ms)
+✔ a commented Tailwind example is not a valid stylesheet integration point (2.0275ms)
+✔ Codex guidance goes into the active override instead of an ignored AGENTS.md (3.329625ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3097.318084

@@ -1,0 +1,343 @@
+{
+  "server": "http://127.0.0.1:3960",
+  "results": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "initialRegions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "lines": 3
+        },
+        {
+          "label": "TypeScript code, 80 lines",
+          "tabIndex": 0,
+          "lines": 8
+        }
+      ],
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 270,
+        "windowScrollY": 2130,
+        "codeRect": {
+          "x": 121,
+          "y": 275.953125,
+          "width": 186,
+          "height": 192
+        },
+        "buttonRect": {
+          "x": 113,
+          "y": 475.953125,
+          "width": 202,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 270,
+        "windowScrollY": 2130,
+        "codeRect": {
+          "x": 121,
+          "y": 275.953125,
+          "width": 186,
+          "height": 1920
+        },
+        "buttonRect": {
+          "x": 113,
+          "y": 2203.953125,
+          "width": 202,
+          "height": 28
+        },
+        "lineCount": 80,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 270,
+        "windowScrollY": 2004,
+        "codeRect": {
+          "x": 121,
+          "y": 401.953125,
+          "width": 186,
+          "height": 192
+        },
+        "lineCount": 8,
+        "focus": true
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-chromium-390-light-expanded.png",
+        "expandedCode": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-chromium-390-light-expanded-code.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "initialRegions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "lines": 3
+        },
+        {
+          "label": "TypeScript code, 80 lines",
+          "tabIndex": 0,
+          "lines": 8
+        }
+      ],
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 116,
+        "windowScrollY": 1488,
+        "codeRect": {
+          "x": 415,
+          "y": 276.203125,
+          "width": 648,
+          "height": 192
+        },
+        "buttonRect": {
+          "x": 407,
+          "y": 476.203125,
+          "width": 664,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 116,
+        "windowScrollY": 1488,
+        "codeRect": {
+          "x": 415,
+          "y": 276.203125,
+          "width": 648,
+          "height": 1920
+        },
+        "buttonRect": {
+          "x": 407,
+          "y": 2204.203125,
+          "width": 664,
+          "height": 28
+        },
+        "lineCount": 80,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 116,
+        "windowScrollY": 1354,
+        "codeRect": {
+          "x": 415,
+          "y": 410.203125,
+          "width": 648,
+          "height": 192
+        },
+        "lineCount": 8,
+        "focus": true
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-chromium-1440-dark-expanded.png",
+        "expandedCode": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-chromium-1440-dark-expanded-code.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "initialRegions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "lines": 3
+        },
+        {
+          "label": "TypeScript code, 80 lines",
+          "tabIndex": 0,
+          "lines": 8
+        }
+      ],
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 281,
+        "windowScrollY": 2183,
+        "codeRect": {
+          "x": 121,
+          "y": 270,
+          "width": 174,
+          "height": 198
+        },
+        "buttonRect": {
+          "x": 113,
+          "y": 476,
+          "width": 190,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 281,
+        "windowScrollY": 2183,
+        "codeRect": {
+          "x": 121,
+          "y": 270,
+          "width": 174,
+          "height": 1926
+        },
+        "buttonRect": {
+          "x": 113,
+          "y": 2204,
+          "width": 190,
+          "height": 28
+        },
+        "lineCount": 80,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 281,
+        "windowScrollY": 2290,
+        "codeRect": {
+          "x": 121,
+          "y": 163,
+          "width": 174,
+          "height": 198
+        },
+        "lineCount": 8,
+        "focus": true
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-webkit-390-light-expanded.png",
+        "expandedCode": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-webkit-390-light-expanded-code.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "initialRegions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "lines": 3
+        },
+        {
+          "label": "TypeScript code, 80 lines",
+          "tabIndex": 0,
+          "lines": 8
+        }
+      ],
+      "initialLineCount": 0,
+      "before": {
+        "listScrollTop": 116,
+        "windowScrollY": 1484,
+        "codeRect": {
+          "x": 413,
+          "y": 275.796875,
+          "width": 640,
+          "height": 192
+        },
+        "buttonRect": {
+          "x": 405,
+          "y": 475.796875,
+          "width": 656,
+          "height": 28
+        },
+        "lineCount": 0
+      },
+      "afterExpand": {
+        "listScrollTop": 116,
+        "windowScrollY": 1484,
+        "codeRect": {
+          "x": 413,
+          "y": 275.796875,
+          "width": 640,
+          "height": 1920
+        },
+        "buttonRect": {
+          "x": 405,
+          "y": 2203.796875,
+          "width": 656,
+          "height": 28
+        },
+        "lineCount": 80,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 116,
+        "windowScrollY": 1557,
+        "codeRect": {
+          "x": 413,
+          "y": 202.796875,
+          "width": 640,
+          "height": 192
+        },
+        "lineCount": 8,
+        "focus": true
+      },
+      "copiedLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-webkit-1440-dark-expanded.png",
+        "expandedCode": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3960-webkit-1440-dark-expanded-code.png"
+      },
+      "pageErrors": []
+    }
+  ],
+  "locales": [
+    {
+      "locale": "zh-CN",
+      "selectedOption": "简体中文",
+      "expectedLabels": {
+        "show": "展开全部 80 行",
+        "copy": "复制完整代码",
+        "copied": "已复制",
+        "less": "收起代码",
+        "line": "80 行"
+      },
+      "lineCountLabelVisible": 1,
+      "copiedLines": 80,
+      "expandedLines": 80,
+      "showLessFocus": true,
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-locale-zh-CN-3960-expanded-1440-light.png",
+      "pageErrors": []
+    },
+    {
+      "locale": "zh-TW",
+      "selectedOption": "繁體中文",
+      "expectedLabels": {
+        "show": "展開全部 80 行",
+        "copy": "複製完整程式碼",
+        "copied": "已複製",
+        "less": "收合程式碼",
+        "line": "80 行"
+      },
+      "lineCountLabelVisible": 1,
+      "copiedLines": 80,
+      "expandedLines": 80,
+      "showLessFocus": true,
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-locale-zh-TW-3960-expanded-1440-light.png",
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "fourFoldCases": 4,
+    "locales": 2,
+    "allExpanded80": true,
+    "allCopy80": true,
+    "allEdit80": true,
+    "maxMessageScrollDelta": 0,
+    "errors": 0
+  }
+}

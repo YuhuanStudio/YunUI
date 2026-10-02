@@ -1,0 +1,21 @@
+{
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "httpErrors": [],
+  "requestOrigins": [
+    "http://localhost:3945"
+  ],
+  "assertions": [
+    "chromium: ModelSelect disabled/active/Escape",
+    "chromium: AgentTimeline closed/open Tab order",
+    "chromium: approval disabled/enabled callbacks",
+    "chromium: Stop disabled/enabled callback",
+    "chromium: ChatComposer IME Enter/ordinary Enter",
+    "webkit: ModelSelect disabled/active/Escape",
+    "webkit: AgentTimeline closed/open Tab order",
+    "webkit: approval disabled/enabled callbacks",
+    "webkit: Stop disabled/enabled callback",
+    "webkit: ChatComposer IME Enter/ordinary Enter"
+  ]
+}

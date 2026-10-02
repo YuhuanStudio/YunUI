@@ -1,0 +1,17 @@
+
+Running 6 tests using 3 workers
+
+(node:16833) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16832) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium] › visual/showcase.spec.ts:46:3 › showcase › buttons — opt-in brand (violet) (1.8s)
+  ✓  1 [chromium] › visual/showcase.spec.ts:38:3 › showcase › buttons — default monochrome (1.8s)
+  ✓  3 [chromium] › visual/showcase.spec.ts:32:3 › showcase › top — light, default monochrome (2.0s)
+  ✓  6 [chromium] › visual/showcase.spec.ts:77:3 › docs › button page renders (live demos + props) (996ms)
+  ✓  5 [chromium] › visual/showcase.spec.ts:65:3 › showcase › forms — brand (slider/segmented re-themed) (1.6s)
+  ✓  4 [chromium] › visual/showcase.spec.ts:55:3 › showcase › buttons — brand in dark mode (1.9s)
+
+  6 passed (4.1s)

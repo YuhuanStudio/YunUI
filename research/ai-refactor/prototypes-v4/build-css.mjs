@@ -1,0 +1,10 @@
+import postcss from '../../../node_modules/.pnpm/postcss@8.5.25/node_modules/postcss/lib/postcss.mjs';
+import tailwind from '../../../site/node_modules/@tailwindcss/postcss/dist/index.mjs';
+import { readFile, writeFile } from 'node:fs/promises';
+const input = new URL('./upstream.css', import.meta.url);
+const css = await readFile(input, 'utf8');
+const layout = await readFile(new URL('./layout.css', import.meta.url), 'utf8');
+const contentStyles = await readFile(new URL('../../../styles/content.css', import.meta.url), 'utf8');
+const result = await postcss([tailwind()]).process(`${css}\n${layout}\n${contentStyles}`, { from: input.pathname, to: new URL('./d4.css', import.meta.url).pathname });
+await writeFile(new URL('./d4.css', import.meta.url), result.css);
+console.log(`Generated D4 source styles (${result.css.length} bytes)`);

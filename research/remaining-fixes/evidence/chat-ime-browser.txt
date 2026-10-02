@@ -1,0 +1,29 @@
+
+Running 12 tests using 3 workers
+
+(node:36885) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36886) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › visual/chat.spec.ts:5:5 › composer preserves IME draft light 1440 (463ms)
+  ✓   1 [chromium] › visual/chat.spec.ts:5:5 › composer preserves IME draft light 768 (480ms)
+  ✓   3 [chromium] › visual/chat.spec.ts:5:5 › composer preserves IME draft light 390 (667ms)
+  ✓   5 [chromium] › visual/chat.spec.ts:5:5 › composer preserves IME draft dark 768 (403ms)
+  ✓   4 [chromium] › visual/chat.spec.ts:5:5 › composer preserves IME draft dark 390 (602ms)
+  ✓   6 [chromium] › visual/chat.spec.ts:5:5 › composer preserves IME draft dark 1440 (441ms)
+(node:36912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [webkit] › visual/chat.spec.ts:5:5 › composer preserves IME draft light 390 (927ms)
+  ✓   8 [webkit] › visual/chat.spec.ts:5:5 › composer preserves IME draft light 768 (865ms)
+  ✓   9 [webkit] › visual/chat.spec.ts:5:5 › composer preserves IME draft light 1440 (907ms)
+  ✓  10 [webkit] › visual/chat.spec.ts:5:5 › composer preserves IME draft dark 390 (694ms)
+  ✓  11 [webkit] › visual/chat.spec.ts:5:5 › composer preserves IME draft dark 768 (704ms)
+  ✓  12 [webkit] › visual/chat.spec.ts:5:5 › composer preserves IME draft dark 1440 (725ms)
+
+  12 passed (3.6s)

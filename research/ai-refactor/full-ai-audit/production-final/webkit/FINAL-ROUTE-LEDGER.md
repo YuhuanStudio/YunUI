@@ -1,0 +1,14 @@
+# Final AI family production route ledger (WebKit)
+
+Status: read-only verification of public docs/component fixtures. No production source, demo, or styling changes were made by this verification pass. Captures are scoped to the live `ComponentPreview` region unless otherwise noted.
+
+| Route / evidence | Matrix | Runtime and accessibility checks | Result |
+| --- | --- | --- | --- |
+| `ModelManagerCard` — `model-manager-card-capability-selector-3956.json` | WebKit, 390/768/1440px × light/dark (6 captures), production site :3956 | Full scoped axe for all 6 states; no page errors. Host Checkbox changed false → true → false. “Approved” badge remained visible; Edit model, Disable model, and Delete model actions had accessible names. | 6/6 pass; axe 0 nodes. |
+| `CapabilitySelector` — same JSON | WebKit, 390/768/1440px × light/dark (6 captures), production site :3956 | Full scoped axe for all 6 states; no page errors. “Chat” toggled selected → unselected → selected by pointer and Space. The current public docs fixture exposes only the default capability set and selection; it does not expose a `modelType` or `disabled` control, so those variants were not simulated in this route audit. | 6/6 pass; axe 0 nodes. |
+| `ModelSelect` — `model-select-3956-final.json` | WebKit, 390/768/1440px × light/dark (6 captures), production site :3956 | Full scoped axe on each closed preview, plus open search and pinned states. Opening focuses Search; keyboard Enter on Pin moves focus to Unpin after regrouping; Escape closes and restores trigger focus. | 6/6 pass; all axe checks 0 nodes; no page errors. |
+| `Navbar` — `model-navbar-3955-final.json` | WebKit, 390/768/1440px × light/dark (6 captures), production site :3955 | Mobile menu checked in light and dark. Sign Up is visible and fits within the 430px contained preview frame. | 6/6 pass. |
+| `AccountMenu` and `LanguageSwitcher` | WebKit, 390/768/1440px × light/dark (12 captures) plus representative open states; production site :3954 | Both open menus were captured in light phone and dark desktop states and visually inspected. | Existing evidence retained from the immediately preceding source build; those two families were unchanged for :3955/:3956. |
+| `ModelCard` and `Footer` | WebKit, 390/768/1440px × light/dark (12 captures); production site :3952 | ModelCard body selection and independent ID copy interaction were verified; Footer layout reviewed. | Existing evidence retained; requested source changes did not affect these families. |
+
+The latest requested visual montage is `model-manager-capability-model-select-final-montage.png`. Latest individual captures are named `model-manager-card-3956-<width>-<theme>.png`, `capability-selector-3956-<width>-<theme>.png`, and `model-select-3956-<width>-<theme>.png` in `captures/`. ModelSelect open and pinned captures are `model-select-3956-open-390-light.png` and `model-select-3956-pinned-390-light.png`.

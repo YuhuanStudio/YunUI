@@ -1,0 +1,304 @@
+{
+  "server": "http://127.0.0.1:3962",
+  "results": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "before": {
+        "listScrollTop": 202,
+        "windowScrollY": 2082,
+        "codeRect": {
+          "x": 89,
+          "y": 275.703125,
+          "width": 250,
+          "height": 192
+        },
+        "buttonRect": {
+          "x": 81,
+          "y": 475.703125,
+          "width": 266,
+          "height": 28
+        },
+        "lines": 8
+      },
+      "afterExpand": {
+        "listScrollTop": 202,
+        "windowScrollY": 2082,
+        "codeRect": {
+          "x": 89,
+          "y": 275.703125,
+          "width": 250,
+          "height": 1920
+        },
+        "buttonRect": {
+          "x": 81,
+          "y": 2203.703125,
+          "width": 266,
+          "height": 28
+        },
+        "lines": 80,
+        "preFocused": true,
+        "showLessOffscreen": true
+      },
+      "shiftTabTarget": {
+        "tag": "BUTTON",
+        "aria": "Copy full code",
+        "text": "Copy"
+      },
+      "backToPre": true,
+      "afterTab": {
+        "listScrollTop": 1930,
+        "showLessRect": {
+          "x": 81,
+          "y": 601.703125,
+          "width": 266,
+          "height": 28
+        },
+        "showLessVisible": true,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 202,
+        "focus": true,
+        "preLines": 8
+      },
+      "copyLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-chromium-390-light-pre-focused.png",
+        "showLess": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-chromium-390-light-tab-to-show-less.png",
+        "collapsed": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-chromium-390-light-collapsed.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "before": {
+        "listScrollTop": 116,
+        "windowScrollY": 1464,
+        "codeRect": {
+          "x": 408,
+          "y": 276.203125,
+          "width": 662,
+          "height": 192
+        },
+        "buttonRect": {
+          "x": 400,
+          "y": 476.203125,
+          "width": 678,
+          "height": 28
+        },
+        "lines": 8
+      },
+      "afterExpand": {
+        "listScrollTop": 116,
+        "windowScrollY": 1464,
+        "codeRect": {
+          "x": 408,
+          "y": 276.203125,
+          "width": 662,
+          "height": 1920
+        },
+        "buttonRect": {
+          "x": 400,
+          "y": 2204.203125,
+          "width": 678,
+          "height": 28
+        },
+        "lines": 80,
+        "preFocused": true,
+        "showLessOffscreen": true
+      },
+      "shiftTabTarget": {
+        "tag": "BUTTON",
+        "aria": "Copy full code",
+        "text": "Copy"
+      },
+      "backToPre": true,
+      "afterTab": {
+        "listScrollTop": 1844,
+        "showLessRect": {
+          "x": 400,
+          "y": 610.203125,
+          "width": 678,
+          "height": 28
+        },
+        "showLessVisible": true,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 116,
+        "focus": true,
+        "preLines": 8
+      },
+      "copyLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-chromium-1440-dark-pre-focused.png",
+        "showLess": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-chromium-1440-dark-tab-to-show-less.png",
+        "collapsed": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-chromium-1440-dark-collapsed.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "before": {
+        "listScrollTop": 266,
+        "windowScrollY": 2135,
+        "codeRect": {
+          "x": 89,
+          "y": 269.03125,
+          "width": 238,
+          "height": 198
+        },
+        "buttonRect": {
+          "x": 81,
+          "y": 475.03125,
+          "width": 254,
+          "height": 28
+        },
+        "lines": 8
+      },
+      "afterExpand": {
+        "listScrollTop": 266,
+        "windowScrollY": 2135,
+        "codeRect": {
+          "x": 89,
+          "y": 269.03125,
+          "width": 238,
+          "height": 1926
+        },
+        "buttonRect": {
+          "x": 81,
+          "y": 2203.03125,
+          "width": 254,
+          "height": 28
+        },
+        "lines": 80,
+        "preFocused": true,
+        "showLessOffscreen": true
+      },
+      "shiftTabTarget": {
+        "tag": "BUTTON",
+        "aria": "Copy full code",
+        "text": "Copy"
+      },
+      "backToPre": true,
+      "afterTab": {
+        "listScrollTop": 1994,
+        "showLessRect": {
+          "x": 81,
+          "y": 601.03125,
+          "width": 254,
+          "height": 28
+        },
+        "showLessVisible": true,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 266,
+        "focus": true,
+        "preLines": 8
+      },
+      "copyLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-webkit-390-light-pre-focused.png",
+        "showLess": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-webkit-390-light-tab-to-show-less.png",
+        "collapsed": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-webkit-390-light-collapsed.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "before": {
+        "listScrollTop": 116,
+        "windowScrollY": 1460,
+        "codeRect": {
+          "x": 405,
+          "y": 275.796875,
+          "width": 656,
+          "height": 192
+        },
+        "buttonRect": {
+          "x": 397,
+          "y": 475.796875,
+          "width": 672,
+          "height": 28
+        },
+        "lines": 8
+      },
+      "afterExpand": {
+        "listScrollTop": 116,
+        "windowScrollY": 1460,
+        "codeRect": {
+          "x": 405,
+          "y": 275.796875,
+          "width": 656,
+          "height": 1920
+        },
+        "buttonRect": {
+          "x": 397,
+          "y": 2203.796875,
+          "width": 672,
+          "height": 28
+        },
+        "lines": 80,
+        "preFocused": true,
+        "showLessOffscreen": true
+      },
+      "shiftTabTarget": {
+        "tag": "BUTTON",
+        "aria": "Copy full code",
+        "text": "Copy"
+      },
+      "backToPre": true,
+      "afterTab": {
+        "listScrollTop": 1844,
+        "showLessRect": {
+          "x": 397,
+          "y": 605.796875,
+          "width": 672,
+          "height": 28
+        },
+        "showLessVisible": true,
+        "focus": true
+      },
+      "afterCollapse": {
+        "listScrollTop": 116,
+        "focus": true,
+        "preLines": 8
+      },
+      "copyLines": 80,
+      "editPayload": "all-routes.ts (80 lines)",
+      "captures": {
+        "expanded": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-webkit-1440-dark-pre-focused.png",
+        "showLess": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-webkit-1440-dark-tab-to-show-less.png",
+        "collapsed": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-fold-3962-webkit-1440-dark-collapsed.png"
+      },
+      "pageErrors": []
+    }
+  ],
+  "summary": {
+    "cases": 4,
+    "maxExpansionScrollDelta": 0,
+    "allPreFocused": true,
+    "allCopy80": true,
+    "allEdit80": true,
+    "allShiftTabToHeader": true,
+    "allTabToShowLess": true,
+    "allCollapseToShowAll": true,
+    "errors": 0
+  }
+}

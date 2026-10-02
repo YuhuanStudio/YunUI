@@ -1,0 +1,100 @@
+{
+  "baseURL": "http://localhost:3957/docs/chat",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "theme": "light",
+  "engines": {
+    "chromium": {
+      "states": [
+        {
+          "state": "Idle",
+          "expectedPhase": "waiting",
+          "actualPhase": "waiting",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/chromium-chat-idle-390-light-stable.png"
+        },
+        {
+          "state": "Working",
+          "expectedPhase": "acting",
+          "actualPhase": "acting",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/chromium-chat-working-390-light-stable.png"
+        },
+        {
+          "state": "Approval",
+          "expectedPhase": "waiting",
+          "actualPhase": "waiting",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/chromium-chat-approval-390-light-stable.png"
+        },
+        {
+          "state": "Done",
+          "expectedPhase": "completed",
+          "actualPhase": "completed",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/chromium-chat-done-390-light-stable.png"
+        },
+        {
+          "state": "Error",
+          "expectedPhase": "failed",
+          "actualPhase": "failed",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/chromium-chat-error-390-light-stable.png"
+        }
+      ],
+      "pageErrors": []
+    },
+    "webkit": {
+      "states": [
+        {
+          "state": "Idle",
+          "expectedPhase": "waiting",
+          "actualPhase": "waiting",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/webkit-chat-idle-390-light-stable.png"
+        },
+        {
+          "state": "Working",
+          "expectedPhase": "acting",
+          "actualPhase": "acting",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/webkit-chat-working-390-light-stable.png"
+        },
+        {
+          "state": "Approval",
+          "expectedPhase": "waiting",
+          "actualPhase": "waiting",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/webkit-chat-approval-390-light-stable.png"
+        },
+        {
+          "state": "Done",
+          "expectedPhase": "completed",
+          "actualPhase": "completed",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/webkit-chat-done-390-light-stable.png"
+        },
+        {
+          "state": "Error",
+          "expectedPhase": "failed",
+          "actualPhase": "failed",
+          "phaseMatches": true,
+          "axeViolations": [],
+          "capture": "captures/webkit-chat-error-390-light-stable.png"
+        }
+      ],
+      "pageErrors": []
+    }
+  }
+}

@@ -1,0 +1,401 @@
+{
+  "baseURL": "http://127.0.0.1:3961/docs/chat",
+  "measurements": [
+    {
+      "tag": "chromium-390-light",
+      "bounds": {
+        "left": 25,
+        "top": 0,
+        "right": 365,
+        "bottom": 460.34375
+      },
+      "menu": {
+        "left": 51,
+        "right": 307,
+        "top": 232.34375,
+        "bottom": 398.34375,
+        "width": 256
+      }
+    },
+    {
+      "tag": "chromium-390-dark",
+      "bounds": {
+        "left": 25,
+        "top": 0,
+        "right": 365,
+        "bottom": 460.34375
+      },
+      "menu": {
+        "left": 51,
+        "right": 307,
+        "top": 232.34375,
+        "bottom": 398.34375,
+        "width": 256
+      }
+    },
+    {
+      "tag": "chromium-768-light",
+      "bounds": {
+        "left": 309,
+        "top": 0,
+        "right": 727,
+        "bottom": 464.34375
+      },
+      "menu": {
+        "left": 317.03125,
+        "right": 573.03125,
+        "top": 232.34375,
+        "bottom": 398.34375,
+        "width": 256
+      }
+    },
+    {
+      "tag": "chromium-768-dark",
+      "bounds": {
+        "left": 309,
+        "top": 0,
+        "right": 727,
+        "bottom": 464.34375
+      },
+      "menu": {
+        "left": 317.03125,
+        "right": 573.03125,
+        "top": 232.34375,
+        "bottom": 398.34375,
+        "width": 256
+      }
+    },
+    {
+      "tag": "chromium-1440-light",
+      "bounds": {
+        "left": 336,
+        "top": 0,
+        "right": 1104,
+        "bottom": 464.34375
+      },
+      "menu": {
+        "left": 767.03125,
+        "right": 1023.03125,
+        "top": 232.34375,
+        "bottom": 398.34375,
+        "width": 256
+      }
+    },
+    {
+      "tag": "chromium-1440-dark",
+      "bounds": {
+        "left": 336,
+        "top": 0,
+        "right": 1104,
+        "bottom": 464.34375
+      },
+      "menu": {
+        "left": 694.03125,
+        "right": 950.03125,
+        "top": 232.34375,
+        "bottom": 398.34375,
+        "width": 256
+      }
+    },
+    {
+      "tag": "chromium-host270-light",
+      "bounds": {
+        "left": 25,
+        "right": 295
+      },
+      "menu": {
+        "left": 33,
+        "right": 287,
+        "width": 254
+      }
+    },
+    {
+      "tag": "chromium-host270-dark",
+      "bounds": {
+        "left": 25,
+        "right": 295
+      },
+      "menu": {
+        "left": 33,
+        "right": 287,
+        "width": 254
+      }
+    },
+    {
+      "tag": "webkit-390-light",
+      "bounds": {
+        "left": 25,
+        "top": 0,
+        "right": 359,
+        "bottom": 459.4375
+      },
+      "menu": {
+        "left": 51,
+        "right": 307,
+        "top": 231.9375,
+        "bottom": 397.90625,
+        "width": 256
+      }
+    },
+    {
+      "tag": "webkit-390-dark",
+      "bounds": {
+        "left": 25,
+        "top": 0,
+        "right": 359,
+        "bottom": 459.4375
+      },
+      "menu": {
+        "left": 51,
+        "right": 307,
+        "top": 231.9375,
+        "bottom": 397.90625,
+        "width": 256
+      }
+    },
+    {
+      "tag": "webkit-768-light",
+      "bounds": {
+        "left": 33,
+        "top": 0,
+        "right": 729,
+        "bottom": 463.9375
+      },
+      "menu": {
+        "left": 465.03125,
+        "right": 721.03125,
+        "top": 232.4375,
+        "bottom": 398.40625,
+        "width": 256
+      }
+    },
+    {
+      "tag": "webkit-768-dark",
+      "bounds": {
+        "left": 33,
+        "top": 0,
+        "right": 729,
+        "bottom": 463.9375
+      },
+      "menu": {
+        "left": 465.03125,
+        "right": 721.03125,
+        "top": 232.4375,
+        "bottom": 398.40625,
+        "width": 256
+      }
+    },
+    {
+      "tag": "webkit-1440-light",
+      "bounds": {
+        "left": 333,
+        "top": 0,
+        "right": 1101,
+        "bottom": 463.9375
+      },
+      "menu": {
+        "left": 837.03125,
+        "right": 1093.03125,
+        "top": 232.4375,
+        "bottom": 398.40625,
+        "width": 256
+      }
+    },
+    {
+      "tag": "webkit-1440-dark",
+      "bounds": {
+        "left": 333,
+        "top": 0,
+        "right": 1101,
+        "bottom": 463.9375
+      },
+      "menu": {
+        "left": 837.03125,
+        "right": 1093.03125,
+        "top": 232.4375,
+        "bottom": 398.40625,
+        "width": 256
+      }
+    },
+    {
+      "tag": "webkit-host270-light",
+      "bounds": {
+        "left": 25,
+        "right": 295
+      },
+      "menu": {
+        "left": 33,
+        "right": 287,
+        "width": 254
+      }
+    },
+    {
+      "tag": "webkit-host270-dark",
+      "bounds": {
+        "left": 25,
+        "right": 295
+      },
+      "menu": {
+        "left": 33,
+        "right": 287,
+        "width": 254
+      }
+    }
+  ],
+  "failures": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "rscAborts": [
+    "chromium-390-light: http://127.0.0.1:3961/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/ai/footer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/ai/language-switcher?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/chat/chat-message-list?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/ai/approval-question?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-light: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/ai/footer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/ai/approval-question?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-390-dark: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/content?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/chat/chat-message-list?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-light: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-768-dark: http://127.0.0.1:3961/docs/ai/approval-question?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/ai/approval-question?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-light: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-1440-dark: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/chat/chat-message-list?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-light: http://127.0.0.1:3961/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-host270-dark: http://127.0.0.1:3961/docs/ai/approval-question?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED"
+  ],
+  "requestFailures": [],
+  "httpErrors": [],
+  "screenshots": [
+    "model-menu-geometry-3961/chromium-390-light.png",
+    "model-menu-geometry-3961/chromium-390-dark.png",
+    "model-menu-geometry-3961/chromium-768-light.png",
+    "model-menu-geometry-3961/chromium-768-dark.png",
+    "model-menu-geometry-3961/chromium-1440-light.png",
+    "model-menu-geometry-3961/chromium-1440-dark.png",
+    "model-menu-geometry-3961/chromium-host270-light.png",
+    "model-menu-geometry-3961/chromium-host270-dark.png",
+    "model-menu-geometry-3961/webkit-390-light.png",
+    "model-menu-geometry-3961/webkit-390-dark.png",
+    "model-menu-geometry-3961/webkit-768-light.png",
+    "model-menu-geometry-3961/webkit-768-dark.png",
+    "model-menu-geometry-3961/webkit-1440-light.png",
+    "model-menu-geometry-3961/webkit-1440-dark.png",
+    "model-menu-geometry-3961/webkit-host270-light.png",
+    "model-menu-geometry-3961/webkit-host270-dark.png"
+  ],
+  "timestamp": "2026-10-02T01:55:36.468Z"
+}

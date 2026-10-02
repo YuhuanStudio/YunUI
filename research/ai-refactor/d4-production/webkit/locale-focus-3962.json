@@ -1,0 +1,48 @@
+{
+  "server": "http://127.0.0.1:3962",
+  "engine": "WebKit",
+  "results": [
+    {
+      "locale": "zh-CN",
+      "selectedLanguage": "简体中文",
+      "status": 200,
+      "translatedLabels": {
+        "show": "展开全部 80 行",
+        "copy": "复制完整代码",
+        "copied": "已复制",
+        "less": "收起代码",
+        "line": "80 行"
+      },
+      "countLabel": 1,
+      "countLabelVisible": true,
+      "copiedLines": 80,
+      "expandedLines": 80,
+      "preFocusedBeforeTab": true,
+      "showLessFocusedAfterTab": true,
+      "showLessVisible": true,
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-locale-zh-CN-3962-focused-pre-and-show-less.png",
+      "pageErrors": []
+    },
+    {
+      "locale": "zh-TW",
+      "selectedLanguage": "繁體中文",
+      "status": 200,
+      "translatedLabels": {
+        "show": "展開全部 80 行",
+        "copy": "複製完整程式碼",
+        "copied": "已複製",
+        "less": "收合程式碼",
+        "line": "80 行"
+      },
+      "countLabel": 1,
+      "countLabelVisible": true,
+      "copiedLines": 80,
+      "expandedLines": 80,
+      "preFocusedBeforeTab": true,
+      "showLessFocusedAfterTab": true,
+      "showLessVisible": true,
+      "screenshot": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-locale-zh-TW-3962-focused-pre-and-show-less.png",
+      "pageErrors": []
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+import { chromium } from '../../../site/node_modules/@playwright/test/index.mjs';
+import { writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root=dirname(fileURLToPath(import.meta.url));
+const browser=await chromium.launch({headless:true});
+const errors=[];const origins=new Set();
+try{
+ const page=await browser.newPage({viewport:{width:1100,height:1000}});page.setDefaultTimeout(5000);
+ page.on('pageerror',e=>errors.push(e.message));page.on('requestfailed',r=>errors.push(`request failed: ${r.url()}`));page.on('request',r=>origins.add(new URL(r.url()).origin));
+ const response=await page.goto('http://localhost:3944',{waitUntil:'networkidle'});if(response?.status()!==200)throw Error(`fixture HTTP ${response?.status()}`);
+ const prompt=page.getByRole('textbox',{name:'Demo prompt input'});
+ if(!(await prompt.isVisible()))throw Error('PromptBar prompt label override is not exposed');
+ await page.getByRole('button',{name:'Demo attachments menu'}).click();
+ await page.waitForTimeout(250);
+ await page.getByRole('button',{name:/^範例附件/}).click();
+ if(!(await page.getByRole('button',{name:'Demo remove catalog.generated.json'}).isVisible()))throw Error('dynamic attachment removal label override failed');
+ await page.getByRole('button',{name:'Demo model picker'}).click();
+ await page.getByRole('button',{name:'Reasoning 02'}).click();
+ if(!(await page.getByRole('button',{name:'Demo model picker'}).innerText()).includes('Reasoning 02'))throw Error('model picker label override or selection failed');
+ await prompt.fill('label fixture message');
+ await page.getByRole('button',{name:'Demo send message'}).click();
+ if(await page.getByTestId('sent-text').innerText()!=='label fixture message')throw Error('PromptBar send callback did not receive the message');
+ const card=page.locator('main').locator('section').nth(1);
+ await card.getByRole('button',{name:'Demo dismiss approval'}).click();
+ await card.getByRole('button',{name:'Open approval'}).click();
+ const custom=card.getByRole('textbox',{name:'Demo custom answer'});
+ await custom.fill('fixture answer');
+ if(!(await card.getByRole('button',{name:'Demo continue'}).isEnabled()))throw Error('custom answer did not enable continue');
+ await card.getByRole('button',{name:'Demo next step'}).click();
+ if(!(await card.getByText('Fixture approval second question',{exact:true}).isVisible()))throw Error('Next question label override did not advance the question');
+ await card.getByRole('button',{name:'Demo previous step'}).click();
+ if(!(await card.getByText('Fixture approval first question',{exact:true}).isVisible()))throw Error('Previous question label override did not return to the prior question');
+
+ const fallback=page.getByTestId('undefined-label-fallbacks');
+ const defaultPrompt=fallback.getByRole('textbox',{name:'Prompt'});
+ for(const label of ['Add attachments and sources','Choose model','Send'])if(!(await fallback.getByRole('button',{name:label}).isVisible()))throw Error(`undefined PromptBar label did not fall back to ${label}`);
+ await fallback.getByRole('button',{name:'Add attachments and sources'}).click();await page.waitForTimeout(250);await fallback.getByRole('button',{name:/^範例附件/}).click();
+ if(!(await fallback.getByRole('button',{name:'Remove catalog.generated.json'}).isVisible()))throw Error('undefined dynamic remove label did not use its default formatter');
+ for(const label of ['Dismiss','Custom answer','Previous question','Next question'])if(!(await fallback.getByRole(label==='Custom answer'?'textbox':'button',{name:label}).isVisible()))throw Error(`undefined ApprovalCard label did not fall back to ${label}`);
+ await fallback.getByRole('button',{name:'Dismiss'}).click();await fallback.getByRole('button',{name:'Open approval'}).click();
+ await page.close();
+}finally{await browser.close()}
+const result={errors,requestOrigins:[...origins]};console.log(JSON.stringify(result,null,2));
+await writeFile(join(root,'captures','label-override-log.json'),JSON.stringify(result,null,2)+'\n');
+if(errors.length||result.requestOrigins.some(origin=>origin!=='http://localhost:3944'))process.exitCode=1;

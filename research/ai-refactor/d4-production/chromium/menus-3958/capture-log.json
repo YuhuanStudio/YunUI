@@ -1,0 +1,43 @@
+{
+  "baseURL": "http://localhost:3958/docs/chat",
+  "failures": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "nextPrefetchCancellations": [
+    "chromium-dark-menus: http://localhost:3958/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/ai/footer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/ai/language-switcher?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/content?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/chat/chat-message-list?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium-dark-menus: http://localhost:3958/docs/ai/approval-question?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED"
+  ],
+  "httpErrors": [],
+  "screenshots": [
+    "empty-sources-dark-chromium.png",
+    "empty-commands-dark-chromium.png",
+    "model-menu-dark-chromium.png",
+    "empty-sources-dark-webkit.png",
+    "empty-commands-dark-webkit.png",
+    "model-menu-dark-webkit.png"
+  ],
+  "origins": [
+    "http://localhost:3958",
+    "https://fonts.googleapis.com"
+  ],
+  "unexpectedOrigins": []
+}

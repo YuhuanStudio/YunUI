@@ -1,0 +1,24 @@
+[
+  {
+    "engine": "chromium",
+    "passed": true,
+    "buttonTop": 743.421875,
+    "buttonBottom": 770.421875,
+    "dockTop": 778.5,
+    "scrollTop": 241,
+    "scrollBottom": 778.5,
+    "scrollOffset": 25,
+    "focused": true
+  },
+  {
+    "engine": "webkit",
+    "passed": true,
+    "buttonTop": 743.421875,
+    "buttonBottom": 770.421875,
+    "dockTop": 778.5,
+    "scrollTop": 241,
+    "scrollBottom": 778.5,
+    "scrollOffset": 25,
+    "focused": true
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "baseURL": "http://localhost:3957/docs/chat",
+  "engine": "webkit",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "state": "Working",
+  "themeSequence": ["dark", "light"],
+  "checks": [
+    {
+      "delayAfterLightSelectionMs": 0,
+      "htmlClass": "light",
+      "background": "#fff",
+      "labelColor": "oklab(0.144788 0 0 / 0.9)",
+      "fullScopedAxeViolations": []
+    },
+    {
+      "delayAfterLightSelectionMs": 300,
+      "htmlClass": "light",
+      "background": "#fff",
+      "labelColor": "oklab(0.144788 0 0 / 0.9)",
+      "fullScopedAxeViolations": []
+    },
+    {
+      "delayAfterLightSelectionMs": 700,
+      "htmlClass": "light",
+      "background": "#fff",
+      "labelColor": "oklab(0.144788 0 0 / 0.9)",
+      "fullScopedAxeViolations": []
+    }
+  ],
+  "pageErrors": []
+}

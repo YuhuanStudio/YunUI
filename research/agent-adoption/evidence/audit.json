@@ -1,0 +1,620 @@
+{
+  "cwd": "/var/folders/_f/_vymkrqx2nq6j_51njkh7km40000gn/T/yunui-adoption-probe-lwx23ji1",
+  "filesScanned": 2,
+  "imports": [
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Badge",
+      "local": "Badge",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 4
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Avatar",
+      "local": "Avatar",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 5
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "AvatarFallback",
+      "local": "AvatarFallback",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 6
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Button",
+      "local": "Button",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 7
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Card",
+      "local": "Card",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 8
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Dialog",
+      "local": "Dialog",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 9
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "DialogContent",
+      "local": "DialogContent",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 10
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "DialogDescription",
+      "local": "DialogDescription",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 11
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "DialogFooter",
+      "local": "DialogFooter",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 12
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "DialogHeader",
+      "local": "DialogHeader",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 13
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "DialogTitle",
+      "local": "DialogTitle",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 14
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Input",
+      "local": "Input",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 15
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Table",
+      "local": "Table",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 16
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Tbody",
+      "local": "Tbody",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 17
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Td",
+      "local": "Td",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 18
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Th",
+      "local": "Th",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 19
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Thead",
+      "local": "Thead",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 20
+    },
+    {
+      "action": "import",
+      "entry": ".",
+      "name": "Tr",
+      "local": "Tr",
+      "module": "@yuhuanowo/yunui",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 21
+    },
+    {
+      "action": "import",
+      "entry": "./patterns",
+      "name": "PageEmptyState",
+      "local": "PageEmptyState",
+      "module": "@yuhuanowo/yunui/patterns",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 23
+    },
+    {
+      "action": "import",
+      "entry": "./patterns",
+      "name": "PageHeader",
+      "local": "PageHeader",
+      "module": "@yuhuanowo/yunui/patterns",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 23
+    },
+    {
+      "action": "import",
+      "entry": "./patterns",
+      "name": "StatCard",
+      "local": "StatCard",
+      "module": "@yuhuanowo/yunui/patterns",
+      "typeOnly": false,
+      "file": "src/main.tsx",
+      "line": 23
+    }
+  ],
+  "usedExports": [
+    {
+      "entry": ".",
+      "name": "Avatar",
+      "kind": "component",
+      "import": "import { Avatar } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 72,
+          "local": "Avatar"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "AvatarFallback",
+      "kind": "component",
+      "import": "import { AvatarFallback } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 72,
+          "local": "AvatarFallback"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Badge",
+      "kind": "component",
+      "import": "import { Badge } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 111,
+          "local": "Badge"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 132,
+          "local": "Badge"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Button",
+      "kind": "component",
+      "import": "import { Button } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 80,
+          "local": "Button"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 98,
+          "local": "Button"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 114,
+          "local": "Button"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 117,
+          "local": "Button"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 142,
+          "local": "Button"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Card",
+      "kind": "component",
+      "import": "import { Card } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 88,
+          "local": "Card"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Dialog",
+      "kind": "component",
+      "import": "import { Dialog } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 128,
+          "local": "Dialog"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "DialogContent",
+      "kind": "component",
+      "import": "import { DialogContent } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 129,
+          "local": "DialogContent"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "DialogDescription",
+      "kind": "component",
+      "import": "import { DialogDescription } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 134,
+          "local": "DialogDescription"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "DialogFooter",
+      "kind": "component",
+      "import": "import { DialogFooter } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 142,
+          "local": "DialogFooter"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "DialogHeader",
+      "kind": "component",
+      "import": "import { DialogHeader } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 131,
+          "local": "DialogHeader"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "DialogTitle",
+      "kind": "component",
+      "import": "import { DialogTitle } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 133,
+          "local": "DialogTitle"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Input",
+      "kind": "component",
+      "import": "import { Input } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/index.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 95,
+          "local": "Input"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Table",
+      "kind": "component",
+      "import": "import { Table } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/table.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 104,
+          "local": "Table"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Tbody",
+      "kind": "component",
+      "import": "import { Tbody } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/table.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 106,
+          "local": "Tbody"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Td",
+      "kind": "component",
+      "import": "import { Td } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/table.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 109,
+          "local": "Td"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 110,
+          "local": "Td"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 111,
+          "local": "Td"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 112,
+          "local": "Td"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 113,
+          "local": "Td"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 114,
+          "local": "Td"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 117,
+          "local": "Td"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Th",
+      "kind": "component",
+      "import": "import { Th } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/table.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Th"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Th"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Th"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Th"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Th"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Th"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Thead",
+      "kind": "component",
+      "import": "import { Thead } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/table.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Thead"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "Tr",
+      "kind": "component",
+      "import": "import { Tr } from \"@yuhuanowo/yunui\";",
+      "source": "src/primitives/table.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 105,
+          "local": "Tr"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 108,
+          "local": "Tr"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 117,
+          "local": "Tr"
+        }
+      ]
+    },
+    {
+      "entry": "./patterns",
+      "name": "PageEmptyState",
+      "kind": "component",
+      "import": "import { PageEmptyState } from \"@yuhuanowo/yunui/patterns\";",
+      "source": "src/patterns/page-state.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 117,
+          "local": "PageEmptyState"
+        }
+      ]
+    },
+    {
+      "entry": "./patterns",
+      "name": "PageHeader",
+      "kind": "component",
+      "import": "import { PageHeader } from \"@yuhuanowo/yunui/patterns\";",
+      "source": "src/patterns/page-header.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 77,
+          "local": "PageHeader"
+        }
+      ]
+    },
+    {
+      "entry": "./patterns",
+      "name": "StatCard",
+      "kind": "component",
+      "import": "import { StatCard } from \"@yuhuanowo/yunui/patterns\";",
+      "source": "src/patterns/stat-card.tsx",
+      "uses": [
+        {
+          "file": "src/main.tsx",
+          "line": 84,
+          "local": "StatCard"
+        },
+        {
+          "file": "src/main.tsx",
+          "line": 85,
+          "local": "StatCard"
+        }
+      ]
+    }
+  ],
+  "definiteIssues": [],
+  "candidates": [],
+  "unknown": [],
+  "reviewPolicy": {
+    "candidatesAreHeuristicAndNonBlocking": true,
+    "note": "A candidate is not proof of copied design. Review it against available exports and this project's actual design-review requirements."
+  },
+  "strict": {
+    "enabled": true,
+    "ok": true,
+    "failures": []
+  },
+  "status": "ok"
+}

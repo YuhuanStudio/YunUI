@@ -1,0 +1,73 @@
+{
+  "cwd": "/var/folders/_f/_vymkrqx2nq6j_51njkh7km40000gn/T/yunui-adoption-probe-lwx23ji1",
+  "manifest": "package.json",
+  "package": {
+    "name": "@yuhuanowo/yunui",
+    "version": "0.2.18",
+    "path": "/var/folders/_f/_vymkrqx2nq6j_51njkh7km40000gn/T/yunui-adoption-probe-lwx23ji1/node_modules/@yuhuanowo/yunui"
+  },
+  "scannedFiles": 5,
+  "checks": [
+    {
+      "id": "package",
+      "status": "ok",
+      "message": "Resolved @yuhuanowo/yunui 0.2.18.",
+      "path": "node_modules/@yuhuanowo/yunui",
+      "packageName": "@yuhuanowo/yunui",
+      "alias": "@yuhuanowo/yunui"
+    },
+    {
+      "id": "package-css-export",
+      "status": "ok",
+      "message": "The installed package exports ./css to ./styles/yunui.css, inside its own package files.",
+      "target": "./styles/yunui.css",
+      "path": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/styles/yunui.css"
+    },
+    {
+      "id": "styles",
+      "status": "ok",
+      "message": "Found an import of the YunUI design-system stylesheet.",
+      "imports": [
+        "@yuhuanowo/yunui/css"
+      ]
+    },
+    {
+      "id": "content-styles",
+      "status": "note",
+      "message": "No content entry import detected; content.css is only needed for the content entry."
+    },
+    {
+      "id": "tailwind-source",
+      "status": "ok",
+      "message": "Found a Tailwind @source path that resolves inside the installed YunUI dist directory.",
+      "paths": [
+        {
+          "stylesheet": ".yunui/setup.css",
+          "source": "../node_modules/@yuhuanowo/yunui/dist"
+        }
+      ]
+    },
+    {
+      "id": "fonts",
+      "status": "note",
+      "message": "YunUI does not bundle Geist or JetBrains Mono; load them in the app if you use those font tokens."
+    },
+    {
+      "id": "adapters",
+      "status": "note",
+      "message": "Patterns/AI imports were found without a YunUIProvider identifier. Defaults are available; inject Link, Image, routing, or translations only where the app needs them."
+    },
+    {
+      "id": "package-content-css-export",
+      "status": "note",
+      "message": "The optional ./content.css export is only needed by projects using the content entry.",
+      "target": "./styles/content.css",
+      "path": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/styles/content.css"
+    }
+  ],
+  "strict": {
+    "enabled": true,
+    "ok": true,
+    "failures": []
+  }
+}

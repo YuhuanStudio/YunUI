@@ -1,0 +1,13 @@
+{
+  "baseURL": "http://localhost:3956/docs/ai/model-select",
+  "engine": "chromium",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "fixture": "Published ModelSelect docs preview; opened the real model picker and evaluated the panel after computed opacity reached 1 and all Web Animations finished.",
+  "axeScope": "[data-yunui=\"model-select-panel\"]",
+  "axeRules": "Axe default full rule set",
+  "violations": [],
+  "pageErrors": []
+}

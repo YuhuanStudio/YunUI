@@ -1,0 +1,811 @@
+{
+  "server": "http://localhost:3957",
+  "engine": "WebKit",
+  "chatMatrix": [
+    {
+      "state": "Idle",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-idle-390-light.png"
+    },
+    {
+      "state": "Idle",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-idle-390-dark.png"
+    },
+    {
+      "state": "Idle",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-idle-768-light.png"
+    },
+    {
+      "state": "Idle",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-idle-768-dark.png"
+    },
+    {
+      "state": "Idle",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-idle-1440-light.png"
+    },
+    {
+      "state": "Idle",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-idle-1440-dark.png"
+    },
+    {
+      "state": "Working",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-working-390-light.png"
+    },
+    {
+      "state": "Working",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-working-390-dark.png"
+    },
+    {
+      "state": "Working",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-working-768-light.png"
+    },
+    {
+      "state": "Working",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-working-768-dark.png"
+    },
+    {
+      "state": "Working",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-working-1440-light.png"
+    },
+    {
+      "state": "Working",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-working-1440-dark.png"
+    },
+    {
+      "state": "Approval",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-approval-390-light.png"
+    },
+    {
+      "state": "Approval",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-approval-390-dark.png"
+    },
+    {
+      "state": "Approval",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-approval-768-light.png"
+    },
+    {
+      "state": "Approval",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-approval-768-dark.png"
+    },
+    {
+      "state": "Approval",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-approval-1440-light.png"
+    },
+    {
+      "state": "Approval",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-approval-1440-dark.png"
+    },
+    {
+      "state": "Done",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-done-390-light.png"
+    },
+    {
+      "state": "Done",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-done-390-dark.png"
+    },
+    {
+      "state": "Done",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-done-768-light.png"
+    },
+    {
+      "state": "Done",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-done-768-dark.png"
+    },
+    {
+      "state": "Done",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-done-1440-light.png"
+    },
+    {
+      "state": "Done",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-done-1440-dark.png"
+    },
+    {
+      "state": "Error",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-error-390-light.png"
+    },
+    {
+      "state": "Error",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-error-390-dark.png"
+    },
+    {
+      "state": "Error",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-error-768-light.png"
+    },
+    {
+      "state": "Error",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "16px",
+      "documentWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-error-768-dark.png"
+    },
+    {
+      "state": "Error",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-error-1440-light.png"
+    },
+    {
+      "state": "Error",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "composerFontSize": "14px",
+      "documentWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-error-1440-dark.png"
+    }
+  ],
+  "codeContexts": [
+    {
+      "route": "/docs/content/markdown-renderer",
+      "kind": "markdown",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": -162.234375,
+        "width": 352,
+        "height": 1457.828125
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 421,
+          "clientWidth": 252
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-markdown-390-light.png"
+    },
+    {
+      "route": "/docs/content/markdown-renderer",
+      "kind": "markdown",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": -229.234375,
+        "width": 352,
+        "height": 1457.828125
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 421,
+          "clientWidth": 252
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-markdown-390-dark.png"
+    },
+    {
+      "route": "/docs/content/markdown-renderer",
+      "kind": "markdown",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": 0.625,
+        "width": 730,
+        "height": 1525.3125
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 630,
+          "clientWidth": 630
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-markdown-768-light.png"
+    },
+    {
+      "route": "/docs/content/markdown-renderer",
+      "kind": "markdown",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": 0.625,
+        "width": 730,
+        "height": 1525.3125
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 630,
+          "clientWidth": 630
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-markdown-768-dark.png"
+    },
+    {
+      "route": "/docs/content/markdown-renderer",
+      "kind": "markdown",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 300,
+        "y": 0.484375,
+        "width": 834,
+        "height": 1505.3125
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 654,
+          "clientWidth": 654
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-markdown-1440-light.png"
+    },
+    {
+      "route": "/docs/content/markdown-renderer",
+      "kind": "markdown",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 300,
+        "y": 0.484375,
+        "width": 834,
+        "height": 1505.3125
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 654,
+          "clientWidth": 654
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-markdown-1440-dark.png"
+    },
+    {
+      "route": "/docs/patterns/code-block",
+      "kind": "pattern-tabs",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": 386.40625,
+        "width": 352,
+        "height": 225.984375
+      },
+      "regions": [
+        {
+          "label": "bash code, 1 line",
+          "tabIndex": 0,
+          "text": "npm install @yuhuanowo/yunui",
+          "scrollWidth": 268,
+          "clientWidth": 268
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-tabs-390-light.png"
+    },
+    {
+      "route": "/docs/patterns/code-block",
+      "kind": "pattern-tabs",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": 386.40625,
+        "width": 352,
+        "height": 225.984375
+      },
+      "regions": [
+        {
+          "label": "bash code, 1 line",
+          "tabIndex": 0,
+          "text": "npm install @yuhuanowo/yunui",
+          "scrollWidth": 268,
+          "clientWidth": 268
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-tabs-390-dark.png"
+    },
+    {
+      "route": "/docs/patterns/code-block",
+      "kind": "pattern-tabs",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": 386.40625,
+        "width": 730,
+        "height": 225.984375
+      },
+      "regions": [
+        {
+          "label": "bash code, 1 line",
+          "tabIndex": 0,
+          "text": "npm install @yuhuanowo/yunui",
+          "scrollWidth": 574,
+          "clientWidth": 574
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-tabs-768-light.png"
+    },
+    {
+      "route": "/docs/patterns/code-block",
+      "kind": "pattern-tabs",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 16,
+        "y": 386.40625,
+        "width": 730,
+        "height": 225.984375
+      },
+      "regions": [
+        {
+          "label": "bash code, 1 line",
+          "tabIndex": 0,
+          "text": "npm install @yuhuanowo/yunui",
+          "scrollWidth": 574,
+          "clientWidth": 574
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-tabs-768-dark.png"
+    },
+    {
+      "route": "/docs/patterns/code-block",
+      "kind": "pattern-tabs",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 300,
+        "y": 386.140625,
+        "width": 834,
+        "height": 225.984375
+      },
+      "regions": [
+        {
+          "label": "bash code, 1 line",
+          "tabIndex": 0,
+          "text": "npm install @yuhuanowo/yunui",
+          "scrollWidth": 574,
+          "clientWidth": 574
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-tabs-1440-light.png"
+    },
+    {
+      "route": "/docs/patterns/code-block",
+      "kind": "pattern-tabs",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 300,
+        "y": 386.140625,
+        "width": 834,
+        "height": 225.984375
+      },
+      "regions": [
+        {
+          "label": "bash code, 1 line",
+          "tabIndex": 0,
+          "text": "npm install @yuhuanowo/yunui",
+          "scrollWidth": 574,
+          "clientWidth": 574
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-tabs-1440-dark.png"
+    },
+    {
+      "route": "/showcase",
+      "kind": "showcase-content",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 65,
+        "y": 436.484375,
+        "width": 254,
+        "height": 133
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 389,
+          "clientWidth": 236
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-showcase-content-390-light.png"
+    },
+    {
+      "route": "/showcase",
+      "kind": "showcase-content",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 65,
+        "y": 436.484375,
+        "width": 254,
+        "height": 133
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 389,
+          "clientWidth": 236
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-showcase-content-390-dark.png"
+    },
+    {
+      "route": "/showcase",
+      "kind": "showcase-content",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 65,
+        "y": 439.140625,
+        "width": 632,
+        "height": 127
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 614,
+          "clientWidth": 614
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-showcase-content-768-light.png"
+    },
+    {
+      "route": "/showcase",
+      "kind": "showcase-content",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 65,
+        "y": 439.140625,
+        "width": 632,
+        "height": 127
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 614,
+          "clientWidth": 614
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-showcase-content-768-dark.png"
+    },
+    {
+      "route": "/showcase",
+      "kind": "showcase-content",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "box": {
+        "x": 381,
+        "y": 439.578125,
+        "width": 672,
+        "height": 127
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 654,
+          "clientWidth": 654
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-showcase-content-1440-light.png"
+    },
+    {
+      "route": "/showcase",
+      "kind": "showcase-content",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "box": {
+        "x": 381,
+        "y": 439.578125,
+        "width": 672,
+        "height": 127
+      },
+      "regions": [
+        {
+          "label": "TypeScript code, 3 lines",
+          "tabIndex": 0,
+          "text": "export function greet(name: string): string {\n  return `Hello, ${name}!`;\n}",
+          "scrollWidth": 654,
+          "clientWidth": 654
+        }
+      ],
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-showcase-content-1440-dark.png"
+    }
+  ],
+  "interactions": [
+    {
+      "route": "/docs/patterns/code-block",
+      "state": "Tabs",
+      "npmText": "npm install @yuhuanowo/yunui",
+      "pnpmText": "pnpm add @yuhuanowo/yunui",
+      "scrollRegionFocused": true,
+      "preLabel": "bash code, 1 line",
+      "pageErrors": []
+    },
+    {
+      "route": "/docs/patterns/code-block",
+      "state": "DOM stress of live public code headers (rendered component unchanged)",
+      "filenameState": {
+        "headerWidth": 268,
+        "headerScrollWidth": 268,
+        "copyVisible": true,
+        "fileTitle": "verify-navbar-locales-report.integration.test.ts",
+        "fileRect": {
+          "x": 66,
+          "y": 464.296875,
+          "width": 117,
+          "height": 15.984375,
+          "top": 464.296875,
+          "right": 183,
+          "bottom": 480.28125,
+          "left": 66
+        },
+        "copyRect": {
+          "x": 254.140625,
+          "y": 460.296875,
+          "width": 63.859375,
+          "height": 24,
+          "top": 460.296875,
+          "right": 318,
+          "bottom": 484.296875,
+          "left": 254.140625
+        }
+      },
+      "tabState": {
+        "headerWidth": 268,
+        "headerScrollWidth": 268,
+        "copyVisible": true,
+        "tabRects": [
+          {
+            "x": 66,
+            "y": 877.390625,
+            "width": 41.34375,
+            "height": 24,
+            "top": 877.390625,
+            "right": 107.34375,
+            "bottom": 901.390625,
+            "left": 66
+          },
+          {
+            "x": 66,
+            "y": 905.390625,
+            "width": 151.4375,
+            "height": 68,
+            "top": 905.390625,
+            "right": 217.4375,
+            "bottom": 973.390625,
+            "left": 66
+          }
+        ]
+      },
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-long-filename-tabs-stress-390-light.png",
+      "pageErrors": []
+    }
+  ],
+  "issues": []
+}

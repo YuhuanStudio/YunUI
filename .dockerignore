@@ -13,3 +13,7 @@ site/public/icons
 playwright-report
 test-results
 scratchpad
+reference/
+
+# Research/QA artifacts are not site runtime inputs.
+research/

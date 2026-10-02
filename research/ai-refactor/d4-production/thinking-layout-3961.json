@@ -1,0 +1,192 @@
+{
+  "baseURL": "http://127.0.0.1:3961/docs/chat",
+  "theme": "light",
+  "cases": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "state": "Working",
+      "layout": {
+        "sectionWidth": 268,
+        "label": {
+          "left": 129,
+          "right": 342,
+          "top": 795.453125,
+          "bottom": 815.765625,
+          "width": 213,
+          "height": 20.3125
+        },
+        "metadata": {
+          "left": 129,
+          "right": 342,
+          "top": 817.765625,
+          "bottom": 835.640625,
+          "width": 213,
+          "height": 17.875
+        },
+        "labelText": "Render the Navbar page",
+        "metadataText": "3 locales",
+        "metadataBelowLabel": true,
+        "metadataBesideLabel": false
+      },
+      "axeViolations": [],
+      "pageErrors": [],
+      "capture": "captures/chromium-thinking-chat-390-light.png"
+    },
+    {
+      "engine": "chromium",
+      "width": 512,
+      "state": "Working",
+      "layout": {
+        "sectionWidth": 390,
+        "label": {
+          "left": 129,
+          "right": 409.0625,
+          "top": 860.046875,
+          "bottom": 880.359375,
+          "width": 280.0625,
+          "height": 20.3125
+        },
+        "metadata": {
+          "left": 417.0625,
+          "right": 464,
+          "top": 861.265625,
+          "bottom": 879.140625,
+          "width": 46.9375,
+          "height": 17.875
+        },
+        "labelText": "Render the Navbar page",
+        "metadataText": "3 locales",
+        "metadataBelowLabel": false,
+        "metadataBesideLabel": true
+      },
+      "axeViolations": [],
+      "pageErrors": [],
+      "capture": "captures/chromium-thinking-chat-512-light.png"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "state": "Working",
+      "layout": {
+        "sectionWidth": 680,
+        "label": {
+          "left": 448,
+          "right": 1018.0625,
+          "top": 849.046875,
+          "bottom": 869.359375,
+          "width": 570.0625,
+          "height": 20.3125
+        },
+        "metadata": {
+          "left": 1026.0625,
+          "right": 1073,
+          "top": 850.265625,
+          "bottom": 868.140625,
+          "width": 46.9375,
+          "height": 17.875
+        },
+        "labelText": "Render the Navbar page",
+        "metadataText": "3 locales",
+        "metadataBelowLabel": false,
+        "metadataBesideLabel": true
+      },
+      "axeViolations": [],
+      "pageErrors": [],
+      "capture": "captures/chromium-thinking-chat-1440-light.png"
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "state": "Working",
+      "layout": {
+        "sectionWidth": 256,
+        "label": {
+          "left": 129,
+          "right": 330,
+          "top": 795.53125,
+          "bottom": 815.84375,
+          "width": 201,
+          "height": 20.3125
+        },
+        "metadata": {
+          "left": 129,
+          "right": 330,
+          "top": 817.84375,
+          "bottom": 835.71875,
+          "width": 201,
+          "height": 17.875
+        },
+        "labelText": "Render the Navbar page",
+        "metadataText": "3 locales",
+        "metadataBelowLabel": true,
+        "metadataBesideLabel": false
+      },
+      "axeViolations": [],
+      "pageErrors": [],
+      "capture": "captures/webkit-thinking-chat-390-light.png"
+    },
+    {
+      "engine": "webkit",
+      "width": 512,
+      "state": "Working",
+      "layout": {
+        "sectionWidth": 384,
+        "label": {
+          "left": 129,
+          "right": 403.0625,
+          "top": 860.015625,
+          "bottom": 880.328125,
+          "width": 274.0625,
+          "height": 20.3125
+        },
+        "metadata": {
+          "left": 411.0625,
+          "right": 458,
+          "top": 861.234375,
+          "bottom": 879.109375,
+          "width": 46.9375,
+          "height": 17.875
+        },
+        "labelText": "Render the Navbar page",
+        "metadataText": "3 locales",
+        "metadataBelowLabel": false,
+        "metadataBesideLabel": true
+      },
+      "axeViolations": [],
+      "pageErrors": [],
+      "capture": "captures/webkit-thinking-chat-512-light.png"
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "state": "Working",
+      "layout": {
+        "sectionWidth": 680,
+        "label": {
+          "left": 445,
+          "right": 1015.0625,
+          "top": 848.640625,
+          "bottom": 868.953125,
+          "width": 570.0625,
+          "height": 20.3125
+        },
+        "metadata": {
+          "left": 1023.0625,
+          "right": 1070,
+          "top": 849.859375,
+          "bottom": 867.734375,
+          "width": 46.9375,
+          "height": 17.875
+        },
+        "labelText": "Render the Navbar page",
+        "metadataText": "3 locales",
+        "metadataBelowLabel": false,
+        "metadataBesideLabel": true
+      },
+      "axeViolations": [],
+      "pageErrors": [],
+      "capture": "captures/webkit-thinking-chat-1440-light.png"
+    }
+  ]
+}

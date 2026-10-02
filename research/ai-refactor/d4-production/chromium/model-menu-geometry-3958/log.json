@@ -1,0 +1,232 @@
+{
+  "baseURL": "http://localhost:3958/docs/chat",
+  "failures": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "httpErrors": [],
+  "measurements": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "theme": "light",
+      "trigger": {
+        "x": 83,
+        "y": 465.953125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": -44.03125,
+        "y": 289.953125,
+        "width": 256,
+        "height": 166
+      },
+      "withinViewport": false
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "theme": "dark",
+      "trigger": {
+        "x": 83,
+        "y": 465.953125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": -44.03125,
+        "y": 289.953125,
+        "width": 256,
+        "height": 166
+      },
+      "withinViewport": false
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "theme": "light",
+      "trigger": {
+        "x": 363,
+        "y": 465.953125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 235.96875,
+        "y": 289.953125,
+        "width": 256,
+        "height": 166
+      },
+      "withinViewport": true
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "theme": "dark",
+      "trigger": {
+        "x": 363,
+        "y": 465.953125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 235.96875,
+        "y": 289.953125,
+        "width": 256,
+        "height": 166
+      },
+      "withinViewport": true
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "theme": "light",
+      "trigger": {
+        "x": 906.03125,
+        "y": 465.953125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 779,
+        "y": 289.953125,
+        "width": 256,
+        "height": 166
+      },
+      "withinViewport": true
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "theme": "dark",
+      "trigger": {
+        "x": 906.03125,
+        "y": 465.953125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 779,
+        "y": 289.953125,
+        "width": 256,
+        "height": 166
+      },
+      "withinViewport": true
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "theme": "light",
+      "trigger": {
+        "x": 83,
+        "y": 465.03125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": -44.03125,
+        "y": 289.53125,
+        "width": 256,
+        "height": 165.96875
+      },
+      "withinViewport": false
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "theme": "dark",
+      "trigger": {
+        "x": 83,
+        "y": 465.03125,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": -44.03125,
+        "y": 289.53125,
+        "width": 256,
+        "height": 165.96875
+      },
+      "withinViewport": false
+    },
+    {
+      "engine": "webkit",
+      "width": 768,
+      "theme": "light",
+      "trigger": {
+        "x": 514.03125,
+        "y": 465.546875,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 387,
+        "y": 290.046875,
+        "width": 256,
+        "height": 165.96875
+      },
+      "withinViewport": true
+    },
+    {
+      "engine": "webkit",
+      "width": 768,
+      "theme": "dark",
+      "trigger": {
+        "x": 514.03125,
+        "y": 465.546875,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 387,
+        "y": 290.046875,
+        "width": 256,
+        "height": 165.96875
+      },
+      "withinViewport": true
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "theme": "light",
+      "trigger": {
+        "x": 902.03125,
+        "y": 465.546875,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 775,
+        "y": 290.046875,
+        "width": 256,
+        "height": 165.96875
+      },
+      "withinViewport": true
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "theme": "dark",
+      "trigger": {
+        "x": 902.03125,
+        "y": 465.546875,
+        "width": 128.96875,
+        "height": 28
+      },
+      "menu": {
+        "x": 775,
+        "y": 290.046875,
+        "width": 256,
+        "height": 165.96875
+      },
+      "withinViewport": true
+    }
+  ],
+  "screenshots": [
+    "model-menu-geometry-3958/chromium-390-light.png",
+    "model-menu-geometry-3958/chromium-390-dark.png",
+    "model-menu-geometry-3958/webkit-390-light.png",
+    "model-menu-geometry-3958/webkit-390-dark.png"
+  ]
+}

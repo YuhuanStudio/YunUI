@@ -1,0 +1,9 @@
+{
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "httpErrors": [],
+  "requestOrigins": [
+    "http://localhost:3943"
+  ]
+}

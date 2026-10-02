@@ -1,0 +1,158 @@
+{
+  "status": "8 production docs routes pixel-reviewed; 48 chromium matrix captures",
+  "builds": {
+    "modelCardFooter": "3952 (unchanged families retained)",
+    "accountMenuLanguageSwitcher": "3954",
+    "navbar": "3955 (latest Navbar route build)",
+    "modelSelectModelManagerCardCapabilitySelector": "3956"
+  },
+  "matrixCount": 48,
+  "matrixScreenshots": [
+    "model-card-390-light.png",
+    "model-card-390-dark.png",
+    "model-card-768-light.png",
+    "model-card-768-dark.png",
+    "model-card-1440-light.png",
+    "model-card-1440-dark.png",
+    "footer-390-light.png",
+    "footer-390-dark.png",
+    "footer-768-light.png",
+    "footer-768-dark.png",
+    "footer-1440-light.png",
+    "footer-1440-dark.png",
+    "final-account-menu-390-light.png",
+    "final-account-menu-390-dark.png",
+    "final-account-menu-768-light.png",
+    "final-account-menu-768-dark.png",
+    "final-account-menu-1440-light.png",
+    "final-account-menu-1440-dark.png",
+    "final-language-switcher-390-light.png",
+    "final-language-switcher-390-dark.png",
+    "final-language-switcher-768-light.png",
+    "final-language-switcher-768-dark.png",
+    "final-language-switcher-1440-light.png",
+    "final-language-switcher-1440-dark.png",
+    "final-v2-navbar-390-light.png",
+    "final-v2-model-select-390-light.png",
+    "final-v2-navbar-390-dark.png",
+    "final-v2-model-select-390-dark.png",
+    "final-v2-navbar-768-light.png",
+    "final-v2-model-select-768-light.png",
+    "final-v2-navbar-768-dark.png",
+    "final-v2-model-select-768-dark.png",
+    "final-v2-navbar-1440-light.png",
+    "final-v2-model-select-1440-light.png",
+    "final-v2-navbar-1440-dark.png",
+    "final-v2-model-select-1440-dark.png",
+    "final-model-manager-card-390-light.png",
+    "final-model-manager-card-390-dark.png",
+    "final-model-manager-card-768-light.png",
+    "final-model-manager-card-768-dark.png",
+    "final-model-manager-card-1440-light.png",
+    "final-model-manager-card-1440-dark.png",
+    "final-capability-selector-390-light.png",
+    "final-capability-selector-390-dark.png",
+    "final-capability-selector-768-light.png",
+    "final-capability-selector-768-dark.png",
+    "final-capability-selector-1440-light.png",
+    "final-capability-selector-1440-dark.png"
+  ],
+  "interactionScreenshots": [
+    "interaction-model-card-body-select.png",
+    "final-interaction-account-menu-open.png",
+    "final-interaction-account-menu-open-viewport.png",
+    "final-interaction-language-menu-open.png",
+    "final-interaction-language-menu-open-viewport.png",
+    "final-v2-interaction-navbar-mobile-menu-fullviewport.png",
+    "final-v2-interaction-navbar-mobile-menu-preview.png",
+    "final-v3-interaction-model-select-pinned-open.png",
+    "final-v3-interaction-model-manager-selected.png",
+    "final-v3-interaction-capability-selector-selected.png"
+  ],
+  "diagnostics": {
+    "3954": {
+      "failures": 0,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "requestFailures": 0,
+      "httpErrors": 0,
+      "prefetchCancellations": 482
+    },
+    "3955": {
+      "failures": 0,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "requestFailures": 0,
+      "httpErrors": 0,
+      "prefetchCancellations": 250,
+      "navbar768OverlapPairs": [],
+      "navbarMobileOutsideFrame": []
+    },
+    "3956": {
+      "modelSelect": {
+        "failures": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "requestFailures": 0,
+        "httpErrors": 0,
+        "prefetchCancellations": 105,
+        "fullAxe": []
+      },
+      "modelManagerCapability": {
+        "failures": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "requestFailures": 0,
+        "httpErrors": 0,
+        "prefetchCancellations": 218,
+        "axe": [
+          {
+            "tag": "model-manager-card-390-light-component",
+            "violations": []
+          },
+          {
+            "tag": "model-manager-card-390-dark-component",
+            "violations": []
+          },
+          {
+            "tag": "capability-selector-390-light-component",
+            "violations": []
+          },
+          {
+            "tag": "capability-selector-390-dark-component",
+            "violations": []
+          },
+          {
+            "tag": "model-manager-selected-390",
+            "violations": []
+          },
+          {
+            "tag": "capability-selector-selected-390",
+            "violations": []
+          }
+        ],
+        "fixtureStates": {
+          "modelManager": {
+            "selectSlot": true,
+            "disabledState": false,
+            "emptyState": false,
+            "editableActionsHaveCallbacks": false
+          },
+          "capabilitySelector": {
+            "controlledType": true,
+            "disabledState": false,
+            "emptyState": false,
+            "filterText": false
+          }
+        }
+      }
+    }
+  },
+  "findings": {
+    "modelSelectFullAxe": "3955 pre-decoration-fix run had image-redundant-alt; latest 3956 full-panel axe is empty after decorative icon fix.",
+    "navbar768": "no visible navigation-child rectangle intersections at 768px",
+    "navbar390": "all six mobile menu rows fit the 430px component preview frame",
+    "modelManager": "host checkbox toggles selected row; no disabled/empty states in demo; icon actions have no host callbacks",
+    "capabilitySelector": "pointer and Space toggles update controlled selection; no disabled/empty/type filter host controls in demo"
+  }
+}

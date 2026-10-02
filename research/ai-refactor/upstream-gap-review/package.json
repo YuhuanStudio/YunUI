@@ -1,0 +1,1 @@
+{"private":true,"type":"module","scripts":{"dev":"vite --host 127.0.0.1 --port 3963 --strictPort","build":"vite build"}}

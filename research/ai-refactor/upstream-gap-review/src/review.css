@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "../../../../styles/yunui.css";
+@source "./";
+@source "../components";
+
+/* Small token bridge: Beautiful UI's source utilities are retained, while
+   their semantic ramps resolve to YunUI's existing runtime tokens. */
+:root {
+  --page: var(--bg-base);
+  --canvas: var(--bg-elevated);
+  --surface: var(--bg-card);
+  --inset: var(--bg-glass);
+  --hover: var(--bg-hover);
+  --hover-2: var(--bg-elevated);
+  --ink: var(--text-primary);
+  --ink-2: var(--text-secondary);
+  --ink-3: var(--text-tertiary);
+  --line: var(--border-default);
+  --line-strong: var(--border-strong);
+  --accent-tint: var(--accent-subtle);
+  --green: var(--success);
+  --green-tint: color-mix(in srgb, var(--success) 14%, var(--bg-card));
+  --red: var(--error);
+  --red-tint: color-mix(in srgb, var(--error) 12%, var(--bg-card));
+  --orange: var(--warning);
+  --orange-tint: color-mix(in srgb, var(--warning) 12%, var(--bg-card));
+  --review-shadow-hairline: 0 0 0 1px var(--border-default);
+  --review-shadow-btn: 0 0 0 1px var(--border-strong), 0 1px 2px rgb(0 0 0 / .08);
+  --review-shadow-card: 0 0 0 1px var(--border-default), 0 4px 12px rgb(0 0 0 / .06);
+  --review-shadow-overlay: 0 0 0 1px var(--border-default), 0 8px 28px rgb(0 0 0 / .15);
+}
+
+@theme inline {
+  --color-page: var(--page); --color-canvas: var(--canvas); --color-surface: var(--surface);
+  --color-inset: var(--inset); --color-hover: var(--hover); --color-hover-2: var(--hover-2);
+  --color-ink: var(--ink); --color-ink-2: var(--ink-2); --color-ink-3: var(--ink-3);
+  --color-line: var(--line); --color-line-strong: var(--line-strong); --color-field: var(--bg-elevated);
+  --color-accent: var(--accent); --color-accent-tint: var(--accent-tint);
+  --color-green: var(--green); --color-green-tint: var(--green-tint);
+  --color-red: var(--red); --color-red-tint: var(--red-tint);
+  --color-orange: var(--orange); --color-orange-tint: var(--orange-tint);
+  --radius-card: 0.75rem;
+  --shadow-hairline: var(--review-shadow-hairline); --shadow-btn: var(--review-shadow-btn);
+  --shadow-card: var(--review-shadow-card); --shadow-overlay: var(--review-shadow-overlay);
+  --animate-fade-up: fade-up 400ms cubic-bezier(.23,1,.32,1) both;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
+@keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes pop-in { from { opacity: 0; transform: scale(.95) } to { opacity: 1; transform: scale(1) } }
+@keyframes spin { to { transform: rotate(360deg) } }
+.source-avatar { box-shadow: 0 0 0 1px color-mix(in srgb, var(--text-primary) 10%, transparent) }
+.primitive-card-bar { padding: 10px 12px }
+.primitive-card-footer { padding: 10px }
+.primitive-table-cell { padding: 10px 12px }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; transition-duration: .01ms !important } }
+
+body { margin: 0; background: var(--bg-base); color: var(--text-primary); font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif); }
+button, a, input { -webkit-tap-highlight-color: transparent; }
+.review-shell { min-height: 100vh; padding: 24px 18px 48px; background: var(--bg-base); color: var(--text-primary); }
+.review-main { width: min(920px,100%); margin: 0 auto; }
+.review-header { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:20px; }
+.review-eyebrow { color: var(--text-tertiary); font: 600 10px/1.4 ui-monospace,monospace; letter-spacing:.1em; }
+.review-header h1 { margin: 4px 0 0; font-size: 22px; line-height: 1.2; letter-spacing: -.025em; }
+.review-note { max-width: 700px; margin: 0 0 20px; color: var(--text-secondary); font-size: 12px; line-height:1.6; }
+.review-section { margin: 16px 0; padding: 15px; border: 1px solid var(--border-default); border-radius: var(--radius-lg); background: var(--bg-card); }
+.review-section header { display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:13px; }
+.review-section h2 { margin:0; font-size:14px; }
+.review-section code, .review-meta { color:var(--text-tertiary); font:10px/1.4 ui-monospace,monospace; }
+.review-fixture { display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin:10px 0 0; color:var(--text-secondary); font-size:11px; }
+.review-fixture select, .review-fixture button { border:1px solid var(--border-default); border-radius:var(--radius-control); background:var(--bg-elevated); padding:5px 8px; color:var(--text-primary); font:inherit; }
+.review-fixture button { cursor:pointer; }
+.review-fixture button:disabled { opacity:.45; cursor:not-allowed; }
+.review-status { display:block; min-height:18px; margin-top:8px; color:var(--text-tertiary); font-size:11px; }
+.review-callout { padding:9px 10px; border-radius:var(--radius-control); background:var(--bg-elevated); color:var(--text-secondary); font-size:11px; }
+.review-footer { margin-top:24px; padding-top:14px; border-top:1px solid var(--border-default); color:var(--text-secondary); font-size:11px; line-height:1.6; overflow-wrap:anywhere; }
+.review-footer code { font:10px ui-monospace,monospace; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+@media(max-width:600px) { .review-shell{padding:16px 10px 32px}.review-section{padding:12px}.review-section header{align-items:flex-start;flex-direction:column;gap:3px}.review-section h2{font-size:13px} }

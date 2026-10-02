@@ -1,0 +1,119 @@
+[
+  {
+    "route": "/docs/chat",
+    "state": "Working tool code",
+    "lineCount": 12,
+    "copiedLines": 12,
+    "regionBefore": {
+      "focused": true,
+      "scrollWidth": 595,
+      "clientWidth": 129,
+      "scrollLeft": 0
+    },
+    "regionAfter": {
+      "focused": true,
+      "scrollLeft": 48
+    },
+    "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-working-tool-code-390-light.png",
+    "pageErrors": []
+  },
+  {
+    "route": "/docs/chat",
+    "state": "Done",
+    "codeBlockCount": 2,
+    "initialCodeRegions": [
+      {
+        "label": "TypeScript code, 3 lines",
+        "lines": 0,
+        "tabIndex": 0
+      },
+      {
+        "label": "TypeScript code, 80 lines",
+        "lines": 0,
+        "tabIndex": 0
+      }
+    ],
+    "foldedCopyLines": 80,
+    "editPayload": "all-routes.ts (80 lines)",
+    "expandedLineCount": 80,
+    "disclosureFocusRestored": true,
+    "expandedCapture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/chat-done-expanded-code-80-390-light.png",
+    "pageErrors": []
+  },
+  {
+    "route": "/docs/content/markdown-renderer",
+    "region": {
+      "tabIndex": 0,
+      "focused": true,
+      "scrollWidth": 421,
+      "clientWidth": 252
+    },
+    "scrollLeftAfterArrow": 48,
+    "copiedLines": 3,
+    "inline": {
+      "text": "inline code",
+      "fontSize": "12.88px",
+      "paddingLeft": "3px",
+      "marginLeft": "0px",
+      "borderWidth": "0px"
+    },
+    "fontSize": {
+      "tabIndex": 0,
+      "focused": false,
+      "scrollWidth": 0,
+      "clientWidth": 0
+    },
+    "fontAndInline": {
+      "text": "inline code",
+      "fontSize": "12.88px",
+      "paddingLeft": "3px",
+      "marginLeft": "0px",
+      "borderWidth": "0px"
+    },
+    "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-markdown-renderer-interaction-390-light.png",
+    "pageErrors": [],
+    "focusAndScrollEvidence": "Direct WebKit run on the visible `export function greet` MarkdownRenderer pre; measurements from the actual rendered docs code block."
+  },
+  {
+    "route": "/docs/patterns/code-block",
+    "state": "Tabs",
+    "npm": "npm install @yuhuanowo/yunui",
+    "pnpm": "pnpm add @yuhuanowo/yunui",
+    "copiedActiveTab": "pnpm add @yuhuanowo/yunui",
+    "focus": {
+      "tabIndex": 0,
+      "active": true,
+      "scrollWidth": 268,
+      "clientWidth": 268
+    },
+    "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-tabs-pnpm-390-light.png",
+    "pageErrors": []
+  },
+  {
+    "route": "/docs/patterns/code-block",
+    "state": "Long filename stress on live package DOM",
+    "filenameMeasures": {
+      "headerWidth": 268,
+      "headerScrollWidth": 268,
+      "copyVisible": true,
+      "filenameTitle": "verify-navbar-locales-report.integration.test.ts",
+      "copyWithinHeader": true
+    },
+    "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-pattern-long-filename-390-light.png",
+    "pageErrors": []
+  },
+  {
+    "route": "/showcase",
+    "state": "Button component code",
+    "focus": {
+      "tabIndex": 0,
+      "focused": true,
+      "scrollWidth": 389,
+      "clientWidth": 236
+    },
+    "copiedLines": 3,
+    "highlightedLines": 0,
+    "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/d4-production/webkit/captures/code-showcase-button-390-light.png",
+    "pageErrors": []
+  }
+]

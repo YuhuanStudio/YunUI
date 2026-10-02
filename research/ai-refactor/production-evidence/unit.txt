@@ -1,0 +1,9 @@
+$ vitest run
+
+ RUN  v4.1.10 /Users/yuhuan/Documents/YuhuanStudio/YunUI
+
+
+ Test Files  39 passed (39)
+      Tests  332 passed (332)
+   Start at  21:09:58
+   Duration  3.43s (transform 3.62s, setup 4.99s, import 16.02s, tests 6.63s, environment 18.11s)

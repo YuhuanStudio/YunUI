@@ -1,0 +1,77 @@
+{
+  "baseURL": "http://127.0.0.1:3962/docs/chat",
+  "cases": [
+    {
+      "engine": "chromium",
+      "mode": "sources",
+      "options": [
+        "Workspace docs",
+        "Web search",
+        "Shared drive"
+      ],
+      "hovered": "Web search",
+      "violations": []
+    },
+    {
+      "engine": "chromium",
+      "mode": "commands",
+      "options": [
+        "summarize",
+        "review"
+      ],
+      "hovered": "review",
+      "violations": []
+    },
+    {
+      "engine": "webkit",
+      "mode": "sources",
+      "options": [
+        "Workspace docs",
+        "Web search",
+        "Shared drive"
+      ],
+      "hovered": "Web search",
+      "violations": []
+    },
+    {
+      "engine": "webkit",
+      "mode": "commands",
+      "options": [
+        "summarize",
+        "review"
+      ],
+      "hovered": "review",
+      "violations": []
+    }
+  ],
+  "failures": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "rscAborts": [
+    "chromium: http://127.0.0.1:3962/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/ai/language-switcher?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/ai/navbar?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/ai/footer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/chat/chat-message-list?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "chromium: http://127.0.0.1:3962/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED"
+  ],
+  "httpErrors": [],
+  "screenshots": [
+    "populated-menus-3962/chromium-sources-hover.png",
+    "populated-menus-3962/chromium-commands-hover.png",
+    "populated-menus-3962/webkit-sources-hover.png",
+    "populated-menus-3962/webkit-commands-hover.png"
+  ],
+  "timestamp": "2026-10-02T01:59:02.648Z"
+}

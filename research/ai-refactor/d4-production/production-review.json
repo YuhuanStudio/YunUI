@@ -1,0 +1,1264 @@
+{
+  "baseURL": "http://localhost:3957",
+  "source": "production build from the shared workspace; no scratch site",
+  "engines": {
+    "chromium": {
+      "matrix": [
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-thinking-block-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-thinking-block-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-thinking-block-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-thinking-block-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-thinking-block-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-thinking-block-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-agent-timeline-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-agent-timeline-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-agent-timeline-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-agent-timeline-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-agent-timeline-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-agent-timeline-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-approval-question-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-approval-question-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-approval-question-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-approval-question-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-approval-question-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-approval-question-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-agent-run-status-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-agent-run-status-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-agent-run-status-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-agent-run-status-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/chromium-agent-run-status-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/chromium-agent-run-status-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/chromium-chat-idle-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/chromium-chat-idle-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/chromium-chat-idle-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/chromium-chat-idle-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/chromium-chat-idle-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/chromium-chat-idle-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-working-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-working-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-working-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-working-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-working-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-working-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-approval-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-approval-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-approval-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-approval-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-approval-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-approval-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-done-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-done-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-done-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-done-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-done-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/chromium-chat-done-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-error-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-error-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-error-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-error-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-error-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/chromium-chat-error-1440-dark.png",
+          "axeViolations": []
+        }
+      ],
+      "interactions": {
+        "thinking": {
+          "triggerExpandedAfterEnter": "false",
+          "hostSelectedStep": "Host-selected step: compare",
+          "closedTraceInert": true
+        },
+        "timeline": {
+          "collapsedAfterKeyboard": true,
+          "expandedAgainAfterKeyboard": true,
+          "allowDisabledWithoutHostCallback": true,
+          "denyDisabledWithoutHostCallback": true
+        },
+        "questionnaire": {
+          "submittedNotice": "2 answer(s) collected locally; no tool was approved.",
+          "busyChoiceDisabled": true,
+          "busyDismissDisabled": true
+        },
+        "chatRichOutput": {
+          "codeBlockRendered": true,
+          "editCallback": "Host edit received verification.ts (12 lines)."
+        },
+        "approvalSeparation": {
+          "questionOnlyEvent": "Host received the questionnaire answers. No tool decision was made.",
+          "approvalStillPending": "waiting",
+          "cancelledPhase": "cancelled",
+          "declineEvent": "Rejection callback received for approval-command; the command was not run.",
+          "failedPhase": "failed"
+        },
+        "approvalAllow": {
+          "phase": "completed",
+          "event": "Approval callback received for approval-command; the local success fixture is shown."
+        }
+      },
+      "axeViolations": [],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "requestErrors": [],
+      "cancelledRsc": 94,
+      "axeSummary": {
+        "runs": 54,
+        "casesWithViolations": 0,
+        "violationGroups": 0
+      }
+    },
+    "webkit": {
+      "matrix": [
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-thinking-block-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-thinking-block-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-thinking-block-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-thinking-block-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-thinking-block-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/thinking-block",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-thinking-block-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-agent-timeline-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-agent-timeline-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-agent-timeline-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-agent-timeline-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-agent-timeline-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-timeline",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-agent-timeline-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-approval-question-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-approval-question-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-approval-question-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-approval-question-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-approval-question-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/approval-question",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-approval-question-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-agent-run-status-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-agent-run-status-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-agent-run-status-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-agent-run-status-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "capture": "captures/webkit-agent-run-status-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/ai/agent-run-status",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "capture": "captures/webkit-agent-run-status-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/webkit-chat-idle-390-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/webkit-chat-idle-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/webkit-chat-idle-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/webkit-chat-idle-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/webkit-chat-idle-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Idle",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 0,
+          "capture": "captures/webkit-chat-idle-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-working-390-light.png",
+          "axeViolations": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "help": "Elements must meet minimum color contrast ratio thresholds",
+              "nodes": [
+                {
+                  "target": [
+                    ".block.truncate.text-sm"
+                  ],
+                  "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-working-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-working-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-working-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-working-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Working",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "acting",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-working-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-approval-390-light.png",
+          "axeViolations": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "help": "Elements must meet minimum color contrast ratio thresholds",
+              "nodes": [
+                {
+                  "target": [
+                    ".block.truncate.font-medium"
+                  ],
+                  "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-approval-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-approval-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-approval-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-approval-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Approval",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "waiting",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-approval-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-done-390-light.png",
+          "axeViolations": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "help": "Elements must meet minimum color contrast ratio thresholds",
+              "nodes": [
+                {
+                  "target": [
+                    ".block.truncate.text-sm"
+                  ],
+                  "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-done-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-done-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-done-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-done-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Done",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "completed",
+          "rowCount": 1,
+          "capture": "captures/webkit-chat-done-1440-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 390,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-error-390-light.png",
+          "axeViolations": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "help": "Elements must meet minimum color contrast ratio thresholds",
+              "nodes": [
+                {
+                  "target": [
+                    ".block.truncate.text-sm"
+                  ],
+                  "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 390,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-error-390-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 768,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-error-768-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 768,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-error-768-dark.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 1440,
+          "theme": "light",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-error-1440-light.png",
+          "axeViolations": []
+        },
+        {
+          "route": "/docs/chat",
+          "state": "Error",
+          "width": 1440,
+          "theme": "dark",
+          "status": 200,
+          "runStatus": "failed",
+          "rowCount": 4,
+          "capture": "captures/webkit-chat-error-1440-dark.png",
+          "axeViolations": []
+        }
+      ],
+      "interactions": {
+        "thinking": {
+          "triggerExpandedAfterEnter": "false",
+          "hostSelectedStep": "Host-selected step: compare",
+          "closedTraceInert": true
+        },
+        "timeline": {
+          "collapsedAfterKeyboard": true,
+          "expandedAgainAfterKeyboard": true,
+          "allowDisabledWithoutHostCallback": true,
+          "denyDisabledWithoutHostCallback": true
+        },
+        "questionnaire": {
+          "submittedNotice": "2 answer(s) collected locally; no tool was approved.",
+          "busyChoiceDisabled": true,
+          "busyDismissDisabled": true
+        },
+        "chatRichOutput": {
+          "codeBlockRendered": true,
+          "editCallback": "Host edit received verification.ts (12 lines)."
+        },
+        "approvalSeparation": {
+          "questionOnlyEvent": "Host received the questionnaire answers. No tool decision was made.",
+          "approvalStillPending": "waiting",
+          "cancelledPhase": "cancelled",
+          "declineEvent": "Rejection callback received for approval-command; the command was not run.",
+          "failedPhase": "failed"
+        },
+        "approvalAllow": {
+          "phase": "completed",
+          "event": "Approval callback received for approval-command; the local success fixture is shown."
+        }
+      },
+      "axeViolations": [
+        {
+          "tag": "webkit-chat-working-390-light",
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".block.truncate.text-sm"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "tag": "webkit-chat-approval-390-light",
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".block.truncate.font-medium"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "tag": "webkit-chat-done-390-light",
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".block.truncate.text-sm"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "tag": "webkit-chat-error-390-light",
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".block.truncate.text-sm"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.17 (foreground color: #ededed, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "requestErrors": [],
+      "cancelledRsc": 0,
+      "axeSummary": {
+        "runs": 54,
+        "casesWithViolations": 4,
+        "violationGroups": 4
+      }
+    }
+  },
+  "notes": [
+    "Docs component Axe is scoped to the real public-component preview; Chat Axe is scoped to the actual ChatDemo composition.",
+    "Theme is selected using the visible docs theme control. No component attributes or props are injected.",
+    "Static screenshots come from the rendered public docs components and the site ChatDemo. D4 prototype counts are not used as evidence."
+  ]
+}

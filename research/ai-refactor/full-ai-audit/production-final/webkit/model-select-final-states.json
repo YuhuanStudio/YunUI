@@ -1,0 +1,114 @@
+{
+  "server": "http://localhost:3954",
+  "engine": "WebKit",
+  "route": "/docs/ai/model-select",
+  "states": [
+    {
+      "name": "open-search-focused",
+      "focus": {
+        "tag": "INPUT",
+        "role": "combobox",
+        "aria": "Search models…"
+      },
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".hover\\:bg-muted\\/80.px-2\\.5.py-1\\.5:nth-child(2)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".hover\\:bg-muted\\/80.px-2\\.5.py-1\\.5:nth-child(3)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".hover\\:bg-muted\\/80.px-2\\.5.py-1\\.5:nth-child(4)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".tracking-wide"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#yunui-ms-_R_2br9bsnp5tlb_-opt-67-70-74-2d-35 > .min-w-0.flex-1 > .flex-wrap.gap-1\\.5.text-muted-foreground > .rounded.text-\\[11px\\].py-0\\.5"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#yunui-ms-_R_2br9bsnp5tlb_-opt-67-70-74-2d-35 > .min-w-0.flex-1 > .flex-wrap.gap-1\\.5.text-muted-foreground > .rounded-sm.py-0\\.5[title=\"Context window\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#yunui-ms-_R_2br9bsnp5tlb_-opt-63-6c-61-75-64-65-2d-6f-70-75-73-2d-34-2d-38 > .min-w-0.flex-1 > .flex-wrap.gap-1\\.5.text-muted-foreground > .rounded.text-\\[11px\\].py-0\\.5:nth-child(1)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".text-muted-foreground\\/70"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.39 (foreground color: #9f9fa4, background color: #f4f4f5, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#yunui-ms-_R_2br9bsnp5tlb_-opt-63-6c-61-75-64-65-2d-6f-70-75-73-2d-34-2d-38 > .min-w-0.flex-1 > .flex-wrap.gap-1\\.5.text-muted-foreground > .rounded-sm.py-0\\.5[title=\"Context window\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.87 (foreground color: #7a7a81, background color: #f4f4f5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-final-open-390-light.png"
+    },
+    {
+      "name": "keyboard-pin-deepseek-r1",
+      "pressed": "true",
+      "focusReturnedToUnpin": true,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".text-muted-foreground\\/70"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.74 (foreground color: #94949a, background color: #f4f4f5, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-final-pinned-390-light.png"
+    },
+    {
+      "name": "escape-from-focused-unpin",
+      "panelVisible": true,
+      "triggerFocused": false,
+      "active": {
+        "tag": "BUTTON",
+        "role": null,
+        "aria": "Unpin"
+      }
+    },
+    {
+      "name": "escape-from-search",
+      "panelVisible": false,
+      "triggerFocused": true
+    }
+  ],
+  "errors": []
+}

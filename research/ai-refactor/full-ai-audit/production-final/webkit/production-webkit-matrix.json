@@ -1,0 +1,553 @@
+{
+  "server": "http://localhost:3952/docs/ai/",
+  "engine": "WebKit",
+  "matrix": [
+    {
+      "route": "model-card",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 287,
+        "width": 352,
+        "height": 387,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-card-390-light.png"
+    },
+    {
+      "route": "model-card",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 287,
+        "width": 352,
+        "height": 387,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-card-390-dark.png"
+    },
+    {
+      "route": "model-card",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 292,
+        "width": 730,
+        "height": 375,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-card-768-light.png"
+    },
+    {
+      "route": "model-card",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 292,
+        "width": 730,
+        "height": 375,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-card-768-dark.png"
+    },
+    {
+      "route": "model-card",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 292,
+        "width": 834,
+        "height": 375,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-card-1440-light.png"
+    },
+    {
+      "route": "model-card",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 292,
+        "width": 834,
+        "height": 375,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-card-1440-dark.png"
+    },
+    {
+      "route": "account-menu",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 306,
+        "width": 352,
+        "height": 346,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-390-light.png"
+    },
+    {
+      "route": "account-menu",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 306,
+        "width": 352,
+        "height": 346,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-390-dark.png"
+    },
+    {
+      "route": "account-menu",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 306,
+        "width": 730,
+        "height": 346,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-768-light.png"
+    },
+    {
+      "route": "account-menu",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 306,
+        "width": 730,
+        "height": 346,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-768-dark.png"
+    },
+    {
+      "route": "account-menu",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 306,
+        "width": 834,
+        "height": 346,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-1440-light.png"
+    },
+    {
+      "route": "account-menu",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 306,
+        "width": 834,
+        "height": 346,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-1440-dark.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 769,
+        "width": 352,
+        "height": 190,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-390-light.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 769,
+        "width": 352,
+        "height": 190,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-390-dark.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 765,
+        "width": 730,
+        "height": 190,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-768-light.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 765,
+        "width": 730,
+        "height": 190,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-768-dark.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 673,
+        "width": 834,
+        "height": 190,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-1440-light.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 673,
+        "width": 834,
+        "height": 190,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-1440-dark.png"
+    },
+    {
+      "route": "navbar",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 394,
+        "width": 352,
+        "height": 170,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/navbar-390-light.png"
+    },
+    {
+      "route": "navbar",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 394,
+        "width": 352,
+        "height": 170,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/navbar-390-dark.png"
+    },
+    {
+      "route": "navbar",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 789,
+        "width": 730,
+        "height": 170,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/navbar-768-light.png"
+    },
+    {
+      "route": "navbar",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 789,
+        "width": 730,
+        "height": 170,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/navbar-768-dark.png"
+    },
+    {
+      "route": "navbar",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 700,
+        "width": 834,
+        "height": 170,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/navbar-1440-light.png"
+    },
+    {
+      "route": "navbar",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 700,
+        "width": 834,
+        "height": 170,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/navbar-1440-dark.png"
+    },
+    {
+      "route": "footer",
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 414,
+        "width": 352,
+        "height": 545,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/footer-390-light.png"
+    },
+    {
+      "route": "footer",
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 414,
+        "width": 352,
+        "height": 545,
+        "scrollWidth": 352
+      },
+      "docWidth": 384,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/footer-390-dark.png"
+    },
+    {
+      "route": "footer",
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 478,
+        "width": 730,
+        "height": 481,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/footer-768-light.png"
+    },
+    {
+      "route": "footer",
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 16,
+        "y": 478,
+        "width": 730,
+        "height": 481,
+        "scrollWidth": 730
+      },
+      "docWidth": 762,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/footer-768-dark.png"
+    },
+    {
+      "route": "footer",
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 558,
+        "width": 834,
+        "height": 401,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/footer-1440-light.png"
+    },
+    {
+      "route": "footer",
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "dimensions": {
+        "x": 300,
+        "y": 558,
+        "width": 834,
+        "height": 401,
+        "scrollWidth": 834
+      },
+      "docWidth": 1434,
+      "pageErrors": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/footer-1440-dark.png"
+    }
+  ],
+  "interactions": [
+    {
+      "route": "model-card",
+      "action": "click card body",
+      "result": "Selected for routing",
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-card-interactive-body-selected.png"
+    },
+    {
+      "route": "model-card",
+      "action": "click Copy gpt-4o ID",
+      "copied": "gpt-4o",
+      "selectionAfterCopy": "Selected for routing",
+      "selectionUnchanged": true
+    },
+    {
+      "route": "account-menu",
+      "width": 390,
+      "theme": "light",
+      "action": "open account-menu",
+      "visible": true,
+      "popupRole": "menu",
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-open-390-light.png"
+    },
+    {
+      "route": "account-menu",
+      "width": 1440,
+      "theme": "dark",
+      "action": "open account-menu",
+      "visible": true,
+      "popupRole": "menu",
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/account-menu-open-1440-dark.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 390,
+      "theme": "light",
+      "action": "open language-switcher",
+      "visible": true,
+      "popupRole": "group",
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-open-390-light.png"
+    },
+    {
+      "route": "language-switcher",
+      "width": 1440,
+      "theme": "dark",
+      "action": "open language-switcher",
+      "visible": true,
+      "popupRole": "group",
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/language-switcher-open-1440-dark.png"
+    },
+    {
+      "route": "navbar",
+      "width": 390,
+      "theme": "light",
+      "action": "open navbar-mobile",
+      "visible": true,
+      "popupRole": "navigation",
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/navbar-mobile-open-390-light.png"
+    }
+  ],
+  "errors": [],
+  "pendingRoutes": [
+    {
+      "route": "model-select",
+      "reason": "Source/production dist being patched for nested interactive pin control; capture only after root confirms final production build."
+    }
+  ]
+}

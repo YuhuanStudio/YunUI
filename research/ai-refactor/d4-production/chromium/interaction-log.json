@@ -1,0 +1,102 @@
+{
+  "baseURL": "http://localhost:3957",
+  "failures": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "nextPrefetchCancellations": [
+    "code-and-composer-interactions: http://localhost:3957/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/ai/navbar?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/ai/footer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/ai/language-switcher?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/chat/chat-header?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/chat/generation-stats?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/chat/chat-message-list?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/chat/chat-attachment?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "code-and-composer-interactions: http://localhost:3957/docs/ai/agent-timeline?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/?_rsc=vJHlixER621VYjDF net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/ai/language-switcher?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/ai/footer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/callout-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/markdown-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/code-block?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/math-renderer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/image-lightbox?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/content-image?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/mermaid-diagram?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/chat?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/content/inline-citation?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/chat/chat-message?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "mobile-composer-interactions: http://localhost:3957/docs/chat/chat-composer?_rsc=UwpdhdoFJLxf-fxh net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/?_rsc=_1HStNTI3e9IuB9R net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/agent-timeline?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/patterns/archive-calendar?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/capability-badge?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/thinking-block?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/approval-question?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/agent-run-status?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/id-badge?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/account-menu?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/navbar?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/footer?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/ai/language-switcher?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/content/markdown-renderer?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/content?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED",
+    "approval-question-busy: http://localhost:3957/docs/content/code-block?_rsc=58k_nRj6QdST4xxx net::ERR_ABORTED"
+  ],
+  "httpErrors": [],
+  "origins": [
+    "http://localhost:3957",
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com"
+  ],
+  "checks": [
+    "public 3-line/80-line CodeBlocks render; full-source copy, edit callbacks and fold/focus restoration pass",
+    "Working ThinkingBlock and real 12-line AgentTimeline tool output pass",
+    "390px composer input is at least 16px; middle-caret @ preserves suffix; IME Enter does not send; normal Enter sends",
+    "Approval Other answer is usable and Next does not overlap composer dock at 390px",
+    "ApprovalQuestion busy fixture disables decision inputs"
+  ],
+  "measurements": {
+    "mobileComposerFontSize": "16px",
+    "approvalMobile": {
+      "next": {
+        "x": 248.390625,
+        "y": 734.765625,
+        "width": 78.75,
+        "height": 35.125
+      },
+      "composer": {
+        "x": 70,
+        "y": 856.34375,
+        "width": 250,
+        "height": 220
+      },
+      "clearance": 86.453125
+    }
+  },
+  "screenshots": [
+    "interaction-short-code-copy-edit.png",
+    "interaction-long-code-expanded-copy-edit.png",
+    "interaction-tool-output-12-copy-edit.png",
+    "interaction-source-menu-mid-caret.png",
+    "interaction-approval-other-mobile.png",
+    "interaction-approval-question-busy.png"
+  ],
+  "unexpectedOrigins": []
+}

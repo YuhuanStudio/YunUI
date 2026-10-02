@@ -1,0 +1,41 @@
+{
+  "failures": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "requestFailures": [],
+  "httpErrors": [],
+  "origins": [
+    "http://localhost:3946"
+  ],
+  "screenshots": [
+    "chromium-390-light-done.png",
+    "chromium-390-light-working.png",
+    "chromium-390-dark-done.png",
+    "chromium-390-dark-working.png",
+    "chromium-768-light-done.png",
+    "chromium-768-light-working.png",
+    "chromium-768-dark-done.png",
+    "chromium-768-dark-working.png",
+    "chromium-1440-light-done.png",
+    "chromium-1440-light-working.png",
+    "chromium-1440-dark-done.png",
+    "chromium-1440-dark-working.png",
+    "chromium-80-expanded.png",
+    "chromium-tool-copy-edit.png",
+    "webkit-390-light-done.png",
+    "webkit-390-light-working.png",
+    "webkit-390-dark-done.png",
+    "webkit-390-dark-working.png",
+    "webkit-768-light-done.png",
+    "webkit-768-light-working.png",
+    "webkit-768-dark-done.png",
+    "webkit-768-dark-working.png",
+    "webkit-1440-light-done.png",
+    "webkit-1440-light-working.png",
+    "webkit-1440-dark-done.png",
+    "webkit-1440-dark-working.png",
+    "webkit-80-expanded.png",
+    "webkit-tool-copy-edit.png"
+  ],
+  "unexpectedOrigins": []
+}

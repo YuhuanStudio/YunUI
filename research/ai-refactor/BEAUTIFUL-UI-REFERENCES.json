@@ -1,0 +1,193 @@
+{
+  "audit_date": "2026-10-01",
+  "upstream": {
+    "website": "https://www.beautifului.dev/",
+    "repository": "https://github.com/slev12397/beautiful-ui",
+    "commit": "44a274e598395ab61e7c96c26fda2758780253b7",
+    "commit_url": "https://github.com/slev12397/beautiful-ui/commit/44a274e598395ab61e7c96c26fda2758780253b7",
+    "readme": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/README.md",
+    "license": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/LICENSE",
+    "package": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/package.json",
+    "design_tokens": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/app/globals.css",
+    "gallery_metadata": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/lib/meta.ts",
+    "gallery_registry": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/lib/registry.tsx",
+    "public_registry": "https://www.beautifului.dev/r/registry.json",
+    "harness": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/site/IceCreamHarness.tsx"
+  },
+  "gallery_components": [
+    {
+      "id": "loading-state",
+      "title": "Loading State",
+      "gallery_url": "https://www.beautifului.dev/#loading-state",
+      "source_path": "components/primitives/LoadingState.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/LoadingState.tsx"
+    },
+    {
+      "id": "thinking-state",
+      "title": "Thinking",
+      "gallery_url": "https://www.beautifului.dev/#thinking-state",
+      "source_path": "components/primitives/ThinkingState.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/ThinkingState.tsx"
+    },
+    {
+      "id": "streaming-text",
+      "title": "Streaming Text",
+      "gallery_url": "https://www.beautifului.dev/#streaming-text",
+      "source_path": "components/primitives/StreamingText.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/StreamingText.tsx"
+    },
+    {
+      "id": "approval-card",
+      "title": "Approval Card",
+      "gallery_url": "https://www.beautifului.dev/#approval-card",
+      "source_path": "components/primitives/ApprovalCard.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/ApprovalCard.tsx"
+    },
+    {
+      "id": "tool-chips",
+      "title": "Tool Chips",
+      "gallery_url": "https://www.beautifului.dev/#tool-chips",
+      "source_path": "components/primitives/ToolChips.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/ToolChips.tsx"
+    },
+    {
+      "id": "task-rows",
+      "title": "Task Rows",
+      "gallery_url": "https://www.beautifului.dev/#task-rows",
+      "source_path": "components/primitives/TaskRows.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/TaskRows.tsx"
+    },
+    {
+      "id": "chat-composer",
+      "title": "Chat",
+      "gallery_url": "https://www.beautifului.dev/#chat-composer",
+      "source_path": "components/primitives/ChatComposer.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/ChatComposer.tsx"
+    },
+    {
+      "id": "prompt-bar",
+      "title": "Prompt Bar",
+      "gallery_url": "https://www.beautifului.dev/#prompt-bar",
+      "source_path": "components/primitives/PromptBar.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/PromptBar.tsx"
+    },
+    {
+      "id": "recommendation-card",
+      "title": "Recommendation Card",
+      "gallery_url": "https://www.beautifului.dev/#recommendation-card",
+      "source_path": "components/primitives/RecommendationCard.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/RecommendationCard.tsx"
+    },
+    {
+      "id": "context-cards",
+      "title": "Context Cards",
+      "gallery_url": "https://www.beautifului.dev/#context-cards",
+      "source_path": "components/primitives/ContextCards.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/ContextCards.tsx"
+    },
+    {
+      "id": "diff-table",
+      "title": "Diff Table",
+      "gallery_url": "https://www.beautifului.dev/#diff-table",
+      "source_path": "components/primitives/DiffTable.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/DiffTable.tsx"
+    },
+    {
+      "id": "records-table",
+      "title": "Records Table",
+      "gallery_url": "https://www.beautifului.dev/#records-table",
+      "source_path": "components/primitives/RecordsTable.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/RecordsTable.tsx"
+    },
+    {
+      "id": "filter-table",
+      "title": "Filter Table",
+      "gallery_url": "https://www.beautifului.dev/#filter-table",
+      "source_path": "components/primitives/FilterTable.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/FilterTable.tsx"
+    },
+    {
+      "id": "sidebar-nav",
+      "title": "Sidebar Nav",
+      "gallery_url": "https://www.beautifului.dev/#sidebar-nav",
+      "source_path": "components/primitives/SidebarNav.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/SidebarNav.tsx"
+    },
+    {
+      "id": "search",
+      "title": "Search",
+      "gallery_url": "https://www.beautifului.dev/#search",
+      "source_path": "components/primitives/SearchList.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/SearchList.tsx"
+    },
+    {
+      "id": "flowchart",
+      "title": "Flowchart",
+      "gallery_url": "https://www.beautifului.dev/#flowchart",
+      "source_path": "components/primitives/Flowchart.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/Flowchart.tsx"
+    },
+    {
+      "id": "insight-cards",
+      "title": "Insight Cards",
+      "gallery_url": "https://www.beautifului.dev/#insight-cards",
+      "source_path": "components/primitives/InsightCards.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/InsightCards.tsx"
+    },
+    {
+      "id": "code-block",
+      "title": "Code Block",
+      "gallery_url": "https://www.beautifului.dev/#code-block",
+      "source_path": "components/primitives/CodeBlock.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/CodeBlock.tsx"
+    },
+    {
+      "id": "fine-tune-card",
+      "title": "Fine-tune Card",
+      "gallery_url": "https://www.beautifului.dev/#fine-tune-card",
+      "source_path": "components/primitives/FineTuneCard.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/FineTuneCard.tsx"
+    },
+    {
+      "id": "selection-actions",
+      "title": "Selection Actions",
+      "gallery_url": "https://www.beautifului.dev/#selection-actions",
+      "source_path": "components/primitives/SelectionActions.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/SelectionActions.tsx"
+    },
+    {
+      "id": "agent-screen",
+      "title": "Agent Screen",
+      "gallery_url": "https://www.beautifului.dev/#agent-screen",
+      "source_path": "components/primitives/AgentScreen.tsx",
+      "source_url": "https://github.com/slev12397/beautiful-ui/blob/44a274e598395ab61e7c96c26fda2758780253b7/components/primitives/AgentScreen.tsx"
+    }
+  ],
+  "yunui_sources": [
+    "src/ai/agent-run-status.tsx",
+    "src/ai/agent-timeline.tsx",
+    "src/ai/thinking-block.tsx",
+    "src/chat/chat-composer.tsx",
+    "src/chat/chat-message.tsx",
+    "src/chat/chat-message-list.tsx",
+    "src/chat/chat-header.tsx",
+    "src/chat/chat-attachment.tsx",
+    "src/chat/generation-stats.tsx",
+    "src/content/markdown-renderer.tsx",
+    "src/content/code-block.tsx",
+    "src/content/content-image.tsx",
+    "src/content/inline-citation.tsx",
+    "src/patterns/sidebar.tsx",
+    "src/ai/navbar.tsx",
+    "src/ai/model-select.tsx",
+    "src/ai/model-manager-card.tsx",
+    "src/patterns/stat-card.tsx",
+    "src/primitives/table.tsx"
+  ],
+  "observations": [
+    "Website exposes 21 named gallery sections; source repo metadata also has 21 corresponding entries.",
+    "At audit, public registry JSON had 20 of those sections; agent-screen source exists but /r/agent-screen.json returned 404.",
+    "Repository README says SidebarNav depends on the licensed @central-icons-react package; account for licensing if reusing that component/source.",
+    "The repository README labels the harness as a scripted demo. Do not infer production state persistence or backend semantics from its gallery interactions."
+  ]
+}

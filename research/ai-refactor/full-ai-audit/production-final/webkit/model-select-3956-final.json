@@ -1,0 +1,85 @@
+{
+  "server": "http://localhost:3956/docs/ai/model-select",
+  "engine": "WebKit",
+  "matrix": [
+    {
+      "width": 390,
+      "theme": "light",
+      "status": 200,
+      "violations": [],
+      "documentWidth": 384,
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-390-light.png",
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "status": 200,
+      "violations": [],
+      "documentWidth": 384,
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-390-dark.png",
+      "pageErrors": []
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "status": 200,
+      "violations": [],
+      "documentWidth": 762,
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-768-light.png",
+      "pageErrors": []
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "status": 200,
+      "violations": [],
+      "documentWidth": 762,
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-768-dark.png",
+      "pageErrors": []
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "status": 200,
+      "violations": [],
+      "documentWidth": 1434,
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-1440-light.png",
+      "pageErrors": []
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "status": 200,
+      "violations": [],
+      "documentWidth": 1434,
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-1440-dark.png",
+      "pageErrors": []
+    }
+  ],
+  "states": [
+    {
+      "state": "open",
+      "focus": {
+        "tag": "INPUT",
+        "role": "combobox",
+        "aria": "Search models…"
+      },
+      "violations": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-open-390-light.png"
+    },
+    {
+      "state": "pin-by-Enter",
+      "pressed": "true",
+      "unpinFocused": true,
+      "violations": [],
+      "capture": "/Users/yuhuan/Documents/YuhuanStudio/YunUI/research/ai-refactor/full-ai-audit/production-final/webkit/captures/model-select-3956-pinned-390-light.png"
+    },
+    {
+      "state": "Escape-from-Unpin",
+      "panelClosed": true,
+      "triggerFocused": true
+    }
+  ],
+  "errors": []
+}

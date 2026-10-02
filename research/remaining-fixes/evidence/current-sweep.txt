@@ -1,0 +1,34 @@
+✓ default axe clean fixture → exit 0
+✓ empty default axe target list → exit 1
+✓ invalid default axe target JSON → exit 1
+✓ default axe HTTP 404 is fatal → exit 1
+✓ default axe auth redirect is fatal → exit 1
+✓ default axe pageerror is fatal → exit 1
+✓ axe theme clean fixture → exit 0
+✓ empty axe target list → exit 1
+✓ invalid axe target JSON → exit 1
+✓ HTTP 404 is fatal → exit 1
+✓ authentication redirect is fatal → exit 1
+✓ browser pageerror is fatal → exit 1
+✓ theme mismatch is fatal → exit 1
+✓ navigation failure is fatal → exit 1
+✓ real tab walk clean fixture → exit 0
+✓ hidden tab stop fails gate → exit 1
+✓ opacity-zero tab stop fails gate → exit 1
+✓ focus-walk HTTP 404 is fatal → exit 1
+✓ focus-walk auth screen is fatal → exit 1
+✓ focus-walk pageerror is fatal → exit 1
+✓ empty focus route list → exit 1
+✓ invalid focus route JSON → exit 1
+✓ synthetic authenticated fixture → exit 0
+✓ authenticated sweep HTTP 404 is fatal → exit 1
+✓ authenticated sweep redirect is fatal → exit 1
+✓ authenticated sweep pageerror is fatal → exit 1
+✓ synthetic admin fixture → exit 0
+✓ admin readiness failure is fatal → exit 1
+✓ admin pageerror is fatal → exit 1
+✓ local login fixture pass → exit 0
+✓ specific inactive-control contrast exception → exit 0
+✓ unrelated router contrast still fails → exit 1
+✓ live sweep HTTP 404 is fatal → exit 1
+✓ live sweep pageerror is fatal → exit 1
