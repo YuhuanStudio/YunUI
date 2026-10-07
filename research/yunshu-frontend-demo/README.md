@@ -1,42 +1,20 @@
-# Yunshu frontend — design review demo
+# Yunshu inference-engine console — review demo
 
-Status: owner requested a demo first on 2026-10-07. This is a new local inference
-workbench concept, independent of the removed historical frontend. Appearance
-is pending owner feedback; no Yunshu backend or YunUI production component is changed.
+Yunshu is a local inference engine, not a chat application. The active direction is
+[CONSOLE-DIRECTION.md](CONSOLE-DIRECTION.md); the intermediate chat-first proposal
+was explicitly rejected and is retained only as a superseded review record.
 
-Run `pnpm dev` in this directory; the one preview listens on
-http://127.0.0.1:3970. `pnpm build` checks types and compiles the application.
-The local `file:../..` dependency uses YunUI's actual package exports and built
-implementation. It is intentionally not a registry release or copied controls.
+Run `pnpm dev` here, then open http://127.0.0.1:3970/#/overview.
+One preview server is used. `pnpm build` checks types/builds; `pnpm test` validates
+session and service URL behavior. All UI primitives and patterns come from the real
+local YunUI package (`file:../..`), with project-local `yunui init` setup.
 
-## Interactive views
+Main navigation: engine overview, model library, requests/performance, API integration,
+settings. Inference testing is a secondary tool. The mock model library supports
+search, load/unload, details and adding IDs. Unloaded models cannot send test prompts.
+No GPU work, downloads, backend probes or service settings writes occur.
+Unavailable service metrics remain unavailable. Mock workspace values are kept only
+in tab sessionStorage; they are not real engine state or credentials.
 
-- Overview: sample metrics, range selector, current-model state and recent requests.
-- Models: search, loaded filter, local demo load/unload state, detail and add-ID dialogs.
-- Chat: model selection, new conversation, expandable reasoning, preset demo responses.
-- Settings: controlled switches, session-only endpoint setting and working code-format tabs/copy.
-
-All metrics, model entries and replies are sample data. No inference, download,
-configuration write or service probe is performed. Page state is in memory.
-
-## Direct library mapping
-
-- Shell: `Sidebar`, `PageHeader`, `Card`, `Badge`, `Button`, `IconButton`.
-- Overview: `StatCard`, `AreaChart`, `MetricBar`, `Table` and table parts.
-- Models: `ModelManagerCard`, `Input`, `SegmentedSelect`, `EmptyState`, `Dialog` and parts.
-- Chat: `ChatHeader`, `ChatMessageList`, `ChatMessage`, `ChatComposer`, `GenerationStats`,
-  `ThinkingBlock`, `AgentRunStatus`.
-- Settings: `SettingRow`, `Switch`, `Input`, patterns `CodeBlock`.
-- Host: `YunUIProvider`, product content, page state, navigation and demo callbacks.
-
-`yunui init` installed project-local guidance and `.yunui/setup.css`.
-`yunui doctor --strict` and `yunui audit --strict` pass. UI is compiled with
-Tailwind v4; styles.css only supplies host layout/font setup, not replacement controls.
-
-## Fonts and evidence
-
-Geist Latin font is reused from the existing licensed YunUI site build; OFL is
-in `public/fonts/Geist-OFL.txt` (Google Fonts / Vercel). JetBrains Mono Regular
-comes from the official JetBrains/JetBrainsMono webfonts directory; its OFL is
-included beside the font. No external font request occurs while using the demo.
-Browser screenshots and interaction evidence are in local `evidence/`.
+Geist and JetBrains Mono load from local licensed assets, with OFL notices in
+`public/fonts/`. Evidence and external reference images are ignored local artifacts.
