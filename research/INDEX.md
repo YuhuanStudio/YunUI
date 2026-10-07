@@ -10,6 +10,8 @@
   owner 要求先看全新 demo，並明確定位為推理引擎控制台；直接使用 YunUI 公開元件。
   主流程為引擎總覽、模型、請求／效能、API 接入與設定；推理測試是次要工具。
   僅示範資料，未連接推理服務；聊天產品定位已被排除。
+  新增 [oMLX 原始碼研究](yunshu-frontend-demo/OMLX-RESEARCH.md) 與
+  [儀表板審核矩陣](yunshu-frontend-demo/DASHBOARD-REVIEW.md)：吞吐／記憶體／快取圖表、請求篩選與匯出。
 
 ## 目前有效的記錄
 

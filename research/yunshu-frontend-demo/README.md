@@ -13,7 +13,12 @@ Main navigation: engine overview, model library, requests/performance, API integ
 settings. Inference testing is a secondary tool. The mock model library supports
 search, load/unload, details and adding IDs. Unloaded models cannot send test prompts.
 No GPU work, downloads, backend probes or service settings writes occur.
-Unavailable service metrics remain unavailable. Mock workspace values are kept only
+The dashboard review includes labeled demonstration telemetry: throughput histories,
+memory allocation, prefix-cache reuse and request inspection. It does not measure
+the local machine. Disconnected/empty previews must not replace unavailable metrics
+with zeros. [oMLX source research](OMLX-RESEARCH.md) records the design reference and
+the backend collection work required before these charts can use real data.
+Mock workspace values are kept only
 in tab sessionStorage; they are not real engine state or credentials.
 
 Geist and JetBrains Mono load from local licensed assets, with OFL notices in

@@ -5,7 +5,8 @@ import { ChatHeader } from "@yuhuanowo/yunui/chat";
 import { YunUIProvider } from "@yuhuanowo/yunui/adapters";
 import { Activity, Box, Code2, Gauge, Layers, Menu, MessageSquare, Moon, Plus, Settings, Sun, X } from "lucide-react";
 import { readWorkspace, sessionKey } from "./session";
-import { ConsoleView, RequestsView, ApiView } from "./ConsoleView";
+import { RequestsView, ApiView } from "./ConsoleView";
+import { DashboardView } from "./DashboardView";
 import { ChatView } from "./ChatView";
 import { ModelsView, SettingsView } from "./LibraryViews";
 import { initialThreads, makeThread, models, routeFromHash, type Model, type Thread } from "./data";
@@ -91,8 +92,8 @@ export default function App() {
         {notice && <div role="status" className="shrink-0 border-b border-border/50 px-5 py-2 text-xs text-muted-foreground sm:px-8">{notice}</div>}
         {route.page === "chat" ? <ChatView thread={thread} ready={ready} patch={patch} send={send} load={() => load(thread.modelId)} nameForModel={id => items.find(item => item.id === id)?.name ?? id}/> : <div className="min-h-0 flex-1 overflow-y-auto">
           {route.page === "models" && <ModelsView items={items} loaded={loaded} load={load} unload={() => {setLoaded(null);setNotice("已卸載示範模型；需再次載入才能傳送訊息。");}} chat={id => newChat(id)} add={addModel}/>}
-          {route.page === "overview" && <ConsoleView endpoint={endpoint} items={items} loaded={loaded} navigate={navigate}/>}
-          {route.page === "requests" && <RequestsView navigate={navigate}/>}
+          {route.page === "overview" && <DashboardView endpoint={endpoint} items={items} loaded={loaded} navigate={navigate}/>}
+          {route.page === "requests" && <RequestsView items={items}/>}
           {route.page === "api" && <ApiView endpoint={endpoint}/>}
           {route.page === "settings" && <SettingsView endpoint={endpoint} saveEndpoint={setEndpoint} dark={dark} setDark={setDark}/>}
         </div>}

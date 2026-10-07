@@ -30,6 +30,17 @@ not zero or fabricated runtime statistics. Mock model-library interactions remai
 explicitly marked. Process start/stop needs a local management layer, not an invented
 HTTP endpoint; the owner has been asked whether it belongs in the eventual product.
 
+## Dashboard review iteration
+
+The owner requested a richer oMLX-informed dashboard with charts and useful actions.
+The next review uses an explicitly labeled, deterministic demonstration dataset so
+the owner can assess populated charts as well as disconnected/empty states. These
+fixtures are not measurements, benchmarks or claims about Yunshu performance.
+Charts use YunUI's public AreaChart and Sparkline; controls and surfaces stay YunUI.
+See [oMLX source research](OMLX-RESEARCH.md) for upstream paths, license, baseline
+commit and the distinction between existing telemetry and future collection work.
+This remains a host-demo design for review, not approval of new library appearances.
+
 ## Relevant reference
 
 [LM Studio local server / Developer view](https://lmstudio.ai/docs/developer/core/server)
