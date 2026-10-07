@@ -11,6 +11,16 @@ patch = fixes, anything may change between 0.x releases).
 
 ## [Unreleased]
 
+### Analytics primitives
+- Added reusable `TimeSeriesChart`, `BarChart`, `DonutChart` and `Heatmap` core
+  exports, developed for Yunshu's engine console. Data and aggregation remain
+  host-owned; null observations stay distinct from measured zero.
+- Time series preserve numeric spacing and collection gaps, with multiple
+  series, legend controls, synchronized cursors and keyboard inspection.
+  Distribution charts expose accessible values and optional selection callbacks.
+- Added three-language documentation and a typed analytics consumer recipe.
+  Existing AreaChart, Sparkline and Gauge APIs remain compatible.
+
 ### Agent Chat implementation
 - Added owner-approved `StreamingText` and `ContextCards` to `/chat`, and
   `SelectionActions` and `DiffTable` to `/ai`, adapted from pinned Beautiful UI

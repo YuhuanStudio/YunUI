@@ -188,10 +188,13 @@ async function getDocs(entry, name, typeOnly) {
   }
   let component = null;
   if (group && !typeOnly) {
-    const candidate = `site/content/docs/${group}/${kebabCase(name)}.mdx`;
+    // These related public primitives share one comparison/API guide.
+    const slug = group === "components" && ["TimeSeriesChart", "BarChart", "DonutChart", "Heatmap"].includes(name)
+      ? "analytics-charts" : kebabCase(name);
+    const candidate = `site/content/docs/${group}/${slug}.mdx`;
     try {
       await access(path.join(root, candidate));
-      component = { path: candidate, route: `/docs/${group}/${kebabCase(name)}` };
+      component = { path: candidate, route: `/docs/${group}/${slug}` };
     } catch {
       // Only link to docs pages that exist in this checkout.
     }

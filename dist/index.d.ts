@@ -1300,6 +1300,91 @@ interface AreaChartProps {
  */
 declare function AreaChart({ data, tone, color, height, formatValue, showGrid, showTooltip, showXAxis, strokeWidth, ariaLabel, noDataLabel, className, }: AreaChartProps): React$1.JSX.Element;
 
+type TimeSeriesTone = "accent" | "info" | "success" | "warning" | "error" | "neutral";
+interface TimeSeriesPoint {
+    /** Numeric domain value (for example a timestamp in epoch milliseconds). */
+    x: number;
+    /** Missing, null, undefined, NaN and infinities are gaps, never zeroes. */
+    values: Readonly<Record<string, number | null | undefined>>;
+}
+interface TimeSeriesDefinition {
+    /** Stable key that selects the corresponding value in each point. */
+    key: string;
+    label: string;
+    tone?: TimeSeriesTone;
+    /** Explicit CSS color override for this series. */
+    color?: string;
+    dashed?: boolean;
+}
+interface TimeSeriesChartProps {
+    data: readonly TimeSeriesPoint[];
+    series: readonly TimeSeriesDefinition[];
+    ariaLabel: string;
+    emptyLabel?: string;
+    unavailableLabel?: string;
+    hiddenLabel?: string;
+    missingValueLabel?: string;
+    legendLabel?: string;
+    keyboardHint?: string;
+    height?: number;
+    formatX?: (value: number) => string;
+    formatY?: (value: number) => string;
+    /** Break a line when adjacent sorted x values differ by more than this value. */
+    maxGap?: number;
+    /** Controlled selection; without `onActiveXChange`, a supplied value is read-only. */
+    activeX?: number | null;
+    onActiveXChange?: (value: number | null) => void;
+    showLegend?: boolean;
+    className?: string;
+}
+/** Responsive, dependency-free multi-series time chart for arbitrary numeric x data. */
+declare function TimeSeriesChart({ data, series, ariaLabel, emptyLabel, unavailableLabel, hiddenLabel, missingValueLabel, legendLabel, keyboardHint, height, formatX, formatY, maxGap, activeX, onActiveXChange, showLegend, className, }: TimeSeriesChartProps): React$1.JSX.Element;
+
+/** Semantic roles used by the distribution charts. */
+type ChartTone = "accent" | "success" | "warning" | "error" | "info" | "neutral";
+/** One host-supplied chart value. `null` means unavailable, while `0` is data. */
+interface ChartDatum {
+    id: string;
+    label: string;
+    value: number | null;
+    tone?: ChartTone;
+    /** Explicit CSS color for this datum, when a semantic tone is insufficient. */
+    color?: string;
+}
+interface BarChartProps {
+    /** Values must be nonnegative; negative and non-finite values are shown as unavailable. */
+    data: readonly ChartDatum[];
+    ariaLabel: string;
+    formatValue?: (value: number) => string;
+    emptyLabel?: string;
+    unavailableLabel?: string;
+    height?: number;
+    onSelect?: (datum: ChartDatum) => void;
+    className?: string;
+}
+interface DonutChartProps extends Omit<BarChartProps, "height"> {
+    center?: ReactNode;
+    size?: number;
+}
+interface HeatmapProps {
+    rows: readonly string[];
+    columns: readonly string[];
+    data: readonly (readonly (number | null)[])[];
+    ariaLabel: string;
+    formatValue?: (value: number) => string;
+    emptyLabel?: string;
+    unavailableLabel?: string;
+    tone?: ChartTone;
+    onSelect?: (rowIndex: number, columnIndex: number) => void;
+    className?: string;
+}
+/** A vertical, horizontally scrollable comparison of nonnegative values. */
+declare function BarChart({ data, ariaLabel, formatValue, emptyLabel, unavailableLabel, height, onSelect, className, }: BarChartProps): React$1.JSX.Element;
+/** A proportional ring with a textual legend; negative/non-finite values are unavailable. */
+declare function DonutChart({ data, ariaLabel, formatValue, emptyLabel, unavailableLabel, center, size, onSelect, className, }: DonutChartProps): React$1.JSX.Element;
+/** A semantic grid for comparing signed or unsigned values across named rows/columns. */
+declare function Heatmap({ rows, columns, data, ariaLabel, formatValue, emptyLabel, unavailableLabel, tone, onSelect, className, }: HeatmapProps): React$1.JSX.Element;
+
 declare function Toaster({ position, visibleToasts, expand, toastOptions, ...props }: ToasterProps): React$1.JSX.Element;
 declare const toast: {
     success: (message: string, description?: string) => void;
@@ -1659,4 +1744,4 @@ declare function CommandPalette({ open, onClose, query, onQueryChange, items, lo
  */
 declare function useCommandPaletteShortcut(onOpen: () => void): void;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, CommandPalette, type CommandPaletteItem, type CommandPaletteProps, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, type LabelProps, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, type SelectOption, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, TextShimmer, type TextShimmerProps, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useAnchoredPosition, useBodyScrollLock, useCommandPaletteShortcut, useDismissOnOutside, useEscapeKey, useFocusTrap, useModalBehavior, useScrollableTabStop, useYunUITheme };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AnimatedNumber, type AnimatedNumberProps, AreaChart, type AreaChartPoint, type AreaChartProps, type AreaChartTone, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, BarChart, type BarChartProps, type BarSegment, BentoCard, BentoGrid, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, type ChartDatum, type ChartTone, Checkbox, type CheckboxProps, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Column, Combobox, type ComboboxOption, CommandPalette, type CommandPaletteItem, type CommandPaletteProps, ConfirmModal, type ConfirmModalVariant, CustomSelect, DeleteConfirmModal, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DonutChart, type DonutChartProps, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FileDropzone, type FileDropzoneProps, Flex, type FlexProps, Gauge, type GaugeProps, type GaugeTone, Grid, type GridCount, type GridProps, Heatmap, type HeatmapProps, IconButton, InlineCode, InlineStatus, type InlineStatusKind, Input, Kbd, Label, type LabelProps, Marquee, Modal, MotionDiv, MotionSpan, type NavTab, NavTabs, NumberInput, PageLoader, Pagination, type PaginationProps, PasswordInput, Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, RegenerateConfirmModal, Row, ScrollArea, ScrollBar, SearchInput, type SegmentTone, SegmentedBar, type SegmentedBarProps, type SegmentedOption, SegmentedSelect, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, type SelectOption, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, ShinyButton, Skeleton, Slider, type SpacingScale, Sparkline, type SparklineProps, type SparklineTone, Spinner, Stack, StatusIndicator, Steps, Switch, type SwitchProps, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Tag, TableBody as Tbody, TableCell as Td, TextShimmer, type TextShimmerProps, Textarea, TableFooter as Tfoot, TableHead as Th, TableHeader as Thead, ThemeToggle, TimeSeriesChart, type TimeSeriesChartProps, type TimeSeriesDefinition, type TimeSeriesPoint, type TimeSeriesTone, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TableRow as Tr, YUNUI_PALETTES, YUNUI_THEME_PRESETS, type YunUIAccentSource, type YunUIColorScheme, type YunUIPalette, type YunUISolid, type YunUISurface, type YunUITheme, type YunUIThemePreset, type YunUIThemePresetName, applyTheme, cn, fadeIn, readTheme, staggerContainer, staggerItem, toast, useAnchoredPosition, useBodyScrollLock, useCommandPaletteShortcut, useDismissOnOutside, useEscapeKey, useFocusTrap, useModalBehavior, useScrollableTabStop, useYunUITheme };

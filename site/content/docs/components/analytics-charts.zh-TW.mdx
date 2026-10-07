@@ -1,0 +1,113 @@
+import { BarChart, DonutChart, Heatmap, TimeSeriesChart } from "yunui";
+
+這些圖表只呈現 host 提供的測量資料，不會擷取、彙整、平滑或推測數值。請由 host 管理查詢區間、採樣頻率、單位與服務狀態，再把要顯示的資料點和標籤傳入。
+
+## 時間序列
+
+`TimeSeriesChart` 以數值 `x` 呈現一條或多條具 key 的序列。請使用穩定的時間戳或樣本序號，並提供符合實際單位的格式化函式。
+
+<ComponentPreview
+  title="Decode 與 Prefill 採樣"
+>
+  <TimeSeriesChart
+    ariaLabel="Decode 與 Prefill 吞吐量採樣"
+    data={[
+      { x: 0, values: { decode: 42, prefill: 0 } },
+      { x: 60, values: { decode: 44, prefill: null } },
+      { x: 120, values: { decode: undefined, prefill: 680 } },
+      { x: 300, values: { decode: 41, prefill: 650 } },
+    ]}
+    series={[
+      { key: "decode", label: "Decode", tone: "accent" },
+      { key: "prefill", label: "Prefill", tone: "info", dashed: true },
+    ]}
+    emptyLabel="沒有遙測樣本"
+    unavailableLabel="樣本不可用"
+    hiddenLabel="所有序列皆已隱藏"
+    missingValueLabel="未觀測"
+    legendLabel="吞吐量序列"
+    keyboardHint="使用方向鍵、Home 或 End 檢視樣本。"
+    maxGap={120}
+    height={220}
+  />
+</ComponentPreview>
+
+每個資料點以序列 key 對應數值。有限的 `0` 是測量結果；`null`、`undefined`、`NaN` 與無限值會形成缺口。空的 `data` 陣列顯示 `emptyLabel`；有資料但沒有有限值時顯示 `unavailableLabel`。缺值不會轉成零。
+
+圖表會依 `x` 排序。相同 `x` 的資料點採用最後一筆輸入，不會平均或加總。若該指標需要彙整，請在 host 先算好並傳入不同的 x 值。`maxGap` 與 `x` 使用相同單位，間距超過上限時會中斷線段。可見圖例可切換個別序列。
+
+有可用資料時，圖表群組支援指標操作，也支援 Left／Right 與 Home／End 鍵盤導覽。host 可用 `activeX` 控制選取；若傳入 `activeX` 卻未提供 `onActiveXChange`，選取會是唯讀。`hiddenLabel` 描述所有序列都隱藏時的狀態，`missingValueLabel` 顯示在選取點讀值中；`legendLabel` 與 `keyboardHint` 可在無障礙說明中使用 host 的語言。`ariaLabel`、`formatX` 與 `formatY` 也應符合 host 語言與單位。
+
+<PropsTable name="TimeSeriesChart" />
+
+## 分布圖表
+
+`BarChart` 比較非負類別。每筆資料需有穩定 `id`；`0` 會顯示為有效的零高度數值，`null` 則使用 `unavailableLabel`。`data` 為空時會顯示 `emptyLabel`。
+
+<ComponentPreview title="Allocator 採樣">
+  <BarChart
+    ariaLabel="Allocator 記憶體採樣"
+    data={[
+      { id: "weights", label: "模型權重", value: 18.2, tone: "accent" },
+      { id: "active-kv", label: "活躍 KV", value: 6.7, tone: "info" },
+      { id: "runtime-cache", label: "Runtime cache", value: 0, tone: "warning" },
+      { id: "other", label: "其他程序", value: null },
+    ]}
+    unavailableLabel="尚未採樣"
+    height={220}
+  />
+</ComponentPreview>
+
+執行時，`BarChart` 會把負值與非有限值視為不可用；公開資料型別仍是 `number | null`。提供 `onSelect` 時，可用數值的長條會成為可用鍵盤操作的按鈕，回呼會傳回原始資料；沒有回呼時則為純呈現圖表。
+
+<PropsTable name="BarChart" />
+
+`DonutChart` 使用相同的 `ChartDatum` 輸入，另可設定 `center` 與 `size`。環形比例只根據 host 傳入的非負有限值計算，不會自動建立類別或補足缺值。零仍列在圖例中，但不產生弧段；`null` 顯示為不可用。總值為零或皆不可用時，中心會改用 `emptyLabel`。
+
+<ComponentPreview title="請求比例">
+  <DonutChart
+    ariaLabel="依階段分類的請求比例"
+    data={[
+      { id: "prefill", label: "Prefill", value: 2, tone: "warning" },
+      { id: "decode", label: "Decode", value: 4, tone: "info" },
+      { id: "complete", label: "完成", value: 3, tone: "success" },
+      { id: "queued", label: "排隊", value: 0 },
+      { id: "unknown", label: "未知", value: null },
+    ]}
+    center={<span>9 個請求</span>}
+    size={190}
+    unavailableLabel="尚未採樣"
+  />
+</ComponentPreview>
+
+提供 `onSelect` 時，圖例項目會成為按鈕並回傳選取的資料；環形本身仍是比例呈現。
+
+<PropsTable name="DonutChart" />
+
+## 熱力圖
+
+`Heatmap` 會直接把列、欄標籤對應至矩陣索引。有限的 `0` 是已測得的零；`null` 或缺少的儲存格代表不可用。數值可正可負，色彩強度會依矩陣中絕對值最大的資料點縮放。
+
+<ComponentPreview title="依模型與時間區間檢視 Decode 採樣">
+  <Heatmap
+    ariaLabel="依模型與時間區間檢視 Decode 吞吐量"
+    rows={["Qwen", "Llama"]}
+    columns={["12:00", "12:05", "12:10"]}
+    data={[
+      [42, 0, null],
+      [36, 39, 37],
+    ]}
+    unavailableLabel="尚未採樣"
+    tone="accent"
+  />
+</ComponentPreview>
+
+格線支援方向鍵移動與 Home／End 移至列首／列尾。提供 `onSelect` 時，啟用儲存格會回傳列與欄索引；host 可依原始標籤／資料解析索引。缺少的矩陣儲存格代表不可用，不是零。圖表不會把時間戳分桶或彙整。
+
+<PropsTable name="Heatmap" />
+
+## Host 資料契約
+
+請把樣本意義保留在建立資料的查詢或 selector 附近。先由 host 決定呈現原始樣本、依請求加權的平均，或時間窗彙整值。圖表只負責顯示和格式化，不會替你判定適合的統計方式。不同指標使用不同序列；未觀測到的值用 `null` 表示，不要偽造為零。
+
+完整的 typed host 組合可參考 repository 中的 `agent/recipes/analytics.tsx`。

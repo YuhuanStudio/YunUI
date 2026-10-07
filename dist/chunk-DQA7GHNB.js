@@ -1078,6 +1078,627 @@ function AreaChart({
     showXAxis && xLabels.length > 1 && /* @__PURE__ */ jsx("div", { className: "mt-1.5 flex justify-between px-1 text-xs text-muted-foreground", children: points.filter((p, i) => p.label != null && i % Math.ceil(points.length / 6) === 0).map((p, i) => /* @__PURE__ */ jsx("span", { className: "truncate", children: p.label }, i)) })
   ] });
 }
+var TONE_COLOR = {
+  accent: "var(--color-accent)",
+  info: "var(--info)",
+  success: "var(--success)",
+  warning: "var(--warning)",
+  error: "var(--error)",
+  neutral: "var(--color-muted-foreground)"
+};
+var DEFAULT_HEIGHT = 252;
+var DEFAULT_WIDTH = 640;
+var MARGIN = { top: 14, right: 14, bottom: 34, left: 54 };
+var Y_TICK_COUNT = 5;
+var X_TICK_COUNT = 5;
+function normalizeData(data) {
+  const sorted = data.map((point, inputIndex) => ({ ...point, inputIndex })).filter((point) => Number.isFinite(point.x)).sort((a, b) => a.x - b.x || a.inputIndex - b.inputIndex);
+  const byX = /* @__PURE__ */ new Map();
+  for (const point of sorted) byX.set(point.x, { x: point.x, values: point.values });
+  return [...byX.values()].sort((a, b) => a.x - b.x);
+}
+function validValue(value) {
+  return typeof value === "number" && Number.isFinite(value) ? value : void 0;
+}
+function niceStep(span) {
+  if (!Number.isFinite(span) || span <= 0) return 1;
+  const rough = span / (Y_TICK_COUNT - 1);
+  const magnitude = 10 ** Math.floor(Math.log10(rough));
+  const fraction = rough / magnitude;
+  const nice = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 5 ? 5 : 10;
+  return nice * magnitude;
+}
+function makeYTicks(min, max) {
+  const span = max - min;
+  const step = niceStep(span);
+  const first = Math.ceil(min / step) * step;
+  const values = [];
+  for (let value = first, guard = 0; value <= max + step * 1e-8 && guard < 12; value += step, guard += 1) {
+    values.push(Number(value.toPrecision(12)));
+  }
+  if (!values.length) values.push(min, max);
+  return values;
+}
+function selectXTickValues(points, min, max, count) {
+  if (points.length <= 1) return points.map((point) => point.x);
+  if (count <= 1) return [points[Math.floor((points.length - 1) / 2)].x];
+  const candidates = Array.from({ length: count }, (_, index) => min + (max - min) * index / (count - 1));
+  const selected = [];
+  for (const candidate of candidates) {
+    let nearest = points[0].x;
+    let distance = Math.abs(nearest - candidate);
+    for (let index = 1; index < points.length; index += 1) {
+      const next = points[index].x;
+      const nextDistance = Math.abs(next - candidate);
+      if (nextDistance < distance) {
+        nearest = next;
+        distance = nextDistance;
+      }
+    }
+    if (selected.at(-1) !== nearest) selected.push(nearest);
+  }
+  return selected;
+}
+function pointForX(points, x) {
+  if (x == null || !points.length) return null;
+  let nearest = points[0];
+  let distance = Math.abs(nearest.x - x);
+  for (let index = 1; index < points.length; index += 1) {
+    const point = points[index];
+    const nextDistance = Math.abs(point.x - x);
+    if (nextDistance < distance) {
+      nearest = point;
+      distance = nextDistance;
+    }
+  }
+  return nearest;
+}
+function formatDefault(value) {
+  return new Intl.NumberFormat(void 0, { maximumFractionDigits: 2 }).format(value);
+}
+function segmentsForSeries(points, definition, xScale, yScale, maxGap) {
+  const segments = [];
+  let current = [];
+  let previousX;
+  for (const point of points) {
+    const value = validValue(point.values[definition.key]);
+    const gap = previousX !== void 0 && maxGap !== void 0 && point.x - previousX > maxGap;
+    if (value === void 0 || gap) {
+      if (current.length) segments.push(current);
+      current = [];
+    }
+    if (value !== void 0) {
+      current.push({ x: xScale(point.x), y: yScale(value) });
+    }
+    previousX = point.x;
+  }
+  if (current.length) segments.push(current);
+  return segments;
+}
+function closestPointIndex(points, value) {
+  let result = 0;
+  let distance = Math.abs(points[0].x - value);
+  for (let index = 1; index < points.length; index += 1) {
+    const nextDistance = Math.abs(points[index].x - value);
+    if (nextDistance < distance) {
+      result = index;
+      distance = nextDistance;
+    }
+  }
+  return result;
+}
+function TimeSeriesChart({
+  data,
+  series,
+  ariaLabel,
+  emptyLabel = "No data",
+  unavailableLabel = "No finite values for the visible series",
+  hiddenLabel = "All series are hidden",
+  missingValueLabel = "\u2014",
+  legendLabel = "series",
+  keyboardHint = "Use left and right arrow keys, Home or End to inspect sample values.",
+  height = DEFAULT_HEIGHT,
+  formatX = formatDefault,
+  formatY = formatDefault,
+  maxGap,
+  activeX,
+  onActiveXChange,
+  showLegend = true,
+  className
+}) {
+  const instanceId = useId();
+  const chartRef = useRef(null);
+  const pointerSelectionRef = useRef(false);
+  const [width, setWidth] = useState(DEFAULT_WIDTH);
+  const [hiddenKeys, setHiddenKeys] = useState(() => /* @__PURE__ */ new Set());
+  const [internalActiveX, setInternalActiveX] = useState(null);
+  const [keyboardAnnouncement, setKeyboardAnnouncement] = useState("");
+  const controlledActiveX = activeX !== void 0;
+  const selectedX = controlledActiveX ? activeX != null && Number.isFinite(activeX) ? activeX : null : internalActiveX;
+  const canSetActiveX = !controlledActiveX || Boolean(onActiveXChange);
+  const points = useMemo(() => normalizeData(data), [data]);
+  const definitions = useMemo(() => {
+    const seen = /* @__PURE__ */ new Set();
+    return series.filter((item) => {
+      if (!item.key || seen.has(item.key)) return false;
+      seen.add(item.key);
+      return true;
+    });
+  }, [series]);
+  const visibleSeries = useMemo(() => definitions.filter((item) => !hiddenKeys.has(item.key)), [definitions, hiddenKeys]);
+  const maxGapValue = maxGap !== void 0 && Number.isFinite(maxGap) && maxGap >= 0 ? maxGap : void 0;
+  const plotWidth = Math.max(1, width - MARGIN.left - MARGIN.right);
+  const plotHeight = Math.max(1, height - MARGIN.top - MARGIN.bottom);
+  useEffect(() => {
+    const element = chartRef.current;
+    if (!element) return;
+    const measure = () => {
+      const next = Math.floor(element.getBoundingClientRect().width);
+      if (next > 0) setWidth((current) => current === next ? current : next);
+    };
+    measure();
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(measure);
+      observer.observe(element);
+      return () => observer.disconnect();
+    }
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+  const finiteValues = useMemo(() => {
+    const result = [];
+    for (const point of points) for (const definition of visibleSeries) {
+      const value = validValue(point.values[definition.key]);
+      if (value !== void 0) result.push(value);
+    }
+    return result;
+  }, [points, visibleSeries]);
+  const hasPlottableValues = finiteValues.length > 0;
+  const rawMinX = points[0]?.x ?? 0;
+  const rawMaxX = points.at(-1)?.x ?? 1;
+  const xPadding = rawMinX === rawMaxX ? 0.5 : 0;
+  const minX = rawMinX - xPadding;
+  const maxX = rawMaxX + xPadding;
+  const rawMinY = hasPlottableValues ? finiteValues.reduce((min, value) => Math.min(min, value), Infinity) : 0;
+  const rawMaxY = hasPlottableValues ? finiteValues.reduce((max, value) => Math.max(max, value), -Infinity) : 1;
+  const yPadding = rawMinY === rawMaxY ? Math.max(Math.abs(rawMinY) * 0.05, 1) : 0;
+  const minY = rawMinY - yPadding;
+  const maxY = rawMaxY + yPadding;
+  const yTicks = useMemo(() => hasPlottableValues ? makeYTicks(minY, maxY) : [], [hasPlottableValues, minY, maxY]);
+  const widestXLabel = useMemo(() => points.reduce((length, point) => Math.max(length, formatX(point.x).length), 0), [points, formatX]);
+  const minXLabelSpacing = Math.max(80, widestXLabel * 6.5 + 16);
+  const xTickCount = Math.max(1, Math.min(X_TICK_COUNT, Math.floor(plotWidth / minXLabelSpacing) + 1));
+  const xTickValues = useMemo(() => hasPlottableValues ? selectXTickValues(points, minX, maxX, xTickCount) : [], [hasPlottableValues, points, minX, maxX, xTickCount]);
+  const { xScale, yScale } = useMemo(() => ({
+    xScale: (x) => MARGIN.left + (x - minX) / (maxX - minX || 1) * plotWidth,
+    yScale: (y) => MARGIN.top + plotHeight - (y - minY) / (maxY - minY || 1) * plotHeight
+  }), [minX, maxX, minY, maxY, plotWidth, plotHeight]);
+  const plottedSeries = useMemo(() => visibleSeries.map((definition) => ({
+    definition,
+    color: definition.color ?? TONE_COLOR[definition.tone ?? "accent"],
+    segments: segmentsForSeries(points, definition, xScale, yScale, maxGapValue).map((segment) => segment.length === 1 ? { point: segment[0] } : { path: segment.map((point, pointIndex) => `${pointIndex === 0 ? "M" : "L"}${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(" ") })
+  })), [visibleSeries, points, xScale, yScale, maxGapValue]);
+  const activePoint = pointForX(points, selectedX);
+  const readoutPoint = activePoint ?? points.at(-1) ?? null;
+  const canNavigate = points.length > 0 && hasPlottableValues && canSetActiveX;
+  const xFormatter = formatX;
+  const yFormatter = formatY;
+  const clipId = `${instanceId}-plot-clip`;
+  const chartWidth = Math.max(width, MARGIN.left + MARGIN.right + 1);
+  const setActivePoint = (nextX, fromKeyboard) => {
+    pointerSelectionRef.current = !fromKeyboard && !controlledActiveX && nextX !== null;
+    if (fromKeyboard) {
+      const nextPoint = pointForX(points, nextX);
+      setKeyboardAnnouncement(nextPoint ? `${xFormatter(nextPoint.x)}. ${definitions.map((definition) => {
+        const value = validValue(nextPoint.values[definition.key]);
+        return `${definition.label}: ${value === void 0 ? missingValueLabel : yFormatter(value)}`;
+      }).join(". ")}` : "");
+    } else {
+      setKeyboardAnnouncement("");
+    }
+    if (!canSetActiveX) return;
+    if (!controlledActiveX) setInternalActiveX(nextX);
+    onActiveXChange?.(nextX);
+  };
+  const handlePointerMove = (event) => {
+    if (!canSetActiveX || !points.length || !hasPlottableValues) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    if (!rect.width) return;
+    const svgX = (event.clientX - rect.left) / rect.width * chartWidth;
+    const domainX = minX + (svgX - MARGIN.left) / plotWidth * (maxX - minX);
+    const index = closestPointIndex(points, domainX);
+    setActivePoint(points[index].x, false);
+  };
+  const handleKeyDown = (event) => {
+    if (!canNavigate) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setActivePoint(null, true);
+      return;
+    }
+    const currentIndex = activePoint ? closestPointIndex(points, activePoint.x) : -1;
+    let nextIndex;
+    if (event.key === "ArrowRight") nextIndex = currentIndex < 0 ? 0 : Math.min(points.length - 1, currentIndex + 1);
+    else if (event.key === "ArrowLeft") nextIndex = currentIndex < 0 ? points.length - 1 : Math.max(0, currentIndex - 1);
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = points.length - 1;
+    if (nextIndex === void 0) return;
+    event.preventDefault();
+    setActivePoint(points[nextIndex].x, true);
+  };
+  const toggleSeries = (key) => {
+    setHiddenKeys((current) => {
+      const next = new Set(current);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+  const tooltipX = activePoint ? xScale(activePoint.x) : 0;
+  const tooltipMaxWidth = Math.max(0, Math.min(288, chartWidth - 16));
+  const tooltipHalf = tooltipMaxWidth / 2;
+  const tooltipLeft = activePoint ? Math.max(8 + tooltipHalf, Math.min(chartWidth - 8 - tooltipHalf, tooltipX)) : 0;
+  const noDataText = data.length === 0 ? emptyLabel : definitions.length > 0 && visibleSeries.length === 0 ? hiddenLabel : unavailableLabel;
+  return /* @__PURE__ */ jsxs("figure", { className: cn("min-w-0", className), "data-yunui": "time-series-chart", "data-active-x": activePoint?.x ?? void 0, children: [
+    showLegend && definitions.length > 0 ? /* @__PURE__ */ jsx("div", { className: "mb-2 flex flex-wrap items-center gap-1.5", role: "group", "aria-label": `${ariaLabel} ${legendLabel}`, children: definitions.map((definition) => {
+      const visible = !hiddenKeys.has(definition.key);
+      const color = definition.color ?? TONE_COLOR[definition.tone ?? "accent"];
+      return /* @__PURE__ */ jsxs(
+        "button",
+        {
+          type: "button",
+          "aria-pressed": visible,
+          onClick: () => toggleSeries(definition.key),
+          className: cn(
+            "btn btn-ghost btn-sm inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-[11px]",
+            !visible && "opacity-50"
+          ),
+          children: [
+            /* @__PURE__ */ jsx(
+              "span",
+              {
+                "aria-hidden": "true",
+                className: "inline-block w-3 shrink-0 border-t-2",
+                style: { borderColor: color, borderStyle: definition.dashed ? "dashed" : "solid" }
+              }
+            ),
+            definition.label
+          ]
+        },
+        definition.key
+      );
+    }) }) : null,
+    /* @__PURE__ */ jsxs(
+      "div",
+      {
+        ref: chartRef,
+        className: "relative min-w-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        role: "group",
+        "aria-label": ariaLabel,
+        tabIndex: canNavigate ? 0 : -1,
+        onKeyDown: handleKeyDown,
+        onPointerLeave: () => {
+          if (!controlledActiveX && pointerSelectionRef.current && selectedX !== null) setActivePoint(null, false);
+        },
+        "data-yunui": "time-series-interaction",
+        children: [
+          hasPlottableValues ? /* @__PURE__ */ jsxs(
+            "svg",
+            {
+              className: "block w-full overflow-visible",
+              width: "100%",
+              height,
+              viewBox: `0 0 ${chartWidth} ${height}`,
+              preserveAspectRatio: "none",
+              "aria-hidden": "true",
+              onPointerMove: handlePointerMove,
+              children: [
+                /* @__PURE__ */ jsx("defs", { children: /* @__PURE__ */ jsx("clipPath", { id: clipId, children: /* @__PURE__ */ jsx("rect", { x: MARGIN.left, y: MARGIN.top, width: plotWidth, height: plotHeight }) }) }),
+                yTicks.map((tick) => {
+                  const y = yScale(tick);
+                  return /* @__PURE__ */ jsxs("g", { children: [
+                    /* @__PURE__ */ jsx("line", { x1: MARGIN.left, x2: chartWidth - MARGIN.right, y1: y, y2: y, stroke: "var(--border-default)", strokeDasharray: "3 5", strokeOpacity: "0.72" }),
+                    /* @__PURE__ */ jsx("text", { "data-axis": "y", x: MARGIN.left - 8, y: y + 3.5, textAnchor: "end", fill: "var(--text-tertiary)", fontSize: "10", fontFamily: "var(--font-mono, ui-monospace, monospace)", children: yFormatter(tick) })
+                  ] }, `y-${tick}`);
+                }),
+                xTickValues.map((tick) => {
+                  const x = xScale(tick);
+                  const anchor = x < MARGIN.left + 26 ? "start" : x > chartWidth - MARGIN.right - 26 ? "end" : "middle";
+                  return /* @__PURE__ */ jsxs("g", { children: [
+                    /* @__PURE__ */ jsx("line", { x1: x, x2: x, y1: MARGIN.top, y2: height - MARGIN.bottom, stroke: "var(--border-default)", strokeOpacity: "0.22" }),
+                    /* @__PURE__ */ jsx("text", { "data-axis": "x", x, y: height - 9, textAnchor: anchor, fill: "var(--text-tertiary)", fontSize: "10", fontFamily: "var(--font-mono, ui-monospace, monospace)", children: xFormatter(tick) })
+                  ] }, `x-${tick}`);
+                }),
+                /* @__PURE__ */ jsxs("g", { clipPath: `url(#${clipId})`, children: [
+                  plottedSeries.map(({ definition, color, segments }) => {
+                    return /* @__PURE__ */ jsxs("g", { children: [
+                      segments.map((segment, index) => segment.point ? /* @__PURE__ */ jsx("circle", { cx: segment.point.x, cy: segment.point.y, r: "3", fill: color }, `${definition.key}-point-${index}`) : /* @__PURE__ */ jsx("path", { d: segment.path ?? "", fill: "none", stroke: color, strokeWidth: "2", strokeDasharray: definition.dashed ? "5 4" : void 0, strokeLinecap: "round", strokeLinejoin: "round", vectorEffect: "non-scaling-stroke" }, `${definition.key}-segment-${index}`)),
+                      activePoint ? (() => {
+                        const value = validValue(activePoint.values[definition.key]);
+                        return value === void 0 ? null : /* @__PURE__ */ jsx("circle", { cx: xScale(activePoint.x), cy: yScale(value), r: "3.25", fill: "var(--bg-card)", stroke: color, strokeWidth: "2", vectorEffect: "non-scaling-stroke" });
+                      })() : null
+                    ] }, definition.key);
+                  }),
+                  activePoint ? /* @__PURE__ */ jsx("line", { x1: xScale(activePoint.x), x2: xScale(activePoint.x), y1: MARGIN.top, y2: height - MARGIN.bottom, stroke: "var(--text-tertiary)", strokeOpacity: "0.65", strokeDasharray: "3 4", vectorEffect: "non-scaling-stroke" }) : null
+                ] })
+              ]
+            }
+          ) : /* @__PURE__ */ jsx("div", { role: "status", className: "flex min-h-[180px] items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted-foreground", children: noDataText }),
+          activePoint && hasPlottableValues ? /* @__PURE__ */ jsxs(
+            "div",
+            {
+              "aria-hidden": "true",
+              className: "pointer-events-none absolute top-1 z-10 max-h-40 overflow-auto rounded-lg border border-border bg-card/95 px-3 py-2 shadow-lg backdrop-blur-sm",
+              style: { left: tooltipLeft, maxWidth: tooltipMaxWidth, transform: "translateX(-50%)" },
+              children: [
+                /* @__PURE__ */ jsx("p", { className: "mb-1 whitespace-nowrap font-mono text-[10px] text-muted-foreground", children: xFormatter(activePoint.x) }),
+                /* @__PURE__ */ jsx("div", { className: "space-y-1", children: definitions.map((definition) => {
+                  const value = validValue(activePoint.values[definition.key]);
+                  const color = definition.color ?? TONE_COLOR[definition.tone ?? "accent"];
+                  return /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-baseline justify-between gap-4 text-[11px]", children: [
+                    /* @__PURE__ */ jsx("span", { className: "min-w-0 truncate", style: { color }, children: definition.label }),
+                    /* @__PURE__ */ jsx("span", { className: "shrink-0 font-mono tabular-nums text-foreground", children: value === void 0 ? missingValueLabel : yFormatter(value) })
+                  ] }, definition.key);
+                }) })
+              ]
+            }
+          ) : null
+        ]
+      }
+    ),
+    readoutPoint ? /* @__PURE__ */ jsxs("div", { className: "mt-2 flex min-h-8 flex-wrap items-baseline gap-x-3 gap-y-1 rounded-md bg-muted/40 px-2.5 py-2 text-[11px]", "aria-live": "off", "data-yunui": "time-series-readout", children: [
+      /* @__PURE__ */ jsx("span", { className: "font-mono text-muted-foreground", children: xFormatter(readoutPoint.x) }),
+      definitions.map((definition) => {
+        const value = validValue(readoutPoint.values[definition.key]);
+        const visible = !hiddenKeys.has(definition.key);
+        return /* @__PURE__ */ jsxs("span", { className: cn("inline-flex items-baseline gap-1", !visible && "opacity-50"), children: [
+          /* @__PURE__ */ jsx("span", { className: "text-muted-foreground", children: definition.label }),
+          /* @__PURE__ */ jsx("span", { className: "font-mono tabular-nums text-foreground", children: value === void 0 ? missingValueLabel : yFormatter(value) })
+        ] }, definition.key);
+      })
+    ] }) : null,
+    /* @__PURE__ */ jsxs("figcaption", { className: "sr-only", children: [
+      ariaLabel,
+      ". ",
+      keyboardHint
+    ] }),
+    /* @__PURE__ */ jsx("span", { className: "sr-only", "data-yunui": "time-series-keyboard-announcement", "aria-live": keyboardAnnouncement ? "polite" : "off", "aria-atomic": "true", children: keyboardAnnouncement })
+  ] });
+}
+var TONE_COLOR2 = {
+  accent: "var(--accent-solid-strong)",
+  success: "var(--success-solid-strong)",
+  warning: "var(--warning-solid-strong)",
+  error: "var(--danger-solid-strong)",
+  info: "var(--info-solid-strong)",
+  neutral: "var(--neutral-solid-strong)"
+};
+var TONE_TEXT = {
+  accent: "var(--accent-on-solid-strong)",
+  success: "var(--success-on-solid-strong)",
+  warning: "var(--warning-on-solid-strong)",
+  error: "var(--danger-on-solid-strong)",
+  info: "var(--info-on-solid-strong)",
+  neutral: "var(--neutral-on-solid-strong)"
+};
+var valueText = (value, formatValue) => formatValue ? formatValue(value) : String(value);
+function BarChart({
+  data,
+  ariaLabel,
+  formatValue,
+  emptyLabel = "No data",
+  unavailableLabel = "Unavailable",
+  height = 240,
+  onSelect,
+  className
+}) {
+  const values = data.map(
+    (datum) => typeof datum.value === "number" && Number.isFinite(datum.value) && datum.value >= 0 ? datum.value : null
+  );
+  const max = Math.max(0, ...values.filter((value) => value !== null));
+  if (data.length === 0) {
+    return /* @__PURE__ */ jsx("div", { role: "img", "aria-label": ariaLabel, className: cn("flex items-center justify-center text-sm text-muted-foreground", className), style: { height }, children: emptyLabel });
+  }
+  return /* @__PURE__ */ jsx("div", { role: "group", "aria-label": ariaLabel, className: cn("w-full", className), children: /* @__PURE__ */ jsxs("div", { className: "relative min-w-0 overflow-x-auto border-b border-border/60 pb-2", style: { height }, children: [
+    /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "absolute left-1 top-1 text-[10px] tabular-nums text-muted-foreground", children: valueText(max, formatValue) }),
+    /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "absolute bottom-8 left-1 text-[10px] tabular-nums text-muted-foreground", children: "0" }),
+    /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "absolute bottom-8 left-7 top-8 border-l border-border/60" }),
+    /* @__PURE__ */ jsx("div", { className: "flex h-full min-w-0 items-end gap-3 px-2 pl-10 pt-5", children: data.map((datum, index) => {
+      const value = values[index];
+      const unavailable = value === null;
+      const percent = value === null ? 0 : max > 0 ? value / max * 100 : 0;
+      const color = datum.color ?? TONE_COLOR2[datum.tone ?? "accent"];
+      const text = unavailable ? unavailableLabel : valueText(value, formatValue);
+      const label = `${datum.label}: ${text}`;
+      return /* @__PURE__ */ jsxs("div", { className: "group flex h-full min-w-14 flex-1 flex-col items-center justify-end gap-2", children: [
+        /* @__PURE__ */ jsx("span", { className: "max-w-28 truncate text-center text-xs tabular-nums text-muted-foreground", children: text }),
+        /* @__PURE__ */ jsx("div", { className: "flex h-full w-full min-h-0 items-end justify-center", children: /* @__PURE__ */ jsx(
+          "div",
+          {
+            role: onSelect ? "button" : "img",
+            "aria-label": label,
+            "aria-disabled": onSelect ? unavailable || void 0 : void 0,
+            tabIndex: 0,
+            onClick: (event) => {
+              if (unavailable) return;
+              event.currentTarget.focus({ preventScroll: true });
+              onSelect?.(datum);
+            },
+            onKeyDown: (event) => {
+              if (onSelect && (event.key === "Enter" || event.key === " ")) {
+                event.preventDefault();
+                if (!unavailable) onSelect(datum);
+              }
+            },
+            className: cn(
+              "relative flex w-full max-w-12 justify-center rounded-t-md outline-none transition-[height,opacity] focus-visible:ring-2 focus-visible:ring-accent-solid-strong focus-visible:ring-offset-2",
+              unavailable ? "min-h-1 border border-dashed border-border bg-muted/50" : value === 0 ? "h-px" : "",
+              onSelect && !unavailable && "cursor-pointer hover:opacity-80",
+              onSelect && unavailable && "cursor-not-allowed"
+            ),
+            style: unavailable ? { height: "5%" } : { height: value === 0 ? "1px" : `${Math.max(percent, 2)}%`, backgroundColor: color },
+            title: label
+          }
+        ) }),
+        /* @__PURE__ */ jsx("span", { className: "max-w-28 truncate text-center text-xs text-foreground", children: datum.label })
+      ] }, `${datum.id}:${index}`);
+    }) })
+  ] }) });
+}
+function DonutChart({
+  data,
+  ariaLabel,
+  formatValue,
+  emptyLabel = "No data",
+  unavailableLabel = "Unavailable",
+  center,
+  size = 208,
+  onSelect,
+  className
+}) {
+  const values = data.map(
+    (datum) => typeof datum.value === "number" && Number.isFinite(datum.value) && datum.value >= 0 ? datum.value : null
+  );
+  const total = values.reduce((sum, value) => sum + (value ?? 0), 0);
+  const hasValidValues = values.some((value) => value !== null);
+  let cursor = 0;
+  const stops = data.flatMap((datum, index) => {
+    const value = values[index];
+    if (value === null || value <= 0 || total <= 0) return [];
+    const start = cursor / total * 100;
+    cursor += value;
+    const end = cursor / total * 100;
+    return [`${datum.color ?? TONE_COLOR2[datum.tone ?? "accent"]} ${start}% ${end}%`];
+  });
+  const ring = total > 0 ? `conic-gradient(${stops.join(", ")})` : "conic-gradient(var(--border) 0% 100%)";
+  return /* @__PURE__ */ jsxs("figure", { role: "group", "aria-label": ariaLabel, className: cn("flex min-w-0 flex-wrap items-center justify-center gap-6", className), children: [
+    /* @__PURE__ */ jsx("div", { className: "relative shrink-0 rounded-full", style: { width: `min(${size}px, 100%)`, aspectRatio: "1 / 1", background: ring }, "aria-hidden": "true", children: /* @__PURE__ */ jsx("div", { className: "absolute inset-[18%] flex items-center justify-center overflow-hidden rounded-full border border-border/60 bg-background px-2 text-center text-sm font-medium tabular-nums", children: center ?? (hasValidValues ? valueText(total, formatValue) : emptyLabel) }) }),
+    /* @__PURE__ */ jsx("ul", { className: "m-0 grid min-w-44 flex-1 list-none gap-2 p-0", children: data.length === 0 ? /* @__PURE__ */ jsx("li", { className: "text-sm text-muted-foreground", children: emptyLabel }) : data.map((datum, index) => {
+      const value = values[index];
+      const available = value !== null;
+      const percent = available && total > 0 ? value / total * 100 : null;
+      const content = /* @__PURE__ */ jsxs(Fragment, { children: [
+        /* @__PURE__ */ jsx("span", { className: "mt-1 size-2.5 shrink-0 rounded-sm", style: { backgroundColor: available ? datum.color ?? TONE_COLOR2[datum.tone ?? "accent"] : "var(--border)" }, "aria-hidden": "true" }),
+        /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 truncate", children: datum.label }),
+        /* @__PURE__ */ jsx("span", { className: "shrink-0 text-muted-foreground tabular-nums", children: available ? valueText(value, formatValue) : unavailableLabel }),
+        /* @__PURE__ */ jsx("span", { className: "w-12 shrink-0 text-right text-muted-foreground tabular-nums", children: percent === null ? "\u2014" : `${percent.toFixed(1)}%` })
+      ] });
+      return /* @__PURE__ */ jsx("li", { children: onSelect ? /* @__PURE__ */ jsx("button", { type: "button", disabled: !available, className: "flex w-full items-start gap-2 rounded-md px-2 py-1 text-left text-sm outline-none hover:bg-muted/60 focus-visible:ring-2 focus-visible:ring-accent-solid-strong disabled:cursor-not-allowed disabled:opacity-60", onClick: (event) => {
+        event.currentTarget.focus({ preventScroll: true });
+        onSelect(datum);
+      }, children: content }) : /* @__PURE__ */ jsx("div", { className: "flex items-start gap-2 px-2 py-1 text-sm", children: content }) }, `${datum.id}:${index}`);
+    }) })
+  ] });
+}
+function Heatmap({
+  rows,
+  columns,
+  data,
+  ariaLabel,
+  formatValue,
+  emptyLabel = "No data",
+  unavailableLabel = "Unavailable",
+  tone = "accent",
+  onSelect,
+  className
+}) {
+  const [active, setActive] = useState({ row: 0, column: 0 });
+  const [hovered, setHovered] = useState(null);
+  const refs = useRef([]);
+  const color = TONE_COLOR2[tone];
+  const values = useMemo(() => rows.flatMap((_, rowIndex) => columns.map((_2, columnIndex) => {
+    const value = data[rowIndex]?.[columnIndex];
+    return typeof value === "number" && Number.isFinite(value) ? value : null;
+  })), [rows, columns, data]);
+  const maxMagnitude = Math.max(0, ...values.filter((value) => value !== null).map(Math.abs));
+  const hasCells = rows.length > 0 && columns.length > 0;
+  const rowCount = rows.length;
+  const columnCount = columns.length;
+  const readout = hovered ?? active;
+  const activeRow = Math.min(active.row, Math.max(rowCount - 1, 0));
+  const activeColumn = Math.min(active.column, Math.max(columnCount - 1, 0));
+  useEffect(() => {
+    setActive({ row: 0, column: 0 });
+    setHovered(null);
+    refs.current = [];
+  }, [rowCount, columnCount]);
+  const focusCell = (row, column) => {
+    const next = { row: Math.max(0, Math.min(rowCount - 1, row)), column: Math.max(0, Math.min(columnCount - 1, column)) };
+    setActive(next);
+    refs.current[next.row * columnCount + next.column]?.focus();
+  };
+  const moveFocus = (event, row, column) => {
+    let nextRow = row;
+    let nextColumn = column;
+    if (event.key === "ArrowUp") nextRow--;
+    else if (event.key === "ArrowDown") nextRow++;
+    else if (event.key === "ArrowLeft") nextColumn--;
+    else if (event.key === "ArrowRight") nextColumn++;
+    else if (event.key === "Home") nextColumn = 0;
+    else if (event.key === "End") nextColumn = columnCount - 1;
+    else return;
+    event.preventDefault();
+    focusCell(nextRow, nextColumn);
+  };
+  if (!hasCells) return /* @__PURE__ */ jsx("div", { role: "img", "aria-label": ariaLabel, className: cn("p-4 text-sm text-muted-foreground", className), children: emptyLabel });
+  return /* @__PURE__ */ jsxs("div", { className: cn("min-w-0", className), children: [
+    /* @__PURE__ */ jsxs("div", { role: "grid", "aria-label": ariaLabel, className: "max-w-full overflow-x-auto rounded-md border border-border/60", children: [
+      /* @__PURE__ */ jsxs("div", { role: "row", className: "grid w-max min-w-full border-b border-border/60", style: { gridTemplateColumns: `minmax(7rem,auto) repeat(${columnCount}, minmax(3.25rem, 1fr))` }, children: [
+        /* @__PURE__ */ jsx("span", { role: "columnheader", className: "sticky left-0 z-10 bg-background p-2 text-xs font-medium text-muted-foreground" }),
+        columns.map((column, index) => /* @__PURE__ */ jsx("span", { role: "columnheader", className: "p-2 text-center text-xs font-medium text-muted-foreground", children: column }, `${column}:${index}`))
+      ] }),
+      rows.map((row, rowIndex) => /* @__PURE__ */ jsxs("div", { role: "row", className: "grid w-max min-w-full border-b border-border/40 last:border-0", style: { gridTemplateColumns: `minmax(7rem,auto) repeat(${columnCount}, minmax(3.25rem, 1fr))` }, children: [
+        /* @__PURE__ */ jsx("span", { role: "rowheader", className: "sticky left-0 z-10 flex items-center bg-background px-2 py-1 text-xs font-medium", children: row }),
+        columns.map((column, columnIndex) => {
+          const index = rowIndex * columnCount + columnIndex;
+          const value = values[index];
+          const unavailable = value === null;
+          const label = `${row}, ${column}: ${unavailable ? unavailableLabel : valueText(value, formatValue)}`;
+          const opacity = unavailable || maxMagnitude === 0 ? 0 : Math.max(0.12, Math.abs(value) / maxMagnitude);
+          return /* @__PURE__ */ jsx("div", { className: "group relative p-1", children: /* @__PURE__ */ jsx(
+            "button",
+            {
+              ref: (node) => {
+                refs.current[index] = node;
+              },
+              type: "button",
+              role: "gridcell",
+              "aria-label": label,
+              tabIndex: activeRow === rowIndex && activeColumn === columnIndex ? 0 : -1,
+              onFocus: () => setActive({ row: rowIndex, column: columnIndex }),
+              onMouseEnter: () => setHovered({ row: rowIndex, column: columnIndex }),
+              onMouseLeave: () => setHovered(null),
+              onClick: (event) => {
+                event.currentTarget.focus({ preventScroll: true });
+                setActive({ row: rowIndex, column: columnIndex });
+                onSelect?.(rowIndex, columnIndex);
+              },
+              onKeyDown: (event) => moveFocus(event, rowIndex, columnIndex),
+              className: cn("relative flex h-9 w-full min-w-12 items-center justify-center rounded-sm border border-border/50 text-xs tabular-nums outline-none focus-visible:z-20 focus-visible:ring-2 focus-visible:ring-accent-solid-strong", unavailable ? "border-dashed bg-muted/50 text-muted-foreground" : "hover:border-foreground/60"),
+              style: unavailable ? void 0 : { backgroundColor: `color-mix(in srgb, ${color} ${opacity * 100}%, transparent)`, color: opacity >= 0.55 ? TONE_TEXT[tone] : "var(--foreground)" },
+              title: label,
+              children: /* @__PURE__ */ jsx("span", { className: "max-w-full truncate px-1", children: unavailable ? unavailableLabel : valueText(value, formatValue) })
+            }
+          ) }, `${rowIndex}:${columnIndex}`);
+        })
+      ] }, `${row}:${rowIndex}`))
+    ] }),
+    (() => {
+      const row = rows[readout.row];
+      const column = columns[readout.column];
+      const value = data[readout.row]?.[readout.column];
+      if (row === void 0 || column === void 0) return null;
+      const available = typeof value === "number" && Number.isFinite(value);
+      return /* @__PURE__ */ jsxs("p", { "aria-live": "polite", className: "mt-2 break-words text-xs text-muted-foreground", children: [
+        row,
+        " \xB7 ",
+        column,
+        ": ",
+        available ? valueText(value, formatValue) : unavailableLabel
+      ] });
+    })()
+  ] });
+}
 var defaultClassNames = {
   toast: "bg-card border border-border rounded-xl shadow-lg p-4",
   title: "text-sm font-medium",
@@ -1460,6 +2081,6 @@ function useCommandPaletteShortcut(onOpen) {
   }, [onOpen]);
 }
 
-export { AnimatedNumber, AreaChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, FileDropzone, Gauge, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-X5DHLSQ5.js.map
-//# sourceMappingURL=chunk-X5DHLSQ5.js.map
+export { AnimatedNumber, AreaChart, BarChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, DonutChart, FileDropzone, Gauge, Heatmap, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, TimeSeriesChart, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
+//# sourceMappingURL=chunk-DQA7GHNB.js.map
+//# sourceMappingURL=chunk-DQA7GHNB.js.map

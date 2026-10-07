@@ -679,6 +679,160 @@
     },
     {
       "entry": ".",
+      "name": "BarChart",
+      "kind": "component",
+      "typeOnly": false,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import { BarChart } from \"@yuhuanowo/yunui\";",
+      "description": "A vertical, horizontally scrollable comparison of nonnegative values.",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        },
+        "component": {
+          "path": "site/content/docs/components/analytics-charts.mdx",
+          "route": "/docs/components/analytics-charts"
+        }
+      },
+      "signature": "({ data, ariaLabel, formatValue, emptyLabel, unavailableLabel, height, onSelect, className, }: BarChartProps): JSX.Element",
+      "props": "BarChartProps",
+      "propsFields": [
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly ChartDatum[]",
+          "description": "Values must be nonnegative; negative and non-finite values are shown as unavailable.",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "formatValue",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "number | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "onSelect",
+          "required": false,
+          "type": "((datum: ChartDatum) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "BarChartProps",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { BarChartProps } from \"@yuhuanowo/yunui\";",
+      "description": "",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "propsFields": [
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly ChartDatum[]",
+          "description": "Values must be nonnegative; negative and non-finite values are shown as unavailable.",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "formatValue",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "number | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "onSelect",
+          "required": false,
+          "type": "((datum: ChartDatum) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
       "name": "BarSegment",
       "kind": "type",
       "typeOnly": true,
@@ -1165,6 +1319,76 @@
       },
       "signature": "(props: React.HTMLAttributes<HTMLHeadingElement> & React.RefAttributes<HTMLHeadingElement>): React.ReactNode",
       "props": "React.HTMLAttributes<HTMLHeadingElement> & React.RefAttributes<HTMLHeadingElement>",
+      "inheritsExternalProps": true
+    },
+    {
+      "entry": ".",
+      "name": "ChartDatum",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { ChartDatum } from \"@yuhuanowo/yunui\";",
+      "description": "One host-supplied chart value. `null` means unavailable, while `0` is data.",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "propsFields": [
+        {
+          "name": "color",
+          "required": false,
+          "type": "string | undefined",
+          "description": "Explicit CSS color for this datum, when a semantic tone is insufficient.",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "label",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "tone",
+          "required": false,
+          "type": "ChartTone | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "value",
+          "required": true,
+          "type": "number | null",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "ChartTone",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { ChartTone } from \"@yuhuanowo/yunui\";",
+      "description": "Semantic roles used by the distribution charts.",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
       "inheritsExternalProps": true
     },
     {
@@ -2426,6 +2650,174 @@
     },
     {
       "entry": ".",
+      "name": "DonutChart",
+      "kind": "component",
+      "typeOnly": false,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import { DonutChart } from \"@yuhuanowo/yunui\";",
+      "description": "A proportional ring with a textual legend; negative/non-finite values are unavailable.",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        },
+        "component": {
+          "path": "site/content/docs/components/analytics-charts.mdx",
+          "route": "/docs/components/analytics-charts"
+        }
+      },
+      "signature": "({ data, ariaLabel, formatValue, emptyLabel, unavailableLabel, center, size, onSelect, className, }: DonutChartProps): JSX.Element",
+      "props": "DonutChartProps",
+      "propsFields": [
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "center",
+          "required": false,
+          "type": "ReactNode",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly ChartDatum[]",
+          "description": "Values must be nonnegative; negative and non-finite values are shown as unavailable.",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "formatValue",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "onSelect",
+          "required": false,
+          "type": "((datum: ChartDatum) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "number | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "DonutChartProps",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { DonutChartProps } from \"@yuhuanowo/yunui\";",
+      "description": "",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "propsFields": [
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "center",
+          "required": false,
+          "type": "ReactNode",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly ChartDatum[]",
+          "description": "Values must be nonnegative; negative and non-finite values are shown as unavailable.",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "formatValue",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "onSelect",
+          "required": false,
+          "type": "((datum: ChartDatum) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "number | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
       "name": "DropdownMenu",
       "kind": "component",
       "typeOnly": false,
@@ -3481,6 +3873,188 @@
         }
       ],
       "inheritsExternalProps": true
+    },
+    {
+      "entry": ".",
+      "name": "Heatmap",
+      "kind": "component",
+      "typeOnly": false,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import { Heatmap } from \"@yuhuanowo/yunui\";",
+      "description": "A semantic grid for comparing signed or unsigned values across named rows/columns.",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        },
+        "component": {
+          "path": "site/content/docs/components/analytics-charts.mdx",
+          "route": "/docs/components/analytics-charts"
+        }
+      },
+      "signature": "({ rows, columns, data, ariaLabel, formatValue, emptyLabel, unavailableLabel, tone, onSelect, className, }: HeatmapProps): JSX.Element",
+      "props": "HeatmapProps",
+      "propsFields": [
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "columns",
+          "required": true,
+          "type": "readonly string[]",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly (readonly (number | null)[])[]",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "formatValue",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "onSelect",
+          "required": false,
+          "type": "((rowIndex: number, columnIndex: number) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "rows",
+          "required": true,
+          "type": "readonly string[]",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "tone",
+          "required": false,
+          "type": "ChartTone | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "HeatmapProps",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/distribution-charts.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { HeatmapProps } from \"@yuhuanowo/yunui\";",
+      "description": "",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "propsFields": [
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "columns",
+          "required": true,
+          "type": "readonly string[]",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly (readonly (number | null)[])[]",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "formatValue",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "onSelect",
+          "required": false,
+          "type": "((rowIndex: number, columnIndex: number) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "rows",
+          "required": true,
+          "type": "readonly string[]",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "tone",
+          "required": false,
+          "type": "ChartTone | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/distribution-charts.tsx"
+        }
+      ]
     },
     {
       "entry": ".",
@@ -6720,6 +7294,388 @@
           "source": "src/primitives/theme-toggle.tsx"
         }
       ]
+    },
+    {
+      "entry": ".",
+      "name": "TimeSeriesChart",
+      "kind": "component",
+      "typeOnly": false,
+      "source": "src/primitives/time-series-chart.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import { TimeSeriesChart } from \"@yuhuanowo/yunui\";",
+      "description": "Responsive, dependency-free multi-series time chart for arbitrary numeric x data.",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        },
+        "component": {
+          "path": "site/content/docs/components/analytics-charts.mdx",
+          "route": "/docs/components/analytics-charts"
+        }
+      },
+      "signature": "({ data, series, ariaLabel, emptyLabel, unavailableLabel, hiddenLabel, missingValueLabel, legendLabel, keyboardHint, height, formatX, formatY, maxGap, activeX, onActiveXChange, showLegend, className, }: TimeSeriesChartProps): JSX.Element",
+      "props": "TimeSeriesChartProps",
+      "propsFields": [
+        {
+          "name": "activeX",
+          "required": false,
+          "type": "number | null | undefined",
+          "description": "Controlled selection; without `onActiveXChange`, a supplied value is read-only.",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly TimeSeriesPoint[]",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "formatX",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "formatY",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "number | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "hiddenLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "keyboardHint",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "legendLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "maxGap",
+          "required": false,
+          "type": "number | undefined",
+          "description": "Break a line when adjacent sorted x values differ by more than this value.",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "missingValueLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "onActiveXChange",
+          "required": false,
+          "type": "((value: number | null) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "series",
+          "required": true,
+          "type": "readonly TimeSeriesDefinition[]",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "showLegend",
+          "required": false,
+          "type": "boolean | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "TimeSeriesChartProps",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/time-series-chart.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { TimeSeriesChartProps } from \"@yuhuanowo/yunui\";",
+      "description": "",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "propsFields": [
+        {
+          "name": "activeX",
+          "required": false,
+          "type": "number | null | undefined",
+          "description": "Controlled selection; without `onActiveXChange`, a supplied value is read-only.",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "ariaLabel",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "className",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "data",
+          "required": true,
+          "type": "readonly TimeSeriesPoint[]",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "emptyLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "formatX",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "formatY",
+          "required": false,
+          "type": "((value: number) => string) | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "number | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "hiddenLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "keyboardHint",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "legendLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "maxGap",
+          "required": false,
+          "type": "number | undefined",
+          "description": "Break a line when adjacent sorted x values differ by more than this value.",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "missingValueLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "onActiveXChange",
+          "required": false,
+          "type": "((value: number | null) => void) | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "series",
+          "required": true,
+          "type": "readonly TimeSeriesDefinition[]",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "showLegend",
+          "required": false,
+          "type": "boolean | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "unavailableLabel",
+          "required": false,
+          "type": "string | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "TimeSeriesDefinition",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/time-series-chart.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { TimeSeriesDefinition } from \"@yuhuanowo/yunui\";",
+      "description": "",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "propsFields": [
+        {
+          "name": "color",
+          "required": false,
+          "type": "string | undefined",
+          "description": "Explicit CSS color override for this series.",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "dashed",
+          "required": false,
+          "type": "boolean | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "key",
+          "required": true,
+          "type": "string",
+          "description": "Stable key that selects the corresponding value in each point.",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "label",
+          "required": true,
+          "type": "string",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "tone",
+          "required": false,
+          "type": "TimeSeriesTone | undefined",
+          "description": "",
+          "source": "src/primitives/time-series-chart.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "TimeSeriesPoint",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/time-series-chart.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { TimeSeriesPoint } from \"@yuhuanowo/yunui\";",
+      "description": "",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "propsFields": [
+        {
+          "name": "values",
+          "required": true,
+          "type": "Readonly<Record<string, number | null | undefined>>",
+          "description": "Missing, null, undefined, NaN and infinities are gaps, never zeroes.",
+          "source": "src/primitives/time-series-chart.tsx"
+        },
+        {
+          "name": "x",
+          "required": true,
+          "type": "number",
+          "description": "Numeric domain value (for example a timestamp in epoch milliseconds).",
+          "source": "src/primitives/time-series-chart.tsx"
+        }
+      ]
+    },
+    {
+      "entry": ".",
+      "name": "TimeSeriesTone",
+      "kind": "type",
+      "typeOnly": true,
+      "source": "src/primitives/time-series-chart.tsx",
+      "declarationFile": "dist/index.d.ts",
+      "import": "import type { TimeSeriesTone } from \"@yuhuanowo/yunui\";",
+      "description": "",
+      "docs": {
+        "overview": {
+          "path": "site/content/docs/components/index.mdx",
+          "route": "/docs/components"
+        }
+      },
+      "inheritsExternalProps": true
     },
     {
       "entry": ".",

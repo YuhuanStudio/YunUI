@@ -50,6 +50,23 @@ export {
   type AreaChartPoint,
   type AreaChartTone,
 } from "./primitives/area-chart";
+export {
+  TimeSeriesChart,
+  type TimeSeriesChartProps,
+  type TimeSeriesPoint,
+  type TimeSeriesDefinition,
+  type TimeSeriesTone,
+} from "./primitives/time-series-chart";
+export {
+  BarChart,
+  DonutChart,
+  Heatmap,
+  type ChartDatum,
+  type ChartTone,
+  type BarChartProps,
+  type DonutChartProps,
+  type HeatmapProps,
+} from "./primitives/distribution-charts";
 export { Toaster, toast } from "./primitives/toast";
 
 // Utilities

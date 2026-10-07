@@ -1,0 +1,113 @@
+import { BarChart, DonutChart, Heatmap, TimeSeriesChart } from "yunui";
+
+These charts render host-supplied measurements. They do not fetch, aggregate, smooth, or infer data. Keep query windows, sampling intervals, units, and service state in the host; pass the points and labels that the UI should show.
+
+## Time series
+
+`TimeSeriesChart` renders one or more keyed series against numeric `x` values. Use a stable timestamp or sample index, and provide a formatter for the visible unit.
+
+<ComponentPreview
+  title="Decode and Prefill samples"
+>
+  <TimeSeriesChart
+    ariaLabel="Decode and Prefill throughput samples"
+    data={[
+      { x: 0, values: { decode: 42, prefill: 0 } },
+      { x: 60, values: { decode: 44, prefill: null } },
+      { x: 120, values: { decode: undefined, prefill: 680 } },
+      { x: 300, values: { decode: 41, prefill: 650 } },
+    ]}
+    series={[
+      { key: "decode", label: "Decode", tone: "accent" },
+      { key: "prefill", label: "Prefill", tone: "info", dashed: true },
+    ]}
+    emptyLabel="No telemetry samples"
+    unavailableLabel="Samples unavailable"
+    hiddenLabel="All series hidden"
+    missingValueLabel="Not observed"
+    legendLabel="throughput series"
+    keyboardHint="Use the arrow keys, Home or End to inspect samples."
+    maxGap={120}
+    height={220}
+  />
+</ComponentPreview>
+
+Each point maps series keys to values. A finite `0` is a measurement; `null`, `undefined`, `NaN`, and infinities are gaps. An empty `data` array uses `emptyLabel`; non-empty data with no finite values uses `unavailableLabel`. Missing values never become zeroes.
+
+The chart sorts points by `x`. Duplicate `x` values use the last input point; they are not averaged or summed. Aggregate samples in the host if that matches the metric, and pass distinct x values. `maxGap` uses the same units as `x` and breaks a line across a larger interval. A visible legend lets readers toggle individual series.
+
+The chart group supports pointer exploration and, when data is available, keyboard navigation with Left/Right and Home/End. `activeX` can be controlled by the host; when supplied without `onActiveXChange`, it is read-only. `hiddenLabel` describes the state when every legend series is hidden, `missingValueLabel` appears in the selected-point readout, and `legendLabel` / `keyboardHint` localize assistive-technology instructions. Use `ariaLabel`, `formatX`, and `formatY` for the host's language and units.
+
+<PropsTable name="TimeSeriesChart" />
+
+## Distribution charts
+
+`BarChart` compares nonnegative categories. Give each datum a stable `id`; `0` renders as a valid zero-height value, while `null` renders with `unavailableLabel`. When `data` is empty, it renders `emptyLabel`.
+
+<ComponentPreview title="Allocator samples">
+  <BarChart
+    ariaLabel="Allocator memory samples"
+    data={[
+      { id: "weights", label: "Model weights", value: 18.2, tone: "accent" },
+      { id: "active-kv", label: "Active KV", value: 6.7, tone: "info" },
+      { id: "runtime-cache", label: "Runtime cache", value: 0, tone: "warning" },
+      { id: "other", label: "Other process", value: null },
+    ]}
+    unavailableLabel="Not sampled"
+    height={220}
+  />
+</ComponentPreview>
+
+`BarChart` marks negative and non-finite values unavailable at runtime; the public data type expects `number | null`. With `onSelect`, each available bar becomes a keyboard-operable button and the callback returns the original datum. Without a callback the bars are presentational.
+
+<PropsTable name="BarChart" />
+
+`DonutChart` uses the same `ChartDatum` input, plus `center` and `size`. Its segments show the proportions of the nonnegative finite values supplied by the host. It does not derive categories or fill missing values. Zero remains in the legend but has no arc; null is shown as unavailable. For an all-zero or unavailable total, the center falls back to `emptyLabel`.
+
+<ComponentPreview title="Request mix">
+  <DonutChart
+    ariaLabel="Request mix by phase"
+    data={[
+      { id: "prefill", label: "Prefill", value: 2, tone: "warning" },
+      { id: "decode", label: "Decode", value: 4, tone: "info" },
+      { id: "complete", label: "Complete", value: 3, tone: "success" },
+      { id: "queued", label: "Queued", value: 0 },
+      { id: "unknown", label: "Unknown", value: null },
+    ]}
+    center={<span>9 requests</span>}
+    size={190}
+    unavailableLabel="Not sampled"
+  />
+</ComponentPreview>
+
+When `onSelect` is provided, legend entries are buttons that return the selected datum. The ring itself remains a proportional display.
+
+<PropsTable name="DonutChart" />
+
+## Heatmap
+
+`Heatmap` maps row and column labels directly to matrix indices. A finite `0` is a measured zero; `null` or a missing cell is unavailable. Values may be negative, and color intensity is scaled against the largest absolute value in the supplied matrix.
+
+<ComponentPreview title="Decode samples by model and window">
+  <Heatmap
+    ariaLabel="Decode throughput by model and time window"
+    rows={["Qwen", "Llama"]}
+    columns={["12:00", "12:05", "12:10"]}
+    data={[
+      [42, 0, null],
+      [36, 39, 37],
+    ]}
+    unavailableLabel="Not sampled"
+    tone="accent"
+  />
+</ComponentPreview>
+
+The grid supports arrow-key movement and Home/End within a row. With `onSelect`, activation reports row and column indices; the host can resolve those indices against its original labels/data. Missing matrix cells are unavailable, not zero. The chart does not bin or aggregate timestamps into columns.
+
+<PropsTable name="Heatmap" />
+
+## Host data contract
+
+Keep the meaning of a sample beside the fetch or selector that creates it. Decide whether the host should expose raw samples, a request-weighted mean, or a time-window aggregate. These charts display the values supplied and format them; they do not decide which statistic is appropriate. Keep separate metrics in separate series, and pass `null` when a value was not observed rather than reporting a fabricated zero.
+
+The complete typed host composition is in `agent/recipes/analytics.tsx` in the repository.

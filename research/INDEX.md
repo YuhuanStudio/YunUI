@@ -4,9 +4,15 @@
 正式實作在 `src/`，網站在 `site/`，consumer 契約在 `agent/`。
 版本仍為 **0.2.18**；本輪重構已整合，**發布暫停**。
 
-## 待回饋的應用 Demo
+## 應用整合與歷史 Demo
+
+- 通用分析圖表已回流 YunUI 公開匯出，並由 Yunshu 正式 `frontend/` 直接引用：
+  [四種圖表文件](../site/content/docs/components/analytics-charts.zh-TW.mdx)、
+  [型別檢查的 consumer recipe](../agent/recipes/analytics.tsx)。
+  圖表只處理呈現與選取，採樣、彙總、端點及操作結果屬於 Yunshu。
 
 - [Yunshu 本機推理工作台](yunshu-frontend-demo/README.md)（2026-10-07）：
+  此處保留歷史 demo；目前整合與後續迭代已移至 Yunshu 的正式前端。
   owner 要求先看全新 demo，並明確定位為推理引擎控制台；直接使用 YunUI 公開元件。
   主流程為引擎總覽、模型、請求／效能、API 接入與設定；推理測試是次要工具。
   僅示範資料，未連接推理服務；聊天產品定位已被排除。

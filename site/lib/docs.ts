@@ -529,6 +529,16 @@ export const docs: DocEntry[] = [
     "area chart line graph time series trend interactive tooltip gradient grid analytics",
   ),
   comp(
+    "analytics-charts",
+    { en: "Analytics Charts", "zh-CN": "分析图表", "zh-TW": "分析圖表" },
+    {
+      en: "Host-data time series, bars, donuts and heatmaps with explicit gaps, selection and keyboard behavior.",
+      "zh-CN": "使用 host 数据的时间序列、长条、环形与热力图，明确处理缺值、选取与键盘操作。",
+      "zh-TW": "使用 host 資料的時間序列、長條、環形與熱力圖，明確處理缺值、選取與鍵盤操作。",
+    },
+    "analytics charts time series BarChart DonutChart Heatmap TimeSeriesChart missing null zero host data telemetry metrics",
+  ),
+  comp(
     "sparkline",
     { en: "Sparkline", "zh-CN": "迷你折线图", "zh-TW": "迷你折線圖" },
     {
@@ -1755,6 +1765,7 @@ export const groups: DocGroup[] = [
       "components/animated-number",
       "components/marquee",
       "components/area-chart",
+      "components/analytics-charts",
       "components/sparkline",
       "components/gauge",
       "components/segmented-bar",
