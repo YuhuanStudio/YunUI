@@ -304,7 +304,12 @@ function SegmentedSelect({
         title: opt.desc,
         className: cn(
           "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border border-border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-          value === opt.value ? "text-foreground border-(--border-strong) bg-accent-subtle hover:bg-accent-muted hover:shadow-xs" : "text-muted-foreground border-(--border-default) bg-muted/50 hover:text-foreground hover:border-(--border-strong) hover:bg-muted",
+          value === opt.value ? (
+            // Same language as .btn-primary: a full-strength foreground outline. The
+            // previous accent-subtle fill matched the unselected muted fill in every
+            // theme (identical in light), so the current choice was invisible.
+            "text-foreground border-foreground bg-foreground/[0.06] shadow-xs hover:bg-foreground/10"
+          ) : "text-muted-foreground border-(--border-default) bg-muted/50 hover:text-foreground hover:border-(--border-strong) hover:bg-muted",
           disabled && "opacity-50 cursor-not-allowed pointer-events-none"
         ),
         children: [
@@ -2082,5 +2087,5 @@ function useCommandPaletteShortcut(onOpen) {
 }
 
 export { AnimatedNumber, AreaChart, BarChart, BentoCard, BentoGrid, Collapsible, CollapsibleContent2 as CollapsibleContent, CollapsibleTrigger2 as CollapsibleTrigger, CommandPalette, CustomSelect, DonutChart, FileDropzone, Gauge, Heatmap, Marquee, NavTabs, Popover, PopoverAnchor, PopoverClose2 as PopoverClose, PopoverContent, PopoverTrigger, ScrollArea, ScrollBar, SegmentedBar, SegmentedSelect, ShinyButton, Sparkline, Switch, TimeSeriesChart, Toaster, YUNUI_PALETTES, YUNUI_THEME_PRESETS, applyTheme, readTheme, toast, useCommandPaletteShortcut, useYunUITheme };
-//# sourceMappingURL=chunk-DQA7GHNB.js.map
-//# sourceMappingURL=chunk-DQA7GHNB.js.map
+//# sourceMappingURL=chunk-JRBTDW5P.js.map
+//# sourceMappingURL=chunk-JRBTDW5P.js.map
