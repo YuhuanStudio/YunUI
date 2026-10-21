@@ -142,6 +142,13 @@ patch = fixes, anything may change between 0.x releases).
   Browser verification covers Chromium and WebKit, all three themes and mobile,
   tablet and desktop. Existing screenshot baselines are preserved.
 
+### Fixed
+- **SegmentedSelect:** the selected option was indistinguishable from the others —
+  its `accent-subtle` fill equalled the unselected `muted` fill in light and was
+  within a few levels of it in dark/true-black. It now uses the `.btn-primary`
+  language: a full-strength foreground outline with a faint tint, visible in all
+  three themes. Covered by a regression test.
+
 ## [0.2.18] - 2026-10-01
 
 Maintenance release consolidating the changes since 0.2.17. Existing label

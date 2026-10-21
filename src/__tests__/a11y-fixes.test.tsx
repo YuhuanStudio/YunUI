@@ -47,6 +47,25 @@ describe("SegmentedSelect a11y", () => {
     expect(onChange).toHaveBeenCalledWith("table");
   });
 });
+describe("SegmentedSelect selected state", () => {
+  it("marks the selected option with a foreground outline the others lack", () => {
+    render(
+      <SegmentedSelect
+        options={[
+          { value: "quick", label: "Quick" },
+          { value: "full", label: "Full" },
+        ]}
+        value="full"
+        onChange={() => {}}
+      />,
+    );
+    const selected = screen.getByRole("button", { name: "Full" });
+    const other = screen.getByRole("button", { name: "Quick" });
+    expect(selected.className).toContain("border-foreground");
+    expect(other.className).not.toContain("border-foreground");
+  });
+});
+
 
 // -----------------------------------------------------------------------------
 // 2. IconButton — derives aria-label from `label` and defaults type="button".

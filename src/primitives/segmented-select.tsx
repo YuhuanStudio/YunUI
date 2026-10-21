@@ -50,7 +50,10 @@ export function SegmentedSelect<T = string>({
                         className={cn(
                             "inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium border border-border rounded-lg whitespace-nowrap transition-all duration-150 ease cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                             value === opt.value
-                                ? "text-foreground border-(--border-strong) bg-accent-subtle hover:bg-accent-muted hover:shadow-xs"
+                                ? // Same language as .btn-primary: a full-strength foreground outline. The
+                                  // previous accent-subtle fill matched the unselected muted fill in every
+                                  // theme (identical in light), so the current choice was invisible.
+                                  "text-foreground border-foreground bg-foreground/[0.06] shadow-xs hover:bg-foreground/10"
                                 : "text-muted-foreground border-(--border-default) bg-muted/50 hover:text-foreground hover:border-(--border-strong) hover:bg-muted",
                             disabled && "opacity-50 cursor-not-allowed pointer-events-none"
                         )}
